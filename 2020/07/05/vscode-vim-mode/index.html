@@ -22,21 +22,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="工作上遇到的一個需求 CROSS JOIN (Tally) 剛好派上用場的技巧 , 由於每個月的最後一天有可能是 30 , 31 , 加上特殊的 2 月份有 28 , 29 首先用 CTE 建立建立 1 - 12 月的集合 , 接著建立 2019 - 2020 年的集合 , 利用 CROSS JOIN 進行迴圈建立 Y , M 的資料 接著使用以下語法產生出每月的1號值 ex: 20190101,">
+  <meta name="description" content="前陣子學習 vim mode 想替自己增加開發效率 , 以下為設定筆記 還不錯的兩個教學  五倍紅寶石 Victor Lee  安裝 vim mode 外掛在win+r輸入 1%APPDATA%&#x2F;Code&#x2F;User 在setting.json加上vim模式的config內容，建議easymotion要打開 123456789101112131415161718192021222">
 <meta property="og:type" content="article">
-<meta property="og:title" content="CROSS JOIN 妙用產生各年度1到12月的起始與終止日">
-<meta property="og:url" content="http://yoursite.com/2020/07/05/CROSS_JOIN%E5%A6%99%E7%94%A8%E7%94%A2%E7%94%9F%E5%90%84%E5%B9%B4%E5%BA%A61%E5%88%B012%E6%9C%88%E7%9A%84%E8%B5%B7%E5%A7%8B%E8%88%87%E7%B5%82%E6%AD%A2%E6%97%A5/index.html">
+<meta property="og:title" content="vscode vim mode">
+<meta property="og:url" content="http://yoursite.com/2020/07/05/vscode-vim-mode/index.html">
 <meta property="og:site_name" content="喇賽的人Blog">
-<meta property="og:description" content="工作上遇到的一個需求 CROSS JOIN (Tally) 剛好派上用場的技巧 , 由於每個月的最後一天有可能是 30 , 31 , 加上特殊的 2 月份有 28 , 29 首先用 CTE 建立建立 1 - 12 月的集合 , 接著建立 2019 - 2020 年的集合 , 利用 CROSS JOIN 進行迴圈建立 Y , M 的資料 接著使用以下語法產生出每月的1號值 ex: 20190101,">
+<meta property="og:description" content="前陣子學習 vim mode 想替自己增加開發效率 , 以下為設定筆記 還不錯的兩個教學  五倍紅寶石 Victor Lee  安裝 vim mode 外掛在win+r輸入 1%APPDATA%&#x2F;Code&#x2F;User 在setting.json加上vim模式的config內容，建議easymotion要打開 123456789101112131415161718192021222">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-07-05T03:34:20.000Z">
-<meta property="article:modified_time" content="2020-07-05T06:46:08.832Z">
+<meta property="article:published_time" content="2020-07-05T07:04:27.000Z">
+<meta property="article:modified_time" content="2020-07-05T07:20:30.030Z">
 <meta property="article:author" content="喇賽人">
-<meta property="article:tag" content="sql">
-<meta property="article:tag" content="tsql">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="vscode">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/05/CROSS_JOIN%E5%A6%99%E7%94%A8%E7%94%A2%E7%94%9F%E5%90%84%E5%B9%B4%E5%BA%A61%E5%88%B012%E6%9C%88%E7%9A%84%E8%B5%B7%E5%A7%8B%E8%88%87%E7%B5%82%E6%AD%A2%E6%97%A5/">
+<link rel="canonical" href="http://yoursite.com/2020/07/05/vscode-vim-mode/">
 
 
 <script id="page-configurations">
@@ -49,7 +49,7 @@
   };
 </script>
 
-  <title>CROSS JOIN 妙用產生各年度1到12月的起始與終止日 | 喇賽的人Blog</title>
+  <title>vscode vim mode | 喇賽的人Blog</title>
   
 
 
@@ -165,7 +165,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/CROSS_JOIN%E5%A6%99%E7%94%A8%E7%94%A2%E7%94%9F%E5%90%84%E5%B9%B4%E5%BA%A61%E5%88%B012%E6%9C%88%E7%9A%84%E8%B5%B7%E5%A7%8B%E8%88%87%E7%B5%82%E6%AD%A2%E6%97%A5/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/vscode-vim-mode/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -178,7 +178,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          CROSS JOIN 妙用產生各年度1到12月的起始與終止日
+          vscode vim mode
         </h1>
 
         <div class="post-meta">
@@ -189,7 +189,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-05 11:34:20 / Modified: 14:46:08" itemprop="dateCreated datePublished" datetime="2020-07-05T11:34:20+08:00">2020-07-05</time>
+              <time title="Created: 2020-07-05 15:04:27 / Modified: 15:20:30" itemprop="dateCreated datePublished" datetime="2020-07-05T15:04:27+08:00">2020-07-05</time>
             </span>
 
           
@@ -203,13 +203,21 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>工作上遇到的一個需求 CROSS JOIN (Tally) 剛好派上用場的技巧 , 由於每個月的最後一天有可能是 30 , 31 , 加上特殊的 2 月份有 28 , 29</p>
-<p>首先用 CTE 建立建立 1 - 12 月的集合 , 接著建立 2019 - 2020 年的集合 , 利用 CROSS JOIN 進行迴圈建立 Y , M 的資料</p>
-<p>接著使用以下語法產生出每月的1號值 ex: 20190101,20190102</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CAST(Y as NVARCHAR) + RIGHT(REPLICATE(&#39;0&#39;, 2) + CAST(M as NVARCHAR), 2) + &#39;01&#39;</span><br></pre></td></tr></table></figure>
-<p>最後使用 <a href="https://docs.microsoft.com/zh-tw/sql/t-sql/functions/eomonth-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">EOMONTH函數</a> 取得該月的最後一日 ex: 2019-02-28 , 2020-02-29 並且依自己需求 format 想要的日期格式</p>
-<p>完整程式碼如下:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">WITH MonthTally (M) AS</span><br><span class="line">(</span><br><span class="line">    select M &#x3D; 1</span><br><span class="line">    union all  </span><br><span class="line">    select M + 1</span><br><span class="line">    from MonthTally  </span><br><span class="line">    where M &lt; 12</span><br><span class="line">) , YearTally(Y) as</span><br><span class="line">(</span><br><span class="line">    --建立年份範圍</span><br><span class="line">    select Y &#x3D; 2019</span><br><span class="line">    union all  </span><br><span class="line">    select Y + 1</span><br><span class="line">    from YearTally  </span><br><span class="line">    where Y &lt; 2020</span><br><span class="line">)</span><br><span class="line">SELECT</span><br><span class="line">CAST(Y as NVARCHAR) + RIGHT(REPLICATE(&#39;0&#39;, 2) + CAST(M as NVARCHAR), 2) + &#39;01&#39; startdate</span><br><span class="line">--轉換日期格式</span><br><span class="line">, CONVERT(VARCHAR,</span><br><span class="line">--取得該年該月最後一日</span><br><span class="line">EOMONTH ( CAST(Y as NVARCHAR) + RIGHT(REPLICATE(&#39;0&#39;, 2) + CAST(M as NVARCHAR), 2) + &#39;01&#39; )</span><br><span class="line">,112)  enddate</span><br><span class="line">FROM MonthTally</span><br><span class="line">CROSS JOIN YearTally</span><br></pre></td></tr></table></figure>
+        <p>前陣子學習 vim mode 想替自己增加開發效率 , 以下為設定筆記</p>
+<p>還不錯的兩個教學</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=mPVwS8gjDVI&amp;list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&amp;index=1" target="_blank" rel="noopener">五倍紅寶石</a></li>
+<li><a href="https://www.youtube.com/watch?v=rzpoMlss7Kk&amp;list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB" target="_blank" rel="noopener">Victor Lee</a></li>
+</ul>
+<p><a href="https://github.com/VSCodeVim/Vim" target="_blank" rel="noopener">安裝 vim mode 外掛</a><br>在<kbd>win<kbd>+<kbd>r<kbd>輸入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%APPDATA%&#x2F;Code&#x2F;User</span><br></pre></td></tr></table></figure>
+<p>在setting.json加上vim模式的config內容，建議easymotion要打開</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;vim</span><br><span class="line">&quot;editor.lineNumbers&quot;: &quot;relative&quot;,</span><br><span class="line">&quot;vim.easymotion&quot;: true,</span><br><span class="line">&quot;vim.incsearch&quot;: true,</span><br><span class="line">&quot;vim.useSystemClipboard&quot;: true,</span><br><span class="line">&quot;vim.useCtrlKeys&quot;: true,</span><br><span class="line">&quot;vim.hlsearch&quot;: true,</span><br><span class="line">&quot;vim.insertModeKeyBindings&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;j&quot;, &quot;j&quot;],</span><br><span class="line">  &quot;after&quot;: [&quot;&lt;Esc&gt;&quot;]</span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line">&quot;vim.normalModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;&lt;leader&gt;&quot;, &quot;d&quot;],</span><br><span class="line">  &quot;after&quot;: [&quot;d&quot;, &quot;d&quot;]</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;&lt;C-n&gt;&quot;],</span><br><span class="line">  &quot;commands&quot;: [&quot;:nohl&quot;]</span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line">&quot;vim.leader&quot;: &quot;&lt;space&gt;&quot;,</span><br><span class="line">&quot;vim.handleKeys&quot;: &#123;</span><br><span class="line">	&#x2F;&#x2F;&quot;&lt;C-a&gt;&quot;: false,</span><br><span class="line">	&#x2F;&#x2F;&quot;&lt;C-f&gt;&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在keybindings.json加上config內容，開intellisense時也使用鍵盤alt+j alt+k 上下移動 , 可以參考<a href="https://stackoverflow.com/questions/18153541/scrolling-through-visual-studio-intellisense-list-without-mouse-or-keyboard-arro" target="_blank" rel="noopener">這篇</a></p>
+<p>注意這邊要照著老外Rocco Ruscitti才正確!<br>要用<a href="http://wklken.me/posts/2015/06/07/vim-plugin-easymotion.html" target="_blank" rel="noopener">Easymotion可以參考這篇</a></p>
+<p>另外我有設定emmet包裹功能(option)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 將按鍵繫結關係放在此檔案中以覆寫預設auto[]</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+w&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;editor.emmet.action.wrapWithAbbreviation&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+j&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectNextSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+k&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectPrevSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -219,8 +227,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/sql/" rel="tag"># sql</a>
-              <a href="/tags/tsql/" rel="tag"># tsql</a>
+              <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
           </div>
 
         
@@ -229,12 +237,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/05/asp-net-core-%E7%99%BC%E4%BD%88-m3u8/" rel="prev" title="asp.net core 發佈 m3u8">
-      <i class="fa fa-chevron-left"></i> asp.net core 發佈 m3u8
+    <a href="/2020/07/05/%E5%A5%BD%E7%94%A8%E7%9A%84xsd%E9%A1%9E%E5%88%A5%E7%94%A2%E7%94%9F%E5%B7%A5%E5%85%B7/" rel="prev" title="好用的xsd類別產生工具">
+      <i class="fa fa-chevron-left"></i> 好用的xsd類別產生工具
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/05/%E5%BF%AB%E9%80%9F%E7%94%A2%E7%94%9F%E6%89%B9%E6%AC%A1%E5%88%AA%E9%99%A4%E8%B3%87%E6%96%99%E8%A1%A8%E6%8C%87%E4%BB%A4/" rel="next" title="快速產生批次刪除資料表指令">
-      快速產生批次刪除資料表指令 <i class="fa fa-chevron-right"></i>
+    <a href="/2020/07/05/visual-studio-vim-mode/" rel="next" title="visual-studio-vim-mode">
+      visual-studio-vim-mode <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
