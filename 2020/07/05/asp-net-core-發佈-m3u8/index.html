@@ -22,31 +22,33 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="喇賽人的Blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="喇賽的人Blog">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="有個賣迷片的朋友影片一直無法發佈影片,佛心幫忙看看. 開個 .net core 的 mvc 專案修改 Startup.cs 的 Configure預設 .ts 檔會吃到 typescript 所以將它移除並且加上 .m3u8 , .key , .ts 相對應的 mime 型別 12345678910var provider &#x3D; new FileExtensionContentTypeProvide">
+<meta property="og:type" content="article">
+<meta property="og:title" content="asp.net core 發佈 m3u8">
+<meta property="og:url" content="http://yoursite.com/2020/07/05/asp-net-core-%E7%99%BC%E4%BD%88-m3u8/index.html">
 <meta property="og:site_name" content="喇賽的人Blog">
-<meta property="og:description" content="喇賽人的Blog">
+<meta property="og:description" content="有個賣迷片的朋友影片一直無法發佈影片,佛心幫忙看看. 開個 .net core 的 mvc 專案修改 Startup.cs 的 Configure預設 .ts 檔會吃到 typescript 所以將它移除並且加上 .m3u8 , .key , .ts 相對應的 mime 型別 12345678910var provider &#x3D; new FileExtensionContentTypeProvide">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-07-05T00:58:07.000Z">
+<meta property="article:modified_time" content="2020-07-05T01:35:52.659Z">
 <meta property="article:author" content="喇賽人">
 <meta property="article:tag" content="奇怪">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/">
+<link rel="canonical" href="http://yoursite.com/2020/07/05/asp-net-core-%E7%99%BC%E4%BD%88-m3u8/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-tw'
   };
 </script>
 
-  <title>喇賽的人Blog</title>
+  <title>asp.net core 發佈 m3u8 | 喇賽的人Blog</title>
   
 
 
@@ -155,9 +157,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
@@ -173,10 +176,9 @@
       <meta itemprop="name" content="喇賽的人Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/asp-net-core-%E7%99%BC%E4%BD%88-m3u8/" class="post-title-link" itemprop="url">asp.net core 發佈 m3u8</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          asp.net core 發佈 m3u8
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -200,7 +202,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>有個賣迷片的朋友影片一直無法發佈影片,佛心幫忙看看.</p>
+        <p>有個賣迷片的朋友影片一直無法發佈影片,佛心幫忙看看.</p>
 <p>開個 .net core 的 mvc 專案<br>修改 Startup.cs 的 Configure<br>預設 .ts 檔會吃到 typescript 所以將它移除<br>並且加上 .m3u8 , .key , .ts 相對應的 mime 型別</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> provider = <span class="keyword">new</span> FileExtensionContentTypeProvider();</span><br><span class="line">provider.Mappings.Remove(<span class="string">".ts"</span>);</span><br><span class="line">provider.Mappings.Add(<span class="string">".key"</span>, <span class="string">"text/plain"</span>);</span><br><span class="line">provider.Mappings.Add(<span class="string">".m3u8"</span>, <span class="string">"application/x-mpegURL"</span>);</span><br><span class="line">provider.Mappings.Add(<span class="string">".ts"</span>, <span class="string">"video/MP2T"</span>);</span><br><span class="line"></span><br><span class="line">app.UseStaticFiles(<span class="keyword">new</span> StaticFileOptions</span><br><span class="line">&#123;</span><br><span class="line">	ContentTypeProvider = provider</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
@@ -224,157 +226,30 @@
 <p>最後在 View/Home/Index.cshtml 補上以下程式碼大概就可以動了!</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@&#123;</span><br><span class="line">    ViewData[&quot;Title&quot;] &#x3D; &quot;Home Page&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&lt;div class&#x3D;&quot;text-center&quot;&gt;</span><br><span class="line">    &lt;h1 class&#x3D;&quot;display-4&quot;&gt;Welcome&lt;&#x2F;h1&gt;</span><br><span class="line">    &lt;p&gt;Learn about &lt;a href&#x3D;&quot;https:&#x2F;&#x2F;docs.microsoft.com&#x2F;aspnet&#x2F;core&quot;&gt;building Web apps with ASP.NET Core&lt;&#x2F;a&gt;.&lt;&#x2F;p&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;video id&#x3D;&quot;video&quot; class&#x3D;&quot;&quot; style&#x3D;&quot;width:100%;height:500px;&quot; controls src&#x3D;&quot;&quot;&gt;&lt;&#x2F;video&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@section scripts&#123;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var video &#x3D; document.getElementById(&#39;video&#39;);</span><br><span class="line">        &#x2F;&#x2F;var videoSrc &#x3D; &#39;https:&#x2F;&#x2F;test-streams.mux.dev&#x2F;x36xhzz&#x2F;x36xhzz.m3u8&#39;;</span><br><span class="line">        var videoSrc &#x3D; &#39;http:&#x2F;&#x2F;localhost:5000&#x2F;videos&#x2F;playlist.m3u8&#39;;</span><br><span class="line">        if (Hls.isSupported()) &#123;</span><br><span class="line">            var hls &#x3D; new Hls();</span><br><span class="line">            hls.loadSource(videoSrc);</span><br><span class="line">            hls.attachMedia(video);</span><br><span class="line">            hls.on(Hls.Events.MANIFEST_PARSED, function () &#123;</span><br><span class="line">                &#x2F;&#x2F;video.play();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;script&gt;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%B7%9A%E4%B8%8A%E5%B7%A5%E5%85%B7/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%B7%9A%E4%B8%8A%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">常用的線上工具</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-05 08:50:46 / Modified: 08:56:22" itemprop="dateCreated datePublished" datetime="2020-07-05T08:50:46+08:00">2020-07-05</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>這篇陸續補些常用但又時常忘了的線上工具</p>
-<p><a href="https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html#foreground.type=clipart&foreground.clipart=android&foreground.space.trim=1&foreground.space.pad=0.25&foreColor=rgba(96%2C%20125%2C%20139%2C%200)&backColor=rgb(68%2C%20138%2C%20255)&crop=0&backgroundShape=square&effects=none&name=ic_launcher" target="_blank" rel="noopener">無腦ICON製作工具</a></p>
-<p><a href="https://geojson.net/#2/20.0/0.0" target="_blank" rel="noopener">geojson viewer</a></p>
-<p><a href="https://codebeautify.org/jsonviewer" target="_blank" rel="noopener">json viewer</a></p>
-<p><a href="https://app.quicktype.io" target="_blank" rel="noopener">quick type 轉換 json 為類別</a></p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/05/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%B7%9A%E4%B8%8A%E5%B7%A5%E5%85%B7/" rel="prev" title="常用的線上工具">
+      <i class="fa fa-chevron-left"></i> 常用的線上工具
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/%E7%AC%AC%E4%B8%80%E7%AF%87%E6%96%87%E7%AB%A0/" class="post-title-link" itemprop="url">搬到 github.io 的第一篇文章</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-05 05:58:22 / Modified: 08:05:55" itemprop="dateCreated datePublished" datetime="2020-07-05T05:58:22+08:00">2020-07-05</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>由於以前搞 Blog 的空間 GG 了,想尋求一個窮人用得起的穩定空間,於是花些時間來用看看 github.io Google 半天一堆很複雜的文章看了很累</p>
-<h3 id="找個無腦又簡單的文章吧"><a href="#找個無腦又簡單的文章吧" class="headerlink" title="找個無腦又簡單的文章吧"></a>找個無腦又簡單的文章吧</h3><p><a href="https://medium.com/@bebebobohaha/%E4%BD%BF%E7%94%A8-hexo-gitpage-%E6%90%AD%E5%BB%BA%E5%80%8B%E4%BA%BA-blog-5c6ed52f23db" target="_blank" rel="noopener">參考這個賞心悅目的正妹文章</a></p>
-<p>由於我是在 <a href="https://www.microsoft.com/zh-tw/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab" target="_blank" rel="noopener">WSL</a> 底下安裝 , 預設的 WSL 是黑底 , 我眼睛實在無法長時間看黑底 , 所以先跳去設定一下 WLS 讓他變成 Ubuntu 的樣式吧!</p>
-<p>我們可以到<a href="https://atomcorp.github.io/themes/" target="_blank" rel="noopener">這裡</a>下載想要的 Windows Terminal Themes 的 json config 這邊選用 Ubuntu</p>
-<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"name"</span>: <span class="string">"Ubuntu"</span>,</span><br><span class="line">  <span class="attr">"black"</span>: <span class="string">"#2e3436"</span>,</span><br><span class="line">  <span class="attr">"red"</span>: <span class="string">"#cc0000"</span>,</span><br><span class="line">  <span class="attr">"green"</span>: <span class="string">"#4e9a06"</span>,</span><br><span class="line">  <span class="attr">"yellow"</span>: <span class="string">"#c4a000"</span>,</span><br><span class="line">  <span class="attr">"blue"</span>: <span class="string">"#3465a4"</span>,</span><br><span class="line">  <span class="attr">"purple"</span>: <span class="string">"#75507b"</span>,</span><br><span class="line">  <span class="attr">"cyan"</span>: <span class="string">"#06989a"</span>,</span><br><span class="line">  <span class="attr">"white"</span>: <span class="string">"#d3d7cf"</span>,</span><br><span class="line">  <span class="attr">"brightBlack"</span>: <span class="string">"#555753"</span>,</span><br><span class="line">  <span class="attr">"brightRed"</span>: <span class="string">"#ef2929"</span>,</span><br><span class="line">  <span class="attr">"brightGreen"</span>: <span class="string">"#8ae234"</span>,</span><br><span class="line">  <span class="attr">"brightYellow"</span>: <span class="string">"#fce94f"</span>,</span><br><span class="line">  <span class="attr">"brightBlue"</span>: <span class="string">"#729fcf"</span>,</span><br><span class="line">  <span class="attr">"brightPurple"</span>: <span class="string">"#ad7fa8"</span>,</span><br><span class="line">  <span class="attr">"brightCyan"</span>: <span class="string">"#34e2e2"</span>,</span><br><span class="line">  <span class="attr">"brightWhite"</span>: <span class="string">"#eeeeec"</span>,</span><br><span class="line">  <span class="attr">"background"</span>: <span class="string">"#300a24"</span>,</span><br><span class="line">  <span class="attr">"foreground"</span>: <span class="string">"#eeeeec"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>下載完以後只要在 WLS 上面按下 <kbd>Ctrl</kbd>+<kbd>`</kbd> 即可開啟 settings.json 編輯 , 接著找到 schemes 放進去接著指定 Ubuntu 就搞定啦!炫炮一點還可以設定透明度或是<a href="https://www.howtogeek.com/426346/how-to-customize-the-new-windows-terminal-app/" target="_blank" rel="noopener">背景圖片</a>.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;colorScheme&quot;: &quot;Ubuntu&quot;,</span><br><span class="line">    &quot;cursorShape&quot; : &quot;emptyBox&quot;,</span><br><span class="line">    &quot;useAcrylic&quot;: false,</span><br><span class="line">    &quot;acrylicOpacity&quot;: 1,</span><br><span class="line">    &quot;guid&quot;: &quot;&#123;c6eef9fx-32ac-5xdc-b5cf-aa6e8a4b1bb0&#125;&quot;,</span><br><span class="line">    &quot;hidden&quot;: false,</span><br><span class="line">    &quot;name&quot;: &quot;Ubuntu-18.04&quot;,</span><br><span class="line">    &quot;source&quot;: &quot;Windows.Terminal.Wsl&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
-
-<p>正式進入第一步 <a href="https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/" target="_blank" rel="noopener">安裝</a> nodejs &amp; npm 馬上就陣亡!不意外!<br><a href="https://stackoverflow.com/questions/45853530/npm-install-error-not-foundram-files-nodejs-npm-3-mnt-c-program-files-nodejs" target="_blank" rel="noopener">參考老外說明</a> 原來是 PATH 沒設定好! 整個安裝完以後跟著正妹的步驟大概是沒太多問題 , 但最後面設定發佈到 github 要使用 SSH Key , 最後回到 <a href="https://github.com/settings/keys" target="_blank" rel="noopener">github</a> 貼上 id_rsa.pub 裡面的內容 , 最後在用 ssh 驗證是否通過.</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"yourmail"</span></span><br><span class="line">$ <span class="built_in">cd</span> ~</span><br><span class="line">$ ls -al <span class="comment">#看隱藏的.ssh目錄</span></span><br><span class="line">$ <span class="built_in">cd</span> .ssh</span><br><span class="line">$ vim id_rsa.pub <span class="comment">#進到vim把內容複製起來包含 xxx.mail 那句也要</span></span><br><span class="line">$ ssh git@github.com <span class="comment">#已經在github貼上金鑰後才輸入</span></span><br></pre></td></tr></table></figure>
-<p>接著開始用 <a href="https://markdownmonster.west-wind.com/download.aspx" target="_blank" rel="noopener">Markdown Monster</a> 編輯 source/_posts 裡面的文章內容吧 , 太久沒用 Markdown 語法可以<a href="https://gist.github.com/MinhasKamal/7fdebb7c424d23149140" target="_blank" rel="noopener">參考這裡</a></p>
-<p>這時候就可以使用以下指令在 Windows 上開啟 WLS 內的所在目錄 , 快速用 Markdown Monster 編輯 Blog 囉!</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ explorer.exe .</span><br></pre></td></tr></table></figure>
-<p>注意編輯完文章以後需要先清除原先檔案 , 另外 Chrome 的 Cache 也會有影響建議要看結果使用 <kbd>Ctrl</kbd>+<kbd>Shift</kbd>+<kbd>n<kbd></p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean <span class="comment">#清除靜態檔案</span></span><br><span class="line">$ hexo g <span class="comment">#產生檔案</span></span><br><span class="line">$ hexo d <span class="comment">#佈署</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
