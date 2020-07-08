@@ -20,21 +20,20 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="工作上時常需要處理地理資料 ShapeFile , 有時候會需要找出超過軟體大小限制為 1GB 的 , 可以參考以下 powershell 命令 123456$files &#x3D; Get-ChildItem D:\ -Recurse | Where-Object &amp;#123;$_.Extension -eq &quot;.shp&quot;  -and $_.Length&#x2F;1GB">
+  <meta name="description" content="隨手紀錄一下日常遇到的git問題 中文亂碼參考以下文章powershellhttps:&#x2F;&#x2F;www.cnblogs.com&#x2F;Laggage&#x2F;p&#x2F;12301495.html  git bashhttps:&#x2F;&#x2F;dotblogs.com.tw&#x2F;H20&#x2F;2018&#x2F;06&#x2F;22&#x2F;111411 遠端切換分支參考https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;67699&#x2F;how-to-clo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="找出大於1GB的shp">
-<meta property="og:url" content="http://yoursite.com/2020/07/05/%E6%89%BE%E5%87%BA%E5%A4%A7%E6%96%BC1GB%E7%9A%84shp/index.html">
+<meta property="og:title" content="git日常筆記">
+<meta property="og:url" content="http://yoursite.com/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/index.html">
 <meta property="og:site_name" content="喇賽的人Blog">
-<meta property="og:description" content="工作上時常需要處理地理資料 ShapeFile , 有時候會需要找出超過軟體大小限制為 1GB 的 , 可以參考以下 powershell 命令 123456$files &#x3D; Get-ChildItem D:\ -Recurse | Where-Object &amp;#123;$_.Extension -eq &quot;.shp&quot;  -and $_.Length&#x2F;1GB">
+<meta property="og:description" content="隨手紀錄一下日常遇到的git問題 中文亂碼參考以下文章powershellhttps:&#x2F;&#x2F;www.cnblogs.com&#x2F;Laggage&#x2F;p&#x2F;12301495.html  git bashhttps:&#x2F;&#x2F;dotblogs.com.tw&#x2F;H20&#x2F;2018&#x2F;06&#x2F;22&#x2F;111411 遠端切換分支參考https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;67699&#x2F;how-to-clo">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-07-05T05:05:50.000Z">
-<meta property="article:modified_time" content="2020-07-05T06:48:06.800Z">
+<meta property="article:published_time" content="2020-07-08T16:06:28.000Z">
+<meta property="article:modified_time" content="2020-07-08T16:10:15.413Z">
 <meta property="article:author" content="喇賽人">
-<meta property="article:tag" content="gis">
-<meta property="article:tag" content="powershell">
+<meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/05/%E6%89%BE%E5%87%BA%E5%A4%A7%E6%96%BC1GB%E7%9A%84shp/">
+<link rel="canonical" href="http://yoursite.com/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/">
 
 
 <script id="page-configurations">
@@ -47,7 +46,7 @@
   };
 </script>
 
-  <title>找出大於1GB的shp | 喇賽的人Blog</title>
+  <title>git日常筆記 | 喇賽的人Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
     <script>
@@ -172,7 +171,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/%E6%89%BE%E5%87%BA%E5%A4%A7%E6%96%BC1GB%E7%9A%84shp/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -185,7 +184,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          找出大於1GB的shp
+          git日常筆記
         </h1>
 
         <div class="post-meta">
@@ -196,7 +195,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-05 13:05:50 / Modified: 14:48:06" itemprop="dateCreated datePublished" datetime="2020-07-05T13:05:50+08:00">2020-07-05</time>
+              <time title="Created: 2020-07-09 00:06:28 / Modified: 00:10:15" itemprop="dateCreated datePublished" datetime="2020-07-09T00:06:28+08:00">2020-07-09</time>
             </span>
 
           
@@ -208,8 +207,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/07/05/%E6%89%BE%E5%87%BA%E5%A4%A7%E6%96%BC1GB%E7%9A%84shp/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/找出大於1GB的shp/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/09/git日常筆記/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -219,7 +218,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>267</span>
+              <span>224</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -238,8 +237,10 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>工作上時常需要處理地理資料 ShapeFile , 有時候會需要找出超過軟體大小限制為 1GB 的 , 可以參考以下 powershell 命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$files &#x3D; Get-ChildItem D:\ -Recurse | Where-Object &#123;$_.Extension -eq &quot;.shp&quot;  -and $_.Length&#x2F;1GB -gt 1 &#125; |</span><br><span class="line">Sort-Object -Property Length  -Descending </span><br><span class="line"></span><br><span class="line">foreach($f in  $files )&#123;</span><br><span class="line"> $f.FullName</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>隨手紀錄一下日常遇到的git問題</p>
+<h3 id="中文亂碼"><a href="#中文亂碼" class="headerlink" title="中文亂碼"></a>中文亂碼</h3><p>參考以下文章<br>powershell<br><a href="https://www.cnblogs.com/Laggage/p/12301495.html" target="_blank" rel="noopener">https://www.cnblogs.com/Laggage/p/12301495.html</a> </p>
+<p>git bash<br><a href="https://dotblogs.com.tw/H20/2018/06/22/111411" target="_blank" rel="noopener">https://dotblogs.com.tw/H20/2018/06/22/111411</a></p>
+<h3 id="遠端切換分支"><a href="#遠端切換分支" class="headerlink" title="遠端切換分支"></a>遠端切換分支</h3><p>參考<br><a href="https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git" target="_blank" rel="noopener">https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git</a></p>
 
     </div>
 
@@ -249,8 +250,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/gis/" rel="tag"># gis</a>
-              <a href="/tags/powershell/" rel="tag"># powershell</a>
+              <a href="/tags/git/" rel="tag"># git</a>
           </div>
 
         
@@ -259,13 +259,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/05/%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bpng%E7%82%BAico/" rel="prev" title="快速轉換png為ico">
-      <i class="fa fa-chevron-left"></i> 快速轉換png為ico
+    <a href="/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/" rel="prev" title="匯入ShapeFile到MSSQL">
+      <i class="fa fa-chevron-left"></i> 匯入ShapeFile到MSSQL
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/05/OSM%E7%B0%A1%E9%AB%94%E8%BD%89%E7%B9%81%E9%AB%94/" rel="next" title="OSM簡體轉繁體">
-      OSM簡體轉繁體 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -331,6 +328,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#中文亂碼"><span class="nav-number">1.</span> <span class="nav-text">中文亂碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遠端切換分支"><span class="nav-number">2.</span> <span class="nav-text">遠端切換分支</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -467,9 +465,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/07/05/%E6%89%BE%E5%87%BA%E5%A4%A7%E6%96%BC1GB%E7%9A%84shp/";
-    this.page.identifier = "2020/07/05/找出大於1GB的shp/";
-    this.page.title = "找出大於1GB的shp";
+    this.page.url = "http://yoursite.com/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2020/07/09/git日常筆記/";
+    this.page.title = "git日常筆記";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
