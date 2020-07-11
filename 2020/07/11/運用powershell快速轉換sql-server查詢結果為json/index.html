@@ -20,18 +20,23 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="喇賽人的Blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="喇賽的人Blog">
-<meta property="og:url" content="http://yoursite.com/archives/2020/page/2/index.html">
+  <meta name="description" content="工作上時常有些資料轉換小需求 , 但一時之間又不好搞定 , 多半會透過各種亂七八糟的方式轉換 , 無聊看看 powershell 的功能裡面可以連接 sql server 操作一些這種雜亂的工作! 首先需要 安裝 SQL Server PowerShell 模組 1Install-Module -Name SqlServer -AllowClobber -Scope CurrentUser 接著匯">
+<meta property="og:type" content="article">
+<meta property="og:title" content="運用powershell快速轉換sql server查詢結果為json">
+<meta property="og:url" content="http://yoursite.com/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/index.html">
 <meta property="og:site_name" content="喇賽的人Blog">
-<meta property="og:description" content="喇賽人的Blog">
+<meta property="og:description" content="工作上時常有些資料轉換小需求 , 但一時之間又不好搞定 , 多半會透過各種亂七八糟的方式轉換 , 無聊看看 powershell 的功能裡面可以連接 sql server 操作一些這種雜亂的工作! 首先需要 安裝 SQL Server PowerShell 模組 1Install-Module -Name SqlServer -AllowClobber -Scope CurrentUser 接著匯">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-07-11T15:25:57.000Z">
+<meta property="article:modified_time" content="2020-07-11T15:55:27.893Z">
 <meta property="article:author" content="喇賽人">
-<meta property="article:tag" content="奇怪">
+<meta property="article:tag" content="powershell">
+<meta property="article:tag" content="mssql">
+<meta property="article:tag" content="sqlserver">
+<meta property="article:tag" content="json">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/archives/2020/page/2/">
+<link rel="canonical" href="http://yoursite.com/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/">
 
 
 <script id="page-configurations">
@@ -39,12 +44,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-tw'
   };
 </script>
 
-  <title>Archive | 喇賽的人Blog</title>
+  <title>運用powershell快速轉換sql server查詢結果為json | 喇賽的人Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
     <script>
@@ -162,239 +167,135 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          運用powershell快速轉換sql server查詢結果為json
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-11 23:25:57 / Modified: 23:55:27" itemprop="dateCreated datePublished" datetime="2020-07-11T23:25:57+08:00">2020-07-11</time>
+            </span>
+
+          
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <span class="collection-header">Um..! 24 posts in total. Keep on posting.</span>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/11/運用powershell快速轉換sql-server查詢結果為json/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>489</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
+        <p>工作上時常有些資料轉換小需求 , 但一時之間又不好搞定 , 多半會透過各種亂七八糟的方式轉換 , 無聊看看 powershell 的功能裡面可以連接 sql server 操作一些這種雜亂的工作!</p>
+<p>首先需要 <a href="https://docs.microsoft.com/zh-tw/sql/powershell/download-sql-server-ps-module?view=sql-server-ver15" target="_blank" rel="noopener">安裝 SQL Server PowerShell 模組</a></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Module</span> <span class="literal">-Name</span> SqlServer <span class="literal">-AllowClobber</span> <span class="literal">-Scope</span> CurrentUser</span><br></pre></td></tr></table></figure>
+<p>接著匯入模組</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module SqlServer</span><br></pre></td></tr></table></figure>
+<p>然後設定路徑想到的位置 , 並且可以用 ls cd 這類指令看目前的物件如 table , view</p>
+<p>若設定過程中機器遇到權限問題 <a href="https://channel9.msdn.com/Blogs/raw-tech/How-To-Fix-Login-Failed-for-User-Microsoft-SQL-Server-Error-18456-Step-By-Step" target="_blank" rel="noopener">SQL Server Error 18456</a> 可以參考這篇解答</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Location SQLSERVER:\SQL\localhost\DEFAULT\Databases</span><br></pre></td></tr></table></figure>
+<p>最後透過類似以下指令快篩內容並且轉換為 json 輸出 , 以前很多很阿雜的工作瞬間快速搞定!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$customers &#x3D; Invoke-Sqlcmd &quot;select * from customers&quot;</span><br><span class="line">$customers | select CompanyName | ConvertTo-Json</span><br></pre></td></tr></table></figure>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T21:02:52+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/asp-net-core-iis-sub-application/" itemprop="url">
-            <span itemprop="name">asp.net core iis sub-application</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T15:22:58+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/visual-studio-vim-mode/" itemprop="url">
-            <span itemprop="name">visual-studio-vim-mode</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T15:04:27+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/vscode-vim-mode/" itemprop="url">
-            <span itemprop="name">vscode vim mode</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T14:18:54+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E5%A5%BD%E7%94%A8%E7%9A%84xsd%E9%A1%9E%E5%88%A5%E7%94%A2%E7%94%9F%E5%B7%A5%E5%85%B7/" itemprop="url">
-            <span itemprop="name">好用的xsd類別產生工具</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T14:11:45+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E5%B0%87jpg%E8%BD%89%E6%8F%9B%E7%82%BApng8/" itemprop="url">
-            <span itemprop="name">將jpg轉換為png8</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T13:19:21+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E9%81%9E%E8%BF%B4%E6%89%BE%E6%AA%94%E6%A1%88/" itemprop="url">
-            <span itemprop="name">遞迴找檔案</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T13:11:25+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/OSM%E7%B0%A1%E9%AB%94%E8%BD%89%E7%B9%81%E9%AB%94/" itemprop="url">
-            <span itemprop="name">OSM簡體轉繁體</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T13:05:50+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E6%89%BE%E5%87%BA%E5%A4%A7%E6%96%BC1GB%E7%9A%84shp/" itemprop="url">
-            <span itemprop="name">找出大於1GB的shp</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T12:56:31+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bpng%E7%82%BAico/" itemprop="url">
-            <span itemprop="name">快速轉換png為ico</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T12:38:47+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E5%BF%AB%E9%80%9F%E7%94%A2%E7%94%9F%E6%89%B9%E6%AC%A1%E5%88%AA%E9%99%A4%E8%B3%87%E6%96%99%E8%A1%A8%E6%8C%87%E4%BB%A4/" itemprop="url">
-            <span itemprop="name">快速產生批次刪除資料表指令</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
 
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/powershell/" rel="tag"># powershell</a>
+              <a href="/tags/mssql/" rel="tag"># mssql</a>
+              <a href="/tags/sqlserver/" rel="tag"># sqlserver</a>
+              <a href="/tags/json/" rel="tag"># json</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/09/%E8%A3%9DB/" rel="prev" title="裝B ">
+      <i class="fa fa-chevron-left"></i> 裝B 
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
   
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/2020/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/archives/2020/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/2020/page/3/">3</a><a class="extend next" rel="next" href="/archives/2020/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
-  </nav>
+  
+  
 
 
 
           </div>
           
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -574,6 +475,26 @@
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/";
+    this.page.identifier = "2020/07/11/運用powershell快速轉換sql-server查詢結果為json/";
+    this.page.title = "運用powershell快速轉換sql server查詢結果為json";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
 </script>
 
 </body>

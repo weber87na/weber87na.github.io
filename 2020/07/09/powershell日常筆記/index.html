@@ -28,7 +28,7 @@
 <meta property="og:description" content="工作久了有的東西常沒用就忘了 , 剛好又遇到以前的問題 , 趁機吃個老本筆記一下 設定 powershell 上使用 vim 參考C:\Users\YourName\_vimrc 1234set encoding&#x3D;utf-8set termencoding&#x3D;utf-8set fileencoding&#x3D;utf-8set fileencodings&#x3D;utf-8">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-09T11:56:41.000Z">
-<meta property="article:modified_time" content="2020-07-10T19:46:04.709Z">
+<meta property="article:modified_time" content="2020-07-10T19:51:39.189Z">
 <meta property="article:author" content="喇賽人">
 <meta property="article:tag" content="powershell">
 <meta name="twitter:card" content="summary">
@@ -201,7 +201,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-11 03:46:04" itemprop="dateModified" datetime="2020-07-11T03:46:04+08:00">2020-07-11</time>
+                <time title="Modified: 2020-07-11 03:51:39" itemprop="dateModified" datetime="2020-07-11T03:51:39+08:00">2020-07-11</time>
               </span>
 
           
@@ -253,8 +253,9 @@
 <h3 id="小試牛刀"><a href="#小試牛刀" class="headerlink" title="小試牛刀"></a>小試牛刀</h3><p><a href="https://stackoverflow.com/questions/5596982/using-powershell-to-write-a-file-in-utf-8-without-the-bom" target="_blank" rel="noopener">參考</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#呼叫 api</span><br><span class="line">$tests &#x3D; Invoke-WebRequest http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;api&#x2F;test -ContentType &quot;application&#x2F;json; charset&#x3D;utf-8&quot;  | ConvertFrom-Json</span><br><span class="line"></span><br><span class="line">#merge id</span><br><span class="line">$ids &#x3D; $ids.ID -join &quot;,&quot;</span><br><span class="line"></span><br><span class="line">#設定utf8無bom</span><br><span class="line">$utf8 &#x3D; New-Object System.Text.UTF8Encoding $false</span><br><span class="line"></span><br><span class="line">#參數ids吃先前用comma連接的</span><br><span class="line">$testIds &#x3D; Invoke-WebRequest Invoke-WebRequest http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;api&#x2F;test?ids&#x3D;$ids -ContentType &quot;application&#x2F;json; charset&#x3D;utf-8&quot; </span><br><span class="line">#保存到 result.txt</span><br><span class="line">[System.IO.File]::WriteAllLines(&quot;test.txt&quot;, $testIds.content, $utf8)</span><br></pre></td></tr></table></figure>
 
-<h3 id="小試牛刀找-api-內含有數字的資料-並排除某些-id"><a href="#小試牛刀找-api-內含有數字的資料-並排除某些-id" class="headerlink" title="小試牛刀找 api 內含有數字的資料 , 並排除某些 id"></a>小試牛刀找 api 內含有數字的資料 , 並排除某些 id</h3><p>主要原理就是需要使用 ConvertFrom-Json 將 json 物件轉為 powershell 的物件 , 接著以 Where-Object 進行搜尋 , 最後在轉換回 json 並且存檔</p>
+<h3 id="小試牛刀找-api-內含有數字的資料-並排除某些-id"><a href="#小試牛刀找-api-內含有數字的資料-並排除某些-id" class="headerlink" title="小試牛刀找 api 內含有數字的資料 , 並排除某些 id"></a>小試牛刀找 api 內含有數字的資料 , 並排除某些 id</h3><p>主要原理就是需要使用 ConvertFrom-Json 將 json 物件轉為 powershell 的物件 , 接著以 Where-Object 進行搜尋 , 最後在轉換回 json 並且存檔<br>可以<a href="https://devblogs.microsoft.com/scripting/playing-with-json-and-powershell/" target="_blank" rel="noopener">參考</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$utf8 &#x3D; New-Object System.Text.UTF8Encoding $false</span><br><span class="line">$tests &#x3D; Invoke-WebRequest http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;api&#x2F;test -ContentType &quot;application&#x2F;json; charset&#x3D;utf-8&quot;</span><br><span class="line">$result &#x3D; $tests.content | ConvertFrom-Json</span><br><span class="line">$filter &#x3D; $result |  Where-Object &#123;$_.ddesc -Like &quot;*[0-9]*&quot; -and $_.id  -notin 123,456&#125;</span><br><span class="line">$resultJson &#x3D; $filter | ConvertTo-Json</span><br><span class="line">[System.IO.File]::WriteAllLines(&quot;test.txt&quot;, $resultJson, $utf8)</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -360,14 +361,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">23</span>
+          <span class="site-state-item-count">24</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">30</span>
+        <span class="site-state-item-count">32</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -415,7 +416,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">13 mins.</span>
+    <span title="Reading time total">14 mins.</span>
 </div>
 
         
