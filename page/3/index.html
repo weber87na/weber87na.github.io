@@ -583,7 +583,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-14 01:34:24" itemprop="dateModified" datetime="2020-07-14T01:34:24+08:00">2020-07-14</time>
+                <time title="Modified: 2020-07-14 05:33:51" itemprop="dateModified" datetime="2020-07-14T05:33:51+08:00">2020-07-14</time>
               </span>
 
           
@@ -606,7 +606,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>2.5k</span>
+              <span>2.6k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -637,6 +637,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;colorScheme&quot;: &quot;Ubuntu Green&quot;,</span><br><span class="line">    &quot;fontFace&quot;: &quot;Fira Code&quot;,</span><br><span class="line">    &quot;cursorShape&quot;: &quot;filledBox&quot;,</span><br><span class="line">    &quot;cursorColor&quot; :  &quot;#000000&quot;,</span><br><span class="line">    &quot;selectionBackground&quot; :  &quot;#ff0000&quot;,</span><br><span class="line">    &quot;useAcrylic&quot;: false,</span><br><span class="line">    &quot;acrylicOpacity&quot;: 1,</span><br><span class="line">    &quot;guid&quot;: &quot;&#123;c6eef9fx-32ac-5xdc-xxcf-aa6e8a4b1xx0&#125;&quot;,</span><br><span class="line">    &quot;hidden&quot;: false,</span><br><span class="line">    &quot;name&quot;: &quot;Ubuntu-18.04&quot;,</span><br><span class="line">    &quot;source&quot;: &quot;Windows.Terminal.Wsl&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 <p>接著安裝 <a href="https://github.com/JanDeDobbeleer/oh-my-posh" target="_blank" rel="noopener">oh-my-posh</a>讓整體更加好看些 , 如果字型顯示錯誤可以安裝<a href="https://github.com/tonsky/FiraCode" target="_blank" rel="noopener">Fira Code 字型</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Install-Module posh-git -Scope CurrentUser</span><br><span class="line">Install-Module oh-my-posh -Scope CurrentUser</span><br><span class="line">Import-Module posh-git</span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line">Set-Theme Paradox</span><br></pre></td></tr></table></figure>
+<p>後來又發現還有 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">gsudo</a> 這個好東西以後就可以直接在windows用sudo , 不過安裝完好像沒有加到 global 環境變數 , 只好手動添加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#檢查環境變數</span><br><span class="line">Set-Location Env:</span><br><span class="line">ls </span><br><span class="line">$env:Path</span><br></pre></td></tr></table></figure>
 
 <p>正式進入第一步 <a href="https://linuxize.com/post/how-to-install-node-js-on-ubuntu-18.04/" target="_blank" rel="noopener">安裝</a> nodejs &amp; npm 馬上就陣亡!不意外!<br><a href="https://stackoverflow.com/questions/45853530/npm-install-error-not-foundram-files-nodejs-npm-3-mnt-c-program-files-nodejs" target="_blank" rel="noopener">參考老外說明</a> 原來是 PATH 沒設定好! 整個安裝完以後跟著正妹的步驟大概是沒太多問題 , 但最後面設定發佈到 github 要使用 SSH Key , 最後回到 <a href="https://github.com/settings/keys" target="_blank" rel="noopener">github</a> 貼上 id_rsa.pub 裡面的內容 , 最後在用 ssh 驗證是否通過.</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"yourmail"</span></span><br><span class="line">$ <span class="built_in">cd</span> ~</span><br><span class="line">$ ls -al <span class="comment">#看隱藏的.ssh目錄</span></span><br><span class="line">$ <span class="built_in">cd</span> .ssh</span><br><span class="line">$ vim id_rsa.pub <span class="comment">#進到vim把內容複製起來包含 xxx.mail 那句也要</span></span><br><span class="line">$ ssh git@github.com <span class="comment">#已經在github貼上金鑰後才輸入</span></span><br></pre></td></tr></table></figure>
@@ -780,7 +782,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">20k</span>
+    <span title="Symbols count total">21k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
