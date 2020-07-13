@@ -28,7 +28,7 @@
 <meta property="og:description" content="工作久了有的東西常沒用就忘了 , 剛好又遇到以前的問題 , 趁機吃個老本筆記一下 設定 powershell 上使用 vim 參考C:\Users\YourName\_vimrc 1234set encoding&#x3D;utf-8set termencoding&#x3D;utf-8set fileencoding&#x3D;utf-8set fileencodings&#x3D;utf-8">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-09T11:56:41.000Z">
-<meta property="article:modified_time" content="2020-07-10T19:51:39.189Z">
+<meta property="article:modified_time" content="2020-07-13T17:37:24.692Z">
 <meta property="article:author" content="喇賽人">
 <meta property="article:tag" content="powershell">
 <meta name="twitter:card" content="summary">
@@ -201,7 +201,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-11 03:51:39" itemprop="dateModified" datetime="2020-07-11T03:51:39+08:00">2020-07-11</time>
+                <time title="Modified: 2020-07-14 01:37:24" itemprop="dateModified" datetime="2020-07-14T01:37:24+08:00">2020-07-14</time>
               </span>
 
           
@@ -224,7 +224,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.8k</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -250,11 +250,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># There&#39;s usually much more than this in my profile!</span><br><span class="line">$SCRIPTPATH &#x3D; &quot;C:\Program Files (x86)\Vim&quot;</span><br><span class="line">$VIMPATH    &#x3D; $SCRIPTPATH + &quot;\vim86\vim.exe&quot;</span><br><span class="line"> </span><br><span class="line">Set-Alias vi   $VIMPATH</span><br><span class="line">Set-Alias vim  $VIMPATH</span><br><span class="line"> </span><br><span class="line"># for editing your PowerShell profile</span><br><span class="line">Function Edit-Profile</span><br><span class="line">&#123;</span><br><span class="line">    vim $profile</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"># for editing your Vim settings</span><br><span class="line">Function Edit-Vimrc</span><br><span class="line">&#123;</span><br><span class="line">    vim $home\_vimrc</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>設定完需要用admin執行以下powershell</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ExecutionPolicy RemoteSigned</span><br></pre></td></tr></table></figure>
+<p>後來發現解壓縮沒7zip還挺不方便的於是到<a href="https://www.powershellgallery.com/packages/7Zip4Powershell/1.12.0" target="_blank" rel="noopener">powershell gallery</a>找找想不到還真的有</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Expand-7Zip</span> <span class="literal">-ArchiveFileName</span> .\test.<span class="number">7</span>z <span class="literal">-TargetPath</span> .\test)</span><br></pre></td></tr></table></figure>
 <h3 id="小試牛刀"><a href="#小試牛刀" class="headerlink" title="小試牛刀"></a>小試牛刀</h3><p><a href="https://stackoverflow.com/questions/5596982/using-powershell-to-write-a-file-in-utf-8-without-the-bom" target="_blank" rel="noopener">參考</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#呼叫 api</span><br><span class="line">$tests &#x3D; Invoke-WebRequest http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;api&#x2F;test -ContentType &quot;application&#x2F;json; charset&#x3D;utf-8&quot;  | ConvertFrom-Json</span><br><span class="line"></span><br><span class="line">#merge id</span><br><span class="line">$ids &#x3D; $ids.ID -join &quot;,&quot;</span><br><span class="line"></span><br><span class="line">#設定utf8無bom</span><br><span class="line">$utf8 &#x3D; New-Object System.Text.UTF8Encoding $false</span><br><span class="line"></span><br><span class="line">#參數ids吃先前用comma連接的</span><br><span class="line">$testIds &#x3D; Invoke-WebRequest Invoke-WebRequest http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;api&#x2F;test?ids&#x3D;$ids -ContentType &quot;application&#x2F;json; charset&#x3D;utf-8&quot; </span><br><span class="line">#保存到 result.txt</span><br><span class="line">[System.IO.File]::WriteAllLines(&quot;test.txt&quot;, $testIds.content, $utf8)</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#呼叫 api</span></span><br><span class="line"><span class="variable">$tests</span> = <span class="built_in">Invoke-WebRequest</span> http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">5000</span>/api/test <span class="literal">-ContentType</span> <span class="string">"application/json; charset=utf-8"</span>  | <span class="built_in">ConvertFrom-Json</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#merge id</span></span><br><span class="line"><span class="variable">$ids</span> = <span class="variable">$ids</span>.ID <span class="operator">-join</span> <span class="string">","</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#設定utf8無bom</span></span><br><span class="line"><span class="variable">$utf8</span> = <span class="built_in">New-Object</span> System.Text.UTF8Encoding <span class="variable">$false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#參數ids吃先前用comma連接的</span></span><br><span class="line"><span class="variable">$testIds</span> = <span class="built_in">Invoke-WebRequest</span> <span class="built_in">Invoke-WebRequest</span> http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">5000</span>/api/test?ids=<span class="variable">$ids</span> <span class="literal">-ContentType</span> <span class="string">"application/json; charset=utf-8"</span> </span><br><span class="line"><span class="comment">#保存到 result.txt</span></span><br><span class="line">[<span class="type">System.IO.File</span>]::WriteAllLines(<span class="string">"test.txt"</span>, <span class="variable">$testIds</span>.content, <span class="variable">$utf8</span>)</span><br></pre></td></tr></table></figure>
 
 <h3 id="小試牛刀找-api-內含有數字的資料-並排除某些-id"><a href="#小試牛刀找-api-內含有數字的資料-並排除某些-id" class="headerlink" title="小試牛刀找 api 內含有數字的資料 , 並排除某些 id"></a>小試牛刀找 api 內含有數字的資料 , 並排除某些 id</h3><p>主要原理就是需要使用 ConvertFrom-Json 將 json 物件轉為 powershell 的物件 , 接著以 Where-Object 進行搜尋 , 最後在轉換回 json 並且存檔<br>可以<a href="https://devblogs.microsoft.com/scripting/playing-with-json-and-powershell/" target="_blank" rel="noopener">參考</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$utf8 &#x3D; New-Object System.Text.UTF8Encoding $false</span><br><span class="line">$tests &#x3D; Invoke-WebRequest http:&#x2F;&#x2F;127.0.0.1:5000&#x2F;api&#x2F;test -ContentType &quot;application&#x2F;json; charset&#x3D;utf-8&quot;</span><br><span class="line">$result &#x3D; $tests.content | ConvertFrom-Json</span><br><span class="line">$filter &#x3D; $result |  Where-Object &#123;$_.ddesc -Like &quot;*[0-9]*&quot; -and $_.id  -notin 123,456&#125;</span><br><span class="line">$resultJson &#x3D; $filter | ConvertTo-Json</span><br><span class="line">[System.IO.File]::WriteAllLines(&quot;test.txt&quot;, $resultJson, $utf8)</span><br></pre></td></tr></table></figure>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$utf8</span> = <span class="built_in">New-Object</span> System.Text.UTF8Encoding <span class="variable">$false</span></span><br><span class="line"><span class="variable">$tests</span> = <span class="built_in">Invoke-WebRequest</span> http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">5000</span>/api/test <span class="literal">-ContentType</span> <span class="string">"application/json; charset=utf-8"</span></span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$tests</span>.content | <span class="built_in">ConvertFrom-Json</span></span><br><span class="line"><span class="variable">$filter</span> = <span class="variable">$result</span> |  <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.ddesc <span class="operator">-Like</span> <span class="string">"*[0-9]*"</span> <span class="operator">-and</span> <span class="variable">$_</span>.id  <span class="operator">-notin</span> <span class="number">123</span>,<span class="number">456</span>&#125;</span><br><span class="line"><span class="variable">$resultJson</span> = <span class="variable">$filter</span> | <span class="built_in">ConvertTo-Json</span></span><br><span class="line">[<span class="type">System.IO.File</span>]::WriteAllLines(<span class="string">"test.txt"</span>, <span class="variable">$resultJson</span>, <span class="variable">$utf8</span>)</span><br></pre></td></tr></table></figure>
+<h3 id="小試牛刀用正則表示法找-api-內只含有數字的資料"><a href="#小試牛刀用正則表示法找-api-內只含有數字的資料" class="headerlink" title="小試牛刀用正則表示法找 api 內只含有數字的資料"></a>小試牛刀用正則表示法找 api 內只含有數字的資料</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$tests</span> = <span class="built_in">Invoke-WebRequest</span> http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">5000</span>/api/test</span><br><span class="line"><span class="variable">$json</span> = <span class="variable">$tests</span>.content | <span class="built_in">ConvertFrom-Json</span></span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$json</span> | where ddesc <span class="operator">-match</span> <span class="string">"^[0-9]*<span class="variable">$</span>"</span></span><br><span class="line"><span class="variable">$result</span> | <span class="built_in">ConvertTo-Json</span> &gt; <span class="string">"找出只有零到九的.json"</span></span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -277,8 +280,8 @@
       <i class="fa fa-chevron-left"></i> 一些網路高手的Blog
     </a></div>
       <div class="post-nav-item">
-    <a href="/2020/07/09/%E8%A3%9DB/" rel="next" title="裝B ">
-      裝B  <i class="fa fa-chevron-right"></i>
+    <a href="/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/" rel="next" title="運用powershell快速轉換sql server查詢結果為json">
+      運用powershell快速轉換sql server查詢結果為json <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -345,7 +348,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#小試牛刀"><span class="nav-number">1.</span> <span class="nav-text">小試牛刀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小試牛刀找-api-內含有數字的資料-並排除某些-id"><span class="nav-number">2.</span> <span class="nav-text">小試牛刀找 api 內含有數字的資料 , 並排除某些 id</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#小試牛刀"><span class="nav-number">1.</span> <span class="nav-text">小試牛刀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小試牛刀找-api-內含有數字的資料-並排除某些-id"><span class="nav-number">2.</span> <span class="nav-text">小試牛刀找 api 內含有數字的資料 , 並排除某些 id</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#小試牛刀用正則表示法找-api-內只含有數字的資料"><span class="nav-number">3.</span> <span class="nav-text">小試牛刀用正則表示法找 api 內只含有數字的資料</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -361,14 +364,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">32</span>
+        <span class="site-state-item-count">34</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -410,13 +413,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">15k</span>
+    <span title="Symbols count total">20k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">14 mins.</span>
+    <span title="Reading time total">19 mins.</span>
 </div>
 
         
