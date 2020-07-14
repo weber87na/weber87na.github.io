@@ -29,24 +29,22 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="一般的網格資料都會是切成等間距的方格 , 鮮少會遇到不規則狀. 某次拿到一組網格資料在地圖上怎麼畫就是不對 , 本來以為是投影問題 , 沒想到原來是資料源的網格是不規則狀 後來在 NCL 官網爬了很久才發現使用 NCL 產製的網格分為 Gaussian Grids , Fixed Grids , Fixed-Offset Grids , Regular Grids , Curvilinear Gr">
+  <meta name="description" content="工作上常常會遇到一些圖表呈現或是數值呈現 , 這時候就需要好看的 Color Bar!還好以前搞過 NCL 上面有不少漂亮的 Color Bar 可以下載 比較好看的大概就是 MPL 開頭的 , 下載下來的檔案會像是以下這種格式 123456ncolors&#x3D; 128# r g b0.572226 0.834894 0.7770090.610796 0.849781 0.7702420.6">
 <meta property="og:type" content="article">
-<meta property="og:title" content="NCL 網格資料地雷">
-<meta property="og:url" content="http://yoursite.com/2020/07/06/NCL-%E7%B6%B2%E6%A0%BC%E8%B3%87%E6%96%99%E5%9C%B0%E9%9B%B7/index.html">
+<meta property="og:title" content="NCL Color Bar 轉換">
+<meta property="og:url" content="http://yoursite.com/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/index.html">
 <meta property="og:site_name" content="喇賽的人Blog">
-<meta property="og:description" content="一般的網格資料都會是切成等間距的方格 , 鮮少會遇到不規則狀. 某次拿到一組網格資料在地圖上怎麼畫就是不對 , 本來以為是投影問題 , 沒想到原來是資料源的網格是不規則狀 後來在 NCL 官網爬了很久才發現使用 NCL 產製的網格分為 Gaussian Grids , Fixed Grids , Fixed-Offset Grids , Regular Grids , Curvilinear Gr">
+<meta property="og:description" content="工作上常常會遇到一些圖表呈現或是數值呈現 , 這時候就需要好看的 Color Bar!還好以前搞過 NCL 上面有不少漂亮的 Color Bar 可以下載 比較好看的大概就是 MPL 開頭的 , 下載下來的檔案會像是以下這種格式 123456ncolors&#x3D; 128# r g b0.572226 0.834894 0.7770090.610796 0.849781 0.7702420.6">
 <meta property="og:locale" content="zh_TW">
-<meta property="og:image" content="https://www.ncl.ucar.edu/Applications/Images/ESMF_regrid_32_lg.png">
-<meta property="article:published_time" content="2020-07-06T15:44:32.000Z">
-<meta property="article:modified_time" content="2020-07-06T15:57:50.609Z">
+<meta property="article:published_time" content="2020-07-14T17:20:49.000Z">
+<meta property="article:modified_time" content="2020-07-14T17:35:04.048Z">
 <meta property="article:author" content="喇賽人">
 <meta property="article:tag" content="ncl">
-<meta property="article:tag" content="wrf">
-<meta property="article:tag" content="gis">
+<meta property="article:tag" content="c#">
+<meta property="article:tag" content="geoserver">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://www.ncl.ucar.edu/Applications/Images/ESMF_regrid_32_lg.png">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/06/NCL-%E7%B6%B2%E6%A0%BC%E8%B3%87%E6%96%99%E5%9C%B0%E9%9B%B7/">
+<link rel="canonical" href="http://yoursite.com/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/">
 
 
 <script id="page-configurations">
@@ -59,7 +57,7 @@
   };
 </script>
 
-  <title>NCL 網格資料地雷 | 喇賽的人Blog</title>
+  <title>NCL Color Bar 轉換 | 喇賽的人Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
     <script>
@@ -184,7 +182,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/06/NCL-%E7%B6%B2%E6%A0%BC%E8%B3%87%E6%96%99%E5%9C%B0%E9%9B%B7/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -197,7 +195,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          NCL 網格資料地雷
+          NCL Color Bar 轉換
         </h1>
 
         <div class="post-meta">
@@ -208,7 +206,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-06 23:44:32 / Modified: 23:57:50" itemprop="dateCreated datePublished" datetime="2020-07-06T23:44:32+08:00">2020-07-06</time>
+              <time title="Created: 2020-07-15 01:20:49 / Modified: 01:35:04" itemprop="dateCreated datePublished" datetime="2020-07-15T01:20:49+08:00">2020-07-15</time>
             </span>
 
           
@@ -220,8 +218,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/07/06/NCL-%E7%B6%B2%E6%A0%BC%E8%B3%87%E6%96%99%E5%9C%B0%E9%9B%B7/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/06/NCL-網格資料地雷/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/15/NCL-Color-Bar-轉換/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -231,14 +229,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>268</span>
+              <span>1.9k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
+              <span>2 mins.</span>
             </span>
 
         </div>
@@ -250,14 +248,11 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>一般的網格資料都會是切成等間距的方格 , 鮮少會遇到不規則狀.</p>
-<p>某次拿到一組網格資料在地圖上怎麼畫就是不對 , 本來以為是投影問題 , 沒想到原來是資料源的網格是不規則狀</p>
-<p>後來在 NCL 官網爬了很久才發現使用 NCL 產製的網格分為 Gaussian Grids , Fixed Grids , Fixed-Offset Grids , Regular Grids , Curvilinear Grids<br>共 5 種 , 詳細可以參考<a href="https://www.ncl.ucar.edu/Document/Functions/sphpk_grids.shtml" target="_blank" rel="noopener">這個說明</a></p>
-<p>最後在 NCL 官網上找到<a href="https://www.ncl.ucar.edu/Applications/regrid.shtml" target="_blank" rel="noopener">相關函數</a></p>
-<p>下面這張圖參考<a href="https://www.ncl.ucar.edu/Applications/regrid.shtml" target="_blank" rel="noopener">相關函數</a>的 ESMF_regrid_32.ncl</p>
-<p>非常明顯可以看出來從不規則的 WRF 資料網格轉換為等間距的固定網格</p>
-<img src="https://www.ncl.ucar.edu/Applications/Images/ESMF_regrid_32_lg.png" />
+        <p>工作上常常會遇到一些圖表呈現或是數值呈現 , 這時候就需要好看的 Color Bar!<br>還好以前搞過 <a href="https://www.ncl.ucar.edu/Document/Graphics/color_table_gallery.shtml" target="_blank" rel="noopener">NCL</a> 上面有不少漂亮的 Color Bar 可以<a href="http://www.ncl.ucar.edu/Document/Graphics/ColorTables/Files/" target="_blank" rel="noopener">下載</a> 比較好看的大概就是 MPL 開頭的 , 下載下來的檔案會像是以下這種格式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ncolors&#x3D; 128</span><br><span class="line"># r g b</span><br><span class="line">0.572226 0.834894 0.777009</span><br><span class="line">0.610796 0.849781 0.770242</span><br><span class="line">0.649366 0.864667 0.763476</span><br><span class="line">0.687935 0.879554 0.756709</span><br></pre></td></tr></table></figure>
 
+<p>但是一般常用的多半是 HEX 很多年前寫個 c# 小程式轉換 , 不過印象中 NCL 好像自己就有類似的函數</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//讀取color文字檔</span></span><br><span class="line"><span class="comment">//name , r , g , b</span></span><br><span class="line"><span class="comment">//轉換 rgb 為 hex</span></span><br><span class="line"><span class="keyword">var</span> files = Directory.EnumerateFiles(<span class="string">@"D:\rgb\"</span>, <span class="string">"*.rgb"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> file <span class="keyword">in</span> files)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">var</span> fileName = Path.GetFileNameWithoutExtension(file);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> lines = File.ReadAllLines(<span class="string">@"D:\rgb\"</span> + fileName + <span class="string">".rgb"</span>);</span><br><span class="line">	List&lt;<span class="keyword">string</span>&gt; colorList = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//寫入檔案</span></span><br><span class="line">	<span class="keyword">var</span> flag = <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">var</span> skipColorCount = <span class="number">0</span>;</span><br><span class="line">	List&lt;<span class="keyword">string</span>&gt; hexs = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> skip = <span class="number">2</span>;</span><br><span class="line">	<span class="keyword">int</span> counter = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">foreach</span> (<span class="keyword">var</span> line <span class="keyword">in</span> lines)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (counter &lt;= skip)</span><br><span class="line">		&#123;</span><br><span class="line">			counter++;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		flag = !flag;</span><br><span class="line">		<span class="keyword">if</span> (flag == <span class="literal">false</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//skipColorCount++;</span></span><br><span class="line">		<span class="comment">//if (skipColorCount % 16 != 0)</span></span><br><span class="line">		<span class="comment">//&#123;</span></span><br><span class="line">		<span class="comment">//    continue;</span></span><br><span class="line">		<span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> lineResult = line.Split(<span class="string">' '</span>);</span><br><span class="line">		<span class="comment">//string name = lineResult[0];</span></span><br><span class="line">		<span class="keyword">int</span> r = Convert.ToInt32(Convert.ToDouble(lineResult[<span class="number">0</span>]) * <span class="number">255.0</span>);</span><br><span class="line">		<span class="keyword">int</span> g = Convert.ToInt32(Convert.ToDouble(lineResult[<span class="number">1</span>]) * <span class="number">255.0</span>);</span><br><span class="line">		<span class="keyword">int</span> b = Convert.ToInt32(Convert.ToDouble(lineResult[<span class="number">2</span>]) * <span class="number">255.0</span>);</span><br><span class="line">		Color color = Color.FromArgb(r, g, b);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">string</span> hex = color.R.ToString(<span class="string">"X2"</span>) + color.G.ToString(<span class="string">"X2"</span>) + color.B.ToString(<span class="string">"X2"</span>);</span><br><span class="line"></span><br><span class="line">		hexs.Add(hex);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//writer.WriteLine("#&#123;0&#125;", hex);</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//writer.WriteLine(string.Format("&lt;option value='&#123;0&#125;' style='background: #&#123;1&#125;;'&gt;&#123;0&#125;&lt;/option&gt;", name, hex));</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">using</span> (StreamWriter writer = <span class="keyword">new</span> StreamWriter(<span class="string">@"D:\rgb\"</span> + fileName + <span class="string">".txt"</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">foreach</span> (<span class="keyword">var</span> hex <span class="keyword">in</span> hexs)</span><br><span class="line">		&#123;</span><br><span class="line">			writer.WriteLine(<span class="string">"#&#123;0&#125;"</span>, hex);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	hexs.Reverse();</span><br><span class="line">	<span class="keyword">using</span> (StreamWriter writer = <span class="keyword">new</span> StreamWriter(<span class="string">@"D:\rgb\"</span> + fileName + <span class="string">"-inv.txt"</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">foreach</span> (<span class="keyword">var</span> hex <span class="keyword">in</span> hexs)</span><br><span class="line">		&#123;</span><br><span class="line">			writer.WriteLine(<span class="string">"#&#123;0&#125;"</span>, hex);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -268,8 +263,8 @@
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/ncl/" rel="tag"># ncl</a>
-              <a href="/tags/wrf/" rel="tag"># wrf</a>
-              <a href="/tags/gis/" rel="tag"># gis</a>
+              <a href="/tags/c/" rel="tag"># c#</a>
+              <a href="/tags/geoserver/" rel="tag"># geoserver</a>
           </div>
 
         
@@ -278,13 +273,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/05/Jquery-click%E5%9C%B0%E9%9B%B7/" rel="prev" title="Jquery click地雷">
-      <i class="fa fa-chevron-left"></i> Jquery click地雷
+    <a href="/2020/07/15/powershell%E5%9F%B7%E8%A1%8C%E5%8B%95%E6%85%8Bsql/" rel="prev" title="powershell執行動態sql">
+      <i class="fa fa-chevron-left"></i> powershell執行動態sql
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/06/%E5%BF%AB%E9%80%9F%E9%96%8B%E5%95%9F%E7%9B%AE%E5%89%8D%E7%9B%AE%E9%8C%84%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="next" title="快速開啟目前目錄的小技巧">
-      快速開啟目前目錄的小技巧 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -486,9 +478,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/07/06/NCL-%E7%B6%B2%E6%A0%BC%E8%B3%87%E6%96%99%E5%9C%B0%E9%9B%B7/";
-    this.page.identifier = "2020/07/06/NCL-網格資料地雷/";
-    this.page.title = "NCL 網格資料地雷";
+    this.page.url = "http://yoursite.com/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/";
+    this.page.identifier = "2020/07/15/NCL-Color-Bar-轉換/";
+    this.page.title = "NCL Color Bar 轉換";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
