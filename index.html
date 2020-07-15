@@ -177,6 +177,108 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/" class="post-title-link" itemprop="url">postgresql 補全遺漏的時間區段</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-15 09:21:47 / Modified: 09:23:39" itemprop="dateCreated datePublished" datetime="2020-07-15T09:21:47+08:00">2020-07-15</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/15/postgresql-補全遺漏的時間區段/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.6k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>具有時間序列的資料很容易因為天候因素 , 或是儀器不穩定導致無法正確回傳到 server!<br>很容易出現資料不連續的狀況 , 例如早上 8 點有資料但是 10 點就突然沒資料了<br>所以製作報表時需要自己把空白時間區塊填滿 , 產生固定每小時都有資料的暫時表</p>
+<p>取得過去72小時的時間 ex: “2020-01-15 08:40:00” - 71 hours = “2020-01-12 09:00:00”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc</span><br></pre></td></tr></table></figure>
+
+<p>利用 <a href="https://www.postgresql.org/docs/current/functions-srf.html" target="_blank" rel="noopener">generate_series 函數</a> 產生 72 小時區間資料</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT t.day</span><br><span class="line">FROM generate_series(</span><br><span class="line">	(SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc),</span><br><span class="line">	now()::timestamp without time zone,</span><br><span class="line">	&#39;01:00:00&#39;::interval</span><br><span class="line">) t(day)</span><br></pre></td></tr></table></figure>
+
+<p>輸出會像是以下這樣的結果集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&quot;2020-01-12 09:00:00&quot;</span><br><span class="line">&quot;2020-01-12 10:00:00&quot;</span><br><span class="line">&quot;2020-01-12 11:00:00&quot;</span><br><span class="line">&quot;2020-01-12 12:00:00&quot;</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">&quot;2020-01-15 08:00:00&quot;</span><br></pre></td></tr></table></figure>
+
+<p>運用 CROSS JOIN 將時間區段與觀測站編號進行組合 , 將缺少的時間補全</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT t.day , a.stationid</span><br><span class="line">FROM generate_series(</span><br><span class="line">	(SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc),</span><br><span class="line">	now()::timestamp without time zone,</span><br><span class="line">	&#39;01:00:00&#39;::interval</span><br><span class="line">) t(day)</span><br><span class="line">CROSS JOIN autostation a</span><br></pre></td></tr></table></figure>
+<p>輸出會像是以下這樣的結果集</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;2020-02-12 10:00:00&quot;;&quot;C0A560&quot;</span><br><span class="line">&quot;2020-02-12 10:00:00&quot;;&quot;C0X190&quot;</span><br><span class="line">&quot;2020-02-12 10:00:00&quot;;&quot;C0S950&quot;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+<p>最後進行 left join 就可以取得想要的資料了 , 可以用 WITH 太過複雜的臨時查詢結果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">WITH X as (</span><br><span class="line">	SELECT t.day , a.stationid</span><br><span class="line">	FROM generate_series(</span><br><span class="line">		(SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc),</span><br><span class="line">		now()::timestamp without time zone,</span><br><span class="line">		&#39;01:00:00&#39;::interval</span><br><span class="line">	) t(day)</span><br><span class="line">	CROSS JOIN autostation a</span><br><span class="line">)</span><br><span class="line">SELECT X.* , log.*</span><br><span class="line">FROM X</span><br><span class="line">LEFT JOIN log</span><br><span class="line">ON X.day::text &#x3D; log.obstime::text </span><br><span class="line">AND X.stationid::text &#x3D; log.stationid::text;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1038,120 +1140,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/" class="post-title-link" itemprop="url">匯入ShapeFile到MSSQL</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-08 19:01:27" itemprop="dateCreated datePublished" datetime="2020-07-08T19:01:27+08:00">2020-07-08</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-09 21:42:08" itemprop="dateModified" datetime="2020-07-09T21:42:08+08:00">2020-07-09</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/08/匯入ShapeFile到MSSQL/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>這篇是很久以前一個朋友有全台灣紅豆餅店的經緯度資料 , 但是沒有詳細縣市鄉鎮 , 佛心幫忙看看</p>
-<p>首先建立台灣資料庫</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> Taiwan</span><br></pre></td></tr></table></figure>
-
-<p>接著隨便找 open data 下載資料<br><a href="https://data.tainan.gov.tw/dataset/tn-dist/resource/605960fb-ff21-480f-bb98-04026f23405d" target="_blank" rel="noopener">https://data.tainan.gov.tw/dataset/tn-dist/resource/605960fb-ff21-480f-bb98-04026f23405d</a></p>
-<p>開啟 PowerShell<br>cd 到以下目錄<br>C:\Program Files\QGIS 3.10\bin&gt;</p>
-<p>匯入鄉鎮地理資料(這邊用localdb)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\ogr2ogr.exe -progress -f "MSSQLSpatial" "MSSQL:server=(localdb)\MSSQLLocalDB;database=Taiwan;trusted_connection=yes;" "D:\tw.shp" -a_srs "EPSG:4326" -lco PRECISION=NO</span><br></pre></td></tr></table></figure>
-
-<p>用帳號密碼可以參考這種</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\ogr2ogr.exe -progress -f "MSSQLSpatial" "MSSQL:server=127.0.0.1,4333;database=Taiwan;uid=sa;pwd=pwd@" "D:\Taiwan\tw.shp" -a_srs "EPSG:4326" -lco PRECISION=NO</span><br></pre></td></tr></table></figure>
-
-<p>建立紅豆餅店的 geometry</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--更新Geom</span><br><span class="line">update Station</span><br><span class="line">set Geom &#x3D; (geometry::Point([Longitude] ,[Latitude] , 4326))</span><br></pre></td></tr></table></figure>
-
-<p>查詢空間查詢將紅豆餅店與地理資料進行 JOIN 看看結果</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--sql server spatial join</span></span><br><span class="line"><span class="keyword">select</span> S.* , T.countyname , T.townname</span><br><span class="line"><span class="keyword">from</span> [Taiwan].[Station] S</span><br><span class="line"><span class="keyword">join</span> [Taiwan].[dbo].[TW] T</span><br><span class="line"><span class="keyword">on</span> S.Geom.STIntersects(T.[ogr_geometry]) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-
-<p>確認結果無誤以後更新紅豆餅店的縣市鄉鎮</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--更新縣市鄉鎮</span><br><span class="line">update S</span><br><span class="line">set S.County &#x3D; T.countyname , S.Town &#x3D; T.townname</span><br><span class="line">from [Taiwan].[dbo].[Station] S</span><br><span class="line">join [Taiwan].[dbo].[TW] T</span><br><span class="line">on S.Geom.STIntersects(T.[ogr_geometry]) &#x3D; 1</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1223,7 +1211,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1272,13 +1260,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">24k</span>
+    <span title="Symbols count total">26k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">22 mins.</span>
+    <span title="Reading time total">23 mins.</span>
 </div>
 
         
