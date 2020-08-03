@@ -177,6 +177,96 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/14/openlayers%E5%9C%B0%E9%9B%B7/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/14/openlayers%E5%9C%B0%E9%9B%B7/" class="post-title-link" itemprop="url">openlayers地雷</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-14 01:39:57 / Modified: 02:05:28" itemprop="dateCreated datePublished" datetime="2020-07-14T01:39:57+08:00">2020-07-14</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/14/openlayers%E5%9C%B0%E9%9B%B7/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/14/openlayers地雷/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.4k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h4 id="樣式地雷"><a href="#樣式地雷" class="headerlink" title="樣式地雷"></a>樣式地雷</h4><p>最好在首次執行時對樣式進行 cache , 如果不這樣寫由於 openlayers 的機制會在每次進行繪製時 new 出一堆物件 , 造成地圖畫面閃爍</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//樣式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pointStyle</span>(<span class="params">feature</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> name = feature.get(<span class="string">'name'</span>);</span><br><span class="line">    <span class="keyword">var</span> id = feature.get(<span class="string">'id'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> icon = <span class="keyword">new</span> ol.style.Style(&#123;</span><br><span class="line">        image: <span class="keyword">new</span> ol.style.Icon((&#123;</span><br><span class="line">            src: <span class="string">'point.png'</span></span><br><span class="line">        &#125;)),</span><br><span class="line">        text: <span class="keyword">new</span> ol.style.Text(&#123;</span><br><span class="line">            text: name,</span><br><span class="line">            fill: <span class="keyword">new</span> ol.style.Fill(&#123;</span><br><span class="line">                color: <span class="string">'#000'</span></span><br><span class="line">            &#125;),</span><br><span class="line">            stroke: <span class="keyword">new</span> ol.style.Stroke(&#123;</span><br><span class="line">                color: <span class="string">'#fff'</span>,</span><br><span class="line">                width: <span class="number">2</span></span><br><span class="line">            &#125;),</span><br><span class="line">            offsetY: <span class="number">24</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> icon;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//這邊已經讀了某些後端送來的資料</span></span><br><span class="line">features.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">feature</span>) </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">var</span> name = feature.get(<span class="string">'name'</span>);</span><br><span class="line">    <span class="keyword">var</span> id = feature.get(<span class="string">'id'</span>);</span><br><span class="line">    <span class="keyword">var</span> cache = &#123;</span><br><span class="line">        name: name,</span><br><span class="line">        id: id,</span><br><span class="line">        style: pointStyle(feature)</span><br><span class="line">    &#125;;</span><br><span class="line">    styleCaches.push(cache);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> layer = <span class="keyword">new</span> ol.layer.Vector(&#123;</span><br><span class="line">	renderMode: <span class="string">'image'</span>,</span><br><span class="line">	source: <span class="keyword">new</span> ol.source.Vector(&#123;</span><br><span class="line">	    format: <span class="keyword">new</span> ol.format.GeoJSON(),</span><br><span class="line">	&#125;),</span><br><span class="line">	style: <span class="function"><span class="keyword">function</span> (<span class="params">feature</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> name = feature.get(<span class="string">'name'</span>);</span><br><span class="line">		<span class="keyword">var</span> id = feature.get(<span class="string">'id'</span>);</span><br><span class="line">		<span class="keyword">var</span> style;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; styleCaches.length; i++) &#123;</span><br><span class="line">			<span class="keyword">var</span> ele = styleCaches[i];</span><br><span class="line">			<span class="keyword">if</span> (ele.id == id &amp;&amp; ele.name == name) &#123;</span><br><span class="line">				style = ele.style;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> style;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<h4 id="loader-地雷"><a href="#loader-地雷" class="headerlink" title="loader 地雷"></a>loader 地雷</h4><p>工作上跟別人搭配遇到的地雷! 以前很喜歡直接使用 loader ,  時需要注意如果地圖在初始化時為 visible 為 false 或是 hidden 的情況 , 會造成 loader 失效 , 要切換到地圖讓地圖顯示才會生效 ..</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> layer = <span class="keyword">new</span> ol.layer.Vector(&#123;</span><br><span class="line">	renderMode: <span class="string">'image'</span>,</span><br><span class="line">	source: <span class="keyword">new</span> ol.source.Vector(&#123;</span><br><span class="line">	    format: <span class="keyword">new</span> ol.format.GeoJSON(),</span><br><span class="line">	    loader: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	        <span class="comment">// todo</span></span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1048,102 +1138,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/asp-net-core-iis-sub-application/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/asp-net-core-iis-sub-application/" class="post-title-link" itemprop="url">asp.net core iis sub-application</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-05 21:02:52 / Modified: 21:36:30" itemprop="dateCreated datePublished" datetime="2020-07-05T21:02:52+08:00">2020-07-05</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/05/asp-net-core-iis-sub-application/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/asp-net-core-iis-sub-application/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>675</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>工作上又遇到這個萬年討厭的問題 , 客戶只有一個 domain name 又必須一定要使用 80 port , 後來查了一下文件 <a href="https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-3.1#sub-applications" target="_blank" rel="noopener">Sub-applications</a> 結果很不幸的全部的 url 都炸掉必須要逐一修改很無奈 , 講白了這種奇耙做法只是把 route 搞爛 , 連我去上課老師也不太願意回答這個問題 ..</p>
-<p>在 Server Side 的 Razor Page 用了波浪符號的不會中標  , 像這樣</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src&#x3D;&quot;~&#x2F;image.png&quot;</span><br></pre></td></tr></table></figure>
-<p>但 Javascript 呼叫 ajax 的 url 中標 , 常用的 Jquery DataTable 也是中標 像這樣</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url : &#39;&#x2F;api&#x2F;food&#39;</span><br></pre></td></tr></table></figure>
-<p>所以只好自己多墊上一層 domain name 像這樣就不會炸了 , 以後還是自己先乖乖防止先自己宣告個 namespace 物件並且加上一個 baseurl 屬性 , 像這樣</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url : namespace.baseurl + &#39;&#x2F;api&#x2F;food&#39;</span><br></pre></td></tr></table></figure>
-<p>css 部分則是要自己看看在哪邊炸了 尤其是用了 background-image 一定炸得不要不要的 , 像這樣 只能看錯誤訊息慢慢調整 , 最悲劇的是這個我完全想不出任何方法防止 ..</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background : url(..&#x2F;food.png)</span><br></pre></td></tr></table></figure>
-<p>最後一個防爆作法就是在可以加上 tag-helper 的地方都加上 , 想辦法讓 server 輸出這樣爆比較少</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">asp-append-version&#x3D;&quot;true&quot;</span><br><span class="line">或</span><br><span class="line">asp-append-version&#x3D;&quot;false&quot;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1215,14 +1209,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">33</span>
+          <span class="site-state-item-count">34</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-count">40</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1264,13 +1258,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">40k</span>
+    <span title="Symbols count total">48k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">36 mins.</span>
+    <span title="Reading time total">44 mins.</span>
 </div>
 
         
