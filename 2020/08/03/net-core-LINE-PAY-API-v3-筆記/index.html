@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="必看影片https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;articles&#x2F;10226877 沙箱申請https:&#x2F;&#x2F;pay.line.me&#x2F;tw&#x2F;developers&#x2F;techsupport&#x2F;sandbox&#x2F;creation?locale&#x3D;zh_TW 測試訂單https:&#x2F;&#x2F;pay.line.me&#x2F;jp&#x2F;developers&#x2F;apis&#x2F;onlineApis?locale&#x3D;zh_TW HM">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".net core LINE PAY API v3 筆記">
+<meta property="og:url" content="http://yoursite.com/2020/08/03/net-core-LINE-PAY-API-v3-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="喇賽的人Blog">
+<meta property="og:description" content="必看影片https:&#x2F;&#x2F;ithelp.ithome.com.tw&#x2F;articles&#x2F;10226877 沙箱申請https:&#x2F;&#x2F;pay.line.me&#x2F;tw&#x2F;developers&#x2F;techsupport&#x2F;sandbox&#x2F;creation?locale&#x3D;zh_TW 測試訂單https:&#x2F;&#x2F;pay.line.me&#x2F;jp&#x2F;developers&#x2F;apis&#x2F;onlineApis?locale&#x3D;zh_TW HM">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-08-03T03:48:27.000Z">
+<meta property="article:modified_time" content="2020-08-03T14:06:06.500Z">
+<meta property="article:author" content="喇賽人">
+<meta property="article:tag" content=".net core">
+<meta property="article:tag" content="line">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/03/net-core-LINE-PAY-API-v3-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-tw'
+  };
+</script>
+
+  <title>.net core LINE PAY API v3 筆記 | 喇賽的人Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">喇賽的人Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">喇賽人的Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/03/net-core-LINE-PAY-API-v3-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          .net core LINE PAY API v3 筆記
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-03 11:48:27 / Modified: 22:06:06" itemprop="dateCreated datePublished" datetime="2020-08-03T11:48:27+08:00">2020-08-03</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/08/03/net-core-LINE-PAY-API-v3-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/08/03/net-core-LINE-PAY-API-v3-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>5.5k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>5 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>必看影片<br><a href="https://ithelp.ithome.com.tw/articles/10226877" target="_blank" rel="noopener">https://ithelp.ithome.com.tw/articles/10226877</a></p>
+<p>沙箱申請<br><a href="https://pay.line.me/tw/developers/techsupport/sandbox/creation?locale=zh_TW" target="_blank" rel="noopener">https://pay.line.me/tw/developers/techsupport/sandbox/creation?locale=zh_TW</a></p>
+<p>測試訂單<br><a href="https://pay.line.me/jp/developers/apis/onlineApis?locale=zh_TW" target="_blank" rel="noopener">https://pay.line.me/jp/developers/apis/onlineApis?locale=zh_TW</a></p>
+<p>HMACSHA256 算法<br><a href="https://docs.microsoft.com/zh-tw/dotnet/api/system.security.cryptography.hmacsha256?view=netcore-3.1" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/dotnet/api/system.security.cryptography.hmacsha256?view=netcore-3.1</a></p>
+<p>公式<br>Signature = Base64(HMAC-SHA256(Your ChannelSecret, (Your ChannelSecret + URI + RequestBody + nonce)))</p>
+<p>程式碼撰寫<br>先利用json2csharp將json物件轉換為c#類別，這個實際情況類別會更複雜，在此先能跑而已<br><a href="http://json2csharp.com/" target="_blank" rel="noopener">http://json2csharp.com/</a><br>測試json如下</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="attr">"amount"</span>:<span class="number">4000</span>,</span><br><span class="line">	<span class="attr">"currency"</span>:<span class="string">"TWD"</span>,</span><br><span class="line">	<span class="attr">"orderId"</span>:<span class="string">"order504ac11a-1888-4410-89b2-75382fef61b3"</span>,</span><br><span class="line"><span class="attr">"packages"</span>:</span><br><span class="line">	[</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="attr">"id"</span>:<span class="string">"20191011I001"</span>,<span class="attr">"amount"</span>:<span class="number">4000</span>,<span class="attr">"name"</span>:<span class="string">"測試"</span>,</span><br><span class="line">			<span class="attr">"products"</span>:[</span><br><span class="line">				&#123;</span><br><span class="line">				<span class="attr">"name"</span>:<span class="string">"測試商品"</span>,<span class="attr">"quantity"</span>:<span class="number">2</span>,<span class="attr">"price"</span>:<span class="number">2000</span></span><br><span class="line">				&#125;</span><br><span class="line">			]</span><br><span class="line">		&#125;</span><br><span class="line">	],</span><br><span class="line">	<span class="attr">"redirectUrls"</span>:&#123;<span class="attr">"confirmUrl"</span>:<span class="string">"https://6ddcf789.ngrok.io/confitmUrl"</span>,</span><br><span class="line">	<span class="attr">"cancelUrl"</span>:<span class="string">"https://6ddcf789.ngrok.io/cancelUrl"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>C#類別</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Product</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> quantity &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> price &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Package</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> amount &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> name &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> List&lt;Product&gt; products &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">RedirectUrls</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> confirmUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> cancelUrl &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LineForm</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">int</span> amount &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> currency &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">string</span> orderId &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> List&lt;Package&gt; packages &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">	<span class="keyword">public</span> RedirectUrls redirectUrls &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>撰寫核心加密算法<br>特別注意這邊很重要因為我們使用中文，稍早我們撰寫訂單時故意用中文，如果你訂單用英文不需要UTF8Encoding也可以跑，但是防止錯誤編碼使用UTF8Encoding比較直接了當。<br>此外要回傳Base64字串</p>
+<p>參考<br><a href="https://stackoverflow.com/questions/12185122/calculating-hmacsha256-using-c-sharp-to-match-payment-provider-example" target="_blank" rel="noopener">https://stackoverflow.com/questions/12185122/calculating-hmacsha256-using-c-sharp-to-match-payment-provider-example</a></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">string</span> <span class="title">LinePayHMACSHA256</span>(<span class="params"><span class="keyword">string</span> key, <span class="keyword">string</span> message</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	System.Text.UTF8Encoding encoding = <span class="keyword">new</span> System.Text.UTF8Encoding();</span><br><span class="line">	<span class="keyword">byte</span>[] keyByte = encoding.GetBytes(key);</span><br><span class="line"></span><br><span class="line">	HMACSHA256 hmacsha256 = <span class="keyword">new</span> HMACSHA256(keyByte);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">byte</span>[] messageBytes = encoding.GetBytes(message);</span><br><span class="line">	<span class="keyword">byte</span>[] hashmessage = hmacsha256.ComputeHash(messageBytes);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//注意他原本的公式是直接轉為string</span></span><br><span class="line">	<span class="keyword">return</span> Convert.ToBase64String(hashmessage);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這邊要參考先前的公式進行組合<br>string channelSecret = “你的LINE後台金鑰”;</p>
+<p>這個nonce要保留下來這樣postman執行時也需要這串<br>string nonce = Guid.NewGuid().ToString();<br>可能會長這樣<br>3ac44b8e-50bc-463e-b48b-bc238f3bb935</p>
+<p>這邊是呼要request所以要這樣寫，如果有其他操作要自己替換，特別注意前面不要加<a href="http://xxxxx很單純只要寫Uri即可，非完全的網址。" target="_blank" rel="noopener">http://xxxxx很單純只要寫Uri即可，非完全的網址。</a><br>string requestUri = “ /v3/payments/request “;</p>
+<p>將JSON物件轉換為JSON字串，實際在MVC的話一進來就是JSON物件只要轉換為字串即可。</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">LineForm json = <span class="keyword">new</span> LineForm &#123; </span><br><span class="line">	amount = <span class="number">4000</span>,</span><br><span class="line">	currency = <span class="string">"TWD"</span>,</span><br><span class="line">	orderId = <span class="string">"order504ac11a-1888-4410-89b2-75382fef61b3"</span>,</span><br><span class="line">	packages = <span class="keyword">new</span> List&lt;Package&gt; &#123; </span><br><span class="line">		<span class="keyword">new</span> Package&#123;</span><br><span class="line">			id = <span class="string">"20191011I001"</span>,</span><br><span class="line">			amount = <span class="number">4000</span>,</span><br><span class="line">			name = <span class="string">"測試"</span>,</span><br><span class="line">			products = <span class="keyword">new</span> List&lt;Product&gt;&#123;</span><br><span class="line">				<span class="keyword">new</span> Product&#123;</span><br><span class="line">					name = <span class="string">"測試商品"</span>,</span><br><span class="line">					quantity = <span class="number">2</span>,</span><br><span class="line">					price = <span class="number">2000</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;,</span><br><span class="line">	redirectUrls = <span class="keyword">new</span> RedirectUrls</span><br><span class="line">	&#123;</span><br><span class="line">		confirmUrl = <span class="string">"https://6ddcf789.ngrok.io/confitmUrl"</span>,</span><br><span class="line">		cancelUrl = <span class="string">"https://6ddcf789.ngrok.io/cancelUrl"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">string</span> form = JsonConvert.SerializeObject(json);</span><br></pre></td></tr></table></figure>
+<p>LineForm json = new LineForm {<br>    amount = 4000,<br>    currency = “TWD”,<br>    orderId = “order504ac11a-1888-4410-89b2-75382fef61b3”,<br>    packages = new List<Package> {<br>        new Package{<br>            id = “20191011I001”,<br>            amount = 4000,<br>            name = “測試”,<br>            products = new List<Product>{<br>                new Product{<br>                    name = “測試商品”,<br>                    quantity = 2,<br>                    price = 2000<br>                }<br>            }<br>        }<br>    },<br>    redirectUrls = new RedirectUrls<br>    {<br>        confirmUrl = “<a href="https://6ddcf789.ngrok.io/confitmUrl&quot;" target="_blank" rel="noopener">https://6ddcf789.ngrok.io/confitmUrl&quot;</a>,<br>        cancelUrl = “<a href="https://6ddcf789.ngrok.io/cancelUrl&quot;" target="_blank" rel="noopener">https://6ddcf789.ngrok.io/cancelUrl&quot;</a><br>    }<br>};<br>string form = JsonConvert.SerializeObject(json);<br>參考官方公式組合出來<br>Signature = Base64(HMAC-SHA256(Your ChannelSecret, (Your ChannelSecret + URI + RequestBody + nonce)))<br>string result = LinePayHMACSHA256(ChannelSecret, ChannelSecret + requestUri + form + nonce);</p>
+<p>使用postman測試<br>先選擇POST<br>並且輸入以下網址<a href="https://sandbox-api-pay.line.me/v3/payments/request" target="_blank" rel="noopener">https://sandbox-api-pay.line.me/v3/payments/request</a><br>接著在Header上填入對應的值<br>Content-Type<br>application/json</p>
+<p>X-LINE-ChannelId<br>你的LINE PAY後台商店編號</p>
+<p>X-LINE-Authorization-Nonce<br>先前c#這串保留下來的值<br>string nonce = Guid.NewGuid().ToString();<br>3ac44b8e-50bc-463e-b48b-bc238f3bb935</p>
+<p>X-LINE-Authorization<br>使用公式組合出來的base64字串<br>string result = LinePayHMACSHA256(ChannelSecret, ChannelSecret + requestUri + form + nonce);<br>iVY2vGxJNJ+ivjxNfa/Rj1QC4SKblidDs0J3NrKNgXU=</p>
+<p>接著填寫Body<br>Body只要填寫訂單的JSON物件即可<br>body =&gt; raw =&gt; json</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	<span class="string">"amount"</span>:<span class="number">4000</span>,</span><br><span class="line">	<span class="string">"currency"</span>:<span class="string">"TWD"</span>,</span><br><span class="line">	<span class="string">"orderId"</span>:<span class="string">"order504ac11a-1888-4410-89b2-75382fef61b3"</span>,</span><br><span class="line">	<span class="string">"packages"</span>:[</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="string">"id"</span>:<span class="string">"20191011I001"</span>,<span class="string">"amount"</span>:<span class="number">4000</span>,<span class="string">"name"</span>:<span class="string">"測試"</span>,</span><br><span class="line">			<span class="string">"products"</span>:[&#123;<span class="string">"name"</span>:<span class="string">"測試商品"</span>,<span class="string">"quantity"</span>:<span class="number">2</span>,<span class="string">"price"</span>:<span class="number">2000</span>&#125;]</span><br><span class="line">		&#125;</span><br><span class="line">	],</span><br><span class="line">	<span class="string">"redirectUrls"</span>:</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="string">"confirmUrl"</span>:<span class="string">"https://6ddcf789.ngrok.io/confitmUrl"</span>,</span><br><span class="line">		<span class="string">"cancelUrl"</span>:<span class="string">"https://6ddcf789.ngrok.io/cancelUrl"</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>成功以後會出現如下JSON</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="string">"returnCode"</span>: <span class="string">"0000"</span>,</span><br><span class="line">    <span class="string">"returnMessage"</span>: <span class="string">"Success."</span>,</span><br><span class="line">    <span class="string">"info"</span>: &#123;</span><br><span class="line">        <span class="string">"paymentUrl"</span>: &#123;</span><br><span class="line">            <span class="string">"web"</span>: <span class="string">"https://sandbox-web-pay.line.me/web/payment/wait?transactionReserveId=S3JROFFsQ2g1Ukd3YzNRTUlQRUJFcFZ2aDdHbEx5T2pVNjh0ZFBPQ3NRNWRhbU9PUHl6dHJ3WklWUHBvTUZ4ag"</span>,</span><br><span class="line">            <span class="string">"app"</span>: <span class="string">"line://pay/payment/S3JROFFsQ2g1Ukd3YzNRTUlQRUJFcFZ2aDdHbEx5T2pVNjh0ZFBPQ3NRNWRhbU9PUHl6dHJ3WklWUHBvTUZ4ag"</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="string">"transactionId"</span>: <span class="number">2020022600460257310</span>,</span><br><span class="line">        <span class="string">"paymentAccessToken"</span>: <span class="string">"877307055245"</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果1106標頭(Header)資訊錯誤，則表示先前的GUID或是密鑰有寫錯，導致加密錯誤<br>特別注意當我們取得paymentUrl以後需要使用手機開啟，最好不要用電腦去點開，<br>否則之後可能會出現錯誤，所以在撰寫時最好申請兩組沙箱來使用，防止錯誤</p>
+<p>.net core 中文亂碼設定<br>.net core預設會把中文進行encoding所以輸出時如果看到類似這種\u54C1 output<br>若真的需要輸出中文方便log或trace可以使用以下設定</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> pot = <span class="keyword">new</span> JsonSerializerOptions&#123;</span><br><span class="line">	PropertyNamingPolicy = JsonNamingPolicy.CamelCase,</span><br><span class="line">	<span class="comment">//關鍵點可以輸出中文</span></span><br><span class="line">	Encoder = System.Text.Encoding.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">string</span> order = JsonSerializer.Serialize&lt;LineForm&gt;(json,opt);</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/net-core/" rel="tag"># .net core</a>
+              <a href="/tags/line/" rel="tag"># line</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/03/wsl-%E5%8D%87%E7%B4%9A-wsl2/" rel="prev" title="wsl 升級 wsl2">
+      <i class="fa fa-chevron-left"></i> wsl 升級 wsl2
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="喇賽人"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">喇賽人</p>
+  <div class="site-description" itemprop="description">喇賽人的Blog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">38</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人!G_G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">33k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">30 mins.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2020/08/03/net-core-LINE-PAY-API-v3-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2020/08/03/net-core-LINE-PAY-API-v3-筆記/";
+    this.page.title = ".net core LINE PAY API v3 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

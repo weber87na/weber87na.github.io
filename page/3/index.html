@@ -177,6 +177,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/vscode-vim-mode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/05/vscode-vim-mode/" class="post-title-link" itemprop="url">vscode vim mode</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2020-07-05 15:04:27" itemprop="dateCreated datePublished" datetime="2020-07-05T15:04:27+08:00">2020-07-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-07-07 00:10:44" itemprop="dateModified" datetime="2020-07-07T00:10:44+08:00">2020-07-07</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/05/vscode-vim-mode/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/vscode-vim-mode/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>1.8k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>前陣子學習 vim mode 想替自己增加開發效率 , 以下為設定筆記</p>
+<p>還不錯的兩個教學</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=mPVwS8gjDVI&amp;list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&amp;index=1" target="_blank" rel="noopener">五倍紅寶石</a></li>
+<li><a href="https://www.youtube.com/watch?v=rzpoMlss7Kk&amp;list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB" target="_blank" rel="noopener">Victor Lee</a></li>
+</ul>
+<p><a href="https://github.com/VSCodeVim/Vim" target="_blank" rel="noopener">安裝 vim mode 外掛</a><br>在<kbd>win + r</kbd>輸入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%APPDATA%&#x2F;Code&#x2F;User</span><br></pre></td></tr></table></figure>
+<p>在setting.json加上vim模式的config內容，建議easymotion要打開</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;vim</span><br><span class="line">&quot;editor.lineNumbers&quot;: &quot;relative&quot;,</span><br><span class="line">&quot;vim.easymotion&quot;: true,</span><br><span class="line">&quot;vim.incsearch&quot;: true,</span><br><span class="line">&quot;vim.useSystemClipboard&quot;: true,</span><br><span class="line">&quot;vim.useCtrlKeys&quot;: true,</span><br><span class="line">&quot;vim.hlsearch&quot;: true,</span><br><span class="line">&quot;vim.insertModeKeyBindings&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;j&quot;, &quot;j&quot;],</span><br><span class="line">  &quot;after&quot;: [&quot;&lt;Esc&gt;&quot;]</span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line">&quot;vim.normalModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;&lt;leader&gt;&quot;, &quot;d&quot;],</span><br><span class="line">  &quot;after&quot;: [&quot;d&quot;, &quot;d&quot;]</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;&lt;C-n&gt;&quot;],</span><br><span class="line">  &quot;commands&quot;: [&quot;:nohl&quot;]</span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line">&quot;vim.leader&quot;: &quot;&lt;space&gt;&quot;,</span><br><span class="line">&quot;vim.handleKeys&quot;: &#123;</span><br><span class="line">	&#x2F;&#x2F;&quot;&lt;C-a&gt;&quot;: false,</span><br><span class="line">	&#x2F;&#x2F;&quot;&lt;C-f&gt;&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在keybindings.json加上config內容，開intellisense時也使用鍵盤alt+j alt+k 上下移動 , 可以參考<a href="https://stackoverflow.com/questions/18153541/scrolling-through-visual-studio-intellisense-list-without-mouse-or-keyboard-arro" target="_blank" rel="noopener">這篇</a></p>
+<p>注意這邊要照著老外Rocco Ruscitti才正確!<br>要用<a href="http://wklken.me/posts/2015/06/07/vim-plugin-easymotion.html" target="_blank" rel="noopener">Easymotion可以參考這篇</a></p>
+<p>另外我有設定emmet包裹功能(option)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 將按鍵繫結關係放在此檔案中以覆寫預設auto[]</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+w&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;editor.emmet.action.wrapWithAbbreviation&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+j&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectNextSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+k&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectPrevSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/%E5%A5%BD%E7%94%A8%E7%9A%84xsd%E9%A1%9E%E5%88%A5%E7%94%A2%E7%94%9F%E5%B7%A5%E5%85%B7/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -996,97 +1103,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%B7%9A%E4%B8%8A%E5%B7%A5%E5%85%B7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%B7%9A%E4%B8%8A%E5%B7%A5%E5%85%B7/" class="post-title-link" itemprop="url">常用的線上工具</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-05 08:50:46 / Modified: 08:56:22" itemprop="dateCreated datePublished" datetime="2020-07-05T08:50:46+08:00">2020-07-05</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/05/%E5%B8%B8%E7%94%A8%E7%9A%84%E7%B7%9A%E4%B8%8A%E5%B7%A5%E5%85%B7/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/常用的線上工具/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>70</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>這篇陸續補些常用但又時常忘了的線上工具</p>
-<p><a href="https://romannurik.github.io/AndroidAssetStudio/icons-launcher.html#foreground.type=clipart&foreground.clipart=android&foreground.space.trim=1&foreground.space.pad=0.25&foreColor=rgba(96%2C%20125%2C%20139%2C%200)&backColor=rgb(68%2C%20138%2C%20255)&crop=0&backgroundShape=square&effects=none&name=ic_launcher" target="_blank" rel="noopener">無腦ICON製作工具</a></p>
-<p><a href="https://geojson.net/#2/20.0/0.0" target="_blank" rel="noopener">geojson viewer</a></p>
-<p><a href="https://codebeautify.org/jsonviewer" target="_blank" rel="noopener">json viewer</a></p>
-<p><a href="https://app.quicktype.io" target="_blank" rel="noopener">quick type 轉換 json 為類別</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1158,14 +1174,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">31</span>
+          <span class="site-state-item-count">32</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">36</span>
+        <span class="site-state-item-count">38</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1207,13 +1223,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">28k</span>
+    <span title="Symbols count total">33k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">25 mins.</span>
+    <span title="Reading time total">30 mins.</span>
 </div>
 
         
