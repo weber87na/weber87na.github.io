@@ -177,6 +177,95 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/03/net-core-LINE-Login-Middleware/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/03/net-core-LINE-Login-Middleware/" class="post-title-link" itemprop="url">.net core LINE Login Middleware</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-03 22:23:48 / Modified: 22:31:49" itemprop="dateCreated datePublished" datetime="2020-08-03T22:23:48+08:00">2020-08-03</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/08/03/net-core-LINE-Login-Middleware/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/08/03/net-core-LINE-Login-Middleware/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>3k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>3 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>無意中發現以前寫過Line Login的 Middleware 到底是參考來的還是自己寫的已不可考<br>前端可以參考<a href="http://studyhost.blogspot.com/2019/04/clinebot30-line-loginemail.html" target="_blank" rel="noopener">董大神</a></p>
+<p>後端 Middleware</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Http;</span><br><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.IO;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Net;</span><br><span class="line"><span class="keyword">using</span> System.Net.Http;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Text.Json;</span><br><span class="line"><span class="keyword">using</span> System.Text.Json.Serialization;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Demo.Middlewares</span></span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LineCallbackResult</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">JsonPropertyName(<span class="meta-string">"access_token"</span>)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> AccessToken &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">JsonPropertyName(<span class="meta-string">"token_type"</span>)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> TokenType &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">JsonPropertyName(<span class="meta-string">"refresh_token"</span>)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> RefreshToken &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">JsonPropertyName(<span class="meta-string">"expires_in"</span>)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">int</span> ExpiresIn &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">JsonPropertyName(<span class="meta-string">"scope"</span>)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> Scope &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">        [<span class="meta">JsonPropertyName(<span class="meta-string">"id_token"</span>)</span>]</span><br><span class="line">        <span class="keyword">public</span> <span class="keyword">string</span> IdToken &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">LineLoginMiddleware</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> RequestDelegate _next;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">LineLoginMiddleware</span>(<span class="params">RequestDelegate next</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            _next = next;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">Invoke</span>(<span class="params">HttpContext context</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="comment">//取得line login callback 的 url query string code</span></span><br><span class="line">            <span class="keyword">string</span> code = context.Request.Query[<span class="string">"code"</span>];</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (code != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//填寫post需要的line login參數</span></span><br><span class="line">                <span class="keyword">var</span> dict = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;();</span><br><span class="line">                dict.Add(<span class="string">"grant_type"</span>, <span class="string">"authorization_code"</span>);</span><br><span class="line">                dict.Add(<span class="string">"code"</span>, code);</span><br><span class="line">                dict.Add(<span class="string">"redirect_uri"</span>, <span class="string">"http://localhost:5000/index.html"</span>);</span><br><span class="line">                dict.Add(<span class="string">"client_id"</span>, <span class="string">"yourid"</span>);</span><br><span class="line">                dict.Add(<span class="string">"client_secret"</span>, <span class="string">"yourkey"</span>);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//執行post</span></span><br><span class="line">                <span class="keyword">using</span> (<span class="keyword">var</span> client = <span class="keyword">new</span> HttpClient())</span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">//注意utf8防止亂碼</span></span><br><span class="line">                    client.DefaultRequestHeaders.TryAddWithoutValidation(<span class="string">"Content-Type"</span>, <span class="string">"application/x-www-form-urlencoded; charset=utf-8"</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="keyword">var</span> req = <span class="keyword">new</span> HttpRequestMessage(</span><br><span class="line">                            HttpMethod.Post,</span><br><span class="line">                        <span class="string">@"https://api.line.me/oauth2/v2.1/token"</span>)</span><br><span class="line">                    &#123;</span><br><span class="line">                        Content = <span class="keyword">new</span> FormUrlEncodedContent(dict)</span><br><span class="line">                    &#125;;</span><br><span class="line">                    <span class="keyword">var</span> res = <span class="keyword">await</span> client.SendAsync(req);</span><br><span class="line">                    <span class="keyword">var</span> json = <span class="keyword">await</span> res.Content.ReadAsStreamAsync();</span><br><span class="line">                    LineCallbackResult callbackResult =</span><br><span class="line">                        <span class="keyword">await</span> JsonSerializer.DeserializeAsync&lt;LineCallbackResult&gt;(json);</span><br><span class="line"></span><br><span class="line">                    Console.WriteLine(callbackResult.AccessToken);</span><br><span class="line">                    Console.WriteLine(callbackResult.TokenType);</span><br><span class="line">                    Console.WriteLine(callbackResult.RefreshToken);</span><br><span class="line">                    Console.WriteLine(callbackResult.ExpiresIn);</span><br><span class="line">                    Console.WriteLine(callbackResult.Scope);</span><br><span class="line">                    Console.WriteLine(callbackResult.IdToken);</span><br><span class="line">                    Console.WriteLine(<span class="string">"--------------------"</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//Console.WriteLine(callbackResult.access_token);</span></span><br><span class="line">                    <span class="comment">//Console.WriteLine(callbackResult.token_type);</span></span><br><span class="line">                    <span class="comment">//Console.WriteLine(callbackResult.refresh_token);</span></span><br><span class="line">                    <span class="comment">//Console.WriteLine(callbackResult.expires_in);</span></span><br><span class="line">                    <span class="comment">//Console.WriteLine(callbackResult.scope);</span></span><br><span class="line">                    <span class="comment">//Console.WriteLine(callbackResult.id_token);</span></span><br><span class="line">                    Console.WriteLine(<span class="string">"--------------------"</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//https://jwt.io/</span></span><br><span class="line">                    <span class="comment">//解析id_token的功能</span></span><br><span class="line">                    <span class="keyword">var</span> JwtSecurityToken = <span class="keyword">new</span> System.IdentityModel.Tokens.Jwt.JwtSecurityToken(callbackResult.IdToken);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//打印user的訊息</span></span><br><span class="line">                    <span class="keyword">foreach</span> (<span class="keyword">var</span> claims <span class="keyword">in</span> JwtSecurityToken.Claims)</span><br><span class="line">                    &#123;</span><br><span class="line">                        Console.WriteLine(@<span class="string">$"<span class="subst">&#123;claims.Type&#125;</span> : <span class="subst">&#123;claims.Value&#125;</span>"</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">await</span> _next.Invoke(context);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/03/net-core-LINE-PAY-API-v3-%E7%AD%86%E8%A8%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1089,104 +1178,6 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/" class="post-title-link" itemprop="url">運用powershell快速轉換sql server查詢結果為json</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-11 23:25:57 / Modified: 23:55:27" itemprop="dateCreated datePublished" datetime="2020-07-11T23:25:57+08:00">2020-07-11</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/11/運用powershell快速轉換sql-server查詢結果為json/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>489</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>工作上時常有些資料轉換小需求 , 但一時之間又不好搞定 , 多半會透過各種亂七八糟的方式轉換 , 無聊看看 powershell 的功能裡面可以連接 sql server 操作一些這種雜亂的工作!</p>
-<p>首先需要 <a href="https://docs.microsoft.com/zh-tw/sql/powershell/download-sql-server-ps-module?view=sql-server-ver15" target="_blank" rel="noopener">安裝 SQL Server PowerShell 模組</a></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Module</span> <span class="literal">-Name</span> SqlServer <span class="literal">-AllowClobber</span> <span class="literal">-Scope</span> CurrentUser</span><br></pre></td></tr></table></figure>
-<p>接著匯入模組</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module SqlServer</span><br></pre></td></tr></table></figure>
-<p>然後設定路徑想到的位置 , 並且可以用 ls cd 這類指令看目前的物件如 table , view</p>
-<p>若設定過程中機器遇到權限問題 <a href="https://channel9.msdn.com/Blogs/raw-tech/How-To-Fix-Login-Failed-for-User-Microsoft-SQL-Server-Error-18456-Step-By-Step" target="_blank" rel="noopener">SQL Server Error 18456</a> 可以參考這篇解答</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Location SQLSERVER:\SQL\localhost\DEFAULT\Databases</span><br></pre></td></tr></table></figure>
-<p>最後透過類似以下指令快篩內容並且轉換為 json 輸出 , 以前很多很阿雜的工作瞬間快速搞定!</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$customers &#x3D; Invoke-Sqlcmd &quot;select * from customers&quot;</span><br><span class="line">$customers | select CompanyName | ConvertTo-Json</span><br></pre></td></tr></table></figure>
-
-
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1258,7 +1249,7 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1307,13 +1298,13 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">37k</span>
+    <span title="Symbols count total">40k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">33 mins.</span>
+    <span title="Reading time total">36 mins.</span>
 </div>
 
         

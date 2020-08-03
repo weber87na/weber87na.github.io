@@ -177,6 +177,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/" class="post-title-link" itemprop="url">運用powershell快速轉換sql server查詢結果為json</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-11 23:25:57 / Modified: 23:55:27" itemprop="dateCreated datePublished" datetime="2020-07-11T23:25:57+08:00">2020-07-11</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/11/運用powershell快速轉換sql-server查詢結果為json/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>489</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>工作上時常有些資料轉換小需求 , 但一時之間又不好搞定 , 多半會透過各種亂七八糟的方式轉換 , 無聊看看 powershell 的功能裡面可以連接 sql server 操作一些這種雜亂的工作!</p>
+<p>首先需要 <a href="https://docs.microsoft.com/zh-tw/sql/powershell/download-sql-server-ps-module?view=sql-server-ver15" target="_blank" rel="noopener">安裝 SQL Server PowerShell 模組</a></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Module</span> <span class="literal">-Name</span> SqlServer <span class="literal">-AllowClobber</span> <span class="literal">-Scope</span> CurrentUser</span><br></pre></td></tr></table></figure>
+<p>接著匯入模組</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module SqlServer</span><br></pre></td></tr></table></figure>
+<p>然後設定路徑想到的位置 , 並且可以用 ls cd 這類指令看目前的物件如 table , view</p>
+<p>若設定過程中機器遇到權限問題 <a href="https://channel9.msdn.com/Blogs/raw-tech/How-To-Fix-Login-Failed-for-User-Microsoft-SQL-Server-Error-18456-Step-By-Step" target="_blank" rel="noopener">SQL Server Error 18456</a> 可以參考這篇解答</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Location SQLSERVER:\SQL\localhost\DEFAULT\Databases</span><br></pre></td></tr></table></figure>
+<p>最後透過類似以下指令快篩內容並且轉換為 json 輸出 , 以前很多很阿雜的工作瞬間快速搞定!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$customers &#x3D; Invoke-Sqlcmd &quot;select * from customers&quot;</span><br><span class="line">$customers | select CompanyName | ConvertTo-Json</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/09/powershell%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1046,114 +1144,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/visual-studio-vim-mode/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/visual-studio-vim-mode/" class="post-title-link" itemprop="url">visual-studio-vim-mode</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2020-07-05 15:22:58" itemprop="dateCreated datePublished" datetime="2020-07-05T15:22:58+08:00">2020-07-05</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-07 00:11:26" itemprop="dateModified" datetime="2020-07-07T00:11:26+08:00">2020-07-07</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/05/visual-studio-vim-mode/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/visual-studio-vim-mode/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>734</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>前陣子學習 vim mode 想替自己增加開發效率 , 以下為設定筆記</p>
-<p>還不錯的兩個教學</p>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=mPVwS8gjDVI&amp;list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&amp;index=1" target="_blank" rel="noopener">五倍紅寶石</a></li>
-<li><a href="https://www.youtube.com/watch?v=rzpoMlss7Kk&amp;list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB" target="_blank" rel="noopener">Victor Lee</a></li>
-</ul>
-<p><a href="https://marketplace.visualstudio.com/items?itemName=JaredParMSFT.VsVim" target="_blank" rel="noopener">安裝 vim mode 外掛</a><br>設定可以<a href="https://www.cnblogs.com/qiyuexin/p/10424755.html" target="_blank" rel="noopener">參考</a>這個大陸人<br>解決衝突(可以把<kbd>Ctrl</kbd>+<kbd>F</kbd> 設定為用 Visual Studio 不要用 vim 的往上翻功能 看個人喜好 , 個人是覺得用 <kbd>Ctrl</kbd>+<kbd>U</kbd>就很夠用)</p>
-<p>在工具-&gt;選項-&gt;VsVim中設定解決衝突</p>
-<p>接著切換目錄到C:\Users\你的使用者名稱<br>建立一個_vimrc檔案設定以下內容<br>set clipboard=unnamed<br>set number<br>(相對行號等等會裝外掛解決可以不加)<br>set relativenumber</p>
-<p><a href="https://marketplace.visualstudio.com/items?itemName=BrianSchmitt.RelativeNumber" target="_blank" rel="noopener">安裝相對行號外掛</a></p>
-<p>設定相對行號的樣式 , 我是背景設定黑色 , 文字設定紅色看個人愛好</p>
-<p>Tools-&gt;Options-&gt;Environment-&gt;Font and Colors and set the &quot;Relative Number - Current Line&quot; property.</p>
-<p><a href="https://marketplace.visualstudio.com/items?itemName=munyabe.ToggleComment" target="_blank" rel="noopener">安裝快速切換註解外掛 toggle comment</a><br>這個外掛可以用 <kbd>Ctrl + /</kbd>切換註解相當方便</p>
-<p>如果沒有英文語言套件最好裝一下<br>開啟 visual studio installer安裝英文語言套件!</p>
-<p>接著開啟<br>工具-&gt;選項-&gt;環境-&gt;國際設定-&gt;English</p>
-<p>設定當使用IntelliSense跳出來要選擇時使用Alt + J (向下移動) Alt + K (向上移動)<br>Tools-&gt;Options-&gt;Environment-&gt;Keyboard<br>接著在Show commands containing裡面搜尋Edit.LineDown<br>在Press shortcut keys裡面按下 Alt + J 同理設定Edit.LineUp修改為Alt + K</p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1225,7 +1215,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">32</span>
+          <span class="site-state-item-count">33</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1274,13 +1264,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">37k</span>
+    <span title="Symbols count total">40k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">33 mins.</span>
+    <span title="Reading time total">36 mins.</span>
 </div>
 
         
