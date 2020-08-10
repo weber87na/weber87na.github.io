@@ -202,7 +202,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-10 14:42:28 / Modified: 14:53:15" itemprop="dateCreated datePublished" datetime="2020-08-10T14:42:28+08:00">2020-08-10</time>
+              <time title="Created: 2020-08-10 14:42:28 / Modified: 15:21:28" itemprop="dateCreated datePublished" datetime="2020-08-10T14:42:28+08:00">2020-08-10</time>
             </span>
 
           
@@ -225,7 +225,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.4k</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -244,7 +244,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>看書時某個章節講述手寫類似 bootstrap 的 css 網格系統<br>主要原理是所需的 column / 12 * N<br>特別要注意重點就是要加上百分比 % 符號<br>因為太懶了腦洞大開可以直接用 sql 的 cte 進行程式碼產出</p>
+          <p>看書時某個章節講述手寫類似 bootstrap 的 css 網格系統<br>主要原理是 100% / 12 * N<br>12 可以是你需要的 column 數量<br>特別要注意重點<br>1.就是要加上百分比 % 符號<br>2.calc 計算中間要有空白否則會失效<br>因為太懶了腦洞大開可以直接用 sql 的 cte 進行程式碼產出<br>使用 cte 搭配 union all 產生 1-12 的數字</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WITH</span> <span class="keyword">col</span> (C) <span class="keyword">as</span>(</span><br><span class="line">	<span class="keyword">select</span> C = <span class="number">1</span></span><br><span class="line">	<span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line">	<span class="keyword">select</span> C + <span class="number">1</span></span><br><span class="line">	<span class="keyword">from</span> <span class="keyword">col</span></span><br><span class="line">	<span class="keyword">where</span> C &lt; <span class="number">12</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">select</span> </span><br><span class="line">	<span class="string">'.column-'</span> + <span class="keyword">CAST</span>( C <span class="keyword">as</span> <span class="keyword">nvarchar</span>) + <span class="string">' &#123; width: calc( 100% / 12 * '</span> + <span class="keyword">CAST</span>( C <span class="keyword">as</span> <span class="keyword">nvarchar</span>) + <span class="string">'); &#125;'</span> <span class="keyword">as</span> <span class="string">'css-calc-column'</span> ,</span><br><span class="line">	<span class="string">'.column-'</span> + <span class="keyword">CAST</span>( C <span class="keyword">as</span> <span class="keyword">nvarchar</span>) + <span class="string">' &#123; width: '</span> + <span class="keyword">CAST</span> ( C / <span class="number">12.0</span> * <span class="number">100</span> <span class="keyword">as</span> <span class="keyword">nvarchar</span>) + <span class="string">'%;&#125;'</span> <span class="keyword">as</span> <span class="string">'css-column'</span></span><br><span class="line"><span class="keyword">from</span> <span class="keyword">col</span></span><br></pre></td></tr></table></figure>
 
 <p>最終結果如下<br>寫法1動態計算</p>
