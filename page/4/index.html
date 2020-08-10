@@ -177,6 +177,94 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bpng%E7%82%BAico/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/05/%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bpng%E7%82%BAico/" class="post-title-link" itemprop="url">快速轉換png為ico</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-05 12:56:31 / Modified: 14:49:44" itemprop="dateCreated datePublished" datetime="2020-07-05T12:56:31+08:00">2020-07-05</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/05/%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bpng%E7%82%BAico/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/快速轉換png為ico/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>394</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>某次任務中有個軟體的圖檔只能吃 .ico 格式 , 於是使用 powershell + imagemagick 快速轉換整個資料夾的 png 為 ico</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$files</span> = <span class="built_in">Get-ChildItem</span> D:\png\  | <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.Extension <span class="operator">-eq</span> <span class="string">".png"</span>  &#125; </span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span>(<span class="variable">$f</span> <span class="keyword">in</span>  <span class="variable">$files</span> )&#123;</span><br><span class="line">   <span class="comment">#'magick.exe convert ' + $f.FullName + ' -resize 16x16 -transparent white -colors 256 ' +   $f.FullName.Replace(".png",".ico")</span></span><br><span class="line">   magick.exe convert <span class="literal">-background</span> transparent <span class="variable">$f</span>.FullName <span class="literal">-define</span> icon:auto<span class="literal">-resize</span>=<span class="number">16</span> <span class="variable">$f</span>.FullName.Replace(<span class="string">".png"</span>,<span class="string">".ico"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/%E5%BF%AB%E9%80%9F%E7%94%A2%E7%94%9F%E6%89%B9%E6%AC%A1%E5%88%AA%E9%99%A4%E8%B3%87%E6%96%99%E8%A1%A8%E6%8C%87%E4%BB%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -742,14 +830,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -791,13 +879,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">49k</span>
+    <span title="Symbols count total">50k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">44 mins.</span>
+    <span title="Reading time total">46 mins.</span>
 </div>
 
         

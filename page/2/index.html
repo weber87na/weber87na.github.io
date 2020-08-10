@@ -177,6 +177,113 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/14/powershell-%E4%BD%88%E7%BD%B2-asp-net-core-%E5%88%B0-iis-sub-application/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/07/14/powershell-%E4%BD%88%E7%BD%B2-asp-net-core-%E5%88%B0-iis-sub-application/" class="post-title-link" itemprop="url">powershell 佈署 asp.net core 到 iis sub application</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-07-14 12:01:44 / Modified: 12:08:21" itemprop="dateCreated datePublished" datetime="2020-07-14T12:01:44+08:00">2020-07-14</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/07/14/powershell-%E4%BD%88%E7%BD%B2-asp-net-core-%E5%88%B0-iis-sub-application/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/14/powershell-佈署-asp-net-core-到-iis-sub-application/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>888</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>上線前為了方便讓前端可以去做畫面的調整建議把 csproj 內的 RazorCompileOnPublish 設定為 true</p>
+<p>編譯之前建議先看這 <a href="https://blog.darkthread.net/blog/razor-runtime-compilation/" target="_blank" rel="noopener">黑暗執行緒的文章</a> 很受用</p>
+<p>有時需要切換環境測試所以直接使用 self-contained 命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet publish --self-contained true -r win10-x64</span><br></pre></td></tr></table></figure>
+
+<p>注意以下操作需要使用系統管理員 , 可以安裝 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">sudo</a> 簡化流程</p>
+<p>下載 NTFSSecurity 模組 , 並且引入 IIS 模組及 NTFSSecurity</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Import-Module</span> WebAdministration</span><br><span class="line"><span class="built_in">Install-Module</span> <span class="literal">-Name</span> NTFSSecurity <span class="literal">-RequiredVersion</span> <span class="number">4.2</span>.<span class="number">4</span></span><br><span class="line"><span class="built_in">Import-Module</span> NTFSSecurity</span><br></pre></td></tr></table></figure>
+
+<p>佈署 asp.net core 網站之前記得要下載 <a href="https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-aspnetcore-3.1.5-windows-hosting-bundle-installer" target="_blank" rel="noopener">aspnetcore-windows-hosting-bundle</a></p>
+<p>接著在 APpPool 建立 .net core 專屬的 AppPool</p>
+<p>注意 AppPool 我測不出自動建立的方法 , 只好手動建立一個 no managed code 名為 NetCore 的 AppPool , 如果有人有找到方法歡迎告訴我感謝!</p>
+<p>最後佈署 Asp.net Core 網站為 Default Web Site 的 Sub Application (這很無奈… 但就是很多地方只能讓你用 80 port 又不給你 domain name)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">New-WebApplication -Name VideoExample -Site &#39;Default Web Site&#39; -PhysicalPath D:\TestWebSite -ApplicationPool NetCore</span><br></pre></td></tr></table></figure>
+
+<p>給予權限 (以前都要按好多步驟 , 現在一行就搞定)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add-NTFSAccess -Path &#39;D:\TestWebSite &#39; -Account IIS_IUSRS -AccessRights FullControl</span><br></pre></td></tr></table></figure>
+
+<p>最後切換到 IIS 目錄底下看看狀況</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd IIS:\Sites\Default Web Site\</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
+<p>如果要移除 sub application 或是其他物件也很方便直接下 rm 就好了</p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/14/asp-net-core-%E8%A3%BD%E4%BD%9C-geojson/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1055,97 +1162,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/Jquery-click%E5%9C%B0%E9%9B%B7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/05/Jquery-click%E5%9C%B0%E9%9B%B7/" class="post-title-link" itemprop="url">Jquery click地雷</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-05 21:42:02 / Modified: 21:46:11" itemprop="dateCreated datePublished" datetime="2020-07-05T21:42:02+08:00">2020-07-05</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/05/Jquery-click%E5%9C%B0%E9%9B%B7/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/Jquery-click地雷/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>292</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>一般在撰寫 jQuery 時需要觸發 click 都會偷懶這樣寫</p>
-<p>問題是這種寫法遇到當物件是動態產生就很容易炸了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(&#39;.item&#39;).click(function()&#123;</span><br><span class="line">    &#x2F;&#x2F;</span><br><span class="line">    console.log(&#39;item click !&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p> 所以最好這樣寫 就算是動態物件產生也不會炸!</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(document).on(&#39;click&#39;,&#39;.item&#39;,function()&#123;</span><br><span class="line">    &#x2F;&#x2F;</span><br><span class="line">    console.log(&#39;item click !&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1217,14 +1233,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">40</span>
+        <span class="site-state-item-count">41</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1266,13 +1282,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">49k</span>
+    <span title="Symbols count total">50k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">44 mins.</span>
+    <span title="Reading time total">46 mins.</span>
 </div>
 
         

@@ -29,21 +29,21 @@
     var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="工作上遇到一個非常雷的問題 , 我串接其他 3rd 的 api 原本以為是資料量過大導致 jquery datatable 跟前端回應較慢 , 問題是這個 api 速度極為不穩定從 3 - 5 秒到 30 秒以上都有可能發生 , 害我一度以為要做後端 pagging .  最後發現原來是 jquery datatable 要設定 deferRender 這個 option 這樣 render 速度">
+  <meta name="description" content="看書時某個章節講述手寫類似 bootstrap 的 css 網格系統主要原理是所需的 column &#x2F; 12 * N特別要注意重點就是要加上百分比 % 符號因為太懶了腦洞大開可以直接用 sql 的 cte 進行程式碼產出 1234567891011WITH col (C) as(	select C &#x3D; 1	union all	select C + 1	from col	where C &lt; 1">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Jquery DataTable地雷">
-<meta property="og:url" content="http://yoursite.com/2020/07/05/Jquery-DataTable%E5%9C%B0%E9%9B%B7/index.html">
+<meta property="og:title" content="CTE妙用 產生出css網格系統">
+<meta property="og:url" content="http://yoursite.com/2020/08/10/CTE%E5%A6%99%E7%94%A8-%E7%94%A2%E7%94%9F%E5%87%BAcss%E7%B6%B2%E6%A0%BC%E7%B3%BB%E7%B5%B1/index.html">
 <meta property="og:site_name" content="喇賽的人Blog">
-<meta property="og:description" content="工作上遇到一個非常雷的問題 , 我串接其他 3rd 的 api 原本以為是資料量過大導致 jquery datatable 跟前端回應較慢 , 問題是這個 api 速度極為不穩定從 3 - 5 秒到 30 秒以上都有可能發生 , 害我一度以為要做後端 pagging .  最後發現原來是 jquery datatable 要設定 deferRender 這個 option 這樣 render 速度">
+<meta property="og:description" content="看書時某個章節講述手寫類似 bootstrap 的 css 網格系統主要原理是所需的 column &#x2F; 12 * N特別要注意重點就是要加上百分比 % 符號因為太懶了腦洞大開可以直接用 sql 的 cte 進行程式碼產出 1234567891011WITH col (C) as(	select C &#x3D; 1	union all	select C + 1	from col	where C &lt; 1">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-07-05T13:40:52.000Z">
-<meta property="article:modified_time" content="2020-07-05T13:58:06.870Z">
+<meta property="article:published_time" content="2020-08-10T06:42:28.000Z">
+<meta property="article:modified_time" content="2020-08-10T06:53:15.830Z">
 <meta property="article:author" content="喇賽人">
-<meta property="article:tag" content="jquery">
-<meta property="article:tag" content="jquery datatable">
+<meta property="article:tag" content="sql">
+<meta property="article:tag" content="css">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/05/Jquery-DataTable%E5%9C%B0%E9%9B%B7/">
+<link rel="canonical" href="http://yoursite.com/2020/08/10/CTE%E5%A6%99%E7%94%A8-%E7%94%A2%E7%94%9F%E5%87%BAcss%E7%B6%B2%E6%A0%BC%E7%B3%BB%E7%B5%B1/">
 
 
 <script id="page-configurations">
@@ -56,7 +56,7 @@
   };
 </script>
 
-  <title>Jquery DataTable地雷 | 喇賽的人Blog</title>
+  <title>CTE妙用 產生出css網格系統 | 喇賽的人Blog</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
     <script>
@@ -181,7 +181,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/05/Jquery-DataTable%E5%9C%B0%E9%9B%B7/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/10/CTE%E5%A6%99%E7%94%A8-%E7%94%A2%E7%94%9F%E5%87%BAcss%E7%B6%B2%E6%A0%BC%E7%B3%BB%E7%B5%B1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -194,7 +194,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Jquery DataTable地雷
+          CTE妙用 產生出css網格系統
         </h1>
 
         <div class="post-meta">
@@ -205,7 +205,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-07-05 21:40:52 / Modified: 21:58:06" itemprop="dateCreated datePublished" datetime="2020-07-05T21:40:52+08:00">2020-07-05</time>
+              <time title="Created: 2020-08-10 14:42:28 / Modified: 14:53:15" itemprop="dateCreated datePublished" datetime="2020-08-10T14:42:28+08:00">2020-08-10</time>
             </span>
 
           
@@ -217,8 +217,8 @@
       </span>
       <span class="post-meta-item-text">Disqus: </span>
     
-    <a title="disqus" href="/2020/07/05/Jquery-DataTable%E5%9C%B0%E9%9B%B7/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/Jquery-DataTable地雷/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/08/10/CTE%E5%A6%99%E7%94%A8-%E7%94%A2%E7%94%9F%E5%87%BAcss%E7%B6%B2%E6%A0%BC%E7%B3%BB%E7%B5%B1/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/08/10/CTE妙用-產生出css網格系統/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -228,7 +228,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>202</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -247,8 +247,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>工作上遇到一個非常雷的問題 , 我串接其他 3rd 的 api 原本以為是資料量過大導致 jquery datatable 跟前端回應較慢 , 問題是這個 api 速度極為不穩定從 3 - 5 秒到 30 秒以上都有可能發生 , 害我一度以為要做後端 pagging . </p>
-<p>最後發現原來是 jquery datatable 要設定 <a href="https://datatables.net/examples/ajax/defer_render.html" target="_blank" rel="noopener">deferRender 這個 option</a> 這樣 render 速度才會快 , 這個痛點搞了我整整一週時間去 Trace 沒想到是前端的問題 無奈 ..</p>
+        <p>看書時某個章節講述手寫類似 bootstrap 的 css 網格系統<br>主要原理是所需的 column / 12 * N<br>特別要注意重點就是要加上百分比 % 符號<br>因為太懶了腦洞大開可以直接用 sql 的 cte 進行程式碼產出</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">WITH</span> <span class="keyword">col</span> (C) <span class="keyword">as</span>(</span><br><span class="line">	<span class="keyword">select</span> C = <span class="number">1</span></span><br><span class="line">	<span class="keyword">union</span> <span class="keyword">all</span></span><br><span class="line">	<span class="keyword">select</span> C + <span class="number">1</span></span><br><span class="line">	<span class="keyword">from</span> <span class="keyword">col</span></span><br><span class="line">	<span class="keyword">where</span> C &lt; <span class="number">12</span></span><br><span class="line">)</span><br><span class="line"><span class="keyword">select</span> </span><br><span class="line">	<span class="string">'.column-'</span> + <span class="keyword">CAST</span>( C <span class="keyword">as</span> <span class="keyword">nvarchar</span>) + <span class="string">' &#123; width: calc( 100% / 12 * '</span> + <span class="keyword">CAST</span>( C <span class="keyword">as</span> <span class="keyword">nvarchar</span>) + <span class="string">'); &#125;'</span> <span class="keyword">as</span> <span class="string">'css-calc-column'</span> ,</span><br><span class="line">	<span class="string">'.column-'</span> + <span class="keyword">CAST</span>( C <span class="keyword">as</span> <span class="keyword">nvarchar</span>) + <span class="string">' &#123; width: '</span> + <span class="keyword">CAST</span> ( C / <span class="number">12.0</span> * <span class="number">100</span> <span class="keyword">as</span> <span class="keyword">nvarchar</span>) + <span class="string">'%;&#125;'</span> <span class="keyword">as</span> <span class="string">'css-column'</span></span><br><span class="line"><span class="keyword">from</span> <span class="keyword">col</span></span><br></pre></td></tr></table></figure>
+
+<p>最終結果如下<br>寫法1動態計算</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.column-1</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">1</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-2</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">2</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-3</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">3</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-4</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">4</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-5</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">5</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-6</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">6</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-7</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">7</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-8</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">8</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-9</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">9</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-10</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">10</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-11</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">11</span>); &#125;</span><br><span class="line"><span class="selector-class">.column-12</span> &#123; <span class="attribute">width</span>: <span class="built_in">calc</span>( <span class="number">100%</span> / <span class="number">12</span> * <span class="number">12</span>); &#125;</span><br></pre></td></tr></table></figure>
+
+<p>寫法2靜態計算</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.column-1</span> &#123; <span class="attribute">width</span>: <span class="number">8.333300%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-2</span> &#123; <span class="attribute">width</span>: <span class="number">16.666600%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-3</span> &#123; <span class="attribute">width</span>: <span class="number">25.000000%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-4</span> &#123; <span class="attribute">width</span>: <span class="number">33.333300%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-5</span> &#123; <span class="attribute">width</span>: <span class="number">41.666600%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-6</span> &#123; <span class="attribute">width</span>: <span class="number">50.000000%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-7</span> &#123; <span class="attribute">width</span>: <span class="number">58.333300%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-8</span> &#123; <span class="attribute">width</span>: <span class="number">66.666600%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-9</span> &#123; <span class="attribute">width</span>: <span class="number">75.000000%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-10</span> &#123; <span class="attribute">width</span>: <span class="number">83.333300%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-11</span> &#123; <span class="attribute">width</span>: <span class="number">91.666600%</span>;&#125;</span><br><span class="line"><span class="selector-class">.column-12</span> &#123; <span class="attribute">width</span>: <span class="number">100.000000%</span>;&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -258,8 +264,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/jquery/" rel="tag"># jquery</a>
-              <a href="/tags/jquery-datatable/" rel="tag"># jquery datatable</a>
+              <a href="/tags/sql/" rel="tag"># sql</a>
+              <a href="/tags/css/" rel="tag"># css</a>
           </div>
 
         
@@ -268,13 +274,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/05/asp-net-core-iis-sub-application/" rel="prev" title="asp.net core iis sub-application">
-      <i class="fa fa-chevron-left"></i> asp.net core iis sub-application
+    <a href="/2020/08/04/%E5%B8%B8%E7%94%A8%E7%9A%84vscode-extension/" rel="prev" title="常用的vscode extension">
+      <i class="fa fa-chevron-left"></i> 常用的vscode extension
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/05/Jquery-click%E5%9C%B0%E9%9B%B7/" rel="next" title="Jquery click地雷">
-      Jquery click地雷 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -476,9 +479,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/07/05/Jquery-DataTable%E5%9C%B0%E9%9B%B7/";
-    this.page.identifier = "2020/07/05/Jquery-DataTable地雷/";
-    this.page.title = "Jquery DataTable地雷";
+    this.page.url = "http://yoursite.com/2020/08/10/CTE%E5%A6%99%E7%94%A8-%E7%94%A2%E7%94%9F%E5%87%BAcss%E7%B6%B2%E6%A0%BC%E7%B3%BB%E7%B5%B1/";
+    this.page.identifier = "2020/08/10/CTE妙用-產生出css網格系統/";
+    this.page.title = "CTE妙用 產生出css網格系統";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
