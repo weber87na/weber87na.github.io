@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="颱風天來襲，幫喇賽的捕魚朋友製作人工魚礁 geojson 防止他撞船，基本上也可以算半個爬蟲首先到漁業署網站可以看到資料是度分秒格式，所以需要轉換為度度 dms to dd 參考計算公式 12345678910111213141516171819202122232425262728293031323334&#x2F;&#x2F;度分秒轉換度度function DMSToDD(d , min , sec)&amp;#123;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="篩選漁業署半徑0.5海浬的人工魚礁">
+<meta property="og:url" content="http://yoursite.com/2020/08/11/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/index.html">
+<meta property="og:site_name" content="喇賽的人Blog">
+<meta property="og:description" content="颱風天來襲，幫喇賽的捕魚朋友製作人工魚礁 geojson 防止他撞船，基本上也可以算半個爬蟲首先到漁業署網站可以看到資料是度分秒格式，所以需要轉換為度度 dms to dd 參考計算公式 12345678910111213141516171819202122232425262728293031323334&#x2F;&#x2F;度分秒轉換度度function DMSToDD(d , min , sec)&amp;#123;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-08-10T20:12:55.000Z">
+<meta property="article:modified_time" content="2020-08-10T20:36:39.550Z">
+<meta property="article:author" content="喇賽人">
+<meta property="article:tag" content="geojson">
+<meta property="article:tag" content="爬蟲">
+<meta property="article:tag" content="turf">
+<meta property="article:tag" content="dmstodd">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://yoursite.com/2020/08/11/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-tw'
+  };
+</script>
+
+  <title>篩選漁業署半徑0.5海浬的人工魚礁 | 喇賽的人Blog</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">喇賽的人Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">喇賽人的Blog</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>About</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          篩選漁業署半徑0.5海浬的人工魚礁
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-11 04:12:55 / Modified: 04:36:39" itemprop="dateCreated datePublished" datetime="2020-08-11T04:12:55+08:00">2020-08-11</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/08/11/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/08/11/篩選漁業署半徑0-5海浬的人工魚礁/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>颱風天來襲，幫喇賽的捕魚朋友製作人工魚礁 geojson 防止他撞船，基本上也可以算半個爬蟲<br>首先到<a href="https://www.fa.gov.tw/cht/ResourceOtherZones/content.aspx?id=7&chk=67f6e751-66f9-4233-bf2a-91e3b7e158a1&param=pn=1" target="_blank" rel="noopener">漁業署網站</a><br>可以看到資料是度分秒格式，所以需要轉換為度度 dms to dd <a href="https://www.latlong.net/degrees-minutes-seconds-to-decimal-degrees" target="_blank" rel="noopener">參考計算公式</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//度分秒轉換度度</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">DMSToDD</span>(<span class="params">d , min , sec</span>)</span>&#123;</span><br><span class="line">	d = <span class="built_in">parseInt</span>(d);</span><br><span class="line">	min = <span class="built_in">parseInt</span>(min);</span><br><span class="line">	sec = <span class="built_in">parseInt</span>(sec);</span><br><span class="line">	<span class="keyword">var</span> DD = d + (min/<span class="number">60</span>) + (sec/<span class="number">3600</span>);</span><br><span class="line">	<span class="keyword">return</span> DD;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">//字串處理轉換</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">DMSFilter</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">	<span class="comment">//防止出現多次quote所以replace多次quote</span></span><br><span class="line">	<span class="keyword">var</span> strLonLat = str</span><br><span class="line">	.replace(<span class="string">'N'</span>,<span class="string">''</span>)</span><br><span class="line">	.replace(<span class="string">'°'</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'"'</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'E'</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'°'</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'"'</span>,<span class="string">' '</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">var</span> latDMS = strLonLat.split(<span class="string">','</span>)[<span class="number">0</span>].trim().split(<span class="string">' '</span>);</span><br><span class="line">	<span class="keyword">var</span> lonDMS = strLonLat.split(<span class="string">','</span>)[<span class="number">1</span>].trim().split(<span class="string">' '</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> lat = DMSToDD(latDMS[<span class="number">0</span>],latDMS[<span class="number">1</span>],latDMS[<span class="number">2</span>]);</span><br><span class="line">	<span class="keyword">var</span> lon = DMSToDD(lonDMS[<span class="number">0</span>],lonDMS[<span class="number">1</span>],lonDMS[<span class="number">2</span>]);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> [lon , lat];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡利用 css 的 selector 找出半徑 0.5 海浬的魚礁，並加上 class</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'tr &gt; td:nth-child(6)'</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> str = $(<span class="keyword">this</span>).text();</span><br><span class="line">	<span class="keyword">if</span>(str.includes(<span class="string">'半徑0.5浬'</span>) === <span class="literal">true</span>)&#123;</span><br><span class="line">		$(<span class="keyword">this</span>).parent().addClass(<span class="string">'red'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> str;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>載入 turf.js 讓他產生 geojson，需要注意的是要使用 google analytics 寫法的 pattern 否則會炸掉</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">d, script</span>) </span>&#123;</span><br><span class="line">    script = d.createElement(<span class="string">'script'</span>);</span><br><span class="line">    script.type = <span class="string">'text/javascript'</span>;</span><br><span class="line">    script.async = <span class="literal">true</span>;</span><br><span class="line">    script.onload = saveBufferedGeoJson;</span><br><span class="line">    script.src = <span class="string">'https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js'</span>;</span><br><span class="line">    d.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>].appendChild(script);</span><br><span class="line">&#125;(<span class="built_in">document</span>));</span><br></pre></td></tr></table></figure>
+
+<p>參考wiki<a href="https://zh.wikipedia.org/wiki/%E6%B5%B7%E9%87%8C" target="_blank" rel="noopener">1海浬為1.852公里</a><br>需要注意turf輸出buffer只會是feature不會是features需要手動建立<br>最後保存人工魚礁會使用到copy命令，但是該命令為chrome cli無法整合到流程內，只能用手動複製，可以將結果貼到<a href="geojson.net">geojson.net</a>或使用qgis開啟</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//保存geojson</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">saveBufferedGeoJson</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="comment">//存放人工魚礁</span></span><br><span class="line">	<span class="keyword">var</span> buffereds = [];</span><br><span class="line"></span><br><span class="line">	<span class="comment">//半徑0.5浬範圍內</span></span><br><span class="line">	<span class="keyword">var</span> bufferSize = <span class="number">1.852</span> / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//將表格內0.5海浬轉換為</span></span><br><span class="line">	<span class="keyword">var</span> result = $(<span class="string">'.red &gt; td:nth-child(3)'</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">var</span> str = $(<span class="keyword">this</span>).text();</span><br><span class="line">		<span class="keyword">var</span> DD = DMSFilter(str);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//塞入最終結果</span></span><br><span class="line">		<span class="keyword">var</span> point = turf.point(DD);</span><br><span class="line">		<span class="keyword">var</span> buffered = turf.buffer(point, bufferSize, &#123;<span class="attr">units</span>: <span class="string">'kilometers'</span>&#125;);</span><br><span class="line">		buffereds.push(buffered);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//console.log(buffered);</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> DD;</span><br><span class="line">		<span class="comment">//return DMS + ' ' + str.trim();</span></span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//從瀏覽器保存geojson</span></span><br><span class="line">	<span class="keyword">var</span> geojson = &#123;<span class="string">"type"</span>: <span class="string">"FeatureCollection"</span>, <span class="string">"features"</span>: buffereds&#125;</span><br><span class="line">	<span class="built_in">console</span>.log(geojson);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//注意這是cli命令需要手動呼叫</span></span><br><span class="line">	<span class="comment">//copy(geojson);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/geojson/" rel="tag"># geojson</a>
+              <a href="/tags/%E7%88%AC%E8%9F%B2/" rel="tag"># 爬蟲</a>
+              <a href="/tags/turf/" rel="tag"># turf</a>
+              <a href="/tags/dmstodd/" rel="tag"># dmstodd</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/10/CTE%E5%A6%99%E7%94%A8-%E7%94%A2%E7%94%9F%E5%87%BAcss%E7%B6%B2%E6%A0%BC%E7%B3%BB%E7%B5%B1/" rel="prev" title="CTE妙用 產生出css網格系統">
+      <i class="fa fa-chevron-left"></i> CTE妙用 產生出css網格系統
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="喇賽人"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">喇賽人</p>
+  <div class="site-description" itemprop="description">喇賽人的Blog</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人!G_G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">Symbols count total: </span>
+    <span title="Symbols count total">52k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">Reading time total &asymp;</span>
+    <span title="Reading time total">47 mins.</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "http://yoursite.com/2020/08/11/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/";
+    this.page.identifier = "2020/08/11/篩選漁業署半徑0-5海浬的人工魚礁/";
+    this.page.title = "篩選漁業署半徑0.5海浬的人工魚礁";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+</body>
+</html>

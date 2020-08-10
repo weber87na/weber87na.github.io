@@ -177,6 +177,105 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/11/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/" class="post-title-link" itemprop="url">篩選漁業署半徑0.5海浬的人工魚礁</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-11 04:12:55 / Modified: 04:36:39" itemprop="dateCreated datePublished" datetime="2020-08-11T04:12:55+08:00">2020-08-11</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/08/11/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/08/11/篩選漁業署半徑0-5海浬的人工魚礁/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>2 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>颱風天來襲，幫喇賽的捕魚朋友製作人工魚礁 geojson 防止他撞船，基本上也可以算半個爬蟲<br>首先到<a href="https://www.fa.gov.tw/cht/ResourceOtherZones/content.aspx?id=7&chk=67f6e751-66f9-4233-bf2a-91e3b7e158a1&param=pn=1" target="_blank" rel="noopener">漁業署網站</a><br>可以看到資料是度分秒格式，所以需要轉換為度度 dms to dd <a href="https://www.latlong.net/degrees-minutes-seconds-to-decimal-degrees" target="_blank" rel="noopener">參考計算公式</a></p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//度分秒轉換度度</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">DMSToDD</span>(<span class="params">d , min , sec</span>)</span>&#123;</span><br><span class="line">	d = <span class="built_in">parseInt</span>(d);</span><br><span class="line">	min = <span class="built_in">parseInt</span>(min);</span><br><span class="line">	sec = <span class="built_in">parseInt</span>(sec);</span><br><span class="line">	<span class="keyword">var</span> DD = d + (min/<span class="number">60</span>) + (sec/<span class="number">3600</span>);</span><br><span class="line">	<span class="keyword">return</span> DD;</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="comment">//字串處理轉換</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">DMSFilter</span>(<span class="params">str</span>)</span>&#123;</span><br><span class="line">	<span class="comment">//防止出現多次quote所以replace多次quote</span></span><br><span class="line">	<span class="keyword">var</span> strLonLat = str</span><br><span class="line">	.replace(<span class="string">'N'</span>,<span class="string">''</span>)</span><br><span class="line">	.replace(<span class="string">'°'</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'"'</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'E'</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'°'</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'\''</span>,<span class="string">' '</span>)</span><br><span class="line">	.replace(<span class="string">'"'</span>,<span class="string">' '</span>);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">var</span> latDMS = strLonLat.split(<span class="string">','</span>)[<span class="number">0</span>].trim().split(<span class="string">' '</span>);</span><br><span class="line">	<span class="keyword">var</span> lonDMS = strLonLat.split(<span class="string">','</span>)[<span class="number">1</span>].trim().split(<span class="string">' '</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> lat = DMSToDD(latDMS[<span class="number">0</span>],latDMS[<span class="number">1</span>],latDMS[<span class="number">2</span>]);</span><br><span class="line">	<span class="keyword">var</span> lon = DMSToDD(lonDMS[<span class="number">0</span>],lonDMS[<span class="number">1</span>],lonDMS[<span class="number">2</span>]);</span><br><span class="line">	</span><br><span class="line">	<span class="keyword">return</span> [lon , lat];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡利用 css 的 selector 找出半徑 0.5 海浬的魚礁，並加上 class</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$(<span class="string">'tr &gt; td:nth-child(6)'</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="keyword">var</span> str = $(<span class="keyword">this</span>).text();</span><br><span class="line">	<span class="keyword">if</span>(str.includes(<span class="string">'半徑0.5浬'</span>) === <span class="literal">true</span>)&#123;</span><br><span class="line">		$(<span class="keyword">this</span>).parent().addClass(<span class="string">'red'</span>);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> str;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>載入 turf.js 讓他產生 geojson，需要注意的是要使用 google analytics 寫法的 pattern 否則會炸掉</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span>(<span class="params">d, script</span>) </span>&#123;</span><br><span class="line">    script = d.createElement(<span class="string">'script'</span>);</span><br><span class="line">    script.type = <span class="string">'text/javascript'</span>;</span><br><span class="line">    script.async = <span class="literal">true</span>;</span><br><span class="line">    script.onload = saveBufferedGeoJson;</span><br><span class="line">    script.src = <span class="string">'https://cdn.jsdelivr.net/npm/@turf/turf@5/turf.min.js'</span>;</span><br><span class="line">    d.getElementsByTagName(<span class="string">'head'</span>)[<span class="number">0</span>].appendChild(script);</span><br><span class="line">&#125;(<span class="built_in">document</span>));</span><br></pre></td></tr></table></figure>
+
+<p>參考wiki<a href="https://zh.wikipedia.org/wiki/%E6%B5%B7%E9%87%8C" target="_blank" rel="noopener">1海浬為1.852公里</a><br>需要注意turf輸出buffer只會是feature不會是features需要手動建立<br>最後保存人工魚礁會使用到copy命令，但是該命令為chrome cli無法整合到流程內，只能用手動複製，可以將結果貼到<a href="geojson.net">geojson.net</a>或使用qgis開啟</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//保存geojson</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">saveBufferedGeoJson</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">	<span class="comment">//存放人工魚礁</span></span><br><span class="line">	<span class="keyword">var</span> buffereds = [];</span><br><span class="line"></span><br><span class="line">	<span class="comment">//半徑0.5浬範圍內</span></span><br><span class="line">	<span class="keyword">var</span> bufferSize = <span class="number">1.852</span> / <span class="number">2</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//將表格內0.5海浬轉換為</span></span><br><span class="line">	<span class="keyword">var</span> result = $(<span class="string">'.red &gt; td:nth-child(3)'</span>).map(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">		<span class="keyword">var</span> str = $(<span class="keyword">this</span>).text();</span><br><span class="line">		<span class="keyword">var</span> DD = DMSFilter(str);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//塞入最終結果</span></span><br><span class="line">		<span class="keyword">var</span> point = turf.point(DD);</span><br><span class="line">		<span class="keyword">var</span> buffered = turf.buffer(point, bufferSize, &#123;<span class="attr">units</span>: <span class="string">'kilometers'</span>&#125;);</span><br><span class="line">		buffereds.push(buffered);</span><br><span class="line">		</span><br><span class="line">		<span class="comment">//console.log(buffered);</span></span><br><span class="line">		</span><br><span class="line">		<span class="keyword">return</span> DD;</span><br><span class="line">		<span class="comment">//return DMS + ' ' + str.trim();</span></span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//從瀏覽器保存geojson</span></span><br><span class="line">	<span class="keyword">var</span> geojson = &#123;<span class="string">"type"</span>: <span class="string">"FeatureCollection"</span>, <span class="string">"features"</span>: buffereds&#125;</span><br><span class="line">	<span class="built_in">console</span>.log(geojson);</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//注意這是cli命令需要手動呼叫</span></span><br><span class="line">	<span class="comment">//copy(geojson);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/10/CTE%E5%A6%99%E7%94%A8-%E7%94%A2%E7%94%9F%E5%87%BAcss%E7%B6%B2%E6%A0%BC%E7%B3%BB%E7%B5%B1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1083,94 +1182,6 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/15/powershell%E5%9F%B7%E8%A1%8C%E5%8B%95%E6%85%8Bsql/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/15/powershell%E5%9F%B7%E8%A1%8C%E5%8B%95%E6%85%8Bsql/" class="post-title-link" itemprop="url">powershell執行動態sql</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-15 00:08:58 / Modified: 00:35:05" itemprop="dateCreated datePublished" datetime="2020-07-15T00:08:58+08:00">2020-07-15</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/15/powershell%E5%9F%B7%E8%A1%8C%E5%8B%95%E6%85%8Bsql/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/15/powershell執行動態sql/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>709</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>以往要執行動態 sql 多半都會用半手動方式先在 sql server 裡面寫好 script 然後才執行 , 萬一有一堆 sql 要執行時就是一場噩夢了!<br>最近用 powershell 搭配簡化一下整體工作流程 (可惜 postgresql 沒法用)<br>可以參考這個<a href="https://www.sqlshack.com/working-with-powershells-invoke-sqlcmd/" target="_blank" rel="noopener">example</a></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#匯入sqlserver模組</span></span><br><span class="line"><span class="built_in">Import-Module</span> SqlServer</span><br><span class="line"></span><br><span class="line"><span class="comment">#cd 到指定的資料庫也可以不用</span></span><br><span class="line"><span class="comment">#Set-Location SQLSERVER:\SQL\localhost\DEFAULT\Databases</span></span><br><span class="line"><span class="comment">#如果有 cd 到指定位置可以直接執行就好不用指定 instance</span></span><br><span class="line"><span class="comment">#$result = Invoke-Sqlcmd -InputFile "d:\test.txt"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#這句會執行指定的 sqlserver instance</span></span><br><span class="line"><span class="variable">$result</span> = <span class="built_in">Invoke-SqlCmd</span> <span class="literal">-ServerInstance</span> <span class="string">"localhost,1433"</span> <span class="literal">-Database</span> <span class="string">"test2"</span> <span class="literal">-Username</span> <span class="string">"User"</span> <span class="literal">-Password</span> <span class="string">"Password"</span> <span class="literal">-InputFile</span> <span class="string">"d:\test.txt"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#注意這邊最關鍵</span></span><br><span class="line"><span class="comment">#回傳為來的物件為 Array 故使用 join 將動態 script 轉換為一條 sql</span></span><br><span class="line"><span class="variable">$genCreateSQLOneline</span> = <span class="variable">$result</span>.genCreateSQL <span class="operator">-join</span> <span class="string">" "</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最後執行先前動態產生的sql</span></span><br><span class="line"><span class="built_in">Invoke-Sqlcmd</span> <span class="literal">-ServerInstance</span> <span class="string">"localhost,1433"</span> <span class="literal">-Database</span> <span class="string">"test2"</span> <span class="literal">-Username</span> <span class="string">"User"</span> <span class="literal">-Password</span> <span class="string">"Password"</span> <span class="literal">-Query</span> <span class="variable">$genCreateSQLOneline</span></span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1242,14 +1253,14 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-count">37</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">41</span>
+        <span class="site-state-item-count">43</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1291,13 +1302,13 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">50k</span>
+    <span title="Symbols count total">52k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">46 mins.</span>
+    <span title="Reading time total">47 mins.</span>
 </div>
 
         
