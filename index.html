@@ -177,6 +177,104 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/17/neovim-%E6%95%B4%E5%90%88-vscode-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="喇賽人">
+      <meta itemprop="description" content="喇賽人的Blog">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="喇賽的人Blog">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/17/neovim-%E6%95%B4%E5%90%88-vscode-%E7%AD%86%E8%A8%98/" class="post-title-link" itemprop="url">neovim 整合 vscode 筆記</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+              
+
+              <time title="Created: 2020-08-17 05:28:15 / Modified: 06:20:08" itemprop="dateCreated datePublished" datetime="2020-08-17T05:28:15+08:00">2020-08-17</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus: </span>
+    
+    <a title="disqus" href="/2020/08/17/neovim-%E6%95%B4%E5%90%88-vscode-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/08/17/neovim-整合-vscode-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="Symbols count in article">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">Symbols count in article: </span>
+              <span>434</span>
+            </span>
+            <span class="post-meta-item" title="Reading time">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">Reading time &asymp;</span>
+              <span>1 mins.</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p><a href="https://jdhao.github.io/2018/11/15/neovim_configuration_windows/" target="_blank" rel="noopener">參考這個老外說明</a><br>安裝<a href="https://github.com/neovim/neovim/wiki/Installing-Neovim#install-from-download" target="_blank" rel="noopener">neovim</a><br>下載後解壓到 D:\Neovim<br>將 D:\Neovim\bin 加入 Path 環境變數<br>輸入nvim即可執行<br>用powershell加入設定檔<a href="https://neovim.io/doc/user/starting.html#base-directories" target="_blank" rel="noopener">官方說明</a></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/AppData/Local/nvim</span><br><span class="line">cd ~/AppData/Local/nvim</span><br><span class="line"><span class="built_in">New-Item</span> init.vim</span><br><span class="line">mkdir ~/AppData/Local/nvim<span class="literal">-data</span></span><br></pre></td></tr></table></figure>
+
+<p>整合vscode設定以下config</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~\AppData\Roaming\Code\User</span><br><span class="line">nvim .\settings.json</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://github.com/VSCodeVim/Vim" target="_blank" rel="noopener">官方說明</a><br>找到vim片段加入以下屬性<br>路徑不寫會自動偵測path找到neovim的位置，我就懶得寫啦</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">"vim.enableNeovim" : true,</span><br><span class="line">"vim.neovimPath" : ""</span><br></pre></td></tr></table></figure>
+
+<p>實際測試交換行<br>:m+1 與下面一行交換<br>:m-2 與上面一行交換</p>
+<p>若沒開啟neovim整合會出現以下訊息<br>Command :m[ove] is not yet implemented</p>
+<p>開啟後則可以順利執行 </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/08/11/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1092,98 +1190,6 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="喇賽人">
-      <meta itemprop="description" content="喇賽人的Blog">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="喇賽的人Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/" class="post-title-link" itemprop="url">NCL Color Bar 轉換</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-              
-
-              <time title="Created: 2020-07-15 01:20:49 / Modified: 02:02:38" itemprop="dateCreated datePublished" datetime="2020-07-15T01:20:49+08:00">2020-07-15</time>
-            </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus: </span>
-    
-    <a title="disqus" href="/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/15/NCL-Color-Bar-轉換/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="Symbols count in article">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.9k</span>
-            </span>
-            <span class="post-meta-item" title="Reading time">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>2 mins.</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>工作上常常會遇到一些圖表呈現或是數值呈現 , 這時候就需要好看的 Color Bar!<br><img src="https://www.ncl.ucar.edu/Document/Graphics/ColorTables/Images/MPL_gist_rainbow_tibet.png" /><br>還好以前搞過 <a href="https://www.ncl.ucar.edu/Document/Graphics/color_table_gallery.shtml" target="_blank" rel="noopener">NCL</a> 上面有不少漂亮的 Color Bar 可以<a href="http://www.ncl.ucar.edu/Document/Graphics/ColorTables/Files/" target="_blank" rel="noopener">下載</a> 比較好看的大概就是 MPL 開頭的 , 下載下來的檔案會像是以下這種格式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">ncolors&#x3D; 128</span><br><span class="line"># r g b</span><br><span class="line">0.572226 0.834894 0.777009</span><br><span class="line">0.610796 0.849781 0.770242</span><br><span class="line">0.649366 0.864667 0.763476</span><br><span class="line">0.687935 0.879554 0.756709</span><br></pre></td></tr></table></figure>
-
-<p>但是一般常用的多半是 HEX 很多年前寫個 c# 小程式轉換 , 不過印象中 NCL 好像自己就有類似的函數</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//讀取color文字檔</span></span><br><span class="line"><span class="comment">//name , r , g , b</span></span><br><span class="line"><span class="comment">//轉換 rgb 為 hex</span></span><br><span class="line"><span class="keyword">var</span> files = Directory.EnumerateFiles(<span class="string">@"D:\rgb\"</span>, <span class="string">"*.rgb"</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> file <span class="keyword">in</span> files)</span><br><span class="line">&#123;</span><br><span class="line">	<span class="keyword">var</span> fileName = Path.GetFileNameWithoutExtension(file);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> lines = File.ReadAllLines(<span class="string">@"D:\rgb\"</span> + fileName + <span class="string">".rgb"</span>);</span><br><span class="line">	List&lt;<span class="keyword">string</span>&gt; colorList = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="comment">//寫入檔案</span></span><br><span class="line">	<span class="keyword">var</span> flag = <span class="literal">false</span>;</span><br><span class="line">	<span class="keyword">var</span> skipColorCount = <span class="number">0</span>;</span><br><span class="line">	List&lt;<span class="keyword">string</span>&gt; hexs = <span class="keyword">new</span> List&lt;<span class="keyword">string</span>&gt;();</span><br><span class="line"></span><br><span class="line">	<span class="keyword">int</span> skip = <span class="number">2</span>;</span><br><span class="line">	<span class="keyword">int</span> counter = <span class="number">1</span>;</span><br><span class="line">	<span class="keyword">foreach</span> (<span class="keyword">var</span> line <span class="keyword">in</span> lines)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">if</span> (counter &lt;= skip)</span><br><span class="line">		&#123;</span><br><span class="line">			counter++;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		flag = !flag;</span><br><span class="line">		<span class="keyword">if</span> (flag == <span class="literal">false</span>)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="keyword">continue</span>;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//skipColorCount++;</span></span><br><span class="line">		<span class="comment">//if (skipColorCount % 16 != 0)</span></span><br><span class="line">		<span class="comment">//&#123;</span></span><br><span class="line">		<span class="comment">//    continue;</span></span><br><span class="line">		<span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line">		<span class="keyword">var</span> lineResult = line.Split(<span class="string">' '</span>);</span><br><span class="line">		<span class="comment">//string name = lineResult[0];</span></span><br><span class="line">		<span class="keyword">int</span> r = Convert.ToInt32(Convert.ToDouble(lineResult[<span class="number">0</span>]) * <span class="number">255.0</span>);</span><br><span class="line">		<span class="keyword">int</span> g = Convert.ToInt32(Convert.ToDouble(lineResult[<span class="number">1</span>]) * <span class="number">255.0</span>);</span><br><span class="line">		<span class="keyword">int</span> b = Convert.ToInt32(Convert.ToDouble(lineResult[<span class="number">2</span>]) * <span class="number">255.0</span>);</span><br><span class="line">		Color color = Color.FromArgb(r, g, b);</span><br><span class="line"></span><br><span class="line">		<span class="keyword">string</span> hex = color.R.ToString(<span class="string">"X2"</span>) + color.G.ToString(<span class="string">"X2"</span>) + color.B.ToString(<span class="string">"X2"</span>);</span><br><span class="line"></span><br><span class="line">		hexs.Add(hex);</span><br><span class="line"></span><br><span class="line">		<span class="comment">//writer.WriteLine("#&#123;0&#125;", hex);</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//writer.WriteLine(string.Format("&lt;option value='&#123;0&#125;' style='background: #&#123;1&#125;;'&gt;&#123;0&#125;&lt;/option&gt;", name, hex));</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">using</span> (StreamWriter writer = <span class="keyword">new</span> StreamWriter(<span class="string">@"D:\rgb\"</span> + fileName + <span class="string">".txt"</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">foreach</span> (<span class="keyword">var</span> hex <span class="keyword">in</span> hexs)</span><br><span class="line">		&#123;</span><br><span class="line">			writer.WriteLine(<span class="string">"#&#123;0&#125;"</span>, hex);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	hexs.Reverse();</span><br><span class="line">	<span class="keyword">using</span> (StreamWriter writer = <span class="keyword">new</span> StreamWriter(<span class="string">@"D:\rgb\"</span> + fileName + <span class="string">"-inv.txt"</span>))</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">foreach</span> (<span class="keyword">var</span> hex <span class="keyword">in</span> hexs)</span><br><span class="line">		&#123;</span><br><span class="line">			writer.WriteLine(<span class="string">"#&#123;0&#125;"</span>, hex);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果不夠用的話也可以試試 ncwms 設計的 <a href="https://github.com/Reading-eScience-Centre/edal-java/tree/master/graphics/src/main/resources/palettes" target="_blank" rel="noopener">Color Bar</a><br><img src="https://reading-escience-centre.gitbooks.io/ncwms-user-guide/content/images/palettes.png" /></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1255,14 +1261,14 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">37</span>
+          <span class="site-state-item-count">38</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">43</span>
+        <span class="site-state-item-count">44</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
@@ -1304,13 +1310,13 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">Symbols count total: </span>
-    <span title="Symbols count total">54k</span>
+    <span title="Symbols count total">55k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">Reading time total &asymp;</span>
-    <span title="Reading time total">49 mins.</span>
+    <span title="Reading time total">50 mins.</span>
 </div>
 
         
