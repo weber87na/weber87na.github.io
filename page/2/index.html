@@ -200,10 +200,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-16 19:45:46 / Modified: 19:46:32" itemprop="dateCreated datePublished" datetime="2020-07-16T19:45:46+08:00">2020-07-16</time>
+              <time title="Created: 2020-07-16 19:45:46" itemprop="dateCreated datePublished" datetime="2020-07-16T19:45:46+08:00">2020-07-16</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -244,39 +250,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>#參考文章<br><a href="http://chienleebug.blogspot.com/2017/11/powershellpowershell.html" target="_blank" rel="noopener">http://chienleebug.blogspot.com/2017/11/powershellpowershell.html</a><br><a href="https://ithelp.ithome.com.tw/articles/10186746" target="_blank" rel="noopener">https://ithelp.ithome.com.tw/articles/10186746</a><br><a href="https://docs.microsoft.com/zh-tw/powershell/scripting/learn/remoting/running-remote-commands?view=powershell-7" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/powershell/scripting/learn/remoting/running-remote-commands?view=powershell-7</a><br><a href="https://helpcenter.gsx.com/hc/en-us/articles/202447926-How-to-Configure-Windows-Remote-PowerShell-Access-for-Non-Privileged-User-Accounts" target="_blank" rel="noopener">https://helpcenter.gsx.com/hc/en-us/articles/202447926-How-to-Configure-Windows-Remote-PowerShell-Access-for-Non-Privileged-User-Accounts</a></p>
-<p>紀錄一下powershell操控遠端電腦的一些操作 , 方便作業</p>
-<pre><code>#允許防火牆
-New-NetFireWallRule -DisplayName PowerShellWinRM -Direction Inbound -Protocol TCP -LocalPort 5985 -Action Allow
-
-#兩台都要設定
-Enable-PSRemoting –force
-
-#本機電腦執行
-winrm s winrm/config/client &apos;@{TrustedHosts=&quot;192.168.1.101&quot;}&apos;
-
-#遠端電腦
-winrm s winrm/config/client &apos;@{TrustedHosts=&quot;192.168.1.102&quot;}&apos;
-
-#注意遠端的電腦也要信任本機的電腦
-
-#連線的Session
-$remoteSession = New-PSSession -ComputerName 192.168.1.102 -Credential &quot;YourComputerName\Administrator&quot;
-
-#直接使用該遠端連線執行指定
-Enter-PSSession $remoteSession
-
-#離開這個遠端Session
-exit
-
-#在自己電腦執行遠端電腦上的命令
-Invoke-Command -Session $remoteSession -ScriptBlock { Get-ChildItem C:\ }
-
-#注意 powershell 版本 5.0 用這指令傳到 2.0 會失敗 暫時找不到解法
-Copy-Item -Path C:\Source.txt -Destination C:\Target.txt -ToSession $remoteSession
-
-#複製整個7z檔案到指定的遠端位置
-Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $remoteSession</code></pre>
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/16/powershell-%E9%81%A0%E7%AB%AF%E6%93%8D%E4%BD%9C%E9%9B%BB%E8%85%A6/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -318,10 +300,16 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-15 09:21:47 / Modified: 09:23:39" itemprop="dateCreated datePublished" datetime="2020-07-15T09:21:47+08:00">2020-07-15</time>
+              <time title="Created: 2020-07-15 09:21:47" itemprop="dateCreated datePublished" datetime="2020-07-15T09:21:47+08:00">2020-07-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -343,14 +331,14 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>1.6k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">Reading time &asymp;</span>
-              <span>1 mins.</span>
+              <span>2 mins.</span>
             </span>
 
         </div>
@@ -362,23 +350,15 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>具有時間序列的資料很容易因為天候因素 , 或是儀器不穩定導致無法正確回傳到 server!<br>很容易出現資料不連續的狀況 , 例如早上 8 點有資料但是 10 點就突然沒資料了<br>所以製作報表時需要自己把空白時間區塊填滿 , 產生固定每小時都有資料的暫時表</p>
-<p>取得過去72小時的時間 ex: “2020-01-15 08:40:00” - 71 hours = “2020-01-12 09:00:00”</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc</span><br></pre></td></tr></table></figure>
-
-<p>利用 <a href="https://www.postgresql.org/docs/current/functions-srf.html" target="_blank" rel="noopener">generate_series 函數</a> 產生 72 小時區間資料</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT t.day</span><br><span class="line">FROM generate_series(</span><br><span class="line">	(SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc),</span><br><span class="line">	now()::timestamp without time zone,</span><br><span class="line">	&#39;01:00:00&#39;::interval</span><br><span class="line">) t(day)</span><br></pre></td></tr></table></figure>
-
-<p>輸出會像是以下這樣的結果集</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&quot;2020-01-12 09:00:00&quot;</span><br><span class="line">&quot;2020-01-12 10:00:00&quot;</span><br><span class="line">&quot;2020-01-12 11:00:00&quot;</span><br><span class="line">&quot;2020-01-12 12:00:00&quot;</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">&quot;2020-01-15 08:00:00&quot;</span><br></pre></td></tr></table></figure>
-
-<p>運用 CROSS JOIN 將時間區段與觀測站編號進行組合 , 將缺少的時間補全</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT t.day , a.stationid</span><br><span class="line">FROM generate_series(</span><br><span class="line">	(SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc),</span><br><span class="line">	now()::timestamp without time zone,</span><br><span class="line">	&#39;01:00:00&#39;::interval</span><br><span class="line">) t(day)</span><br><span class="line">CROSS JOIN autostation a</span><br></pre></td></tr></table></figure>
-<p>輸出會像是以下這樣的結果集</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;2020-02-12 10:00:00&quot;;&quot;C0A560&quot;</span><br><span class="line">&quot;2020-02-12 10:00:00&quot;;&quot;C0X190&quot;</span><br><span class="line">&quot;2020-02-12 10:00:00&quot;;&quot;C0S950&quot;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>最後進行 left join 就可以取得想要的資料了 , 可以用 WITH 太過複雜的臨時查詢結果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">WITH X as (</span><br><span class="line">	SELECT t.day , a.stationid</span><br><span class="line">	FROM generate_series(</span><br><span class="line">		(SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc),</span><br><span class="line">		now()::timestamp without time zone,</span><br><span class="line">		&#39;01:00:00&#39;::interval</span><br><span class="line">	) t(day)</span><br><span class="line">	CROSS JOIN autostation a</span><br><span class="line">)</span><br><span class="line">SELECT X.* , log.*</span><br><span class="line">FROM X</span><br><span class="line">LEFT JOIN log</span><br><span class="line">ON X.day::text &#x3D; log.obstime::text </span><br><span class="line">AND X.stationid::text &#x3D; log.stationid::text;</span><br></pre></td></tr></table></figure>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -428,7 +408,7 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-21 00:19:07" itemprop="dateModified" datetime="2020-08-21T00:19:07+08:00">2020-08-21</time>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
               </span>
 
           
@@ -470,7 +450,7 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>&nbsp;&nbsp;&nbsp;&nbsp;</p>
+          <p>&nbsp;</p>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/#more" rel="contents">
@@ -520,10 +500,16 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-15 00:08:58 / Modified: 00:35:05" itemprop="dateCreated datePublished" datetime="2020-07-15T00:08:58+08:00">2020-07-15</time>
+              <time title="Created: 2020-07-15 00:08:58" itemprop="dateCreated datePublished" datetime="2020-07-15T00:08:58+08:00">2020-07-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -545,7 +531,7 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>709</span>
+              <span>715</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -564,9 +550,15 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>以往要執行動態 sql 多半都會用半手動方式先在 sql server 裡面寫好 script 然後才執行 , 萬一有一堆 sql 要執行時就是一場噩夢了!<br>最近用 powershell 搭配簡化一下整體工作流程 (可惜 postgresql 沒法用)<br>可以參考這個<a href="https://www.sqlshack.com/working-with-powershells-invoke-sqlcmd/" target="_blank" rel="noopener">example</a></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#匯入sqlserver模組</span></span><br><span class="line"><span class="built_in">Import-Module</span> SqlServer</span><br><span class="line"></span><br><span class="line"><span class="comment">#cd 到指定的資料庫也可以不用</span></span><br><span class="line"><span class="comment">#Set-Location SQLSERVER:\SQL\localhost\DEFAULT\Databases</span></span><br><span class="line"><span class="comment">#如果有 cd 到指定位置可以直接執行就好不用指定 instance</span></span><br><span class="line"><span class="comment">#$result = Invoke-Sqlcmd -InputFile "d:\test.txt"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#這句會執行指定的 sqlserver instance</span></span><br><span class="line"><span class="variable">$result</span> = <span class="built_in">Invoke-SqlCmd</span> <span class="literal">-ServerInstance</span> <span class="string">"localhost,1433"</span> <span class="literal">-Database</span> <span class="string">"test2"</span> <span class="literal">-Username</span> <span class="string">"User"</span> <span class="literal">-Password</span> <span class="string">"Password"</span> <span class="literal">-InputFile</span> <span class="string">"d:\test.txt"</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#注意這邊最關鍵</span></span><br><span class="line"><span class="comment">#回傳為來的物件為 Array 故使用 join 將動態 script 轉換為一條 sql</span></span><br><span class="line"><span class="variable">$genCreateSQLOneline</span> = <span class="variable">$result</span>.genCreateSQL <span class="operator">-join</span> <span class="string">" "</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最後執行先前動態產生的sql</span></span><br><span class="line"><span class="built_in">Invoke-Sqlcmd</span> <span class="literal">-ServerInstance</span> <span class="string">"localhost,1433"</span> <span class="literal">-Database</span> <span class="string">"test2"</span> <span class="literal">-Username</span> <span class="string">"User"</span> <span class="literal">-Password</span> <span class="string">"Password"</span> <span class="literal">-Query</span> <span class="variable">$genCreateSQLOneline</span></span><br></pre></td></tr></table></figure>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/15/powershell%E5%9F%B7%E8%A1%8C%E5%8B%95%E6%85%8Bsql/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -608,10 +600,16 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-14 12:01:44 / Modified: 12:08:21" itemprop="dateCreated datePublished" datetime="2020-07-14T12:01:44+08:00">2020-07-14</time>
+              <time title="Created: 2020-07-14 12:01:44" itemprop="dateCreated datePublished" datetime="2020-07-14T12:01:44+08:00">2020-07-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -633,7 +631,7 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>888</span>
+              <span>894</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -652,28 +650,15 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>上線前為了方便讓前端可以去做畫面的調整建議把 csproj 內的 RazorCompileOnPublish 設定為 true</p>
-<p>編譯之前建議先看這 <a href="https://blog.darkthread.net/blog/razor-runtime-compilation/" target="_blank" rel="noopener">黑暗執行緒的文章</a> 很受用</p>
-<p>有時需要切換環境測試所以直接使用 self-contained 命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet publish --self-contained true -r win10-x64</span><br></pre></td></tr></table></figure>
-
-<p>注意以下操作需要使用系統管理員 , 可以安裝 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">sudo</a> 簡化流程</p>
-<p>下載 NTFSSecurity 模組 , 並且引入 IIS 模組及 NTFSSecurity</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Import-Module</span> WebAdministration</span><br><span class="line"><span class="built_in">Install-Module</span> <span class="literal">-Name</span> NTFSSecurity <span class="literal">-RequiredVersion</span> <span class="number">4.2</span>.<span class="number">4</span></span><br><span class="line"><span class="built_in">Import-Module</span> NTFSSecurity</span><br></pre></td></tr></table></figure>
-
-<p>佈署 asp.net core 網站之前記得要下載 <a href="https://dotnet.microsoft.com/download/dotnet-core/thank-you/runtime-aspnetcore-3.1.5-windows-hosting-bundle-installer" target="_blank" rel="noopener">aspnetcore-windows-hosting-bundle</a></p>
-<p>接著在 APpPool 建立 .net core 專屬的 AppPool</p>
-<p>注意 AppPool 我測不出自動建立的方法 , 只好手動建立一個 no managed code 名為 NetCore 的 AppPool , 如果有人有找到方法歡迎告訴我感謝!</p>
-<p>最後佈署 Asp.net Core 網站為 Default Web Site 的 Sub Application (這很無奈… 但就是很多地方只能讓你用 80 port 又不給你 domain name)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">New-WebApplication -Name VideoExample -Site &#39;Default Web Site&#39; -PhysicalPath D:\TestWebSite -ApplicationPool NetCore</span><br></pre></td></tr></table></figure>
-
-<p>給予權限 (以前都要按好多步驟 , 現在一行就搞定)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Add-NTFSAccess -Path &#39;D:\TestWebSite &#39; -Account IIS_IUSRS -AccessRights FullControl</span><br></pre></td></tr></table></figure>
-
-<p>最後切換到 IIS 目錄底下看看狀況</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd IIS:\Sites\Default Web Site\</span><br><span class="line">ls</span><br></pre></td></tr></table></figure>
-<p>如果要移除 sub application 或是其他物件也很方便直接下 rm 就好了</p>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/14/powershell-%E4%BD%88%E7%BD%B2-asp-net-core-%E5%88%B0-iis-sub-application/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -715,10 +700,16 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-14 02:05:52 / Modified: 02:37:03" itemprop="dateCreated datePublished" datetime="2020-07-14T02:05:52+08:00">2020-07-14</time>
+              <time title="Created: 2020-07-14 02:05:52" itemprop="dateCreated datePublished" datetime="2020-07-14T02:05:52+08:00">2020-07-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -759,17 +750,15 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>首先安裝 <a href="https://github.com/GeoJSON-Net/GeoJSON.Net" target="_blank" rel="noopener">GeoJSON.Net</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package GeoJSON.Net</span><br></pre></td></tr></table></figure>
-
-<p>在Startup.cs 底下的 ConfigureServices 設定 NewtonsoftJson 注意撰寫此文章時 GeoJson.Net 對 .net core 原生的 System.Text.Json 尚未支援會造成輸出上的錯誤</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ConfigureServices</span>(<span class="params">IServiceCollection services</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">//設定防止循環參考</span></span><br><span class="line">    services.AddControllers()</span><br><span class="line">        .AddNewtonsoftJson(opt =&gt;</span><br><span class="line">            opt.SerializerSettings.ReferenceLoopHandling =</span><br><span class="line">            Newtonsoft.Json.ReferenceLoopHandling.Ignore);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="建立吐站點的-GeoJson-API"><a href="#建立吐站點的-GeoJson-API" class="headerlink" title="建立吐站點的 GeoJson API"></a>建立吐站點的 GeoJson API</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Station</span><br><span class="line">&#123;</span><br><span class="line">    public string Name &#123; get; set;&#125;</span><br><span class="line">    public double Lon &#123; get; set;&#125;</span><br><span class="line">    public double Lat &#123; get; set;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public ActionResult&lt;FeatureCollection&gt; GetStationGeoJson()</span><br><span class="line">&#123;</span><br><span class="line">    List&lt;Station&gt; stations &#x3D; new List&lt;Station&gt;()&#123;</span><br><span class="line">        new Station &#123; Name &#x3D; &quot;Test1&quot; , Lon &#x3D; 121.2314 , Lat &#x3D; 21.6841 &#125;,</span><br><span class="line">        new Station &#123; Name &#x3D; &quot;Test2&quot; , Lon &#x3D; 122.2s4 , Lat &#x3D; 21.3321 &#125;,    </span><br><span class="line">        new Station &#123; Name &#x3D; &quot;Test3&quot; , Lon &#x3D; 120.1314 , Lat &#x3D; 21.7341 &#125;,</span><br><span class="line">        new Station &#123; Name &#x3D; &quot;Test4&quot; , Lon &#x3D; 121.2324 , Lat &#x3D; 22.9341 &#125;,</span><br><span class="line">    &#125;;</span><br><span class="line">    </span><br><span class="line">    FeatureCollection fc &#x3D; new FeatureCollection();</span><br><span class="line">    foreach (var station in stations)</span><br><span class="line">    &#123;</span><br><span class="line">        Position position &#x3D; new Position(</span><br><span class="line">       longitude: station.Lon,</span><br><span class="line">       latitude: station.Lat);</span><br><span class="line"></span><br><span class="line">        Point point &#x3D; new Point(position);</span><br><span class="line">        GeoJSON.Net.Geometry.Point p &#x3D; new GeoJSON.Net.Geometry.Point(position);</span><br><span class="line"></span><br><span class="line">        Feature feature &#x3D; new Feature(p, station);</span><br><span class="line">        fc.Features.Add(feature);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return Ok(fc);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="建立某點位的-buffer"><a href="#建立某點位的-buffer" class="headerlink" title="建立某點位的 buffer"></a>建立某點位的 buffer</h4><p>注意這邊需要使用低階函示庫 <a href="https://www.nuget.org/packages/NetTopologySuite.IO.GeoJSON" target="_blank" rel="noopener">NetTopologySuite.IO.GeoJSON</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package NetTopologySuite.IO.GeoJSON -Version 2.0.3</span><br></pre></td></tr></table></figure>
-<p>需要特別注意 GeoJson.Net 的規範比較嚴格 , 故需要加入 FeatureCollection 讓 NetTopologySuite 的物件轉換為符合 GeoJson.Net 規範的格式</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;建議寫成service抽離</span><br><span class="line">private FeatureCollection getBufferGeoJson(double lon, double lat, int meter &#x3D; 100)</span><br><span class="line">&#123;</span><br><span class="line">	NetTopologySuite.Geometries.Point center &#x3D;</span><br><span class="line">		new NetTopologySuite.Geometries.Point(lon, lat);</span><br><span class="line">	&#x2F;&#x2F;設定正規化單位(meter)</span><br><span class="line">	&#x2F;&#x2F;注意這段我沒有詳細驗證單位最後是否正確不過結果看起來應該是對的</span><br><span class="line">	double normalize &#x3D; 0.00001;</span><br><span class="line">	var buffer &#x3D; center.Buffer(meter * normalize);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;轉換低階的 geojson 讓其符合 geojson.net 的規格</span><br><span class="line">	&#x2F;&#x2F;主要就是要有 geojson 內的 properties</span><br><span class="line">	NetTopologySuite.Features.Feature feature &#x3D; new NetTopologySuite.Features.Feature();</span><br><span class="line">	feature.Geometry &#x3D; buffer;</span><br><span class="line">	feature.Attributes &#x3D; new NetTopologySuite.Features.AttributesTable();</span><br><span class="line">	NetTopologySuite.Features.FeatureCollection fc &#x3D; new NetTopologySuite.Features.FeatureCollection();</span><br><span class="line">	fc.Add(feature);</span><br><span class="line"></span><br><span class="line">	GeoJsonWriter writer &#x3D; new GeoJsonWriter();</span><br><span class="line">	var geojson &#x3D; writer.Write(fc);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;轉換為 geojson.net 的 geojson 格式</span><br><span class="line">	var result &#x3D; JsonConvert.DeserializeObject&lt;FeatureCollection&gt;(geojson);</span><br><span class="line">	return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;包裝為 api 吐出 buffer geojson</span><br><span class="line">[HttpGet(&quot;BufferGeoJson&#x2F;&#123;lon&#125;&#x2F;&#123;lat&#125;&#x2F;&#123;meter&#125;&quot;)]</span><br><span class="line">public ActionResult&lt;FeatureCollection&gt; GetBufferGeoJson(double lon, double lat, int meter &#x3D; 100)</span><br><span class="line">&#123;</span><br><span class="line">	try</span><br><span class="line">	&#123;</span><br><span class="line">		var result &#x3D; getBufferGeoJson(lon, lat, meter);</span><br><span class="line">		return Ok(result);</span><br><span class="line">	&#125;</span><br><span class="line">	catch (Exception ex)</span><br><span class="line">	&#123;</span><br><span class="line">		logger.LogError(ex.Message);</span><br><span class="line">		return Problem(ex.Message);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/14/asp-net-core-%E8%A3%BD%E4%BD%9C-geojson/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -811,10 +800,16 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-14 01:39:57 / Modified: 02:05:28" itemprop="dateCreated datePublished" datetime="2020-07-14T01:39:57+08:00">2020-07-14</time>
+              <time title="Created: 2020-07-14 01:39:57" itemprop="dateCreated datePublished" datetime="2020-07-14T01:39:57+08:00">2020-07-14</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -855,11 +850,15 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
     <div class="post-body" itemprop="articleBody">
 
       
-          <h4 id="樣式地雷"><a href="#樣式地雷" class="headerlink" title="樣式地雷"></a>樣式地雷</h4><p>最好在首次執行時對樣式進行 cache , 如果不這樣寫由於 openlayers 的機制會在每次進行繪製時 new 出一堆物件 , 造成地圖畫面閃爍</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//樣式</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">pointStyle</span>(<span class="params">feature</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> name = feature.get(<span class="string">'name'</span>);</span><br><span class="line">    <span class="keyword">var</span> id = feature.get(<span class="string">'id'</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">var</span> icon = <span class="keyword">new</span> ol.style.Style(&#123;</span><br><span class="line">        image: <span class="keyword">new</span> ol.style.Icon((&#123;</span><br><span class="line">            src: <span class="string">'point.png'</span></span><br><span class="line">        &#125;)),</span><br><span class="line">        text: <span class="keyword">new</span> ol.style.Text(&#123;</span><br><span class="line">            text: name,</span><br><span class="line">            fill: <span class="keyword">new</span> ol.style.Fill(&#123;</span><br><span class="line">                color: <span class="string">'#000'</span></span><br><span class="line">            &#125;),</span><br><span class="line">            stroke: <span class="keyword">new</span> ol.style.Stroke(&#123;</span><br><span class="line">                color: <span class="string">'#fff'</span>,</span><br><span class="line">                width: <span class="number">2</span></span><br><span class="line">            &#125;),</span><br><span class="line">            offsetY: <span class="number">24</span></span><br><span class="line">        &#125;)</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> icon;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//這邊已經讀了某些後端送來的資料</span></span><br><span class="line">features.forEach(<span class="function"><span class="keyword">function</span> (<span class="params">feature</span>) </span>&#123;</span><br><span class="line">	</span><br><span class="line">    <span class="keyword">var</span> name = feature.get(<span class="string">'name'</span>);</span><br><span class="line">    <span class="keyword">var</span> id = feature.get(<span class="string">'id'</span>);</span><br><span class="line">    <span class="keyword">var</span> cache = &#123;</span><br><span class="line">        name: name,</span><br><span class="line">        id: id,</span><br><span class="line">        style: pointStyle(feature)</span><br><span class="line">    &#125;;</span><br><span class="line">    styleCaches.push(cache);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> layer = <span class="keyword">new</span> ol.layer.Vector(&#123;</span><br><span class="line">	renderMode: <span class="string">'image'</span>,</span><br><span class="line">	source: <span class="keyword">new</span> ol.source.Vector(&#123;</span><br><span class="line">	    format: <span class="keyword">new</span> ol.format.GeoJSON(),</span><br><span class="line">	&#125;),</span><br><span class="line">	style: <span class="function"><span class="keyword">function</span> (<span class="params">feature</span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> name = feature.get(<span class="string">'name'</span>);</span><br><span class="line">		<span class="keyword">var</span> id = feature.get(<span class="string">'id'</span>);</span><br><span class="line">		<span class="keyword">var</span> style;</span><br><span class="line">		<span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; styleCaches.length; i++) &#123;</span><br><span class="line">			<span class="keyword">var</span> ele = styleCaches[i];</span><br><span class="line">			<span class="keyword">if</span> (ele.id == id &amp;&amp; ele.name == name) &#123;</span><br><span class="line">				style = ele.style;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		<span class="keyword">return</span> style;</span><br><span class="line">	&#125;	</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h4 id="loader-地雷"><a href="#loader-地雷" class="headerlink" title="loader 地雷"></a>loader 地雷</h4><p>工作上跟別人搭配遇到的地雷! 以前很喜歡直接使用 loader ,  時需要注意如果地圖在初始化時為 visible 為 false 或是 hidden 的情況 , 會造成 loader 失效 , 要切換到地圖讓地圖顯示才會生效 ..</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> layer = <span class="keyword">new</span> ol.layer.Vector(&#123;</span><br><span class="line">	renderMode: <span class="string">'image'</span>,</span><br><span class="line">	source: <span class="keyword">new</span> ol.source.Vector(&#123;</span><br><span class="line">	    format: <span class="keyword">new</span> ol.format.GeoJSON(),</span><br><span class="line">	    loader: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">	        <span class="comment">// todo</span></span><br><span class="line">	    &#125;</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/14/openlayers%E5%9C%B0%E9%9B%B7/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -901,10 +900,16 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-11 23:25:57 / Modified: 23:55:27" itemprop="dateCreated datePublished" datetime="2020-07-11T23:25:57+08:00">2020-07-11</time>
+              <time title="Created: 2020-07-11 23:25:57" itemprop="dateCreated datePublished" datetime="2020-07-11T23:25:57+08:00">2020-07-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -926,7 +931,7 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>489</span>
+              <span>495</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -945,19 +950,15 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>工作上時常有些資料轉換小需求 , 但一時之間又不好搞定 , 多半會透過各種亂七八糟的方式轉換 , 無聊看看 powershell 的功能裡面可以連接 sql server 操作一些這種雜亂的工作!</p>
-<p>首先需要 <a href="https://docs.microsoft.com/zh-tw/sql/powershell/download-sql-server-ps-module?view=sql-server-ver15" target="_blank" rel="noopener">安裝 SQL Server PowerShell 模組</a></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Module</span> <span class="literal">-Name</span> SqlServer <span class="literal">-AllowClobber</span> <span class="literal">-Scope</span> CurrentUser</span><br></pre></td></tr></table></figure>
-<p>接著匯入模組</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module SqlServer</span><br></pre></td></tr></table></figure>
-<p>然後設定路徑想到的位置 , 並且可以用 ls cd 這類指令看目前的物件如 table , view</p>
-<p>若設定過程中機器遇到權限問題 <a href="https://channel9.msdn.com/Blogs/raw-tech/How-To-Fix-Login-Failed-for-User-Microsoft-SQL-Server-Error-18456-Step-By-Step" target="_blank" rel="noopener">SQL Server Error 18456</a> 可以參考這篇解答</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-Location SQLSERVER:\SQL\localhost\DEFAULT\Databases</span><br></pre></td></tr></table></figure>
-<p>最後透過類似以下指令快篩內容並且轉換為 json 輸出 , 以前很多很阿雜的工作瞬間快速搞定!</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$customers &#x3D; Invoke-Sqlcmd &quot;select * from customers&quot;</span><br><span class="line">$customers | select CompanyName | ConvertTo-Json</span><br></pre></td></tr></table></figure>
-
-
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/11/%E9%81%8B%E7%94%A8powershell%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bsql-server%E6%9F%A5%E8%A9%A2%E7%B5%90%E6%9E%9C%E7%82%BAjson/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1007,7 +1008,7 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-14 01:37:24" itemprop="dateModified" datetime="2020-07-14T01:37:24+08:00">2020-07-14</time>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
               </span>
 
           
@@ -1049,22 +1050,15 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>工作久了有的東西常沒用就忘了 , 剛好又遇到以前的問題 , 趁機吃個老本筆記一下</p>
-<p>設定 powershell 上使用 vim <a href="https://blog.csdn.net/zhengqijun_/article/details/62425062" target="_blank" rel="noopener">參考</a><br>C:\Users\YourName\_vimrc</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set encoding&#x3D;utf-8</span><br><span class="line">set termencoding&#x3D;utf-8</span><br><span class="line">set fileencoding&#x3D;utf-8</span><br><span class="line">set fileencodings&#x3D;utf-8</span><br></pre></td></tr></table></figure>
-<p>這邊要隨著版本調整<br>並且要把這個 config 命名為 profile.ps1 丟到 C:\Windows\System32\WindowsPowerShell\v1.0 底下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># There&#39;s usually much more than this in my profile!</span><br><span class="line">$SCRIPTPATH &#x3D; &quot;C:\Program Files (x86)\Vim&quot;</span><br><span class="line">$VIMPATH    &#x3D; $SCRIPTPATH + &quot;\vim86\vim.exe&quot;</span><br><span class="line"> </span><br><span class="line">Set-Alias vi   $VIMPATH</span><br><span class="line">Set-Alias vim  $VIMPATH</span><br><span class="line"> </span><br><span class="line"># for editing your PowerShell profile</span><br><span class="line">Function Edit-Profile</span><br><span class="line">&#123;</span><br><span class="line">    vim $profile</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"># for editing your Vim settings</span><br><span class="line">Function Edit-Vimrc</span><br><span class="line">&#123;</span><br><span class="line">    vim $home\_vimrc</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>設定完需要用admin執行以下powershell</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ExecutionPolicy RemoteSigned</span><br></pre></td></tr></table></figure>
-<p>後來發現解壓縮沒7zip還挺不方便的於是到<a href="https://www.powershellgallery.com/packages/7Zip4Powershell/1.12.0" target="_blank" rel="noopener">powershell gallery</a>找找想不到還真的有</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Expand-7Zip</span> <span class="literal">-ArchiveFileName</span> .\test.<span class="number">7</span>z <span class="literal">-TargetPath</span> .\test)</span><br></pre></td></tr></table></figure>
-<h3 id="小試牛刀"><a href="#小試牛刀" class="headerlink" title="小試牛刀"></a>小試牛刀</h3><p><a href="https://stackoverflow.com/questions/5596982/using-powershell-to-write-a-file-in-utf-8-without-the-bom" target="_blank" rel="noopener">參考</a></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#呼叫 api</span></span><br><span class="line"><span class="variable">$tests</span> = <span class="built_in">Invoke-WebRequest</span> http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">5000</span>/api/test <span class="literal">-ContentType</span> <span class="string">"application/json; charset=utf-8"</span>  | <span class="built_in">ConvertFrom-Json</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#merge id</span></span><br><span class="line"><span class="variable">$ids</span> = <span class="variable">$ids</span>.ID <span class="operator">-join</span> <span class="string">","</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#設定utf8無bom</span></span><br><span class="line"><span class="variable">$utf8</span> = <span class="built_in">New-Object</span> System.Text.UTF8Encoding <span class="variable">$false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#參數ids吃先前用comma連接的</span></span><br><span class="line"><span class="variable">$testIds</span> = <span class="built_in">Invoke-WebRequest</span> <span class="built_in">Invoke-WebRequest</span> http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">5000</span>/api/test?ids=<span class="variable">$ids</span> <span class="literal">-ContentType</span> <span class="string">"application/json; charset=utf-8"</span> </span><br><span class="line"><span class="comment">#保存到 result.txt</span></span><br><span class="line">[<span class="type">System.IO.File</span>]::WriteAllLines(<span class="string">"test.txt"</span>, <span class="variable">$testIds</span>.content, <span class="variable">$utf8</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="小試牛刀找-api-內含有數字的資料-並排除某些-id"><a href="#小試牛刀找-api-內含有數字的資料-並排除某些-id" class="headerlink" title="小試牛刀找 api 內含有數字的資料 , 並排除某些 id"></a>小試牛刀找 api 內含有數字的資料 , 並排除某些 id</h3><p>主要原理就是需要使用 ConvertFrom-Json 將 json 物件轉為 powershell 的物件 , 接著以 Where-Object 進行搜尋 , 最後在轉換回 json 並且存檔<br>可以<a href="https://devblogs.microsoft.com/scripting/playing-with-json-and-powershell/" target="_blank" rel="noopener">參考</a></p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$utf8</span> = <span class="built_in">New-Object</span> System.Text.UTF8Encoding <span class="variable">$false</span></span><br><span class="line"><span class="variable">$tests</span> = <span class="built_in">Invoke-WebRequest</span> http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">5000</span>/api/test <span class="literal">-ContentType</span> <span class="string">"application/json; charset=utf-8"</span></span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$tests</span>.content | <span class="built_in">ConvertFrom-Json</span></span><br><span class="line"><span class="variable">$filter</span> = <span class="variable">$result</span> |  <span class="built_in">Where-Object</span> &#123;<span class="variable">$_</span>.ddesc <span class="operator">-Like</span> <span class="string">"*[0-9]*"</span> <span class="operator">-and</span> <span class="variable">$_</span>.id  <span class="operator">-notin</span> <span class="number">123</span>,<span class="number">456</span>&#125;</span><br><span class="line"><span class="variable">$resultJson</span> = <span class="variable">$filter</span> | <span class="built_in">ConvertTo-Json</span></span><br><span class="line">[<span class="type">System.IO.File</span>]::WriteAllLines(<span class="string">"test.txt"</span>, <span class="variable">$resultJson</span>, <span class="variable">$utf8</span>)</span><br></pre></td></tr></table></figure>
-<h3 id="小試牛刀用正則表示法找-api-內只含有數字的資料"><a href="#小試牛刀用正則表示法找-api-內只含有數字的資料" class="headerlink" title="小試牛刀用正則表示法找 api 內只含有數字的資料"></a>小試牛刀用正則表示法找 api 內只含有數字的資料</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$tests</span> = <span class="built_in">Invoke-WebRequest</span> http://<span class="number">127.0</span>.<span class="number">0.1</span>:<span class="number">5000</span>/api/test</span><br><span class="line"><span class="variable">$json</span> = <span class="variable">$tests</span>.content | <span class="built_in">ConvertFrom-Json</span></span><br><span class="line"><span class="variable">$result</span> = <span class="variable">$json</span> | where ddesc <span class="operator">-match</span> <span class="string">"^[0-9]*<span class="variable">$</span>"</span></span><br><span class="line"><span class="variable">$result</span> | <span class="built_in">ConvertTo-Json</span> &gt; <span class="string">"找出只有零到九的.json"</span></span><br></pre></td></tr></table></figure>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/09/powershell%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1106,10 +1100,16 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-09 02:47:54 / Modified: 03:09:47" itemprop="dateCreated datePublished" datetime="2020-07-09T02:47:54+08:00">2020-07-09</time>
+              <time title="Created: 2020-07-09 02:47:54" itemprop="dateCreated datePublished" datetime="2020-07-09T02:47:54+08:00">2020-07-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -1131,7 +1131,7 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>159</span>
+              <span>165</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -1150,18 +1150,15 @@ Copy-Item -Path C:\Users\Test\Test.7z -Destination D:\Test\Test.7z -ToSession $r
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>最近常忘東忘西 , 隨手紀錄一些常看的高手Blog</p>
-<h4 id="台灣"><a href="#台灣" class="headerlink" title="台灣"></a>台灣</h4><p><a href="http://sqlqna.blogspot.com/" target="_blank" rel="noopener">SQL 案例解析的作者</a></p>
-<p><a href="https://blog.miniasp.com/" target="_blank" rel="noopener">大名鼎鼎的保哥</a></p>
-<p><a href="https://blog.darkthread.net/" target="_blank" rel="noopener">黑暗執行緒</a></p>
-<p><a href="https://kaochenlong.com/" target="_blank" rel="noopener">五倍紅寶石-高見龍老師</a></p>
-<p><a href="https://blog.kkbruce.net/" target="_blank" rel="noopener">kkbruce 老師</a></p>
-<p><a href="https://demo.tc/" target="_blank" rel="noopener">demo 老師</a></p>
-<h4 id="老外"><a href="#老外" class="headerlink" title="老外"></a>老外</h4><p><a href="https://www.bostongis.com/" target="_blank" rel="noopener">postgis in action 作者</a></p>
-<p><a href="https://alastaira.wordpress.com/" target="_blank" rel="noopener">微軟 mvp gis 大神 - Alastair Aitchison (好像停止更新了)</a></p>
-<h4 id="老中"><a href="#老中" class="headerlink" title="老中"></a>老中</h4><p><a href="https://blog.csdn.net/liminlu0314" target="_blank" rel="noopener">GDAL源碼剖析與開發指南作者 - 李民錄</a></p>
-<p><a href="https://www.zhangxinxu.com/" target="_blank" rel="noopener">CSS大神 - 張鑫旭</a></p>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/09/%E4%B8%80%E4%BA%9B%E7%B6%B2%E8%B7%AF%E9%AB%98%E6%89%8B%E7%9A%84Blog/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 

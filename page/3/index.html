@@ -200,10 +200,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-09 00:06:28 / Modified: 00:10:15" itemprop="dateCreated datePublished" datetime="2020-07-09T00:06:28+08:00">2020-07-09</time>
+              <time title="Created: 2020-07-09 00:06:28" itemprop="dateCreated datePublished" datetime="2020-07-09T00:06:28+08:00">2020-07-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -225,7 +231,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>224</span>
+              <span>230</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -244,11 +250,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>隨手紀錄一下日常遇到的git問題</p>
-<h3 id="中文亂碼"><a href="#中文亂碼" class="headerlink" title="中文亂碼"></a>中文亂碼</h3><p>參考以下文章<br>powershell<br><a href="https://www.cnblogs.com/Laggage/p/12301495.html" target="_blank" rel="noopener">https://www.cnblogs.com/Laggage/p/12301495.html</a> </p>
-<p>git bash<br><a href="https://dotblogs.com.tw/H20/2018/06/22/111411" target="_blank" rel="noopener">https://dotblogs.com.tw/H20/2018/06/22/111411</a></p>
-<h3 id="遠端切換分支"><a href="#遠端切換分支" class="headerlink" title="遠端切換分支"></a>遠端切換分支</h3><p>參考<br><a href="https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git" target="_blank" rel="noopener">https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git</a></p>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -298,7 +308,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-09 21:42:08" itemprop="dateModified" datetime="2020-07-09T21:42:08+08:00">2020-07-09</time>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
               </span>
 
           
@@ -340,29 +350,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>這篇是很久以前一個朋友有全台灣紅豆餅店的經緯度資料 , 但是沒有詳細縣市鄉鎮 , 佛心幫忙看看</p>
-<p>首先建立台灣資料庫</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> Taiwan</span><br></pre></td></tr></table></figure>
-
-<p>接著隨便找 open data 下載資料<br><a href="https://data.tainan.gov.tw/dataset/tn-dist/resource/605960fb-ff21-480f-bb98-04026f23405d" target="_blank" rel="noopener">https://data.tainan.gov.tw/dataset/tn-dist/resource/605960fb-ff21-480f-bb98-04026f23405d</a></p>
-<p>開啟 PowerShell<br>cd 到以下目錄<br>C:\Program Files\QGIS 3.10\bin&gt;</p>
-<p>匯入鄉鎮地理資料(這邊用localdb)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\ogr2ogr.exe -progress -f "MSSQLSpatial" "MSSQL:server=(localdb)\MSSQLLocalDB;database=Taiwan;trusted_connection=yes;" "D:\tw.shp" -a_srs "EPSG:4326" -lco PRECISION=NO</span><br></pre></td></tr></table></figure>
-
-<p>用帳號密碼可以參考這種</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\ogr2ogr.exe -progress -f "MSSQLSpatial" "MSSQL:server=127.0.0.1,4333;database=Taiwan;uid=sa;pwd=pwd@" "D:\Taiwan\tw.shp" -a_srs "EPSG:4326" -lco PRECISION=NO</span><br></pre></td></tr></table></figure>
-
-<p>建立紅豆餅店的 geometry</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--更新Geom</span><br><span class="line">update Station</span><br><span class="line">set Geom &#x3D; (geometry::Point([Longitude] ,[Latitude] , 4326))</span><br></pre></td></tr></table></figure>
-
-<p>查詢空間查詢將紅豆餅店與地理資料進行 JOIN 看看結果</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--sql server spatial join</span></span><br><span class="line"><span class="keyword">select</span> S.* , T.countyname , T.townname</span><br><span class="line"><span class="keyword">from</span> [Taiwan].[Station] S</span><br><span class="line"><span class="keyword">join</span> [Taiwan].[dbo].[TW] T</span><br><span class="line"><span class="keyword">on</span> S.Geom.STIntersects(T.[ogr_geometry]) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
-
-
-<p>確認結果無誤以後更新紅豆餅店的縣市鄉鎮</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--更新縣市鄉鎮</span><br><span class="line">update S</span><br><span class="line">set S.County &#x3D; T.countyname , S.Town &#x3D; T.townname</span><br><span class="line">from [Taiwan].[dbo].[Station] S</span><br><span class="line">join [Taiwan].[dbo].[TW] T</span><br><span class="line">on S.Geom.STIntersects(T.[ogr_geometry]) &#x3D; 1</span><br></pre></td></tr></table></figure>
-
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -412,7 +408,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-07-07 00:09:35" itemprop="dateModified" datetime="2020-07-07T00:09:35+08:00">2020-07-07</time>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
               </span>
 
           
@@ -435,7 +431,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>122</span>
+              <span>128</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -454,11 +450,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>在 windows 檔案總管底下 <kbd>alt+d</kbd> 可以快速跳到路徑上</p>
-<p>輸入 cmd . 可以在該目錄路徑上開啟 cmd</p>
-<p>使用 wt -d . 則可以在該目錄路徑快速開啟 windows ternimal</p>
-<p>在 wsl ubuntu 裡面輸入 explorer.exe . 可以開啟該路徑的檔案總管</p>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/06/%E5%BF%AB%E9%80%9F%E9%96%8B%E5%95%9F%E7%9B%AE%E5%89%8D%E7%9B%AE%E9%8C%84%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -500,10 +500,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-06 23:44:32 / Modified: 23:57:50" itemprop="dateCreated datePublished" datetime="2020-07-06T23:44:32+08:00">2020-07-06</time>
+              <time title="Created: 2020-07-06 23:44:32" itemprop="dateCreated datePublished" datetime="2020-07-06T23:44:32+08:00">2020-07-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -525,7 +531,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>268</span>
+              <span>274</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -544,15 +550,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>一般的網格資料都會是切成等間距的方格 , 鮮少會遇到不規則狀.</p>
-<p>某次拿到一組網格資料在地圖上怎麼畫就是不對 , 本來以為是投影問題 , 沒想到原來是資料源的網格是不規則狀</p>
-<p>後來在 NCL 官網爬了很久才發現使用 NCL 產製的網格分為 Gaussian Grids , Fixed Grids , Fixed-Offset Grids , Regular Grids , Curvilinear Grids<br>共 5 種 , 詳細可以參考<a href="https://www.ncl.ucar.edu/Document/Functions/sphpk_grids.shtml" target="_blank" rel="noopener">這個說明</a></p>
-<p>最後在 NCL 官網上找到<a href="https://www.ncl.ucar.edu/Applications/regrid.shtml" target="_blank" rel="noopener">相關函數</a></p>
-<p>下面這張圖參考<a href="https://www.ncl.ucar.edu/Applications/regrid.shtml" target="_blank" rel="noopener">相關函數</a>的 ESMF_regrid_32.ncl</p>
-<p>非常明顯可以看出來從不規則的 WRF 資料網格轉換為等間距的固定網格</p>
-<img src="https://www.ncl.ucar.edu/Applications/Images/ESMF_regrid_32_lg.png" />
-
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/06/NCL-%E7%B6%B2%E6%A0%BC%E8%B3%87%E6%96%99%E5%9C%B0%E9%9B%B7/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -594,10 +600,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-05 21:42:02 / Modified: 21:46:11" itemprop="dateCreated datePublished" datetime="2020-07-05T21:42:02+08:00">2020-07-05</time>
+              <time title="Created: 2020-07-05 21:42:02" itemprop="dateCreated datePublished" datetime="2020-07-05T21:42:02+08:00">2020-07-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -619,7 +631,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>292</span>
+              <span>298</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -638,12 +650,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>一般在撰寫 jQuery 時需要觸發 click 都會偷懶這樣寫</p>
-<p>問題是這種寫法遇到當物件是動態產生就很容易炸了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(&#39;.item&#39;).click(function()&#123;</span><br><span class="line">    &#x2F;&#x2F;</span><br><span class="line">    console.log(&#39;item click !&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p> 所以最好這樣寫 就算是動態物件產生也不會炸!</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$(document).on(&#39;click&#39;,&#39;.item&#39;,function()&#123;</span><br><span class="line">    &#x2F;&#x2F;</span><br><span class="line">    console.log(&#39;item click !&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/05/Jquery-click%E5%9C%B0%E9%9B%B7/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -685,10 +700,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-05 21:40:52 / Modified: 21:58:06" itemprop="dateCreated datePublished" datetime="2020-07-05T21:40:52+08:00">2020-07-05</time>
+              <time title="Created: 2020-07-05 21:40:52" itemprop="dateCreated datePublished" datetime="2020-07-05T21:40:52+08:00">2020-07-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -710,7 +731,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>202</span>
+              <span>208</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -729,9 +750,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>工作上遇到一個非常雷的問題 , 我串接其他 3rd 的 api 原本以為是資料量過大導致 jquery datatable 跟前端回應較慢 , 問題是這個 api 速度極為不穩定從 3 - 5 秒到 30 秒以上都有可能發生 , 害我一度以為要做後端 pagging . </p>
-<p>最後發現原來是 jquery datatable 要設定 <a href="https://datatables.net/examples/ajax/defer_render.html" target="_blank" rel="noopener">deferRender 這個 option</a> 這樣 render 速度才會快 , 這個痛點搞了我整整一週時間去 Trace 沒想到是前端的問題 無奈 ..</p>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/05/Jquery-DataTable%E5%9C%B0%E9%9B%B7/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -773,10 +800,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-05 21:02:52 / Modified: 21:36:30" itemprop="dateCreated datePublished" datetime="2020-07-05T21:02:52+08:00">2020-07-05</time>
+              <time title="Created: 2020-07-05 21:02:52" itemprop="dateCreated datePublished" datetime="2020-07-05T21:02:52+08:00">2020-07-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -798,7 +831,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>675</span>
+              <span>681</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -817,17 +850,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>工作上又遇到這個萬年討厭的問題 , 客戶只有一個 domain name 又必須一定要使用 80 port , 後來查了一下文件 <a href="https://docs.microsoft.com/en-us/aspnet/core/host-and-deploy/iis/?view=aspnetcore-3.1#sub-applications" target="_blank" rel="noopener">Sub-applications</a> 結果很不幸的全部的 url 都炸掉必須要逐一修改很無奈 , 講白了這種奇耙做法只是把 route 搞爛 , 連我去上課老師也不太願意回答這個問題 ..</p>
-<p>在 Server Side 的 Razor Page 用了波浪符號的不會中標  , 像這樣</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">src&#x3D;&quot;~&#x2F;image.png&quot;</span><br></pre></td></tr></table></figure>
-<p>但 Javascript 呼叫 ajax 的 url 中標 , 常用的 Jquery DataTable 也是中標 像這樣</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url : &#39;&#x2F;api&#x2F;food&#39;</span><br></pre></td></tr></table></figure>
-<p>所以只好自己多墊上一層 domain name 像這樣就不會炸了 , 以後還是自己先乖乖防止先自己宣告個 namespace 物件並且加上一個 baseurl 屬性 , 像這樣</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">url : namespace.baseurl + &#39;&#x2F;api&#x2F;food&#39;</span><br></pre></td></tr></table></figure>
-<p>css 部分則是要自己看看在哪邊炸了 尤其是用了 background-image 一定炸得不要不要的 , 像這樣 只能看錯誤訊息慢慢調整 , 最悲劇的是這個我完全想不出任何方法防止 ..</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">background : url(..&#x2F;food.png)</span><br></pre></td></tr></table></figure>
-<p>最後一個防爆作法就是在可以加上 tag-helper 的地方都加上 , 想辦法讓 server 輸出這樣爆比較少</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">asp-append-version&#x3D;&quot;true&quot;</span><br><span class="line">或</span><br><span class="line">asp-append-version&#x3D;&quot;false&quot;</span><br></pre></td></tr></table></figure>
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/05/asp-net-core-iis-sub-application/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -877,7 +908,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-04 18:01:56" itemprop="dateModified" datetime="2020-08-04T18:01:56+08:00">2020-08-04</time>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
               </span>
 
           
@@ -900,7 +931,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>788</span>
+              <span>794</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -919,24 +950,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>前陣子學習 vim mode 想替自己增加開發效率 , 以下為設定筆記</p>
-<p>還不錯的兩個教學</p>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=mPVwS8gjDVI&amp;list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&amp;index=1" target="_blank" rel="noopener">五倍紅寶石</a></li>
-<li><a href="https://www.youtube.com/watch?v=rzpoMlss7Kk&amp;list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB" target="_blank" rel="noopener">Victor Lee</a></li>
-</ul>
-<p><a href="https://marketplace.visualstudio.com/items?itemName=JaredParMSFT.VsVim" target="_blank" rel="noopener">安裝 vim mode 外掛</a><br>設定可以<a href="https://www.cnblogs.com/qiyuexin/p/10424755.html" target="_blank" rel="noopener">參考</a>這個大陸人<br>解決衝突(可以把<kbd>Ctrl</kbd>+<kbd>F</kbd> 設定為用 Visual Studio 不要用 vim 的往上翻功能 看個人喜好 , 個人是覺得用 <kbd>Ctrl</kbd>+<kbd>U</kbd>就很夠用)</p>
-<p>在工具-&gt;選項-&gt;VsVim中設定解決衝突</p>
-<p>接著切換目錄到C:\Users\你的使用者名稱<br>建立一個_vimrc檔案設定以下內容<br>set clipboard=unnamed<br>set number<br>(相對行號等等會裝外掛解決可以不加)<br>set relativenumber</p>
-<p><a href="https://marketplace.visualstudio.com/items?itemName=BrianSchmitt.RelativeNumber" target="_blank" rel="noopener">安裝相對行號外掛</a></p>
-<p>設定相對行號的樣式 , 我是背景設定黑色 , 文字設定紅色看個人愛好</p>
-<p>Tools-&gt;Options-&gt;Environment-&gt;Font and Colors and set the &quot;Relative Number - Current Line&quot; property.</p>
-<p><a href="https://marketplace.visualstudio.com/items?itemName=munyabe.ToggleComment" target="_blank" rel="noopener">安裝快速切換註解外掛 toggle comment</a><br>這個外掛可以用 <kbd>Ctrl + /</kbd>切換註解相當方便</p>
-<p>如果沒有英文語言套件最好裝一下<br>開啟 visual studio installer安裝英文語言套件!</p>
-<p>接著開啟<br>工具-&gt;選項-&gt;環境-&gt;國際設定-&gt;English</p>
-<p>設定當使用IntelliSense跳出來要選擇時使用Alt + J (向下移動) Alt + K (向上移動)<br>Tools-&gt;Options-&gt;Environment-&gt;Keyboard<br>接著在Show commands containing裡面搜尋Edit.LineDown<br>在Press shortcut keys裡面按下 Alt + J 同理設定Edit.LineUp修改為Alt + K</p>
-<p>使用<a href="https://github.com/stevium/vs-nerdx" target="_blank" rel="noopener">NERDTree</a><br><a href="https://marketplace.visualstudio.com/items?itemName=mstevius.vs-nerdx-solution-explorer" target="_blank" rel="noopener">下載</a><br>最重要的快捷不動滑鼠移動到專案總管，其他熱鍵就參考官網說明吧..<br><kbd>ctrl + alt + l<kbd></p>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/05/visual-studio-vim-mode/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -986,7 +1008,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2020-08-17 06:40:41" itemprop="dateModified" datetime="2020-08-17T06:40:41+08:00">2020-08-17</time>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
               </span>
 
           
@@ -1028,24 +1050,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>前陣子學習 vim mode 想替自己增加開發效率 , 以下為設定筆記</p>
-<p>還不錯的教學</p>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=mPVwS8gjDVI&amp;list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&amp;index=1" target="_blank" rel="noopener">五倍紅寶石</a></li>
-<li><a href="https://www.youtube.com/watch?v=rzpoMlss7Kk&amp;list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB" target="_blank" rel="noopener">Victor Lee</a></li>
-<li><a href="https://www.barbarianmeetscoding.com/boost-your-coding-fu-with-vscode-and-vim/table-of-contents" target="_blank" rel="noopener">boost your coding fu with vscode and vim</a></li>
-</ul>
-<p><a href="https://github.com/VSCodeVim/Vim" target="_blank" rel="noopener">安裝 vim mode 外掛</a><br>在<kbd>win + r</kbd>輸入</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%APPDATA%&#x2F;Code&#x2F;User</span><br></pre></td></tr></table></figure>
-<p>在setting.json加上vim模式的config內容，建議easymotion要打開<br>有安裝neovim需要開啟整合的話可以打開最後面的設定</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;vim</span><br><span class="line">&quot;editor.lineNumbers&quot;: &quot;relative&quot;,</span><br><span class="line">&quot;vim.easymotion&quot;: true,</span><br><span class="line">&quot;vim.incsearch&quot;: true,</span><br><span class="line">&quot;vim.useSystemClipboard&quot;: true,</span><br><span class="line">&quot;vim.useCtrlKeys&quot;: true,</span><br><span class="line">&quot;vim.hlsearch&quot;: true,</span><br><span class="line">&quot;vim.insertModeKeyBindings&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;j&quot;, &quot;j&quot;],</span><br><span class="line">  &quot;after&quot;: [&quot;&lt;Esc&gt;&quot;]</span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line">&quot;vim.normalModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;&lt;leader&gt;&quot;, &quot;d&quot;],</span><br><span class="line">  &quot;after&quot;: [&quot;d&quot;, &quot;d&quot;]</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;&lt;C-n&gt;&quot;],</span><br><span class="line">  &quot;commands&quot;: [&quot;:nohl&quot;]</span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line">&quot;vim.leader&quot;: &quot;&lt;space&gt;&quot;,</span><br><span class="line">&quot;vim.handleKeys&quot;: &#123;</span><br><span class="line">	&#x2F;&#x2F;&quot;&lt;C-a&gt;&quot;: false,</span><br><span class="line">	&#x2F;&#x2F;&quot;&lt;C-f&gt;&quot;: false</span><br><span class="line">&#125;</span><br><span class="line">&quot;vim.enableNeovim&quot; : true,</span><br><span class="line">&quot;vim.neovimPath&quot; : &quot;&quot;</span><br></pre></td></tr></table></figure>
-<p>在keybindings.json加上config內容，開intellisense時也使用鍵盤alt+j alt+k 上下移動 , 可以參考<a href="https://stackoverflow.com/questions/18153541/scrolling-through-visual-studio-intellisense-list-without-mouse-or-keyboard-arro" target="_blank" rel="noopener">這篇</a></p>
-<p>注意這邊要照著老外Rocco Ruscitti才正確!<br>要用<a href="http://wklken.me/posts/2015/06/07/vim-plugin-easymotion.html" target="_blank" rel="noopener">Easymotion可以參考這篇</a></p>
-<p>另外我有設定emmet包裹功能(option)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 將按鍵繫結關係放在此檔案中以覆寫預設auto[]</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+w&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;editor.emmet.action.wrapWithAbbreviation&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+j&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectNextSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+k&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectPrevSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p>vscode 使用 <a href="https://github.com/VSCodeVim/Vim" target="_blank" rel="noopener">nerdtree</a><br><kbd>ctrl + shift + e<kbd></p>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/05/vscode-vim-mode/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1087,10 +1100,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">Posted on</span>
-              
 
-              <time title="Created: 2020-07-05 14:18:54 / Modified: 14:47:14" itemprop="dateCreated datePublished" datetime="2020-07-05T14:18:54+08:00">2020-07-05</time>
+              <time title="Created: 2020-07-05 14:18:54" itemprop="dateCreated datePublished" datetime="2020-07-05T14:18:54+08:00">2020-07-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+              </span>
 
           
   
@@ -1112,7 +1131,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>216</span>
+              <span>222</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -1131,9 +1150,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>某次任務中要串接外國軟體丟出來的 XML Response , 問題是沒有任何 Response 的文件資料 , 研究了一下該軟體內有定義 XSD Schema , 於是參考<a href="https://docs.microsoft.com/zh-tw/dotnet/standard/serialization/xml-schema-definition-tool-xsd-exe" target="_blank" rel="noopener">XSD</a>工具 , 下載後很快速的產生 c# 類別! 看來產品要有完整性還是要多學學老外 , 細心雕琢.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xsd &quot;C:\Program Files (x86)\Software\Spec\Execute\OrderSchema.xsd&quot; &#x2F;classes &#x2F;o:D:\</span><br></pre></td></tr></table></figure>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/07/05/%E5%A5%BD%E7%94%A8%E7%9A%84xsd%E9%A1%9E%E5%88%A5%E7%94%A2%E7%94%9F%E5%B7%A5%E5%85%B7/#more" rel="contents">
+                Read more &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
