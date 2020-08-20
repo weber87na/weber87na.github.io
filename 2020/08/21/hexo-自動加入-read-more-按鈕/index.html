@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-08-20T16:42:34.000Z">
-<meta property="article:modified_time" content="2020-08-20T16:54:45.640Z">
+<meta property="article:modified_time" content="2020-08-20T16:56:11.880Z">
 <meta property="article:author" content="喇賽人">
 <meta property="article:tag" content="hexo">
 <meta property="article:tag" content="bash">
@@ -205,7 +205,7 @@
               <span class="post-meta-item-text">Posted on</span>
               
 
-              <time title="Created: 2020-08-21 00:42:34 / Modified: 00:54:45" itemprop="dateCreated datePublished" datetime="2020-08-21T00:42:34+08:00">2020-08-21</time>
+              <time title="Created: 2020-08-21 00:42:34 / Modified: 00:56:11" itemprop="dateCreated datePublished" datetime="2020-08-21T00:42:34+08:00">2020-08-21</time>
             </span>
 
           
@@ -228,7 +228,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">Symbols count in article: </span>
-              <span>627</span>
+              <span>628</span>
             </span>
             <span class="post-meta-item" title="Reading time">
               <span class="post-meta-item-icon">
@@ -250,7 +250,7 @@
         <p>&amp;nbsp</p>
 <a id="more"></a>
 <p>文章開始變多，但是先前的文章卻都沒有加入 read more 按鈕<br>所以寫了個 bash 將先前的按鈕補出來，主要原理是在 markdown 的第二個 — 後面加上以下程式碼，像是以下片段<br>不過這樣有個缺點就是前面會多一段空白區段，老實說效果不是特好只能將就著用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: yourtitle</span><br><span class="line">date: 2020-08-21 00:42:34</span><br><span class="line">tags:</span><br><span class="line">- hexo</span><br><span class="line">- bash</span><br><span class="line">---</span><br><span class="line">&amp;nbsp</span><br><span class="line">&lt;!-- more --&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">title: yourtitle</span><br><span class="line">date: 2020-08-21 00:42:34</span><br><span class="line">tags:</span><br><span class="line">- hexo</span><br><span class="line">- bash</span><br><span class="line">---</span><br><span class="line">&amp;nbsp;</span><br><span class="line">&lt;!-- more --&gt;</span><br></pre></td></tr></table></figure>
 
 <p>以下是 bash 防止意外我只寫成 echo 要執行的話需要自己補<br>主要原理是使用 regex 將第二個 — dash 找到並且換成想要的結果</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">FILES=$(ls *.md)</span><br><span class="line"><span class="keyword">for</span> f <span class="keyword">in</span> <span class="variable">$FILES</span></span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">"sed ':a;N;\$!ba; s/---/---\n\&amp;nbsp;\n&lt;!-- more --&gt;/2' <span class="variable">$f</span> &gt; <span class="variable">$f</span>-changed.txt &amp;&amp; mv <span class="variable">$f</span>-changed.txt <span class="variable">$f</span>"</span></span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
