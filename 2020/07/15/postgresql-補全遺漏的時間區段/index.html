@@ -26,13 +26,13 @@
 
 <script id="hexo-configurations">
     var NexT = window.NexT || {};
-    var CONFIG = {"hostname":"yoursite.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+    var CONFIG = {"hostname":"weber87na.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
   <meta name="description" content="具有時間序列的資料很容易因為天候因素 , 或是儀器不穩定導致無法正確回傳到 server!很容易出現資料不連續的狀況 , 例如早上 8 點有資料但是 10 點就突然沒資料了所以製作報表時需要自己把空白時間區塊填滿 , 產生固定每小時都有資料的暫時表 取得過去72小時的時間 ex: “2020-01-15 08:40:00” - 71 hours &#x3D; “2020-01-12 09:00:00” 1S">
 <meta property="og:type" content="article">
 <meta property="og:title" content="postgresql 補全遺漏的時間區段">
-<meta property="og:url" content="http://yoursite.com/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/index.html">
+<meta property="og:url" content="https://weber87na.github.io/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/index.html">
 <meta property="og:site_name" content="喇賽的人Blog">
 <meta property="og:description" content="具有時間序列的資料很容易因為天候因素 , 或是儀器不穩定導致無法正確回傳到 server!很容易出現資料不連續的狀況 , 例如早上 8 點有資料但是 10 點就突然沒資料了所以製作報表時需要自己把空白時間區塊填滿 , 產生固定每小時都有資料的暫時表 取得過去72小時的時間 ex: “2020-01-15 08:40:00” - 71 hours &#x3D; “2020-01-12 09:00:00” 1S">
 <meta property="og:locale" content="zh_TW">
@@ -43,7 +43,7 @@
 <meta property="article:tag" content="postgresql">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://yoursite.com/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/">
+<link rel="canonical" href="https://weber87na.github.io/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/">
 
 
 <script id="page-configurations">
@@ -181,7 +181,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-tw">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/">
+    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -490,7 +490,7 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "http://yoursite.com/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/";
+    this.page.url = "https://weber87na.github.io/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/";
     this.page.identifier = "2020/07/15/postgresql-補全遺漏的時間區段/";
     this.page.title = "postgresql 補全遺漏的時間區段";
     };
