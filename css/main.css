@@ -184,8 +184,20 @@ img {
   height: auto;
   max-width: 100%;
 }
+.snow1 {
+  background: url("../images/snow1.png");
+  background-repeat: repeat;
+  width: 100%;
+  height: 700px;
+/* position: fiexed !important; */
+  top: 0;
+  left: 0;
+  animation: snowOne 10s infinite linear;
+  z-index: 999;
+}
 body {
-  background: var(--body-bg-color);
+/* background: var(--body-bg-color); */
+  background-color: #000;
   color: var(--text-color);
   font-family: 'Lato', "PingFang SC", "Microsoft YaHei", sans-serif;
   font-size: 1em;
@@ -285,6 +297,38 @@ kbd {
   font-family: inherit;
   padding: 0.1em 0.3em;
   white-space: nowrap;
+}
+@-moz-keyframes snowOne {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 100px 750px;
+  }
+}
+@-webkit-keyframes snowOne {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 100px 750px;
+  }
+}
+@-o-keyframes snowOne {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 100px 750px;
+  }
+}
+@keyframes snowOne {
+  0% {
+    background-position: 0px 0px;
+  }
+  100% {
+    background-position: 100px 750px;
+  }
 }
 .table-container {
   overflow: auto;
@@ -1181,7 +1225,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #57ffff;
+  background: #52ffc8;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
