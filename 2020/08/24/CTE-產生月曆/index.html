@@ -29,18 +29,20 @@
     var CONFIG = {"hostname":"weber87na.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="🌹 喇賽人的 Blog 🌹">
-<meta property="og:type" content="website">
-<meta property="og:title" content="🌹 喇賽的人 Blog 🌹">
-<meta property="og:url" content="https://weber87na.github.io/archives/2020/page/4/index.html">
+  <meta name="description" content="無聊看到有人出 sql 怎麼產生月曆，這問題還真是自虐又變態想了滿久，印象中好像有看過類似的首先利用 CTE 產生出今年的總日期天數(使用 DATEADD 連續加 1 創造類似迴圈的效果)接著使用 DATENAME 找出該日期為星期幾，最關鍵是搭配 DATEPART( week , 日期) 這個函數，可以找出該日期為某一週，最後使用 PIVOT 就搞定了印象中以前是學 sum or max 搭配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CTE 產生月曆">
+<meta property="og:url" content="https://weber87na.github.io/2020/08/24/CTE-%E7%94%A2%E7%94%9F%E6%9C%88%E6%9B%86/index.html">
 <meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
-<meta property="og:description" content="🌹 喇賽人的 Blog 🌹">
+<meta property="og:description" content="無聊看到有人出 sql 怎麼產生月曆，這問題還真是自虐又變態想了滿久，印象中好像有看過類似的首先利用 CTE 產生出今年的總日期天數(使用 DATEADD 連續加 1 創造類似迴圈的效果)接著使用 DATENAME 找出該日期為星期幾，最關鍵是搭配 DATEPART( week , 日期) 這個函數，可以找出該日期為某一週，最後使用 PIVOT 就搞定了印象中以前是學 sum or max 搭配">
 <meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-08-23T17:43:06.000Z">
+<meta property="article:modified_time" content="2020-08-23T17:53:49.200Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
-<meta property="article:tag" content="喇賽">
+<meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://weber87na.github.io/archives/2020/page/4/">
+<link rel="canonical" href="https://weber87na.github.io/2020/08/24/CTE-%E7%94%A2%E7%94%9F%E6%9C%88%E6%9B%86/">
 
 
 <script id="page-configurations">
@@ -48,12 +50,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-TW'
   };
 </script>
 
-  <title>喇賽亂寫 | 🌹 喇賽的人 Blog 🌹</title>
+  <title>CTE 產生月曆 | 🌹 喇賽的人 Blog 🌹</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
     <script>
@@ -177,240 +179,122 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2020/08/24/CTE-%E7%94%A2%E7%94%9F%E6%9C%88%E6%9B%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CTE 產生月曆
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2020-08-24 01:43:06 / 修改時間：01:53:49" itemprop="dateCreated datePublished" datetime="2020-08-24T01:43:06+08:00">2020-08-24</time>
+            </span>
+
+          
   
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">還行! 目前共有 44 篇文章。 繼續努力。</span>
-      </div>
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/08/24/CTE-%E7%94%A2%E7%94%9F%E6%9C%88%E6%9B%86/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/08/24/CTE-產生月曆/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>601</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>1 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T21:02:52+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/asp-net-core-iis-sub-application/" itemprop="url">
-            <span itemprop="name">asp.net core iis sub-application</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T15:22:58+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/visual-studio-vim-mode/" itemprop="url">
-            <span itemprop="name">visual-studio-vim-mode</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T15:04:27+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/vscode-vim-mode/" itemprop="url">
-            <span itemprop="name">vscode vim mode</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T14:18:54+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E5%A5%BD%E7%94%A8%E7%9A%84xsd%E9%A1%9E%E5%88%A5%E7%94%A2%E7%94%9F%E5%B7%A5%E5%85%B7/" itemprop="url">
-            <span itemprop="name">好用的xsd類別產生工具</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T14:11:45+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E5%B0%87jpg%E8%BD%89%E6%8F%9B%E7%82%BApng8/" itemprop="url">
-            <span itemprop="name">將jpg轉換為png8</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T13:19:21+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E9%81%9E%E8%BF%B4%E6%89%BE%E6%AA%94%E6%A1%88/" itemprop="url">
-            <span itemprop="name">遞迴找檔案</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T13:11:25+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/OSM%E7%B0%A1%E9%AB%94%E8%BD%89%E7%B9%81%E9%AB%94/" itemprop="url">
-            <span itemprop="name">OSM簡體轉繁體</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T13:05:50+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E6%89%BE%E5%87%BA%E5%A4%A7%E6%96%BC1GB%E7%9A%84shp/" itemprop="url">
-            <span itemprop="name">找出大於1GB的shp</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T12:56:31+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E5%BF%AB%E9%80%9F%E8%BD%89%E6%8F%9Bpng%E7%82%BAico/" itemprop="url">
-            <span itemprop="name">快速轉換png為ico</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-07-05T12:38:47+08:00"
-              content="2020-07-05">
-          07-05
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/07/05/%E5%BF%AB%E9%80%9F%E7%94%A2%E7%94%9F%E6%89%B9%E6%AC%A1%E5%88%AA%E9%99%A4%E8%B3%87%E6%96%99%E8%A1%A8%E6%8C%87%E4%BB%A4/" itemprop="url">
-            <span itemprop="name">快速產生批次刪除資料表指令</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        <p>無聊看到有人出 sql 怎麼產生月曆，這問題還真是自虐又變態想了滿久，印象中好像有看過類似的<br>首先利用 CTE 產生出今年的總日期天數(使用 DATEADD 連續加 1 創造類似迴圈的效果)<br>接著使用 DATENAME 找出該日期為星期幾，最關鍵是搭配 DATEPART( week , 日期) 這個函數，可以找出該日期為某一週，最後使用 PIVOT 就搞定了<br>印象中以前是學 sum or max 搭配 case 也可以轉，不過有點忘了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">WITH DateRange (D) AS</span><br><span class="line">(</span><br><span class="line">    select D &#x3D; CAST (&#39;20200101&#39; as DATE)</span><br><span class="line">    union all  </span><br><span class="line">    select CAST (DATEADD(DAY, 1, D) as DATE)</span><br><span class="line">    from DateRange  </span><br><span class="line">    where D &lt; CAST (&#39;20201231&#39; as DATE)</span><br><span class="line">) , DR as (</span><br><span class="line">	SELECT D , DATENAME(dw , D) W</span><br><span class="line">	FROM DateRange</span><br><span class="line">)</span><br><span class="line">SELECT WeekNum 周 , 星期日 , 星期一, 星期二, 星期三, 星期四, 星期五, 星期六</span><br><span class="line">FROM(</span><br><span class="line">	SELECT DATEPART( week , D ) WeekNum , D , W</span><br><span class="line">	FROM DR</span><br><span class="line">) TMP</span><br><span class="line">PIVOT (</span><br><span class="line">	MAX(D)</span><br><span class="line">	FOR W IN (星期日 , 星期一, 星期二, 星期三, 星期四, 星期五, 星期六)</span><br><span class="line">) p</span><br><span class="line">--注意這行是讓遞迴無限</span><br><span class="line">OPTION (MAXRECURSION 0)</span><br></pre></td></tr></table></figure>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/sql/" rel="tag"># sql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/22/hexo-%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="prev" title="hexo 踩雷筆記">
+      <i class="fa fa-chevron-left"></i> hexo 踩雷筆記
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
   
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/2020/page/3/"><i class="fa fa-angle-left" aria-label="上一頁"></i></a><a class="page-number" href="/archives/2020/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/2020/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/archives/2020/page/5/">5</a><a class="extend next" rel="next" href="/archives/2020/page/5/"><i class="fa fa-angle-right" aria-label="下一頁"></i></a>
-  </nav>
+  
+  
 
 
 
           </div>
           
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -590,6 +474,26 @@
   }
   // defer loading until the whole page loading is completed
   window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://weber87na.github.io/2020/08/24/CTE-%E7%94%A2%E7%94%9F%E6%9C%88%E6%9B%86/";
+    this.page.identifier = "2020/08/24/CTE-產生月曆/";
+    this.page.title = "CTE 產生月曆";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
 </script>
 
 
