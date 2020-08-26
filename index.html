@@ -208,7 +208,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2020-08-26 16:54:23 / 修改時間：16:57:29" itemprop="dateCreated datePublished" datetime="2020-08-26T16:54:23+08:00">2020-08-26</time>
+              <time title="亂入時間：2020-08-26 16:54:23 / 修改時間：17:55:19" itemprop="dateCreated datePublished" datetime="2020-08-26T16:54:23+08:00">2020-08-26</time>
             </span>
 
           
@@ -231,7 +231,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>455</span>
+              <span>461</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -250,10 +250,15 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>參考文章<br><a href="https://superuser.com/questions/1291425/windows-subsystem-linux-make-vim-use-the-clipboard" target="_blank" rel="noopener">https://superuser.com/questions/1291425/windows-subsystem-linux-make-vim-use-the-clipboard</a></p>
-<p>用了 wsl 一陣子突然發現到 vim 在上面無法複製文字，還好佛心老外已經搞定這個問題，只需要加入以下這段到 .vimrc 即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&quot; WSL yank support</span><br><span class="line">let s:clip &#x3D; &#39;&#x2F;mnt&#x2F;c&#x2F;Windows&#x2F;System32&#x2F;clip.exe&#39;  &quot; change this path according to your mount point</span><br><span class="line">if executable(s:clip)</span><br><span class="line">    augroup WSLYank</span><br><span class="line">        autocmd!</span><br><span class="line">        autocmd TextYankPost * if v:event.operator &#x3D;&#x3D;# &#39;y&#39; | call system(s:clip, @0) | endif</span><br><span class="line">    augroup END</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
-
+          <p>&nbsp;</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/26/%E8%A7%A3%E6%B1%BA-vim-%E5%9C%A8-wsl-%E4%B8%8A%E7%84%A1%E6%B3%95%E8%A4%87%E8%A3%BD%E7%9A%84%E5%95%8F%E9%A1%8C/#more" rel="contents">
+                繼續入坑 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
