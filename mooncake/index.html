@@ -1,0 +1,59 @@
+<!doctype HTML>
+<html>
+<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+<script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.5.0/aframe/build/aframe-ar.js"></script>
+
+
+<body style='margin : 0px; overflow: hidden;'>
+    <a-scene stats embedded arjs='trackingMethod: best;' light="defaultLightsEnabled: true">
+
+        <a-assets>
+
+            <!-- <a-asset-item id="tree" src="./mooncake2/scene.gltf"></a-asset-item> -->
+            <!-- <a-asset-item id="tree" src="./mooncake/scene.gltf"></a-asset-item> -->
+            <a-asset-item id="tree" src="./small_mooncake/scene.gltf"></a-asset-item>
+            <!-- <a-asset-item id="tree" src="./santa/scene.gltf"></a-asset-item> -->
+            <!-- <a-asset-item id="tree" src="./advent_calendar_day_11_christmas_tree/scene.gltf"></a-asset-item> -->
+            <!-- <a-asset-item id="tree" src="./choinka_christmas_tree/scene.gltf"></a-asset-item> -->
+            <!-- <a-asset-item id="tree" src="./santa_figurine/scene.gltf"></a-asset-item> -->
+        </a-assets>
+
+
+
+
+
+        <a-light type="directional" color="#FFF" intensity="0.5" position="-1 1 2">
+        </a-light>
+        <a-light type="ambient" color="#FFF">
+        </a-light>
+
+
+
+
+
+
+
+
+        <a-marker preset="hiro">
+
+            <a-entity gltf-model="#tree" scale="0.0025 0.0025 0.0025" position="0 0 0">
+            <!-- <a-entity gltf-model="#tree" scale="10 10 10" position="0 0 0"> -->
+
+                <a-animation attribute="rotation" dur="10000" fill="forwards" to="0 360 0" repeat="indefinite">
+                </a-animation>
+
+            </a-entity>
+
+
+            </a-sphere>
+
+
+        </a-marker>
+
+
+        <a-entity camera></a-entity>
+    </a-scene>
+</body>
+
+</html>
