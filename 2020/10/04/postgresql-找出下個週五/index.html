@@ -29,21 +29,20 @@
     var CONFIG = {"hostname":"weber87na.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="&amp;nbsp;">
+  <meta name="description" content="看書時看到找出下個週五的案例，想說轉為 postgresql 版本沒想到也是費了點勁，藉此筆記一下。關鍵公式 (7 - (DATE_PART(‘DOW’ , Base::DATE)::INT + 1) + 5) % 7 + 1postgresql 使用 DATE_PART 函數進行運算週日由 0 開始，故一週為 0 - 6 計算，所以需要修正加一。此外 DATE_PART 函數計算完成資料型態為">
 <meta property="og:type" content="article">
-<meta property="og:title" content="postgresql 補全遺漏的時間區段">
-<meta property="og:url" content="https://weber87na.github.io/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/index.html">
+<meta property="og:title" content="postgresql 找出下個週五">
+<meta property="og:url" content="https://weber87na.github.io/2020/10/04/postgresql-%E6%89%BE%E5%87%BA%E4%B8%8B%E5%80%8B%E9%80%B1%E4%BA%94/index.html">
 <meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
-<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:description" content="看書時看到找出下個週五的案例，想說轉為 postgresql 版本沒想到也是費了點勁，藉此筆記一下。關鍵公式 (7 - (DATE_PART(‘DOW’ , Base::DATE)::INT + 1) + 5) % 7 + 1postgresql 使用 DATE_PART 函數進行運算週日由 0 開始，故一週為 0 - 6 計算，所以需要修正加一。此外 DATE_PART 函數計算完成資料型態為">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2020-07-15T01:21:47.000Z">
-<meta property="article:modified_time" content="2020-08-20T16:39:39.750Z">
+<meta property="article:published_time" content="2020-10-04T15:24:04.000Z">
+<meta property="article:modified_time" content="2020-10-04T15:38:30.490Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
-<meta property="article:tag" content="sql">
 <meta property="article:tag" content="postgresql">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://weber87na.github.io/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/">
+<link rel="canonical" href="https://weber87na.github.io/2020/10/04/postgresql-%E6%89%BE%E5%87%BA%E4%B8%8B%E5%80%8B%E9%80%B1%E4%BA%94/">
 
 
 <script id="page-configurations">
@@ -56,7 +55,7 @@
   };
 </script>
 
-  <title>postgresql 補全遺漏的時間區段 | 🌹 喇賽的人 Blog 🌹</title>
+  <title>postgresql 找出下個週五 | 🌹 喇賽的人 Blog 🌹</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
     <script>
@@ -187,7 +186,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/">
+    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2020/10/04/postgresql-%E6%89%BE%E5%87%BA%E4%B8%8B%E5%80%8B%E9%80%B1%E4%BA%94/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -200,7 +199,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          postgresql 補全遺漏的時間區段
+          postgresql 找出下個週五
         </h1>
 
         <div class="post-meta">
@@ -209,16 +208,10 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
+              
 
-              <time title="亂入時間：2020-07-15 09:21:47" itemprop="dateCreated datePublished" datetime="2020-07-15T09:21:47+08:00">2020-07-15</time>
+              <time title="亂入時間：2020-10-04 23:24:04 / 修改時間：23:38:30" itemprop="dateCreated datePublished" datetime="2020-10-04T23:24:04+08:00">2020-10-04</time>
             </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
-              </span>
 
           
   
@@ -229,8 +222,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/15/postgresql-補全遺漏的時間區段/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2020/10/04/postgresql-%E6%89%BE%E5%87%BA%E4%B8%8B%E5%80%8B%E9%80%B1%E4%BA%94/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/04/postgresql-找出下個週五/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -240,14 +233,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1.7k</span>
+              <span>497</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>2 分鐘</span>
+              <span>1 分鐘</span>
             </span>
 
         </div>
@@ -259,24 +252,8 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&nbsp;</p>
-<a id="more"></a>
-<p>具有時間序列的資料很容易因為天候因素 , 或是儀器不穩定導致無法正確回傳到 server!<br>很容易出現資料不連續的狀況 , 例如早上 8 點有資料但是 10 點就突然沒資料了<br>所以製作報表時需要自己把空白時間區塊填滿 , 產生固定每小時都有資料的暫時表</p>
-<p>取得過去72小時的時間 ex: “2020-01-15 08:40:00” - 71 hours = “2020-01-12 09:00:00”</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc</span><br></pre></td></tr></table></figure>
-
-<p>利用 <a href="https://www.postgresql.org/docs/current/functions-srf.html" target="_blank" rel="noopener">generate_series 函數</a> 產生 72 小時區間資料</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT t.day</span><br><span class="line">FROM generate_series(</span><br><span class="line">	(SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc),</span><br><span class="line">	now()::timestamp without time zone,</span><br><span class="line">	&#39;01:00:00&#39;::interval</span><br><span class="line">) t(day)</span><br></pre></td></tr></table></figure>
-
-<p>輸出會像是以下這樣的結果集</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&quot;2020-01-12 09:00:00&quot;</span><br><span class="line">&quot;2020-01-12 10:00:00&quot;</span><br><span class="line">&quot;2020-01-12 11:00:00&quot;</span><br><span class="line">&quot;2020-01-12 12:00:00&quot;</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">&quot;2020-01-15 08:00:00&quot;</span><br></pre></td></tr></table></figure>
-
-<p>運用 CROSS JOIN 將時間區段與觀測站編號進行組合 , 將缺少的時間補全</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">SELECT t.day , a.stationid</span><br><span class="line">FROM generate_series(</span><br><span class="line">	(SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc),</span><br><span class="line">	now()::timestamp without time zone,</span><br><span class="line">	&#39;01:00:00&#39;::interval</span><br><span class="line">) t(day)</span><br><span class="line">CROSS JOIN autostation a</span><br></pre></td></tr></table></figure>
-<p>輸出會像是以下這樣的結果集</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;2020-02-12 10:00:00&quot;;&quot;C0A560&quot;</span><br><span class="line">&quot;2020-02-12 10:00:00&quot;;&quot;C0X190&quot;</span><br><span class="line">&quot;2020-02-12 10:00:00&quot;;&quot;C0S950&quot;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
-<p>最後進行 left join 就可以取得想要的資料了 , 可以用 WITH 太過複雜的臨時查詢結果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">WITH X as (</span><br><span class="line">	SELECT t.day , a.stationid</span><br><span class="line">	FROM generate_series(</span><br><span class="line">		(SELECT date_trunc(&#39;hour&#39;::text, ( SELECT now()::timestamp without time zone - &#39;71:00:00&#39;::interval hour)) AS date_trunc),</span><br><span class="line">		now()::timestamp without time zone,</span><br><span class="line">		&#39;01:00:00&#39;::interval</span><br><span class="line">	) t(day)</span><br><span class="line">	CROSS JOIN autostation a</span><br><span class="line">)</span><br><span class="line">SELECT X.* , log.*</span><br><span class="line">FROM X</span><br><span class="line">LEFT JOIN log</span><br><span class="line">ON X.day::text &#x3D; log.obstime::text </span><br><span class="line">AND X.stationid::text &#x3D; log.stationid::text;</span><br></pre></td></tr></table></figure>
+        <p>看書時看到找出下個週五的案例，想說轉為 postgresql 版本沒想到也是費了點勁，藉此筆記一下。<br>關鍵公式 (7 - (DATE_PART(‘DOW’ , Base::DATE)::INT + 1) + 5) % 7 + 1<br>postgresql 使用 DATE_PART 函數進行運算週日由 0 開始，故一週為 0 - 6 計算，所以需要修正加一。<br>此外 DATE_PART 函數計算完成資料型態為 double 並非 integer，故需要先行轉換資料型態為 integer 並且用括號包住以免計算錯誤。<br>最後使用 CTE 時需要加上 RECURSIVE 才可以觸發地迴功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">WITH RECURSIVE TALLY(N , Base)</span><br><span class="line">AS(</span><br><span class="line">	SELECT 1 N , NOW()::date Base</span><br><span class="line">	UNION ALL</span><br><span class="line">	SELECT N + 1 , Base + 1 Base</span><br><span class="line">	FROM TALLY</span><br><span class="line">	WHERE 1 &#x3D; 1</span><br><span class="line">	AND N &lt; 10</span><br><span class="line">)</span><br><span class="line">SELECT Base </span><br><span class="line">, TO_CHAR(Base, &#39;Day&#39;) 星期幾</span><br><span class="line">, Base + (7 - (DATE_PART(&#39;DOW&#39; , Base::DATE)::INT + 1) + 5) % 7 + 1 下個週五</span><br><span class="line">FROM TALLY</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -286,7 +263,6 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/sql/" rel="tag"># sql</a>
               <a href="/tags/postgresql/" rel="tag"># postgresql</a>
           </div>
 
@@ -296,13 +272,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/" rel="prev" title="NCL Color Bar 轉換">
-      <i class="fa fa-chevron-left"></i> NCL Color Bar 轉換
+    <a href="/2020/08/30/establish-secure-connection-%E6%8E%92%E9%99%A4/" rel="prev" title="establish secure connection 排除">
+      <i class="fa fa-chevron-left"></i> establish secure connection 排除
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2020/07/16/powershell-%E9%81%A0%E7%AB%AF%E6%93%8D%E4%BD%9C%E9%9B%BB%E8%85%A6/" rel="next" title="powershell 遠端操作電腦">
-      powershell 遠端操作電腦 <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -504,9 +477,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "https://weber87na.github.io/2020/07/15/postgresql-%E8%A3%9C%E5%85%A8%E9%81%BA%E6%BC%8F%E7%9A%84%E6%99%82%E9%96%93%E5%8D%80%E6%AE%B5/";
-    this.page.identifier = "2020/07/15/postgresql-補全遺漏的時間區段/";
-    this.page.title = "postgresql 補全遺漏的時間區段";
+    this.page.url = "https://weber87na.github.io/2020/10/04/postgresql-%E6%89%BE%E5%87%BA%E4%B8%8B%E5%80%8B%E9%80%B1%E4%BA%94/";
+    this.page.identifier = "2020/10/04/postgresql-找出下個週五/";
+    this.page.title = "postgresql 找出下個週五";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {

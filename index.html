@@ -183,6 +183,94 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2020/10/04/postgresql-%E6%89%BE%E5%87%BA%E4%B8%8B%E5%80%8B%E9%80%B1%E4%BA%94/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/10/04/postgresql-%E6%89%BE%E5%87%BA%E4%B8%8B%E5%80%8B%E9%80%B1%E4%BA%94/" class="post-title-link" itemprop="url">postgresql 找出下個週五</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2020-10-04 23:24:04 / 修改時間：23:38:30" itemprop="dateCreated datePublished" datetime="2020-10-04T23:24:04+08:00">2020-10-04</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/10/04/postgresql-%E6%89%BE%E5%87%BA%E4%B8%8B%E5%80%8B%E9%80%B1%E4%BA%94/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/10/04/postgresql-找出下個週五/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>497</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>1 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>看書時看到找出下個週五的案例，想說轉為 postgresql 版本沒想到也是費了點勁，藉此筆記一下。<br>關鍵公式 (7 - (DATE_PART(‘DOW’ , Base::DATE)::INT + 1) + 5) % 7 + 1<br>postgresql 使用 DATE_PART 函數進行運算週日由 0 開始，故一週為 0 - 6 計算，所以需要修正加一。<br>此外 DATE_PART 函數計算完成資料型態為 double 並非 integer，故需要先行轉換資料型態為 integer 並且用括號包住以免計算錯誤。<br>最後使用 CTE 時需要加上 RECURSIVE 才可以觸發地迴功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">WITH RECURSIVE TALLY(N , Base)</span><br><span class="line">AS(</span><br><span class="line">	SELECT 1 N , NOW()::date Base</span><br><span class="line">	UNION ALL</span><br><span class="line">	SELECT N + 1 , Base + 1 Base</span><br><span class="line">	FROM TALLY</span><br><span class="line">	WHERE 1 &#x3D; 1</span><br><span class="line">	AND N &lt; 10</span><br><span class="line">)</span><br><span class="line">SELECT Base </span><br><span class="line">, TO_CHAR(Base, &#39;Day&#39;) 星期幾</span><br><span class="line">, Base + (7 - (DATE_PART(&#39;DOW&#39; , Base::DATE)::INT + 1) + 5) % 7 + 1 下個週五</span><br><span class="line">FROM TALLY</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
     <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2020/08/30/establish-secure-connection-%E6%8E%92%E9%99%A4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1049,106 +1137,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2020/08/18/%E6%88%91%E7%9A%84-vim-neovim-config/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="🌹 喇賽人 🌹">
-      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/18/%E6%88%91%E7%9A%84-vim-neovim-config/" class="post-title-link" itemprop="url">我的 vim/neovim config</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">亂寫於</span>
-
-              <time title="亂入時間：2020-08-18 11:32:43" itemprop="dateCreated datePublished" datetime="2020-08-18T11:32:43+08:00">2020-08-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2020/08/18/%E6%88%91%E7%9A%84-vim-neovim-config/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/08/18/我的-vim-neovim-config/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="廢話字數">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.6k</span>
-            </span>
-            <span class="post-meta-item" title="所需傷眼時間">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>2 分鐘</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>&nbsp;</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/18/%E6%88%91%E7%9A%84-vim-neovim-config/#more" rel="contents">
-                繼續入坑 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1220,7 +1208,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">48</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1275,7 +1263,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">1:16</span>
+    <span title="所需總浪費時間">1:17</span>
 </div>
 
         
