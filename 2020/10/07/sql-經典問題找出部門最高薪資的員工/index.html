@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-10-06T17:27:18.000Z">
-<meta property="article:modified_time" content="2020-10-07T07:06:27.080Z">
+<meta property="article:modified_time" content="2020-10-07T07:27:38.510Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2020-10-07 01:27:18 / 修改時間：15:06:27" itemprop="dateCreated datePublished" datetime="2020-10-07T01:27:18+08:00">2020-10-07</time>
+              <time title="亂入時間：2020-10-07 01:27:18 / 修改時間：15:27:38" itemprop="dateCreated datePublished" datetime="2020-10-07T01:27:18+08:00">2020-10-07</time>
             </span>
 
           
@@ -233,7 +233,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>818</span>
+              <span>843</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -262,7 +262,7 @@
 <p>視窗函數解法</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> *</span><br><span class="line"><span class="keyword">FROM</span>(</span><br><span class="line">    <span class="keyword">SELECT</span> A.* , <span class="keyword">MAX</span>(Salary) <span class="keyword">OVER</span>(<span class="keyword">PARTITION</span> <span class="keyword">BY</span> Dept_Id) MAXSAL</span><br><span class="line">    <span class="keyword">FROM</span> Employees A</span><br><span class="line">    <span class="keyword">WHERE</span> Dept_id <span class="keyword">IN</span> (<span class="string">'I100'</span> , <span class="string">'I200'</span>)</span><br><span class="line">) X</span><br><span class="line"><span class="keyword">WHERE</span> Salary = MAXSAL</span><br></pre></td></tr></table></figure>
 
-<p>知道怎麼解以後就可以拿來分析 MLB 最高薪的球員，使用<a href="http://www.seanlahman.com/baseball-archive/statistics" target="_blank" rel="noopener">資料集</a></p>
+<p>知道怎麼解以後就可以拿來分析 MLB 最高薪的球員，使用<a href="http://www.seanlahman.com/baseball-archive/statistics" target="_blank" rel="noopener">資料集</a>，查詢後得到驚為天人的結果，原來陳偉殷薪水這麼高阿</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--建立薪水資料表</span></span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> salaries(</span><br><span class="line">	yearID <span class="built_in">integer</span>,</span><br><span class="line">	teamID <span class="built_in">varchar</span>(<span class="number">50</span>),</span><br><span class="line">	lgID <span class="built_in">varchar</span>(<span class="number">50</span>),</span><br><span class="line">	playerID <span class="built_in">varchar</span>(<span class="number">50</span>),</span><br><span class="line">	salary <span class="built_in">integer</span></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment">--匯入資料</span></span><br><span class="line">COPY salaries(yearID,teamID,lgID,playerID,salary)</span><br><span class="line"><span class="keyword">FROM</span> <span class="string">'D:\Salaries.csv'</span></span><br><span class="line">DELIMITER <span class="string">','</span></span><br><span class="line">CSV HEADER;</span><br><span class="line"></span><br><span class="line"><span class="comment">--分析 2016 各隊最高薪的球員</span></span><br><span class="line"><span class="keyword">select</span> *</span><br><span class="line"><span class="keyword">from</span>(</span><br><span class="line">	<span class="keyword">select</span> * , row_number() <span class="keyword">over</span> (<span class="keyword">partition</span> <span class="keyword">by</span> teamid <span class="keyword">order</span> <span class="keyword">by</span> salary <span class="keyword">desc</span>) seq</span><br><span class="line">	<span class="keyword">from</span> salaries</span><br><span class="line">	<span class="keyword">where</span> yearid = <span class="number">2016</span></span><br><span class="line">) x</span><br><span class="line"><span class="keyword">where</span> seq = <span class="number">1</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> salary <span class="keyword">desc</span></span><br></pre></td></tr></table></figure>
 
     </div>
