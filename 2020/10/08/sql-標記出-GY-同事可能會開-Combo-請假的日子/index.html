@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-10-07T19:51:57.000Z">
-<meta property="article:modified_time" content="2020-10-07T20:07:46.830Z">
+<meta property="article:modified_time" content="2020-10-07T20:26:00.070Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="sql">
 <meta property="article:tag" content="postgresql">
@@ -211,7 +211,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2020-10-08 03:51:57 / 修改時間：04:07:46" itemprop="dateCreated datePublished" datetime="2020-10-08T03:51:57+08:00">2020-10-08</time>
+              <time title="亂入時間：2020-10-08 03:51:57 / 修改時間：04:26:00" itemprop="dateCreated datePublished" datetime="2020-10-08T03:51:57+08:00">2020-10-08</time>
             </span>
 
           
@@ -234,7 +234,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>863</span>
+              <span>841</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -256,8 +256,11 @@
         <p>&nbsp;</p>
 <a id="more"></a>
 
-<p>這個運用主要是利用 generate_series 產生出當月日期，搭配 case 標記邏輯規則產製出該月可能被開 Combo 的狀態。<br>需要注意運用 case 時具有順序性，以本案例而言 danger 必須排在 warning 之上，否則會造成月底時應當標記 danger 卻錯標 warning 的狀況。<br>GY 同事可能開 Combo 的請假週期規：每逢週一、五為警告 (warning) ，逢月底為危險 (danger) 其他則為正常上班 (job) 及假日 (vacation)</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> n::<span class="built_in">date</span> <span class="keyword">days</span> , </span><br><span class="line">	date_part( <span class="string">'isodow'</span> , n) isodow , </span><br><span class="line">	to_char(n , <span class="string">'DY'</span>) weekname ,</span><br><span class="line">	<span class="keyword">case</span> </span><br><span class="line">		<span class="keyword">when</span> date_part( <span class="string">'isodow'</span> , n) <span class="keyword">in</span> (<span class="number">6</span>,<span class="number">7</span>)  <span class="keyword">then</span> <span class="string">'vacation'</span> </span><br><span class="line">		<span class="keyword">when</span> n &gt; (<span class="string">'2020-10-01'</span>::<span class="built_in">date</span> + <span class="built_in">interval</span> <span class="string">'1 month'</span> - <span class="built_in">interval</span> <span class="string">'1 day'</span> - <span class="built_in">interval</span> <span class="string">'5 day'</span>)::<span class="built_in">timestamp</span> <span class="keyword">then</span> <span class="string">'danger'</span></span><br><span class="line">		<span class="keyword">when</span> date_part( <span class="string">'isodow'</span> , n) <span class="keyword">in</span> (<span class="number">1</span>,<span class="number">5</span>)  <span class="keyword">then</span> <span class="string">'warning'</span></span><br><span class="line">		<span class="keyword">else</span> <span class="string">'job'</span></span><br><span class="line">	<span class="keyword">end</span> <span class="keyword">status</span></span><br><span class="line"><span class="keyword">from</span> generate_series(</span><br><span class="line"><span class="string">'2020-10-01'</span>::<span class="built_in">timestamp</span> ,</span><br><span class="line">(<span class="string">'2020-10-01'</span>::<span class="built_in">date</span> + <span class="built_in">interval</span> <span class="string">'1 month'</span> - <span class="built_in">interval</span> <span class="string">'1 day'</span>)::<span class="built_in">timestamp</span> ,</span><br><span class="line"><span class="built_in">interval</span> <span class="string">'1 day'</span></span><br><span class="line">) n</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">--排序</span></span><br><span class="line"><span class="comment">order by</span></span><br><span class="line"><span class="comment">	case </span></span><br><span class="line"><span class="comment">		when date_part( 'isodow' , n) in (6,7)  then 1</span></span><br><span class="line"><span class="comment">		when n &gt; ('2020-10-01'::date + interval '1 month' - interval '1 day' - interval '5 day')::timestamp then 3</span></span><br><span class="line"><span class="comment">		when date_part( 'isodow' , n) in (1,5)  then 2</span></span><br><span class="line"><span class="comment">		else 1</span></span><br><span class="line"><span class="comment">	end desc</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+<p>印象這是很多年前一個計算周期的問題，主要是利用 generate_series 產生出當月日期，搭配 case 標記邏輯規則產製出該月可能被開 Combo 的狀態。<br>需要注意運用 case 時具有順序性，以本案例而言 danger 必須排在 warning 之上，否則會造成月底時應當標記 danger 卻錯標 warning 的狀況。<br>GY 同事可能開 Combo 的請假週期規：每逢週一、五為警告 (warning) ，逢月底為危險 (danger) 其他則為正常上班 (job) 及假日 (vacation)<br>其他關鍵 isodow 將一週定義為 1-7 從週一開始計算<br>取得當月最後五天則為：先取得下月月初接著減去五日</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--取得日期數字</span></span><br><span class="line"><span class="keyword">select</span> date_part( <span class="string">'isodow'</span> , <span class="keyword">current_date</span>);</span><br><span class="line"><span class="comment">--計算月底五天</span></span><br><span class="line"><span class="keyword">select</span> (<span class="string">'2020-10-01'</span>::<span class="built_in">date</span> + <span class="built_in">interval</span> <span class="string">'1 month'</span> - <span class="built_in">interval</span> <span class="string">'5 day'</span>)::<span class="built_in">timestamp</span> <span class="keyword">then</span> <span class="string">'danger'</span>;</span><br></pre></td></tr></table></figure>
+
+<p>完整範例</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> n::<span class="built_in">date</span> <span class="keyword">days</span> , </span><br><span class="line">	date_part( <span class="string">'isodow'</span> , n) isodow , </span><br><span class="line">	to_char(n , <span class="string">'DY'</span>) weekname ,</span><br><span class="line">	<span class="keyword">case</span> </span><br><span class="line">		<span class="keyword">when</span> date_part( <span class="string">'isodow'</span> , n) <span class="keyword">in</span> (<span class="number">6</span>,<span class="number">7</span>)  <span class="keyword">then</span> <span class="string">'vacation'</span> </span><br><span class="line">		<span class="keyword">when</span> n &gt;= (<span class="string">'2020-10-01'</span>::<span class="built_in">date</span> + <span class="built_in">interval</span> <span class="string">'1 month'</span> - <span class="built_in">interval</span> <span class="string">'5 day'</span>)::<span class="built_in">timestamp</span> <span class="keyword">then</span> <span class="string">'danger'</span></span><br><span class="line">		<span class="keyword">when</span> date_part( <span class="string">'isodow'</span> , n) <span class="keyword">in</span> (<span class="number">1</span>,<span class="number">5</span>)  <span class="keyword">then</span> <span class="string">'warning'</span></span><br><span class="line">		<span class="keyword">else</span> <span class="string">'job'</span></span><br><span class="line">	<span class="keyword">end</span> <span class="keyword">status</span></span><br><span class="line"><span class="keyword">from</span> generate_series(</span><br><span class="line"><span class="string">'2020-10-01'</span>::<span class="built_in">timestamp</span> ,</span><br><span class="line">(<span class="string">'2020-10-01'</span>::<span class="built_in">date</span> + <span class="built_in">interval</span> <span class="string">'1 month'</span> - <span class="built_in">interval</span> <span class="string">'1 day'</span>)::<span class="built_in">timestamp</span> ,</span><br><span class="line"><span class="built_in">interval</span> <span class="string">'1 day'</span></span><br><span class="line">) n</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -416,7 +419,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">1:21</span>
+    <span title="所需總浪費時間">1:20</span>
 </div>
 
         
