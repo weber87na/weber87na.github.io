@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-05T03:34:20.000Z">
-<meta property="article:modified_time" content="2020-08-20T16:39:39.700Z">
+<meta property="article:modified_time" content="2020-10-08T16:12:06.700Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="sql">
 <meta property="article:tag" content="tsql">
@@ -217,7 +217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+                <time title="修改時間：2020-10-09 00:12:06" itemprop="dateModified" datetime="2020-10-09T00:12:06+08:00">2020-10-09</time>
               </span>
 
           
@@ -240,7 +240,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>804</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -268,6 +268,9 @@
 <p>最後使用 <a href="https://docs.microsoft.com/zh-tw/sql/t-sql/functions/eomonth-transact-sql?view=sql-server-ver15" target="_blank" rel="noopener">EOMONTH函數</a> 取得該月的最後一日 ex: 2019-02-28 , 2020-02-29 並且依自己需求 format 想要的日期格式</p>
 <p>完整程式碼如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">WITH MonthTally (M) AS</span><br><span class="line">(</span><br><span class="line">    select M &#x3D; 1</span><br><span class="line">    union all  </span><br><span class="line">    select M + 1</span><br><span class="line">    from MonthTally  </span><br><span class="line">    where M &lt; 12</span><br><span class="line">) , YearTally(Y) as</span><br><span class="line">(</span><br><span class="line">    --建立年份範圍</span><br><span class="line">    select Y &#x3D; 2019</span><br><span class="line">    union all  </span><br><span class="line">    select Y + 1</span><br><span class="line">    from YearTally  </span><br><span class="line">    where Y &lt; 2020</span><br><span class="line">)</span><br><span class="line">SELECT</span><br><span class="line">CAST(Y as NVARCHAR) + RIGHT(REPLICATE(&#39;0&#39;, 2) + CAST(M as NVARCHAR), 2) + &#39;01&#39; startdate</span><br><span class="line">--轉換日期格式</span><br><span class="line">, CONVERT(VARCHAR,</span><br><span class="line">--取得該年該月最後一日</span><br><span class="line">EOMONTH ( CAST(Y as NVARCHAR) + RIGHT(REPLICATE(&#39;0&#39;, 2) + CAST(M as NVARCHAR), 2) + &#39;01&#39; )</span><br><span class="line">,112)  enddate</span><br><span class="line">FROM MonthTally</span><br><span class="line">CROSS JOIN YearTally</span><br></pre></td></tr></table></figure>
+
+<p>在 postgresql 上則可以使用 generate_series 遞增產生年度日期，<br>搭配 + interval ‘2 month’ - interval ‘1 day’ 取得月底日期<br>使用 to_char(n , ‘YYYY-MM-01’)::date 取得月初</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> n</span><br><span class="line"><span class="keyword">from</span> generate_series(</span><br><span class="line"><span class="string">'2020-01-01'</span>::<span class="built_in">timestamp</span> ,</span><br><span class="line"><span class="string">'2020-12-31'</span>::<span class="built_in">timestamp</span> ,</span><br><span class="line"><span class="built_in">interval</span> <span class="string">'1 day'</span></span><br><span class="line">) n</span><br><span class="line"><span class="keyword">where</span> n <span class="keyword">in</span> (</span><br><span class="line">	date_trunc(<span class="string">'month'</span>, n) + <span class="built_in">interval</span> <span class="string">'1 month'</span> - <span class="built_in">interval</span> <span class="string">'1 day'</span> , </span><br><span class="line">	to_char(n , <span class="string">'YYYY-MM-01'</span>)::<span class="built_in">date</span></span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
     </div>
 

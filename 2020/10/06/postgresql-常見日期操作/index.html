@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-10-05T17:51:32.000Z">
-<meta property="article:modified_time" content="2020-10-06T16:45:18.850Z">
+<meta property="article:modified_time" content="2020-10-08T15:33:23.110Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="sql">
 <meta property="article:tag" content="postgresql 常見日期操作">
@@ -217,7 +217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-10-07 00:45:18" itemprop="dateModified" datetime="2020-10-07T00:45:18+08:00">2020-10-07</time>
+                <time title="修改時間：2020-10-08 23:33:23" itemprop="dateModified" datetime="2020-10-08T23:33:23+08:00">2020-10-08</time>
               </span>
 
           
@@ -240,7 +240,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1.3k</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -269,7 +269,7 @@
 <p>使用 postgresql 操作日期需要注意有時區概念，以下片段為常見的時區片段</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--列出目前時區</span></span><br><span class="line"><span class="keyword">SELECT</span> current_setting(<span class="string">'TIMEZONE'</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">--查詢系統時區</span></span><br><span class="line"><span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> pg_timezone_names;</span><br><span class="line"></span><br><span class="line"><span class="comment">--設定時區為台北時間</span></span><br><span class="line"><span class="keyword">SET</span> TIMEZONE=<span class="string">'Asia/Taipei'</span>;</span><br></pre></td></tr></table></figure>
 
-<p>相較 MSSQL 的 GETDATE() 函數 postgresql 則是提供 NOW() 函數達成相同效果，<br>此外 postgresql 可以使用戒疤符號 :: 進行資料型態轉換，故相較 MSSQL 及他牌資料庫轉換相對容易。<br>需要注意使用 TO_CHAR 函數回傳的資料型態為 text，而使用 DATE_TRUNC 函數則返回 timestamp 皆可使用戒疤符號進行資料型態轉換。<br>以下為常見操作</p>
+<p>相較 MSSQL 的 GETDATE() 函數 postgresql 則是提供 NOW() 函數達成相同效果，<br>此外兩者皆有提供標準的 CURRENT_TIMESTAMP 標準函數。<br>postgresql 可以使用戒疤符號 :: 進行資料型態轉換，亦提供與 CAST 函數，相較及他牌資料庫轉換相對輕鬆。<br>需要注意使用 TO_CHAR 函數回傳的資料型態為 text，而使用 DATE_TRUNC 函數則返回 timestamp 皆可使用戒疤符號進行資料型態轉換。<br>以下為常見操作</p>
 <p>整數日</p>
 <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">SELECT</span> TO_CHAR(<span class="keyword">NOW</span>(), <span class="string">'YYYY-MM-DD'</span>) 整數日</span><br></pre></td></tr></table></figure>
 
