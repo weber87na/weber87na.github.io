@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-10-26T08:05:23.000Z">
-<meta property="article:modified_time" content="2020-10-26T08:18:46.410Z">
+<meta property="article:modified_time" content="2020-10-30T19:42:56.570Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="面試">
 <meta name="twitter:card" content="summary">
@@ -208,10 +208,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2020-10-26 16:05:23 / 修改時間：16:18:46" itemprop="dateCreated datePublished" datetime="2020-10-26T16:05:23+08:00">2020-10-26</time>
+              <time title="亂入時間：2020-10-26 16:05:23" itemprop="dateCreated datePublished" datetime="2020-10-26T16:05:23+08:00">2020-10-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2020-10-31 03:42:56" itemprop="dateModified" datetime="2020-10-31T03:42:56+08:00">2020-10-31</time>
+              </span>
 
           
   
@@ -233,14 +239,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1.1k</span>
+              <span>2.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>1 分鐘</span>
+              <span>2 分鐘</span>
             </span>
 
         </div>
@@ -263,6 +269,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">static string StrReverse(string str)</span><br><span class="line">&#123;</span><br><span class="line">    string result &#x3D; &quot;&quot;;</span><br><span class="line">    for(int i &#x3D; str.Length - 1; i &gt;&#x3D; 0; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        result +&#x3D; str[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Q3:將數字 123456789 標示為 123,456,789</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">static string FormatMoney(string str)</span><br><span class="line">&#123;</span><br><span class="line">    string result &#x3D; &quot;&quot;;</span><br><span class="line">    string reverse &#x3D; &quot;&quot;;</span><br><span class="line">    int counter &#x3D; 0;</span><br><span class="line">    for(int i &#x3D; str.Length - 1; i &gt;&#x3D; 0; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        if(counter &#x3D;&#x3D; 2 &amp;&amp; i &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            reverse +&#x3D; str[i];</span><br><span class="line">            reverse +&#x3D; &quot;,&quot;;</span><br><span class="line">            counter &#x3D; 0;</span><br><span class="line">        &#125;</span><br><span class="line">        else</span><br><span class="line">        &#123;</span><br><span class="line">            reverse +&#x3D; str[i];</span><br><span class="line">            counter++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for(int i &#x3D; reverse.Length - 1; i &gt;&#x3D; 0; i--)</span><br><span class="line">    &#123;</span><br><span class="line">        result +&#x3D; reverse[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>後來又面一家有紙上寫 code ，有了上次經驗這次就相對沒那麼緊張了(還是超緊張)，不過回家後想不起來半題，印象中這次有 SQL 子查詢。我有在紙上成功寫出這題，大概長這樣</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">Name</span> , (<span class="keyword">select</span> <span class="keyword">count</span>(*) <span class="keyword">form</span> Q4 x <span class="keyword">where</span> x.id = y.id)</span><br><span class="line"><span class="keyword">from</span> <span class="keyword">Test</span> y</span><br></pre></td></tr></table></figure>
+
+<p>某天剛睡醒跟智障一樣，又收到一家奇怪的面試方法 AI 面試!!還滿特別的，不過我 windows 又中了 update 的問題暫時作罷，只能等設備正常<br>接著 HR 又出了兩題寫完後回傳附件，比較友善，不然用紙筆寫當下那種壓力簡直噁心。<br>一題算是整合題用 map api + 地址 api 鋪上星巴克資訊加上部分操作功能，最花時間就是申請 api key，還要填給 google 一堆資料。<br>第二題是計算時鐘夾角，比較重點就是分針計算還有夾角大於 180 度需要扣掉 360 度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">static double ClockAngle(int hour, int minute)</span><br><span class="line">&#123;</span><br><span class="line">    if (hour &gt; 12 || hour &lt; 0 )</span><br><span class="line">        throw new ArgumentException(&quot;時針範圍為 1 - 12&quot;);</span><br><span class="line"></span><br><span class="line">    if (minute &gt; 60 || minute &lt; 0)</span><br><span class="line">        throw new ArgumentException(&quot;分針範圍為 1 - 60&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;分針一分鐘走 6 度</span><br><span class="line">    double minuteDeg &#x3D; minute * 6;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;時針一小時走 30 度</span><br><span class="line">    &#x2F;&#x2F;每分鐘走 0.5 度</span><br><span class="line">    double hourDeg &#x3D; hour * 30 + minute * 0.5;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;結果等於兩數相減取絕對值</span><br><span class="line">    double angle &#x3D; Math.Abs(minuteDeg - hourDeg);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;夾角取得不大於 180 度的 , 所以用 360 減去結果換算</span><br><span class="line">    double result &#x3D; 0;</span><br><span class="line">    if (angle &gt; 180)</span><br><span class="line">        result &#x3D; 360 - angle;</span><br><span class="line">    else</span><br><span class="line">        result &#x3D; angle;</span><br><span class="line"></span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -414,13 +426,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">95k</span>
+    <span title="總廢話字數">96k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">1:26</span>
+    <span title="所需總浪費時間">1:27</span>
 </div>
 
         
