@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-11-15T08:55:29.000Z">
-<meta property="article:modified_time" content="2020-11-15T09:35:34.050Z">
+<meta property="article:modified_time" content="2020-11-15T10:21:34.070Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="cmder">
 <meta name="twitter:card" content="summary">
@@ -210,7 +210,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2020-11-15 16:55:29 / 修改時間：17:35:34" itemprop="dateCreated datePublished" datetime="2020-11-15T16:55:29+08:00">2020-11-15</time>
+              <time title="亂入時間：2020-11-15 16:55:29 / 修改時間：18:21:34" itemprop="dateCreated datePublished" datetime="2020-11-15T16:55:29+08:00">2020-11-15</time>
             </span>
 
           
@@ -233,7 +233,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>445</span>
+              <span>677</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -257,6 +257,9 @@
 
 <p>由於工作的關係，公司發派的環境為 win7，在沒有 wsl 底下猶如斷手斷腳，只好找到這套 <a href="https://cmder.net/" target="_blank" rel="noopener">cmder</a><br>整體用下來體驗感還滿不錯的，甚至也可以在裡面直接開啟 wsl，不過 vim 有些顯示怪怪的!<br>注意他有分 git 版本跟 mini 版本，由於工作的環境上已經有 git 就直接下 mini 的版本即可，<br>話說為何 git bash 顏色為何那麼醜呢，如果可以好看一點就不用這樣大費周章裝一堆有的沒的。<br>基本上無腦下載完放到 c:\ 底下即可，看看要不要加入環境變數方便快速啟動</p>
 <p>這套 cmder 也可以使用 <a href="https://github.com/AmrEldib/cmder-powerline-prompt" target="_blank" rel="noopener">powerline</a>來進行美化這樣跟之前用 wsl 的體驗感基本一致<br>把 .lua 複製到 config 資料夾底下即可，注意字型需要用 <a href="https://github.com/tonsky/FiraCode" target="_blank" rel="noopener">Fira Code</a>，字體大小設定 24</p>
+<p>將 lambda 符號換成 $ ，這個搞超久<br>如果沒安裝 powerline 的話直接修改 vendor/clink.lua 底下的 lambda 符號為 $ 即可<br>有裝 powerline 的話修改 config/powerline_core.lua 找到 closePrompt 函數修正為以下片段即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">function closePrompt()</span><br><span class="line">	clink.prompt.value &#x3D; clink.prompt.value..newLineSymbol..&quot;$ &quot;</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
 <p>老樣子由於眼睛沒辦法在黑底跟白底間切換，設定綠底<br>setting =&gt; general =&gt; scheme =&gt; ubuntu<br>features =&gt; colors =&gt; 在 0 設定綠豆沙色 239 255 239 =&gt; 在 7 跟 15 設定黑色字 0 0 0</p>
 <p>詳細設定可以參考<a href="https://blog.miniasp.com/post/2015/09/27/Useful-tool-Cmder" target="_blank" rel="noopener">保哥</a></p>
 
