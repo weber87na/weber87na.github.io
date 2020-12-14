@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-08T16:06:28.000Z">
-<meta property="article:modified_time" content="2020-12-13T06:29:35.060Z">
+<meta property="article:modified_time" content="2020-12-14T19:20:45.660Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-12-13 14:29:35" itemprop="dateModified" datetime="2020-12-13T14:29:35+08:00">2020-12-13</time>
+                <time title="修改時間：2020-12-15 03:20:45" itemprop="dateModified" datetime="2020-12-15T03:20:45+08:00">2020-12-15</time>
               </span>
 
           
@@ -239,7 +239,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>924</span>
+              <span>1.4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -276,11 +276,44 @@
 <p>將自己的分支上傳前被遠端 reject 以後 pull 時用<br>只更新索引不強制復原檔案(預設就是 –mixed)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --mixed</span><br></pre></td></tr></table></figure>
 
-<p>修正之前寫錯的 commit (會自動帶出之前 commit 的 message 內容)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -amend</span><br></pre></td></tr></table></figure>
+<p>修正之前寫錯的 commit (會自動帶出之前 commit 的 message 內容)<br>或是追加檔案在最後一個 commit 注意只在 local 使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git commit -amend</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line">追加的檔案</span><br><span class="line">git add index.html</span><br><span class="line">git commit -amend</span><br></pre></td></tr></table></figure>
 
 <p>還原誤刪的檔案</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rm test.html</span><br><span class="line">git checkout -- test.html</span><br><span class="line"></span><br><span class="line">還原某個 commit 裡面的 test.html</span><br><span class="line">git checkout ab1234afsb -- test.html</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rm test.html</span><br><span class="line">git checkout -- test.html</span><br><span class="line"></span><br><span class="line">還原某個 commit 裡面的 test.html</span><br><span class="line">git checkout ab1234afsb -- test.html</span><br><span class="line"></span><br><span class="line">拿三個版本以前的</span><br><span class="line">git checkout HEAD~3 test.html</span><br><span class="line"></span><br><span class="line">救全部</span><br><span class="line">git checkout .</span><br></pre></td></tr></table></figure>
+
+<p>log 近三次的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log -3</span><br></pre></td></tr></table></figure>
+
+<p>log 單一檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log gy.html</span><br></pre></td></tr></table></figure>
+
+<p>log 詳細單一檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log -p gy.html</span><br></pre></td></tr></table></figure>
+
+<p>log 作者名稱 gy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --oneline --author&#x3D;&quot;gy&quot;</span><br></pre></td></tr></table></figure>
+
+<p>log 找罵客戶的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --oneline --grep&#x3D;&quot;gy&quot;</span><br></pre></td></tr></table></figure>
+
+<p>找內容有髒話的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log -S &quot;gy&quot;</span><br></pre></td></tr></table></figure>
+
+<p>讓 git 刪除檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm index.html</span><br></pre></td></tr></table></figure>
+
+<p>讓檔案變成 untrack 狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached index.html</span><br></pre></td></tr></table></figure>
+
+<p>git 通靈目錄</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">touch .keep</span><br></pre></td></tr></table></figure>
+
+<p>git 忽略檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">建立忽略文件列表</span><br><span class="line">.gitignore</span><br><span class="line"></span><br><span class="line">踢掉建立 gitignore 以前的所有檔案</span><br><span class="line">git clean -fX</span><br></pre></td></tr></table></figure>
+
+<p>git you give love a bad name</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git blame bonjovi.html</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -387,14 +420,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">65</span>
+          <span class="site-state-item-count">67</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">55</span>
+        <span class="site-state-item-count">57</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -436,13 +469,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">106k</span>
+    <span title="總廢話字數">107k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">1:36</span>
+    <span title="所需總浪費時間">1:38</span>
 </div>
 
         
