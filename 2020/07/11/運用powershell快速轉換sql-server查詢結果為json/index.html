@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-11T15:25:57.000Z">
-<meta property="article:modified_time" content="2020-08-20T16:39:39.810Z">
+<meta property="article:modified_time" content="2020-12-23T11:56:12.000Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="powershell">
 <meta property="article:tag" content="sqlserver">
@@ -219,7 +219,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-08-21 00:39:39" itemprop="dateModified" datetime="2020-08-21T00:39:39+08:00">2020-08-21</time>
+                <time title="修改時間：2020-12-23 19:56:12" itemprop="dateModified" datetime="2020-12-23T19:56:12+08:00">2020-12-23</time>
               </span>
 
           
@@ -242,7 +242,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>495</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -263,8 +263,12 @@
       
         <p>&nbsp;</p>
 <a id="more"></a>
-<p>工作上時常有些資料轉換小需求 , 但一時之間又不好搞定 , 多半會透過各種亂七八糟的方式轉換 , 無聊看看 powershell 的功能裡面可以連接 sql server 操作一些這種雜亂的工作!</p>
+<p>工作上時常有些資料轉換小需求 , 但一時之間又不好搞定 , 多半會透過各種亂七八糟的方式轉換 , 無聊看看 powershell 的功能裡面可以連接 sql server 操作一些這種雜亂的工作!<br>如果需要直接參考原生的在 sql server 上操作 json 可以看這個<a href="https://www.red-gate.com/simple-talk/sql/t-sql-programming/consuming-json-strings-in-sql-server/?article=1176" target="_blank" rel="noopener">老外</a></p>
 <p>首先需要 <a href="https://docs.microsoft.com/zh-tw/sql/powershell/download-sql-server-ps-module?view=sql-server-ver15" target="_blank" rel="noopener">安裝 SQL Server PowerShell 模組</a></p>
+<p>特別注意需要<a href="https://www.microsoft.com/en-us/download/details.aspx?id=54616" target="_blank" rel="noopener">安裝 powershell 5.x</a> 以上版本<br>如果是 win7 選這個 Win7AndW2K8R2-KB3191566-x64.zip ，可以參考<a href="http://shaurong.blogspot.com/2017/09/powershell-51windows-management.html" target="_blank" rel="noopener">這篇</a>講得比較詳細<br>搞定後又遇到一堆地雷<br>Install-Module : 需要 NuGet 提供者才能與 NuGet 型存放庫互動。請確定已安裝 ‘2.8.5.201’ 或更新的 NuGet 提供者<br>後來發現要照<a href="https://stackoverflow.com/questions/51406685/how-do-i-install-the-nuget-provider-for-powershell-on-a-unconnected-machine-so-i" target="_blank" rel="noopener">這篇老外</a>的解法才 ok<br>最主要就是要用 admin 執行以下指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[Net.ServicePointManager]::SecurityProtocol &#x3D; [Net.SecurityProtocolType]::Tls12</span><br><span class="line">Install-PackageProvider -Name NuGet</span><br></pre></td></tr></table></figure>
+<p>也可以考慮順便安裝 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">gsudo</a></p>
+<p>接著就可以進入正題</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Install-Module</span> <span class="literal">-Name</span> SqlServer <span class="literal">-AllowClobber</span> <span class="literal">-Scope</span> CurrentUser</span><br></pre></td></tr></table></figure>
 <p>接著匯入模組</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Import-Module SqlServer</span><br></pre></td></tr></table></figure>
@@ -274,7 +278,10 @@
 <p>最後透過類似以下指令快篩內容並且轉換為 json 輸出 , 以前很多很阿雜的工作瞬間快速搞定!</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$customers &#x3D; Invoke-Sqlcmd &quot;select * from customers&quot;</span><br><span class="line">$customers | select CompanyName | ConvertTo-Json</span><br></pre></td></tr></table></figure>
 
+<p>後來發現一個很智障的問題就是沒在 localdb 上跑過，原來 LocalDB 要特別用括號把圓括號特別框起來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Import-Module SqlServer</span><br><span class="line">Set-Location SQLSERVER:\SQL\&quot;(LocalDB)&quot;\MSSQLLocalDB\Databases\test</span><br></pre></td></tr></table></figure>
 
+<p>有閒暇時間其實還可以安裝個 <a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode.PowerShell" target="_blank" rel="noopener">vscode powershell 整合</a>比起在 powershell ise 上陽春的功能還好用太多</p>
 
     </div>
 
@@ -438,7 +445,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">1:42</span>
+    <span title="所需總浪費時間">1:43</span>
 </div>
 
         
