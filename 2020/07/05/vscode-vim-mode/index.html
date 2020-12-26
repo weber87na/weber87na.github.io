@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-05T07:04:27.000Z">
-<meta property="article:modified_time" content="2020-12-26T22:06:54.340Z">
+<meta property="article:modified_time" content="2020-12-26T22:16:23.050Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="vscode">
@@ -217,7 +217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-12-27 06:06:54" itemprop="dateModified" datetime="2020-12-27T06:06:54+08:00">2020-12-27</time>
+                <time title="修改時間：2020-12-27 06:16:23" itemprop="dateModified" datetime="2020-12-27T06:16:23+08:00">2020-12-27</time>
               </span>
 
           
@@ -289,11 +289,11 @@
 
 <p>vscode 在 css 裡面使用 go to definition 功能好用外掛<a href="https://marketplace.visualstudio.com/items?itemName=pucelle.vscode-css-navigation&ssr=false#overview" target="_blank" rel="noopener">CSS Navigation</a><br>之前一直無法直接使用 gd 在 css 裡面跳，安裝 css peek 也無解，還好發現這套，解決困擾好幾個月的問題，感動<br><code>ctrl + shift + p</code> 開啟 settings.json 裡面設定讓目前文件也啟用 go to definition 功能</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;CSNavigation.alsoSearchDefinitionsInStyleTag&quot; : true</span><br></pre></td></tr></table></figure>
-<p>使用 <code>gd</code> 可以直接呼叫 go to definition 的 class or ID 連 Html Tag 也是可以直接跳<br>使用 <code>ctrl + o</code> 或是  <code>可以跳回來</code></p>
+<p>使用 <code>gd</code> 可以直接呼叫 go to definition 的 class or ID 連 Html Tag 也是可以直接跳<br>使用 <code>ctrl + o</code> 或是 <code>ctrl + i</code>  可以跳回來</p>
 <p>後來發現撰寫 javascript 時需要加入 jsconfig.json 才可以使用 gd 功能<br><a href="https://code.visualstudio.com/docs/nodejs/working-with-javascript#_typings-and-automatic-type-acquisition" target="_blank" rel="noopener">參考官方文件</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;compilerOptions&quot;: &#123;</span><br><span class="line">        &quot;target&quot;: &quot;ES6&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;exclude&quot;: [</span><br><span class="line">        &quot;node_modules&quot;,</span><br><span class="line">        &quot;**&#x2F;node_modules&#x2F;*&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>vscode 使用 <a href="https://github.com/VSCodeVim/Vim" target="_blank" rel="noopener">nerdtree</a><br><code>ctrl + shift + e</code></p>
+<p>vscode 切換到檔案列 <code>ctrl + shift + e</code></p>
 <p>順便筆記一下小抄</p>
 <ol>
 <li><a href="https://vim.rtorr.com/lang/zh_tw" target="_blank" rel="noopener">vim 小抄</a></li>
@@ -303,8 +303,9 @@
 </ol>
 <p>特殊功能筆記<br>刪除檔案內全部文字</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:1,$d</span><br></pre></td></tr></table></figure>
-<p>format documnet 並且跳回原來 cursor 位置 <code>gg=G``` 
-或是使用等價方法</code>gg=G <code>接著輸入</code>ctrl + o `</p>
+<p>format documnet 並且跳回原來 cursor 位置  </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mmgg&#x3D;G&#96;m</span><br></pre></td></tr></table></figure>
+<p>或是使用等價方法 <code>gg=G</code> 接著輸入 <code>ctrl + o</code></p>
 <p>format documnet 並且跳回行首 <code>gg=G&#39;&#39;</code> </p>
 <p>之前常常用 % 來對 tag 進行起始/結尾切換，但是寫 html 完全沒法這樣做，後來發現原來只要 vat 接著用 o 就可以來回切換。</p>
 <p>配合 teamwork 開發 angular 導致 html attribute 又臭又長尋求解法，每個 team member 的 html 空格數也不太一樣所幸找以到下解法</p>
