@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-05T07:04:27.000Z">
-<meta property="article:modified_time" content="2020-12-26T22:20:05.640Z">
+<meta property="article:modified_time" content="2020-12-29T19:57:00.620Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="vscode">
@@ -217,7 +217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-12-27 06:20:05" itemprop="dateModified" datetime="2020-12-27T06:20:05+08:00">2020-12-27</time>
+                <time title="修改時間：2020-12-30 03:57:00" itemprop="dateModified" datetime="2020-12-30T03:57:00+08:00">2020-12-30</time>
               </span>
 
           
@@ -240,7 +240,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>15k</span>
+              <span>16k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -310,6 +310,18 @@
 <p>之前常常用 % 來對 tag 進行起始/結尾切換，但是寫 html 完全沒法這樣做，後來發現原來只要 <code>vat</code> 接著用 <code>o</code> 就可以來回切換。</p>
 <p>配合 teamwork 開發 angular 導致 html attribute 又臭又長尋求解法，每個 team member 的 html 空格數也不太一樣所幸找以到下解法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;editor.detectIndentation&quot;: false,</span><br><span class="line">&#x2F;&#x2F; The number of spaces a tab is equal to. This setting is overridden based on the file contents when &#96;editor.detectIndentation&#96; is on.</span><br><span class="line">&quot;editor.tabSize&quot;: 4,</span><br><span class="line">&#x2F;&#x2F; Config the editor that making the &quot;space&quot; instead of &quot;tab&quot;</span><br><span class="line">&quot;editor.insertSpaces&quot;: true,</span><br><span class="line">&quot;html.format.wrapAttributes&quot;: &quot;force&quot;,</span><br></pre></td></tr></table></figure>
+
+<p>正則表達式搜尋替換<br>開啟搜尋 <code>,ss</code><br>切換到替換或搜尋 <code>ctrl + h</code><br>比較特別的可以用以下操作去進行替換<br>假設搜尋 pattern <code>(abc)(def)</code><br>可以用 $1 $2 這種方法去判斷符合的組別，然後去執行一些進階操作<br>假設我有以下列表想在加號或減號前面都補上乘三</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 + 102 &#x3D; </span><br><span class="line">11 * 92 &#x3D; </span><br><span class="line">111 - 12 &#x3D;</span><br></pre></td></tr></table></figure>
+<p>就可以設樣運用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">([+-])</span><br><span class="line">* 3 $ 1</span><br></pre></td></tr></table></figure>
+<p>結果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 * 3 + 102 &#x3D; </span><br><span class="line">11 * 92 &#x3D; </span><br><span class="line">111 * 3 - 12 &#x3D;</span><br></pre></td></tr></table></figure>
+<p>可以看這個<a href="https://blog.darkthread.net/blog/vs-find-replace-regex/" target="_blank" rel="noopener">參考</a><br>跟<a href="https://docs.microsoft.com/zh-tw/visualstudio/ide/using-regular-expressions-in-visual-studio?view=vs-2019" target="_blank" rel="noopener">官方說明</a></p>
+<p>直接用 vim 的功能替換，這邊要特別注意替換 pattern 是否有開啟 neovim 有的話會用原生的方式進行替換<br>vscode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s&#x2F;([+-])&#x2F;* 3 $1&#x2F;g</span><br></pre></td></tr></table></figure>
+<p>neovim 啟用原生</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s&#x2F;\([+-]\)&#x2F;* 3 \1&#x2F;g</span><br></pre></td></tr></table></figure>
 
 <h2 id="full-keybindings"><a href="#full-keybindings" class="headerlink" title="full keybindings"></a>full keybindings</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 將按鍵繫結關係放在此檔案中以覆寫預設auto[]</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+w&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;editor.emmet.action.wrapWithAbbreviation&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+i&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;editor.emmet.action.wrapIndividualLinesWithAbbreviation&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+j&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectNextSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+k&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectPrevSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#x2F;&#x2F;menu 選擇時 alt+j alt+k 上下移動</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+j&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;workbench.action.quickOpenSelectNext&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;inQuickOpen&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+k&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;workbench.action.quickOpenSelectPrevious&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;inQuickOpen&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#x2F;&#x2F;https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;42796887&#x2F;switch-focus-between-editor-and-integrated-terminal-in-visual-studio-code</span><br><span class="line">    &#x2F;&#x2F; Toggle between terminal and editor focus</span><br><span class="line">    &#123; &quot;key&quot;: &quot;ctrl+&#96;&quot;, &quot;command&quot;: &quot;workbench.action.terminal.focus&quot;&#125;,</span><br><span class="line">    &#123; &quot;key&quot;: &quot;ctrl+&#96;&quot;, &quot;command&quot;: &quot;workbench.action.focusActiveEditorGroup&quot;, &quot;when&quot;: &quot;terminalFocus&quot;&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
 
@@ -421,7 +433,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -476,7 +488,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">1:54</span>
+    <span title="所需總浪費時間">1:55</span>
 </div>
 
         
