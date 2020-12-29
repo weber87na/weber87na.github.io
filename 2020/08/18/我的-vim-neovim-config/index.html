@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-08-18T03:32:43.000Z">
-<meta property="article:modified_time" content="2020-12-29T17:35:23.760Z">
+<meta property="article:modified_time" content="2020-12-29T17:45:20.970Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="neovim">
@@ -217,7 +217,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2020-12-30 01:35:23" itemprop="dateModified" datetime="2020-12-30T01:35:23+08:00">2020-12-30</time>
+                <time title="修改時間：2020-12-30 01:45:20" itemprop="dateModified" datetime="2020-12-30T01:45:20+08:00">2020-12-30</time>
               </span>
 
           
@@ -240,7 +240,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>6.5k</span>
+              <span>6.6k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -270,11 +270,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs \</span><br><span class="line">    https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br></pre></td></tr></table></figure>
 
 <p>搞定後會在 ~/.vim 目錄底下多出 autoload , plugged 資料夾跟 neovim 有點不太一樣</p>
-<p>要 config vim 的設定檔則在以下路徑<br>C:\Program Files\Git\etc\vimrc</p>
+<p>要 config vim 的設定檔則在以下路徑<br><code>C:\Program Files\Git\etc\vimrc</code></p>
 <p>安裝 :PlugInstall<br>萬一出現 airline missing comma 錯誤，調整以下修正即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~\.vim\plugged\vim-airline\autoload\airline\extensions\tabline\buffers.vim</span><br><span class="line"></span><br><span class="line">let s:number_map &#x3D; &#123; &#39;0&#39; : 0 , &#39;1&#39; : 1 , &#39;2&#39; : 2 , &#39;3&#39; : 3 , 4 : &#39;4&#39; , 5 : &#39;5&#39; , 6 : &#39;6&#39; , 7 : &#39;7&#39; , 8 : &#39;8&#39; , 9 : &#39;9&#39; &#125;</span><br></pre></td></tr></table></figure>
 
-<h2 id="解決-git-bash-for-windows-python-輸出有問題"><a href="#解決-git-bash-for-windows-python-輸出有問題" class="headerlink" title="解決 git bash for windows python 輸出有問題"></a>解決 git bash for windows python 輸出有問題</h2><p>nodejs 應該也會有這種類似的狀況，解法就是要用 winpty 把 windows 的 exe 指令給包一層<br><a href="https://magicjackting.pixnet.net/blog/post/222998706" target="_blank" rel="noopener">參考</a></p>
+<h2 id="解決-git-bash-for-windows-python-輸出有問題"><a href="#解決-git-bash-for-windows-python-輸出有問題" class="headerlink" title="解決 git bash for windows python 輸出有問題"></a>解決 git bash for windows python 輸出有問題</h2><p>nodejs 應該也會有這種類似的狀況，解法就是要用 winpty 把 windows 的 exe 指令給包一層 <a href="https://magicjackting.pixnet.net/blog/post/222998706" target="_blank" rel="noopener">參考不錯的說明</a><br>後來想說裝個 nvim 會支援 python3 ， 結果在 windows 底下就算用 winpty 包起來也是沒有真色支援，頭很痛</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">vim ~&#x2F;.bashrc</span><br><span class="line">#加入內容</span><br><span class="line">alias python&#x3D;&#39;winpty python&#39;</span><br><span class="line">alias pip&#x3D;&#39;winpty pip&#39;</span><br><span class="line">source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
 
 <h2 id="check-vim-support-python"><a href="#check-vim-support-python" class="headerlink" title="check vim support python"></a>check vim support python</h2><p>這個 python support 在 git for windows 的 vim 底下一定是沒 support 的，又雷得不要不要的</p>
