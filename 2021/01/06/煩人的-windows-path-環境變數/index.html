@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-01-05T20:47:07.000Z">
-<meta property="article:modified_time" content="2021-01-05T21:16:41.100Z">
+<meta property="article:modified_time" content="2021-01-06T18:10:52.500Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="windows">
 <meta name="twitter:card" content="summary">
@@ -208,10 +208,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2021-01-06 04:47:07 / 修改時間：05:16:41" itemprop="dateCreated datePublished" datetime="2021-01-06T04:47:07+08:00">2021-01-06</time>
+              <time title="亂入時間：2021-01-06 04:47:07" itemprop="dateCreated datePublished" datetime="2021-01-06T04:47:07+08:00">2021-01-06</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-01-07 02:10:52" itemprop="dateModified" datetime="2021-01-07T02:10:52+08:00">2021-01-07</time>
+              </span>
 
           
   
@@ -233,14 +239,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1.4k</span>
+              <span>1.7k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>1 分鐘</span>
+              <span>2 分鐘</span>
             </span>
 
         </div>
@@ -257,11 +263,13 @@
 
 <p>新增 windows 環境變數非常煩人，每次都要手動點一堆 GUI 按鈕，比較好一點點但是還要用 gui 的半吊子方法</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysdm.cpl</span><br></pre></td></tr></table></figure>
-<p>在 windows 10 底下有個 pathman 可以使用，原來這麼無腦就可以解決</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pathman &#x2F;au d:\gg</span><br><span class="line">pathman &#x2F;su d:\gg</span><br></pre></td></tr></table></figure>
+<p>在 windows 10 底下有個 pathman 可以使用，原來這麼無腦就可以解決，注意要加到系統環境變數又要用 admin 執行，暈</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pathman &#x2F;au d:\gg</span><br><span class="line">pathman &#x2F;as d:\gg</span><br></pre></td></tr></table></figure>
 
 <p>不過 pathman 一到 windows 7 底下就失效了，因此找到這<a href="https://superuser.com/questions/268287/adding-path-with-setx-or-pathman-or-something-else" target="_blank" rel="noopener">解法</a>，不過需要系統管理員執行，這裡特別注意環境變數會有 2048 限制的這種低能問題，隨便都超過鄉民 30 公分</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setx &#x2F;M path &quot;C:\gg;%path%&quot;</span><br></pre></td></tr></table></figure>
+<p>上面這個命令很危險可能會直接讓現有的環境變數直接陣亡，不小心用了以後常用的 git 跟 windows terminal 都 gg 了可以在以下路徑找回來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">windows terminal</span><br><span class="line">C:\Users\YourName\AppData\Local\Microsoft\WindowsApps</span><br><span class="line"></span><br><span class="line">git</span><br><span class="line">C:\Program Files\Git\cmd</span><br><span class="line">or</span><br><span class="line">C:\Program Files(x86)\Git\cmd</span><br></pre></td></tr></table></figure>
 
 <p>環境變數太長了整個 gg 可以看保哥這篇<a href="https://blog.miniasp.com/post/2015/09/07/Maximum-length-of-PATH-environment-variable" target="_blank" rel="noopener">文章</a>，感恩保哥真是神<br>順便筆記一下檢查垃圾 path 用的 validatepath.bat <a href="https://stackoverflow.com/questions/7337794/how-to-check-if-directories-listed-in-system-path-variable-are-valid" target="_blank" rel="noopener">感恩老外</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">setlocal DisableDelayedExpansion</span><br><span class="line">set &quot;var&#x3D;%PATH%&quot;</span><br><span class="line"></span><br><span class="line">set &quot;var&#x3D;%var:&quot;&#x3D;&quot;&quot;%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:^&#x3D;^^%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:&amp;&#x3D;^&amp;%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:|&#x3D;^|%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:&lt;&#x3D;^&lt;%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:&gt;&#x3D;^&gt;%&quot;</span><br><span class="line"></span><br><span class="line">set &quot;var&#x3D;%var:;&#x3D;^;^;%&quot;</span><br><span class="line">rem ** This is the key line, the missing quote is intention</span><br><span class="line">set var&#x3D;%var:&quot;&quot;&#x3D;&quot;%</span><br><span class="line">set &quot;var&#x3D;%var:&quot;&#x3D;&quot;&quot;%&quot;</span><br><span class="line"></span><br><span class="line">set &quot;var&#x3D;%var:;;&#x3D;&quot;&quot;;&quot;&quot;%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:^;^;&#x3D;;%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:&quot;&quot;&#x3D;&quot;%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:&quot;&#x3D;&quot;&quot;%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:&quot;&quot;;&quot;&quot;&#x3D;&quot;;&quot;%&quot;</span><br><span class="line">set &quot;var&#x3D;%var:&quot;&quot;&quot;&#x3D;&quot;%&quot;</span><br><span class="line"></span><br><span class="line">setlocal EnableDelayedExpansion</span><br><span class="line">for %%a in (&quot;!var!&quot;) do (</span><br><span class="line">    endlocal</span><br><span class="line">    call :testdir &quot;%%~a&quot;</span><br><span class="line">    setlocal EnableDelayedExpansion</span><br><span class="line">)</span><br><span class="line">goto :eof</span><br><span class="line"></span><br><span class="line">:testdir</span><br><span class="line">if exist %1 echo OK:  %1</span><br><span class="line">if not exist %1 echo NOK: %1</span><br></pre></td></tr></table></figure>
