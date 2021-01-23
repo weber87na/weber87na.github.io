@@ -1197,7 +1197,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #4e7f7f;
+  background: #71ff3b;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2598,7 +2598,7 @@ h3::before {
   pointer-events: none;
 }
 .cobweb {
-  background: url("../images/cobweb.png") no-repeat;
+  background: url("../images/cobweb2.png") no-repeat;
   width: 282px;
   height: 302px;
   top: 0;
@@ -2606,6 +2606,18 @@ h3::before {
   z-index: 999;
   pointer-events: none;
   position: fixed;
+  animation: moveCobweb 50s infinite linear;
+}
+.spider {
+  background: url("../images/spider.png") no-repeat;
+  width: 46px;
+  height: 50px;
+  top: 90px;
+  right: 100px;
+  z-index: 1000;
+  pointer-events: none;
+  position: fixed;
+  animation: moveSpider 30s infinite linear;
 }
 article:nth-of-type(even) .btn {
   border-bottom-left-radius: 205px 155px;
@@ -2792,5 +2804,213 @@ code::selection {
   }
   100% {
     background-position: 100px 750px;
+  }
+}
+@-moz-keyframes moveSpider {
+  0% {
+    top: 90px;
+    right: 100px;
+  }
+  25% {
+    top: 100px;
+    right: 105px;
+    transform: rotate(15deg);
+  }
+  40% {
+    transform: rotate(3deg);
+  }
+  50% {
+    top: 122px;
+    right: 128px;
+    transform: rotate(-33deg);
+  }
+  60% {
+    transform: rotate(13deg);
+  }
+  70% {
+    top: 96px;
+    right: 88px;
+    transform: rotate(-25deg);
+  }
+  1000% {
+    top: 90px;
+    right: 100px;
+    transform: rotate(0deg);
+  }
+}
+@-webkit-keyframes moveSpider {
+  0% {
+    top: 90px;
+    right: 100px;
+  }
+  25% {
+    top: 100px;
+    right: 105px;
+    transform: rotate(15deg);
+  }
+  40% {
+    transform: rotate(3deg);
+  }
+  50% {
+    top: 122px;
+    right: 128px;
+    transform: rotate(-33deg);
+  }
+  60% {
+    transform: rotate(13deg);
+  }
+  70% {
+    top: 96px;
+    right: 88px;
+    transform: rotate(-25deg);
+  }
+  1000% {
+    top: 90px;
+    right: 100px;
+    transform: rotate(0deg);
+  }
+}
+@-o-keyframes moveSpider {
+  0% {
+    top: 90px;
+    right: 100px;
+  }
+  25% {
+    top: 100px;
+    right: 105px;
+    transform: rotate(15deg);
+  }
+  40% {
+    transform: rotate(3deg);
+  }
+  50% {
+    top: 122px;
+    right: 128px;
+    transform: rotate(-33deg);
+  }
+  60% {
+    transform: rotate(13deg);
+  }
+  70% {
+    top: 96px;
+    right: 88px;
+    transform: rotate(-25deg);
+  }
+  1000% {
+    top: 90px;
+    right: 100px;
+    transform: rotate(0deg);
+  }
+}
+@keyframes moveSpider {
+  0% {
+    top: 90px;
+    right: 100px;
+  }
+  25% {
+    top: 100px;
+    right: 105px;
+    transform: rotate(15deg);
+  }
+  40% {
+    transform: rotate(3deg);
+  }
+  50% {
+    top: 122px;
+    right: 128px;
+    transform: rotate(-33deg);
+  }
+  60% {
+    transform: rotate(13deg);
+  }
+  70% {
+    top: 96px;
+    right: 88px;
+    transform: rotate(-25deg);
+  }
+  1000% {
+    top: 90px;
+    right: 100px;
+    transform: rotate(0deg);
+  }
+}
+@-moz-keyframes moveCobweb {
+  25% {
+    transform: rotate(3deg);
+  }
+  40% {
+    transform: rotate(7deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  60% {
+    transform: rotate(13deg);
+  }
+  70% {
+    transform: rotate(-15deg);
+  }
+  1000% {
+    transform: rotate(0deg);
+  }
+}
+@-webkit-keyframes moveCobweb {
+  25% {
+    transform: rotate(3deg);
+  }
+  40% {
+    transform: rotate(7deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  60% {
+    transform: rotate(13deg);
+  }
+  70% {
+    transform: rotate(-15deg);
+  }
+  1000% {
+    transform: rotate(0deg);
+  }
+}
+@-o-keyframes moveCobweb {
+  25% {
+    transform: rotate(3deg);
+  }
+  40% {
+    transform: rotate(7deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  60% {
+    transform: rotate(13deg);
+  }
+  70% {
+    transform: rotate(-15deg);
+  }
+  1000% {
+    transform: rotate(0deg);
+  }
+}
+@keyframes moveCobweb {
+  25% {
+    transform: rotate(3deg);
+  }
+  40% {
+    transform: rotate(7deg);
+  }
+  50% {
+    transform: rotate(-3deg);
+  }
+  60% {
+    transform: rotate(13deg);
+  }
+  70% {
+    transform: rotate(-15deg);
+  }
+  1000% {
+    transform: rotate(0deg);
   }
 }
