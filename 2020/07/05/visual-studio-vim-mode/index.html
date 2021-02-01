@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-05T07:22:58.000Z">
-<meta property="article:modified_time" content="2021-02-01T16:04:35.720Z">
+<meta property="article:modified_time" content="2021-02-01T18:04:06.910Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="visual studio">
@@ -246,7 +246,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-02-02 00:04:35" itemprop="dateModified" datetime="2021-02-02T00:04:35+08:00">2021-02-02</time>
+                <time title="修改時間：2021-02-02 02:04:06" itemprop="dateModified" datetime="2021-02-02T02:04:06+08:00">2021-02-02</time>
               </span>
 
           
@@ -332,6 +332,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var x &#x3D; new YourObject(); var t &#x3D; x.GetType(); foreach (var prop in t.GetProperties()) Console.WriteLine( $&quot;x.&#123;prop.Name&#125; &#x3D; &quot; );</span><br></pre></td></tr></table></figure>
 <p>也可以把這種片段做成 template 然後執行以下指令就可以快速插入</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:read d:\template\generate-full-prop.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="自動產生類別屬性片段-新"><a href="#自動產生類別屬性片段-新" class="headerlink" title="自動產生類別屬性片段(新)"></a>自動產生類別屬性片段(新)</h3><p>使用變態老外的 extension <a href="https://github.com/cezarypiatek/CsharpMacros" target="_blank" rel="noopener">CsharpMacros</a> 來進行產生屬性 , 後來找到這個方法簡潔多了! 感恩老外!<br>看這老外是運用 roslyn 來達成這套功能 , 屌!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var x &#x3D; new LaSai();</span><br><span class="line">&#x2F;&#x2F;marcos.properties(LaSai)</span><br><span class="line">&#x2F;&#x2F;p.$&#123;name&#125; &#x3D;</span><br></pre></td></tr></table></figure>
 
 <h3 id="JSON-To-CSharp-類別"><a href="#JSON-To-CSharp-類別" class="headerlink" title="JSON To CSharp 類別"></a>JSON To CSharp 類別</h3><p>將 JSON 快速轉換 csharp 類別 <code>Edit.PasteJSONAsClasses</code> 注意 Clipboard 裡面要先有 JSON 才可以快速產生</p>
 <h3 id="multi-cursor-操作技巧"><a href="#multi-cursor-操作技巧" class="headerlink" title="multi cursor 操作技巧"></a>multi cursor 操作技巧</h3><p>類似 vscode multi cursor 的功能 <code>Edit.InsertNextMatchingCaret</code> <code>Edit.InsertCaretsatAllMatching</code> 注意使用以後是 visual mode 這時候按下 <code>o</code> 是會來回在頭尾切換，<br>需要多按 <code>esc</code> 接著就可以模擬類似 multi cursor 的功能</p>
@@ -452,7 +455,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#內文"><span class="nav-number">1.</span> <span class="nav-text">內文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本設定"><span class="nav-number">1.1.</span> <span class="nav-text">基本設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-method-提示"><span class="nav-number">1.2.</span> <span class="nav-text">設定 method 提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-mvc"><span class="nav-number">1.3.</span> <span class="nav-text">設定 mvc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-vsvimrc"><span class="nav-number">1.4.</span> <span class="nav-text">設定 vsvimrc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂-template-技巧"><span class="nav-number">1.5.</span> <span class="nav-text">自訂 template 技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速替換為-Nullable"><span class="nav-number">1.6.</span> <span class="nav-text">快速替換為 Nullable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自動產生類別屬性片段"><span class="nav-number">1.7.</span> <span class="nav-text">自動產生類別屬性片段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSON-To-CSharp-類別"><span class="nav-number">1.8.</span> <span class="nav-text">JSON To CSharp 類別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multi-cursor-操作技巧"><span class="nav-number">1.9.</span> <span class="nav-text">multi cursor 操作技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速切換資料型別"><span class="nav-number">1.10.</span> <span class="nav-text">快速切換資料型別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReSharper-Source-Template"><span class="nav-number">1.11.</span> <span class="nav-text">ReSharper Source Template</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#full-config"><span class="nav-number">2.</span> <span class="nav-text">full config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它-extension"><span class="nav-number">3.</span> <span class="nav-text">其它 extension</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#內文"><span class="nav-number">1.</span> <span class="nav-text">內文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本設定"><span class="nav-number">1.1.</span> <span class="nav-text">基本設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-method-提示"><span class="nav-number">1.2.</span> <span class="nav-text">設定 method 提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-mvc"><span class="nav-number">1.3.</span> <span class="nav-text">設定 mvc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-vsvimrc"><span class="nav-number">1.4.</span> <span class="nav-text">設定 vsvimrc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂-template-技巧"><span class="nav-number">1.5.</span> <span class="nav-text">自訂 template 技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速替換為-Nullable"><span class="nav-number">1.6.</span> <span class="nav-text">快速替換為 Nullable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自動產生類別屬性片段"><span class="nav-number">1.7.</span> <span class="nav-text">自動產生類別屬性片段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自動產生類別屬性片段-新"><span class="nav-number">1.8.</span> <span class="nav-text">自動產生類別屬性片段(新)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSON-To-CSharp-類別"><span class="nav-number">1.9.</span> <span class="nav-text">JSON To CSharp 類別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multi-cursor-操作技巧"><span class="nav-number">1.10.</span> <span class="nav-text">multi cursor 操作技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速切換資料型別"><span class="nav-number">1.11.</span> <span class="nav-text">快速切換資料型別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReSharper-Source-Template"><span class="nav-number">1.12.</span> <span class="nav-text">ReSharper Source Template</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#full-config"><span class="nav-number">2.</span> <span class="nav-text">full config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其它-extension"><span class="nav-number">3.</span> <span class="nav-text">其它 extension</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -517,7 +520,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">171k</span>
+    <span title="總廢話字數">172k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
