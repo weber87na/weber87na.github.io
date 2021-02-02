@@ -1197,7 +1197,7 @@ pre .javascript .function {
 }
 .links-of-author a::before,
 .links-of-author span.exturl::before {
-  background: #37da4f;
+  background: #ff42ff;
   border-radius: 50%;
   content: ' ';
   display: inline-block;
@@ -2677,6 +2677,7 @@ article:nth-of-type(odd) .btn {
 article.post-block {
   position: relative;
 }
+article.post-block:only-child:before,
 article.post-block:before {
   z-index: 1;
   content: '';
@@ -2694,6 +2695,7 @@ article.post-block:before {
   line-height: 1;
   padding: 10px;
 }
+article.post-block:only-child:after,
 article.post-block:after {
   z-index: 1;
   content: '幹話\a認證';
@@ -2713,6 +2715,20 @@ article.post-block:after {
   text-align: center;
   line-height: 1;
   padding: 10px;
+}
+article.post-block:first-child:before {
+  animation: rotate 100s infinite linear;
+}
+article.post-block:first-child:after {
+  content: '精選\a幹話';
+  animation: rotate 60s infinite linear;
+}
+article.post-block:only-child:before,
+article.post-block:only-child:after {
+  animation: none !important;
+}
+article.post-block:only-child:after {
+  content: '幹話\a認證';
 }
 .post-nav-item a {
   text-align: center;
@@ -2938,6 +2954,38 @@ code::selection {
     top: 90px;
     right: 100px;
     transform: rotate(0deg);
+  }
+}
+@-moz-keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
   }
 }
 @-moz-keyframes moveCobweb {
