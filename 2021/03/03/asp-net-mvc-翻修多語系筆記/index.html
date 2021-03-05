@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-03-03T10:41:54.000Z">
-<meta property="article:modified_time" content="2021-03-03T10:48:57.180Z">
+<meta property="article:modified_time" content="2021-03-05T19:59:31.550Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="asp.net mvc">
 <meta name="twitter:card" content="summary">
@@ -237,10 +237,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2021-03-03 18:41:54 / 修改時間：18:48:57" itemprop="dateCreated datePublished" datetime="2021-03-03T18:41:54+08:00">2021-03-03</time>
+              <time title="亂入時間：2021-03-03 18:41:54" itemprop="dateCreated datePublished" datetime="2021-03-03T18:41:54+08:00">2021-03-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-03-06 03:59:31" itemprop="dateModified" datetime="2021-03-06T03:59:31+08:00">2021-03-06</time>
+              </span>
 
           
   
@@ -262,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1.5k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>1 分鐘</span>
+              <span>2 分鐘</span>
             </span>
 
         </div>
@@ -301,6 +307,14 @@
 
 <p>順帶一提可以在 vscode 設定 settings.json 讓 html attribute 換行 , 順手重構老系統</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;html.format.wrapAttributes&quot;: &quot;force&quot;,</span><br></pre></td></tr></table></figure>
+
+<p>後來翻修還遇到兩個問題一個就是 bootstrap 討人厭的 href 錨點會讓網址很醜 , 可以用 data-target 重構<br>before</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a class&#x3D;&quot;nav-link&quot; data-toggle&#x3D;&quot;tab&quot; href&#x3D;&quot;#ooxx&quot; &gt;ooxx&lt;&#x2F;a&gt;</span><br></pre></td></tr></table></figure>
+<p>after</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a class&#x3D;&quot;nav-link&quot; data-toggle&#x3D;&quot;tab&quot; data-target&#x3D;&quot;ooxx&quot; href&#x3D;&quot;javascript:;&quot; &gt;</span><br></pre></td></tr></table></figure>
+
+<p>另外前端遇到 angularjs 載入靜態頁面可以這樣寫 , 讓後端去從真正的 server 路徑取得檔案位置 , 並且幫忙加時間防止 cached</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;ng-include src&#x3D;&quot;&#39;@Url.Content(&quot;~&#x2F;Static&#x2F;YourPage.html?v&#x3D;&quot; + DateTime.Now.ToFileTimeUtc())&#39;&quot;&gt;&lt;&#x2F;ng-include&gt;</span><br></pre></td></tr></table></figure>
 
     </div>
 
