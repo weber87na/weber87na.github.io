@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-03-03T10:41:54.000Z">
-<meta property="article:modified_time" content="2021-03-05T20:13:00.340Z">
+<meta property="article:modified_time" content="2021-03-11T14:24:02.106Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="asp.net mvc">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-06 04:13:00" itemprop="dateModified" datetime="2021-03-06T04:13:00+08:00">2021-03-06</time>
+                <time title="修改時間：2021-03-11 22:24:02" itemprop="dateModified" datetime="2021-03-11T22:24:02+08:00">2021-03-11</time>
               </span>
 
           
@@ -268,7 +268,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.1k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -315,6 +315,10 @@
 
 <p>另外前端遇到 angularjs 載入靜態頁面可以這樣寫 , 讓後端去從真正的 server 路徑取得檔案位置 , 並且幫忙加時間防止 cached</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;ng-include src&#x3D;&quot;&#39;@Url.Content(&quot;~&#x2F;Static&#x2F;YourPage.html?v&#x3D;&quot; + DateTime.Now.ToFileTimeUtc())&#39;&quot;&gt;&lt;&#x2F;ng-include&gt;</span><br></pre></td></tr></table></figure>
+<p>後來發現老系統一個雷坑 , 理論上 label 裡面包 checkbox 會可以點到才對 , 結果寫成下面這樣爆炸了 , 多了一個 <code>for=&quot;&quot;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;label for&#x3D;&quot;&quot;&gt;</span><br><span class="line">	&lt;input type&#x3D;&quot;checkbox&quot; ng-model&#x3D;&quot;dataValue&quot;&gt;</span><br><span class="line">		Set the Data Value</span><br><span class="line">&lt;&#x2F;label&gt;</span><br></pre></td></tr></table></figure>
+<p>應該寫這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;label&gt;</span><br><span class="line">	&lt;input type&#x3D;&quot;checkbox&quot; ng-model&#x3D;&quot;dataValue&quot;&gt;</span><br><span class="line">		Set the Data Value</span><br><span class="line">&lt;&#x2F;label&gt;</span><br></pre></td></tr></table></figure>
 
     </div>
 
