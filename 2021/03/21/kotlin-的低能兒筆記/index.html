@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-03-21T13:33:35.000Z">
-<meta property="article:modified_time" content="2021-03-23T12:07:42.695Z">
+<meta property="article:modified_time" content="2021-03-23T20:12:19.193Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="kotlin">
 <meta property="article:tag" content="android">
@@ -246,7 +246,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-23 20:07:42" itemprop="dateModified" datetime="2021-03-23T20:07:42+08:00">2021-03-23</time>
+                <time title="修改時間：2021-03-24 04:12:19" itemprop="dateModified" datetime="2021-03-24T04:12:19+08:00">2021-03-24</time>
               </span>
 
           
@@ -269,7 +269,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>415</span>
+              <span>1.6k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -296,6 +296,22 @@
 <p>在 <code>MainActivity.kt</code> import 下面這句</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import kotlinx.android.synthetic.main.activity_main.*</span><br></pre></td></tr></table></figure>
 <h3 id="SharedPreferences-的路徑"><a href="#SharedPreferences-的路徑" class="headerlink" title="SharedPreferences 的路徑"></a>SharedPreferences 的路徑</h3><p>開啟 =&gt; <code>DeviceFileExplorer</code> =&gt; <code>data</code> =&gt; <code>data</code> =&gt; <code>com.xxx.yourappname</code> =&gt; <code>shared_prefs</code></p>
+<h3 id="基本低能知識"><a href="#基本低能知識" class="headerlink" title="基本低能知識"></a>基本低能知識</h3><p>常數 =&gt; <code>val</code> 在 c# 裡面應該是 <code>const</code><br>變數 =&gt; <code>var</code> 跟 c# 一樣<br>有明確資料型態的變數 =&gt; <code>var x: Int = 1</code> <code>var x: Float = 10f</code> <code>var x:String = &quot;xxx&quot;</code><br>註解 =&gt; <code>//</code> or <code>/* xxx */</code><br>template string =&gt; <code>println(&quot;$x&quot;)</code> 有夠懶<br>資料型別轉換 <code>toInt()</code> <code>toString()</code> <code>toFloat()</code> <code>toDouble()</code> 相比 c# 還要 Convert.ToInt(xxx) 實在是超懶<br><code>when</code> 像是 c# 的 switch 這語法倒是滿不適應的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">when(x)&#123;</span><br><span class="line">	1 -&gt; print(1)</span><br><span class="line">	2 -&gt; print(2)</span><br><span class="line">	else -&gt; &#123;</span><br><span class="line">		print(&quot;gg&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更噁心的是他可以 return value</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val x &#x3D; when(y)&#123;</span><br><span class="line">	&quot;O&quot; -&gt; &quot;OK&quot;</span><br><span class="line">	&quot;X&quot; -&gt; &quot;NO&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>集合 <code>listof(&quot;xxx&quot; , &quot;ooo&quot;)</code> 在 c# 內是 List<String>{“xxx” , “ooo”}; kotlin 真是噁心</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for(x in listof(&quot;xxx&quot; , &quot;ooo&quot;)&#123;</span><br><span class="line">	println(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">listOf&lt;String&gt;(&quot;xxx&quot;,&quot;ooo&quot;).forEach&#123;</span><br><span class="line">	println(it)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>range 這個有夠噁心 , 像是 python 的語法 , 最經典應該還是 99 乘法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val r &#x3D; 1..9</span><br><span class="line">for(x in r)</span><br><span class="line">	for(y in r)</span><br><span class="line">		println(&quot;x * y &#x3D; $&#123;x*y&#125;&quot;)</span><br></pre></td></tr></table></figure>
+<p>function 這種 data type 放在後面有點不太習慣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fun add : Int(a : Int &#x3D; 0 , b : Int &#x3D; 0)&#123;</span><br><span class="line">	return a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>liline function</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fun  x(a : Int &#x3D; 0 ,  b : Int &#x3D; 0) &#x3D; a + b</span><br></pre></td></tr></table></figure>
+<p>匿名函式 這個有 js IIFE 立即函式的感覺</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var result : Int &#x3D; &#123;</span><br><span class="line">	var x &#x3D; 10;</span><br><span class="line">	var y &#x3D; 20;</span><br><span class="line">	x + y</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<p>建構子 constructor 這個萬萬沒想到竟然有兩個步驟先是執行 <code>init</code> 才執行 <code>constructor</code> 簡直顛覆三觀</p>
+<h3 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h3><p>Log.d(“TAG” , “Message”)<br>println(“xxxxx”)<br>或是直接用 <code>F5</code> , <code>F10</code> , <code>F11</code> 設定中斷點來看</p>
 
     </div>
 
@@ -384,7 +400,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#activity-沒有-intelli-sense"><span class="nav-number">1.</span> <span class="nav-text">activity 沒有 intelli sense</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SharedPreferences-的路徑"><span class="nav-number">2.</span> <span class="nav-text">SharedPreferences 的路徑</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#activity-沒有-intelli-sense"><span class="nav-number">1.</span> <span class="nav-text">activity 沒有 intelli sense</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SharedPreferences-的路徑"><span class="nav-number">2.</span> <span class="nav-text">SharedPreferences 的路徑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本低能知識"><span class="nav-number">3.</span> <span class="nav-text">基本低能知識</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#debug"><span class="nav-number">4.</span> <span class="nav-text">debug</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -449,13 +465,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">206k</span>
+    <span title="總廢話字數">207k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">3:07</span>
+    <span title="所需總浪費時間">3:08</span>
 </div>
 
         
