@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-03-21T13:33:35.000Z">
-<meta property="article:modified_time" content="2021-03-28T11:51:24.158Z">
+<meta property="article:modified_time" content="2021-03-28T11:58:39.398Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="kotlin">
 <meta property="article:tag" content="android">
@@ -246,7 +246,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-28 19:51:24" itemprop="dateModified" datetime="2021-03-28T19:51:24+08:00">2021-03-28</time>
+                <time title="修改時間：2021-03-28 19:58:39" itemprop="dateModified" datetime="2021-03-28T19:58:39+08:00">2021-03-28</time>
               </span>
 
           
@@ -318,10 +318,10 @@
 <p>kotlin 噁爛語法 apply 記得以前學 vb.net 有 with 跟 apply 一樣的等價語法 , c# 9 (.net 5) 好像也可以直接使用 with</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">box with &#123; color &#x3D; &quot;RED&quot; , name &#x3D; &quot;aaa&quot; &#125;</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">box.apply&#123;</span><br><span class="line">	color &#x3D; &quot;RED&quot; ,</span><br><span class="line">	name &#x3D; &quot;aaa&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="kotlin-linq"><a href="#kotlin-linq" class="headerlink" title="kotlin linq"></a>kotlin linq</h3><p>詳細可以看這篇<a href="https://github.com/mythz/kotlin-linq-examples" target="_blank" rel="noopener">佛心老外</a>做的 linq 101 sample 的 kotlin 版本<br>linq where 在 kotlin 裡面是用 filter</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">lists.Where( x &#x3D;&gt; x.Name &#x3D;&#x3D; &quot;aaa&quot;);</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">lists.filter&#123; it &#x3D;&gt; it.Name &#x3D; &quot;aaa&quot; &#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="kotlin-linq"><a href="#kotlin-linq" class="headerlink" title="kotlin linq"></a>kotlin linq</h3><p>詳細可以看這篇<a href="https://github.com/mythz/kotlin-linq-examples" target="_blank" rel="noopener">佛心老外</a>做的 linq 101 sample 的 kotlin 版本<br>linq where 在 kotlin 裡面是用 filter 比較不習慣的是 kotlin 的箭頭符號是用 <code>-&gt;</code> c# 是用 <code>=&gt;</code> 滿討厭的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">lists.Where( x &#x3D;&gt; x.Name &#x3D;&#x3D; &quot;aaa&quot;);</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">lists.filter&#123; it.Name &#x3D; &quot;aaa&quot; &#125;;</span><br></pre></td></tr></table></figure>
 <p>在某書中看到函數式的 select 真正名稱是 map , kotlin 也用 map 好像更純一點</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">lists.Select(x&#x3D;&gt; x.Name);</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">lists.map&#123; x &#x3D;&gt; x.Name &#125;;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">lists.Select(x&#x3D;&gt; x.Name);</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">lists.map&#123; x -&gt; x.Name &#125;;</span><br></pre></td></tr></table></figure>
 
 
 <h3 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Log.d(&quot;TAG&quot; , &quot;Message&quot;)</span><br><span class="line">println(&quot;xxxxx&quot;)</span><br></pre></td></tr></table></figure>
