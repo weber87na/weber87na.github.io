@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-03-21T13:33:35.000Z">
-<meta property="article:modified_time" content="2021-03-28T11:58:39.398Z">
+<meta property="article:modified_time" content="2021-04-06T13:21:24.950Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="kotlin">
 <meta property="article:tag" content="android">
@@ -246,7 +246,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-28 19:58:39" itemprop="dateModified" datetime="2021-03-28T19:58:39+08:00">2021-03-28</time>
+                <time title="修改時間：2021-04-06 21:21:24" itemprop="dateModified" datetime="2021-04-06T21:21:24+08:00">2021-04-06</time>
               </span>
 
           
@@ -269,14 +269,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.9k</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>4 分鐘</span>
+              <span>5 分鐘</span>
             </span>
 
         </div>
@@ -318,6 +318,17 @@
 <p>kotlin 噁爛語法 apply 記得以前學 vb.net 有 with 跟 apply 一樣的等價語法 , c# 9 (.net 5) 好像也可以直接使用 with</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">box with &#123; color &#x3D; &quot;RED&quot; , name &#x3D; &quot;aaa&quot; &#125;</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">box.apply&#123;</span><br><span class="line">	color &#x3D; &quot;RED&quot; ,</span><br><span class="line">	name &#x3D; &quot;aaa&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h3 id="類別"><a href="#類別" class="headerlink" title="類別"></a>類別</h3><p>c# 類別基本上只要記得 <code>get</code> , <code>set</code> ,  <code>value</code> 這個些個關鍵字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Person</span><br><span class="line">&#123;</span><br><span class="line">	private string name &#x3D; &quot;ooxx&quot;;</span><br><span class="line">	public string Name</span><br><span class="line">	&#123;</span><br><span class="line">		get&#123; return name;&#125;</span><br><span class="line">		set&#123; name &#x3D; value;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>kotlin 基本上抄 c# 又保有 java 那種怪怪的特性硬要加個 <code>field</code> 反而不好記<br>如果不自己手動寫 <code>getter</code> 跟 <code>setter</code> 的話只要直接寫 <code>var name = &quot;ooxx&quot;</code> kotlin 就會直接幫你自動生出來超無腦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;</span><br><span class="line">	var name &#x3D; &quot;ooxx&quot;</span><br><span class="line">	get() &#x3D; field</span><br><span class="line">	set(value)&#123;</span><br><span class="line">		field &#x3D; value</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>kotlin 的建構子非常變態 , 有分主父 , 顛覆三觀<br>老派比較能接受的寫法 , 不過命名超怪</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Person(_isGoodGame : Boolean)&#123;</span><br><span class="line">	var name &#x3D; &quot;ooxx&quot;</span><br><span class="line">	get() &#x3D; field</span><br><span class="line">	set(value)&#123;</span><br><span class="line">		field &#x3D; value</span><br><span class="line">	&#125;</span><br><span class="line">	var isGoodGame &#x3D; _isGoodGame</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>還可以直接定義屬性在建構子上面 , 奇耙</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Person(var isGoodGame : Boolean)&#123;</span><br><span class="line">	var name &#x3D; &quot;ooxx&quot;</span><br><span class="line">	get() &#x3D; field</span><br><span class="line">	set(value)&#123;</span><br><span class="line">		field &#x3D; value</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接著會進入次要建構子 <code>constructor</code> 老實說這樣的語法實在記不太起來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Player(</span><br><span class="line">		_name : String,</span><br><span class="line">		var isGoodGame: Boolean</span><br><span class="line">		)&#123;</span><br><span class="line">	var name &#x3D; &quot;&quot;</span><br><span class="line">		get() &#x3D; field.capitalize()</span><br><span class="line">		private set(value)&#123;</span><br><span class="line">			field &#x3D; value.trim()</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	constructor(name : String) : this( name , isGoodGame &#x3D; false)&#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更變態的是還有個 <code>init</code> 這鬼東西感覺以前寫讀取 config 的區段現在只要寫在此就可以避開一堆軌問題</p>
 <h3 id="kotlin-linq"><a href="#kotlin-linq" class="headerlink" title="kotlin linq"></a>kotlin linq</h3><p>詳細可以看這篇<a href="https://github.com/mythz/kotlin-linq-examples" target="_blank" rel="noopener">佛心老外</a>做的 linq 101 sample 的 kotlin 版本<br>linq where 在 kotlin 裡面是用 filter 比較不習慣的是 kotlin 的箭頭符號是用 <code>-&gt;</code> c# 是用 <code>=&gt;</code> 滿討厭的</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">lists.Where( x &#x3D;&gt; x.Name &#x3D;&#x3D; &quot;aaa&quot;);</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">lists.filter&#123; it.Name &#x3D; &quot;aaa&quot; &#125;;</span><br></pre></td></tr></table></figure>
 <p>在某書中看到函數式的 select 真正名稱是 map , kotlin 也用 map 好像更純一點</p>
@@ -437,7 +448,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#activity-沒有-intelli-sense"><span class="nav-number">1.</span> <span class="nav-text">activity 沒有 intelli sense</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SharedPreferences-的路徑"><span class="nav-number">2.</span> <span class="nav-text">SharedPreferences 的路徑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本低能知識"><span class="nav-number">3.</span> <span class="nav-text">基本低能知識</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kotlin-linq"><span class="nav-number">4.</span> <span class="nav-text">kotlin linq</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#debug"><span class="nav-number">5.</span> <span class="nav-text">debug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-3rd-lib"><span class="nav-number">6.</span> <span class="nav-text">安裝 3rd lib</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#開放-android-權限給-user"><span class="nav-number">7.</span> <span class="nav-text">開放 android 權限給 user</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跨執行緒更新-UI"><span class="nav-number">8.</span> <span class="nav-text">跨執行緒更新 UI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#viewbinding"><span class="nav-number">9.</span> <span class="nav-text">viewbinding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#json-操作"><span class="nav-number">10.</span> <span class="nav-text">json 操作</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#activity-沒有-intelli-sense"><span class="nav-number">1.</span> <span class="nav-text">activity 沒有 intelli sense</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SharedPreferences-的路徑"><span class="nav-number">2.</span> <span class="nav-text">SharedPreferences 的路徑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本低能知識"><span class="nav-number">3.</span> <span class="nav-text">基本低能知識</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#類別"><span class="nav-number">4.</span> <span class="nav-text">類別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kotlin-linq"><span class="nav-number">5.</span> <span class="nav-text">kotlin linq</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#debug"><span class="nav-number">6.</span> <span class="nav-text">debug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-3rd-lib"><span class="nav-number">7.</span> <span class="nav-text">安裝 3rd lib</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#開放-android-權限給-user"><span class="nav-number">8.</span> <span class="nav-text">開放 android 權限給 user</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跨執行緒更新-UI"><span class="nav-number">9.</span> <span class="nav-text">跨執行緒更新 UI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#viewbinding"><span class="nav-number">10.</span> <span class="nav-text">viewbinding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#json-操作"><span class="nav-number">11.</span> <span class="nav-text">json 操作</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -502,13 +513,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">212k</span>
+    <span title="總廢話字數">213k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">3:13</span>
+    <span title="所需總浪費時間">3:14</span>
 </div>
 
         
