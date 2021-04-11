@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-04-11T04:45:23.000Z">
-<meta property="article:modified_time" content="2021-04-11T08:44:02.740Z">
+<meta property="article:modified_time" content="2021-04-11T08:45:19.930Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="喇賽">
 <meta name="twitter:card" content="summary">
@@ -239,7 +239,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2021-04-11 12:45:23 / 修改時間：16:44:02" itemprop="dateCreated datePublished" datetime="2021-04-11T12:45:23+08:00">2021-04-11</time>
+              <time title="亂入時間：2021-04-11 12:45:23 / 修改時間：16:45:19" itemprop="dateCreated datePublished" datetime="2021-04-11T12:45:23+08:00">2021-04-11</time>
             </span>
 
           
@@ -262,7 +262,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.6k</span>
+              <span>3.7k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -296,6 +296,7 @@
 
 <p>因為沒寫過 spring 所以特別筆記一下 Autowired 這個是讓 DI 自動注入 , 所以無腦標示以後就可以用了<br>controller 的部分寫起來有點像 .net core<br>撈資料程式碼寫起來有點像 <code>Dapper</code> or <code>ADO.NET</code> 以一個廢物第一天寫可以搞起來算是不錯了!</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.jdbc.core.BeanPropertyRowMapper;</span><br><span class="line">import org.springframework.jdbc.core.JdbcTemplate;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;customer&quot;)</span><br><span class="line">public class CustomerController &#123;</span><br><span class="line">	@Autowired</span><br><span class="line">		private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">	@GetMapping(&quot;list&quot;)</span><br><span class="line">		public List&lt;Customer&gt; list() throws Exception&#123;</span><br><span class="line">			String sql &#x3D; &quot;SELECT Id , FirstName , LastName FROM Customers&quot;;</span><br><span class="line">			List&lt;Customer&gt; result &#x3D; jdbcTemplate.query(sql,new BeanPropertyRowMapper&lt;Customer&gt;(Customer.class));</span><br><span class="line">			return  result;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最後執行 <code>http://127.0.0.1:8080/customer/list</code> 就能得到 Customers 資料表內的 json 資料了 , 感動!</p>
 
     </div>
 
