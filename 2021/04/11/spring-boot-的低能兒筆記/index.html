@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-04-11T04:45:23.000Z">
-<meta property="article:modified_time" content="2021-04-11T08:45:19.930Z">
+<meta property="article:modified_time" content="2021-04-12T11:08:15.330Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="喇賽">
 <meta name="twitter:card" content="summary">
@@ -237,10 +237,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2021-04-11 12:45:23 / 修改時間：16:45:19" itemprop="dateCreated datePublished" datetime="2021-04-11T12:45:23+08:00">2021-04-11</time>
+              <time title="亂入時間：2021-04-11 12:45:23" itemprop="dateCreated datePublished" datetime="2021-04-11T12:45:23+08:00">2021-04-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-04-12 19:08:15" itemprop="dateModified" datetime="2021-04-12T19:08:15+08:00">2021-04-12</time>
+              </span>
 
           
   
@@ -262,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.7k</span>
+              <span>4.4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>3 分鐘</span>
+              <span>4 分鐘</span>
             </span>
 
         </div>
@@ -286,6 +292,13 @@
 
 <h3 id="設定-java"><a href="#設定-java" class="headerlink" title="設定 java"></a>設定 java</h3><p>因為三不五時又會遇到討厭的 java , 為了了解其生態系 , 不得已只好花點時間看看 , 不然每次都雞同鴨講<br>第一步先安裝 JDK 可以裝 <a href="https://www.oracle.com/tw/java/technologies/javase/javase-jdk8-downloads.html" target="_blank" rel="noopener">Oracle 的版本</a> or OpenJDK , 現在有新選擇 <a href="https://www.microsoft.com/openjdk" target="_blank" rel="noopener">M$ 也有 OpenJDK 了</a><br>接著新增以下環境變數<br>變數名稱 <code>JAVA_HOME</code> 變數值 <code>C:\Program Files\Java\jdk1.8.0_151</code><br>變數名稱 <code>CLASSPATH</code> 變數值 <code>.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar</code><br>變數名稱 <code>PATH</code> 變數值 <code>%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin</code><br>接著 <code>cmd</code> <code>java -version</code> <code>javac -version</code> 看看有無成功輸出<br>然後下載類似 <code>Nuget</code> 的套件管理工具 <a href="https://maven.apache.org/" target="_blank" rel="noopener">Maven</a><br>變數名稱 <code>MAVEN_HOME</code> 變數值 <code>C:\apache-maven-3.5.2</code> 並在 <code>PATH</code> 後面加上 <code>%MAVEN_HOME%\bin\</code><br>接著一樣敲 <code>cmd</code> <code>mvn -v</code> 看看有無成功輸出</p>
 <h3 id="設定-intellij"><a href="#設定-intellij" class="headerlink" title="設定 intellij"></a>設定 intellij</h3><p>接著安裝 Intellij<br>老樣子安裝 <a href="https://plugins.jetbrains.com/plugin/index?xmlId=IdeaVIM" target="_blank" rel="noopener">IdeaVim</a> 因為之前用 <code>Android Studio</code> config 過了所以直接<a href="https://weber87na.github.io/2021/02/21/Android-Studio-vim-mode/">拿以前的來抄</a><br>接著安裝 <code>Spring Assistant</code> &amp; <code>JPA Support</code> 這2個 plugin <code>File</code> =&gt; <code>Settings</code> =&gt; <code>Plugins</code> =&gt; <code>Spring Assistant</code> <code>JPA Support</code><br>然後設定 Maven 在 <code>File</code> =&gt; <code>Settings</code> =&gt; <code>Build,Execution,Deployment</code> =&gt; <code>Maven home path</code> 看看要不要自己手動設定 , 這邊先用預設<br>建立 Spring 專案 <code>File</code> =&gt; <code>New</code> =&gt; <code>Project</code> =&gt; <code>Spring Assistant</code> =&gt; <code>Java Version 8</code> =&gt; <code>Next</code> =&gt; <code>Web</code> =&gt; <code>Spring Web</code> 靜待片刻</p>
+<h3 id="choco-安裝-java"><a href="#choco-安裝-java" class="headerlink" title="choco 安裝 java"></a>choco 安裝 java</h3><p>用 choco 安裝 openjdk8 , 可以<a href="https://community.chocolatey.org/packages/jdk8#install" target="_blank" rel="noopener">參考此連結</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install openjdk8</span><br></pre></td></tr></table></figure>
+<p>從 powershell 下載訊息中可以看到基本上也是從 <a href="https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot" target="_blank" rel="noopener">adoptopenjdk</a> 下載的<br><a href="https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jdk_x64_windows_8u282b08.zip" target="_blank" rel="noopener">https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jdk_x64_windows_8u282b08.zip</a><br>下載後會幫你加 <code>JAVA_HOME</code> 在以下路徑 <code>C:\Program Files\OpenJDK\openjdk-8u282-b08</code><br><code>PATH</code> 也會幫你自動加上去 <code>C:\Program Files\OpenJDK\openjdk-8u282-b08\bin</code></p>
+<p>安裝 maven</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install maven</span><br></pre></td></tr></table></figure>
+<p>安裝完可以看到設定了 <code>M2_HOME</code> 在以下路徑 <code>C:\ProgramData\chocolatey\lib\maven\apache-maven-3.8.1</code><br>以及 <code>PATH</code> 追加了 <code>%M2_HOME%\bin</code><br>有點納悶不是應該叫做 <code>MAVEN_HOME</code> 嗎? [參考老外] 原來 Maven 1 是用 <code>MAVEN_HOME</code> Maven 2 則用 <code>M2_HOME</code> 其實沒差<br>感覺用 choco 安裝更無腦</p>
+<p>今天還遇到個之前沒遇過的低能問題 , 就是無法在 windows 底下新增開頭有點 <code>.</code> 的特殊檔案 , 搞了半天沒辦法用 <code>.ideavimrc</code><br>google 看到老外說用 notepad++ 選另存新檔 , file type 選擇 all 就可以了</p>
 <h3 id="牛刀小試-jdbcTemplate"><a href="#牛刀小試-jdbcTemplate" class="headerlink" title="牛刀小試 jdbcTemplate"></a>牛刀小試 jdbcTemplate</h3><p>看書上照著做沒多久就陣亡了 , 書上的範例是 mysql 懶得安裝 mysql 直接用現成的 M$<br>首先在 <code>application.properties</code> 底下增加連線訊息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url&#x3D;jdbc:sqlserver:&#x2F;&#x2F;localhost:1433;databaseName&#x3D;test</span><br><span class="line">spring.datasource.username&#x3D;sa</span><br><span class="line">spring.datasource.password&#x3D;yourpassword</span><br><span class="line">spring.datasource.driverClassName&#x3D;com.microsoft.sqlserver.jdbc.SQLServerDriver</span><br><span class="line">spring.datasource.initialize&#x3D;true</span><br></pre></td></tr></table></figure>
 <p>特別注意這句 <code>spring.datasource.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver</code> 這句是低能關鍵 , 一開始依照其他低能老外寫的怎麼 try 都掛點 , 後來是看到<a href="https://springframework.guru/configuring-spring-boot-for-microsoft-sql-server/" target="_blank" rel="noopener">這篇</a>佛心老外才成功<br>另外 pom.xml 要增加以下相依</p>
@@ -381,7 +394,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-java"><span class="nav-number">1.</span> <span class="nav-text">設定 java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-intellij"><span class="nav-number">2.</span> <span class="nav-text">設定 intellij</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛刀小試-jdbcTemplate"><span class="nav-number">3.</span> <span class="nav-text">牛刀小試 jdbcTemplate</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-java"><span class="nav-number">1.</span> <span class="nav-text">設定 java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-intellij"><span class="nav-number">2.</span> <span class="nav-text">設定 intellij</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#choco-安裝-java"><span class="nav-number">3.</span> <span class="nav-text">choco 安裝 java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛刀小試-jdbcTemplate"><span class="nav-number">4.</span> <span class="nav-text">牛刀小試 jdbcTemplate</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -446,13 +459,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">217k</span>
+    <span title="總廢話字數">218k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">3:17</span>
+    <span title="所需總浪費時間">3:18</span>
 </div>
 
         
