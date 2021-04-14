@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-04-11T04:45:23.000Z">
-<meta property="article:modified_time" content="2021-04-12T19:22:49.990Z">
+<meta property="article:modified_time" content="2021-04-14T12:20:04.910Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="喇賽">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-04-13 03:22:49" itemprop="dateModified" datetime="2021-04-13T03:22:49+08:00">2021-04-13</time>
+                <time title="修改時間：2021-04-14 20:20:04" itemprop="dateModified" datetime="2021-04-14T20:20:04+08:00">2021-04-14</time>
               </span>
 
           
@@ -268,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>6.9k</span>
+              <span>7.2k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>6 分鐘</span>
+              <span>7 分鐘</span>
             </span>
 
         </div>
@@ -312,7 +312,9 @@
 <p>最後執行 <code>http://127.0.0.1:8080/customer/list</code> 就能得到 Customers 資料表內的 json 資料了 , 感動!</p>
 <h3 id="牛刀小試-JPA"><a href="#牛刀小試-JPA" class="headerlink" title="牛刀小試 JPA"></a>牛刀小試 JPA</h3><p>首先加入 pom 依賴</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
-<p>JPA 跟 entity framework 一樣難搞 , 通常在 M$ 荼毒之下會用大寫駝峰命資料庫欄位 <code>FirstName</code>  但 JPA 會解析成 <code>first_name</code> , <a href="https://stackoverflow.com/questions/25283198/spring-boot-jpa-column-name-annotation-ignored" target="_blank" rel="noopener">參考老外</a>所以要很變態的在 annotation 設定這樣 `@Column(name = “firstname”)</p>
+<p>JPA 跟 entity framework 一樣難搞 , 通常在 M$ 荼毒之下會用大寫駝峰命資料庫欄位 <code>FirstName</code>  但 JPA 會解析成 <code>first_name</code> , <a href="https://stackoverflow.com/questions/25283198/spring-boot-jpa-column-name-annotation-ignored" target="_blank" rel="noopener">參考老外</a>所以要很變態的在 annotation 設定這樣 <code>@Column(name = &quot;firstname&quot;)</code><br>不過有有一勞永逸的方法就是直接在 properties 裡面直接設定以下內容即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.jpa.hibernate.naming.implicit-strategy&#x3D;org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl</span><br><span class="line">spring.jpa.hibernate.naming.physical-strategy&#x3D;org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl</span><br></pre></td></tr></table></figure>
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">import lombok.Data;</span><br><span class="line"></span><br><span class="line">import javax.persistence.*;</span><br><span class="line">import java.io.Serializable;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import java.io.Serializable;</span><br><span class="line"></span><br><span class="line">@Entity</span><br><span class="line">@Data</span><br><span class="line">@Table(name &#x3D; &quot;Customers&quot;)</span><br><span class="line">public class Customer2 implements Serializable &#123;</span><br><span class="line">	@GeneratedValue(strategy &#x3D; GenerationType.IDENTITY)</span><br><span class="line">	@Id</span><br><span class="line">	private  int id;</span><br><span class="line"></span><br><span class="line">	@Column(name &#x3D; &quot;firstname&quot;)</span><br><span class="line">	private  String firstName;</span><br><span class="line"></span><br><span class="line">	@Column(name &#x3D; &quot;lastname&quot;)</span><br><span class="line">	private String lastName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>定義 Repository</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">import org.springframework.data.jpa.repository.JpaRepository;</span><br><span class="line">import org.springframework.data.jpa.repository.JpaSpecificationExecutor;</span><br><span class="line"></span><br><span class="line">public interface CustomerRepository extends JpaRepository&lt;Customer2,Integer&gt; ,</span><br><span class="line">	   JpaSpecificationExecutor&lt;Customer2&gt; &#123;</span><br><span class="line">		   Customer2 findById(int id);</span><br><span class="line">	   &#125;</span><br></pre></td></tr></table></figure>
@@ -469,13 +471,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">220k</span>
+    <span title="總廢話字數">221k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">3:20</span>
+    <span title="所需總浪費時間">3:21</span>
 </div>
 
         
