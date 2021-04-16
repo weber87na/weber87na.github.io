@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"weber87na.github.io","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常見的 asp.net core 低能問題">
+<meta property="og:url" content="https://weber87na.github.io/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-04-16T12:23:48.000Z">
+<meta property="article:modified_time" content="2021-04-16T12:24:46.340Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="asp.net core">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://weber87na.github.io/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>常見的 asp.net core 低能問題 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          常見的 asp.net core 低能問題
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2021-04-16 20:23:48 / 修改時間：20:24:46" itemprop="dateCreated datePublished" datetime="2021-04-16T20:23:48+08:00">2021-04-16</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/16/常見的-asp-net-core-低能問題/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>4.7k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>4 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="怎麼取得-ControllerName-or-ActionName"><a href="#怎麼取得-ControllerName-or-ActionName" class="headerlink" title="怎麼取得 ControllerName or ActionName"></a>怎麼取得 ControllerName or ActionName</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var controllerName &#x3D; ControllerContext.ActionDescriptor.ControllerName;</span><br><span class="line">var action &#x3D; ControllerContext.ActionDescriptor.ActionName;</span><br></pre></td></tr></table></figure>
+
+<h3 id="怎麼取得-appsetting-json-內的值"><a href="#怎麼取得-appsetting-json-內的值" class="headerlink" title="怎麼取得 appsetting.json 內的值"></a>怎麼取得 appsetting.json 內的值</h3><p>首先在建構子先注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class LaSaiController&#123;</span><br><span class="line">	private readonly IConfiguration configuration;</span><br><span class="line">	public LaSaiController(IConfiguration configuration)&#123;</span><br><span class="line">		this.configuration &#x3D; configuration;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public LaDiSai1()&#123;</span><br><span class="line">		return configuration[&quot;LaDiSai:Name&quot;];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public LaDiSai2()&#123;</span><br><span class="line">		return configuration.GetValue&lt;string&gt;(&quot;LaDiSai:Name&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>appsetting.json</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;LaDiSai&quot; : &#123;</span><br><span class="line">	&quot;Name&quot; : &quot;GG&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="簡單粗暴動態切換-DB-連線字串"><a href="#簡單粗暴動態切換-DB-連線字串" class="headerlink" title="簡單粗暴動態切換 DB 連線字串"></a>簡單粗暴動態切換 DB 連線字串</h3><p>先隨便開個資料庫 , 然後安裝 EF Core Power Tools 可以省事很多</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">services.AddDbContext&lt;TestDbContext&gt;(</span><br><span class="line">	options &#x3D;&gt; options.UseSqlServer( getConnectionString(code) )</span><br><span class="line">	);</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private string getConnectionString(string code)</span><br><span class="line">&#123;</span><br><span class="line">	switch (factoryCode)</span><br><span class="line">	&#123;</span><br><span class="line">		case &quot;test&quot;:</span><br><span class="line">			return &quot;name&#x3D;ConnectionStrings:TestDbContext&quot;;</span><br><span class="line">		case &quot;test2&quot;:</span><br><span class="line">			return &quot;name&#x3D;ConnectionStrings:Test2DbContext&quot;;</span><br><span class="line">		default:</span><br><span class="line">			return &quot;name&#x3D;ConnectionStrings:TestDbContext&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>appsetting.json</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;ConnectionStrings&quot;: &#123;</span><br><span class="line">  &quot;TestDbContext&quot;: &quot;ooxx&quot;,</span><br><span class="line">  &quot;Test2DbContext&quot;: &quot;xxoo&quot;,</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="正確取得-DB-連線字串"><a href="#正確取得-DB-連線字串" class="headerlink" title="正確取得 DB 連線字串"></a>正確取得 DB 連線字串</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Configuration.GetConnectionString(&quot;OOXXConnection&quot;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="多個類別繼承同個-interface-怎麼注入-DI"><a href="#多個類別繼承同個-interface-怎麼注入-DI" class="headerlink" title="多個類別繼承同個 interface 怎麼注入 DI"></a>多個類別繼承同個 interface 怎麼注入 DI</h3><p><a href="https://medium.com/ricos-note/how-to-register-and-inject-multiple-implementations-of-a-same-interface-c2ac518db459" target="_blank" rel="noopener">參考 RICO 大師</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices( IServiceCollection services )</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;因為之前寫原生的 .net core 2.x 無法像 Unity DI framework 有具名的 DI 注入方法 , 這邊參考 rico 大師的文章 , 分別注入 目前表以及歷史表的 repository</span><br><span class="line">	&#x2F;&#x2F;參考如何使用具名的 DI 方法</span><br><span class="line"></span><br><span class="line">	services.AddScoped&lt; TestRepository&gt;()</span><br><span class="line">	.AddScoped&lt;ITestRepository, TestRepository&gt;( s &#x3D;&gt; s.GetRequiredService&lt;TestRepository&gt;() );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private readonly ITestRepository testRepository;</span><br><span class="line">private readonly ITestRepository testHistoryRepository;</span><br><span class="line">private readonly IServiceScopeFactory serviceScopeFactory;</span><br><span class="line">public ManoBarcodeService(IServiceScopeFactory serviceScopeFactory</span><br><span class="line">    )</span><br><span class="line">&#123;</span><br><span class="line">    this.serviceScopeFactory &#x3D; serviceScopeFactory;</span><br><span class="line">    var ser &#x3D; serviceScopeFactory.CreateScope().ServiceProvider;</span><br><span class="line"></span><br><span class="line">    this.testRepository &#x3D; ser.GetRequiredService&lt;TestRepository&gt;();</span><br><span class="line">    this.testHistoryRepository &#x3D; ser.GetRequiredService&lt;TestHistoryRepository&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="找不到-ToXXOOAsync-非同步方法"><a href="#找不到-ToXXOOAsync-非同步方法" class="headerlink" title="找不到 ToXXOOAsync 非同步方法"></a>找不到 ToXXOOAsync 非同步方法</h3><p>某天低能要改寫常見的 GetAll 方法 , 讓他變成 Async , 結果一時找不到 , 其實只要引用以下命名空間就好</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">using System.Threading.Tasks;</span><br><span class="line">using Microsoft.EntityFrameworkCore;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="簡單指定-port-測試程式"><a href="#簡單指定-port-測試程式" class="headerlink" title="簡單指定 port 測試程式"></a>簡單指定 port 測試程式</h3><p>cd 到 .net5 資料夾底下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet OOXX.dll --urls &quot;http:&#x2F;&#x2F;localhost:7887&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="怎麼用-HttpClient-撈遠端資料"><a href="#怎麼用-HttpClient-撈遠端資料" class="headerlink" title="怎麼用 HttpClient 撈遠端資料"></a>怎麼用 HttpClient 撈遠端資料</h3><p>Startup.cs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices( IServiceCollection services )</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;...</span><br><span class="line">	services.AddHttpClient();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">private readonly IHttpClientFactory clientFactory;</span><br><span class="line">public TestController(</span><br><span class="line">	IHttpClientFactory clientFactory</span><br><span class="line">	)&#123;</span><br><span class="line"></span><br><span class="line">	[HttpGet]</span><br><span class="line">	public async Task&lt; ActionResult&lt;List&lt;Test&gt;&gt;&gt; GetAll()</span><br><span class="line">	&#123;</span><br><span class="line">		var client &#x3D; clientFactory.CreateClient();</span><br><span class="line">		var url &#x3D; $&quot;http:&#x2F;&#x2F;xxoo&quot;;</span><br><span class="line">		var resp &#x3D;  await client.GetAsync( url );</span><br><span class="line">		if (resp.IsSuccessStatusCode)</span><br><span class="line">		&#123;</span><br><span class="line">			var stream &#x3D; await resp.Content.ReadAsStringAsync();</span><br><span class="line">			var result &#x3D; JsonSerializer.Deserialize&lt;List&lt;Test&gt;&gt;( stream );</span><br><span class="line">			return result;</span><br><span class="line">		&#125;</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			return NotFound();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="執行-net-core-結束後關閉惱火的-console-視窗"><a href="#執行-net-core-結束後關閉惱火的-console-視窗" class="headerlink" title="執行 .net core 結束後關閉惱火的 console 視窗"></a>執行 .net core 結束後關閉惱火的 console 視窗</h3><p><code>工具</code> =&gt; <code>選項</code> =&gt; <code>偵錯</code> =&gt; <code>偵錯停止時，自動關閉主控台</code><br><code>Tools</code> =&gt; <code>Options</code> =&gt; <code>Debugging</code> =&gt; <code>Automatcilly close the console when debugging stops</code></p>
+<h3 id="關閉產生-xml-文件造成賭爛的-Missing-XML-comment-for-publicly-visible-type-or-member"><a href="#關閉產生-xml-文件造成賭爛的-Missing-XML-comment-for-publicly-visible-type-or-member" class="headerlink" title="關閉產生 xml 文件造成賭爛的 Missing XML comment for publicly visible type or member"></a>關閉產生 xml 文件造成賭爛的 Missing XML comment for publicly visible type or member</h3><p>在 csproj 萬一設定了產生 xml 文件的話 , 常常會跳這個賭爛錯誤 , 只要加上 <code>NoWarn</code> 區塊即可消除煩人的綠毛蟲</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;PropertyGroup Condition&#x3D;&quot;&#39;$(Configuration)|$(Platform)&#39;&#x3D;&#x3D;&#39;Debug|AnyCPU&#39;&quot;&gt;</span><br><span class="line">  &lt;DocumentationFile&gt;bin\GG.xml&lt;&#x2F;DocumentationFile&gt;</span><br><span class="line"> &lt;NoWarn&gt;$(NoWarn);1591&lt;&#x2F;NoWarn&gt;</span><br><span class="line">&lt;&#x2F;PropertyGroup&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="其他-developer-懶得看文件-不會用-api-的-swagger-解法"><a href="#其他-developer-懶得看文件-不會用-api-的-swagger-解法" class="headerlink" title="其他 developer 懶得看文件 , 不會用 api 的 swagger 解法"></a>其他 developer 懶得看文件 , 不會用 api 的 swagger 解法</h3><p>常常文件寫了一狗票 , 然後突然一個需求變更就直接 gg 了 , 所以每個人在測試時根本懶得看文件<br><a href="https://github.com/mattfrear/Swashbuckle.AspNetCore.Filters" target="_blank" rel="noopener">可以考慮加入</a> 直接做個 example 讓 user 測試比較實際</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Swashbuckle.AspNetCore.Filters</span><br></pre></td></tr></table></figure>
+
+<p>Startup.cs</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">services.AddSwaggerGen();</span><br><span class="line">services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());</span><br><span class="line">&#x2F;&#x2F;...</span><br></pre></td></tr></table></figure>
+
+<p>一般類別只要無腦寫 xml 註解時加入 example 區塊即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class GG</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">	&#x2F;&#x2F;&#x2F; 編號</span><br><span class="line">	&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">	&#x2F;&#x2F;&#x2F; &lt;example&gt;oxoxgggg&lt;&#x2F;example&gt;</span><br><span class="line">	[JsonPropertyName(&quot;GGID&quot;)]</span><br><span class="line">	public string GGID &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>controller 類別</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; 懶得寫</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;id&quot; example&#x3D;&quot;oxoxgggg&quot;&gt;GGID&lt;&#x2F;param&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;returns&gt;&lt;&#x2F;returns&gt;</span><br><span class="line">[HttpGet]</span><br><span class="line">[Route(&quot;gg&#x2F;&#123;id&#125;&quot;)]</span><br><span class="line">public async Task&lt; ActionResult&lt;List&lt;GG&gt;&gt;&gt; GetAll()</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/11/spring-boot-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/" rel="prev" title="spring boot 的低能兒筆記">
+      <i class="fa fa-chevron-left"></i> spring boot 的低能兒筆記
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#怎麼取得-ControllerName-or-ActionName"><span class="nav-number">1.</span> <span class="nav-text">怎麼取得 ControllerName or ActionName</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎麼取得-appsetting-json-內的值"><span class="nav-number">2.</span> <span class="nav-text">怎麼取得 appsetting.json 內的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#簡單粗暴動態切換-DB-連線字串"><span class="nav-number">3.</span> <span class="nav-text">簡單粗暴動態切換 DB 連線字串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正確取得-DB-連線字串"><span class="nav-number">4.</span> <span class="nav-text">正確取得 DB 連線字串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多個類別繼承同個-interface-怎麼注入-DI"><span class="nav-number">5.</span> <span class="nav-text">多個類別繼承同個 interface 怎麼注入 DI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#找不到-ToXXOOAsync-非同步方法"><span class="nav-number">6.</span> <span class="nav-text">找不到 ToXXOOAsync 非同步方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#簡單指定-port-測試程式"><span class="nav-number">7.</span> <span class="nav-text">簡單指定 port 測試程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎麼用-HttpClient-撈遠端資料"><span class="nav-number">8.</span> <span class="nav-text">怎麼用 HttpClient 撈遠端資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#執行-net-core-結束後關閉惱火的-console-視窗"><span class="nav-number">9.</span> <span class="nav-text">執行 .net core 結束後關閉惱火的 console 視窗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#關閉產生-xml-文件造成賭爛的-Missing-XML-comment-for-publicly-visible-type-or-member"><span class="nav-number">10.</span> <span class="nav-text">關閉產生 xml 文件造成賭爛的 Missing XML comment for publicly visible type or member</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他-developer-懶得看文件-不會用-api-的-swagger-解法"><span class="nav-number">11.</span> <span class="nav-text">其他 developer 懶得看文件 , 不會用 api 的 swagger 解法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">103</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">75</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">226k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">3:26</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://weber87na.github.io/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/";
+    this.page.identifier = "2021/04/16/常見的-asp-net-core-低能問題/";
+    this.page.title = "常見的 asp.net core 低能問題";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <div class="snow1" style="position:fixed !important"></div>
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+</body>
+</html>
