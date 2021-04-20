@@ -631,6 +631,110 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2021/04/20/ef-core-warm-up-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/04/20/ef-core-warm-up-%E7%AD%86%E8%A8%98/" class="post-title-link" itemprop="url">ef core warm up 筆記</a>
+        </h2>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2021-04-20 19:26:32 / 修改時間：19:26:57" itemprop="dateCreated datePublished" datetime="2021-04-20T19:26:32+08:00">2021-04-20</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/04/20/ef-core-warm-up-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/20/ef-core-warm-up-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>1.9k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>2 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="幫-ef-core-warm-up-暖身"><a href="#幫-ef-core-warm-up-暖身" class="headerlink" title="幫 ef core warm up 暖身"></a>幫 ef core warm up 暖身</h3><p>因為以前用 dapper 比重比較高 , 好像沒注意到這個問題<br>ef 在第一次 request 的時候速度總是慢吞吞 , 剛好有點時間調整效能就順便解看看<br>主要解法大致上就是在啟動系統時先讓 ef 的 context 建立起來 , 舊版的話 code first 因為沒有 edmx 檔案 , 所以要加些奇怪的 code<br><a href="https://stackoverflow.com/questions/30423838/entity-framework-very-slow-to-load-for-first-time-after-every-compilation" target="_blank" rel="noopener">參考自老外</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public void Configure( IApplicationBuilder app,</span><br><span class="line">	IWebHostEnvironment env ,</span><br><span class="line">	ApiDbContext dbContext)&#123;</span><br><span class="line"></span><br><span class="line">	if (env.IsDevelopment())</span><br><span class="line">	&#123;</span><br><span class="line">		app.UseDeveloperExceptionPage();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	Task.Run( () &#x3D;&gt; &#123; _ &#x3D; dbContext.Model; &#125; );</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="舊版-ef-warm-up-暖身"><a href="#舊版-ef-warm-up-暖身" class="headerlink" title="舊版 ef warm up 暖身"></a>舊版 ef warm up 暖身</h3><p>在 <code>Global.asax</code> 的 <code>Application_Start</code> 加入暖身程式碼</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;參考自以下</span><br><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;www.cnblogs.com&#x2F;enternal&#x2F;p&#x2F;4764741.html</span><br><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;www.cnblogs.com&#x2F;dudu&#x2F;p&#x2F;entity-framework-warm-up.html</span><br><span class="line">using (var dbContext &#x3D; new YourDbContext())</span><br><span class="line">&#123;</span><br><span class="line">	var objectContext &#x3D; ((IObjectContextAdapter)dbContext).ObjectContext;</span><br><span class="line">	var mappingCollection &#x3D;</span><br><span class="line">		(StorageMappingItemCollection)objectContext.MetadataWorkspace.GetItemCollection( DataSpace.CSSpace );</span><br><span class="line">	mappingCollection.GenerateViews( new List&lt;EdmSchemaError&gt;() );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="ef-core-使用-connection-pool-連線"><a href="#ef-core-使用-connection-pool-連線" class="headerlink" title="ef core 使用 connection pool 連線"></a>ef core 使用 connection pool 連線</h3><p>反正都在調校了 , 印象中用 pool 會提升效能 , 就順便設定看看筆記一下 , 結果馬上炸 error , 還好解法不難</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The DbContext of type &#39;ApiDbContext&#39; cannot be pooled because it does not have a</span><br><span class="line">public constructor accepting a single parameter of type DbContextOptions or</span><br><span class="line">has more than one constructor.&#39;</span><br></pre></td></tr></table></figure>
+<p>設定 pool 部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">services.AddDbContextPool&lt;ApiDbContext&gt;(</span><br><span class="line">	(serviceProvider , options )&#x3D;&gt; &#123;</span><br><span class="line">		options.UseLoggerFactory( LoggerFactory.Create( builder &#x3D;&gt; builder.AddConsole() ) )</span><br><span class="line">			.UseSqlServer( Configuration.GetConnectionString(&quot;Default&quot;));</span><br><span class="line">	&#125; );</span><br></pre></td></tr></table></figure>
+
+<p>把 <code>ApiDbContext</code> 建構子註解起來即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;public ApiDbContext()</span><br><span class="line">&#x2F;&#x2F;&#123;</span><br><span class="line">&#x2F;&#x2F;&#125;</span><br><span class="line"></span><br><span class="line">public ApiDbContext( DbContextOptions&lt;ApiDbContext&gt; options )</span><br><span class="line">	: base( options )</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>成功後會看到下列訊息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">info: Microsoft.EntityFrameworkCore.Infrastructure[10403]</span><br><span class="line">Entity Framework Core 5.0.5 initialized &#39;ApiDbContext&#39; using provider &#39;Microsoft.EntityFrameworkCore.SqlServer&#39; with options: MaxPoolSize&#x3D;128</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
     <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2021/04/19/asp-net-core-%E5%AE%A2%E8%A3%BD%E5%8C%96-Middleware-%E7%AD%86%E8%A8%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1114,107 +1218,6 @@
   
   
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2021/03/21/kotlin-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="🌹 喇賽人 🌹">
-      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2021/03/21/kotlin-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/" class="post-title-link" itemprop="url">kotlin 的低能兒筆記</a>
-        </h2>
-
-        <div class="post-meta">
-		
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">亂寫於</span>
-
-              <time title="亂入時間：2021-03-21 21:33:35" itemprop="dateCreated datePublished" datetime="2021-03-21T21:33:35+08:00">2021-03-21</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-04-06 21:21:24" itemprop="dateModified" datetime="2021-04-06T21:21:24+08:00">2021-04-06</time>
-              </span>
-
-          
-  
-  <span class="post-meta-item">
-    
-      <span class="post-meta-item-icon">
-        <i class="far fa-comment"></i>
-      </span>
-      <span class="post-meta-item-text">Disqus：</span>
-    
-    <a title="disqus" href="/2021/03/21/kotlin-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/21/kotlin-的低能兒筆記/" itemprop="commentCount"></span>
-    </a>
-  </span>
-  
-  <br>
-            <span class="post-meta-item" title="廢話字數">
-              <span class="post-meta-item-icon">
-                <i class="far fa-file-word"></i>
-              </span>
-                <span class="post-meta-item-text">廢話字數：</span>
-              <span>5k</span>
-            </span>
-            <span class="post-meta-item" title="所需傷眼時間">
-              <span class="post-meta-item-icon">
-                <i class="far fa-clock"></i>
-              </span>
-                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>5 分鐘</span>
-            </span>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>&nbsp;</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2021/03/21/kotlin-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/#more" rel="contents">
-                繼續入坑 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
 
   
   <nav class="pagination">
@@ -1286,7 +1289,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">105</span>
+          <span class="site-state-item-count">106</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -1335,13 +1338,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">233k</span>
+    <span title="總廢話字數">235k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">3:32</span>
+    <span title="所需總浪費時間">3:34</span>
 </div>
 
         
