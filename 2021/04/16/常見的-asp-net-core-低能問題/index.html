@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-04-16T12:23:48.000Z">
-<meta property="article:modified_time" content="2021-04-16T12:30:59.200Z">
+<meta property="article:modified_time" content="2021-05-11T12:06:54.060Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="asp.net core">
 <meta name="twitter:card" content="summary">
@@ -237,10 +237,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2021-04-16 20:23:48 / 修改時間：20:30:59" itemprop="dateCreated datePublished" datetime="2021-04-16T20:23:48+08:00">2021-04-16</time>
+              <time title="亂入時間：2021-04-16 20:23:48" itemprop="dateCreated datePublished" datetime="2021-04-16T20:23:48+08:00">2021-04-16</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-05-11 20:06:54" itemprop="dateModified" datetime="2021-05-11T20:06:54+08:00">2021-05-11</time>
+              </span>
 
           
   
@@ -262,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>4.7k</span>
+              <span>5.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>4 分鐘</span>
+              <span>5 分鐘</span>
             </span>
 
         </div>
@@ -340,6 +346,12 @@
 
 <p>controller 類別</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; 懶得寫</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;id&quot; example&#x3D;&quot;oxoxgggg&quot;&gt;GGID&lt;&#x2F;param&gt;</span><br><span class="line">&#x2F;&#x2F;&#x2F; &lt;returns&gt;&lt;&#x2F;returns&gt;</span><br><span class="line">[HttpGet]</span><br><span class="line">[Route(&quot;gg&#x2F;&#123;id&#125;&quot;)]</span><br><span class="line">public async Task&lt; ActionResult&lt;List&lt;GG&gt;&gt;&gt; GetAll()</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何在Repository內使用Configuration"><a href="#如何在Repository內使用Configuration" class="headerlink" title="如何在Repository內使用Configuration"></a>如何在Repository內使用Configuration</h3><p>設定注入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices( IServiceCollection services )&#123;</span><br><span class="line">	&#x2F;&#x2F;注入 Configuration 讓 repository 使用 , 因為是 global 所以直接用單例就好</span><br><span class="line">	services.AddSingleton( _ &#x3D;&gt; Configuration );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注入到 Repository</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private readonly IConfiguration configuration;</span><br><span class="line">public GGRepository(IConfiguration configuration )</span><br><span class="line">&#123;</span><br><span class="line">	this.configuration &#x3D; configuration ?? throw new System.ArgumentNullException( nameof( configuration ) );</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -430,7 +442,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#怎麼取得-ControllerName-or-ActionName"><span class="nav-number">1.</span> <span class="nav-text">怎麼取得 ControllerName or ActionName</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎麼取得-appsetting-json-內的值"><span class="nav-number">2.</span> <span class="nav-text">怎麼取得 appsetting.json 內的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#簡單粗暴動態切換-DB-連線字串"><span class="nav-number">3.</span> <span class="nav-text">簡單粗暴動態切換 DB 連線字串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正確取得-DB-連線字串"><span class="nav-number">4.</span> <span class="nav-text">正確取得 DB 連線字串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多個類別繼承同個-interface-怎麼注入-DI"><span class="nav-number">5.</span> <span class="nav-text">多個類別繼承同個 interface 怎麼注入 DI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#找不到-ToXXOOAsync-非同步方法"><span class="nav-number">6.</span> <span class="nav-text">找不到 ToXXOOAsync 非同步方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#簡單指定-port-測試程式"><span class="nav-number">7.</span> <span class="nav-text">簡單指定 port 測試程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎麼用-HttpClient-撈遠端資料"><span class="nav-number">8.</span> <span class="nav-text">怎麼用 HttpClient 撈遠端資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#執行-net-core-結束後關閉惱火的-console-視窗"><span class="nav-number">9.</span> <span class="nav-text">執行 .net core 結束後關閉惱火的 console 視窗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#關閉產生-xml-文件造成賭爛的-Missing-XML-comment-for-publicly-visible-type-or-member"><span class="nav-number">10.</span> <span class="nav-text">關閉產生 xml 文件造成賭爛的 Missing XML comment for publicly visible type or member</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他-developer-懶得看文件-不會用-api-的-swagger-解法"><span class="nav-number">11.</span> <span class="nav-text">其他 developer 懶得看文件 , 不會用 api 的 swagger 解法</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#怎麼取得-ControllerName-or-ActionName"><span class="nav-number">1.</span> <span class="nav-text">怎麼取得 ControllerName or ActionName</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎麼取得-appsetting-json-內的值"><span class="nav-number">2.</span> <span class="nav-text">怎麼取得 appsetting.json 內的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#簡單粗暴動態切換-DB-連線字串"><span class="nav-number">3.</span> <span class="nav-text">簡單粗暴動態切換 DB 連線字串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正確取得-DB-連線字串"><span class="nav-number">4.</span> <span class="nav-text">正確取得 DB 連線字串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多個類別繼承同個-interface-怎麼注入-DI"><span class="nav-number">5.</span> <span class="nav-text">多個類別繼承同個 interface 怎麼注入 DI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#找不到-ToXXOOAsync-非同步方法"><span class="nav-number">6.</span> <span class="nav-text">找不到 ToXXOOAsync 非同步方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#簡單指定-port-測試程式"><span class="nav-number">7.</span> <span class="nav-text">簡單指定 port 測試程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#怎麼用-HttpClient-撈遠端資料"><span class="nav-number">8.</span> <span class="nav-text">怎麼用 HttpClient 撈遠端資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#執行-net-core-結束後關閉惱火的-console-視窗"><span class="nav-number">9.</span> <span class="nav-text">執行 .net core 結束後關閉惱火的 console 視窗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#關閉產生-xml-文件造成賭爛的-Missing-XML-comment-for-publicly-visible-type-or-member"><span class="nav-number">10.</span> <span class="nav-text">關閉產生 xml 文件造成賭爛的 Missing XML comment for publicly visible type or member</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他-developer-懶得看文件-不會用-api-的-swagger-解法"><span class="nav-number">11.</span> <span class="nav-text">其他 developer 懶得看文件 , 不會用 api 的 swagger 解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#如何在Repository內使用Configuration"><span class="nav-number">12.</span> <span class="nav-text">如何在Repository內使用Configuration</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -446,14 +458,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">109</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">79</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -495,13 +507,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">248k</span>
+    <span title="總廢話字數">251k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">3:45</span>
+    <span title="所需總浪費時間">3:48</span>
 </div>
 
         

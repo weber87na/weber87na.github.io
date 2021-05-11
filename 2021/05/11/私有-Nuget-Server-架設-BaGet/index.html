@@ -31,18 +31,19 @@
 
   <meta name="description" content="&amp;nbsp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="ef core warm up 筆記">
-<meta property="og:url" content="https://weber87na.github.io/2021/04/20/ef-core-warm-up-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:title" content="私有 Nuget Server 架設 BaGet">
+<meta property="og:url" content="https://weber87na.github.io/2021/05/11/%E7%A7%81%E6%9C%89-Nuget-Server-%E6%9E%B6%E8%A8%AD-BaGet/index.html">
 <meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2021-04-20T11:26:32.000Z">
-<meta property="article:modified_time" content="2021-04-20T11:29:22.290Z">
+<meta property="article:published_time" content="2021-05-11T12:01:04.000Z">
+<meta property="article:modified_time" content="2021-05-11T12:02:30.920Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
-<meta property="article:tag" content="asp.net core">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="nuget">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://weber87na.github.io/2021/04/20/ef-core-warm-up-%E7%AD%86%E8%A8%98/">
+<link rel="canonical" href="https://weber87na.github.io/2021/05/11/%E7%A7%81%E6%9C%89-Nuget-Server-%E6%9E%B6%E8%A8%AD-BaGet/">
 
 
 <script id="page-configurations">
@@ -55,7 +56,7 @@
   };
 </script>
 
-  <title>ef core warm up 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  <title>私有 Nuget Server 架設 BaGet | 🌹 喇賽的人 Blog 🌹</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
     <script>
@@ -214,7 +215,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2021/04/20/ef-core-warm-up-%E7%AD%86%E8%A8%98/">
+    <link itemprop="mainEntityOfPage" href="https://weber87na.github.io/2021/05/11/%E7%A7%81%E6%9C%89-Nuget-Server-%E6%9E%B6%E8%A8%AD-BaGet/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -227,7 +228,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          ef core warm up 筆記
+          私有 Nuget Server 架設 BaGet
         </h1>
 
         <div class="post-meta">
@@ -239,7 +240,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2021-04-20 19:26:32 / 修改時間：19:29:22" itemprop="dateCreated datePublished" datetime="2021-04-20T19:26:32+08:00">2021-04-20</time>
+              <time title="亂入時間：2021-05-11 20:01:04 / 修改時間：20:02:30" itemprop="dateCreated datePublished" datetime="2021-05-11T20:01:04+08:00">2021-05-11</time>
             </span>
 
           
@@ -251,8 +252,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2021/04/20/ef-core-warm-up-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/20/ef-core-warm-up-筆記/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2021/05/11/%E7%A7%81%E6%9C%89-Nuget-Server-%E6%9E%B6%E8%A8%AD-BaGet/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/05/11/私有-Nuget-Server-架設-BaGet/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -284,23 +285,20 @@
         <p>&nbsp;</p>
 <a id="more"></a>
 
-<h3 id="幫-ef-core-warm-up-暖身"><a href="#幫-ef-core-warm-up-暖身" class="headerlink" title="幫 ef core warm up 暖身"></a>幫 ef core warm up 暖身</h3><p>因為以前用 dapper 比重比較高 , 好像沒注意到這個問題<br>ef 在第一次 request 的時候速度總是慢吞吞 , 剛好有點時間調整效能就順便解看看<br>主要解法大致上就是在啟動系統時先讓 ef 的 context 建立起來 , 舊版的話 code first 因為沒有 edmx 檔案 , 所以要加些奇怪的 code<br><a href="https://stackoverflow.com/questions/30423838/entity-framework-very-slow-to-load-for-first-time-after-every-compilation" target="_blank" rel="noopener">參考自老外</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public void Configure( IApplicationBuilder app,</span><br><span class="line">	IWebHostEnvironment env ,</span><br><span class="line">	ApiDbContext dbContext)&#123;</span><br><span class="line"></span><br><span class="line">	if (env.IsDevelopment())</span><br><span class="line">	&#123;</span><br><span class="line">		app.UseDeveloperExceptionPage();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	Task.Run( () &#x3D;&gt; &#123; _ &#x3D; dbContext.Model; &#125; );</span><br><span class="line"></span><br><span class="line">	&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="BaGet-安裝並執行-container"><a href="#BaGet-安裝並執行-container" class="headerlink" title="BaGet 安裝並執行 container"></a>BaGet 安裝並執行 container</h3><p><a href="https://loic-sharma.github.io/BaGet/installation/docker/" target="_blank" rel="noopener">官方說明</a><br><a href="https://hub.docker.com/r/loicsharma/baget" target="_blank" rel="noopener">下載位置</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">#切到 root</span><br><span class="line">cd ~</span><br><span class="line"></span><br><span class="line">#拉 image</span><br><span class="line">docker pull loicsharma&#x2F;baget</span><br><span class="line"></span><br><span class="line">#建立資料夾</span><br><span class="line">mkdir ~&#x2F;baget-data</span><br><span class="line"></span><br><span class="line">#執行 container 注意這個是 linux 的 container</span><br><span class="line">docker container run -d --name nuget-server -p 5555:80 &#96;</span><br><span class="line">-e baget.env -v &quot;$&#123;PWD&#125;&#x2F;baget-data:&#x2F;var&#x2F;baget&quot; loicsharma&#x2F;baget:latest</span><br><span class="line"></span><br><span class="line">#執行私有的 nuget</span><br><span class="line">start http:&#x2F;&#x2F;localhost:5555&#x2F;</span><br></pre></td></tr></table></figure>
 
-<h3 id="舊版-ef-warm-up-暖身"><a href="#舊版-ef-warm-up-暖身" class="headerlink" title="舊版 ef warm up 暖身"></a>舊版 ef warm up 暖身</h3><p>在 <code>Global.asax</code> 的 <code>Application_Start</code> 加入暖身程式碼</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;參考自以下</span><br><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;www.cnblogs.com&#x2F;enternal&#x2F;p&#x2F;4764741.html</span><br><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;www.cnblogs.com&#x2F;dudu&#x2F;p&#x2F;entity-framework-warm-up.html</span><br><span class="line">using (var dbContext &#x3D; new YourDbContext())</span><br><span class="line">&#123;</span><br><span class="line">	var objectContext &#x3D; ((IObjectContextAdapter)dbContext).ObjectContext;</span><br><span class="line">	var mappingCollection &#x3D;</span><br><span class="line">		(StorageMappingItemCollection)objectContext.MetadataWorkspace.GetItemCollection( DataSpace.CSSpace );</span><br><span class="line">	mappingCollection.GenerateViews( new List&lt;EdmSchemaError&gt;() );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="編輯-baget-env"><a href="#編輯-baget-env" class="headerlink" title="編輯 baget.env"></a>編輯 baget.env</h3><p>注意這邊他是設定在 user home 執行 , 所以這個檔案要放在 user home (~)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># The following config is the API Key used to publish packages.</span><br><span class="line"># You should change this to a secret value to secure your server.</span><br><span class="line"># 可以直接在 sql or 其他工具生 guid 來用 select NEWID()</span><br><span class="line"># 這裡先設定 123 方便</span><br><span class="line">ApiKey&#x3D;123</span><br><span class="line"></span><br><span class="line">Storage__Type&#x3D;FileSystem</span><br><span class="line">Storage__Path&#x3D;&#x2F;var&#x2F;baget&#x2F;packages</span><br><span class="line">Database__Type&#x3D;Sqlite</span><br><span class="line">Database__ConnectionString&#x3D;Data Source&#x3D;&#x2F;var&#x2F;baget&#x2F;baget.db</span><br><span class="line">Search__Type&#x3D;Database</span><br></pre></td></tr></table></figure>
 
+<h3 id="發行寫好的-nuget-package"><a href="#發行寫好的-nuget-package" class="headerlink" title="發行寫好的 nuget package"></a>發行寫好的 nuget package</h3><p>新增 project HelloWorldBaGet , 蓋一個 .net core 的類別</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line"></span><br><span class="line">namespace HelloWorldBaGet</span><br><span class="line">&#123;</span><br><span class="line">    public class HelloWorld</span><br><span class="line">    &#123;</span><br><span class="line">        public string Hello()&#123;</span><br><span class="line">            return &quot;Hello&quot;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        public string World()&#123;</span><br><span class="line">            return &quot;World&quot;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="ef-core-使用-connection-pool-連線"><a href="#ef-core-使用-connection-pool-連線" class="headerlink" title="ef core 使用 connection pool 連線"></a>ef core 使用 connection pool 連線</h3><p>反正都在調校了 , 印象中用 pool 會提升效能 , 就順便設定看看筆記一下 , 結果馬上炸 error , 還好解法不難</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The DbContext of type &#39;ApiDbContext&#39; cannot be pooled because it does not have a</span><br><span class="line">public constructor accepting a single parameter of type DbContextOptions or</span><br><span class="line">has more than one constructor.&#39;</span><br></pre></td></tr></table></figure>
-<p>設定 pool 部分</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">services.AddDbContextPool&lt;ApiDbContext&gt;(</span><br><span class="line">	(serviceProvider , options )&#x3D;&gt; &#123;</span><br><span class="line">		options.UseLoggerFactory( LoggerFactory.Create( builder &#x3D;&gt; builder.AddConsole() ) )</span><br><span class="line">			.UseSqlServer( Configuration.GetConnectionString(&quot;Default&quot;));</span><br><span class="line">	&#125; );</span><br></pre></td></tr></table></figure>
+<p>切到專案的 <code>Properties</code> =&gt; <code>Package</code> =&gt; <code>Generate NuGet package on build</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">dotnet build</span><br><span class="line">#在此目錄底下會生出 HelloWorldBaGet.1.0.0.nupkg</span><br><span class="line">#C:\Users\YourName\source\repos\HelloWorldBaGet\HelloWorldBaGet\bin\Debug</span><br><span class="line"></span><br><span class="line">#發行 -k 是之前設定的金鑰 NUGET-SERVER-API-KEY (之前設定是 123)</span><br><span class="line">dotnet nuget push -s http:&#x2F;&#x2F;localhost:5555&#x2F;v3&#x2F;index.json -k 123 HelloWorldBaGet.1.0.0.nupkg</span><br></pre></td></tr></table></figure>
 
-<p>把 <code>ApiDbContext</code> 建構子註解起來即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;public ApiDbContext()</span><br><span class="line">&#x2F;&#x2F;&#123;</span><br><span class="line">&#x2F;&#x2F;&#125;</span><br><span class="line"></span><br><span class="line">public ApiDbContext( DbContextOptions&lt;ApiDbContext&gt; options )</span><br><span class="line">	: base( options )</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>成功後會看到下列訊息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">info: Microsoft.EntityFrameworkCore.Infrastructure[10403]</span><br><span class="line">Entity Framework Core 5.0.5 initialized &#39;ApiDbContext&#39; using provider &#39;Microsoft.EntityFrameworkCore.SqlServer&#39; with options: MaxPoolSize&#x3D;128</span><br></pre></td></tr></table></figure>
+<p>回到網站 <a href="http://localhost:5555/" target="_blank" rel="noopener">http://localhost:5555/</a> 就可以看見 HelloWorldBaGet<br>新增 <code>console</code> 專案 ConsoleApp<br>回到 visual studio <code>Manage NuGet Packages</code> , 點選 <code>Package source</code> 旁邊的齒輪<br>新增 Source <code>http://localhost:5555/v3/index.json</code> , Name 這裡設定 BaGet</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line"></span><br><span class="line">namespace ConsoleApp</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main( string[] args )</span><br><span class="line">        &#123;</span><br><span class="line">            HelloWorldBaGet.HelloWorld helloWorld &#x3D; new HelloWorldBaGet.HelloWorld();</span><br><span class="line">            var str &#x3D; helloWorld.Hello() + helloWorld.World();</span><br><span class="line">            Console.WriteLine(str);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -310,7 +308,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/nuget/" rel="tag"># nuget</a>
           </div>
 
         
@@ -319,13 +318,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/04/19/asp-net-core-%E5%AE%A2%E8%A3%BD%E5%8C%96-Middleware-%E7%AD%86%E8%A8%98/" rel="prev" title="asp.net core 客製化 Middleware 筆記">
-      <i class="fa fa-chevron-left"></i> asp.net core 客製化 Middleware 筆記
+    <a href="/2021/05/11/oracle-%E5%91%BC%E5%8F%AB-web-api-%E7%AD%86%E8%A8%98/" rel="prev" title="oracle 呼叫 web api 筆記">
+      <i class="fa fa-chevron-left"></i> oracle 呼叫 web api 筆記
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/04/26/asp-net-core-%E7%99%BC%E4%BD%88-cesium-terrain/" rel="next" title="asp.net core 發佈 cesium terrain">
-      asp.net core 發佈 cesium terrain <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -391,7 +387,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#幫-ef-core-warm-up-暖身"><span class="nav-number">1.</span> <span class="nav-text">幫 ef core warm up 暖身</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#舊版-ef-warm-up-暖身"><span class="nav-number">2.</span> <span class="nav-text">舊版 ef warm up 暖身</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-使用-connection-pool-連線"><span class="nav-number">3.</span> <span class="nav-text">ef core 使用 connection pool 連線</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#BaGet-安裝並執行-container"><span class="nav-number">1.</span> <span class="nav-text">BaGet 安裝並執行 container</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#編輯-baget-env"><span class="nav-number">2.</span> <span class="nav-text">編輯 baget.env</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#發行寫好的-nuget-package"><span class="nav-number">3.</span> <span class="nav-text">發行寫好的 nuget package</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -532,9 +528,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "https://weber87na.github.io/2021/04/20/ef-core-warm-up-%E7%AD%86%E8%A8%98/";
-    this.page.identifier = "2021/04/20/ef-core-warm-up-筆記/";
-    this.page.title = "ef core warm up 筆記";
+    this.page.url = "https://weber87na.github.io/2021/05/11/%E7%A7%81%E6%9C%89-Nuget-Server-%E6%9E%B6%E8%A8%AD-BaGet/";
+    this.page.identifier = "2021/05/11/私有-Nuget-Server-架設-BaGet/";
+    this.page.title = "私有 Nuget Server 架設 BaGet";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {

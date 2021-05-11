@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-08-18T03:32:43.000Z">
-<meta property="article:modified_time" content="2021-03-05T20:13:49.830Z">
+<meta property="article:modified_time" content="2021-05-11T12:05:24.110Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="neovim">
@@ -250,7 +250,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-03-06 04:13:49" itemprop="dateModified" datetime="2021-03-06T04:13:49+08:00">2021-03-06</time>
+                <time title="修改時間：2021-05-11 20:05:24" itemprop="dateModified" datetime="2021-05-11T20:05:24+08:00">2021-05-11</time>
               </span>
 
           
@@ -273,14 +273,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>6.8k</span>
+              <span>7.6k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>6 分鐘</span>
+              <span>7 分鐘</span>
             </span>
 
         </div>
@@ -333,6 +333,25 @@
 <h2 id="最終-Tmux-設定"><a href="#最終-Tmux-設定" class="headerlink" title="最終 Tmux 設定"></a>最終 Tmux 設定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">### rebind hotkey</span><br><span class="line"></span><br><span class="line"># prefix setting (screen-like)</span><br><span class="line">set -g prefix C-a</span><br><span class="line">unbind C-b</span><br><span class="line">bind C-a send-prefix</span><br><span class="line"></span><br><span class="line"># reload config without killing server</span><br><span class="line">bind R source-file ~&#x2F;.tmux.conf \; display-message &quot;Config reloaded...&quot;</span><br><span class="line"></span><br><span class="line"># &quot;|&quot; splits the current window vertically, and &quot;-&quot; splits it horizontally</span><br><span class="line">unbind %</span><br><span class="line">bind | split-window -h</span><br><span class="line">bind - split-window -v</span><br><span class="line"></span><br><span class="line"># Pane navigation (vim-like)</span><br><span class="line">bind h select-pane -L</span><br><span class="line">bind j select-pane -D</span><br><span class="line">bind k select-pane -U</span><br><span class="line">bind l select-pane -R</span><br><span class="line"></span><br><span class="line"># Pane resizing</span><br><span class="line">bind -r Left  resize-pane -L 4</span><br><span class="line">bind -r Down  resize-pane -D 4</span><br><span class="line">bind -r Up    resize-pane -U 4</span><br><span class="line">bind -r Right resize-pane -R 4</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### other optimization</span><br><span class="line"></span><br><span class="line"># set the shell you like (zsh, &quot;which zsh&quot; to find the path)</span><br><span class="line"># set -g default-command &#x2F;bin&#x2F;zsh</span><br><span class="line"># set -g default-shell &#x2F;bin&#x2F;zsh</span><br><span class="line"></span><br><span class="line"># use UTF8</span><br><span class="line">#set -g utf8</span><br><span class="line">#set-window-option -g utf8 on</span><br><span class="line"></span><br><span class="line"># display things in 256 colors</span><br><span class="line">set -g default-terminal &quot;screen-256color&quot;</span><br><span class="line">#set -g default-terminal &quot;xterm-256color&quot;</span><br><span class="line">#set -g default-terminal &quot;xterm&quot;</span><br><span class="line"></span><br><span class="line">#啟動真色</span><br><span class="line">set -g default-terminal &quot;xterm-256color&quot;</span><br><span class="line">set -ga terminal-overrides &quot;,*256col*:Tc&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># mouse is great!</span><br><span class="line">set-option -g mouse on</span><br><span class="line"></span><br><span class="line"># history size</span><br><span class="line">set -g history-limit 10000</span><br><span class="line"></span><br><span class="line"># fix delay</span><br><span class="line">set -g escape-time 0</span><br><span class="line"></span><br><span class="line"># 0 is too far</span><br><span class="line">set -g base-index 1</span><br><span class="line">setw -g pane-base-index 1</span><br><span class="line"></span><br><span class="line"># stop auto renaming</span><br><span class="line">setw -g automatic-rename off</span><br><span class="line">set-option -g allow-rename off</span><br><span class="line"></span><br><span class="line"># renumber windows sequentially after closing</span><br><span class="line">set -g renumber-windows on</span><br><span class="line"></span><br><span class="line"># window notifications; display activity on other window</span><br><span class="line">setw -g monitor-activity on</span><br><span class="line">set -g visual-activity on</span><br></pre></td></tr></table></figure>
 
 <h2 id="後記的靈異事件"><a href="#後記的靈異事件" class="headerlink" title="後記的靈異事件"></a>後記的靈異事件</h2><p>這個事件是由某天懶得貼上格式發生的直接把 set paste 寫在 .vimrc 裡面發生悲劇了 ,<br> 本來想 remap esc , 搞了半天如果設定 paste 的話進入 insert mode 會變成 <code>INSERT PASET</code><br>暫時找不到偷懶的解法就先不要在 .vimrc 內使用 set paste 吧</p>
+<h2 id="windows-底下使用-neovim"><a href="#windows-底下使用-neovim" class="headerlink" title="windows 底下使用 neovim"></a>windows 底下使用 neovim</h2><p>chocolatey <a href="https://community.chocolatey.org/packages/neovim#releasenotes" target="_blank" rel="noopener">下載 nvim</a></p>
+<p>將 vimrc 複製到以下路徑 , 並修改為 init.vim<br><code>C:\Users\YourName\AppData\Local\nvim</code></p>
+<p>下載 <a href="https://github.com/junegunn/vim-plug" target="_blank" rel="noopener">vim-plug</a></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iwr <span class="literal">-useb</span> https://raw.githubusercontent.com/junegunn/vim<span class="literal">-plug</span>/master/plug.vim |`</span><br><span class="line">    ni <span class="string">"<span class="variable">$</span>(@(<span class="variable">$env:XDG_DATA_HOME</span>, <span class="variable">$env:LOCALAPPDATA</span>)[<span class="variable">$null</span> -eq <span class="variable">$env:XDG_DATA_HOME</span>])/nvim-data/site/autoload/plug.vim"</span> <span class="literal">-Force</span></span><br></pre></td></tr></table></figure>
+
+<p>開啟 nvim 安裝 plugin</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<h2 id="ubuntu-設定-vim"><a href="#ubuntu-設定-vim" class="headerlink" title="ubuntu 設定 vim"></a>ubuntu 設定 vim</h2><p>下載外掛管理員</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs     https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br></pre></td></tr></table></figure>
+
+<p>建立 .vimrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">touch .vimrc</span><br></pre></td></tr></table></figure>
+
+<p>登入 vim 安裝外掛</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim</span><br><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<p>在 root 使用者安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo -i</span><br><span class="line">cd &#x2F;root</span><br><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs     https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br><span class="line">touch .vimrc</span><br><span class="line">vim</span><br><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -424,7 +443,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-oh-my-bash"><span class="nav-number">1.</span> <span class="nav-text">安裝 oh-my-bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-bash-for-windows-設定-vim"><span class="nav-number">2.</span> <span class="nav-text">Git bash for windows 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-git-bash-for-windows-python-輸出有問題"><span class="nav-number">3.</span> <span class="nav-text">解決 git bash for windows python 輸出有問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check-vim-support-python"><span class="nav-number">4.</span> <span class="nav-text">check vim support python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tmux-安裝"><span class="nav-number">5.</span> <span class="nav-text">Tmux 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><span class="nav-number">6.</span> <span class="nav-text">Bash for Windows tmux vim 中文亂碼設定及真色設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-vim-設定檔"><span class="nav-number">7.</span> <span class="nav-text">最終 vim 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-Tmux-設定"><span class="nav-number">8.</span> <span class="nav-text">最終 Tmux 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記的靈異事件"><span class="nav-number">9.</span> <span class="nav-text">後記的靈異事件</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-oh-my-bash"><span class="nav-number">1.</span> <span class="nav-text">安裝 oh-my-bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-bash-for-windows-設定-vim"><span class="nav-number">2.</span> <span class="nav-text">Git bash for windows 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-git-bash-for-windows-python-輸出有問題"><span class="nav-number">3.</span> <span class="nav-text">解決 git bash for windows python 輸出有問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check-vim-support-python"><span class="nav-number">4.</span> <span class="nav-text">check vim support python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tmux-安裝"><span class="nav-number">5.</span> <span class="nav-text">Tmux 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><span class="nav-number">6.</span> <span class="nav-text">Bash for Windows tmux vim 中文亂碼設定及真色設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-vim-設定檔"><span class="nav-number">7.</span> <span class="nav-text">最終 vim 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-Tmux-設定"><span class="nav-number">8.</span> <span class="nav-text">最終 Tmux 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記的靈異事件"><span class="nav-number">9.</span> <span class="nav-text">後記的靈異事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-底下使用-neovim"><span class="nav-number">10.</span> <span class="nav-text">windows 底下使用 neovim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-設定-vim"><span class="nav-number">11.</span> <span class="nav-text">ubuntu 設定 vim</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -440,14 +459,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">109</span>
+          <span class="site-state-item-count">110</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-count">79</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -489,13 +508,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">248k</span>
+    <span title="總廢話字數">251k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">3:45</span>
+    <span title="所需總浪費時間">3:48</span>
 </div>
 
         
