@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-05-12T11:19:58.000Z">
-<meta property="article:modified_time" content="2021-05-12T14:38:16.320Z">
+<meta property="article:modified_time" content="2021-05-12T14:48:10.180Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -239,7 +239,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2021-05-12 19:19:58 / 修改時間：22:38:16" itemprop="dateCreated datePublished" datetime="2021-05-12T19:19:58+08:00">2021-05-12</time>
+              <time title="亂入時間：2021-05-12 19:19:58 / 修改時間：22:48:10" itemprop="dateCreated datePublished" datetime="2021-05-12T19:19:58+08:00">2021-05-12</time>
             </span>
 
           
@@ -334,7 +334,7 @@
 <p>另外一個 powershell 進行 commit</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">docker commit -m&#x3D;&quot;add vim&quot; -a&#x3D;&quot;gg&quot; 5cb alpine-bash-vim-myconfig</span><br><span class="line">docker images</span><br><span class="line">#最後很清楚可以看到 docker 是一層一層疊上來的 , 所以最後一個 image 裝了一堆東西大小明顯變大很多</span><br><span class="line">#REPOSITORY                         TAG        IMAGE ID       CREATED             SIZE</span><br><span class="line">#alpine-bash-vim-myconfig           latest     cf92a859ff98   3 seconds ago       51MB</span><br><span class="line">#alpine-bash-vim                    latest     dc17cb68096a   About an hour ago   25.7MB</span><br><span class="line">#alpine-bash                        latest     0f542f76e815   About an hour ago   9.74MB</span><br></pre></td></tr></table></figure>
 
-<h2 id="網路基本命令"><a href="#網路基本命令" class="headerlink" title="網路基本命令"></a>網路基本命令</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker network ls</span><br><span class="line"></span><br><span class="line">#建立網路</span><br><span class="line">docker network create test</span><br><span class="line"></span><br><span class="line">#刪除網路</span><br><span class="line">docker network rm 789</span><br></pre></td></tr></table></figure>
+<h3 id="網路基本命令"><a href="#網路基本命令" class="headerlink" title="網路基本命令"></a>網路基本命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker network ls</span><br><span class="line"></span><br><span class="line">#建立網路</span><br><span class="line">docker network create test</span><br><span class="line"></span><br><span class="line">#刪除網路</span><br><span class="line">docker network rm 789</span><br></pre></td></tr></table></figure>
 
 <p>在 container 內互相連線</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker pull tutum&#x2F;wordpress</span><br><span class="line">docker run -d -p 10001:80 --name blog1 tutum&#x2F;wordpress</span><br><span class="line"></span><br><span class="line">#將 container blog1 連線到 my_network 的網路內</span><br><span class="line">docker network connect my_network blog1</span><br><span class="line"></span><br><span class="line">#用 --network 指定網路 , 所以此時這兩個 container 就可以互通了</span><br><span class="line">docker run -it --network my_network ubuntu:16.04 bash</span><br></pre></td></tr></table></figure>
@@ -431,7 +431,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-基本觀念及操作"><span class="nav-number">1.</span> <span class="nav-text">docker 基本觀念及操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-Docker-包裝一個-vim-的-image"><span class="nav-number">2.</span> <span class="nav-text">Lab Docker 包裝一個 vim 的 image</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#網路基本命令"><span class="nav-number"></span> <span class="nav-text">網路基本命令</span></a></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-基本觀念及操作"><span class="nav-number">1.</span> <span class="nav-text">docker 基本觀念及操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-Docker-包裝一個-vim-的-image"><span class="nav-number">2.</span> <span class="nav-text">Lab Docker 包裝一個 vim 的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#網路基本命令"><span class="nav-number">3.</span> <span class="nav-text">網路基本命令</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
