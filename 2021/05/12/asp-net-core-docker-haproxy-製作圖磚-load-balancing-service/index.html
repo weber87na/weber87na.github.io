@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-05-12T14:34:41.000Z">
-<meta property="article:modified_time" content="2021-05-12T14:37:22.930Z">
+<meta property="article:modified_time" content="2021-05-12T14:39:30.690Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="asp.net core">
 <meta property="article:tag" content="GIS">
@@ -242,7 +242,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2021-05-12 22:34:41 / 修改時間：22:37:22" itemprop="dateCreated datePublished" datetime="2021-05-12T22:34:41+08:00">2021-05-12</time>
+              <time title="亂入時間：2021-05-12 22:34:41 / 修改時間：22:39:30" itemprop="dateCreated datePublished" datetime="2021-05-12T22:34:41+08:00">2021-05-12</time>
             </span>
 
           
@@ -287,7 +287,7 @@
         <p>&nbsp;</p>
 <a id="more"></a>
 
-<h2 id="事前準備下載圖磚"><a href="#事前準備下載圖磚" class="headerlink" title="事前準備下載圖磚"></a>事前準備下載圖磚</h2><p>剛好研究 docker 就隨手紀錄一下 , 把以前的遺珠給完整<br><a href="https://maps.nlsc.gov.tw/homePage.action?in_type=web#" target="_blank" rel="noopener">國土測繪中心官網</a><br><a href="https://maps.nlsc.gov.tw/download/TaiwanEMap6.mbtiles" target="_blank" rel="noopener">臺灣通用電子地圖 MBTiles</a><br><a href="https://github.com/mapbox/mbutil" target="_blank" rel="noopener">下載 mbutil</a><br>萬一沒 gsudo 可以安裝一下 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">gsudo</a></p>
+<h3 id="事前準備下載圖磚"><a href="#事前準備下載圖磚" class="headerlink" title="事前準備下載圖磚"></a>事前準備下載圖磚</h3><p>剛好研究 docker 就隨手紀錄一下 , 把以前的遺珠給完整<br><a href="https://maps.nlsc.gov.tw/homePage.action?in_type=web#" target="_blank" rel="noopener">國土測繪中心官網</a><br><a href="https://maps.nlsc.gov.tw/download/TaiwanEMap6.mbtiles" target="_blank" rel="noopener">臺灣通用電子地圖 MBTiles</a><br><a href="https://github.com/mapbox/mbutil" target="_blank" rel="noopener">下載 mbutil</a><br>萬一沒 gsudo 可以安裝一下 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">gsudo</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mkdir map</span><br><span class="line">cd map</span><br><span class="line">git clone git:&#x2F;&#x2F;github.com&#x2F;mapbox&#x2F;mbutil.git</span><br><span class="line">cd mbutil</span><br><span class="line"></span><br><span class="line">#安裝</span><br><span class="line">gsudo python setup.py install</span><br><span class="line"></span><br><span class="line">#解壓縮</span><br><span class="line">python mb-util TaiwanEMap6.mbtiles Taiwan</span><br><span class="line"></span><br><span class="line">#最後複製到你的 $home 目錄裡</span><br></pre></td></tr></table></figure>
 
 <h3 id="建立-asp-net-core-圖磚-server"><a href="#建立-asp-net-core-圖磚-server" class="headerlink" title="建立 asp.net core 圖磚 server"></a>建立 asp.net core 圖磚 server</h3><p>新增一個 <code>asp.net core web api</code> 專案 =&gt; 專案名稱 <code>TaiwanMap</code> =&gt; <code>選 5.0</code> =&gt; 直接建立<br>多蓋一個 <code>wwwroot</code> 資料夾 =&gt; 把剛剛解壓的 <code>Taiwan</code> 丟進去<br>特別注意到 , 如果 wwwroot 是空的 , 系統不會偵測到 , 所以就算用 bash 登入進去也不會有資料夾 , 建議先隨便新增個檔案</p>
@@ -409,7 +409,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#事前準備下載圖磚"><span class="nav-number">1.</span> <span class="nav-text">事前準備下載圖磚</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立-asp-net-core-圖磚-server"><span class="nav-number">1.1.</span> <span class="nav-text">建立 asp.net core 圖磚 server</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#事前準備下載圖磚"><span class="nav-number">1.</span> <span class="nav-text">事前準備下載圖磚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立-asp-net-core-圖磚-server"><span class="nav-number">2.</span> <span class="nav-text">建立 asp.net core 圖磚 server</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
