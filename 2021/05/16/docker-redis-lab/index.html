@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-05-16T15:25:55.000Z">
-<meta property="article:modified_time" content="2021-05-16T15:26:30.970Z">
+<meta property="article:modified_time" content="2021-05-16T15:34:00.150Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -239,7 +239,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2021-05-16 23:25:55 / 修改時間：23:26:30" itemprop="dateCreated datePublished" datetime="2021-05-16T23:25:55+08:00">2021-05-16</time>
+              <time title="亂入時間：2021-05-16 23:25:55 / 修改時間：23:34:00" itemprop="dateCreated datePublished" datetime="2021-05-16T23:25:55+08:00">2021-05-16</time>
             </span>
 
           
@@ -262,7 +262,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>5.2k</span>
+              <span>5.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -284,7 +284,7 @@
         <p>&nbsp;</p>
 <a id="more"></a>
 
-<p><a href="https://hub.docker.com/_/redis" target="_blank" rel="noopener">redis image</a><br>免錢管理工具(AnotherRedisDesktopManager)[<a href="https://github.com/qishibo/AnotherRedisDesktopManager/releases]" target="_blank" rel="noopener">https://github.com/qishibo/AnotherRedisDesktopManager/releases]</a><br>最好裝一下剛剛的管理工具 , 才可以快速驗證後續的 lab 內容</p>
+<p><a href="https://hub.docker.com/_/redis" target="_blank" rel="noopener">redis image</a><br>免錢管理工具<a href="https://github.com/qishibo/AnotherRedisDesktopManager/releases" target="_blank" rel="noopener">AnotherRedisDesktopManager</a><br>最好裝一下剛剛的管理工具 , 才可以快速驗證後續的 lab 內容</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#下載 redis image</span><br><span class="line">docker search redis</span><br><span class="line">docker pull redis</span><br><span class="line"></span><br><span class="line">#執行 redis 並且保存資料</span><br><span class="line">cd $home</span><br><span class="line">mkdir redis_data</span><br><span class="line"></span><br><span class="line">#啟動 redis</span><br><span class="line">docker run --name redis -p 6379:6379 &#96;</span><br><span class="line">-v $home&#x2F;redis_data:&#x2F;data -d redis</span><br></pre></td></tr></table></figure>
 
 <p>進入到 container redis bash , 並且用 redis-cli 進行連線<br>注意這邊是用 <code>string</code> , 跟稍後在程式內使用 <code>hash</code> 不同 , 測試 <code>abp</code> 寫入是會用 <code>string</code> , 沒研究那麼深</p>
