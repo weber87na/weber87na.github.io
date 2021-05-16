@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-05-12T11:19:58.000Z">
-<meta property="article:modified_time" content="2021-05-12T14:48:10.180Z">
+<meta property="article:modified_time" content="2021-05-16T15:19:41.740Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -237,10 +237,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2021-05-12 19:19:58 / 修改時間：22:48:10" itemprop="dateCreated datePublished" datetime="2021-05-12T19:19:58+08:00">2021-05-12</time>
+              <time title="亂入時間：2021-05-12 19:19:58" itemprop="dateCreated datePublished" datetime="2021-05-12T19:19:58+08:00">2021-05-12</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-05-16 23:19:41" itemprop="dateModified" datetime="2021-05-16T23:19:41+08:00">2021-05-16</time>
+              </span>
 
           
   
@@ -262,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.6k</span>
+              <span>5.8k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>3 分鐘</span>
+              <span>5 分鐘</span>
             </span>
 
         </div>
@@ -283,6 +289,39 @@
       
         <p>&nbsp;</p>
 <a id="more"></a>
+
+<h3 id="powershell-事前準備"><a href="#powershell-事前準備" class="headerlink" title="powershell 事前準備"></a>powershell 事前準備</h3><p>安裝 <code>CHOCOLATEY</code> <a href="https://chocolatey.org/install" target="_blank" rel="noopener">官網</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol &#x3D; [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(&#39;https:&#x2F;&#x2F;chocolatey.org&#x2F;install.ps1&#39;))</span><br></pre></td></tr></table></figure>
+
+<p>choco 安裝 <code>gsudo</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install gsudo</span><br></pre></td></tr></table></figure>
+
+<p>或使用 powershell 安裝 <code>gsudo</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PowerShell -Command &quot;Set-ExecutionPolicy RemoteSigned -scope Process; iwr -useb https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;gerardog&#x2F;gsudo&#x2F;master&#x2F;installgsudo.ps1 | iex&quot;</span><br></pre></td></tr></table></figure>
+
+<p>安裝 firacode 字體 (建議要安裝 , 這樣使用 git-posh 才會正常顯示)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install firacode</span><br></pre></td></tr></table></figure>
+<p>或<a href="https://github.com/tonsky/FiraCode" target="_blank" rel="noopener">官網下載</a> , 解壓縮以後選 <code>ttf</code> 全選以後右鍵安裝</p>
+<h3 id="設定-windows-ssh-powershell-連線"><a href="#設定-windows-ssh-powershell-連線" class="headerlink" title="設定 windows ssh powershell 連線"></a>設定 windows ssh powershell 連線</h3><p>我這邊直接使用 windows 的 powershell 來進行連線 , 因為預設的 powershell 畫面很醜 , 像是很古老的當機畫面 , 所以稍微 config 一下<br><a href="https://zhuanlan.zhihu.com/p/163007658" target="_blank" rel="noopener">powershell 字體設定</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">電腦\HKEY_CURRENT_USER\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe</span><br><span class="line">FaceName 設定 Fira Code 注意有空格</span><br></pre></td></tr></table></figure>
+<p>設定好後開啟 powershell =&gt; <code>右鍵</code> =&gt; <code>內容</code> =&gt; <code>字型</code> =&gt; <code>Fira Code</code> 即可</p>
+<p>安裝 powershell 黑色系佈景 <a href="https://github.com/dracula/powershell" target="_blank" rel="noopener">Dracula</a><br>下載後解壓 <code>dist\ColorTool</code> 執行 <code>install.cmd</code> 即可完成安裝 , 並且將 <code>dracula-prompt-configuration.ps1</code> 內的設定貼到 <code>$profile</code><br>powershell <code>$profile</code> 的設定檔 <code>profile.ps1</code> 跟 <code>.bashrc</code> 類似 , 就是用來初始化 powershell 的設定檔<br>一般會在以下路徑內新增一個 <code>profile.ps1</code> 文件來進行管理 , 若有 <code>Microsoft.PowerShell_profile.ps1</code> 也可以直接編輯他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#for admin</span><br><span class="line">C:\Windows\System32\WindowsPowerShell\v1.0</span><br><span class="line"></span><br><span class="line">#for user</span><br><span class="line">C:\Users\YourName\Documents\WindowsPowerShell\</span><br></pre></td></tr></table></figure>
+
+<p>安裝 oh-my-posh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Install-Module posh-git -Scope CurrentUser</span><br><span class="line">Install-Module oh-my-posh -Scope CurrentUser</span><br></pre></td></tr></table></figure>
+
+<p>最後額外設定自己的 config , 過程中太頻繁懶得打 docker 直接用 alias</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#設定 powershell 的 key binding emacs style</span><br><span class="line">Set-PSReadLineOption -EditMode Emacs</span><br><span class="line">Import-Module posh-git</span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line"></span><br><span class="line">#注意 posh v3 新版是這個命令不是 Set-Theme</span><br><span class="line">Set-PoshPrompt darkblood</span><br><span class="line"></span><br><span class="line">#設定 docker alias</span><br><span class="line">Set-Alias -Name d -Value docker</span><br></pre></td></tr></table></figure>
+
+<p>接著可能會用 powershell 以 Nuget 安裝套件 , 用 admin 執行以下命令 , 防止後續炸出 error</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[Net.ServicePointManager]::SecurityProtocol &#x3D; [Net.SecurityProtocolType]::Tls12</span><br><span class="line">Install-PackageProvider -Name NuGet</span><br></pre></td></tr></table></figure>
+
+<p>萬一 docker 炸出以下 error</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error during connect: Get http:&#x2F;&#x2F;%2F%2F.%2Fpipe%2Fdocker_engine&#x2F;v1.38&#x2F;images&#x2F;json: open &#x2F;&#x2F;.&#x2F;pipe&#x2F;docker_engine: The system cannot find the file specified. In the default daemon configuration on Windows, the docker client must be run elevated to connect. This error may also indicate that the docker daemon is not running</span><br></pre></td></tr></table></figure>
+
+<p>請輸入以下命令即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &quot;C:\Program Files\Docker\Docker&quot;</span><br><span class="line">.&#x2F;DockerCli.exe -SwitchDaemon</span><br></pre></td></tr></table></figure>
 
 <h3 id="docker-基本觀念及操作"><a href="#docker-基本觀念及操作" class="headerlink" title="docker 基本觀念及操作"></a>docker 基本觀念及操作</h3><p>image =&gt; 檔案<br>container =&gt; 檔案內的軟體</p>
 <p>查看資訊的基本命令</p>
@@ -431,7 +470,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-基本觀念及操作"><span class="nav-number">1.</span> <span class="nav-text">docker 基本觀念及操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-Docker-包裝一個-vim-的-image"><span class="nav-number">2.</span> <span class="nav-text">Lab Docker 包裝一個 vim 的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#網路基本命令"><span class="nav-number">3.</span> <span class="nav-text">網路基本命令</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-事前準備"><span class="nav-number">1.</span> <span class="nav-text">powershell 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-windows-ssh-powershell-連線"><span class="nav-number">2.</span> <span class="nav-text">設定 windows ssh powershell 連線</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-基本觀念及操作"><span class="nav-number">3.</span> <span class="nav-text">docker 基本觀念及操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-Docker-包裝一個-vim-的-image"><span class="nav-number">4.</span> <span class="nav-text">Lab Docker 包裝一個 vim 的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#網路基本命令"><span class="nav-number">5.</span> <span class="nav-text">網路基本命令</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -496,13 +535,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">263k</span>
+    <span title="總廢話字數">265k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">3:59</span>
+    <span title="所需總浪費時間">4:01</span>
 </div>
 
         
