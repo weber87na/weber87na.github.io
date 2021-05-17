@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-05-12T11:19:58.000Z">
-<meta property="article:modified_time" content="2021-05-16T15:19:41.740Z">
+<meta property="article:modified_time" content="2021-05-17T17:02:25.001Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-05-16 23:19:41" itemprop="dateModified" datetime="2021-05-16T23:19:41+08:00">2021-05-16</time>
+                <time title="修改時間：2021-05-18 01:02:25" itemprop="dateModified" datetime="2021-05-18T01:02:25+08:00">2021-05-18</time>
               </span>
 
           
@@ -268,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>5.8k</span>
+              <span>6.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>5 分鐘</span>
+              <span>6 分鐘</span>
             </span>
 
         </div>
@@ -311,8 +311,14 @@
 <p>安裝 oh-my-posh</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Install-Module posh-git -Scope CurrentUser</span><br><span class="line">Install-Module oh-my-posh -Scope CurrentUser</span><br></pre></td></tr></table></figure>
 
+<p>安裝 <a href="https://github.com/matt9ucci/DockerCompletion" target="_blank" rel="noopener">DockerCompletion</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module DockerCompletion</span><br></pre></td></tr></table></figure>
+
+<p>啟動歷史預測提示 <a href="https://devblogs.microsoft.com/powershell/announcing-psreadline-2-1-with-predictive-intellisense/" target="_blank" rel="noopener">predictive</a><br>注意預設是關閉的需要自行啟用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module PSReadLine -RequiredVersion 2.1.0</span><br></pre></td></tr></table></figure>
+
 <p>最後額外設定自己的 config , 過程中太頻繁懶得打 docker 直接用 alias</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">#設定 powershell 的 key binding emacs style</span><br><span class="line">Set-PSReadLineOption -EditMode Emacs</span><br><span class="line">Import-Module posh-git</span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line"></span><br><span class="line">#注意 posh v3 新版是這個命令不是 Set-Theme</span><br><span class="line">Set-PoshPrompt darkblood</span><br><span class="line"></span><br><span class="line">#設定 docker alias</span><br><span class="line">Set-Alias -Name d -Value docker</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#設定 powershell 的 key binding emacs style</span><br><span class="line">Set-PSReadLineOption -EditMode Emacs</span><br><span class="line">Import-Module posh-git</span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line"></span><br><span class="line">#注意 posh v3 新版是這個命令不是 Set-Theme</span><br><span class="line">Set-PoshPrompt darkblood</span><br><span class="line"></span><br><span class="line">#設定 docker alias</span><br><span class="line">Set-Alias -Name d -Value docker</span><br><span class="line"></span><br><span class="line">#啟用 docker 提示</span><br><span class="line">Import-Module DockerCompletion</span><br><span class="line"></span><br><span class="line">#設定歷史預測提示</span><br><span class="line">Set-PSReadLineOption -PredictionSource History</span><br></pre></td></tr></table></figure>
 
 <p>接著可能會用 powershell 以 Nuget 安裝套件 , 用 admin 執行以下命令 , 防止後續炸出 error</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[Net.ServicePointManager]::SecurityProtocol &#x3D; [Net.SecurityProtocolType]::Tls12</span><br><span class="line">Install-PackageProvider -Name NuGet</span><br></pre></td></tr></table></figure>
