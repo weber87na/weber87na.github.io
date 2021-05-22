@@ -1,0 +1,358 @@
+<!doctype HTML>
+<html>
+<script src="https://aframe.io/releases/0.7.0/aframe.min.js"></script>
+<script src="https://rawgit.com/donmccurdy/aframe-extras/master/dist/aframe-extras.loaders.min.js"></script>
+<script src="https://cdn.rawgit.com/jeromeetienne/AR.js/1.5.0/aframe/build/aframe-ar.js"></script>
+
+<style>
+    .mooncake1 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 68px;
+        width: 82px;
+        background-image: url('images/mooncake.png');
+        z-index: 999;
+        animation-name: m1;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes m1 {
+        0% {
+            top: 0;
+            left: 0;
+        }
+
+        100% {
+            transform: rotate(360deg);
+            top: 100%;
+            left: 20%;
+            opacity: 0;
+        }
+    }
+
+    .mooncake2 {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 80px;
+        width: 80px;
+        background-image: url('images/mooncake2.png');
+        background-size: cover;
+        z-index: 999;
+        animation-name: m2;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes m2 {
+        0% {
+            top: 10em;
+            left: 0;
+        }
+
+        100% {
+            transform: rotate(360deg);
+            top: 100%;
+            left: 30%;
+            opacity: 0;
+        }
+    }
+
+    .mooncake3 {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 80px;
+        width: 80px;
+        background-image: url('images/mooncake3.png');
+        background-size: cover;
+        z-index: 999;
+        animation-name: m3;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes m3 {
+        0% {
+            top: 10em;
+            left: 10em;
+        }
+
+        100% {
+            transform: rotate(360deg);
+            top: 100%;
+            left: 90%;
+            opacity: .8;
+        }
+    }
+
+    .mooncake4 {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 80px;
+        width: 80px;
+        background-image: url('images/mooncake3.png');
+        background-size: cover;
+        z-index: 999;
+        animation-name: m4;
+        animation-duration: 3s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes m4 {
+        0% {
+            top: 10em;
+            right: 10em;
+        }
+
+        100% {
+            transform: rotate(360deg);
+            top: 100%;
+            right: 20%;
+            opacity: .5;
+        }
+    }
+
+    .mooncake5 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 68px;
+        width: 82px;
+        background-image: url('images/mooncake.png');
+        z-index: 999;
+        animation-name: m5;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes m5 {
+        0% {
+            top: 0;
+            left: 0;
+        }
+
+        100% {
+            transform: rotate(360deg);
+            top: 100%;
+            left: 60%;
+            opacity: 0.7;
+        }
+    }
+
+    .mooncake6 {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 68px;
+        width: 82px;
+        background-image: url('images/mooncake.png');
+        z-index: 999;
+        animation-name: m6;
+        animation-duration: 4.5s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes m6 {
+        0% {
+            top: 0;
+            left: 100%;
+        }
+
+        100% {
+            transform: rotate(360deg);
+            top: 100%;
+            left: 60%;
+            opacity: 0.3;
+        }
+    }
+
+    .mooncake7 {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        height: 68px;
+        width: 82px;
+        background-image: url('images/mooncake.png');
+        z-index: 999;
+        animation-name: m7;
+        animation-duration: 4s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes m7 {
+        0% {
+            top: 50%;
+            left: 50%;
+        }
+
+        100% {
+            transform: rotate(360deg) scale(3);
+            opacity: .3;
+        }
+    }
+
+    .mooncake8 {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 80px;
+        width: 80px;
+        background-image: url('images/mooncake2.png');
+        ;
+        background-size: cover;
+        z-index: 999;
+        animation-name: m8;
+        animation-duration: 3.5s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes m8 {
+        0% {
+            top: 0;
+            right: 50%;
+        }
+
+        100% {
+            transform: rotate(360deg) scale(3);
+            top: 100%;
+            right: 60%;
+            opacity: 0.3;
+        }
+    }
+
+    .mooncake9 {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 80px;
+        width: 80px;
+        background-image: url('images/mooncake3.png');
+        background-size: cover;
+        z-index: 999;
+        animation-name: m8;
+        animation-duration: 5s;
+        animation-iteration-count: infinite;
+    }
+
+    @keyframes m9 {
+        0% {
+            top: 10em;
+            left: 10em;
+        }
+
+        100% {
+            transform: rotate(360deg);
+            top: 100%;
+            left: 90%;
+            opacity: .8;
+        }
+    }
+
+    .item {
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        right: 0;
+        /* width: 600px;
+        height: 600px; */
+        display: flex;
+        margin: auto;
+        align-items: center;
+    }
+
+    .item p {
+        color: #fff;
+        text-shadow: 0 0 10px #ff0;
+        margin: auto;
+        font-size: 60px;
+        font-weight: bold;
+        cursor: pointer;
+        /* animation: glow 1s ease-in-out infinite alternate; */
+    }
+
+    @keyframes glow {
+        from {
+            text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px gold, 0 0 40px gold, 0 0 50px gold, 0 0 60px gold, 0 0 70px gold;
+        }
+
+        to {
+            text-shadow: 0 0 20px #fff, 0 0 30px #ff4da6, 0 0 40px #ff4da6, 0 0 50px #ff4da6, 0 0 60px #ff4da6, 0 0 70px #ff4da6, 0 0 80px #ff4da6;
+        }
+    }
+</style>
+
+<body style='margin : 0px; overflow: hidden;'>
+
+    <!--好想吃月餅-->
+    <div class="item">
+        <p>好想吃月餅</p>
+    </div>
+
+    <!--月餅-->
+    <div class="mooncake1"></div>
+    <div class="mooncake2"></div>
+    <div class="mooncake3"></div>
+    <div class="mooncake4"></div>
+    <div class="mooncake5"></div>
+    <div class="mooncake6"></div>
+    <div class="mooncake7"></div>
+    <div class="mooncake8"></div>
+    <div class="mooncake9"></div>
+
+    <!--AR-->
+    <a-scene stats embedded arjs='trackingMethod: best;' light="defaultLightsEnabled: true">
+
+        <a-assets>
+
+            <!-- <a-asset-item id="tree" src="./mooncake2/scene.gltf"></a-asset-item> -->
+            <!-- <a-asset-item id="tree" src="./mooncake/scene.gltf"></a-asset-item> -->
+            <a-asset-item id="tree" src="./small_mooncake/scene.gltf"></a-asset-item>
+            <!-- <a-asset-item id="tree" src="./santa/scene.gltf"></a-asset-item> -->
+            <!-- <a-asset-item id="tree" src="./advent_calendar_day_11_christmas_tree/scene.gltf"></a-asset-item> -->
+            <!-- <a-asset-item id="tree" src="./choinka_christmas_tree/scene.gltf"></a-asset-item> -->
+            <!-- <a-asset-item id="tree" src="./santa_figurine/scene.gltf"></a-asset-item> -->
+        </a-assets>
+
+
+
+
+
+        <a-light type="directional" color="#FFF" intensity="0.5" position="-1 1 2">
+        </a-light>
+        <a-light type="ambient" color="#FFF">
+        </a-light>
+
+
+
+
+
+
+
+
+        <a-marker preset="hiro">
+
+            <a-entity gltf-model="#tree" scale="0.0025 0.0025 0.0025" position="0 0 0">
+                <!-- <a-entity gltf-model="#tree" scale="10 10 10" position="0 0 0"> -->
+
+                <a-animation attribute="rotation" dur="10000" fill="forwards" to="0 360 0" repeat="indefinite">
+                </a-animation>
+
+            </a-entity>
+
+
+            </a-sphere>
+
+
+        </a-marker>
+
+
+        <a-entity camera></a-entity>
+    </a-scene>
+</body>
+
+</html>
