@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-08-18T03:32:43.000Z">
-<meta property="article:modified_time" content="2021-05-11T12:05:24.110Z">
+<meta property="article:modified_time" content="2021-05-24T10:34:07.440Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="neovim">
@@ -250,7 +250,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-05-11 20:05:24" itemprop="dateModified" datetime="2021-05-11T20:05:24+08:00">2021-05-11</time>
+                <time title="修改時間：2021-05-24 18:34:07" itemprop="dateModified" datetime="2021-05-24T18:34:07+08:00">2021-05-24</time>
               </span>
 
           
@@ -273,14 +273,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>7.6k</span>
+              <span>8.6k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>7 分鐘</span>
+              <span>8 分鐘</span>
             </span>
 
         </div>
@@ -352,6 +352,20 @@
 
 <p>在 root 使用者安裝</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo -i</span><br><span class="line">cd &#x2F;root</span><br><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs     https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br><span class="line">touch .vimrc</span><br><span class="line">vim</span><br><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-COC-補全-k8s-yaml"><a href="#使用-COC-補全-k8s-yaml" class="headerlink" title="使用 COC 補全 k8s yaml"></a>使用 COC 補全 k8s yaml</h2><p>因為在搞 docker + k8s , 需要編輯 yaml 檔 , 直接在 linux 上面沒有 auto complete 實在太噁心了<br>決定找個至少能用的方法主要參考 <a href="https://octetz.com/docs/2020/2020-01-06-vim-k8s-yaml-support/" target="_blank" rel="noopener">這篇老外文章</a> , 之前好像沒用過 coc? 忘了?<br>先在 vimrc or init.vim 內加入以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot; Use release branch (Recommend)</span><br><span class="line">Plug &#39;neoclide&#x2F;coc.nvim&#39;, &#123;&#39;branch&#39;: &#39;release&#39;&#125;</span><br><span class="line"></span><br><span class="line">&quot; Or build from source code by use yarn: https:&#x2F;&#x2F;yarnpkg.com</span><br><span class="line">Plug &#39;neoclide&#x2F;coc.nvim&#39;, &#123;&#39;do&#39;: &#39;yarn install --frozen-lockfile&#39;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著輸入以下命令安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<p>萬一 coc 炸 error 檢查看看自己有無安裝 python , 另外好像還要裝 nodejs 不過我機器上已經有了<br>並且加入以下命令 <a href="https://stackoverflow.com/questions/65160481/neovim-on-windows-cant-find-python-provider" target="_blank" rel="noopener">參考自老外解法</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip install --user --upgrade pynvi</span><br></pre></td></tr></table></figure>
+
+<p>接著照老外的步驟</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:CocConfig</span><br></pre></td></tr></table></figure>
+<p>實際上就是編輯這個檔案 <code>~/AppData/Local/nvim/coc-settings.json</code> , 設定完應該就能動了 , 最後就可以用 <code>ctrl + n</code> <code>ctrl + p</code> 上下移動補全的 menu</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;languageserver&quot;: &#123;</span><br><span class="line">      &quot;golang&quot;: &#123;</span><br><span class="line">        &quot;command&quot;: &quot;gopls&quot;,</span><br><span class="line">        &quot;rootPatterns&quot;: [&quot;go.mod&quot;],</span><br><span class="line">        &quot;filetypes&quot;: [&quot;go&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &quot;yaml.schemas&quot;: &#123;</span><br><span class="line">      &quot;kubernetes&quot;: &quot;&#x2F;*.yaml&quot;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -443,7 +457,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-oh-my-bash"><span class="nav-number">1.</span> <span class="nav-text">安裝 oh-my-bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-bash-for-windows-設定-vim"><span class="nav-number">2.</span> <span class="nav-text">Git bash for windows 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-git-bash-for-windows-python-輸出有問題"><span class="nav-number">3.</span> <span class="nav-text">解決 git bash for windows python 輸出有問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check-vim-support-python"><span class="nav-number">4.</span> <span class="nav-text">check vim support python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tmux-安裝"><span class="nav-number">5.</span> <span class="nav-text">Tmux 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><span class="nav-number">6.</span> <span class="nav-text">Bash for Windows tmux vim 中文亂碼設定及真色設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-vim-設定檔"><span class="nav-number">7.</span> <span class="nav-text">最終 vim 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-Tmux-設定"><span class="nav-number">8.</span> <span class="nav-text">最終 Tmux 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記的靈異事件"><span class="nav-number">9.</span> <span class="nav-text">後記的靈異事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-底下使用-neovim"><span class="nav-number">10.</span> <span class="nav-text">windows 底下使用 neovim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-設定-vim"><span class="nav-number">11.</span> <span class="nav-text">ubuntu 設定 vim</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-oh-my-bash"><span class="nav-number">1.</span> <span class="nav-text">安裝 oh-my-bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-bash-for-windows-設定-vim"><span class="nav-number">2.</span> <span class="nav-text">Git bash for windows 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-git-bash-for-windows-python-輸出有問題"><span class="nav-number">3.</span> <span class="nav-text">解決 git bash for windows python 輸出有問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check-vim-support-python"><span class="nav-number">4.</span> <span class="nav-text">check vim support python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tmux-安裝"><span class="nav-number">5.</span> <span class="nav-text">Tmux 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><span class="nav-number">6.</span> <span class="nav-text">Bash for Windows tmux vim 中文亂碼設定及真色設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-vim-設定檔"><span class="nav-number">7.</span> <span class="nav-text">最終 vim 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-Tmux-設定"><span class="nav-number">8.</span> <span class="nav-text">最終 Tmux 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記的靈異事件"><span class="nav-number">9.</span> <span class="nav-text">後記的靈異事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-底下使用-neovim"><span class="nav-number">10.</span> <span class="nav-text">windows 底下使用 neovim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-設定-vim"><span class="nav-number">11.</span> <span class="nav-text">ubuntu 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-COC-補全-k8s-yaml"><span class="nav-number">12.</span> <span class="nav-text">使用 COC 補全 k8s yaml</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -508,13 +522,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">282k</span>
+    <span title="總廢話字數">283k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">4:17</span>
+    <span title="所需總浪費時間">4:18</span>
 </div>
 
         
