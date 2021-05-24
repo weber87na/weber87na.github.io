@@ -381,7 +381,7 @@ Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 萬一 coc 炸 error 檢查看看自己有無安裝 python , 另外好像還要裝 nodejs 不過我機器上已經有了
 並且加入以下命令 [參考自老外解法](https://stackoverflow.com/questions/65160481/neovim-on-windows-cant-find-python-provider)
 ```
-python3 -m pip install --user --upgrade pynvi
+python3 -m pip install --user --upgrade pynvim
 ```
 
 接著照老外的步驟
