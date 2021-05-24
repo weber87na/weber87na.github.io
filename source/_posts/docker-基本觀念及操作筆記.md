@@ -66,7 +66,7 @@ Install-Module DockerCompletion
 Install-Module PSReadLine -RequiredVersion 2.1.0
 ```
 
-最後額外設定自己的 config , 過程中太頻繁懶得打 docker 直接用 alias
+最後額外設定自己的 config , 過程中太頻繁懶得打 docker 直接用 alias , 另外還有像是 history 搜尋可以按 `ctrl + r` 往前搜尋這種不錯的小技巧可以用 , 詳情參考[印度仔](https://www.thewindowsclub.com/how-to-see-powershell-command-history-on-windows-10)
 ```
 #設定 powershell 的 key binding emacs style
 Set-PSReadLineOption -EditMode Emacs

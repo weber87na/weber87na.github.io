@@ -360,3 +360,48 @@ touch .vimrc
 vim
 :PlugInstall
 ```
+
+## 使用 COC 補全 k8s yaml
+因為在搞 docker + k8s , 需要編輯 yaml 檔 , 直接在 linux 上面沒有 auto complete 實在太噁心了
+決定找個至少能用的方法主要參考 [這篇老外文章](https://octetz.com/docs/2020/2020-01-06-vim-k8s-yaml-support/) , 之前好像沒用過 coc? 忘了?
+先在 vimrc or init.vim 內加入以下命令
+```
+" Use release branch (Recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Or build from source code by use yarn: https://yarnpkg.com
+Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
+```
+
+接著輸入以下命令安裝
+```
+:PlugInstall
+```
+
+萬一 coc 炸 error 檢查看看自己有無安裝 python , 另外好像還要裝 nodejs 不過我機器上已經有了
+並且加入以下命令 [參考自老外解法](https://stackoverflow.com/questions/65160481/neovim-on-windows-cant-find-python-provider)
+```
+python3 -m pip install --user --upgrade pynvi
+```
+
+接著照老外的步驟
+```
+:CocConfig
+```
+實際上就是編輯這個檔案 `~/AppData/Local/nvim/coc-settings.json` , 設定完應該就能動了 , 最後就可以用 `ctrl + n` `ctrl + p` 上下移動補全的 menu
+```
+{
+  "languageserver": {
+      "golang": {
+        "command": "gopls",
+        "rootPatterns": ["go.mod"],
+        "filetypes": ["go"]
+      }
+  },
+
+  "yaml.schemas": {
+      "kubernetes": "/*.yaml"
+  }
+
+}
+```
