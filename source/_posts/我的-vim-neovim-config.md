@@ -405,3 +405,61 @@ python3 -m pip install --user --upgrade pynvim
 
 }
 ```
+
+## 安裝 zsh oh-my-zsh 及 powerline
+參考 `oh-my-zsh` [官網](https://ohmyz.sh/#install)
+```
+sudo apt-get install zsh
+sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+sudo apt install powerline fonts-powerline
+```
+
+在 ubuntu 內挑選[佈景](https://github.com/ohmyzsh/ohmyzsh/wiki/Themes)
+```
+vim ~/.zshrc
+
+#比較不花俏的預設佈景
+#ZSH_THEME="darkblood"
+
+#dracula
+#ZSH_THEME="dracula"
+
+#重新載入
+source ~/.zshrc
+```
+
+因為 git for windows 上面預設的布景 [dracula](https://draculatheme.com/zsh) 用習慣了 , 所以就安裝看看
+不得不說這個作者還滿屌的 , 各種 ide editor 都有 dracula 的布景
+第一次用滿陌生的 , 我這邊手動安裝 , clone 以後會有個 zsh 資料夾 , 照官網說的 cp or mv 進去就可以了
+```
+git clone https://github.com/dracula/zsh.git
+cd zsh
+cp dracula.zsh-theme ~/.oh-my-zsh/themes/.
+cp -r lib ~/.oh-my-zsh/themes/.
+```
+
+搞定布景後安裝 oh my zsh 的 plugin , 這裡參考大神 [Victor](https://www.youtube.com/watch?v=l4xt5B0NObQ) 的設定
+[zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+[zsh-completions](https://github.com/zsh-users/zsh-completions)
+[zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
+```
+cd ~/.oh-my-zsh/custom/plugins
+git clone https://github.com/zsh-users/zsh-autosuggestions.git
+git clone https://github.com/zsh-users/zsh-completions.git
+git clone https://github.com/zsh-users/zsh-syntax-highlighting.git
+```
+
+接著找到 plugins 改成這樣
+```
+vim ~/.zshrc
+
+#plugins=(
+#  git
+#  zsh-autosuggestions
+#  zsh-completions
+#  zsh-syntax-highlighting
+#  colored-man-pages
+#)
+
+source ~/.zshrc
+```

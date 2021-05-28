@@ -37,6 +37,9 @@ FaceName 設定 Fira Code 注意有空格
 ```
 設定好後開啟 powershell => `右鍵` => `內容` => `字型` => `Fira Code` 即可
 
+萬一有使用 powerline 這鬼東西 , 可以到這個網頁[下載](https://github.com/powerline/fonts) 
+選擇這個字體 `DejaVu Sans Mono for Powerline` , 其他字體測不出來 , 圖示都會亂碼 , 安裝好的話用 ssh 連線 ubuntu 也可以正常顯示
+
 安裝 powershell 黑色系佈景 [Dracula](https://github.com/dracula/powershell)
 下載後解壓 `dist\ColorTool` 執行 `install.cmd` 即可完成安裝 , 並且將 `dracula-prompt-configuration.ps1` 內的設定貼到 `$profile`
 powershell `$profile` 的設定檔 `profile.ps1` 跟 `.bashrc` 類似 , 就是用來初始化 powershell 的設定檔
