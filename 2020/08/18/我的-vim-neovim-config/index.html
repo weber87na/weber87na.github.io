@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-08-18T03:32:43.000Z">
-<meta property="article:modified_time" content="2021-05-24T10:50:47.280Z">
+<meta property="article:modified_time" content="2021-05-28T19:32:07.790Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="neovim">
@@ -250,7 +250,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-05-24 18:50:47" itemprop="dateModified" datetime="2021-05-24T18:50:47+08:00">2021-05-24</time>
+                <time title="修改時間：2021-05-29 03:32:07" itemprop="dateModified" datetime="2021-05-29T03:32:07+08:00">2021-05-29</time>
               </span>
 
           
@@ -273,7 +273,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>8.6k</span>
+              <span>9.2k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -367,6 +367,15 @@
 <p>實際上就是編輯這個檔案 <code>~/AppData/Local/nvim/coc-settings.json</code> , 設定完應該就能動了 , 最後就可以用 <code>ctrl + n</code> <code>ctrl + p</code> 上下移動補全的 menu</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;languageserver&quot;: &#123;</span><br><span class="line">      &quot;golang&quot;: &#123;</span><br><span class="line">        &quot;command&quot;: &quot;gopls&quot;,</span><br><span class="line">        &quot;rootPatterns&quot;: [&quot;go.mod&quot;],</span><br><span class="line">        &quot;filetypes&quot;: [&quot;go&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &quot;yaml.schemas&quot;: &#123;</span><br><span class="line">      &quot;kubernetes&quot;: &quot;&#x2F;*.yaml&quot;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+<h2 id="安裝-zsh-oh-my-zsh-及-powerline"><a href="#安裝-zsh-oh-my-zsh-及-powerline" class="headerlink" title="安裝 zsh oh-my-zsh 及 powerline"></a>安裝 zsh oh-my-zsh 及 powerline</h2><p>參考 <code>oh-my-zsh</code> <a href="https://ohmyz.sh/#install" target="_blank" rel="noopener">官網</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br><span class="line">sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;ohmyzsh&#x2F;ohmyzsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;</span><br><span class="line">sudo apt install powerline fonts-powerline</span><br></pre></td></tr></table></figure>
+
+<p>在 ubuntu 內挑選<a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes" target="_blank" rel="noopener">佈景</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.zshrc</span><br><span class="line"></span><br><span class="line">#比較不花俏的預設佈景</span><br><span class="line">#ZSH_THEME&#x3D;&quot;darkblood&quot;</span><br><span class="line"></span><br><span class="line">#dracula</span><br><span class="line">#ZSH_THEME&#x3D;&quot;dracula&quot;</span><br><span class="line"></span><br><span class="line">#重新載入</span><br><span class="line">source ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
+
+<p>因為 git for windows 上面預設的 <a href="https://draculatheme.com/zsh" target="_blank" rel="noopener">dracula</a> 用習慣了 , 所以就安裝看看<br>第一次用滿陌生的 , 我這邊手動安裝 , clone 以後會有個 zsh 資料夾 , 照官網說的 cp or mv 進去就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;dracula&#x2F;zsh.git</span><br><span class="line">cd zsh</span><br><span class="line">cp dracula.zsh-theme ~&#x2F;.oh-my-zsh&#x2F;themes&#x2F;.</span><br><span class="line">cp -r lib ~&#x2F;.oh-my-zsh&#x2F;themes&#x2F;.</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -457,7 +466,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-oh-my-bash"><span class="nav-number">1.</span> <span class="nav-text">安裝 oh-my-bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-bash-for-windows-設定-vim"><span class="nav-number">2.</span> <span class="nav-text">Git bash for windows 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-git-bash-for-windows-python-輸出有問題"><span class="nav-number">3.</span> <span class="nav-text">解決 git bash for windows python 輸出有問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check-vim-support-python"><span class="nav-number">4.</span> <span class="nav-text">check vim support python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tmux-安裝"><span class="nav-number">5.</span> <span class="nav-text">Tmux 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><span class="nav-number">6.</span> <span class="nav-text">Bash for Windows tmux vim 中文亂碼設定及真色設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-vim-設定檔"><span class="nav-number">7.</span> <span class="nav-text">最終 vim 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-Tmux-設定"><span class="nav-number">8.</span> <span class="nav-text">最終 Tmux 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記的靈異事件"><span class="nav-number">9.</span> <span class="nav-text">後記的靈異事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-底下使用-neovim"><span class="nav-number">10.</span> <span class="nav-text">windows 底下使用 neovim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-設定-vim"><span class="nav-number">11.</span> <span class="nav-text">ubuntu 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-COC-補全-k8s-yaml"><span class="nav-number">12.</span> <span class="nav-text">使用 COC 補全 k8s yaml</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-oh-my-bash"><span class="nav-number">1.</span> <span class="nav-text">安裝 oh-my-bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-bash-for-windows-設定-vim"><span class="nav-number">2.</span> <span class="nav-text">Git bash for windows 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-git-bash-for-windows-python-輸出有問題"><span class="nav-number">3.</span> <span class="nav-text">解決 git bash for windows python 輸出有問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check-vim-support-python"><span class="nav-number">4.</span> <span class="nav-text">check vim support python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tmux-安裝"><span class="nav-number">5.</span> <span class="nav-text">Tmux 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><span class="nav-number">6.</span> <span class="nav-text">Bash for Windows tmux vim 中文亂碼設定及真色設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-vim-設定檔"><span class="nav-number">7.</span> <span class="nav-text">最終 vim 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-Tmux-設定"><span class="nav-number">8.</span> <span class="nav-text">最終 Tmux 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記的靈異事件"><span class="nav-number">9.</span> <span class="nav-text">後記的靈異事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-底下使用-neovim"><span class="nav-number">10.</span> <span class="nav-text">windows 底下使用 neovim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-設定-vim"><span class="nav-number">11.</span> <span class="nav-text">ubuntu 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-COC-補全-k8s-yaml"><span class="nav-number">12.</span> <span class="nav-text">使用 COC 補全 k8s yaml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-zsh-oh-my-zsh-及-powerline"><span class="nav-number">13.</span> <span class="nav-text">安裝 zsh oh-my-zsh 及 powerline</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -522,7 +531,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">283k</span>
+    <span title="總廢話字數">284k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
