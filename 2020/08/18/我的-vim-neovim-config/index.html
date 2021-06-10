@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-08-18T03:32:43.000Z">
-<meta property="article:modified_time" content="2021-06-09T07:59:46.584Z">
+<meta property="article:modified_time" content="2021-06-10T09:48:46.520Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="neovim">
@@ -250,7 +250,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-06-09 15:59:46" itemprop="dateModified" datetime="2021-06-09T15:59:46+08:00">2021-06-09</time>
+                <time title="修改時間：2021-06-10 17:48:46" itemprop="dateModified" datetime="2021-06-10T17:48:46+08:00">2021-06-10</time>
               </span>
 
           
@@ -273,14 +273,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>9.9k</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>9 分鐘</span>
+              <span>10 分鐘</span>
             </span>
 
         </div>
@@ -383,6 +383,32 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.zshrc</span><br><span class="line"></span><br><span class="line">#plugins&#x3D;(</span><br><span class="line">#  git</span><br><span class="line">#  zsh-autosuggestions</span><br><span class="line">#  zsh-completions</span><br><span class="line">#  zsh-syntax-highlighting</span><br><span class="line">#  colored-man-pages</span><br><span class="line">#)</span><br><span class="line"></span><br><span class="line">source ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
 <h2 id="為你的-cat-加上色彩"><a href="#為你的-cat-加上色彩" class="headerlink" title="為你的 cat 加上色彩"></a>為你的 cat 加上色彩</h2><p>因為常常會用 cat 看些東東但是沒有語法高量可以考慮安裝 <a href="https://github.com/sharkdp/bat" target="_blank" rel="noopener">bat</a> 讓操作舒服點</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install bat</span><br><span class="line">vim ~&#x2F;.zshrc</span><br><span class="line">#加上 alias</span><br><span class="line">alias bat&#x3D;batcat</span><br></pre></td></tr></table></figure>
+<h2 id="裝-B-移動目錄神器-Ranger-筆記"><a href="#裝-B-移動目錄神器-Ranger-筆記" class="headerlink" title="裝 B 移動目錄神器 Ranger 筆記"></a>裝 B 移動目錄神器 Ranger 筆記</h2><p>安裝 <a href="https://github.com/ranger/ranger" target="_blank" rel="noopener">ranger</a> , 也可以參考這<a href="https://www.digitalocean.com/community/tutorials/installing-and-using-ranger-a-terminal-file-manager-on-a-ubuntu-vps" target="_blank" rel="noopener">老外教學</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ranger</span><br></pre></td></tr></table></figure>
+
+<p>開啟 ranger 讓他自動建立資料夾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ranger</span><br><span class="line">q</span><br></pre></td></tr></table></figure>
+
+<p>複製 ranger 的預設設定檔 template</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ranger --copy-config&#x3D;all</span><br></pre></td></tr></table></figure>
+
+<h2 id="設定-ascii-preview-image"><a href="#設定-ascii-preview-image" class="headerlink" title="設定 ascii preview image"></a>設定 ascii preview image</h2><p>首先設定 <code>scope.sh</code> 找到這段把 <code>img2txt</code> 原本的註解開起來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.config&#x2F;ranger&#x2F;scope.sh</span><br><span class="line"></span><br><span class="line">## Image</span><br><span class="line">image&#x2F;*)</span><br><span class="line">	## Preview as text conversion</span><br><span class="line">	img2txt --gamma&#x3D;0.6 --width&#x3D;&quot;$&#123;PV_WIDTH&#125;&quot; -- &quot;$&#123;FILE_PATH&#125;&quot; &amp;&amp; exit 4</span><br><span class="line">	exiftool &quot;$&#123;FILE_PATH&#125;&quot; &amp;&amp; exit 5</span><br><span class="line">	exit 1;;</span><br></pre></td></tr></table></figure>
+
+<p>接著設定 <code>~/.config/ranger/rc.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set preview_images false</span><br><span class="line">set use_preview_script true</span><br><span class="line">set preview_script ~&#x2F;.config&#x2F;ranger&#x2F;scope.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="設定-x11-preview-image"><a href="#設定-x11-preview-image" class="headerlink" title="設定 x11 preview image"></a>設定 x11 preview image</h3><p>注意只有在 ubuntu 有 gui 的機器有用 , 用 ssh 應該回 ascii 模式 , 先安裝 x11 相關工具及 ueberzug</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br><span class="line">sudo apt-get install -y libx11-dev</span><br><span class="line">sudo apt-get install -y xorg openbox</span><br><span class="line">sudo apt-get install -y x11proto-xext-dev</span><br><span class="line">sudo apt-get install -y libxext-dev</span><br><span class="line">pip3 install ueberzug</span><br></pre></td></tr></table></figure>
+
+<p>設定 <code>~/.config/ranger/rc.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set preview_images true</span><br><span class="line">set preview_images_method ueberzug</span><br></pre></td></tr></table></figure>
+
+<p>萬一炸 WARNING 設定以下即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#echo &#39;export PATH&#x3D;~&#x2F;.local&#x2F;bin:$PATH&#39; &gt;&gt; ~&#x2F;.bashrc</span><br><span class="line">echo &#39;export PATH&#x3D;~&#x2F;.local&#x2F;bin:$PATH&#39; &gt;&gt; ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
+
+<p>最後預覽一下正妹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crul https:&#x2F;&#x2F;instagram.frmq3-1.fna.fbcdn.net&#x2F;v&#x2F;t51.2885-15&#x2F;sh0.08&#x2F;e35&#x2F;s640x640&#x2F;169486234_744729692910070_7136376512717038837_n.jpg?tp&#x3D;1&amp;_nc_ht&#x3D;instagram.frmq3-1.fna.fbcdn.net&amp;_nc_cat&#x3D;110&amp;_nc_ohc&#x3D;jehk2TKowmEAX8DDWGK&amp;edm&#x3D;AABBvjUBAAAA&amp;ccb&#x3D;7-4&amp;oh&#x3D;95e49414292080950b57f70c1e6d1c09&amp;oe&#x3D;60C92944&amp;_nc_sid&#x3D;83d603 --output nono.png</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -474,7 +500,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-oh-my-bash"><span class="nav-number">1.</span> <span class="nav-text">安裝 oh-my-bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-bash-for-windows-設定-vim"><span class="nav-number">2.</span> <span class="nav-text">Git bash for windows 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-git-bash-for-windows-python-輸出有問題"><span class="nav-number">3.</span> <span class="nav-text">解決 git bash for windows python 輸出有問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check-vim-support-python"><span class="nav-number">4.</span> <span class="nav-text">check vim support python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tmux-安裝"><span class="nav-number">5.</span> <span class="nav-text">Tmux 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><span class="nav-number">6.</span> <span class="nav-text">Bash for Windows tmux vim 中文亂碼設定及真色設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-vim-設定檔"><span class="nav-number">7.</span> <span class="nav-text">最終 vim 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-Tmux-設定"><span class="nav-number">8.</span> <span class="nav-text">最終 Tmux 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記的靈異事件"><span class="nav-number">9.</span> <span class="nav-text">後記的靈異事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-底下使用-neovim"><span class="nav-number">10.</span> <span class="nav-text">windows 底下使用 neovim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-設定-vim"><span class="nav-number">11.</span> <span class="nav-text">ubuntu 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-COC-補全-k8s-yaml"><span class="nav-number">12.</span> <span class="nav-text">使用 COC 補全 k8s yaml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-zsh-oh-my-zsh-及-powerline"><span class="nav-number">13.</span> <span class="nav-text">安裝 zsh oh-my-zsh 及 powerline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#為你的-cat-加上色彩"><span class="nav-number">14.</span> <span class="nav-text">為你的 cat 加上色彩</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-oh-my-bash"><span class="nav-number">1.</span> <span class="nav-text">安裝 oh-my-bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-bash-for-windows-設定-vim"><span class="nav-number">2.</span> <span class="nav-text">Git bash for windows 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-git-bash-for-windows-python-輸出有問題"><span class="nav-number">3.</span> <span class="nav-text">解決 git bash for windows python 輸出有問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check-vim-support-python"><span class="nav-number">4.</span> <span class="nav-text">check vim support python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tmux-安裝"><span class="nav-number">5.</span> <span class="nav-text">Tmux 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><span class="nav-number">6.</span> <span class="nav-text">Bash for Windows tmux vim 中文亂碼設定及真色設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-vim-設定檔"><span class="nav-number">7.</span> <span class="nav-text">最終 vim 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-Tmux-設定"><span class="nav-number">8.</span> <span class="nav-text">最終 Tmux 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記的靈異事件"><span class="nav-number">9.</span> <span class="nav-text">後記的靈異事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-底下使用-neovim"><span class="nav-number">10.</span> <span class="nav-text">windows 底下使用 neovim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-設定-vim"><span class="nav-number">11.</span> <span class="nav-text">ubuntu 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-COC-補全-k8s-yaml"><span class="nav-number">12.</span> <span class="nav-text">使用 COC 補全 k8s yaml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-zsh-oh-my-zsh-及-powerline"><span class="nav-number">13.</span> <span class="nav-text">安裝 zsh oh-my-zsh 及 powerline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#為你的-cat-加上色彩"><span class="nav-number">14.</span> <span class="nav-text">為你的 cat 加上色彩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#裝-B-移動目錄神器-Ranger-筆記"><span class="nav-number">15.</span> <span class="nav-text">裝 B 移動目錄神器 Ranger 筆記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定-ascii-preview-image"><span class="nav-number">16.</span> <span class="nav-text">設定 ascii preview image</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-x11-preview-image"><span class="nav-number">16.1.</span> <span class="nav-text">設定 x11 preview image</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -539,13 +565,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">293k</span>
+    <span title="總廢話字數">295k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">4:27</span>
+    <span title="所需總浪費時間">4:28</span>
 </div>
 
         
