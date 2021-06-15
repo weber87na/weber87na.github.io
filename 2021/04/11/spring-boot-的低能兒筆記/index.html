@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-04-11T04:45:23.000Z">
-<meta property="article:modified_time" content="2021-04-14T12:20:04.910Z">
+<meta property="article:modified_time" content="2021-06-15T20:16:55.520Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="喇賽">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-04-14 20:20:04" itemprop="dateModified" datetime="2021-04-14T20:20:04+08:00">2021-04-14</time>
+                <time title="修改時間：2021-06-16 04:16:55" itemprop="dateModified" datetime="2021-06-16T04:16:55+08:00">2021-06-16</time>
               </span>
 
           
@@ -268,7 +268,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>7.2k</span>
+              <span>7.5k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -299,6 +299,9 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install maven</span><br></pre></td></tr></table></figure>
 <p>安裝完可以看到設定了 <code>M2_HOME</code> 在以下路徑 <code>C:\ProgramData\chocolatey\lib\maven\apache-maven-3.8.1</code><br>以及 <code>PATH</code> 追加了 <code>%M2_HOME%\bin</code><br>有點納悶不是應該叫做 <code>MAVEN_HOME</code> 嗎? [參考老外] 原來 Maven 1 是用 <code>MAVEN_HOME</code> Maven 2 則用 <code>M2_HOME</code> 其實沒差<br>感覺用 choco 安裝更無腦</p>
 <p>今天還遇到個之前沒遇過的低能問題 , 就是無法在 windows 底下新增開頭有點 <code>.</code> 的特殊檔案 , 搞了半天沒辦法用 <code>.ideavimrc</code><br>google 看到老外說用 notepad++ 選另存新檔 , file type 選擇 all 就可以了</p>
+<h3 id="在-intellij-安裝"><a href="#在-intellij-安裝" class="headerlink" title="在 intellij 安裝"></a>在 intellij 安裝</h3><p>主要參考這篇<a href="https://www.jetbrains.com/help/idea/convert-a-regular-project-into-a-maven-project.html" target="_blank" rel="noopener">官方</a><br>在 <code>pom.xml</code> 內加入類似如下片段即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">	&lt;dependency&gt;</span><br><span class="line">		&lt;groupId&gt;io.github.fanyong920&lt;&#x2F;groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;jvppeteer&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;version&gt;1.1.3&lt;&#x2F;version&gt;</span><br><span class="line">	&lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
+
 <h3 id="牛刀小試-jdbcTemplate"><a href="#牛刀小試-jdbcTemplate" class="headerlink" title="牛刀小試 jdbcTemplate"></a>牛刀小試 jdbcTemplate</h3><p>看書上照著做沒多久就陣亡了 , 書上的範例是 mysql 懶得安裝 mysql 直接用現成的 M$<br>首先在 <code>application.properties</code> 底下增加連線訊息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url&#x3D;jdbc:sqlserver:&#x2F;&#x2F;localhost:1433;databaseName&#x3D;test</span><br><span class="line">spring.datasource.username&#x3D;sa</span><br><span class="line">spring.datasource.password&#x3D;yourpassword</span><br><span class="line">spring.datasource.driverClassName&#x3D;com.microsoft.sqlserver.jdbc.SQLServerDriver</span><br><span class="line">spring.datasource.initialize&#x3D;true</span><br></pre></td></tr></table></figure>
 <p>特別注意這句 <code>spring.datasource.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver</code> 這句是低能關鍵 , 一開始依照其他低能老外寫的怎麼 try 都掛點 , 後來是看到<a href="https://springframework.guru/configuring-spring-boot-for-microsoft-sql-server/" target="_blank" rel="noopener">這篇</a>佛心老外才成功<br>另外 pom.xml 要增加以下相依</p>
@@ -409,7 +412,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-java"><span class="nav-number">1.</span> <span class="nav-text">設定 java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-intellij"><span class="nav-number">2.</span> <span class="nav-text">設定 intellij</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#choco-安裝-java"><span class="nav-number">3.</span> <span class="nav-text">choco 安裝 java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛刀小試-jdbcTemplate"><span class="nav-number">4.</span> <span class="nav-text">牛刀小試 jdbcTemplate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛刀小試-JPA"><span class="nav-number">5.</span> <span class="nav-text">牛刀小試 JPA</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-java"><span class="nav-number">1.</span> <span class="nav-text">設定 java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-intellij"><span class="nav-number">2.</span> <span class="nav-text">設定 intellij</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#choco-安裝-java"><span class="nav-number">3.</span> <span class="nav-text">choco 安裝 java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-intellij-安裝"><span class="nav-number">4.</span> <span class="nav-text">在 intellij 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛刀小試-jdbcTemplate"><span class="nav-number">5.</span> <span class="nav-text">牛刀小試 jdbcTemplate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛刀小試-JPA"><span class="nav-number">6.</span> <span class="nav-text">牛刀小試 JPA</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -425,7 +428,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-count">118</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -474,13 +477,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">295k</span>
+    <span title="總廢話字數">296k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">4:28</span>
+    <span title="所需總浪費時間">4:29</span>
 </div>
 
         
