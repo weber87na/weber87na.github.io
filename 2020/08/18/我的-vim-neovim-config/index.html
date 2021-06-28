@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-08-18T03:32:43.000Z">
-<meta property="article:modified_time" content="2021-06-24T20:23:00.620Z">
+<meta property="article:modified_time" content="2021-06-28T19:04:37.359Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="vim">
 <meta property="article:tag" content="neovim">
@@ -250,7 +250,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-06-25 04:23:00" itemprop="dateModified" datetime="2021-06-25T04:23:00+08:00">2021-06-25</time>
+                <time title="修改時間：2021-06-29 03:04:37" itemprop="dateModified" datetime="2021-06-29T03:04:37+08:00">2021-06-29</time>
               </span>
 
           
@@ -280,7 +280,7 @@
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>10 分鐘</span>
+              <span>11 分鐘</span>
             </span>
 
         </div>
@@ -362,9 +362,19 @@
 <p>萬一 coc 炸 error 檢查看看自己有無安裝 python , 另外好像還要裝 nodejs 不過我機器上已經有了<br>並且加入以下命令 <a href="https://stackoverflow.com/questions/65160481/neovim-on-windows-cant-find-python-provider" target="_blank" rel="noopener">參考自老外解法</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip install --user --upgrade pynvim</span><br></pre></td></tr></table></figure>
 
-<p>接著照老外的步驟</p>
+<p>如果是用 ubuntu 需要先安裝 nodejs , 注意 nodejs 版本要 12.12 以上 , 小心不要直接用 apt-get install 有可能安裝到舊版 , 在 ubuntu 20.04 上 default 好像是 node 10?<br>萬一不小心安裝舊版可以參考這個<a href="https://askubuntu.com/questions/786015/how-to-remove-nodejs-from-ubuntu-16-04" target="_blank" rel="noopener">移除</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_14.x | sudo bash -</span><br><span class="line">sudo apt-get install -y nodejs</span><br></pre></td></tr></table></figure>
+
+<p>安裝 coc-yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:CocInstall coc-yaml</span><br></pre></td></tr></table></figure>
+
+<p>萬一 coc 炸出這個 error 可能是 nodejs or python 沒安裝或是版本錯誤 , 請確認版本是否正確</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client coc abnormal exit with: -1</span><br></pre></td></tr></table></figure>
+
+<p>接著照打開 CocConfig 編輯</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:CocConfig</span><br></pre></td></tr></table></figure>
-<p>實際上就是編輯這個檔案 <code>~/AppData/Local/nvim/coc-settings.json</code> , 設定完應該就能動了 , 最後就可以用 <code>ctrl + n</code> <code>ctrl + p</code> 上下移動補全的 menu</p>
+
+<p>使用 vim 的話 coc 路徑會在如下位置 <code>~/.vim/coc-settings.json</code><br>windows 的 neovim 在 <code>~/AppData/Local/nvim/coc-settings.json</code><br>設定完應該就能動了 , 最後就可以用 <code>ctrl + n</code> <code>ctrl + p</code> 上下移動補全的 menu 不過好像 vscode 的更好用一點</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;languageserver&quot;: &#123;</span><br><span class="line">      &quot;golang&quot;: &#123;</span><br><span class="line">        &quot;command&quot;: &quot;gopls&quot;,</span><br><span class="line">        &quot;rootPatterns&quot;: [&quot;go.mod&quot;],</span><br><span class="line">        &quot;filetypes&quot;: [&quot;go&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &quot;yaml.schemas&quot;: &#123;</span><br><span class="line">      &quot;kubernetes&quot;: &quot;&#x2F;*.yaml&quot;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="安裝-zsh-oh-my-zsh-及-powerline"><a href="#安裝-zsh-oh-my-zsh-及-powerline" class="headerlink" title="安裝 zsh oh-my-zsh 及 powerline"></a>安裝 zsh oh-my-zsh 及 powerline</h2><p>參考 <code>oh-my-zsh</code> <a href="https://ohmyz.sh/#install" target="_blank" rel="noopener">官網</a></p>
@@ -516,7 +526,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">117</span>
+          <span class="site-state-item-count">118</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -565,13 +575,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">299k</span>
+    <span title="總廢話字數">314k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">4:32</span>
+    <span title="所需總浪費時間">4:45</span>
 </div>
 
         
