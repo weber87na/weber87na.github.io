@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-28T19:27:42.000Z">
-<meta property="article:modified_time" content="2021-06-29T20:05:35.660Z">
+<meta property="article:modified_time" content="2021-06-29T20:14:03.310Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-06-30 04:05:35" itemprop="dateModified" datetime="2021-06-30T04:05:35+08:00">2021-06-30</time>
+                <time title="修改時間：2021-06-30 04:14:03" itemprop="dateModified" datetime="2021-06-30T04:14:03+08:00">2021-06-30</time>
               </span>
 
           
@@ -268,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>15k</span>
+              <span>17k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>14 分鐘</span>
+              <span>15 分鐘</span>
             </span>
 
         </div>
@@ -359,6 +359,30 @@
 
 <p>蓋好了以後開始查看看 , 注意預設不會安裝 kubectl , 需要自行安裝 , 我機器上何時安裝的已不可考</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">k get nodes</span><br><span class="line">#NAME                 STATUS   ROLES                  AGE     VERSION</span><br><span class="line">#kind-control-plane   Ready    control-plane,master   2m21s   v1.21.1</span><br><span class="line">#kind-worker          Ready    &lt;none&gt;                 115s    v1.21.1</span><br><span class="line">#kind-worker2         Ready    &lt;none&gt;                 115s    v1.21.1</span><br></pre></td></tr></table></figure>
+
+<h3 id="k8s-plugin-Krew-安裝"><a href="#k8s-plugin-Krew-安裝" class="headerlink" title="k8s plugin Krew 安裝"></a>k8s plugin Krew 安裝</h3><p>基本上參考<a href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/#bash" target="_blank" rel="noopener">官網</a>無腦安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(</span><br><span class="line">  set -x; cd &quot;$(mktemp -d)&quot; &amp;&amp;</span><br><span class="line">  OS&#x3D;&quot;$(uname | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&quot; &amp;&amp;</span><br><span class="line">  ARCH&#x3D;&quot;$(uname -m | sed -e &#39;s&#x2F;x86_64&#x2F;amd64&#x2F;&#39; -e &#39;s&#x2F;\(arm\)\(64\)\?.*&#x2F;\1\2&#x2F;&#39; -e &#39;s&#x2F;aarch64$&#x2F;arm64&#x2F;&#39;)&quot; &amp;&amp;</span><br><span class="line">  curl -fsSLO &quot;https:&#x2F;&#x2F;github.com&#x2F;kubernetes-sigs&#x2F;krew&#x2F;releases&#x2F;latest&#x2F;download&#x2F;krew.tar.gz&quot; &amp;&amp;</span><br><span class="line">  tar zxvf krew.tar.gz &amp;&amp;</span><br><span class="line">  KREW&#x3D;.&#x2F;krew-&quot;$&#123;OS&#125;_$&#123;ARCH&#125;&quot; &amp;&amp;</span><br><span class="line">  &quot;$KREW&quot; install krew</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>加入以下到環境變數</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&quot;$&#123;KREW_ROOT:-$HOME&#x2F;.krew&#125;&#x2F;bin:$PATH&quot;</span><br></pre></td></tr></table></figure>
+
+<p>執行這段有 run 就代表 ok</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl krew</span><br></pre></td></tr></table></figure>
+
+<p>特別注意的是外掛的使用一般都是這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl pluginname command</span><br><span class="line">kubectl-pluginname command</span><br><span class="line">k pluginname command</span><br></pre></td></tr></table></figure>
+
+<p>接著安裝感覺好像比較有用的 plugin</p>
+<p><a href="https://github.com/ahmetb/kubectl-tree" target="_blank" rel="noopener">tree</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">kubectl krew install tree</span><br><span class="line">kubectl tree --help</span><br><span class="line"></span><br><span class="line">#用法</span><br><span class="line">kubectl tree deployment kubia</span><br></pre></td></tr></table></figure>
+
+
+<p><a href="https://github.com/yaacov/kubectl-sql" target="_blank" rel="noopener">sql</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">kubectl krew install sql</span><br><span class="line"></span><br><span class="line">#用法</span><br><span class="line"></span><br><span class="line">#找狀態是 Running 的</span><br><span class="line">k sql get po where &quot;phase &#x3D; &#39;Running&#39;&quot;</span><br><span class="line"></span><br><span class="line">#找狀態不是 Running 的 , 表示有問題啦</span><br><span class="line">k sql get po where &quot;phase !&#x3D; &#39;Running&#39;&quot;</span><br><span class="line"></span><br><span class="line">#找名字 , 可以直接用 like</span><br><span class="line">kubectl-sql get po where &quot;name like &#39;%w%&#39;&quot;</span><br></pre></td></tr></table></figure>
+
+
+<p>覺得不滿意的話可以自己寫 plugin , 以喇低賽的 <code>cowsay</code> 為例 , 只要把程式命名為 <code>kubectl-</code> 開頭複製到 <code>/usr/local/bin/</code> 底下即可<br>詳細可以<a href="https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/" target="_blank" rel="noopener">參考官方說明</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install cowsay</span><br><span class="line">cowsay &quot;helloworld&quot;</span><br><span class="line"></span><br><span class="line">#查 cowsay 安裝在哪</span><br><span class="line">which cowsay</span><br><span class="line"></span><br><span class="line">#確認內容</span><br><span class="line">cat &#x2F;usr&#x2F;games&#x2F;cowsay</span><br><span class="line"></span><br><span class="line">#複製並且重新命名</span><br><span class="line">sudo cp &#x2F;usr&#x2F;games&#x2F;cowsay &#x2F;usr&#x2F;local&#x2F;bin&#x2F;kubectl-cowsay</span><br><span class="line"></span><br><span class="line">#不想用要移除的話</span><br><span class="line">sudo rm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;kubectl-cowsay</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -446,7 +470,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-master-install-安裝事前準備"><span class="nav-number">1.</span> <span class="nav-text">k8s master install 安裝事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-hyper-v-上安裝-ubuntu"><span class="nav-number">2.</span> <span class="nav-text">在 hyper-v 上安裝 ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-安裝-docker"><span class="nav-number">3.</span> <span class="nav-text">Ubuntu 安裝 docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-事前準備"><span class="nav-number">4.</span> <span class="nav-text">k8s 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-kubeadm-安裝-k8s"><span class="nav-number">5.</span> <span class="nav-text">以 kubeadm 安裝 k8s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-zsh-補全"><span class="nav-number">6.</span> <span class="nav-text">安裝 zsh 補全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-kubeadm-建立-cluster"><span class="nav-number">7.</span> <span class="nav-text">用 kubeadm 建立 cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGROUP-設定"><span class="nav-number">8.</span> <span class="nav-text">CGROUP 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KIND-安裝"><span class="nav-number">9.</span> <span class="nav-text">KIND 安裝</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-master-install-安裝事前準備"><span class="nav-number">1.</span> <span class="nav-text">k8s master install 安裝事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-hyper-v-上安裝-ubuntu"><span class="nav-number">2.</span> <span class="nav-text">在 hyper-v 上安裝 ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-安裝-docker"><span class="nav-number">3.</span> <span class="nav-text">Ubuntu 安裝 docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-事前準備"><span class="nav-number">4.</span> <span class="nav-text">k8s 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-kubeadm-安裝-k8s"><span class="nav-number">5.</span> <span class="nav-text">以 kubeadm 安裝 k8s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-zsh-補全"><span class="nav-number">6.</span> <span class="nav-text">安裝 zsh 補全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-kubeadm-建立-cluster"><span class="nav-number">7.</span> <span class="nav-text">用 kubeadm 建立 cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGROUP-設定"><span class="nav-number">8.</span> <span class="nav-text">CGROUP 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KIND-安裝"><span class="nav-number">9.</span> <span class="nav-text">KIND 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-plugin-Krew-安裝"><span class="nav-number">10.</span> <span class="nav-text">k8s plugin Krew 安裝</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -511,13 +535,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">319k</span>
+    <span title="總廢話字數">320k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">4:50</span>
+    <span title="所需總浪費時間">4:51</span>
 </div>
 
         
