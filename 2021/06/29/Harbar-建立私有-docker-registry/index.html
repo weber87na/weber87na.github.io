@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-28T18:49:47.000Z">
-<meta property="article:modified_time" content="2021-06-28T18:50:44.119Z">
+<meta property="article:modified_time" content="2021-06-29T20:12:06.180Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="k8s">
@@ -238,10 +238,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2021-06-29 02:49:47 / 修改時間：02:50:44" itemprop="dateCreated datePublished" datetime="2021-06-29T02:49:47+08:00">2021-06-29</time>
+              <time title="亂入時間：2021-06-29 02:49:47" itemprop="dateCreated datePublished" datetime="2021-06-29T02:49:47+08:00">2021-06-29</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2021-06-30 04:12:06" itemprop="dateModified" datetime="2021-06-30T04:12:06+08:00">2021-06-30</time>
+              </span>
 
           
   
@@ -263,14 +269,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.2k</span>
+              <span>7.4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>3 分鐘</span>
+              <span>7 分鐘</span>
             </span>
 
         </div>
@@ -321,6 +327,60 @@
 
 <p>最後建立 <code>Pod</code> 看看</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: private-reg</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: private-reg-container</span><br><span class="line">    image: 10.1.25.123&#x2F;test&#x2F;nginx:latest</span><br><span class="line">  imagePullSecrets:</span><br><span class="line">  - name: regcred</span><br></pre></td></tr></table></figure>
+
+<h3 id="k8s-整合-net-core"><a href="#k8s-整合-net-core" class="headerlink" title="k8s 整合 .net core"></a>k8s 整合 .net core</h3><p>可以參考<a href="https://www.cnblogs.com/sheng-jie/p/10591794.html" target="_blank" rel="noopener">這篇強國人</a></p>
+<p>新增 <code>HelloWorldController</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[Route( &quot;api&#x2F;[controller]&quot; )]</span><br><span class="line">[ApiController]</span><br><span class="line">public class HelloWorldController : ControllerBase</span><br><span class="line">&#123;</span><br><span class="line">    [HttpGet]</span><br><span class="line">    public string Get()</span><br><span class="line">    &#123;</span><br><span class="line">        string result &#x3D; &quot;&quot;;</span><br><span class="line">        string HostName &#x3D; Dns.GetHostName();</span><br><span class="line">        Console.WriteLine( &quot;Host Name of machine &#x3D;&quot; + HostName );</span><br><span class="line">        result +&#x3D; &quot;Host Name of machine &#x3D;&quot; + HostName + Environment.NewLine;</span><br><span class="line">        IPAddress[] ipaddress &#x3D; Dns.GetHostAddresses( HostName );</span><br><span class="line">        Console.Write( &quot;IPv4 of Machine is &quot; );</span><br><span class="line">        result +&#x3D; &quot;IPv4 of Machine is &quot; + Environment.NewLine;</span><br><span class="line">        foreach (IPAddress ip4 in ipaddress.Where( ip &#x3D;&gt; ip.AddressFamily &#x3D;&#x3D; System.Net.Sockets.AddressFamily.InterNetwork ))</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine( ip4.ToString() );</span><br><span class="line">            result +&#x3D; ip4.ToString() + Environment.NewLine;</span><br><span class="line">        &#125;</span><br><span class="line">        Console.Write( &quot;IPv6 of Machine is &quot; );</span><br><span class="line">        result +&#x3D; &quot;IPv6 of Machine is &quot; + Environment.NewLine;</span><br><span class="line">        foreach (IPAddress ip6 in ipaddress.Where( ip &#x3D;&gt; ip.AddressFamily &#x3D;&#x3D; System.Net.Sockets.AddressFamily.InterNetworkV6 ))</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine( ip6.ToString() );</span><br><span class="line">            result +&#x3D; ip6.ToString() + Environment.NewLine;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>特別注意 <code>Startup</code> 內的 <code>Configure</code> 方法 , 需要把 UseHttpsRedirection 註解掉 , 不然會導向錯誤的網址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;app.UseHttpsRedirection();</span><br></pre></td></tr></table></figure>
+
+
+<p>新增 <code>DockerFile</code> 並且把檔案設定為 <code>Always Copy</code><br>設定暴露的 PORT , 注意這個 <code>ENV ASPNETCORE_URLS=http://+:80;https://+:443</code> 一定要設定 , 不然會找不到位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">FROM mcr.microsoft.com&#x2F;dotnet&#x2F;sdk:5.0 AS build</span><br><span class="line">WORKDIR &#x2F;app</span><br><span class="line">COPY . .</span><br><span class="line">ENV ASPNETCORE_URLS&#x3D;http:&#x2F;&#x2F;+:80;https:&#x2F;&#x2F;+:443</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">EXPOSE 443</span><br><span class="line">ENTRYPOINT [&quot;dotnet&quot;, &quot;HelloWorldKubernetes.dll&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>切換到 bin\Debug 目錄底下進行編譯 , 用 docker 跑看看結果是否正確</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t helloworldk8s .</span><br><span class="line">docker run --name helloworldk8s -d -p 5000:80 -p 5001:443  helloworldk8s:latest</span><br></pre></td></tr></table></figure>
+
+<p>先用以下命令查看看有無正確啟動 container 萬一沒啟動加上 <code>-a</code> 參數看看發生啥錯誤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker container ls</span><br><span class="line"></span><br><span class="line">docker container ls -a</span><br></pre></td></tr></table></figure>
+
+<p>開啟 chrome 測試<br><code>https://localhost:5001/api/helloworld</code><br><code>http://localhost:5000/api/helloworld</code></p>
+<p>打標籤到自己私有的 Harbor Registry 並且推送上去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker tag helloworldk8s:latest 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br><span class="line">docker push 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br></pre></td></tr></table></figure>
+
+<p>在 master 節點 pull image</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker pull 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br><span class="line">docker images</span><br><span class="line">#REPOSITORY                           TAG            IMAGE ID       CREATED          SIZE</span><br><span class="line">#10.1.25.123&#x2F;test&#x2F;helloworldk8s       latest         8d030c225a2a   18 minutes ago   635MB</span><br></pre></td></tr></table></figure>
+
+<p>建立 yaml 檔 , 可以參考[微軟這篇]來編(<a href="https://docs.microsoft.com/en-us/dotnet/architecture/containerized-lifecycle/design-develop-containerized-apps/build-aspnet-core-applications-linux-containers-aks-kubernetes" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/dotnet/architecture/containerized-lifecycle/design-develop-containerized-apps/build-aspnet-core-applications-linux-containers-aks-kubernetes</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim private-reg-pod.yaml</span><br><span class="line">kubectl apply -f private-reg-pod.yaml</span><br></pre></td></tr></table></figure>
+
+<p><code>private-reg-pod.yaml</code> 內容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: private-reg</span><br><span class="line">  labels:</span><br><span class="line">	app: private-reg</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: private-reg-container</span><br><span class="line">    image: 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br><span class="line">    ports:</span><br><span class="line">      - containerPort: 80</span><br><span class="line">        protocol: TCP</span><br><span class="line">    env:</span><br><span class="line">      - name: ASPNETCORE_URLS</span><br><span class="line">        value: http:&#x2F;&#x2F;+:80</span><br><span class="line">  imagePullSecrets:</span><br><span class="line">  - name: regcred</span><br></pre></td></tr></table></figure>
+
+
+<p>查詢目前 pod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl get po</span><br><span class="line">#NAME          READY   STATUS    RESTARTS   AGE     IP            NODE</span><br><span class="line">#private-reg   1&#x2F;1     Running   0          5m45s   10.244.1.87   node02</span><br></pre></td></tr></table></figure>
+
+<p>萬一有問題 可以用 <code>describe</code> 除錯</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe po private-reg</span><br><span class="line"></span><br><span class="line">#正常的話會像是下面這樣</span><br><span class="line">#Events:</span><br><span class="line">#  Type    Reason     Age   From               Message</span><br><span class="line">#  ----    ------     ----  ----               -------</span><br><span class="line">#  Normal  Scheduled  20s   default-scheduler  Successfully assigned default&#x2F;private-reg to hq-mesdocker02t</span><br><span class="line">#  Normal  Pulling    19s   kubelet            Pulling image &quot;10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest&quot;</span><br><span class="line">#  Normal  Pulled     2s    kubelet            Successfully pulled image &quot;10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest&quot; in 17.048779767s</span><br><span class="line">#  Normal  Created    1s    kubelet            Created container private-reg-container</span><br><span class="line">#  Normal  Started    1s    kubelet            Started container private-reg-container</span><br></pre></td></tr></table></figure>
+
+<p>也可以跳進去 node 裡面看看 docker 狀況</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker container ls</span><br><span class="line">#CONTAINER ID   IMAGE                            COMMAND                  CREATED          STATUS          PORTS     NAMES</span><br><span class="line">#ae35c6069640   10.1.25.123&#x2F;test&#x2F;helloworldk8s   &quot;dotnet HelloWorldKu…&quot;   23 minutes ago   Up 23 minutes             k8s_private...</span><br></pre></td></tr></table></figure>
+
+
+<p>接著可以在 master 用 curl 測試</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl 10.244.1.87&#x2F;api&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>或是跳入 node 測試 , 這個兩槓符號 <code>--</code> 表示結尾 , 後面接 linux 命令 , 因為 dotnet core 的預設 shell 是用 bash , 所以寫 /bin/bash , 其他容器有可能只有 sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec -it private-reg -- &#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">#跳進去後會長這樣 , 接著執行 curl 測看看</span><br><span class="line">root@private-reg:&#x2F;app# curl localhost&#x2F;api&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>還可以用簡單粗暴的 k8s port-forward 在 master 來測看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl localhost:8087&#x2F;api&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>或是直接用 NodePort</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose pod private-reg --name private-reg --type&#x3D;NodePort</span><br></pre></td></tr></table></figure>
 
 
 <h3 id="Helm-安裝-參考官網"><a href="#Helm-安裝-參考官網" class="headerlink" title="Helm 安裝 , 參考官網"></a>Helm 安裝 , 參考<a href="https://helm.sh/docs/intro/install/" target="_blank" rel="noopener">官網</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;baltocdn.com&#x2F;helm&#x2F;signing.asc | sudo apt-key add -</span><br><span class="line">sudo apt-get install apt-transport-https --yes</span><br><span class="line">echo &quot;deb https:&#x2F;&#x2F;baltocdn.com&#x2F;helm&#x2F;stable&#x2F;debian&#x2F; all main&quot; | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;helm-stable-debian.list</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install helm</span><br></pre></td></tr></table></figure>
@@ -415,7 +475,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harbor-安裝"><span class="nav-number">1.</span> <span class="nav-text">Harbor 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合"><span class="nav-number">2.</span> <span class="nav-text">k8s 整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Helm-安裝-參考官網"><span class="nav-number">3.</span> <span class="nav-text">Helm 安裝 , 參考官網</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harbor-安裝"><span class="nav-number">1.</span> <span class="nav-text">Harbor 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合"><span class="nav-number">2.</span> <span class="nav-text">k8s 整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合-net-core"><span class="nav-number">3.</span> <span class="nav-text">k8s 整合 .net core</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Helm-安裝-參考官網"><span class="nav-number">4.</span> <span class="nav-text">Helm 安裝 , 參考官網</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -480,13 +540,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">314k</span>
+    <span title="總廢話字數">319k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">4:45</span>
+    <span title="所需總浪費時間">4:50</span>
 </div>
 
         
