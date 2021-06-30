@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-28T19:27:42.000Z">
-<meta property="article:modified_time" content="2021-06-29T20:14:03.310Z">
+<meta property="article:modified_time" content="2021-06-30T14:57:55.170Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-06-30 04:14:03" itemprop="dateModified" datetime="2021-06-30T04:14:03+08:00">2021-06-30</time>
+                <time title="修改時間：2021-06-30 22:57:55" itemprop="dateModified" datetime="2021-06-30T22:57:55+08:00">2021-06-30</time>
               </span>
 
           
@@ -268,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>17k</span>
+              <span>20k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>15 分鐘</span>
+              <span>19 分鐘</span>
             </span>
 
         </div>
@@ -363,8 +363,11 @@
 <h3 id="k8s-plugin-Krew-安裝"><a href="#k8s-plugin-Krew-安裝" class="headerlink" title="k8s plugin Krew 安裝"></a>k8s plugin Krew 安裝</h3><p>基本上參考<a href="https://krew.sigs.k8s.io/docs/user-guide/setup/install/#bash" target="_blank" rel="noopener">官網</a>無腦安裝</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">(</span><br><span class="line">  set -x; cd &quot;$(mktemp -d)&quot; &amp;&amp;</span><br><span class="line">  OS&#x3D;&quot;$(uname | tr &#39;[:upper:]&#39; &#39;[:lower:]&#39;)&quot; &amp;&amp;</span><br><span class="line">  ARCH&#x3D;&quot;$(uname -m | sed -e &#39;s&#x2F;x86_64&#x2F;amd64&#x2F;&#39; -e &#39;s&#x2F;\(arm\)\(64\)\?.*&#x2F;\1\2&#x2F;&#39; -e &#39;s&#x2F;aarch64$&#x2F;arm64&#x2F;&#39;)&quot; &amp;&amp;</span><br><span class="line">  curl -fsSLO &quot;https:&#x2F;&#x2F;github.com&#x2F;kubernetes-sigs&#x2F;krew&#x2F;releases&#x2F;latest&#x2F;download&#x2F;krew.tar.gz&quot; &amp;&amp;</span><br><span class="line">  tar zxvf krew.tar.gz &amp;&amp;</span><br><span class="line">  KREW&#x3D;.&#x2F;krew-&quot;$&#123;OS&#125;_$&#123;ARCH&#125;&quot; &amp;&amp;</span><br><span class="line">  &quot;$KREW&quot; install krew</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
-<p>加入以下到環境變數</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&quot;$&#123;KREW_ROOT:-$HOME&#x2F;.krew&#125;&#x2F;bin:$PATH&quot;</span><br></pre></td></tr></table></figure>
+<p>加入以下到環境變數 , 並且執行 echo 看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&quot;$&#123;KREW_ROOT:-$HOME&#x2F;.krew&#125;&#x2F;bin:$PATH&quot;</span><br><span class="line">#看看有無成功</span><br><span class="line">echo $PATH</span><br></pre></td></tr></table></figure>
+
+<p>最好直接加入到 zshrc or bashrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.zshrc</span><br><span class="line">export PATH&#x3D;&quot;$&#123;KREW_ROOT:-$HOME&#x2F;.krew&#125;&#x2F;bin:$PATH&quot;</span><br><span class="line"></span><br><span class="line">#讓 zshrc 生效</span><br><span class="line">source ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
 
 <p>執行這段有 run 就代表 ok</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl krew</span><br></pre></td></tr></table></figure>
@@ -383,6 +386,75 @@
 
 <p>覺得不滿意的話可以自己寫 plugin , 以喇低賽的 <code>cowsay</code> 為例 , 只要把程式命名為 <code>kubectl-</code> 開頭複製到 <code>/usr/local/bin/</code> 底下即可<br>詳細可以<a href="https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/" target="_blank" rel="noopener">參考官方說明</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install cowsay</span><br><span class="line">cowsay &quot;helloworld&quot;</span><br><span class="line"></span><br><span class="line">#查 cowsay 安裝在哪</span><br><span class="line">which cowsay</span><br><span class="line"></span><br><span class="line">#確認內容</span><br><span class="line">cat &#x2F;usr&#x2F;games&#x2F;cowsay</span><br><span class="line"></span><br><span class="line">#複製並且重新命名</span><br><span class="line">sudo cp &#x2F;usr&#x2F;games&#x2F;cowsay &#x2F;usr&#x2F;local&#x2F;bin&#x2F;kubectl-cowsay</span><br><span class="line"></span><br><span class="line">#不想用要移除的話</span><br><span class="line">sudo rm &#x2F;usr&#x2F;local&#x2F;bin&#x2F;kubectl-cowsay</span><br></pre></td></tr></table></figure>
+
+<h3 id="k8s-cluster-升級"><a href="#k8s-cluster-升級" class="headerlink" title="k8s cluster 升級"></a>k8s cluster 升級</h3><p>升級過程主要參考<a href="https://kubernetes.io/zh/docs/tasks/administer-cluster/kubeadm/kubeadm-upgrade/" target="_blank" rel="noopener">官網</a></p>
+<p>某天在測試機器 master 節點執行以下命令 , 不曉得啥時被更新成 <code>v1.21.2</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">k get nodes</span><br><span class="line">#NAME              STATUS   ROLES                  AGE   VERSION</span><br><span class="line">#master			   Ready    control-plane,master   26d   v1.21.2</span><br><span class="line">#node02			   Ready    &lt;none&gt;                 26d   v1.21.1</span><br><span class="line">#node03			   Ready    &lt;none&gt;                 26d   v1.21.1</span><br></pre></td></tr></table></figure>
+
+<p>更新 master 節點</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-mark unhold kubeadm &amp;&amp; \</span><br><span class="line">sudo apt-get update &amp;&amp; sudo apt-get install -y kubeadm&#x3D;1.21.2-00 &amp;&amp; \</span><br><span class="line">sudo apt-mark hold kubeadm</span><br></pre></td></tr></table></figure>
+
+<p>檢查升級計畫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo kubeadm upgrade plan</span><br></pre></td></tr></table></figure>
+
+<p>以下為印出的訊息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">[upgrade&#x2F;config] Making sure the configuration is correct:</span><br><span class="line">[upgrade&#x2F;config] Reading configuration from the cluster...</span><br><span class="line">[upgrade&#x2F;config] FYI: You can look at this config file with &#39;kubectl -n kube-system get cm kubeadm-config -o yaml&#39;</span><br><span class="line">[preflight] Running pre-flight checks.</span><br><span class="line">[upgrade] Running cluster health checks</span><br><span class="line">[upgrade] Fetching available versions to upgrade to</span><br><span class="line">[upgrade&#x2F;versions] Cluster version: v1.21.1</span><br><span class="line">[upgrade&#x2F;versions] kubeadm version: v1.21.2</span><br><span class="line">[upgrade&#x2F;versions] Target version: v1.21.2</span><br><span class="line">[upgrade&#x2F;versions] Latest version in the v1.21 series: v1.21.2</span><br><span class="line"></span><br><span class="line">Components that must be upgraded manually after you have upgraded the control plane with &#39;kubeadm upgrade apply&#39;:</span><br><span class="line">COMPONENT   CURRENT       TARGET</span><br><span class="line">kubelet     2 x v1.21.1   v1.21.2</span><br><span class="line">            1 x v1.21.2   v1.21.2</span><br><span class="line"></span><br><span class="line">Upgrade to the latest version in the v1.21 series:</span><br><span class="line"></span><br><span class="line">COMPONENT                 CURRENT    TARGET</span><br><span class="line">kube-apiserver            v1.21.1    v1.21.2</span><br><span class="line">kube-controller-manager   v1.21.1    v1.21.2</span><br><span class="line">kube-scheduler            v1.21.1    v1.21.2</span><br><span class="line">kube-proxy                v1.21.1    v1.21.2</span><br><span class="line">CoreDNS                   v1.8.0     v1.8.0</span><br><span class="line">etcd                      3.4.13-0   3.4.13-0</span><br><span class="line"></span><br><span class="line">You can now apply the upgrade by executing the following command:</span><br><span class="line"></span><br><span class="line">        kubeadm upgrade apply v1.21.2</span><br><span class="line"></span><br><span class="line">_____________________________________________________________________</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">The table below shows the current state of component configs as understood by this version of kubeadm.</span><br><span class="line">Configs that have a &quot;yes&quot; mark in the &quot;MANUAL UPGRADE REQUIRED&quot; column require manual config upgrade or</span><br><span class="line">resetting to kubeadm defaults before a successful upgrade can be performed. The version to manually</span><br><span class="line">upgrade to is denoted in the &quot;PREFERRED VERSION&quot; column.</span><br><span class="line"></span><br><span class="line">API GROUP                 CURRENT VERSION   PREFERRED VERSION   MANUAL UPGRADE REQUIRED</span><br><span class="line">kubeproxy.config.k8s.io   v1alpha1          v1alpha1            no</span><br><span class="line">kubelet.config.k8s.io     v1beta1           v1beta1             no</span><br></pre></td></tr></table></figure>
+
+<p>接著執行以下命令 master 即可完成升級</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo kubeadm upgrade apply v1.21.2</span><br></pre></td></tr></table></figure>
+
+<p>node 升級 (注意是在 master 執行此命令)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl drain node02 --ignore-daemonsets</span><br></pre></td></tr></table></figure>
+
+<p>中間出現以下錯誤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">node&#x2F;node02 cordoned</span><br><span class="line">error: unable to drain node &quot;node02&quot;, aborting command...</span><br><span class="line"></span><br><span class="line">There are pending nodes to be drained:</span><br><span class="line"> node02</span><br><span class="line">error: cannot delete Pods not managed by ReplicationController, ReplicaSet, Job, DaemonSet or StatefulSet (use --force to override): default&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>暫時把 pod <code>default/helloworld</code> 幹掉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k delete po helloworld</span><br></pre></td></tr></table></figure>
+
+<p>或是直接使用 <code>--force</code> 命令亦可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl drain node02 --ignore-daemonsets --force</span><br></pre></td></tr></table></figure>
+
+<p>更新 <code>kubectl</code> &amp; <code>kubelet</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-mark unhold kubelet kubectl</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install -y kubelet&#x3D;1.21.2-00 kubectl&#x3D;1.21.2-00</span><br><span class="line">sudo apt-mark hold kubelet kubectl</span><br></pre></td></tr></table></figure>
+
+<p>restart kubelet</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl daemon-reload</span><br><span class="line">sudo systemctl restart kubelet</span><br></pre></td></tr></table></figure>
+
+<p>取消對節點的保護</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl uncordon node02</span><br></pre></td></tr></table></figure>
+
+<p>至此則更新成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">k get nodes</span><br><span class="line"></span><br><span class="line">#NAME              STATUS   ROLES                  AGE   VERSION</span><br><span class="line">#master   Ready    control-plane,master   26d   v1.21.2</span><br><span class="line">#node02   Ready    &lt;none&gt;                 26d   v1.21.2</span><br><span class="line">#node03   Ready    &lt;none&gt;                 26d   v1.21.1</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="docker-常用命令-vs-k8s-常用命令"><a href="#docker-常用命令-vs-k8s-常用命令" class="headerlink" title="docker 常用命令 vs k8s 常用命令"></a>docker 常用命令 vs k8s 常用命令</h3><h4 id="刪除指令"><a href="#刪除指令" class="headerlink" title="刪除指令"></a>刪除指令</h4><p>這滿容易就搞混的 docker 使用 rm , k8s 使用 delete</p>
+<p>docker 刪除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container rm c4bbaab0f7fd</span><br></pre></td></tr></table></figure>
+
+<p>k8s 刪除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k delete po xxoo</span><br></pre></td></tr></table></figure>
+
+<h4 id="查容器或是-pod-狀態"><a href="#查容器或是-pod-狀態" class="headerlink" title="查容器或是 pod 狀態"></a>查容器或是 pod 狀態</h4><p>這也是常常會打錯的問題 docker 使用 inspect , k8s 使用 describe</p>
+<p>docker 查狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect 3e3bee70d0b</span><br></pre></td></tr></table></figure>
+
+<p>k8s 查狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker describe po asp-net-core-helloworld-k8s-66f969cb87-69jss</span><br></pre></td></tr></table></figure>
+
+<h4 id="跳到容器執行命令"><a href="#跳到容器執行命令" class="headerlink" title="跳到容器執行命令"></a>跳到容器執行命令</h4><p>docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it 54a &#x2F;bin&#x2F;bash</span><br><span class="line">docker exec -it 54a ls</span><br></pre></td></tr></table></figure>
+
+<p>特別注意到使用 kubectl 進入容器時最好加上兩條橫槓 <code>--</code> 然後才接參數</p>
+<p>k8s</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">k exec -it asp-net-core-helloworld-k8s-66f969cb87-69jss -- &#x2F;bin&#x2F;bash</span><br><span class="line">k exec -it asp-net-core-helloworld-k8s-66f969cb87-69jss -- ls</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="查-log"><a href="#查-log" class="headerlink" title="查 log"></a>查 log</h4><p>難得有個統一的 , 注意 <code>-f</code> 參數為 follow 會一直輸出 , 退出使用 <code>Ctrl + c</code><br>docker 查 log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker logs 54a</span><br><span class="line">docker logs 54a -f</span><br></pre></td></tr></table></figure>
+
+<p>docker 查 log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">k logs asp-net-core-helloworld-k8s-66f969cb87-69jss</span><br><span class="line">k logs asp-net-core-helloworld-k8s-66f969cb87-69jss -f</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -470,7 +542,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-master-install-安裝事前準備"><span class="nav-number">1.</span> <span class="nav-text">k8s master install 安裝事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-hyper-v-上安裝-ubuntu"><span class="nav-number">2.</span> <span class="nav-text">在 hyper-v 上安裝 ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-安裝-docker"><span class="nav-number">3.</span> <span class="nav-text">Ubuntu 安裝 docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-事前準備"><span class="nav-number">4.</span> <span class="nav-text">k8s 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-kubeadm-安裝-k8s"><span class="nav-number">5.</span> <span class="nav-text">以 kubeadm 安裝 k8s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-zsh-補全"><span class="nav-number">6.</span> <span class="nav-text">安裝 zsh 補全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-kubeadm-建立-cluster"><span class="nav-number">7.</span> <span class="nav-text">用 kubeadm 建立 cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGROUP-設定"><span class="nav-number">8.</span> <span class="nav-text">CGROUP 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KIND-安裝"><span class="nav-number">9.</span> <span class="nav-text">KIND 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-plugin-Krew-安裝"><span class="nav-number">10.</span> <span class="nav-text">k8s plugin Krew 安裝</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-master-install-安裝事前準備"><span class="nav-number">1.</span> <span class="nav-text">k8s master install 安裝事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-hyper-v-上安裝-ubuntu"><span class="nav-number">2.</span> <span class="nav-text">在 hyper-v 上安裝 ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-安裝-docker"><span class="nav-number">3.</span> <span class="nav-text">Ubuntu 安裝 docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-事前準備"><span class="nav-number">4.</span> <span class="nav-text">k8s 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-kubeadm-安裝-k8s"><span class="nav-number">5.</span> <span class="nav-text">以 kubeadm 安裝 k8s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-zsh-補全"><span class="nav-number">6.</span> <span class="nav-text">安裝 zsh 補全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-kubeadm-建立-cluster"><span class="nav-number">7.</span> <span class="nav-text">用 kubeadm 建立 cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGROUP-設定"><span class="nav-number">8.</span> <span class="nav-text">CGROUP 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KIND-安裝"><span class="nav-number">9.</span> <span class="nav-text">KIND 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-plugin-Krew-安裝"><span class="nav-number">10.</span> <span class="nav-text">k8s plugin Krew 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-cluster-升級"><span class="nav-number">11.</span> <span class="nav-text">k8s cluster 升級</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-常用命令-vs-k8s-常用命令"><span class="nav-number">12.</span> <span class="nav-text">docker 常用命令 vs k8s 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#刪除指令"><span class="nav-number">12.1.</span> <span class="nav-text">刪除指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查容器或是-pod-狀態"><span class="nav-number">12.2.</span> <span class="nav-text">查容器或是 pod 狀態</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跳到容器執行命令"><span class="nav-number">12.3.</span> <span class="nav-text">跳到容器執行命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查-log"><span class="nav-number">12.4.</span> <span class="nav-text">查 log</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -535,13 +607,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">320k</span>
+    <span title="總廢話字數">327k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">4:51</span>
+    <span title="所需總浪費時間">4:57</span>
 </div>
 
         
