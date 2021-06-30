@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-28T19:27:42.000Z">
-<meta property="article:modified_time" content="2021-06-30T14:57:55.170Z">
+<meta property="article:modified_time" content="2021-06-30T21:47:22.360Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-06-30 22:57:55" itemprop="dateModified" datetime="2021-06-30T22:57:55+08:00">2021-06-30</time>
+                <time title="修改時間：2021-07-01 05:47:22" itemprop="dateModified" datetime="2021-07-01T05:47:22+08:00">2021-07-01</time>
               </span>
 
           
@@ -291,7 +291,7 @@
 <a id="more"></a>
 <h3 id="k8s-master-install-安裝事前準備"><a href="#k8s-master-install-安裝事前準備" class="headerlink" title="k8s master install 安裝事前準備"></a>k8s master install 安裝事前準備</h3><p>RAM 2GB<br>CPU 2<br>禁用 swap</p>
 <h3 id="在-hyper-v-上安裝-ubuntu"><a href="#在-hyper-v-上安裝-ubuntu" class="headerlink" title="在 hyper-v 上安裝 ubuntu"></a>在 hyper-v 上安裝 ubuntu</h3><p>(<a href="https://linuxhint.com/install_ubuntu_1804_lts_hyperv/" target="_blank" rel="noopener">https://linuxhint.com/install_ubuntu_1804_lts_hyperv/</a>)</p>
-<p><code>新增虛擬機 =&gt;</code>下一步<code>=&gt;</code>名稱: k8s-master<code>=&gt;</code>第一代<code>=&gt;</code>2048MB<code>=&gt;</code>Default Switch<code>=&gt;</code>k8s-master.vhdx<code>=&gt;</code>從可開機 CD/DVD-ROM 安裝作業系統<code>=&gt;</code>iso<code>=&gt;</code>Done<code>=&gt;</code>CUP * 2`<br>name:master<br>pwd:gg</p>
+<p><code>新增虛擬機</code> =&gt; <code>下一步</code> =&gt; <code>名稱: k8s-master</code> =&gt; <code>第一代</code> =&gt; <code>2048MB</code> =&gt; <code>Default Switch</code><br>=&gt; <code>k8s-master.vhdx</code> =&gt; <code>從可開機 CD/DVD-ROM 安裝作業系統</code> =&gt; <code>iso</code> =&gt; <code>Done</code> =&gt; <code>CUP * 2</code><br>name:master<br>pwd:gg</p>
 <h3 id="Ubuntu-安裝-docker"><a href="#Ubuntu-安裝-docker" class="headerlink" title="Ubuntu 安裝 docker"></a>Ubuntu 安裝 docker</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt install apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line">curl -fsSL https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu&#x2F;gpg | sudo apt-key add -</span><br><span class="line">sudo add-apt-repository &quot;deb [arch&#x3D;amd64] https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu focal stable&quot;</span><br><span class="line">sudo apt update</span><br><span class="line">apt-cache policy docker-ce</span><br><span class="line">sudo apt install docker-ce</span><br><span class="line">sudo systemctl status docker</span><br></pre></td></tr></table></figure>
 
 <h3 id="k8s-事前準備"><a href="#k8s-事前準備" class="headerlink" title="k8s 事前準備"></a>k8s 事前準備</h3><p>這邊比較雷是防火牆 , 一般的書籍或文件指介紹 <code>swapoff</code> 命令 , 沒寫要修改 <code>/etc/fstab</code> 關閉的方法</p>

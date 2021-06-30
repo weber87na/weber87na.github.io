@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-28T18:49:47.000Z">
-<meta property="article:modified_time" content="2021-06-30T14:52:05.740Z">
+<meta property="article:modified_time" content="2021-06-30T21:48:02.550Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="k8s">
@@ -246,7 +246,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-06-30 22:52:05" itemprop="dateModified" datetime="2021-06-30T22:52:05+08:00">2021-06-30</time>
+                <time title="修改時間：2021-07-01 05:48:02" itemprop="dateModified" datetime="2021-07-01T05:48:02+08:00">2021-07-01</time>
               </span>
 
           
@@ -382,7 +382,7 @@
 <p>或是直接用 NodePort</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose pod private-reg --name private-reg --type&#x3D;NodePort</span><br></pre></td></tr></table></figure>
 
-<p>將 <code>Pod</code> 改成佈署 <code>Deployment1 , 有的書上或是資料會寫用</code>ReplicaSet<code>, 實際運用上會直接使用</code>Deployment` 讓他進行自動調度</p>
+<p>將 <code>Pod</code> 改成佈署 <code>Deployment</code> , 有的書上或是資料會寫用 <code>ReplicaSet</code> , 實際運用上會直接使用 <code>Deployment</code> 讓他進行自動調度</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  replicas: 4</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: asp-net-core-helloworld-k8s</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: asp-net-core-helloworld-k8s</span><br><span class="line">        image: 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 80</span><br><span class="line">        - containerPort: 443</span><br><span class="line">        env:</span><br><span class="line">        - name: ASPNETCORE_URLS</span><br><span class="line">          value: http:&#x2F;&#x2F;+:80;https:&#x2F;&#x2F;+:443</span><br><span class="line">        - name: ASPNETCORE_ENVIRONMENT</span><br><span class="line">          value: Development</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br></pre></td></tr></table></figure>
 
 <p>本來沒睡飽少設定 <code>ASPNETCORE_ENVIRONMENT</code> , 測試的時候發現 swagger 一直打不開 , 超無言<br>特別注意到 , 因為 asp.net core 預設是只有 <code>IsDevelopment</code> 才會開啟 , 所以需要加入 <code>ASPNETCORE_ENVIRONMENT</code> 區塊<br>可以看<a href="https://andrewlock.net/deploying-asp-net-core-applications-to-kubernetes-part-5-setting-environment-variables-in-a-helm-chart/" target="_blank" rel="noopener">ASP.NET CORE in Action 作者的文章有說明</a></p>
