@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-28T19:27:42.000Z">
-<meta property="article:modified_time" content="2021-07-05T10:35:47.770Z">
+<meta property="article:modified_time" content="2021-07-05T21:11:00.380Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="k8s">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-07-05 18:35:47" itemprop="dateModified" datetime="2021-07-05T18:35:47+08:00">2021-07-05</time>
+                <time title="修改時間：2021-07-06 05:11:00" itemprop="dateModified" datetime="2021-07-06T05:11:00+08:00">2021-07-06</time>
               </span>
 
           
@@ -275,7 +275,7 @@
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>19 分鐘</span>
+              <span>20 分鐘</span>
             </span>
 
         </div>
@@ -459,6 +459,17 @@
 <h3 id="客製化-prompt"><a href="#客製化-prompt" class="headerlink" title="客製化 prompt"></a>客製化 prompt</h3><p>因為使用 zsh , 所以用 zsh 當 example</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;.oh-my-zsh&#x2F;themes</span><br><span class="line">echo $ZSH_THEME</span><br><span class="line">cp robbyrussell.zsh-theme myrobbyrussell.zsh-theme</span><br><span class="line">vim myrobbyrussell.zsh-theme</span><br><span class="line"></span><br><span class="line">#多加這行取得 IP</span><br><span class="line">#PROMPT&#x3D;$(hostname -I | awk &#39;&#123;print $1&#125;&#39;)</span><br><span class="line">#這行取得目前使用的 context</span><br><span class="line">#PROMPT+&#x3D;kubectl config current-context</span><br><span class="line">#...其他內容</span><br><span class="line"></span><br><span class="line">vim ~&#x2F;.zshrc</span><br><span class="line">#修改ZSH_THEME</span><br><span class="line">#ZSH_THEME&#x3D;&quot;myrobbyrussell&quot;</span><br><span class="line"></span><br><span class="line">#重新 load config</span><br><span class="line">source ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
 
+<h3 id="好用工具-yq-地雷"><a href="#好用工具-yq-地雷" class="headerlink" title="好用工具 yq 地雷"></a>好用工具 yq 地雷</h3><p>因為看大神使用 yq 及 jq 實際操作 yq 已經升級為 v4 , 命令差滿多的 , 被雷的不要不要的 , 狂炸 permission denied<br>翻官網最雷的就是這句 <code>yq installs with strict confinement in snap, this means it doesn&#39;t have direct access to root files. To read root files you can:</code><br>萬一檔案是屬於 <code>root</code> 要這樣操作才能 work<br><code>-</code> 切身分 root 的意思</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cat &#x2F;etc&#x2F;myfile | yq e &#39;.a.path&#39; -</span><br></pre></td></tr></table></figure>
+<p>不然平常只要這樣寫就可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yq e &#39;.apiVersion&#39; curl.yaml</span><br></pre></td></tr></table></figure>
+
+<p>第二個雷就是以 <code>.</code> 當作文件的 root , v3 寫的時候應該不用先寫 <code>.</code> , 詳細還是看看官方<a href="https://mikefarah.gitbook.io/yq/upgrading-from-v3" target="_blank" rel="noopener">升級說明</a><br>以 k8s 拿 ca 的 example 會變成要這樣寫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo cat controller-manager.conf | yq e &#39;.users[0].user.client-certificate-data&#39; -</span><br><span class="line">sudo cat controller-manager.conf | yq e &#39;.apiVersion&#39; -</span><br></pre></td></tr></table></figure>
+
+<p>最後是補全 , 好像沒那麼實用 , 我是用 zsh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;autoload -U compinit; compinit&quot; &gt;&gt; ~&#x2F;.zshrc</span><br><span class="line">yq shell-completion zsh &gt; &quot;$&#123;fpath[1]&#125;&#x2F;_yq&quot;</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -545,7 +556,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-master-install-安裝事前準備"><span class="nav-number">1.</span> <span class="nav-text">k8s master install 安裝事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-hyper-v-上安裝-ubuntu"><span class="nav-number">2.</span> <span class="nav-text">在 hyper-v 上安裝 ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-安裝-docker"><span class="nav-number">3.</span> <span class="nav-text">Ubuntu 安裝 docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-事前準備"><span class="nav-number">4.</span> <span class="nav-text">k8s 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-kubeadm-安裝-k8s"><span class="nav-number">5.</span> <span class="nav-text">以 kubeadm 安裝 k8s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-zsh-補全"><span class="nav-number">6.</span> <span class="nav-text">安裝 zsh 補全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-kubeadm-建立-cluster"><span class="nav-number">7.</span> <span class="nav-text">用 kubeadm 建立 cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGROUP-設定"><span class="nav-number">8.</span> <span class="nav-text">CGROUP 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KIND-安裝"><span class="nav-number">9.</span> <span class="nav-text">KIND 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-plugin-Krew-安裝"><span class="nav-number">10.</span> <span class="nav-text">k8s plugin Krew 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-cluster-升級"><span class="nav-number">11.</span> <span class="nav-text">k8s cluster 升級</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-常用命令-vs-k8s-常用命令"><span class="nav-number">12.</span> <span class="nav-text">docker 常用命令 vs k8s 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#刪除指令"><span class="nav-number">12.1.</span> <span class="nav-text">刪除指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查容器或是-pod-狀態"><span class="nav-number">12.2.</span> <span class="nav-text">查容器或是 pod 狀態</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跳到容器執行命令"><span class="nav-number">12.3.</span> <span class="nav-text">跳到容器執行命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查-log"><span class="nav-number">12.4.</span> <span class="nav-text">查 log</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客製化-prompt"><span class="nav-number">13.</span> <span class="nav-text">客製化 prompt</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-master-install-安裝事前準備"><span class="nav-number">1.</span> <span class="nav-text">k8s master install 安裝事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-hyper-v-上安裝-ubuntu"><span class="nav-number">2.</span> <span class="nav-text">在 hyper-v 上安裝 ubuntu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Ubuntu-安裝-docker"><span class="nav-number">3.</span> <span class="nav-text">Ubuntu 安裝 docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-事前準備"><span class="nav-number">4.</span> <span class="nav-text">k8s 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-kubeadm-安裝-k8s"><span class="nav-number">5.</span> <span class="nav-text">以 kubeadm 安裝 k8s</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-zsh-補全"><span class="nav-number">6.</span> <span class="nav-text">安裝 zsh 補全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-kubeadm-建立-cluster"><span class="nav-number">7.</span> <span class="nav-text">用 kubeadm 建立 cluster</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CGROUP-設定"><span class="nav-number">8.</span> <span class="nav-text">CGROUP 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#KIND-安裝"><span class="nav-number">9.</span> <span class="nav-text">KIND 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-plugin-Krew-安裝"><span class="nav-number">10.</span> <span class="nav-text">k8s plugin Krew 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-cluster-升級"><span class="nav-number">11.</span> <span class="nav-text">k8s cluster 升級</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-常用命令-vs-k8s-常用命令"><span class="nav-number">12.</span> <span class="nav-text">docker 常用命令 vs k8s 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#刪除指令"><span class="nav-number">12.1.</span> <span class="nav-text">刪除指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查容器或是-pod-狀態"><span class="nav-number">12.2.</span> <span class="nav-text">查容器或是 pod 狀態</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跳到容器執行命令"><span class="nav-number">12.3.</span> <span class="nav-text">跳到容器執行命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查-log"><span class="nav-number">12.4.</span> <span class="nav-text">查 log</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客製化-prompt"><span class="nav-number">13.</span> <span class="nav-text">客製化 prompt</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#好用工具-yq-地雷"><span class="nav-number">14.</span> <span class="nav-text">好用工具 yq 地雷</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -610,7 +621,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">327k</span>
+    <span title="總廢話字數">328k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
