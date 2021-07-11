@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-28T18:49:47.000Z">
-<meta property="article:modified_time" content="2021-07-07T19:06:58.153Z">
+<meta property="article:modified_time" content="2021-07-11T08:37:37.210Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="k8s">
@@ -246,7 +246,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-07-08 03:06:58" itemprop="dateModified" datetime="2021-07-08T03:06:58+08:00">2021-07-08</time>
+                <time title="修改時間：2021-07-11 16:37:37" itemprop="dateModified" datetime="2021-07-11T16:37:37+08:00">2021-07-11</time>
               </span>
 
           
@@ -269,14 +269,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>15k</span>
+              <span>19k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>14 分鐘</span>
+              <span>17 分鐘</span>
             </span>
 
         </div>
@@ -439,8 +439,61 @@
 <p>查看 HPA 是否有生效 , 注意這邊 TARGETS 超過了總使用量 50% , REPLICAS 也擴充到 10 個 , 至此就完成了整個自動擴容<br>最後等到 ab 把 request 打完以後 , 會自動縮容預設時間是 5 分鐘 , 要調整的話參數為 <code>--horizontal-pod-autoscaler-downscale-stabilization</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#查 hpa</span><br><span class="line">k get hpa</span><br><span class="line">#NAME                          REFERENCE                                TARGETS    MINPODS   MAXPODS   REPLICAS   AGE</span><br><span class="line">#asp-net-core-helloworld-k8s   Deployment&#x2F;asp-net-core-helloworld-k8s   146%&#x2F;50%   1         10        10         78m</span><br><span class="line"></span><br><span class="line">#查 pod</span><br><span class="line">k get po</span><br><span class="line"></span><br><span class="line">#也可以用 sql plugin 的方式撈</span><br><span class="line">#k sql get po where &quot;name like &#39;%asp%&#39;&quot;</span><br><span class="line"></span><br><span class="line">#NAME                                           READY   STATUS             RESTARTS   AGE</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-4x452   1&#x2F;1     Running            0          92s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-8kxw6   1&#x2F;1     Running            0          107s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-gtcn9   1&#x2F;1     Running            0          62s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-js4sj   1&#x2F;1     Running            0          79m</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-lw4b2   1&#x2F;1     Running            0          62s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-m4stc   1&#x2F;1     Running            0          62s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-mpblz   1&#x2F;1     Running            0          107s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-rlnhs   1&#x2F;1     Running            0          107s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-v6m2x   1&#x2F;1     Running            0          62s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-zcptc   1&#x2F;1     Running            0          62s</span><br></pre></td></tr></table></figure>
 
+<h3 id="安裝-Nginx-Ingress-Controller"><a href="#安裝-Nginx-Ingress-Controller" class="headerlink" title="安裝 Nginx Ingress Controller"></a>安裝 Nginx Ingress Controller</h3><p>預設情況下 k8s 不會幫你安裝 ingress controller , 需一自己安裝<br><a href="https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/" target="_blank" rel="noopener">官網有多種選擇</a><br>因為有選擇障礙這邊用 nginx ingress controller 參考<a href="https://kubernetes.github.io/ingress-nginx/deploy/#docker-desktop" target="_blank" rel="noopener">官網</a><br>此外由於預設為 <code>LoadBalancer</code> , 內部環境最好改為 <code>NodePort</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kubernetes&#x2F;ingress-nginx&#x2F;controller-v0.47.0&#x2F;deploy&#x2F;static&#x2F;provider&#x2F;cloud&#x2F;deploy.yaml</span><br><span class="line"></span><br><span class="line">vim deploy.yaml</span><br><span class="line">#搜尋 LoadBalancer</span><br><span class="line">#&#x2F;LoadBalancer</span><br><span class="line"></span><br><span class="line">#修改為 NodePort</span><br><span class="line">#spec:</span><br><span class="line">#  type: NodePort</span><br><span class="line">#  externalTrafficPolicy: Local</span><br><span class="line"></span><br><span class="line">k apply -f deploy.yaml</span><br></pre></td></tr></table></figure>
+
+<p>安裝會多加上一個 namespace</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">k get ns</span><br><span class="line">#NAME              STATUS   AGE</span><br><span class="line">#default           Active   35d</span><br><span class="line">#development       Active   14d</span><br><span class="line">#foo               Active   22d</span><br><span class="line">#ingress-nginx     Active   7m43s</span><br></pre></td></tr></table></figure>
+
+<p>所以要撈的話記得多加參數 <code>-n ingress-nginx</code> , 或是直接用 <code>-A</code> 撈全部</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k get svc -n ingress-nginx</span><br><span class="line">k get po -n ingress-nginx</span><br><span class="line">k get svc -A</span><br><span class="line">k get po -A</span><br></pre></td></tr></table></figure>
+
+<p>安裝好 nginx ingress controller 後會多加上一個 <code>NodePort</code> 來服務對外 , 剛好分配到好難聽的 port 名稱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k get svc -n ingress-nginx</span><br><span class="line">#NAME                                 TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE</span><br><span class="line">#ingress-nginx-controller             LoadBalancer   10.106.114.179   &lt;pending&gt;     80:30678&#x2F;TCP,443:31326&#x2F;TCP   13m</span><br><span class="line">#ingress-nginx-controller-admission   ClusterIP      10.104.100.19    &lt;none&gt;        443&#x2F;TCP                      13m</span><br></pre></td></tr></table></figure>
+
+<p>補充 , 如果不想要對外多加上 <code>port 30678</code> 這麼醜的話可以考慮把 <code>hostPort</code> 設定起來這樣就可以直接打 80 , 443</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim deploy.yaml</span><br><span class="line">#&#x2F;Deployment</span><br><span class="line"></span><br><span class="line">#搜尋 Deployment 找到以下片段</span><br><span class="line">#</span><br><span class="line">#ports:</span><br><span class="line">#  - name: http</span><br><span class="line">#    containerPort: 80</span><br><span class="line">#    hostPort: 80</span><br><span class="line">#    protocol: TCP</span><br><span class="line">#  - name: https</span><br><span class="line">#    containerPort: 443</span><br><span class="line">#    hostPort: 443</span><br></pre></td></tr></table></figure>
+
+<p>接著看 nginx-controller 被分配到哪個 node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">k get po -o wide -n ingress-nginx</span><br><span class="line">#</span><br><span class="line">NAME                                        READY   STATUS      RESTARTS   AGE   IP             NODE              NOMINATED NODE   READINESS GATES</span><br><span class="line">ingress-nginx-admission-create-sx9f4        0&#x2F;1     Completed   0          16m   10.244.1.172   node02   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">ingress-nginx-admission-patch-jxfx4         0&#x2F;1     Completed   1          16m   10.244.1.171   node02   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">ingress-nginx-controller-5b74xc9xx8-dg6k5   1&#x2F;1     Running     0          16m   10.244.1.173   node02   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<p>假設我 node02 的 vm ip 是 <code>10.1.25.124</code> , 所以等等就要打 <code>curl 10.1.25.124:30678/網址</code> , 試打看看會跳 nginx 頁面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">curl 10.1.25.124:30678</span><br><span class="line">#&lt;html&gt;</span><br><span class="line">#&lt;head&gt;&lt;title&gt;404 Not Found&lt;&#x2F;title&gt;&lt;&#x2F;head&gt;</span><br><span class="line">#&lt;body&gt;</span><br><span class="line">#&lt;center&gt;&lt;h1&gt;404 Not Found&lt;&#x2F;h1&gt;&lt;&#x2F;center&gt;</span><br><span class="line">#&lt;hr&gt;&lt;center&gt;nginx&lt;&#x2F;center&gt;</span><br><span class="line">#&lt;&#x2F;body&gt;</span><br><span class="line">#&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接著把之前的 nodeport 修改一下讓他固定在 port 30345<br>asp-net-core-helloworld-k8s-service.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">    name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">    type: NodePort</span><br><span class="line">    ports:</span><br><span class="line">    - port: 80 #service 的 port</span><br><span class="line">      targetPort: 80 # .net core app 的 port</span><br><span class="line">      nodePort: 30345 #外部的 port</span><br><span class="line">    selector:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br></pre></td></tr></table></figure>
+
+<p>先用 curl 測看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl 10.96.165.130&#x2F;api&#x2F;helloworld</span><br><span class="line">#Host Name of machine &#x3D;asp-net-core-helloworld-k8s-5766cd7cc5-js4sj</span><br><span class="line">#IPv4 of Machine is</span><br><span class="line">#10.244.1.119</span><br><span class="line">#IPv6 of Machine is</span><br></pre></td></tr></table></figure>
+
+<p>確定都 ok 以後 , 可以加入 ingress 的資源 (舊版 extensions/v1beta1) , 特別注意這種定義方式需要 path 完全 match 否則會找不到<br>asp-net-core-helloworld-k8s-ingress.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: extensions&#x2F;v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  rules:</span><br><span class="line">  - host: asp-net-core-helloworld-k8s.com</span><br><span class="line">    http:</span><br><span class="line">      paths:</span><br><span class="line">      - path: &#x2F;api&#x2F;helloworld #注意這邊要跟 app 內的路徑完全一樣</span><br><span class="line">        backend:</span><br><span class="line">          serviceName: asp-net-core-helloworld-k8s</span><br><span class="line">          servicePort: 80</span><br></pre></td></tr></table></figure>
+
+<p>修改 /etc/hosts , 若是想在 windows 上看的話位置在 <code>C:\Windows\System32\drivers\etc\hosts</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;hosts</span><br><span class="line">#10.1.25.124 asp-net-core-helloworld-k8s.com</span><br><span class="line"></span><br><span class="line">#下面 example 會用到</span><br><span class="line">#10.1.25.124 helloworld-k8s.com</span><br><span class="line">#10.1.25.124 helloworld-contour-k8s.com</span><br></pre></td></tr></table></figure>
+
+<p>最後用 curl 測試一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl asp-net-core-helloworld-k8s.com:30678&#x2F;api&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>最後用新版的 api 測試看看 (新版 networking.k8s.io/v1) , 這樣定義的話即可讓全部的路徑 mapping 到你的 url<br>詳細可以參考<a href="https://kubernetes.io/docs/concepts/services-networking/ingress/" target="_blank" rel="noopener">官網</a><br>asp-net-core-helloworld-k8s-ingress-new.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: networking.k8s.io&#x2F;v1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s-new</span><br><span class="line">  annotations:</span><br><span class="line">    kubernetes.io&#x2F;ingress.class: &quot;nginx&quot;</span><br><span class="line">    nginx.ingress.kubernetes.io&#x2F;rewrite-target: &#x2F;</span><br><span class="line">spec:</span><br><span class="line">  rules:</span><br><span class="line">  - host: helloworld-k8s.com</span><br><span class="line">    http:</span><br><span class="line">      paths:</span><br><span class="line">      - path: &#x2F;</span><br><span class="line">        pathType: Prefix</span><br><span class="line">        backend:</span><br><span class="line">          service:</span><br><span class="line">            name: asp-net-core-helloworld-k8s</span><br><span class="line">            port:</span><br><span class="line">              number: 80</span><br></pre></td></tr></table></figure>
+
+<p>可以用這兩個頁面測試<br><a href="http://helloworld-k8s.com:30678/swagger/index.html" target="_blank" rel="noopener">http://helloworld-k8s.com:30678/swagger/index.html</a><br><a href="http://helloworld-k8s.com:30678/api/helloworld" target="_blank" rel="noopener">http://helloworld-k8s.com:30678/api/helloworld</a></p>
+<p>最後補充 nginx ingress controller 會在 <code>/etc/nginx/nginx.conf</code> 補上與剛剛設定的 helloworld-k8s.com , 可以跳進去看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">k exec -it ingress-nginx-controller-5b74bxx868-lg47d -n ingress-nginx -- bash</span><br><span class="line">#cat &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br><span class="line">#vi &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
+
 
 <h3 id="Helm-安裝-參考官網"><a href="#Helm-安裝-參考官網" class="headerlink" title="Helm 安裝 , 參考官網"></a>Helm 安裝 , 參考<a href="https://helm.sh/docs/intro/install/" target="_blank" rel="noopener">官網</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;baltocdn.com&#x2F;helm&#x2F;signing.asc | sudo apt-key add -</span><br><span class="line">sudo apt-get install apt-transport-https --yes</span><br><span class="line">echo &quot;deb https:&#x2F;&#x2F;baltocdn.com&#x2F;helm&#x2F;stable&#x2F;debian&#x2F; all main&quot; | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;helm-stable-debian.list</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install helm</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他補充"><a href="#其他補充" class="headerlink" title="其他補充"></a>其他補充</h3><p>編輯東西前務必知道的<a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/" target="_blank" rel="noopener">官網說明</a></p>
+<p>跳進去看看環境變數</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exec -it asp-net-core-helloworld-k8s-5766cd7cc5-js4sj -- &#x2F;bin&#x2F;bash</span><br><span class="line">env | grep ASPNETCORE_URLS</span><br></pre></td></tr></table></figure>
+
+<p>開啟 chrome 測試這邊要改成用 curl 測試 , 因為 chrome 會用 keep-alive 連線 , 而 curl 每次都會開一個新的連線</p>
+<p>如果想讓每個相同 client ip 都轉到同個 pod 上的話可以開啟這個選項</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kind: Service</span><br><span class="line">spec:</span><br><span class="line">	sessionAffinity: ClientIP</span><br></pre></td></tr></table></figure>
+
+
 
     </div>
 
@@ -532,7 +585,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harbor-安裝"><span class="nav-number">1.</span> <span class="nav-text">Harbor 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合"><span class="nav-number">2.</span> <span class="nav-text">k8s 整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合-net-core"><span class="nav-number">3.</span> <span class="nav-text">k8s 整合 .net core</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Helm-安裝-參考官網"><span class="nav-number">4.</span> <span class="nav-text">Helm 安裝 , 參考官網</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harbor-安裝"><span class="nav-number">1.</span> <span class="nav-text">Harbor 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合"><span class="nav-number">2.</span> <span class="nav-text">k8s 整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合-net-core"><span class="nav-number">3.</span> <span class="nav-text">k8s 整合 .net core</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-Nginx-Ingress-Controller"><span class="nav-number">4.</span> <span class="nav-text">安裝 Nginx Ingress Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Helm-安裝-參考官網"><span class="nav-number">5.</span> <span class="nav-text">Helm 安裝 , 參考官網</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他補充"><span class="nav-number">6.</span> <span class="nav-text">其他補充</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -597,13 +650,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">333k</span>
+    <span title="總廢話字數">337k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">5:02</span>
+    <span title="所需總浪費時間">5:06</span>
 </div>
 
         
