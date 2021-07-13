@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-28T18:49:47.000Z">
-<meta property="article:modified_time" content="2021-07-13T17:17:47.880Z">
+<meta property="article:modified_time" content="2021-07-13T17:25:39.570Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="k8s">
@@ -246,7 +246,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-07-14 01:17:47" itemprop="dateModified" datetime="2021-07-14T01:17:47+08:00">2021-07-14</time>
+                <time title="修改時間：2021-07-14 01:25:39" itemprop="dateModified" datetime="2021-07-14T01:25:39+08:00">2021-07-14</time>
               </span>
 
           
@@ -269,14 +269,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>23k</span>
+              <span>24k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>21 分鐘</span>
+              <span>22 分鐘</span>
             </span>
 
         </div>
@@ -466,8 +466,14 @@
 <p>nlog 設定要注意的問題事項 , 先跳進去 pod 內看看 , 發現居然有 D: 這個資料夾<br>原來之前有設定 nlog 寫入 log 會放在 D:/Log/${shortdate}_Now.log , 在 k8s 設定時需要特別注意一下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">k exec -it asp-net-core-helloworld-k8s-7c9b78d948-j7mq9 -- &#x2F;bin&#x2F;bash</span><br><span class="line">ls</span><br><span class="line">#BouncyCastle.Crypto.dll                         Microsoft.EntityFrameworkCore.dll                    NLog.MailKit.dll                                 System.IdentityModel.Tokens.Jwt.dll</span><br><span class="line">#D:                                              Microsoft.Extensions.DependencyInjection.dll         NLog.Web.AspNetCore.dll                          System.Runtime.Caching.dll</span><br><span class="line">#...略</span><br></pre></td></tr></table></figure>
 
+<h3 id="nfs-server"><a href="#nfs-server" class="headerlink" title="nfs server"></a>nfs server</h3><p><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-20-04" target="_blank" rel="noopener">參考老外</a><br>跟這個<a href="https://magiclen.org/ubuntu-server-nfs/" target="_blank" rel="noopener">大神</a><br>這邊直接裝在 master node 上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#nfs server</span><br><span class="line">sudo apt-get install nfs-kernel-server</span><br><span class="line"></span><br><span class="line">#nfs client</span><br><span class="line">sudo apt-get install nfs-common</span><br><span class="line"></span><br><span class="line">sudo mkdir &#x2F;var&#x2F;nfs&#x2F;general -p</span><br><span class="line">sudo chown nobody:nogroup &#x2F;var&#x2F;nfs&#x2F;general</span><br><span class="line">ls -la &#x2F;var&#x2F;nfs&#x2F;general</span><br><span class="line">sudo chmod -R 777 &#x2F;var&#x2F;nfs&#x2F;general</span><br><span class="line"></span><br><span class="line">#設定可以連線的 client</span><br><span class="line">sudo vim &#x2F;etc&#x2F;exports</span><br><span class="line">&#x2F;var&#x2F;nfs&#x2F;general 10.1.25.124(rw,sync,no_subtree_check)</span><br><span class="line"></span><br><span class="line">#restart nfs</span><br><span class="line">sudo systemctl restart nfs-kernel-server</span><br></pre></td></tr></table></figure>
 
-<h3 id="安裝-Nginx-Ingress-Controller"><a href="#安裝-Nginx-Ingress-Controller" class="headerlink" title="安裝 Nginx Ingress Controller"></a>安裝 Nginx Ingress Controller</h3><p>預設情況下 k8s 不會幫你安裝 ingress controller , 需一自己安裝<br><a href="https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/" target="_blank" rel="noopener">官網有多種選擇</a><br>因為有選擇障礙這邊用 nginx ingress controller 參考<a href="https://kubernetes.github.io/ingress-nginx/deploy/#docker-desktop" target="_blank" rel="noopener">官網</a><br>此外由於預設為 <code>LoadBalancer</code> , 內部環境最好改為 <code>NodePort</code></p>
+<p>跳到其他 node 執行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nfs-common</span><br><span class="line">sudo mkdir -p &#x2F;nfs&#x2F;general</span><br><span class="line"></span><br><span class="line">#注意非常重要 , 這邊要 mount master 那台 nfs server 不要寫錯了</span><br><span class="line">sudo mount 10.1.25.123:&#x2F;var&#x2F;nfs&#x2F;general &#x2F;nfs&#x2F;general</span><br><span class="line">cd &#x2F;nfs&#x2F;general</span><br><span class="line"></span><br><span class="line">#測試看看是否可以正常建立檔案 , ok 的話 master &amp; node 都可以看到</span><br><span class="line">echo &quot;qq&quot; &gt; qq</span><br><span class="line">cat qq</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="安裝-Nginx-Ingress-Controller"><a href="#安裝-Nginx-Ingress-Controller" class="headerlink" title="安裝 Nginx Ingress Controller"></a>安裝 Nginx Ingress Controller</h4><p>預設情況下 k8s 不會幫你安裝 ingress controller , 需一自己安裝<br><a href="https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/" target="_blank" rel="noopener">官網有多種選擇</a><br>因為有選擇障礙這邊用 nginx ingress controller 參考<a href="https://kubernetes.github.io/ingress-nginx/deploy/#docker-desktop" target="_blank" rel="noopener">官網</a><br>此外由於預設為 <code>LoadBalancer</code> , 內部環境最好改為 <code>NodePort</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kubernetes&#x2F;ingress-nginx&#x2F;controller-v0.47.0&#x2F;deploy&#x2F;static&#x2F;provider&#x2F;cloud&#x2F;deploy.yaml</span><br><span class="line"></span><br><span class="line">vim deploy.yaml</span><br><span class="line">#搜尋 LoadBalancer</span><br><span class="line">#&#x2F;LoadBalancer</span><br><span class="line"></span><br><span class="line">#修改為 NodePort</span><br><span class="line">#spec:</span><br><span class="line">#  type: NodePort</span><br><span class="line">#  externalTrafficPolicy: Local</span><br><span class="line"></span><br><span class="line">k apply -f deploy.yaml</span><br></pre></td></tr></table></figure>
 
 <p>安裝會多加上一個 namespace</p>
@@ -613,7 +619,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harbor-安裝"><span class="nav-number">1.</span> <span class="nav-text">Harbor 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合"><span class="nav-number">2.</span> <span class="nav-text">k8s 整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合-net-core"><span class="nav-number">3.</span> <span class="nav-text">k8s 整合 .net core</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pod-起手式"><span class="nav-number">3.1.</span> <span class="nav-text">Pod 起手式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deployment-Lab"><span class="nav-number">3.2.</span> <span class="nav-text">Deployment Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HPA-Lab"><span class="nav-number">3.3.</span> <span class="nav-text">HPA Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定-dns"><span class="nav-number">3.4.</span> <span class="nav-text">設定 dns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hosts-設定"><span class="nav-number">3.5.</span> <span class="nav-text">hosts 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#liveness-探針"><span class="nav-number">3.6.</span> <span class="nav-text">liveness 探針</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-Nginx-Ingress-Controller"><span class="nav-number">4.</span> <span class="nav-text">安裝 Nginx Ingress Controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Helm-安裝-參考官網"><span class="nav-number">5.</span> <span class="nav-text">Helm 安裝 , 參考官網</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他補充"><span class="nav-number">6.</span> <span class="nav-text">其他補充</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harbor-安裝"><span class="nav-number">1.</span> <span class="nav-text">Harbor 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合"><span class="nav-number">2.</span> <span class="nav-text">k8s 整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合-net-core"><span class="nav-number">3.</span> <span class="nav-text">k8s 整合 .net core</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pod-起手式"><span class="nav-number">3.1.</span> <span class="nav-text">Pod 起手式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deployment-Lab"><span class="nav-number">3.2.</span> <span class="nav-text">Deployment Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HPA-Lab"><span class="nav-number">3.3.</span> <span class="nav-text">HPA Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定-dns"><span class="nav-number">3.4.</span> <span class="nav-text">設定 dns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hosts-設定"><span class="nav-number">3.5.</span> <span class="nav-text">hosts 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#liveness-探針"><span class="nav-number">3.6.</span> <span class="nav-text">liveness 探針</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nfs-server"><span class="nav-number">4.</span> <span class="nav-text">nfs server</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝-Nginx-Ingress-Controller"><span class="nav-number">4.1.</span> <span class="nav-text">安裝 Nginx Ingress Controller</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Helm-安裝-參考官網"><span class="nav-number">5.</span> <span class="nav-text">Helm 安裝 , 參考官網</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他補充"><span class="nav-number">6.</span> <span class="nav-text">其他補充</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -678,7 +684,7 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">347k</span>
+    <span title="總廢話字數">348k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
