@@ -12,9 +12,6 @@ tags:
 ```
 services.msc
 ```
-接著關閉服務 Cryptographic Services
-然後以系統管理員開啟 cmd or windows terminal 輸入底下指令應該就可以解決
-```
-netsh winsock reset
-```
-後來又有問題[參考](https://appuals.com/how-to-fix-the-establishing-secure-connection-slow-problem-in-google-chrome/)這篇有點崩潰
+找到 Cryptographic Services => `右鍵` => `內容` => `停止` => `啟動` => `自動`
+搜尋 `網際和網路` => `狀態` => `網路重設`
+重新開啟電腦應該就可以了

@@ -47,6 +47,19 @@ choco install maven
 今天還遇到個之前沒遇過的低能問題 , 就是無法在 windows 底下新增開頭有點 `.` 的特殊檔案 , 搞了半天沒辦法用 `.ideavimrc`
 google 看到老外說用 notepad++ 選另存新檔 , file type 選擇 all 就可以了
 
+### 在 intellij 安裝 
+主要參考這篇[官方](https://www.jetbrains.com/help/idea/convert-a-regular-project-into-a-maven-project.html)
+在 `pom.xml` 內加入類似如下片段即可
+```
+<dependencies>
+	<dependency>
+		<groupId>io.github.fanyong920</groupId>
+		<artifactId>jvppeteer</artifactId>
+		<version>1.1.3</version>
+	</dependency>
+</dependencies>
+```
+
 ### 牛刀小試 jdbcTemplate
 看書上照著做沒多久就陣亡了 , 書上的範例是 mysql 懶得安裝 mysql 直接用現成的 M$
 首先在 `application.properties` 底下增加連線訊息
