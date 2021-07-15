@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-05-12T11:19:58.000Z">
-<meta property="article:modified_time" content="2021-05-28T19:35:38.320Z">
+<meta property="article:modified_time" content="2021-07-15T16:27:38.910Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta name="twitter:card" content="summary">
@@ -245,7 +245,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-05-29 03:35:38" itemprop="dateModified" datetime="2021-05-29T03:35:38+08:00">2021-05-29</time>
+                <time title="修改時間：2021-07-16 00:27:38" itemprop="dateModified" datetime="2021-07-16T00:27:38+08:00">2021-07-16</time>
               </span>
 
           
@@ -268,14 +268,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>7.1k</span>
+              <span>9.3k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>6 分鐘</span>
+              <span>8 分鐘</span>
             </span>
 
         </div>
@@ -409,6 +409,18 @@
 <p>此時在 ubuntu 的 container 內安裝 curl 並且執行以下命令</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update &amp;&amp; apt install -y curl</span><br><span class="line">curl -sSL blog1 | head -n5</span><br></pre></td></tr></table></figure>
 
+<h3 id="透過-tcp-連線遠端-docker"><a href="#透過-tcp-連線遠端-docker" class="headerlink" title="透過 tcp 連線遠端 docker"></a>透過 tcp 連線遠端 docker</h3><p>莫名其妙的遠端 docker tcp 不能連線 , <a href="https://stackoverflow.com/questions/26561963/how-to-detect-a-docker-daemon-port" target="_blank" rel="noopener">參考強者老外</a><br>上課看到可以直接用 ip 加上指令的方式直接管理遠端 docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -H 10.1.25.123 images</span><br></pre></td></tr></table></figure>
+
+<p>搞了一堆方法都失敗 , 後來 try 這個老外講的才成功</p>
+<p>Prepare extra configuration file. Create a file named /etc/systemd/system/docker.service.d/docker.conf. Inside the file docker.conf, paste below content:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">ExecStart&#x3D;</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;dockerd -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock</span><br></pre></td></tr></table></figure>
+<p>Note that if there is no directory like docker.service.d or a file named docker.conf then you should create it.</p>
+<p>Restart Docker. After saving this file, reload the configuration by systemctl daemon-reload and restart Docker by systemctl restart docker.service.</p>
+<p>Check your Docker daemon. After restarting docker service, you can see the port in the output of systemctl status docker.service like /usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock.</p>
+<p>以下為我的實作筆記過程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;systemd&#x2F;system</span><br><span class="line">mkdir docker.service.d</span><br><span class="line">cd docker.service.d</span><br><span class="line">sudo vim docker.conf</span><br><span class="line"></span><br><span class="line">#加入這個片段</span><br><span class="line">#[Service]</span><br><span class="line">#ExecStart&#x3D;</span><br><span class="line">#ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;dockerd -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock</span><br><span class="line"></span><br><span class="line">#重新更新 daemon 設定</span><br><span class="line">systemctl daemon-reload</span><br><span class="line"></span><br><span class="line">#重開 docker</span><br><span class="line">systemctl restart docker.service</span><br><span class="line"></span><br><span class="line">#印出狀態</span><br><span class="line">systemctl status docker.service</span><br><span class="line"></span><br><span class="line">#● docker.service - Docker Application Container Engine</span><br><span class="line">#     Loaded: loaded (&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;docker.service; enabled; vendor preset: enabled)</span><br><span class="line">#    Drop-In: &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;docker.service.d</span><br><span class="line">#             └─docker.conf</span><br><span class="line">#     Active: active (running) since Thu 2021-07-15 12:49:20 CST; 8min ago</span><br><span class="line">#TriggeredBy: ● docker.socket</span><br><span class="line">#       Docs: https:&#x2F;&#x2F;docs.docker.com</span><br><span class="line">#   Main PID: 829386 (dockerd)</span><br><span class="line">#      Tasks: 39</span><br><span class="line">#     Memory: 75.5M</span><br><span class="line">#     CGroup: &#x2F;system.slice&#x2F;docker.service</span><br><span class="line">#             ├─829386 &#x2F;usr&#x2F;bin&#x2F;dockerd -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock</span><br><span class="line">#             └─829752 &#x2F;usr&#x2F;bin&#x2F;docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 1514 -container-ip 172.21.0.6 -container-port 10514</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#一樣印出狀態</span><br><span class="line">ps auxw | grep dockerd</span><br><span class="line">#root      829386  3.2  2.8 2422328 114552 ?      Ssl  12:48   0:19 &#x2F;usr&#x2F;bin&#x2F;dockerd -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
@@ -498,7 +510,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-事前準備"><span class="nav-number">1.</span> <span class="nav-text">powershell 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-windows-ssh-powershell-連線"><span class="nav-number">2.</span> <span class="nav-text">設定 windows ssh powershell 連線</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-基本觀念及操作"><span class="nav-number">3.</span> <span class="nav-text">docker 基本觀念及操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-Docker-包裝一個-vim-的-image"><span class="nav-number">4.</span> <span class="nav-text">Lab Docker 包裝一個 vim 的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-用-busybox-安裝-vim-並且包裝成新的-image"><span class="nav-number">5.</span> <span class="nav-text">Lab 用 busybox 安裝 vim , 並且包裝成新的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#網路基本命令"><span class="nav-number">6.</span> <span class="nav-text">網路基本命令</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-事前準備"><span class="nav-number">1.</span> <span class="nav-text">powershell 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-windows-ssh-powershell-連線"><span class="nav-number">2.</span> <span class="nav-text">設定 windows ssh powershell 連線</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-基本觀念及操作"><span class="nav-number">3.</span> <span class="nav-text">docker 基本觀念及操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-Docker-包裝一個-vim-的-image"><span class="nav-number">4.</span> <span class="nav-text">Lab Docker 包裝一個 vim 的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-用-busybox-安裝-vim-並且包裝成新的-image"><span class="nav-number">5.</span> <span class="nav-text">Lab 用 busybox 安裝 vim , 並且包裝成新的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#網路基本命令"><span class="nav-number">6.</span> <span class="nav-text">網路基本命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#透過-tcp-連線遠端-docker"><span class="nav-number">7.</span> <span class="nav-text">透過 tcp 連線遠端 docker</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -563,13 +575,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">348k</span>
+    <span title="總廢話字數">353k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">5:16</span>
+    <span title="所需總浪費時間">5:21</span>
 </div>
 
         
