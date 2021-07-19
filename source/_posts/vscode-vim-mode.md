@@ -109,7 +109,15 @@ top: true
 	  "key": "alt+k",
 	  "command": "workbench.action.quickOpenSelectPrevious",
 	  "when": "inQuickOpen"
-	}
+	},
+	{
+		"key": "ctrl+alt+m",
+		"command": "workbench.action.toggleMaximizedPanel"
+	},
+	{
+		"key": "ctrl+f", "command": "",
+		"when": "terminalFocus"
+	},
 
 ]
 ```
@@ -966,8 +974,73 @@ vscode binding 滿自虐的
 		"[javascript]": {
 			"editor.defaultFormatter": "HookyQR.beautify"
 		},
+		"yaml.schemas":{
+            "Kubernetes" : "*.yaml"
+        },
+		//德古拉樣式
+        //"workbench.colorTheme": "Dracula",
+
+		//透明度
+        //"winopacity.opacity": 240,
+        "redhat.telemetry.enabled": true,
+        "terminal.integrated.allowChords": false,
+		"terminal.integrated.commandsToSkipShell":[
+			"-workbench.action.quickOpen",
+		],
+		"remote.autoForwardPorts": false
 }
 ```
+
+### vscode 不傷眼深色佈景及 terminal 設定
+透明度的解決方案 [參考自](https://ourcodeworld.com/articles/read/669/how-to-make-the-visual-studio-code-window-transparent-in-windows) 共有兩套 , 我自己是用 [這套](https://marketplace.visualstudio.com/items?itemName=skacekachna.win-opacity)
+由於會需要用到透明度代表會在深色底下工作 , 這裡安裝德古拉吸血鬼樣式 , 實測起來透明度 240 比較舒服
+
+額外會用 k9s 管理工具所以設定樣式為 one_dark 效果比較好 , 可以看這邊的 [樣式列表](https://github.com/derailed/k9s/tree/master/skins)
+terminal 習慣用 emacs 模式 , 所以 vscode 預設的 `ctrl + p` 會影響到操作 terminal 的體驗感 , 參考 [老外的解法](https://github.com/microsoft/vscode/issues/35722)
+在開啟 terminal 時停用 `ctrl + p` , 最後就是從 terminal 切換回 editor , `ctrl +` `` ` ``  , 詳細可以參考 [此篇](https://stackoverflow.com/questions/42796887/switch-focus-between-editor-and-integrated-terminal-in-visual-studio-code)
+最後就是關掉 `ctrl + k` [參考自](https://stackoverflow.com/questions/50569100/vscode-how-to-make-ctrlk-kill-till-the-end-of-line)
+後續操作上又遇到很奇怪的問題 , 會一直自動的 ForwardPorts , 參考[老外解法](https://github.com/microsoft/vscode/issues/109819)
+
+settings.json
+```
+"workbench.colorTheme": "Dracula",
+"winopacity.opacity": 240,
+"redhat.telemetry.enabled": true,
+"terminal.integrated.allowChords": false,
+"terminal.integrated.commandsToSkipShell":[
+	"-workbench.action.quickOpen"
+],
+"remote.autoForwardPorts": false
+```
+
+還有幾個常用的功能或是尚需排除的問題點
+1.將 panel 最大化
+2.terminal 有 focus 關掉 find 的功能
+3.zen mode , 因為是開 termial 比較不想要其他視窗干擾可以直接 `ctrl + shift + p` 搜尋 zen mode 來開關
+
+keybindings.json
+```
+{
+	"key": "ctrl+alt+m",
+	"command": "workbench.action.toggleMaximizedPanel"
+},
+{
+	"key": "ctrl+f", "command": "",
+	"when": "terminalFocus"
+}
+```
+
+總結下我在 vscode 開發 k8s 有用到的 extension
+[kubernetes](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools)
+[docker](https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker)
+[Remote - Containers](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
+[Remote - SSH](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh)
+[Remote - SSH: Editing Configuration Files](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh-edit)
+[Yaml](https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml)
+
+深色不傷眼的 extension
+[Windows opacity](https://marketplace.visualstudio.com/items?itemName=skacekachna.win-opacity)
+[dracula](https://marketplace.visualstudio.com/items?itemName=dracula-theme.theme-dracula)
 
 
 ### 後記 emacs
@@ -1028,3 +1101,5 @@ from colabcode import ColabCode
 ColabCode(port=10000, password="helloworld")
 ```
 設定完後印度仔寫得程式會跳一個 ngork 的連結 , 點選連結會跳一個輸入密碼的視窗 , 打完後 chrome 跳出 vscode 視窗 , 注意非自己 local 的 vscode 就好了
+
+
