@@ -974,6 +974,7 @@ vscode binding 滿自虐的
 		"[javascript]": {
 			"editor.defaultFormatter": "HookyQR.beautify"
 		},
+<<<<<<< HEAD
 		"yaml.schemas":{
             "Kubernetes" : "*.yaml"
         },
@@ -988,6 +989,12 @@ vscode binding 滿自虐的
 			"-workbench.action.quickOpen",
 		],
 		"remote.autoForwardPorts": false
+=======
+		//for k8s
+		"yaml.schemas": {
+		  "Kubernetes": "*.yaml"
+		}
+>>>>>>> backup
 }
 ```
 
@@ -1102,4 +1109,16 @@ ColabCode(port=10000, password="helloworld")
 ```
 設定完後印度仔寫得程式會跳一個 ngork 的連結 , 點選連結會跳一個輸入密碼的視窗 , 打完後 chrome 跳出 vscode 視窗 , 注意非自己 local 的 vscode 就好了
 
+<<<<<<< HEAD
 
+=======
+### 開啟 k8s 自動提示
+[直接安裝 kubernetes 這個 extension](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools)
+他會連同 redhat 的 yaml extension 一起安裝
+老樣子在 setting.json 內加入以下片段即可
+```
+	"yaml.schemas": {
+	  "Kubernetes": "*.yaml"
+	}
+```
+>>>>>>> backup

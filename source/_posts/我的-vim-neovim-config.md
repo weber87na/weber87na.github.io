@@ -350,6 +350,8 @@ touch .vimrc
 vim
 :PlugInstall
 ```
+或是直接在 terminal `vim +PlugInstall`
+
 
 在 root 使用者安裝
 ```
@@ -364,6 +366,7 @@ vim
 ## 使用 COC 補全 k8s yaml
 因為在搞 docker + k8s , 需要編輯 yaml 檔 , 直接在 linux 上面沒有 auto complete 實在太噁心了
 決定找個至少能用的方法主要參考 [這篇老外文章](https://octetz.com/docs/2020/2020-01-06-vim-k8s-yaml-support/) , 之前好像沒用過 coc? 忘了?
+這老外還有[教學影片](https://www.youtube.com/watch?v=eSAzGx34gUE) 真佛心
 先在 vimrc or init.vim 內加入以下命令
 ```
 " Use release branch (Recommend)
@@ -384,11 +387,31 @@ Plug 'neoclide/coc.nvim', {'do': 'yarn install --frozen-lockfile'}
 python3 -m pip install --user --upgrade pynvim
 ```
 
-接著照老外的步驟
+如果是用 ubuntu 需要先安裝 nodejs , 注意 nodejs 版本要 12.12 以上 , 小心不要直接用 apt-get install 有可能安裝到舊版 , 在 ubuntu 20.04 上 default 好像是 node 10?
+萬一不小心安裝舊版可以參考這個[移除](https://askubuntu.com/questions/786015/how-to-remove-nodejs-from-ubuntu-16-04)
+```
+curl -sL https://deb.nodesource.com/setup_14.x | sudo bash -
+sudo apt-get install -y nodejs
+```
+
+安裝 coc-yaml
+```
+:CocInstall coc-yaml
+```
+
+萬一 coc 炸出這個 error 可能是 nodejs or python 沒安裝或是版本錯誤 , 請確認版本是否正確
+```
+client coc abnormal exit with: -1
+```
+
+接著照打開 CocConfig 編輯
 ```
 :CocConfig
 ```
-實際上就是編輯這個檔案 `~/AppData/Local/nvim/coc-settings.json` , 設定完應該就能動了 , 最後就可以用 `ctrl + n` `ctrl + p` 上下移動補全的 menu
+
+使用 vim 的話 coc 路徑會在如下位置 `~/.vim/coc-settings.json`
+windows 的 neovim 在 `~/AppData/Local/nvim/coc-settings.json`
+設定完應該就能動了 , 最後就可以用 `ctrl + n` `ctrl + p` 上下移動補全的 menu 不過好像 vscode 的更好用一點
 ```
 {
   "languageserver": {
@@ -462,4 +485,77 @@ vim ~/.zshrc
 #)
 
 source ~/.zshrc
+
+```
+## 為你的 cat 加上色彩
+
+因為常常會用 cat 看些東東但是沒有語法高量可以考慮安裝 [bat](https://github.com/sharkdp/bat) 讓操作舒服點
+```
+sudo apt install bat
+vim ~/.zshrc
+#加上 alias
+alias bat=batcat
+```
+## 裝 B 移動目錄神器 Ranger 筆記
+安裝 [ranger](https://github.com/ranger/ranger) , 也可以參考這[老外教學](https://www.digitalocean.com/community/tutorials/installing-and-using-ranger-a-terminal-file-manager-on-a-ubuntu-vps) , 也可以看下強國人[影片](https://www.bilibili.com/video/BV1b4411R7ck?from=search&seid=7286148057737927194)
+```
+sudo apt install ranger
+```
+
+開啟 ranger 讓他自動建立資料夾
+```
+ranger
+q
+```
+
+複製 ranger 的預設設定檔 template
+```
+ranger --copy-config=all
+```
+
+設定 ascii preview image 首先設定 `scope.sh` 找到這段把 `img2txt` 原本的註解開起來
+```
+vim ~/.config/ranger/scope.sh
+
+## Image
+image/*)
+	## Preview as text conversion
+	img2txt --gamma=0.6 --width="${PV_WIDTH}" -- "${FILE_PATH}" && exit 4
+	exiftool "${FILE_PATH}" && exit 5
+	exit 1;;
+```
+
+接著設定 `~/.config/ranger/rc.conf`
+```
+set preview_images false
+set use_preview_script true
+set preview_script ~/.config/ranger/scope.sh
+```
+
+設定 x11 preview image 注意只有在 ubuntu 有 gui 的機器有用 , 用 ssh 應該回 ascii 模式 , 先安裝 x11 相關工具及 ueberzug
+```
+sudo apt update
+sudo apt upgrade
+sudo apt-get install -y libx11-dev
+sudo apt-get install -y xorg openbox
+sudo apt-get install -y x11proto-xext-dev
+sudo apt-get install -y libxext-dev
+pip3 install ueberzug
+```
+
+設定 `~/.config/ranger/rc.conf`
+```
+set preview_images true
+set preview_images_method ueberzug
+```
+
+萬一炸 WARNING 設定以下即可
+```
+#echo 'export PATH=~/.local/bin:$PATH' >> ~/.bashrc
+echo 'export PATH=~/.local/bin:$PATH' >> ~/.zshrc
+```
+
+最後預覽一下正妹
+```
+crul https://instagram.frmq3-1.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/s640x640/169486234_744729692910070_7136376512717038837_n.jpg?tp=1&_nc_ht=instagram.frmq3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=jehk2TKowmEAX8DDWGK&edm=AABBvjUBAAAA&ccb=7-4&oh=95e49414292080950b57f70c1e6d1c09&oe=60C92944&_nc_sid=83d603 --output nono.png
 ```

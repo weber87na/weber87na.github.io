@@ -383,3 +383,66 @@ docker run -it --network my_network ubuntu:16.04 bash
 apt update && apt install -y curl
 curl -sSL blog1 | head -n5
 ```
+
+### 透過 tcp 連線遠端 docker
+莫名其妙的遠端 docker tcp 不能連線 , [參考強者老外](https://stackoverflow.com/questions/26561963/how-to-detect-a-docker-daemon-port)
+上課看到可以直接用 ip 加上指令的方式直接管理遠端 docker
+```
+docker -H 10.1.25.123 images
+```
+
+搞了一堆方法都失敗 , 後來 try 這個老外講的才成功
+
+Prepare extra configuration file. Create a file named /etc/systemd/system/docker.service.d/docker.conf. Inside the file docker.conf, paste below content:
+```
+[Service]
+ExecStart=
+ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+```
+Note that if there is no directory like docker.service.d or a file named docker.conf then you should create it.
+
+Restart Docker. After saving this file, reload the configuration by systemctl daemon-reload and restart Docker by systemctl restart docker.service.
+
+Check your Docker daemon. After restarting docker service, you can see the port in the output of systemctl status docker.service like /usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock.
+
+
+以下為我的實作筆記過程
+```
+cd /etc/systemd/system
+mkdir docker.service.d
+cd docker.service.d
+sudo vim docker.conf
+
+#加入這個片段
+#[Service]
+#ExecStart=
+#ExecStart=/usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+
+#重新更新 daemon 設定
+systemctl daemon-reload
+
+#重開 docker
+systemctl restart docker.service
+
+#印出狀態
+systemctl status docker.service
+
+#● docker.service - Docker Application Container Engine
+#     Loaded: loaded (/lib/systemd/system/docker.service; enabled; vendor preset: enabled)
+#    Drop-In: /etc/systemd/system/docker.service.d
+#             └─docker.conf
+#     Active: active (running) since Thu 2021-07-15 12:49:20 CST; 8min ago
+#TriggeredBy: ● docker.socket
+#       Docs: https://docs.docker.com
+#   Main PID: 829386 (dockerd)
+#      Tasks: 39
+#     Memory: 75.5M
+#     CGroup: /system.slice/docker.service
+#             ├─829386 /usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+#             └─829752 /usr/bin/docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 1514 -container-ip 172.21.0.6 -container-port 10514
+
+
+#一樣印出狀態
+ps auxw | grep dockerd
+#root      829386  3.2  2.8 2422328 114552 ?      Ssl  12:48   0:19 /usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
+```
