@@ -37,7 +37,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-06-28T18:49:47.000Z">
-<meta property="article:modified_time" content="2021-07-15T16:30:29.530Z">
+<meta property="article:modified_time" content="2021-07-19T12:27:53.450Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="docker">
 <meta property="article:tag" content="k8s">
@@ -246,7 +246,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2021-07-16 00:30:29" itemprop="dateModified" datetime="2021-07-16T00:30:29+08:00">2021-07-16</time>
+                <time title="修改時間：2021-07-19 20:27:53" itemprop="dateModified" datetime="2021-07-19T20:27:53+08:00">2021-07-19</time>
               </span>
 
           
@@ -269,14 +269,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>26k</span>
+              <span>28k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>24 分鐘</span>
+              <span>25 分鐘</span>
             </span>
 
         </div>
@@ -538,6 +538,28 @@
 
 <h3 id="Helm-安裝-參考官網"><a href="#Helm-安裝-參考官網" class="headerlink" title="Helm 安裝 , 參考官網"></a>Helm 安裝 , 參考<a href="https://helm.sh/docs/intro/install/" target="_blank" rel="noopener">官網</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;baltocdn.com&#x2F;helm&#x2F;signing.asc | sudo apt-key add -</span><br><span class="line">sudo apt-get install apt-transport-https --yes</span><br><span class="line">echo &quot;deb https:&#x2F;&#x2F;baltocdn.com&#x2F;helm&#x2F;stable&#x2F;debian&#x2F; all main&quot; | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;helm-stable-debian.list</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install helm</span><br></pre></td></tr></table></figure>
 
+<h3 id="其他操作上的小技巧"><a href="#其他操作上的小技巧" class="headerlink" title="其他操作上的小技巧"></a>其他操作上的小技巧</h3><p>這裡定義 <code>${VERSION}</code> 當作變數 , 並且定義 template.yaml , 可以接上 <code>envsubst</code> 快速替換內容來進行更版<br>另外注意到 <code>--record</code> 參數 , 可以更詳細記錄當時的指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VERSION&#x3D;&#39;v1.0&#39; envsubst &lt; template.yaml | k apply --record -f -</span><br></pre></td></tr></table></figure>
+
+<p>template.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  replicas: 4</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: asp-net-core-helloworld-k8s</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: asp-net-core-helloworld-k8s</span><br><span class="line">        image: 10.1.25.123&#x2F;test&#x2F;helloworldk8s:$&#123;VERSION&#125;</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 80</span><br><span class="line">        - containerPort: 443</span><br><span class="line">        env:</span><br><span class="line">        - name: ASPNETCORE_URLS</span><br><span class="line">          value: http:&#x2F;&#x2F;+:80;https:&#x2F;&#x2F;+:443</span><br><span class="line">        - name: ASPNETCORE_ENVIRONMENT</span><br><span class="line">          value: Development</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br></pre></td></tr></table></figure>
+
+<p>apply 以後可以用以下指令去查目前更新狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k rollout status deployment asp-net-core-helloworld-k8s</span><br></pre></td></tr></table></figure>
+
+<p>列印出修改歷史</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k rollout history deployment asp-net-core-helloworld-k8s</span><br></pre></td></tr></table></figure>
+
+<p>滾回之前的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#滾回上個版本</span><br><span class="line">k rollout undo deployment asp-net-core-helloworld-k8s</span><br><span class="line"></span><br><span class="line">#滾回特定的版本</span><br><span class="line">k rollout undo deployment asp-net-core-helloworld-k8s --to-revision 5</span><br></pre></td></tr></table></figure>
+
+<p>金絲雀佈署因為只多加一個新版的 pod , 所以可以用暫停命令來串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VERSION&#x3D;&#39;v1.1&#39; envsubst &lt; template.yaml | k apply --record -f - &amp;&amp; \</span><br><span class="line">k rollout pause deployment asp-net-core-helloworld-k8s</span><br></pre></td></tr></table></figure>
+
+
+<p>Here Document 這個技巧可以直接在 command 內快速加上想補的內容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#39;cat &lt;&lt;EOF &gt; &#x2F;etc&#x2F;resolv.conf</span><br><span class="line">nameserver 8.8.8.8</span><br><span class="line">EOF&#39;</span><br></pre></td></tr></table></figure>
+
 <h3 id="其他補充"><a href="#其他補充" class="headerlink" title="其他補充"></a>其他補充</h3><p>編輯東西前務必知道的<a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/" target="_blank" rel="noopener">官網說明</a></p>
 <p>跳進去看看環境變數</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exec -it asp-net-core-helloworld-k8s-5766cd7cc5-js4sj -- &#x2F;bin&#x2F;bash</span><br><span class="line">env | grep ASPNETCORE_URLS</span><br></pre></td></tr></table></figure>
@@ -638,7 +660,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harbor-安裝"><span class="nav-number">1.</span> <span class="nav-text">Harbor 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合"><span class="nav-number">2.</span> <span class="nav-text">k8s 整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合-net-core"><span class="nav-number">3.</span> <span class="nav-text">k8s 整合 .net core</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pod-起手式"><span class="nav-number">3.1.</span> <span class="nav-text">Pod 起手式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deployment-Lab"><span class="nav-number">3.2.</span> <span class="nav-text">Deployment Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HPA-Lab"><span class="nav-number">3.3.</span> <span class="nav-text">HPA Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定-dns"><span class="nav-number">3.4.</span> <span class="nav-text">設定 dns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hosts-設定"><span class="nav-number">3.5.</span> <span class="nav-text">hosts 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#liveness-探針"><span class="nav-number">3.6.</span> <span class="nav-text">liveness 探針</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cronjob-Lab"><span class="nav-number">3.7.</span> <span class="nav-text">Cronjob Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nfs-server"><span class="nav-number">3.8.</span> <span class="nav-text">nfs server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝-Nginx-Ingress-Controller"><span class="nav-number">3.9.</span> <span class="nav-text">安裝 Nginx Ingress Controller</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Helm-安裝-參考官網"><span class="nav-number">4.</span> <span class="nav-text">Helm 安裝 , 參考官網</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他補充"><span class="nav-number">5.</span> <span class="nav-text">其他補充</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harbor-安裝"><span class="nav-number">1.</span> <span class="nav-text">Harbor 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合"><span class="nav-number">2.</span> <span class="nav-text">k8s 整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合-net-core"><span class="nav-number">3.</span> <span class="nav-text">k8s 整合 .net core</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pod-起手式"><span class="nav-number">3.1.</span> <span class="nav-text">Pod 起手式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deployment-Lab"><span class="nav-number">3.2.</span> <span class="nav-text">Deployment Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HPA-Lab"><span class="nav-number">3.3.</span> <span class="nav-text">HPA Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定-dns"><span class="nav-number">3.4.</span> <span class="nav-text">設定 dns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hosts-設定"><span class="nav-number">3.5.</span> <span class="nav-text">hosts 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#liveness-探針"><span class="nav-number">3.6.</span> <span class="nav-text">liveness 探針</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cronjob-Lab"><span class="nav-number">3.7.</span> <span class="nav-text">Cronjob Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nfs-server"><span class="nav-number">3.8.</span> <span class="nav-text">nfs server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝-Nginx-Ingress-Controller"><span class="nav-number">3.9.</span> <span class="nav-text">安裝 Nginx Ingress Controller</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Helm-安裝-參考官網"><span class="nav-number">4.</span> <span class="nav-text">Helm 安裝 , 參考官網</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他操作上的小技巧"><span class="nav-number">5.</span> <span class="nav-text">其他操作上的小技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他補充"><span class="nav-number">6.</span> <span class="nav-text">其他補充</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -703,13 +725,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">353k</span>
+    <span title="總廢話字數">374k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">5:21</span>
+    <span title="所需總浪費時間">5:40</span>
 </div>
 
         
