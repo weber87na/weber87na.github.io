@@ -1109,9 +1109,7 @@ ColabCode(port=10000, password="helloworld")
 ```
 設定完後印度仔寫得程式會跳一個 ngork 的連結 , 點選連結會跳一個輸入密碼的視窗 , 打完後 chrome 跳出 vscode 視窗 , 注意非自己 local 的 vscode 就好了
 
-<<<<<<< HEAD
 
-=======
 ### 開啟 k8s 自動提示
 [直接安裝 kubernetes 這個 extension](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools)
 他會連同 redhat 的 yaml extension 一起安裝
@@ -1121,4 +1119,3 @@ ColabCode(port=10000, password="helloworld")
 	  "Kubernetes": "*.yaml"
 	}
 ```
->>>>>>> backup
