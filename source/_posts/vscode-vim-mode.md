@@ -974,7 +974,6 @@ vscode binding 滿自虐的
 		"[javascript]": {
 			"editor.defaultFormatter": "HookyQR.beautify"
 		},
-<<<<<<< HEAD
 		"yaml.schemas":{
             "Kubernetes" : "*.yaml"
         },
@@ -989,12 +988,6 @@ vscode binding 滿自虐的
 			"-workbench.action.quickOpen",
 		],
 		"remote.autoForwardPorts": false
-=======
-		//for k8s
-		"yaml.schemas": {
-		  "Kubernetes": "*.yaml"
-		}
->>>>>>> backup
 }
 ```
 

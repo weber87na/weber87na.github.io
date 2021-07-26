@@ -1,5 +1,5 @@
 ---
-title: Harbar 建立私有 docker registry
+title: Harbor 建立私有 docker registry
 date: 2021-06-29 02:49:47
 tags:
 - docker
