@@ -559,3 +559,131 @@ echo 'export PATH=~/.local/bin:$PATH' >> ~/.zshrc
 ```
 crul https://instagram.frmq3-1.fna.fbcdn.net/v/t51.2885-15/sh0.08/e35/s640x640/169486234_744729692910070_7136376512717038837_n.jpg?tp=1&_nc_ht=instagram.frmq3-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=jehk2TKowmEAX8DDWGK&edm=AABBvjUBAAAA&ccb=7-4&oh=95e49414292080950b57f70c1e6d1c09&oe=60C92944&_nc_sid=83d603 --output nono.png
 ```
+
+## 在 ubuntu 上撰寫 .net core 5
+今天在 ubuntu 20.04 linux 上安裝 .net core 5 莫名其妙炸了個奇怪的 error
+```
+E: The repository 'https://packages.microsoft.com/ubuntu/18.04/prod focal Release' does not have a Release file
+```
+
+查了下發現多了錯誤的版本在上面 , 可能之前沒睡飽下錯指令所致
+把它們都註解掉 , 接著重新安裝 .net core 5 就搞定了 , 安裝可以參考[微軟官方](https://docs.microsoft.com/zh-tw/dotnet/core/install/linux-ubuntu#2004-)
+```
+sudo vim /etc/apt/sources.list
+#deb https://packages.microsoft.com/ubuntu/18.04/prod focal main
+# deb-src https://packages.microsoft.com/ubuntu/18.04/prod focal main
+
+wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
+sudo dpkg -i packages-microsoft-prod.deb
+rm packages-microsoft-prod.deb
+
+#sdk
+sudo apt-get update; \
+  sudo apt-get install -y apt-transport-https && \
+  sudo apt-get update && \
+  sudo apt-get install -y dotnet-sdk-5.0
+
+#run time
+sudo apt-get update; \
+  sudo apt-get install -y apt-transport-https && \
+  sudo apt-get update && \
+  sudo apt-get install -y aspnetcore-runtime-5.0
+```
+
+主要參考這篇(https://github.com/OmniSharp/Omnisharp-vim)
+打開 vimrc 並找到以下區塊加上 OmniSharp/omnisharp-vim
+```
+vim ~/.vimrc
+call plug#begin('~/.vim/plugged')
+
+#for csharp
+Plug 'OmniSharp/omnisharp-vim'
+```
+
+接著在 vim 執行以下命令安裝 OmniSharp , 搞定後首次他會問我們要不要安裝 OmniSharp-Roslyn server 選 Yes 即可
+```
+:PlugInstall
+```
+
+接著在 Ubuntu 上面玩看看 .net core , 可以通過 dotnet xxx --help 來看詳細命令 , 這邊就直接蓋個 console 看看
+```
+mkdir helloworld
+cd helloworld
+dotnet new --list
+
+#Console Application                           console         [C#],F#,VB  Common/Console
+#Class library                                 classlib        [C#],F#,VB  Common/Library
+#Worker Service                                worker          [C#],F#     Common/Worker/Web
+#MSTest Test Project                           mstest          [C#],F#,VB  Test/MSTest
+#NUnit 3 Test Item                             nunit-test      [C#],F#,VB  Test/NUnit
+#......
+```
+
+蓋個 console 看看幫我們建了什麼
+```
+dotnet new console
+ls
+helloworld.csproj  obj  Program.cs
+```
+
+試著弄個 helloworld , 體驗一下 , 只能說連維護都不是很好用
+```
+using System;
+using System.IO;
+
+namespace helloworld
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+			Console.WriteLine("HelloWorld");
+            //StreamWriter file = new StreamWriter("test.txt");
+            //file.WriteLine("Hello world");
+            //file.Close();
+
+        }
+    }
+}
+```
+
+最後跑看看是否成功寫入 , 結論就是裝 B 跟拿來看看 code 還可以用 , 實際開發還是用 IDE 比較有效率
+```
+dotnet run
+cat test.txt
+```
+
+老樣子包個 Dockerfile 來玩看看 , 參考[官方](https://docs.microsoft.com/zh-tw/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-5.0)
+```
+# https://hub.docker.com/_/microsoft-dotnet
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+WORKDIR /source
+
+# copy csproj and restore as distinct layers
+COPY *.sln .
+COPY helloworld/*.csproj ./helloworld/
+RUN dotnet restore
+
+# copy everything else and build app
+COPY helloworld/. ./helloworld/
+WORKDIR /source/helloworld
+RUN dotnet publish -c release -o /app --no-restore
+
+# final stage/image
+FROM mcr.microsoft.com/dotnet/aspnet:5.0
+WORKDIR /app
+COPY --from=build /app ./
+ENTRYPOINT ["dotnet", "helloworld.dll"]
+```
+
+試跑看看 docker , 注意指定的 image 在最後面 , 另外如果用 -d 參數的話 , 這種單純的 console 是沒辦法跑起來的 , 需要切換 entrypoint
+```
+docker run  -it hello-console --name hello-console
+#HelloWorld
+
+#切換進入點 , 並且用 attach 進去看看
+docker run -d -it --name hello-console --entrypoint sh hello-console
+docker attach 341
+ls
+#helloworld  helloworld.deps.json  helloworld.dll  helloworld.pdb  helloworld.runtimeconfig.json
+```
