@@ -106,3 +106,190 @@ Process OpenIE()
 }
 
 ```
+
+### Outlook
+```
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+using System.Runtime.InteropServices;
+using Microsoft.Office.Interop.Outlook;
+using System.Diagnostics;
+using System.Text.RegularExpressions;
+
+namespace LazyHelper
+{
+    public partial class FormLog : Form
+    {
+
+        Microsoft.Office.Interop.Outlook.Application outlookApplication = null;
+        NameSpace outlookNamespace = null;
+        MAPIFolder inboxFolder = null;
+
+        public FormLog()
+        {
+            InitializeComponent();
+
+            this.Load += FormLog_Load;
+            this.buttonLog.Click += ButtonLog_Click;
+            this.FormClosing += FormLog_FormClosing;
+
+            richTextBoxLog.ReadOnly = true;
+            richTextBoxLog.BackColor = Color.White;
+        }
+
+        private void FormLog_FormClosing( object sender, FormClosingEventArgs e )
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                this.Hide();
+            }
+
+        }
+
+        protected override void OnFormClosed( FormClosedEventArgs e )
+        {
+            //ReleaseComObject( mailItems );
+            ReleaseComObject( inboxFolder );
+            ReleaseComObject( outlookNamespace );
+            ReleaseComObject( outlookApplication );
+            base.OnFormClosed( e );
+        }
+
+        string FetchLog( string folder, string keyword)
+        {
+            var sb = new StringBuilder();
+            var develop = inboxFolder.Folders[folder];
+            var filter = develop.Items.Cast<MailItem>()
+                .Where( x => x.Subject.Contains( keyword ) )
+                .OrderByDescending( x => x.CreationTime )
+                .Take( 20 )
+                .ToList();
+
+            filter.ForEach( item =>
+            {
+                sb.AppendLine( "Time: " + item.CreationTime );
+                sb.AppendLine( "From: " + item.SenderEmailAddress );
+                sb.AppendLine( "To: " + item.To );
+                sb.AppendLine( "" );
+                sb.AppendLine( "Subject: " + item.Subject );
+                sb.AppendLine( item.Body );
+                Marshal.ReleaseComObject( item );
+            } );
+
+            return sb.ToString();
+        }
+
+        async Task<string> FetchLogAsync()
+        {
+            return await Task.Run( () =>
+            {
+                try
+                {
+                    return FetchLog(textBoxFolder.Text , textBoxSubjectFilter.Text);
+                }
+                catch (System.Exception ex)
+                {
+                    Console.WriteLine( "{0} Exception caught: ", ex );
+                    throw ex;
+                }
+            } );
+        }
+
+        private async void ButtonLog_Click( object sender, EventArgs e )
+        {
+            buttonLog.Enabled = false;
+            labelStatus.Text = "Loading...";
+            richTextBoxLog.Text = string.Empty;
+            richTextBoxLog.Text = await FetchLogAsync();
+
+            //設定顏色
+            //注意會被覆蓋掉
+            setColor( "Error" );
+            setColor( "([0-9]{4})-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1]) (2[0-3]|[01][0-9]):([0-5][0-9]):([0-5][0-9])" );
+
+            buttonLog.Enabled = true;
+            labelStatus.Text = "Ready";
+        }
+
+        void setColor(string pattern)
+        {
+            //這樣選不 ok
+            richTextBoxLog.SelectAll();
+            richTextBoxLog.SelectionColor = Color.Black;
+            richTextBoxLog.SelectionBackColor = Color.White;
+            Regex regex = new Regex( pattern );
+            MatchCollection matches = regex.Matches( richTextBoxLog.Text );
+
+            if (matches.Count > 0)
+            {
+                foreach (Match m in matches)
+                {
+                    richTextBoxLog.Select( m.Index, m.Length );
+                    richTextBoxLog.SelectionColor = Color.Red;
+                    richTextBoxLog.SelectionBackColor = Color.Black;
+                }
+            }
+        }
+
+
+        private void FormLog_Load( object sender, EventArgs e )
+        {
+            var existing = Process.GetProcessesByName( "OUTLOOK" ).Any();
+            outlookApplication =
+            existing ?
+            Marshal.GetActiveObject( "Outlook.Application" ) as Microsoft.Office.Interop.Outlook.Application :
+            new Microsoft.Office.Interop.Outlook.Application();
+            outlookNamespace = outlookApplication.GetNamespace( "MAPI" );
+            inboxFolder = outlookNamespace.GetDefaultFolder( OlDefaultFolders.olFolderInbox );
+            var develop = inboxFolder.Folders["Develop"];
+            develop.Items.ItemAdd += Items_ItemAdd;
+            //develop.Items.ItemRemove += Items_ItemRemove;
+        }
+
+        private void Items_ItemAdd( object Item )
+        {
+            MailItem item = (MailItem)Item;
+            var sb = new StringBuilder();
+            sb.AppendLine( "Time: " + item.CreationTime );
+            sb.AppendLine( "From: " + item.SenderEmailAddress );
+            sb.AppendLine( "To: " + item.To );
+            sb.AppendLine( "" );
+            sb.AppendLine( "Subject: " + item.Subject );
+            sb.AppendLine( item.Body );
+            richTextBoxLog.BeginInvoke( new System.Action( ()=> {
+                richTextBoxLog.Text += sb.ToString();
+            } ));
+            Marshal.ReleaseComObject( item );
+
+        }
+
+        private void Items_ItemRemove()
+        {
+            Console.WriteLine("remove");
+            richTextBoxLog.BeginInvoke( new System.Action( ()=> {
+                richTextBoxLog.Text = "remove";
+            } ));
+        }
+
+        private static void ReleaseComObject( object obj )
+        {
+            if (obj != null)
+            {
+                Marshal.ReleaseComObject( obj );
+                obj = null;
+            }
+        }
+
+    }
+}
+
+```

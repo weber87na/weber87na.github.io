@@ -18,6 +18,22 @@ tags:
 變數名稱 `MAVEN_HOME` 變數值 `C:\apache-maven-3.5.2` 並在 `PATH` 後面加上 `%MAVEN_HOME%\bin\`
 接著一樣敲 `cmd` `mvn -v` 看看有無成功輸出
 
+### powershell 中文 build java 亂碼問題
+無意中發現 powershell 呼叫 java 亂碼的問題 , [參考自此](https://stackoverflow.com/questions/44208347/unable-to-set-correct-encoding-in-powershell)
+新增環境變數 `JAVA_TOOL_OPTIONS` `-Dfile.encoding=utf-8`
+```
+echo "public class HelloWorld { public static void main(String[] args){ System.out.println(`"Helloworld`" ); } }" | Out-File -Encoding ascii HelloWorld.java
+```
+
+這裡如 Encoding 設定 utf8 會送你加了 BOM 的
+有夠無言 javac 編譯又不會讓你過 , 寫個簡單的 echo 一堆問題有夠難用
+如果真的要印中文無 BOM 最好參考這篇老外[解法](https://stackoverflow.com/questions/5596982/using-powershell-to-write-a-file-in-utf-8-without-the-bom) , 我就懶得多寫了
+```
+java HelloWorld
+#Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding=utf-8
+#Helloworld
+```
+
 ### 設定 intellij
 接著安裝 Intellij
 老樣子安裝 [IdeaVim](https://plugins.jetbrains.com/plugin/index?xmlId=IdeaVIM) 因為之前用 `Android Studio` config 過了所以直接[拿以前的來抄](https://weber87na.github.io/2021/02/21/Android-Studio-vim-mode/)

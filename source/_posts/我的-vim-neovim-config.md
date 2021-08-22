@@ -687,3 +687,191 @@ docker attach 341
 ls
 #helloworld  helloworld.deps.json  helloworld.dll  helloworld.pdb  helloworld.runtimeconfig.json
 ```
+
+## fzf 安裝
+navi 相依於 fzf , 所以先安裝 fzf , 注意最好用新一點的版本 , 不然 navi 會炸這個 error `invalid preview window layout: up:2:nohidden`
+安裝好跟 vim 用法差不多因為太多電腦懶得一一 config , 最近更習慣直接 esc 用 `ctrl + [` 來代替 or `ctrl + q` 也可以
+另外 fzf 除了 `ctrl + n` `ctrl +p` 以外還可以用 `ctrl + j` `ctrl + k` 上下移動
+```
+sudo apt update
+sudo apt upgrade
+
+git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+~/.fzf/install
+source ~/.bashrc
+```
+
+## 安裝 navi
+參考[官方](https://github.com/denisidoro/navi#installation)
+安裝這個 navi 滿雷的 , 我最後退回到 v2.15.0 才跑得起來 , 平常沒在用 git 的 tag 功能查了下才知道還有這鬼東西
+```
+cd ~
+sudo git clone --depth 1 https://github.com/denisidoro/navi
+cd navi
+sudo git fetch --all --tags
+sudo apt-get install cargo
+sudo git checkout tags/v2.15.0
+sudo make install
+```
+
+都安裝好後可以自己蓋個檔案來玩看看 , 注意副檔名要是 `.cheat` , 可以把自己常用的一些 script 寫進來方便用
+`%` 符號是 大類 `#` 是小類 , 還滿直覺的
+docker.cheat
+```
+% docker 掛狗大全
+
+# docker container 幫助
+docker container --help
+
+# docker 幫助串 grep
+docker --help | grep --color container
+
+# docker 列出 container
+docker container ls
+
+# docker 列出 image
+docker image ls
+
+# docker helloworld
+docker run hello-world
+
+# docker 列出停止的 container
+docker container ls -a
+
+# docker 列出停止的 container
+docker container ls -a
+
+# docker 跑 busybox
+docker run -it busybox sh
+
+# docker 跑 dotnet core
+docker run -it --rm mcr.microsoft.com/dotnet/sdk dotnet
+
+# docker 跑 nginx
+docker run --name nginx -d -p 8080:80 nginx
+
+# docker 查歷史
+docker history 22d
+
+# docker 查 log
+docker logs 418
+
+# docker 查 container 詳細訊息
+docker inspect 418
+
+# docker 拉 hello-world
+docker pull hello-world
+
+# docker 刪除沒用的 container
+docker container prune
+
+# docker 附加到 container 上
+docker attach 7d3
+
+# docker 啟動停止的容器
+docker start 723
+
+# docker 跳進容器 (bash)
+docker exec -it 23d /bin/bash
+
+# docker 死亡指令 (注意不要亂用 機器會爆炸)
+echo "docker run -v /:/data busybox rm -rf /"
+
+# docker 拉 imagemagick
+docker pull dpokidov/imagemagick
+
+# docker 轉換圖片為 ico
+docker run -v ~/imgs:/imgs dpokidov/imagemagick -background transparent /imgs/kuai.png -define icon:auto-resize=16,24,32,48,64,72,96,128,258 /imgs/kuai.ico
+
+# docker 建立 volume
+docker volume create test
+
+# docker 執行 imagemagick 在 volume 上
+docker run -v test:imgs -d -it --entrypoint-/bin/bash dpokidov/imagemagick
+
+# docker 查網路
+docker network ls
+
+# docker 讓網路跑在 host 上
+docker run -d --network=host nginx
+
+# docker 網路跑橋接
+docker run -d -p 8080:80 --network=bridge nginx
+
+# docker 查 container 內的 ip
+docker inspect 345 | grep -i ipaddress
+
+# docker container 網路用其他 container 的網路
+docker run -it --net=container:345 nginx
+
+# docker 查 pid
+docker inspect 2f3 | grep -i pid
+
+# nsenter 看 docker 網路
+sudo nsenter -t 12342 -n
+
+# docker 看 netns
+sudo ls /var/run/docker/netns
+
+# docker 打標籤 tag
+docker tag dotnet-cowsay:latest dotnet-cowsay:latest
+
+
+# docker 打標籤 tag remote
+docker tag dotnet-cowsay:latest 172.18.22.33/dotnet-cowsay:latest
+
+# docker login harbor
+docker login http://10.1.2.123 --username admin --password Harbor12345
+
+# docker commit
+docker commit -m "cowsay" -c "ENV PATH=$PATH:/usr/games" 1234asfw dotnet5-new-cowsay
+
+# docker 搭配 jq 輸出 raw
+ls $(docker inspect test | jq -r ".[0].Mountpoint")
+
+# docker 持續監控 log
+docker logs s12 -f -t
+```
+
+接著讀取自己的檔案看看 , 如果按了 enter 會直接把 command 執行在 terminal
+如果加了 --print 參數會把 command 寫在畫面上不會直接執行
+```
+navi --path .
+navi --path . --print
+
+docker 掛狗大全  docker image 用法    docker image ls  ⠀
+docker 掛狗大全  docker 用法          docker container ls  ⠀
+```
+
+
+## tldr
+ubuntu 20 基本上無腦安裝 , 老實說這個訊息量確實少了很多 , 有好有壞
+```
+sudo apt-get install tldr
+#測看看 docker 用法
+tldr docker
+```
+
+## 安裝 thefuck
+https://github.com/nvbn/thefuck
+```
+sudo apt-get install -y pip
+pip install thefuck
+
+vim ~/.bashrc
+PATH=$PATH:/home/vagrant/.local/bin
+source ~/.bashrc
+
+fuck
+#Seems like fuck alias isn't configured!
+#Please put eval "$(thefuck --alias)" in your ~/.bashrc and apply changes with source ~/.bashrc or restart your shell.
+#Or run fuck a second time to configure it automatically.
+#More details - https://github.com/nvbn/thefuck#manual-installation
+source ~/.bashrc
+
+```
+
+## 其他好玩咚咚
+https://github.com/agarrharr/awesome-cli-apps
+https://github.com/alebcay/awesome-shell
+https://vim.reversed.top/

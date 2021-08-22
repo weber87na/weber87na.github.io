@@ -170,8 +170,8 @@ network:
       addresses: [192.168.137.123/24]
       gateway4: 192.168.137.1
       dhcp4: no
-	  nameservers:
-	    addresses: [8.8.8.8]
+      nameservers:
+        addresses: [8.8.8.8]
 EOF
 "
 
