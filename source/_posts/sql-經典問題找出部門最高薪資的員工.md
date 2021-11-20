@@ -64,3 +64,32 @@ from(
 where seq = 1
 order by salary desc
 ```
+
+今天遇到 SQL Server 也要解類似問題再多筆記一下
+```
+with cte as (
+	select 'A001' as emp_id , 1 as dept_id , 5000 as salary
+	union all
+	select 'A002' , 1 , 3000
+	union all
+	select 'A003' , 1 , 2300
+	union all
+	select 'B002' , 2 , 2800
+	union all
+	select 'B001' , 2 , 15000
+	union all
+	select 'X002' , 3 , 2800
+	union all
+	select 'X001' , 3 , 15000
+	union all
+	select 'X003' , 3 , 1500
+	union all
+	select 'X004' , 3 , 5500
+)
+select *
+from (
+	select * , row_number() over (partition by dept_id order by salary desc) as seq
+	from cte
+) x
+--where seq = 3
+```

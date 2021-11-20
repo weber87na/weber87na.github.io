@@ -66,7 +66,7 @@ $testIds = Invoke-WebRequest Invoke-WebRequest http://127.0.0.1:5000/api/test?id
 [System.IO.File]::WriteAllLines("test.txt", $testIds.content, $utf8)
 ```
 
-### 小試牛刀找 api 內含有數字的資料 , 並排除某些 id
+### 找 api 內含有數字的資料 , 並排除某些 id
 主要原理就是需要使用 ConvertFrom-Json 將 json 物件轉為 powershell 的物件 , 接著以 Where-Object 進行搜尋 , 最後在轉換回 json 並且存檔
 可以[參考](https://devblogs.microsoft.com/scripting/playing-with-json-and-powershell/)
 ``` powershell
@@ -77,10 +77,26 @@ $filter = $result |  Where-Object {$_.ddesc -Like "*[0-9]*" -and $_.id  -notin 1
 $resultJson = $filter | ConvertTo-Json
 [System.IO.File]::WriteAllLines("test.txt", $resultJson, $utf8)
 ```
-### 小試牛刀用正則表示法找 api 內只含有數字的資料
+### 正則表示法找 api 內只含有數字的資料
 ``` powershell
 $tests = Invoke-WebRequest http://127.0.0.1:5000/api/test
 $json = $tests.content | ConvertFrom-Json
 $result = $json | where ddesc -match "^[0-9]*$"
 $result | ConvertTo-Json > "找出只有零到九的.json"
+```
+
+### 撈電腦產品型號
+當 systeminfo 查不到型號顯示 System Model: System Product Name , 可以用以下指令撈看看
+```
+#查不到 顯示 System Model: System Product Name
+systeminfo
+
+#Model : System Product Name
+Get-WmiObject Win32_ComputerSystem Model
+wmic baseboard get product,manufacturer,version,serialnumber
+```
+
+### 撈 windows 目前版本
+```
+Get-ComputerInfo | select WindowsProductName, WindowsVersion, OsHardwareAbstractionLayer
 ```

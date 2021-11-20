@@ -12,6 +12,48 @@ top: true
 前言，老實說呢，我很懶得寫這篇，因為之前的電腦 win 10 跑 wsl or cmder 基本上都很順，
 但跑到 win 7 上就很靈異，先是 cmder 顯示錯誤，安裝 cygwin 顯示也是不正確，我看 git for windows 好像顯示就沒問題，為了讓工作順暢特別研究了這篇 @__@!
 
+## windows 對照 vim 快速操作技巧
+最近又回來用 windows 覺得賭爛 , 筆記一下操作 , 應該還要寫個 emacs 的方式才對畢竟 terminal 常常用 , 有空再搞
+`ctrl + z` 復原 `u`
+`ctrl + y` 復原前的狀態 `ctrl + r`
+`ctrl + g` 移動到行號 `:5`
+`ctrl + ←` 往左移動一整個單字 `b`
+`ctrl + →` 往右移動一整個單字 `w`
+`ctrl + shift + ←` 往左選取一整個單字 `vb`
+`ctrl + shift + →` 往右選取一整個單字 `ve`
+`home` 移動到行頭 `^`
+`end` 移動到行尾 `$`
+`shift + home` 目前位置選到行頭 `v^`
+`shift + end` 目前位置選到行尾 `v$`
+`ctrl + backspace` 刪除一個單字 , 中文的話就是刪除到空白為止 `daw`
+`ctrl + home` 移動到文件最頂端 `gg`
+`ctrl + end` 移動到文件最尾端 `G`
+`ctrl + ↑` 往上捲 `ctrl + e`
+`ctrl + ↓` 往下捲 `ctrl + y`
+`ctrl + shift + ↑` 將此行往上移動 `:m-2`
+`ctrl + shift + ↓` 將此行往下移動 `:m+1`
+
+## windows 對照 terminal 快速操作技巧
+`end` 往前刪除一個字 `ctrl + h` 
+`delete` 刪除目前游標的字 `ctrl + d`
+
+`←` 往左移動一個字 `ctrl + b`
+`→` 往右移動一個字 `ctrl + f`
+
+`ctrl + ←` 往左移動一個單字 `alt + b`
+`ctrl + →` 往右移動一個單字 `alt + f`
+
+`ctrl + shift + ← + delete` or `ctrl + backspace` 往左刪除一個單字 `ctrl + w`
+`ctrl + shift + → + delete` or `ctrl + → + backspace` 往右刪除一個單字 `alt + d`
+
+`shift + end + delete` 刪除目前游標之後的所有字 `ctrl + k`
+`home + shift + end + delete` 刪除整行 `ctrl + a` `ctrl + k`
+
+`home` 移動到開頭 `ctrl + a`
+`end` 移動到結尾 `ctrl + e`
+
+`ctrl + l` 清除畫面
+
 ## 安裝 oh-my-bash
 算是無腦安裝 [oh-my-bash](https://github.com/ohmybash/oh-my-bash)
 ```
@@ -61,6 +103,13 @@ vim --version | grep "+python"
 :echo has('python3') 
 :echo has('python') 
 return 1 即可
+```
+
+## 解決 vim 編輯檔案時忘了加上 sudo 造成 readonly 的問題
+這問題困擾滿久的 , 有時候編輯一堆內容才發現忘了加 sudo , 今天無意中看到[老外說明](https://superuser.com/questions/694450/using-vim-to-force-edit-a-file-when-you-opened-without-permissions)
+可以執行以下指令 , 就搞定啦
+```
+:w !sudo tee %
 ```
 
 ## Tmux 安裝

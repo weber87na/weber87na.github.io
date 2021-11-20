@@ -120,9 +120,14 @@ docker info | grep Cgroup
 sudo vim /etc/docker/daemon.json
 sudo service docker restart
 #加入這段
-#{
-#  "exec-opts": ["native.cgroupdriver=systemd"]
-#}
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
 ```
 
 實際執行結果
@@ -352,6 +357,415 @@ sudo systemctl restart kubelet
 sudo systemctl status kubelet -l
 ps aux | grep kubelet
 
+```
+
+### 完整安裝過程 (cn)
+#### 關閉 swap
+因為跟之前寫得狀況不太一樣所以特別筆記
+可以參考老外 https://graspingtech.com/disable-swap-ubuntu/
+```
+sudo swapoff -a
+sudo vim /etc/fstab
+
+#註解這個咚咚
+#/swap.img
+```
+
+
+#### k8s 安裝(阿里雲)
+[參考強國人](https://zhuanlan.zhihu.com/p/142945366)
+```
+sudo vim /etc/apt/sources.list
+#加在最後面
+deb https://mirrors.aliyun.com/kubernetes/apt kubernetes-xenial main
+
+#這邊會跳類似的沒 key 的 error
+#Err:4 http://mirrors.ustc.edu.cn/kubernetes/apt kubernetes-xenial InRelease
+#The following signatures couldn't be verified because the public key is not avail
+
+#加入 key , 莫名其妙 , 主要是看他跳啥 key 給你 , 要自己調整對應的 key
+gpg --keyserver keyserver.ubuntu.com --recv-keys BA07F4FB
+gpg --export --armor BA07F4FB | sudo apt-key add -
+
+#這裡主要是看他跳啥 key 給你 , 要自己調整對應的 key
+#https://www.cnblogs.com/yickel/p/12319317.html
+#FEEA9169307EA071
+#apt-key adv --recv-keys --keyserver keyserver.ubuntu.com FEEA9169307EA071
+#gpg --keyserver keyserver.ubuntu.com --recv-keys FEEA9169307EA071
+#gpg --export --armor FEEA9169307EA071 | sudo apt-key add -
+
+#更新
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+```
+
+#### 設定 docker cgroup
+mirror [參考強國人](https://blog.csdn.net/m0_37886429/article/details/80323149)
+```
+#注意這邊設定中國的 mirror
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "registry-mirrors": [
+    "https://kfwkfulq.mirror.aliyuncs.com",
+    "https://2lqq34jg.mirror.aliyuncs.com",
+    "https://pee6w651.mirror.aliyuncs.com",
+    "https://registry.docker-cn.com",
+    "http://hub-mirror.c.163.com"
+  ],
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+```
+
+注意 docker 如果賭爛一直用 sudo 的話加入下面這句
+```
+sudo usermod -aG docker ${USER}
+su - ${USER}
+id -nG
+```
+
+讓 config 生效
+```
+sudo systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+查目前 k8s images 要得 image
+```
+kubeadm config images list
+#Kubernetes version: v1.22.2
+
+k8s.gcr.io/kube-apiserver:v1.22.2
+k8s.gcr.io/kube-controller-manager:v1.22.2
+k8s.gcr.io/kube-scheduler:v1.22.2
+k8s.gcr.io/kube-proxy:v1.22.2
+k8s.gcr.io/pause:3.5
+k8s.gcr.io/etcd:3.5.0-0
+k8s.gcr.io/coredns/coredns:v1.8.4
+```
+
+正式啟動 k8s
+注意這邊有擋所以需要加上指定的 repository 阿里雲 --image-repository registry.aliyuncs.com/google_containers
+```
+#網路沒擋的話這句可以免加
+#--image-repository registry.aliyuncs.com/google_containers
+sudo kubeadm init --image-repository registry.aliyuncs.com/google_containers --apiserver-advertise-address 10.78.1.123 --pod-network-cidr 10.244.0.0/16 --token-ttl 0
+```
+
+因為直接 pull 網路會擋 , 用 k8s 拉看看阿里雲
+參考這篇 https://www.cnblogs.com/hellxz/p/13204093.html
+```
+kubeadm config images pull --image-repository registry.aliyuncs.com/google_containers --kubernetes-version v1.22.2
+```
+
+拉下來的結果
+```
+docker images
+
+REPOSITORY                                                        TAG       IMAGE ID       CREATED        SIZE
+hello-world                                                       latest    feb5d9fea6a5   4 weeks ago    13.3kB
+registry.aliyuncs.com/google_containers/kube-apiserver            v1.22.2   e64579b7d886   5 weeks ago    128MB
+registry.aliyuncs.com/google_containers/kube-controller-manager   v1.22.2   5425bcbd23c5   5 weeks ago    122MB
+registry.aliyuncs.com/google_containers/kube-scheduler            v1.22.2   b51ddc1014b0   5 weeks ago    52.7MB
+registry.aliyuncs.com/google_containers/kube-proxy                v1.22.2   873127efbc8a   5 weeks ago    104MB
+registry.aliyuncs.com/google_containers/etcd                      3.5.0-0   004811815584   4 months ago   295MB
+registry.aliyuncs.com/google_containers/coredns                   v1.8.4    8d147537fb7d   4 months ago   47.6MB
+registry.aliyuncs.com/google_containers/pause                     3.5       ed210e3e4a5b   7 months ago   683kB
+```
+
+需要 retage 的話才用下面這個 sh retag , 參數有改過感謝強國人的貢獻
+```
+#!/bin/bash
+# Script For Quick Pull K8S Docker Images
+# by Hellxz Zhang <hellxz001@foxmail.com>
+
+# please run kubeadm for get version msg. e.g `kubeadm config images list --kubernetes-version v1.18.3`
+# then modified the Version's ENV, Saved and Run.
+
+KUBE_VERSION=v1.22.2
+PAUSE_VERSION=3.5
+CORE_DNS_VERSION=v1.8.4
+ETCD_VERSION=3.5.0-0
+
+# pull aliyuncs mirror docker images
+#docker pull registry.aliyuncs.com/google_containers/kube-proxy:$KUBE_VERSION
+#docker pull registry.aliyuncs.com/google_containers/kube-controller-manager:$KUBE_VERSION
+#docker pull registry.aliyuncs.com/google_containers/kube-apiserver:$KUBE_VERSION
+#docker pull registry.aliyuncs.com/google_containers/kube-scheduler:$KUBE_VERSION
+#docker pull registry.aliyuncs.com/google_containers/pause:$PAUSE_VERSION
+#docker pull registry.aliyuncs.com/google_containers/coredns:$CORE_DNS_VERSION
+#docker pull registry.aliyuncs.com/google_containers/etcd:$ETCD_VERSION
+
+# retag to k8s.gcr.io prefix
+docker tag registry.aliyuncs.com/google_containers/kube-proxy:$KUBE_VERSION  k8s.gcr.io/kube-proxy:$KUBE_VERSION
+docker tag registry.aliyuncs.com/google_containers/kube-controller-manager:$KUBE_VERSION k8s.gcr.io/kube-controller-manager:$KUBE_VERSION
+docker tag registry.aliyuncs.com/google_containers/kube-apiserver:$KUBE_VERSION k8s.gcr.io/kube-apiserver:$KUBE_VERSION
+docker tag registry.aliyuncs.com/google_containers/kube-scheduler:$KUBE_VERSION k8s.gcr.io/kube-scheduler:$KUBE_VERSION
+docker tag registry.aliyuncs.com/google_containers/pause:$PAUSE_VERSION k8s.gcr.io/pause:$PAUSE_VERSION
+docker tag registry.aliyuncs.com/google_containers/coredns:$CORE_DNS_VERSION k8s.gcr.io/coredns:$CORE_DNS_VERSION
+docker tag registry.aliyuncs.com/google_containers/etcd:$ETCD_VERSION k8s.gcr.io/etcd:$ETCD_VERSION
+
+
+# untag origin tag, the images won't be delete.
+docker rmi registry.aliyuncs.com/google_containers/kube-proxy:$KUBE_VERSION
+docker rmi registry.aliyuncs.com/google_containers/kube-controller-manager:$KUBE_VERSION
+docker rmi registry.aliyuncs.com/google_containers/kube-apiserver:$KUBE_VERSION
+docker rmi registry.aliyuncs.com/google_containers/kube-scheduler:$KUBE_VERSION
+docker rmi registry.aliyuncs.com/google_containers/pause:$PAUSE_VERSION
+docker rmi registry.aliyuncs.com/google_containers/coredns:$CORE_DNS_VERSION
+docker rmi registry.aliyuncs.com/google_containers/etcd:$ETCD_VERSION
+```
+
+接著敲這段 kubectl 才可以正確看到目前 k8s 的 pods
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+這串必留給節點加入 node 用的
+```
+sudo kubeadm join 10.78.1.123:6443 --token dwmvvg.q8ri8ygnpttgfgfi \
+        --discovery-token-ca-cert-hash sha256:2358a5cb7019e1xx0f9e3969bxx244179356c19ee57531b3aaf5de9xxefdce64
+```
+
+看看 master 節點狀態
+```
+kubectl get nodes
+NAME          STATUS     ROLES                  AGE   VERSION
+master   NotReady   control-plane,master   58s   v1.22.2
+```
+
+看看 pod 狀態
+```
+kubectl get pods -A
+NAMESPACE     NAME                                  READY   STATUS    RESTARTS   AGE
+kube-system   coredns-1f6cbbb7b8-7vvp2              0/1     Pending   0          50s
+kube-system   coredns-1f6cbbb7b8-tx2dr              0/1     Pending   0          50s
+kube-system   etcd-master                      		1/1     Running   2          64s
+kube-system   kube-apiserver-master            		1/1     Running   2          64s
+kube-system   kube-controller-manager-master   		1/1     Running   2          64s
+kube-system   kube-proxy-nxbq1                      1/1     Running   0          50s
+kube-system   kube-scheduler-master            		1/1     Running   2          65s
+```
+
+網路安裝
+這裡直接用 calico
+https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises
+
+還是參考[強國人](https://zhuanlan.zhihu.com/p/400086629)
+
+注意這句
+If you are using pod CIDR 192.168.0.0/16, skip to the next step. If you are using a different pod CIDR with kubeadm, no changes are required - Calico will automatically detect the CIDR based on the running configuration. For other platforms, make sure you uncomment the CALICO_IPV4POOL_CIDR variable in the manifest and set it to the same value as your chosen pod CIDR
+這邊會要求要設定網段 , 之前用的網段是 10.244.0.0/16
+```
+curl https://docs.projectcalico.org/manifests/calico.yaml -O
+
+vim calico.yaml
+#修改成你的網段
+# The default IPv4 pool to create on startup if none exists. Pod IPs will be
+# chosen from this range. Changing this value after installation will have
+# no effect. This should fall within `--cluster-cidr`.
+- name: CALICO_IPV4POOL_CIDR
+  value: "10.244.0.0/16"
+
+kubectl apply -f calico.yaml
+```
+
+因為 calico 裝壞掉 , 移除時怪怪的 , 最後有 reboot 一次
+萬一悲劇要 reset 的話執行下面這些指令
+https://cloud.tencent.com/developer/article/1728766
+```
+kubeadm reset
+sudo rm -rf $HOME/.kube /etc/kubernetes
+sudo rm -rf /var/lib/cni/ /etc/cni/ /var/lib/kubelet/*
+
+#這串說實在的我不太曉得意思 , 我 reset 以後 reboot 就沒事了可加可不加
+sudo iptables -F && sudo iptables -t nat -F && sudo iptables -t mangle -F && sudo iptables -X
+```
+
+
+### 完整安裝過程 (tw)
+因為之前邊安裝邊摸索 , 導致順序有點混亂 , 以下方法是我 try 出來整個正常的流程 , 先開啟 powershell 建立兩個資料夾
+
+k8s-lab-master 192.168.137.123
+k8s-lab-slave1 192.168.137.124
+
+#### hyperv 設定固定 ip
+設定 hyperv 的 ip 為 192.168.137.123 , 當 netplan apply 以後會斷線是正常現象
+```
+sudo bash -c "cat > /etc/netplan/01-netcfg.yaml << EOF
+network:
+  version: 2
+  ethernets:
+    eth0:
+      addresses: [192.168.137.123/24]
+      gateway4: 192.168.137.1
+      dhcp4: no
+      nameservers:
+        addresses: [8.8.8.8]
+EOF
+"
+
+#需要驗證看看格式對不對的話可以用以下指令
+sudo netplan generate
+
+#讓網路生效
+sudo netplan apply
+```
+
+
+#### 設定關閉 swap 跟防火牆
+```
+#更新
+sudo apt update
+sudo apt upgrade
+
+#關防火牆
+sudo ufw disable
+sudo ufw status
+
+#關閉 swap
+sudo swapoff -a
+sudo vim /etc/fstab
+
+#永久關閉
+#註解這段
+##/swapfile
+```
+
+
+
+#### 設定 docker cgroup
+[參考官方](https://kubernetes.io/docs/setup/production-environment/container-runtimes/#docker)
+```
+cat <<EOF | sudo tee /etc/docker/daemon.json
+{
+  "exec-opts": ["native.cgroupdriver=systemd"],
+  "log-driver": "json-file",
+  "log-opts": {
+    "max-size": "100m"
+  },
+  "storage-driver": "overlay2"
+}
+EOF
+```
+
+讓 config 生效
+```
+sudo systemctl enable docker
+sudo systemctl daemon-reload
+sudo systemctl restart docker
+```
+
+
+#### 安裝 k8s
+[參考官方](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/)
+```
+sudo apt-get update
+sudo apt-get install -y apt-transport-https ca-certificates curl
+
+sudo curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+
+echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+
+sudo apt-get update
+sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-mark hold kubelet kubeadm kubectl
+```
+
+
+#### 啟動 k8s
+`apiserver-advertise-address` 為你的 ip
+`pod-network-cidr` 設定你自己想要的內網網段
+`token-ttl` 讓 token 永久生效
+```
+sudo kubeadm init --apiserver-advertise-address 192.168.137.123 --pod-network-cidr 10.244.0.0/16 --token-ttl 0
+```
+
+萬一要改 master 的 ip 請[參考這個老外](https://ystatit.medium.com/how-to-change-kubernetes-kube-apiserver-ip-address-402d6ddb8aa2)
+萬一你真的悲劇前面有敲錯可以加參數 `--ignore-preflight-errors=all` 來逃避看看錯誤
+
+
+接著敲這段 kubectl 才可以正確看到目前 k8s 的 pods
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+這串是要給 k8s node 節點加入用的暫時先保留起來重要
+```
+kubeadm join 192.168.137.123:6443 --token vo3p0d.zy3m6u3pc3dxk2kl \
+        --discovery-token-ca-cert-hash sha256:c6bf7cbd96ad5a2b444f5a467f828d18380098cb29079a20ceec710fad39184d
+```
+
+撈看看現在系統上的 pods 可以看到 coredns pending 是因為還沒插上網路 cni 設定
+```
+kubectl get pods -o wide -n kube-system
+
+NAME                                 READY   STATUS    RESTARTS   AGE   IP                NODE         NOMINATED NODE   READINESS GATES
+coredns-78fcd69978-65wpf             0/1     Pending   0          17m   <none>            <none>       <none>           <none>
+coredns-78fcd69978-hnn7k             0/1     Pending   0          17m   <none>            <none>       <none>           <none>
+etcd-docker-lab                      1/1     Running   0          17m   192.168.137.123   docker-lab   <none>           <none>
+kube-apiserver-docker-lab            1/1     Running   0          17m   192.168.137.123   docker-lab   <none>           <none>
+kube-controller-manager-docker-lab   1/1     Running   0          17m   192.168.137.123   docker-lab   <none>           <none>
+kube-proxy-zzsvp                     1/1     Running   0          17m   192.168.137.123   docker-lab   <none>           <none>
+kube-scheduler-docker-lab            1/1     Running   0          17m   192.168.137.123   docker-lab   <none>           <none>
+
+```
+
+另外看看 cluster 是否 ok
+```
+kubectl get nodes
+NAME             STATUS     ROLES                  AGE     VERSION
+k8s-lab-master   NotReady   control-plane,master   6m43s   v1.22.1
+```
+
+因為 flannel 已經宣判陣亡 , 所以這邊用 calico 當作 cni 組件 , 這裡可以看到 k8s 佈署東西的方法就是透過 kubectl apply yaml 檔案
+https://docs.projectcalico.org/getting-started/kubernetes/self-managed-onprem/onpremises
+```
+curl https://docs.projectcalico.org/manifests/calico-typha.yaml -o calico.yaml
+kubectl apply -f calico.yaml
+```
+
+沒意外的話應該是 ok
+```
+kubectl get nodes
+NAME             STATUS   ROLES                  AGE   VERSION
+k8s-lab-master   Ready    control-plane,master   28m   v1.22.1
+```
+
+這次看到 coredns 動了 , 並且多了兩個 calico 組件
+```
+kubectl get pods -A
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE
+kube-system   calico-kube-controllers-58497c65d5-82nd9   1/1     Running   0          68s
+kube-system   calico-node-mptq5                          1/1     Running   0          68s
+kube-system   coredns-78fcd69978-nzfph                   1/1     Running   0          29m
+kube-system   coredns-78fcd69978-wg46c                   1/1     Running   0          29m
+kube-system   etcd-k8s-lab-master                        1/1     Running   0          29m
+kube-system   kube-apiserver-k8s-lab-master              1/1     Running   0          29m
+kube-system   kube-controller-manager-k8s-lab-master     1/1     Running   0          29m
+kube-system   kube-proxy-gggcx                           1/1     Running   0          29m
+kube-system   kube-scheduler-k8s-lab-master              1/1     Running   0          29m
+```
+
+最後可以看看 describe 命令
+```
+kubectl describe node k8s-lab-master
+```
+
+最特別的就是這個汙點訊息 , master 一般會是打上汙點 , 只要 node 上面是汙點的話 , 就不會承擔運算工作 , 等等佈署 slave/node 就可以知道
+```
+Taints: node-role.kubernetes.io/master:NoSchedule
 ```
 
 ### KIND 安裝

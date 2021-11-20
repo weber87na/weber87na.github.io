@@ -293,3 +293,118 @@ namespace LazyHelper
 }
 
 ```
+
+### Singleton 的 WPF 程式
+複寫 `OnStartup` 的內容 , 並且把 `app.xaml` 的 startup 拿掉
+使用 Shutdown 的原因是會關閉這個準備要開啟的 Thread (Instance)
+```
+public partial class App : Application
+{
+	protected override void OnStartup(StartupEventArgs e)
+	{
+		base.OnStartup(e);
+
+		Mutex m = new Mutex(true , "Singleton" , out bool isExists);
+		if (isExists != true)
+		{
+			var findWindow = FindWindow( null, "Singleton" );
+			if (findWindow!=IntPtr.Zero)
+			{
+				SetForegroundWindow( findWindow );
+			}
+			Shutdown();
+		}
+
+		var window1 = new Window1();
+		window1.Show();
+
+	}
+
+	[DllImport("User32" , CharSet = CharSet.Unicode)]
+	static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+	[DllImport("User32" , CharSet = CharSet.Unicode)]
+	static extern IntPtr SetForegroundWindow(IntPtr hWnd);
+}
+```
+
+### Singleton 的 WinForm 程式
+這個 case 比較特別 , 主要是有做縮到右下角 icon 的功能 , 如果沒加上 `ShowWindowAsync` 會 show 不出來
+```
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        [STAThread]
+        static void Main()
+        {
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault( false );
+
+            Mutex m = new Mutex(true, "Singleton", out bool created);
+
+            //程式的沒開的話才跑進來
+            if (created != true)
+            {
+                //找這個 window 的指標 (instance)
+                var findWindow = FindWindow(null, "Singleton");
+                if (findWindow != IntPtr.Zero)
+                {
+                    //這邊要加上 ShowWindowAsync 這樣子如果縮小成右下角的 Notify Icon 才會有顯示的效果
+                    //https://dotblogs.com.tw/chou/2009/06/30/9049
+                    ShowWindowAsync( findWindow, WS_SHOWNORMAL );
+
+                    //設定到前景
+                    SetForegroundWindow(findWindow);
+                }
+                Environment.Exit(0);
+            }
+
+            Application.Run( new Form1() );
+        }
+
+        [DllImport( "user32.dll", CharSet = CharSet.Unicode)]
+        static extern IntPtr FindWindow( string lpClassName, string lpWindowName );
+
+        [DllImport("User32.dll" , CharSet = CharSet.Unicode)]
+        private static extern bool ShowWindowAsync(IntPtr hWnd, int cmdShow);
+
+        [DllImport("User32.dll" , CharSet = CharSet.Unicode)]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        private const int WS_SHOWNORMAL = 1;
+    }
+
+```
+### 錯誤處理
+WPF
+```
+public partial class App : Application
+{
+	protected override void OnStartup(StartupEventArgs e)
+	{
+		base.OnStartup(e);
+		Dispatcher.UnhandledException += Dispatcher_UnhandledException;
+	}
+
+	private void Dispatcher_UnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+	{
+		//Log Here
+		Debug.Write($"{e.Exception.ToString()}");
+		e.Handled = true;
+	}
+}
+```
+
+### 在 WPF Button 的 Tooltip 裡面加些不三不四的東東
+```
+<Button Content="AAA" Width="50" Height="50" >
+	<Button.ToolTip>
+		<Grid>
+			<Image Width="200" Height="200">
+				<Image.Source>
+					<BitmapImage UriSource="nono.jpg"></BitmapImage>
+				</Image.Source>
+			</Image>
+		</Grid>
+	</Button.ToolTip>
+</Button>
+```

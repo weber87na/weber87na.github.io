@@ -67,4 +67,11 @@
   gtag('config', 'UA-171640966-1');
 </script>
 
+<style>
+    @font-face {
+        font-family: "JasonHandwriting1-Regular";
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+    }
+</style>
+
 {{ next_config() }}

@@ -170,5 +170,13 @@ git you give love a bad name
 git blame bonjovi.html
 ```
 
+### fatal: fsync error on '.git/objects/pack/tmp_pack_DZTfQ3': Bad file descriptor
+今天遇到這個問題 , 我是用 visual studio 開啟專案 , 然後開 git bash 執行 pull 發生的 , 怎麼樣都沒法正確 pull 下來
+後來參考[老外](https://stackoverflow.com/questions/47929881/git-fatal-fsync-error-on-sha1-file-bad-file-descriptor)
+搞了半天最後把 visual studio 關閉 , 然後用 git bash pull 就成功了 , 不曉得是不是 lock 什麼檔案
+```
+fatal: fsync error on '.git/objects/pack/tmp_pack_DZTfQ3': Bad file descriptor
+```
+
 ### 其他資源
 [git 練習](https://learngitbranching.js.org/?locale=zh_TW)

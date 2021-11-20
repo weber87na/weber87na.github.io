@@ -438,6 +438,42 @@ vscode binding 滿自虐的
 			"after": [
 				"<Esc>"
 			]
+		},
+		{
+			"before": [
+			"z",
+			";"
+			],
+			"after": [
+                "<Esc>", "$" , "a" , ";" 
+			],
+		},
+		{
+			"before": [
+			"z",
+			"h"
+			],
+			"after": [
+                "<Esc>", "^" , "i"  
+			],
+		} ,
+		{
+			"before": [
+			"z",
+			"l"
+			],
+			"after": [
+                "<Esc>" , "$" , "a"
+			],
+		} , 
+		{
+			"before": [
+			"z",
+			","
+			],
+			"after": [
+                "<Esc>" , "$" , "a" , ","
+			],
 		}
 		],
 		"vim.visualModeKeyBindingsNonRecursive": [
@@ -958,6 +994,42 @@ vscode binding 滿自虐的
 			"after": [
 				":wq"
 			],
+		},
+		{
+			"before": [
+			"z",
+			"h"
+			],
+			"after": [
+				"^"
+			],
+		},
+		{
+			"before": [
+			"z",
+			"l"
+			],
+			"after": [
+				"$"
+			],
+		},
+		{
+			"before": [
+			"z",
+			";"
+			],
+			"after": [
+				"$" , "a" , ";" , "<Esc>"
+			],
+		} ,
+		{
+			"before": [
+			"z",
+			","
+			],
+			"after": [
+                "$" , "a" , "," , "<Esc>" ,
+			],
 		}
 		],
 		"vim.handleKeys": {
@@ -1059,7 +1131,59 @@ keybindings.json
 		"command": "editor.emmet.action.wrapWithAbbreviation"
 },
 ```
+### 自訂 emmet snippet
+一直以來都有個很火大的需求 , 就是每次用 `emmet` `!` 產生 html 時都會送你英文 `lang="en"`
+這時候你打開 chrome 就會出現翻譯要你點選 , 每次都彈這個視窗很賭爛 , 所以才想辦法寫這篇
+另外 Safari 9.0 還有個很北爛的 bug , 需要在加上 meta `shrink-to-fit=no`
+像下面這樣才會正常 ,  可以參考[這篇討論](https://stackoverflow.com/questions/33767533/what-does-the-shrink-to-fit-viewport-meta-attribute-do)
+```
+<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+```
 
+根據[官方說明](https://code.visualstudio.com/docs/editor/emmet#_using-custom-emmet-snippets)
+要設定需要在你的 `settings.json` 設定 `emmet.extensionsPath` 這個區塊 , 然後建立資料夾
+```
+    "emmet.extensionsPath": [
+        "C:\\Users\\YourName\\mysnippet"
+    ]
+```
+然後新增 `snippets.json` 這個檔案 , 注意結尾有 `s` 很容易忘了加 , 然後下面加入自己爽的內容 , 預設可以參考這個[官方檔案](https://github.com/emmetio/snippets/blob/master/html.json)
+另外自己定義的時候他吃 emmet 語法 , 所以單純想輸出文字的話需要用花括號包起來 , 如果你是謎片業者就可以定義常用的迷片連結 ? 可以看我下面的例子
+```
+{
+  "html": {
+    "snippets": {
+      "lasai": "{喇賽}",
+	  "lilasai": "{你喇賽}",
+	  "liladisai": "{你喇低賽}",
+	  "myblog" : "{https://weber87na.github.io/}"
+	  "meta:vp": "meta[name=viewport content='width=${1:device-width}, initial-scale=${2:1.0}, shrink-to-fit=no']",
+	  "doctw": "html[lang=zh-Hant]>(head>meta[charset=${charset}]+meta:vp+title{${1:Document}})+body",
+	  "!tw": "!!!+doctw"
+    }
+  }
+}
+```
+最後特別注意 , 這種設定檔的 json 如果是最後一個 item 不能有 comma 逗號 `,` 會跳 error 爽得你不要不要的 , 設定完後要重啟 vscode 才會生效
+其他產生 snippet 就暫時沒太多研究 , 只知道這個[工具](https://snippet-generator.app/?description=&tabtrigger=&snippet=&mode=vscode)可以幫你
+
+### Hippie Completion
+這個 [simple-autocomplete](https://marketplace.visualstudio.com/items?itemName=mksafi.simple-autocomplete) 外掛是無意中發現的
+這個在 `webstorm` 稱為 [嬉皮補全](https://www.jetbrains.com/help/webstorm/auto-completing-code.html#hippie_completion)
+不過他這個功能的實作細節是包含某個字元就判定補全 , 並非用字首來計算 , 所以還是有些細微差異
+
+因為之前都沒在 `setting.json` 設定過 bind `alt key` 所以不太曉得怎麼用 , 搞了半天好像不 work
+後來查了看看老外的半殘[解法](https://stackoverflow.com/questions/50724308/is-it-possible-to-map-alts-to-escape-in-vscode-vim)
+最後還是要在 `keybindings.json` 設定 , 貼上以下內容即可搞定
+```
+[
+    {
+        "key": "alt+/",
+        "command": "simpleAutocomplete.next",
+        "when": "editorTextFocus && vim.active && vim.mode == 'Insert'"
+    }
+]
+```
 
 ### colab 整合 vscode
 基本上[參考這老外](https://medium.com/swlh/connecting-local-vscode-to-google-colabs-gpu-runtime-bceda3d6cf64)
@@ -1111,4 +1235,43 @@ ColabCode(port=10000, password="helloworld")
 	"yaml.schemas": {
 	  "Kubernetes": "*.yaml"
 	}
+```
+
+### 參數換行
+這個方法 visual studio 不曉得啥時就可以自動 wrap 參數 , 可是 vscode 好像不行 , 所以特別筆記一下
+假設 function 的參數很多 , 有時候會希望讓參數換行 , 像是下面這個片段
+```
+public Author(Guid id , [NotNull] string name , DateTime birthDate , [CanBeNull] string shortBio = null)
+{
+	//喇賽懶得寫
+}
+```
+這時正常情況會像智障一樣慢慢敲換行 , 可是有這樣一個操作技巧
+開啟 `replace` 的功能然後選住 `Author` 這一行 , 開啟 `regex` 選項及 `Match Case`
+接著輸入要替換的內容 search term `,` 及 replacement term 如下面這樣 , 這個方法 notepad++ 也適用
+特別注意如果是 vscode 的 newline 要用 `\n` , `\r\n` 好像沒用
+```
+,\n\t\t\t
+```
+`visual studio` or `notepad++`
+```
+,\r\n\t\t\t
+```
+
+最後就可以得到這樣的效果
+```
+internal Author(Guid id ,
+	 [NotNull] string name ,
+	 DateTime birthDate ,
+	 [CanBeNull] string shortBio = null)
+	: base( id )
+{
+	//喇賽懶得寫
+}
+
+```
+
+另外也可以先用 vim 錄製 `f,a<CR><Esc>` 這樣的動作 , 用 @q 來重播達到一樣的效果
+```
+"q   f,a<CR><Esc>
 ```

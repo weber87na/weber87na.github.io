@@ -8,8 +8,10 @@ tags:
 ---
 &nbsp;
 <!-- more -->
+
 有個賣迷片的朋友影片一直無法發佈影片,佛心幫忙看看.
 
+### 發佈 m3u8
 開個 .net core 的 mvc 專案
 修改 Startup.cs 的 Configure
 預設 .ts 檔會吃到 typescript 所以將它移除
@@ -110,4 +112,13 @@ file3.ts
         }
     </script>
 }
+```
+
+### 上字幕
+這是後來遇到的 , 因為謎片都是沒字幕的 , 朋友想加上字幕又懶得花錢 , 所以只好找了免費仔的方法 [`pyTranscriber`](https://github.com/raryelcostasouza/pyTranscriber/releases/tag/v1.5-stable)
+基本上只要下載以後選擇要的檔案就是無腦用 google api 去產生字幕 , 不過翻譯出來還是需要有人去校正 , 還是滿方便低 ~
+
+另外如果想要把字幕燒在影片上的話可以用 ffmpeg 然後用 powershell 執行像是這樣就可以搞定 , [參考這篇](https://stackoverflow.com/questions/8672809/use-ffmpeg-to-add-text-subtitles)
+``` powershell
+.\ffmpeg.exe -i "40cm 黑人大戰金剛.mp4" -vf subtitles="40cm 黑人大戰金剛.srt" "40cm 黑人大戰金剛.mp4"
 ```

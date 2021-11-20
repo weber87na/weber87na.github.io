@@ -6,6 +6,119 @@ tags: asp.net core
 &nbsp;
 <!-- more -->
 
+這篇是因為三不五時又被抓回來寫後端搞的 , 一下子 .net framework 一下子 .net core 我都搞不太清楚在寫啥
+有遇到問題就順手紀錄看看
+
+
+### ABP 手動建立 controller
+以前沒用過 ABP framework , 有機會剛好用看看 , 它裡面有個 auto api controller 機制
+只要繼承 `IApplicationService` 就可以自動讓 Service 去產生 api , 跟之前用 java 的 spring 有個懶人用法類似
+但是沒講怎麼手動建立 , 實際上在專案底下有 `XXX.XXX.HttpApi` 這個方案
+直接在裡面加上 controller 即可
+```
+public class XXXApiController : AbpController{
+	//todo
+}
+```
+
+
+### 一次 POST 多筆資料 count 永遠為零
+
+久沒寫 web api 了 , 今天遇到一個靈異事件 , post 多筆資料 countr 永遠為零 , 可能之前多半丟單一個 DTO 上來而已
+關鍵在於要加上 [FromBody] 這樣才收得到
+順便一提如果是用 abp 插入的話不用特別加上 [FormBody] 就可以吃到參數 , 靈異 ~
+
+錯誤
+```
+[HttpPost( "Hello" )]
+public IActionResult Hello(List<DTO> test)
+{
+	return Json( test );
+}
+```
+
+正確
+```
+[HttpPost( "Hello" )]
+public IActionResult Hello([FromBody] List<DTO> test)
+{
+	return Json( test );
+}
+```
+
+
+
+### Missing type map configuration or unsupported mapping.
+
+今天炸了忘了加 auto mapper 的問題 , 筆記一下
+```
+Mapping types:
+Object -> SfcStationDto
+System.Object -> Sunon.Cim.Sfc.SfcStationDto
+```
+
+首先要知道 return 的型別為後面那個 , 像是下面這樣
+```
+StationDto result = ObjectMapper.Map<Station, StationDto>( station );
+```
+
+所以要在 MapperProfile 裡面定義這樣
+```
+public class StationAutoMapperProfile : Profile{
+	public StationAutoMapperProfile(){
+		CreateMap<Station, StationDto>();
+	}
+}
+```
+
+
+### 升級 .net 3.1 to .net 5
+┏[User]
+┖[~\source\repos\SportSln\SportsStore]> dotnet ef migrations add Orders
+Could not execute because the application was not found or a compatible .NET SDK is not installed.
+Possible reasons for this include:
+  * You intended to execute a .NET program:
+      The application 'ef' does not exist.
+  * You intended to execute a .NET SDK command:
+      A compatible installed .NET SDK for global.json version [3.1.101] from [C:\Users\User\source\repos\SportSln\SportsStore\global.json] was not found.
+      Install the [3.1.101] .NET SDK or update [C:\Users\User\source\repos\SportSln\SportsStore\global.json] with an installed .NET SDK:
+        5.0.201 [C:\Program Files\dotnet\sdk]
+┏[User][xERROR]
+┖[~\source\repos\SportSln\SportsStore]> dotnet ef migrations add Orders
+Build started...
+Build succeeded.
+Done. To undo this action, use 'ef migrations remove'
+┏[User]
+┖[~\source\repos\SportSln\SportsStore]>
+
+
+
+修改 `global.json`
+
+修改前
+```
+{
+  "sdk": {
+    "version": "3.1.101"
+  }
+}
+```
+
+修改後
+```
+{
+  "sdk": {
+    "version": "5.0"
+  }
+}
+
+
+```
+
+`Project` => `Your Project Properties` => `Application` => `Target framework` => `5.0`
+
+`Manage Nuget Packages` => `Update All`
+
 ### 怎麼取得 ControllerName or ActionName
 ```
 var controllerName = ControllerContext.ActionDescriptor.ControllerName;

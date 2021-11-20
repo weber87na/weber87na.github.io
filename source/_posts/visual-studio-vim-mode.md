@@ -9,59 +9,57 @@ top: true
 ---
 &nbsp;
 <!-- more -->
+
+## 課程與書籍推薦
+### 收費課程
+1. [大神 91 老師的極速開發課程](https://tdd.best/courses/)
+這個課算是我學 `vim` 操作的啟發 , 接案公司要趕時間 , 偏偏就是沒那麼多時間 , 於是才找到這門課 , 結果排了一年才上到
+價格約 `1.w` 左右的摳摳 , 著重怎麼用 vim + ide 整合提升開發速度 , 也是有很多神奇技巧跟密技心法 , 建議先把下面的免費仔課程看完才去上 , 讚!
+
+2. [Emacs 大神如何提高編程速度](https://www.udemy.com/course/how-to-code-faster-zh/)
+emacs 大師 [vscode matchit 作者](https://marketplace.visualstudio.com/items?itemName=redguardtoo.matchit)
+emacs 大師 , 只能用無敵來形容 , 內容硬核建議完整看完高見龍老師的 vim 教學才看 , 雖然也會帶你走一次 vim 基本操作 , 不過步調很快
+大約 `2000` 元左右的摳摳就能享受到很多很實用的技巧 , 還有許多正常人想不出的神祕技法 , 讚!
+
+3. [Visual Studio扩展开发入门/VSIX/VSX/插件/Extension/Add-On/Plug-in](https://www.udemy.com/course/visual_studio_vsix/)
+這個課主要是教怎麼開發 visual studio 的 extension , 當 vim 學到一個段落吃飽太閒的時候可以玩看看
+教這門課的人真的神人 , 各領域都有滿多課的
+
+### 佛心免費仔課程
+1. [五倍紅寶石 高見龍 高見龍老師](https://www.youtube.com/watch?v=mPVwS8gjDVI&list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&index=2)
+使用純 `vim` 進行教學 , 想要完整學會整個 `vim` 的話必看 , 熬過去就是你的 , 價值真的無價 , 佛心啊~
+
+2. [橫跨北美的工程師 Victor](https://www.youtube.com/watch?v=rzpoMlss7Kk&list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB)
+他的教學超讚 , 適合睡前花點小時間玩看看 , 講解也很口語化很好懂 , 佛心~
+
+3. [Gamma Ray 軟體工作室](https://www.youtube.com/watch?v=Yk4s-WLjxug)
+這個是 `2021` 年才看到的 , 內容是很棒 , 也很用心製作 , 就是聲音有點生硬 , 看他直播 coding 反而比較自然 , 也是很值得推薦
+
+
+### 書籍資源推薦
+1. [Vim 實用技巧](https://www.tenlong.com.tw/products/9787115427861?list_name=srh)
+我一開始是買這本書來翻 , 認真練大概 1 - 2 週就可以看完 , 搭配上面的課程整個過完大概也會得差不多
+
+2. [精通 Vim : 用 Vim 8 和 Neovim 實現高效開發](https://www.tenlong.com.tw/products/9787121383281?list_name=srh)
+這本是後來看到的應該是 `Vim 實用技巧` 的姊妹作 , 印象中有多講 neovim , 有點 cookbook 的感覺
+
+3. [Vim 8 文本處理實戰 (](https://www.tenlong.com.tw/products/9787115527059?list_name=srh)
+這本也是後來才發現的 , 有講些別於 `Vim 實用技巧` 以外的東東 , 考量摳摳的話可以只看 `Vim 實用技巧` 就好
+
+
 ## 內文
-### 基本設定
-前陣子學習 vim mode 想替自己增加開發效率 , 以下為設定筆記
-
-還不錯的兩個教學
-- [五倍紅寶石](https://www.youtube.com/watch?v=mPVwS8gjDVI&amp;list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&amp;index=1)
-- [Victor Lee](https://www.youtube.com/watch?v=rzpoMlss7Kk&amp;list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB)
-
-[安裝 vim mode 外掛](https://marketplace.visualstudio.com/items?itemName=JaredParMSFT.VsVim)
-設定可以[參考](https://www.cnblogs.com/qiyuexin/p/10424755.html)這個大陸人
-解決衝突(可以把`ctrl + f` 設定為用 Visual Studio 不要用 vim 的往上翻功能 看個人喜好 , 個人是覺得用 `ctrl + u`就很夠用)
-
-在工具->選項->VsVim中設定解決衝突
-
-接著切換目錄到C:\Users\你的使用者名稱
-建立一個_vimrc檔案設定以下內容
+### 設定 VsVim
+萬事起頭難首先安裝 [VsVim 外掛](https://marketplace.visualstudio.com/items?itemName=JaredParMSFT.VsVim)
+初學設定可以 [參考](https://www.cnblogs.com/qiyuexin/p/10424755.html) 這個大陸人
+解決 key 衝突(可以把`ctrl + f` 設定為用 Visual Studio 不要用 vim 的往上翻功能 看個人喜好 , 中後期因為都在用 linux 所以反而整個都設定用 vim)
+在 `工具` => `選項` => `VsVim中設定解決衝突`
+接著切換目錄到 `C:\Users\YourName` 建立一個 `_vimrc` 檔案設定以下內容
 ```
 set clipboard=unnamed
 set number
 ```
 (相對行號等等會裝外掛解決可以不加)
 `set relativenumber`
-
-[安裝相對行號外掛](https://marketplace.visualstudio.com/items?itemName=BrianSchmitt.RelativeNumber)
-
-設定相對行號的樣式 , 我是背景設定黑色 , 文字設定紅色看個人愛好
-
-Tools-&gt;Options-&gt;Environment-&gt;Font and Colors and set the &quot;Relative Number - Current Line&quot; property.
-
-[安裝快速切換註解外掛 toggle comment](https://marketplace.visualstudio.com/items?itemName=munyabe.ToggleComment)
-這個外掛可以用 `ctrl + /` 切換註解相當方便
-
-如果沒有英文語言套件最好裝一下
-開啟 visual studio installer安裝英文語言套件!
-
-接著開啟
-工具-&gt;選項-&gt;環境-&gt;國際設定-&gt;English
-
-設定當使用 IntelliSense 跳出來要選擇時使用 `Alt + J (向下移動) Alt + K (向上移動)`
-Tools-&gt;Options-&gt;Environment-&gt;Keyboard
-接著在 `Show commands containing` 裡面搜尋 `Edit.LineDown`
-在 `Press shortcut keys` 裡面按下 `Alt + J` 同理設定 `Edit.LineUp` 修改為 `Alt + K`
-
-使用[NERDTree](https://github.com/stevium/vs-nerdx)
-[下載](https://marketplace.visualstudio.com/items?itemName=mstevius.vs-nerdx-solution-explorer)
-最重要的快捷不動滑鼠移動到專案總管，其他熱鍵就參考官網說明吧..
-`ctrl + alt + l`
-要切回寫 code 視窗則是 `ctrl + f6`
-
-在專案開啟檔案總管 `ProjectandSolutionContextMenus.Project.OpenFolderinFileExplorer`
-
-設定不要使用 preview tab 功能
-tools => options => envionment => tabs and windows => Preview Tab => allow new files to be opened in the preview tab
 
 在 vsvim 執行 visual studio 命令可以像以下這樣
 例如一個很常見的操作將 code block 包裹起來 (warp/surround)
@@ -70,6 +68,42 @@ tools => options => envionment => tabs and windows => Preview Tab => allow new f
 `:vsc Project.AddClass`
 甚至是列出 Members
 `:vsc ListMembers`
+
+### 快速切換註解
+在 visual studio 原生切換註解與反註解好像是兩個不同的熱鍵 , 有點忘了 , 所以需要安裝這個 [toggle comment](https://marketplace.visualstudio.com/items?itemName=munyabe.ToggleComment)
+這個外掛可以用 `ctrl + /` 切換註解相當方便
+
+### 安裝相對行號
+這個功能算是可有可無 , 裝了以後會多一條行號給你 , 看喜好決定要不要裝 , 螢幕夠大的話就裝吧 , 筆電就算了
+[安裝相對行號外掛](https://marketplace.visualstudio.com/items?itemName=BrianSchmitt.RelativeNumber)
+設定相對行號的樣式 , 我是背景設定黑色 , 文字設定紅色看個人愛好
+`Tools`=> `Options` => `Environment` => `Font and Colors and set the "Relative Number` => `Current Line" property`
+
+### 設定 visual studio 為英文
+這個功能建議一定要設定 , 不然用起來很像低能兒
+年代久遠我有點忘了安裝完 visual studio 到底是什麼語言 , 不過這個會有極大的影響跟困擾 , 像是查錯誤不好查 , 或是 command 找不到的困擾
+如果沒有英文語言套件最好裝一下 開啟 `visual studio installer` 安裝英文語言套件 , 接著開啟 `工具` => `選項` => `環境` => `國際設定` => `English`
+
+### 設定不要使用 preview tab 功能
+預設的 visual studio 點到檔案的話好像會開啟 preview tab 的功能 , 有時候滿討厭的 , 研究看看怎麼關閉
+`tools` => `options` => `envionment` => `tabs and windows` => `Preview Tab` => `allow new files to be opened in the preview tab`
+
+### 設定 IntelliSense 上下移動
+這個功能建議一定要設定 , 不然用起來很像殘障
+在純 vim 的話會用 `ctrl + n` (向下移動) `ctrl + p` (向上移動)
+visual studio 我則是設定 `Alt + J` (向下移動) `Alt + K` (向上移動)
+`Tools` => `Options` => `Environment` => `Keyboard` 接著在 `Show commands containing` 裡面搜尋 `Edit.LineDown`
+在 `Press shortcut keys` 裡面按下 `Alt + J` 同理設定 `Edit.LineUp` 修改為 `Alt + K`
+
+### 在專案開啟檔案總管 
+這個算是滿常用的功能 , 因為我 git 不太用 ide 操作 , 幾乎都用 git bash , 所以特地找一下這個 command 筆記下
+`ProjectandSolutionContextMenus.Project.OpenFolderinFileExplorer`
+
+### 使用 NERDTree
+如果是常用 vim 的人幾乎都會安裝 [NERDTree](https://github.com/stevium/vs-nerdx)
+visual studio 也有這個外掛[載點在此](https://marketplace.visualstudio.com/items?itemName=mstevius.vs-nerdx-solution-explorer)
+最重要的快捷不動滑鼠移動到專案總管，其他熱鍵就參考官網說明吧..
+`ctrl + alt + l` 要切回寫 code 視窗則是 `ctrl + f6`
 
 ### 設定 method 提示
 之前一直有個困擾就是滑鼠移到某個 method 時會顯示提示在 vscode vim mode 可以用 gh 讓鍵盤直接 show 出來，
@@ -97,11 +131,11 @@ map <LEADER><LEADER> <ESC> /<++><CR>:nohlsearch<CR>c4l
 " add var x = 
 map <LEADER>vx ^ivar x = <ESC> bbciw
 ```
-中國佬還教一招可以用 vim 轉換 html 這招以前沒看 cool
-`:%TOhtml`
+中國佬還教一招可以用 vim 轉換 html 這招以前沒看 cool `:%TOhtml`
 
 ### trim 技巧
-這是看 java script 忍者書學到的 , 用這招可以讓亂七八糟的文件馬上乖乖聽話掐頭去尾
+這是看 javascript [忍者書](https://www.tenlong.com.tw/products/9789864342525?list_name=srh) 學到的 , 用這招可以讓亂七八糟的文件馬上乖乖聽話掐頭去尾
+在 replace 視窗中貼上下面這段 code , 接著要被替換的放空即可 , 這招基本上在任何 ide 應該都可以用
 ```
 ^\s+|\s+$
 ```
@@ -165,6 +199,7 @@ var x = new LaSai();
 to 方便記憶用 2 string bool float decimal 最懶直接用 var
 切換 true false 用 toggle 所以用 t 當作切換方便記憶 true or false
 其實可以考慮加上回到開頭 ^ 不過就先暫時這樣吧
+後來我自己有做出類似的 [殘廢功能](https://github.com/weber87na/VSIXProjectMultiLang) 也是可以達到目的 , 不過大多數都跑龍套
 ```
 "to string
 nmap <Leader>2s viwxistring<Esc>
@@ -213,14 +248,28 @@ nmap <Leader>tf viwxifalse<Esc>
 然後連 [python](https://marketplace.visualstudio.com/items?itemName=filwaline.vscode-postfix-python) 也有結果 visual studio 自己沒有，暈倒
 
 ### 取代 prop 產生屬性的技巧 ZenSharp
-Emmet官方死變態老外寫的 extension [Emmet.net](https://github.com/sergey-rybalkin/Emmet.net)
+Emmet 官方死變態老外寫的 extension [Emmet.net](https://github.com/sergey-rybalkin/Emmet.net)
 在 visual studio 上面的 Emmet 不曉得為啥就是難用 , 不過他這個 ZenSharp 不錯
 可以讓我們用 `psp` 這種方式快速產生想要的 member or method 等等 `public string XXX { get;set;}`
 
 ### 顯示 var 的型別提示
-主要參考這篇[官方說明](https://devblogs.microsoft.com/visualstudio/vs2019-v16-9-and-v16-10-preview-1/)首先要更新到 `Visual Studio 2019 v16.9`
+主要參考這篇 [官方說明](https://devblogs.microsoft.com/visualstudio/vs2019-v16-9-and-v16-10-preview-1/)首先要更新到 `Visual Studio 2019 v16.9`
 接著設定 `Tools` => `Options` => `Text Editor` => `c#` => `Basic` => `Advanced` => `Display inline type hints`
-如果沒辦法用最新版就乖乖安裝[C# Var Type CodeLens](https://marketplace.visualstudio.com/items?itemName=AlexanderGayko.VarAdorner)
+如果沒辦法用最新版就乖乖安裝 [C# Var Type CodeLens](https://marketplace.visualstudio.com/items?itemName=AlexanderGayko.VarAdorner)
+
+### 關閉 build progress window
+首先設定 `visual studio`
+`Tools` => `Options` => `Projects and Solutions` => `General` => `Show output window when build starts`
+接著設定 `CodeMaid`
+`Extensions` => `Options` => `Progressing` => `Show build process window when a build starts`
+
+### 設定 merge if
+如果用 visual studio 安裝 [Roslynator](https://github.com/JosefPihrt/Roslynator) 這個 extension 基本就搞定了
+預設 `Resharper` 好像沒這個功能? 在 `Resharper` 設定讓 `visual studio` 提示共存
+`Environment` => `Editor` => `Visual Studio Features` => `Merge Visual Studio Qucik Actions into Resharper action indicator`
+
+### codemaid 設定
+`extensions` => `codemaid` => `spade`
 
 ## full config
 ```
@@ -442,8 +491,6 @@ map <LEADER>. :vsc Tools.PostFixVar<CR>
 " set mps+=<:>
 ```
 
-### codemaid 設定
-`extensions` => `codemaid` => `spade`
 
 ## 其它 extension
 之前看其他教學路影片時會顯示按了什麼按鍵的軟體
