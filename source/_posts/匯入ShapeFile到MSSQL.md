@@ -17,12 +17,15 @@ tags:
 create database Taiwan
 ```
 
-接著隨便找 open data 下載資料
-https://data.tainan.gov.tw/dataset/tn-dist/resource/605960fb-ff21-480f-bb98-04026f23405d
+接著隨便找 open data 下載資料 , 後來發現本來的資料連結掛了 , 換成國土測繪中心的資料 , 搜尋這個[鄉鎮市區界線](https://whgis.nlsc.gov.tw/English/5-1Files.aspx) 正常舊有資料了
 
-開啟 PowerShell
-cd 到以下目錄
-C:\Program Files\QGIS 3.10\bin>
+先用 qgis 開啟來看看下載的檔案是否正確 , 如果遇到 big5 亂碼的話可以參考[這篇](https://wenlab501.github.io/tutorial/qgis_tutor/basic_workflow/encoding/)
+
+
+開啟 PowerShell cd 到以下目錄
+```
+cd C:\Program Files\QGIS 3.10\bin
+```
 
 匯入鄉鎮地理資料(這邊用localdb)
 ```sql

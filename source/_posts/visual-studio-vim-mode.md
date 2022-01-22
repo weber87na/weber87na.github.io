@@ -69,6 +69,8 @@ set number
 甚至是列出 Members
 `:vsc ListMembers`
 
+詳細可以參考[微軟官方](https://docs.microsoft.com/zh-tw/visualstudio/ide/default-keyboard-shortcuts-in-visual-studio?view=vs-2022&redirectedfrom=MSDN&viewFallbackFrom=vs-2015)
+
 ### 快速切換註解
 在 visual studio 原生切換註解與反註解好像是兩個不同的熱鍵 , 有點忘了 , 所以需要安裝這個 [toggle comment](https://marketplace.visualstudio.com/items?itemName=munyabe.ToggleComment)
 這個外掛可以用 `ctrl + /` 切換註解相當方便
@@ -103,7 +105,13 @@ visual studio 我則是設定 `Alt + J` (向下移動) `Alt + K` (向上移動)
 如果是常用 vim 的人幾乎都會安裝 [NERDTree](https://github.com/stevium/vs-nerdx)
 visual studio 也有這個外掛[載點在此](https://marketplace.visualstudio.com/items?itemName=mstevius.vs-nerdx-solution-explorer)
 最重要的快捷不動滑鼠移動到專案總管，其他熱鍵就參考官網說明吧..
-`ctrl + alt + l` 要切回寫 code 視窗則是 `ctrl + f6`
+預設是 `ctrl + alt + l` 要切回寫 code 視窗則是 `ctrl + f6`
+後來我都用 vscode 的熱鍵不然太多設定要記憶 `ctrl + shift + e`
+```
+"切換到方案總管
+nmap ,e :vsc View.SolutionExplorer<CR>
+```
+切回去則是設定為 `alt + e` 他的命令是 `Window.NextDocumentWindow`
 
 ### 設定 method 提示
 之前一直有個困擾就是滑鼠移到某個 method 時會顯示提示在 vscode vim mode 可以用 gh 讓鍵盤直接 show 出來，
@@ -115,10 +123,11 @@ visual studio 也有這個外掛[載點在此](https://marketplace.visualstudio.
 順便在定義一下關閉右側視窗 `File.CloseAllButThis` 為 `alt+c alt+r`
 
 ### 設定 vsvimrc
-今天研究一下 vsvim 的 config 如下
-`:set vimrc?`
-重新 load config
-`:so ~/_vsvimrc`
+今天研究一下 vsvim 的 config 如下 `:set vimrc?` 重新 load config `:so ~/_vsvimrc`
+後來覺得太難記了 , 直接在 powershell 的 $profile 裡面設定 , 這樣一來直接用 powershell 就可以快速開啟 config , 詳細設定可以看我[這篇](https://weber87na.github.io/2021/12/01/%E6%88%91%E7%9A%84-powershell-%E8%A8%AD%E5%AE%9A/)
+```
+function vsvimrc { notepad $HOME\_vsvimrc }
+```
 
 ### 自訂 template 技巧
 後來參考這個[變態中國佬](https://www.bilibili.com/video/BV1r4411G7de?from=search&seid=17984154817972931817)偷學兩招
@@ -131,7 +140,7 @@ map <LEADER><LEADER> <ESC> /<++><CR>:nohlsearch<CR>c4l
 " add var x = 
 map <LEADER>vx ^ivar x = <ESC> bbciw
 ```
-中國佬還教一招可以用 vim 轉換 html 這招以前沒看 cool `:%TOhtml`
+中國佬還教一招可以用 vim 轉換 html 這招以前沒看 cool `:%TOhtml` 這招只有純 vim 可以用
 
 ### trim 技巧
 這是看 javascript [忍者書](https://www.tenlong.com.tw/products/9789864342525?list_name=srh) 學到的 , 用這招可以讓亂七八糟的文件馬上乖乖聽話掐頭去尾
@@ -193,6 +202,7 @@ var x = new LaSai();
 ### multi cursor 操作技巧
 類似 vscode multi cursor 的功能 `Edit.InsertNextMatchingCaret` `Edit.InsertCaretsatAllMatching` 注意使用以後是 visual mode 這時候按下 `o` 是會來回在頭尾切換，
 需要多按 `esc` 接著就可以模擬類似 multi cursor 的功能
+
 
 ### 快速切換資料型別
 常常開立類別時型別喬不定換來換去換到煩乾脆寫個 mapping
@@ -268,10 +278,243 @@ Emmet 官方死變態老外寫的 extension [Emmet.net](https://github.com/serge
 預設 `Resharper` 好像沒這個功能? 在 `Resharper` 設定讓 `visual studio` 提示共存
 `Environment` => `Editor` => `Visual Studio Features` => `Merge Visual Studio Qucik Actions into Resharper action indicator`
 
+### 多語系轉換
+最近遇到重構/重寫/升級功能 , 因為手上的 .net core 案子多語系都吃 json 而舊版都吃 resx , 所以先寫個轉換程式
+``` csharp
+static void Main( string[] args )
+{
+	//參考自
+	//https://stackoverflow.com/questions/47631098/how-to-convert-resx-xml-file-to-json-file-in-c-sharp
+	//var xml = File.ReadAllText( @"Lang.zh-TW.resx" );
+	var xml = File.ReadAllText( @"Lang.en.resx" );
+	var data = XElement.Parse( xml ) .Elements( "data" );
+	var names = data.Select( x => x.Attribute( "name" ).Value ).GetEnumerator();
+	var values = data.Select( x => x.Element( "value" ).Value ).GetEnumerator();
+	JObject j = new JObject();
+	while(names.MoveNext() && values.MoveNext())
+	{
+		var name = names.Current;
+		var value = values.Current;
+		JProperty jProperty = new JProperty(name , value);
+		j.Add( jProperty );
+	}
+
+	string json = JsonConvert.SerializeObject( j , Newtonsoft.Json.Formatting.Indented );
+	var result = json.TrimStart( '{' ).TrimEnd( '}' );
+
+	Console.WriteLine( result );
+	//File.WriteAllText( "convert.zh-TW.json", result );
+	File.WriteAllText( "convert.en.json", result );
+}
+```
+舊版的多語系都是由某個物件裡的屬性拿到那個值像是這樣
+```
+Lang.LaSai
+```
+所以我先用 vim 或是 surround 把屬性包成 string hard code 讓程式能動 , 像是這樣
+```
+"Lang.LaSai"
+```
+接著改用 visual studio 的 regex replace 功能 尋找 `"(Lang.)(\w+")` 並取代為 `L["$2]`
+其中 `$2` 是關鍵可以把在含有雙引號結尾的字變成變數 , 所以最後可以得到 `L["LaSai"]` 這種 .net core 接受的 json 取值方式 , 快速解決繁重的任務 ~
+
+### 定位檔案加強
+你的專案檔案位置稀巴爛嗎? 可以試看看這個 [FilePathOnFooter](https://marketplace.visualstudio.com/items?itemName=ShemeerNS.FilePathOnFooter) 他會顯示檔案路徑在底下
+另外還可以多加上 [CodeMaid](https://marketplace.visualstudio.com/items?itemName=SteveCadwallader.CodeMaid) 它裡面有一個在頁籤上點右鍵可以幫你定位到你檔案在專案位置的功能 , 印象中跟 Android Studio 那個準心一樣?
+我自己 bind 成以下這樣
+```
+map ,fse :vsc CodeMaid.FindInSolutionExplorer<CR>
+```
+
+### coding style 大小寫轉換
+這個問題滿常遇到的 , 可以安裝這個日本人寫的[外掛](https://marketplace.visualstudio.com/items?itemName=munyabe.CaseConverter)
+他也是熱門外掛 [ToggleComment](https://marketplace.visualstudio.com/items?itemName=munyabe.ToggleComment) 的作者
+預設他只有擺三種給你切換 `snake_case` `camelCase` `PascalCase`
+所以需要更多要自己設定 `Tools` => `Options` => `Case Converter` => `Add` => `Pattern` 即可追加想要的
+總共有 6 種 style , 這樣遇到多數語言的都夠用了吧! 除非遇到 free style 仔給你弄個 SnAkEcAsE 這種模式 ~ 那就沒救
+
+`snake_case` => 全小寫的下滑底線風格 python , ruby 之類的
+`Pascal_Snake_Case` 大寫開頭的下滑底線風格 , 好像沒看過人用
+`SCREAMING_SNAKE_CASE` => Oracle 資料表常用的風格 全大寫下滑底線風格
+`camelCase` => java , javascript 小寫駝峰
+`PascalCase` => c# 大寫駝峰
+`kebab-case` => html 的風格
+
+實務上我只設定這三種 `CamelCase` , `ScreamingSnakeCase` , `PascalCase`
+以比重來看的話 `CamelCase` 應該頻率最高 , `PascalCase` 為了要對付 java 的人 private function 開頭寫小寫所以次之 , `ScreamingSnakeCase` 因為要對付 `Oracle` 所以留著
+
+老樣子開 _vsvimrc 去 bind key mapping
+```
+map <LEADER>2c :vsc Edit.ConvertCase<CR>
+```
+
+操作上用 vim 的話只要游標位置在字元上面即可 , 不用特別去選起來 , 呼叫一次進入 visual mode , 把整個單字選取 , 然後開始循環變換 , 美中不足就是遇到 space 或是 string 他會多選一個字元 , 不過不影響整個操作
+真的很在意的話可以 bind 這樣看個人愛好
+```
+map <LEADER>2c :vsc Edit.ConvertCase<CR><ESC>h
+```
+
+
 ### codemaid 設定
 `extensions` => `codemaid` => `spade`
 
+### 更新到 vs2022
+#### 設定英文
+參考[之前寫的](https://weber87na.github.io/2020/07/05/visual-studio-vim-mode/#%E8%A8%AD%E5%AE%9A-visual-studio-%E7%82%BA%E8%8B%B1%E6%96%87)
+
+#### 安裝及升級 Extension
+EF Core Power Tools (2022 支援)
+Case Converter (2022 支援)
+CodeMaid (2022 支援)
+File Path On Footer (2022 支援)
+VsVim (2022 支援)
+Toogle Comment (2022 支援)
+NerdX Solution Explorer (2022 支援)
+Roslynator 2019 (2022 preview 支援)
+PeasyMotion (2022 暫時不支援) => 參考這個 [PR](https://github.com/msomeone/PeasyMotion/pull/25)
+Relative Number (2022 暫時不支援) => 這個 vsvim 可以改用 `set relativenumber` 代替就好 , 作者好像也懶得更新
+Learn the Shortcut (2022 暫時不支援) => 暫時沒搞
+
+升級 extension 過程參考[官網](https://docs.microsoft.com/en-us/visualstudio/extensibility/migration/update-visual-studio-extension?view=vs-2022)
+找到 `source.extension.vsixmanifest` 先用 GUI 新增
+Product Identifier `Microsoft.VisualStudio.Community`
+Version Range `[17.0,18.0)`
+Product Architecture `amd64`
+
+或是直接改成下面這樣
+```
+<Installation>
+	<InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[16.0, 17.0)" />
+	<InstallationTarget Version="[17.0,18.0)" Id="Microsoft.VisualStudio.Community">
+		<ProductArchitecture>amd64</ProductArchitecture>
+	</InstallationTarget>
+</Installation>
+```
+
+升級我自己的 extension 遇到以下錯誤訊息 , 參考這篇[老外](https://stackoverflow.com/questions/68234180/how-do-i-fix-schema-validation-error-when-trying-to-build-project)註解以下內容
+`source.extension.vsixmanifest` => `右鍵` => `view code` 接著編譯應該就搞定了
+```
+Severity	Code	Description	Project	File	Line	Suppression State
+Error		Schema validation error for VSIXProjectMultiLang\obj\Debug\extension.vsixmanifest
+```
+註解下面這些
+```
+    <!--<Dependencies>
+        <Dependency Id="Microsoft.Framework.NDP" DisplayName="Microsoft .NET Framework" d:Source="Manual" Version="[4.5,)" />
+    </Dependencies>-->
+    <Prerequisites>
+        <Prerequisite Id="Microsoft.VisualStudio.Component.CoreEditor" Version="[16.0,17.0)" DisplayName="Visual Studio core editor" />
+    </Prerequisites>
+    <!--<Assets>
+        <Asset Type="Microsoft.VisualStudio.VsPackage" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%;PkgdefProjectOutputGroup|" />
+        <Asset Type="Microsoft.VisualStudio.MefComponent" d:Source="Project" d:ProjectName="%CurrentProject%" Path="|%CurrentProject%|" />
+    </Assets>-->
+```
+
+#### 設定 codemap
+滾軸按右鍵 => `Behavior` => `use map mode for vertical scroll bar`
+或這樣設定
+`Tools` => `Options` => `Text Editor` => `All Languages` => `Scroll Bar` => `Behavior` => `use map mode for vertical scroll bar`
+
+#### 註冊 license key
+`Help` => `Register Visual Studio` => `Unlock with a product key`
+
+
+#### 安裝 windows terminal
+礙於之前用的版本沒有 windows terminal , 順手筆記一下
+```
+sudo choco install microsoft-windows-terminal
+```
+[設定佈景 dracula](https://draculatheme.com/windows-terminal) `ctrl + ,` 搜尋 `schemes` 然後加入進去
+```
+"schemes": [
+	{
+		"name": "Dracula",
+		"cursorColor": "#F8F8F2",
+		"selectionBackground": "#44475A",
+		"background": "#282A36",
+		"foreground": "#F8F8F2",
+		"black": "#21222C",
+		"blue": "#BD93F9",
+		"cyan": "#8BE9FD",
+		"green": "#50FA7B",
+		"purple": "#FF79C6",
+		"red": "#FF5555",
+		"white": "#F8F8F2",
+		"yellow": "#F1FA8C",
+		"brightBlack": "#6272A4",
+		"brightBlue": "#D6ACFF",
+		"brightCyan": "#A4FFFF",
+		"brightGreen": "#69FF94",
+		"brightPurple": "#FF92DF",
+		"brightRed": "#FF6E6E",
+		"brightWhite": "#FFFFFF",
+		"brightYellow": "#FFFFA5"
+	} ,
+	{
+		"name": "Ubuntu Green",
+		"black": "#000000",
+		"red": "#cc0000",
+		"green": "#4eff66",
+		"yellow": "#c4a000",
+		"blue": "#3465a4",
+		"purple": "#75507b",
+		"cyan": "#06989a",
+		"white": "#ffffff",
+		"brightBlack": "#000000",
+		"brightRed": "#ef2929",
+		"brightGreen": "#009900",
+		"brightYellow": "#ff8c00",
+		"brightBlue": "#729fcf",
+		"brightPurple": "#ad7fa8",
+		"brightCyan": "#34e2e2",
+		"brightWhite": "#efefef",
+		"background": "#efffef",
+		"foreground": "#000000"
+
+	}
+],
+```
+
+`powershell` `Ubuntu-20.04` 分別設定 `Dracula` 跟我自己調的豆沙色 `Ubuntu Green`
+```
+{
+	// Make changes here to the powershell.exe profile.
+	"colorScheme": "Dracula",
+	"fontFace": "CaskaydiaCove Nerd Font",
+	"guid": "{6a1cx4bbd-c2cx-5x71-96x7-009ax7ffw4b}",
+	"name": "Windows PowerShell",
+	"commandline": "powershell.exe",
+	"hidden": false
+},
+{
+	"colorScheme": "Ubuntu Green",
+	"guid": "{07b52e3e-de2c-5db4-bd2d-ba144ed6c273}",
+	"name": "Ubuntu-20.04",
+	"source": "Windows.Terminal.Wsl"
+},
+```
+
+
+設定透明度
+
+```
+	"defaults":
+	{
+		// Put settings here that you want to apply to all profiles.
+		"useAcrylic": true,
+		"acrylicOpacity": 0.5,
+		"backgroundImageOpacity": 0.5
+	},
+```
+
+
+萬一不 work 可以參考[這個](https://www.youtube.com/watch?v=LT6eMfJltsw)
+`regedit` => `電腦\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Dwm` => `新增` => `DWORD 32位元` => `ForceEffectMode` => `數值 2` => `重開機`
+``
+
 ## full config
+基本上大概只列了 8 - 9 成 , 後續時不時有加加減減就懶得了 ~
 ```
 "我的 _vsvimrc
 

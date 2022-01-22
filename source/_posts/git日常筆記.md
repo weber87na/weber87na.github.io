@@ -129,6 +129,21 @@ git log --oneline --grep="gy"
 git log -S "gy"
 ```
 
+參考自遺留系統重建實戰
+找 10 天內最常修改的 source code
+`"[^\s]"` => 去除空白行
+特別要注意排序部分有可能有相同數量的檔案 , 所以依照 count 接著 name 進行排序
+
+`bash`
+```
+git log --since="10 days ago" --pretty=format:"" --name-only | grep "[^\s]" | sort | uniq -c | sort -nr | head -10
+```
+
+`powershell`
+```
+git log --since="10 days ago" --pretty=format:"" --name-only | Select-String -Pattern "[^\s]" | Group-Object | sort count , name -desc | select Count , Name -first 10
+```
+
 ### 刪檔
 讓 git 刪除檔案
 ```
@@ -170,6 +185,13 @@ git you give love a bad name
 git blame bonjovi.html
 ```
 
+萬一被 cache 鎖住更新不了可以參考[這篇](https://stackoverflow.com/questions/6030530/git-ignore-not-working-in-a-directory)
+```
+git rm -r --cached .
+git add .
+git commit -m "Gitignore issue fixed"
+```
+
 ### fatal: fsync error on '.git/objects/pack/tmp_pack_DZTfQ3': Bad file descriptor
 今天遇到這個問題 , 我是用 visual studio 開啟專案 , 然後開 git bash 執行 pull 發生的 , 怎麼樣都沒法正確 pull 下來
 後來參考[老外](https://stackoverflow.com/questions/47929881/git-fatal-fsync-error-on-sha1-file-bad-file-descriptor)
@@ -177,6 +199,113 @@ git blame bonjovi.html
 ```
 fatal: fsync error on '.git/objects/pack/tmp_pack_DZTfQ3': Bad file descriptor
 ```
+
+### repository 改名
+今天在用 git 遇到的問題 , 原本的 repository 被改名了 , 這樣比較好運的意思
+只要設定下面這個就搞定 `git remote set-url origin https://xxx.com.tw/oxapi.git`
+```
+remote: To create a merge request for xxxapi, visit:
+remote:   https://xxx.com.tw/api/-/merge_requests/new?merge_request%5Bsource_branch%5D=api
+remote: Project 'XXX/api' was moved to 'OOO/oxapi'.
+remote: Please update your Git remote:
+remote:   git remote set-url origin https://xxx.com.tw/oxapi.git
+```
+
+### 排除 web.config 裡面的敏感資訊
+最近遇到一個問題 , 業主要求要給 git 版控紀錄 , 老實說還真不想給 , 這樣內部密碼等敏感資訊不就裸奔 , 所以研究一下怎麼搞 , 主要[參考老外](https://stackoverflow.com/questions/45677569/how-do-i-keep-asp-net-connection-string-passwords-secure-on-a-git-repository/45706222) 及[這篇](http://johnatten.com/2014/04/06/asp-net-mvc-keep-private-settings-out-of-source-control/) 也可以參考[微軟](https://docs.microsoft.com/zh-tw/aspnet/identity/overview/features-api/best-practices-for-deploying-passwords-and-other-sensitive-data-to-aspnet-and-azure)
+新增一個連線字串的檔案 `ConnectionStrings.config` 然後把原本的連線字串都丟進來 , 這裡用 LocalDb
+```
+<connectionStrings>
+	<add name="WorldCities" 
+	   connectionString="Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=WorldCities;Integrated Security=SSPI;"
+	   providerName="System.Data.SqlClient" 
+	/>
+</connectionStrings>
+```
+
+
+接著修改 `web.config` 的內容 , 找到原本連線字串的地方 , 改為這樣
+```
+<configuration>
+	<connectionStrings configSource="ConnectionStrings.config" />
+</configuration>
+```
+
+在 `.gitignore` 裡面加上排除條件
+```
+# 排除 web.config 裡面的敏感資訊
+ConnectionStrings.config
+```
+
+執行 `git status` 大概會長這樣 , 這樣就排除了
+```
+git status
+
+On branch master
+Changes not staged for commit:
+  (use "git add/rm <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+        modified:   ../.gitignore
+        modified:   Web.config
+        deleted:    connections.config
+```
+
+接著隨便寫段 code 連看看應該就沒事了
+```
+public class DapperBaseRepository
+{
+	public List<T> Query<T>(string query, object parameters = null)
+	{
+		try
+		{
+
+			using (SqlConnection conn 
+				   = new SqlConnection(ConfigurationManager.ConnectionStrings["WorldCities"].ToString()))
+			{
+				return conn.Query<T>(query, parameters).ToList();
+			}
+		}
+		catch (Exception ex)
+		{
+			//Handle the exception
+			return new List<T>();
+		}
+	}
+}
+```
+
+`appSettings` 詳細可以看[官方](https://docs.microsoft.com/zh-tw/aspnet/identity/overview/features-api/best-practices-for-deploying-passwords-and-other-sensitive-data-to-aspnet-and-azure)跟[這篇](https://stackoverflow.com/questions/19596233/mvc-3-getting-values-from-appsettings-in-web-config)
+```
+<appSettings file="AppSettingsSecrets.config">
+	<add key="webpages:Version" value="3.0.0.0" />
+	<add key="webpages:Enabled" value="false" />
+	<add key="ClientValidationEnabled" value="true" />
+	<add key="UnobtrusiveJavaScriptEnabled" value="true" />
+</appSettings>
+```
+
+接著新增 `AppSettingsSecrets.config` 注意要在 gitignore 裡面先設定
+```
+<appSettings>
+   <!-- SendGrid-->
+   <add key="mailAccount" value="My mail account." />
+   <add key="mailPassword" value="My mail password." />
+   <!-- Twilio-->
+   <add key="TwilioSid" value="My Twilio SID." />
+   <add key="TwilioToken" value="My Twilio Token." />
+   <add key="TwilioFromPhone" value="+12065551234" />
+
+   <add key="GoogClientID" value="1.apps.googleusercontent.com" />
+   <add key="GoogClientSecret" value="My Google client secret." />
+</appSettings>
+
+```
+
+撈資料
+```
+var x = System.Configuration.ConfigurationManager.AppSettings["mailAccount"];
+```
+
 
 ### 其他資源
 [git 練習](https://learngitbranching.js.org/?locale=zh_TW)

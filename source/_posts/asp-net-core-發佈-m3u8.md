@@ -122,3 +122,14 @@ file3.ts
 ``` powershell
 .\ffmpeg.exe -i "40cm 黑人大戰金剛.mp4" -vf subtitles="40cm 黑人大戰金剛.srt" "40cm 黑人大戰金剛.mp4"
 ```
+[`順帶一提剪片子`](https://stackoverflow.com/questions/18444194/cutting-the-videos-based-on-start-and-end-time-using-ffmpeg)
+這邊有個雷包參數 `-t` 跟 `-to` 如果用 `-t` 的話指的是剪幾秒 , 而 `-to` 則是剪到那個位置
+假設我下面是用 `-t` 的話會剪從剪 `00:30:00` 開始然後往後加上 40 分鐘 , 還好這個速度很快 , 不然做迷片的朋友又要欲哭無淚 ~
+```
+./ffmpeg -i "40cm 黑人大戰金剛.mp4" -ss 00:30:00 -to 00:40:00 -async 1 -c copy cut.mp4
+```
+
+所以如果我想從 `00:30:00` 開始剪到 `00:40:00` 這十分鐘的最後精華片段應該這樣下才對 ~
+```
+./ffmpeg -i "40cm 黑人大戰金剛.mp4" -ss 00:30:00 -to 00:40:00 -async 1 -c copy cut.mp4
+```

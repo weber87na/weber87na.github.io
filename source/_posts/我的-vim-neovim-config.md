@@ -412,6 +412,88 @@ vim
 :PlugInstall
 ```
 
+
+## 選取與移動的實用技巧
+### 啪啪神器 matchit
+vim 內建的 matchit 參考[這篇](https://github.com/wsdjeg/vim-galore-zh_cn#%E5%9C%A8-vim-8-%E4%B8%AD%E5%AE%89%E8%A3%85)
+現在好像老外都用[vim-matchup](https://github.com/andymass/vim-matchup)
+老樣子無腦安裝在 vimrc 加上以下這段 , 這邊用 neovim `~/AppData/Local/nvim/init.vim`
+```
+Plug 'andymass/vim-matchup'
+```
+
+打開 vim 輸入
+```
+:PlugInstall
+```
+
+他好像是會認附檔名 , 所以附檔名要正確才會生效 , 感覺比較有用的增強功能應該是 `z%` , 經典功能 %%% 一樣可以在頭尾快速移動
+他會一直往下找 matchit 的點 , 其他還有滿多增強 , 有空在搞
+
+
+### 往外延伸選取 vim-expand-region
+可以參考[這個](https://github.com/terryma/vim-expand-region)
+第一次看到這個咚咚是在 visual studio 上面 , 現在好像大多數 ide 都有預設這功能
+
+老樣子無腦安裝在 vimrc 加上以下這段 , 這邊用 neovim `~/AppData/Local/nvim/init.vim`
+```
+Plug 'terryma/vim-expand-region'
+```
+
+打開 vim 輸入
+```
+:PlugInstall
+```
+
+接著 map 成 emacs 大師教的即可 , 他官方好像還有教可以自定義 expand 的行為 , 這裡就懶得設定了
+```
+map ,xx <Plug>(expand_region_expand)
+map ,zz <Plug>(expand_region_shrink)
+```
+
+### 縮排選取好幫手 vim-indent-object
+可以參考[這個](https://github.com/michaeljsmith/vim-indent-object#install)
+這個對有在寫 k8s yaml 或是 python 的人來說可以算是個半殘的福音吧? 用起來靈異靈異的
+
+老樣子無腦安裝在 vimrc 加上以下這段 , 這邊用 neovim `~/AppData/Local/nvim/init.vim`
+```
+Plug 'michaeljsmith/vim-indent-object'
+```
+
+打開 vim 輸入
+```
+:PlugInstall
+```
+
+接下來搭配這串 code 進行說明
+example code
+```
+admin:
+  address:
+    socket_address: { address: 127.0.0.1, port_value: 9901 }
+
+static_resources:
+  listeners:
+  - name: listener_0
+    address:
+      socket_address: { address: 127.0.0.1, port_value: 10000 }
+```
+
+假設游標在 `address` 上 , 用 `vii` 可以選到以下兩行
+```
+  address:
+    socket_address: { address: 127.0.0.1, port_value: 9901 }
+```
+
+假設游標在 `address` 上 , 用 `vai` 可以選到以下三行 , 另外有個細節就是要搭配 `o` 使用可以移動到選取的頭尾
+還有就是 yaml 有 `-` 這個符號會造成誤判 , 所以選的時候要慎用 , python 也是相同原理 , 總之就是個半殘的選法
+```
+admin:
+  address:
+    socket_address: { address: 127.0.0.1, port_value: 9901 }
+
+```
+
 ## 使用 COC 補全 k8s yaml
 因為在搞 docker + k8s , 需要編輯 yaml 檔 , 直接在 linux 上面沒有 auto complete 實在太噁心了
 決定找個至少能用的方法主要參考 [這篇老外文章](https://octetz.com/docs/2020/2020-01-06-vim-k8s-yaml-support/) , 之前好像沒用過 coc? 忘了?

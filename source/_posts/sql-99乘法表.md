@@ -151,3 +151,30 @@ order by
 case when a >= 7 then a else -a end desc 
 , b asc;
 ```
+
+偶然機會下用到 Oracle 想說順便玩玩 , 然後就可以生出有顏色的九九乘法了
+```
+WITH TALLY AS (
+SELECT 1 N FROM DUAL
+UNION ALL
+SELECT 2 N FROM DUAL
+UNION ALL
+SELECT 3 N FROM DUAL
+UNION ALL
+SELECT 4 N FROM DUAL
+UNION ALL
+SELECT 5 N FROM DUAL
+UNION ALL
+SELECT 6 N FROM DUAL
+UNION ALL
+SELECT 7 N FROM DUAL
+UNION ALL
+SELECT 8 N FROM DUAL
+UNION ALL
+SELECT 9 N FROM DUAL
+)
+SELECT CASE WHEN MOD(X.N , 2) = 0 THEN '<html><font color="red">' || X.N || '*' || Y.N || '=' || X.N * Y.N
+ELSE X.N || '*' || Y.N || '=' || X.N * Y.N END NINENINE
+FROM TALLY X
+CROSS JOIN TALLY Y
+```

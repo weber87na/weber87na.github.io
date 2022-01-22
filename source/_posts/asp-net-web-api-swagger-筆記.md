@@ -75,3 +75,39 @@ protected void Application_BeginRequest(object sender, EventArgs e)
     );
 ```
 
+### 設定多層 swagger api 中文說明
+在專案上右鍵 => `Properties` => `Build` => `Output` => `Output path` => 填入 `bin\` => 打勾 `XML documentation file:` (他會自己產正確的路徑)
+
+今天做專案遇到的問題 swagger api 不能正常顯示中文說明 , 之前大多數都是 model 掛在同個專案底下 , 鮮少分層分很明確 , 所以沒遇過這個
+google 一下感謝大神 , 參考自[大神](https://dotblogs.com.tw/shadowkk/2019/09/03/092620)
+其他設定可以[參考官方](https://docs.microsoft.com/zh-tw/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-6.0&tabs=visual-studio)
+
+
+```
+//建立 swagger api 的 schema 文件讓 api 有相關使用說明 , 每一層都會套用到
+var files = Directory.GetFiles(
+	AppDomain.CurrentDomain.BaseDirectory, $"Your.ProjectName.*.xml",
+	SearchOption.AllDirectories
+);
+
+foreach (var name in files)
+{
+	options.IncludeXmlComments( name );
+}
+```
+
+後來又發現應該也可以參考[老外](https://stackoverflow.com/questions/44643151/how-to-include-xml-comments-files-in-swagger-in-asp-net-core)不過沒 try
+```
+foreach (var filePath in System.IO.Directory.GetFiles(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location)), "*.xml"))
+{
+	try
+	{
+		c.IncludeXmlComments(filePath);
+	}
+	catch (Exception e)
+	{
+		Console.WriteLine(e);
+	}
+}
+```
+

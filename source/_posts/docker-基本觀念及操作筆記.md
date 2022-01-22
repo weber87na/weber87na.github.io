@@ -7,6 +7,7 @@ tags: docker
 <!-- more -->
 
 ### powershell 事前準備
+礙於之前整理 powershell 比較散亂 , 我已經更新成[這篇](https://weber87na.github.io/2021/12/01/%E6%88%91%E7%9A%84-powershell-%E8%A8%AD%E5%AE%9A/)
 安裝 `CHOCOLATEY` [官網](https://chocolatey.org/install)
 ```
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
