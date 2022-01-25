@@ -69,8 +69,13 @@
 
 <style>
     @font-face {
-        font-family: "JasonHandwriting1-Regular";
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
         src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
     }
 </style>
 

@@ -9,6 +9,7 @@ top: true
 &nbsp;
 <!-- more -->
 
+
 ## 教學及資源
 ### 還不錯的教學
 - [五倍紅寶石](https://www.youtube.com/watch?v=mPVwS8gjDVI&amp;list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&amp;index=1)
@@ -65,6 +66,7 @@ top: true
 "vim.neovimPath" : ""
 ```
 
+
 ### intellisense 移動設定
 在 `keybindings.json` 加 上config 內容 開 `intellisense` 時也使用鍵盤 `alt+j` `alt+k` 上下移動 , 可以參考[這篇](https://stackoverflow.com/questions/18153541/scrolling-through-visual-studio-intellisense-list-without-mouse-or-keyboard-arro)
 注意這邊要照著老外 `Rocco Ruscitti` 才正確!
@@ -118,6 +120,10 @@ top: true
 * `fcolor` 產生隨機 html 色碼
 * `fage` 產生隨機年齡
 * `femail` 產生隨機 email
+
+### 雙重行號
+以前有在 visual studio 使用 relative number 這個外掛 , 在 vscode 則叫做 `double line numbers` , 可以開啟兩條行號方便使用相對數字進行移動 , 需要的話可以在這裡 [下載](https://marketplace.visualstudio.com/items?itemName=slhsxcmy.vscode-double-line-numbers)
+使用方式 `ctrl + shift +p` => `double line numbers:absolute + relative`
 
 ### 包裹標籤
 另外我有設定 `emmet` 包裹功能可以參考 [老外設定](https://stackoverflow.com/questions/40155875/how-to-do-tag-wrapping-in-vs-code)
