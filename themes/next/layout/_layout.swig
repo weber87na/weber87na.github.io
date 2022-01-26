@@ -58,8 +58,34 @@
     </div>
   {%- endif %}
 
-  <div class="snow1" style="position:fixed !important"></div>
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
   <div class="cobweb" style="position:fixed !important"></div>
   <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
 </body>
 </html>
