@@ -251,7 +251,7 @@ format documnet 並且跳回行首 ` gg=G''`
 交換上下行 `ddp`
 交換前後字 `xp`
 
-解決預設 % 不能找到尖括號的問題 `set mps+=<:>`
+解決預設 % 不能找到尖括號的問題 `set mps+=<:>` 這個在 vim 才會發生 , vscode 好像不會
 
 ### 刪除 function 內的變數
 刪除 function 內的變數，自從學會 vim 基本操作以後就很少用 `t` or `T` 這種操作，看到高手用在刪除參數筆記一下
@@ -264,6 +264,7 @@ f)dF,
 
 ### 快速在 html 標籤移動
 之前常常用 % 來對 tag 進行起始/結尾切換，但是寫 html 完全沒法這樣做，後來發現原來只要 `vat` 接著用 `o` 就可以來回切換。
+不然就要安裝 emacs 大師的 [matchit](https://marketplace.visualstudio.com/items?itemName=redguardtoo.matchit) , 現在連 java , c++ 都 support
 
 ### 設定 html 屬性換行
 配合 teamwork 開發 angular 導致 html attribute 又臭又長尋求解法，每個 team member 的 html 空格數也不太一樣所幸找以到下解法
