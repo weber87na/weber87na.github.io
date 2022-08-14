@@ -4,6 +4,7 @@ date: 2021-12-21 05:47:45
 tags: c#
 ---
 &nbsp;
+![vim](https://raw.githubusercontent.com/weber87na/flowers/master/10.jpg)
 <!-- more -->
 
 參考[官方](https://autofac.readthedocs.io/en/latest/integration/webforms.html)
@@ -758,6 +759,87 @@ public class TestHub : Hub
 </html>
 
 ```
+
+### SignalR 後續
+常常有個疑惑 , 不曉得怎樣定時去撈 DB 然後用 signalr 傳給前端 , 於是看到了[這篇文章](http://henriquat.re/server-integration/signalr/integrateWithSignalRHubs.html)
+主要就是實現了 `IRegisteredObject` 介面 , 然後就可以在 server 裡面定時去執行某些任務
+所以特別注意到 `HostingEnvironment.RegisterObject` 當插入這個以後 server side (IIS) 就會固定每隔 N 秒執行撈 sql 的動作
+
+另外有個雷 , 因為我有用 `autofac` 導致執行的時候雖然會觸發 timer 內的事件 , 結果 signalr server side 裡面的 function 卻不 work
+所以要參考[這篇](https://stackoverflow.com/questions/21126624/signalr-autofac-owin-why-doesnt-globalhost-connectionmanager-gethubcontext)去調整設定 , 不然是吃不到 DI 的
+
+`Startup` 內的 `Configuration` 方法
+```
+var builder = new ContainerBuilder();
+
+//註冊 signalr 的 hub
+builder.RegisterHubs(Assembly.GetExecutingAssembly());
+
+//把 NLog 的 Provider 新增進去
+var loggerFactory = new LoggerFactory();
+loggerFactory.AddProvider(new NLogLoggerProvider());
+
+//註冊 AutoMapper
+builder.RegisterAutoMapper(Assembly.GetExecutingAssembly());
+builder.RegisterType(typeof(Mapper)).AsSelf();
+
+//這行是必須的
+builder.RegisterInstance(loggerFactory).As<ILoggerFactory>().SingleInstance();
+
+//用泛型註冊
+builder.RegisterGeneric(typeof(Logger<>)).As(typeof(ILogger<>));
+
+
+//DI 的相關屬性設定
+//註冊 connectionFactory
+builder.RegisterType<ConnectionFactory>()
+	.As<IConnectionFactory>()
+	.AsSelf();
+
+//註冊 repository
+builder.RegisterType<YourRepository>()
+	.As<IYourRepository>()
+	.As<IRepository<YourClass>>()
+	.AsSelf();
+
+var container = builder.Build();
+var resolver = new AutofacDependencyResolver(container);
+
+//todo 注意這個地方很雷 , 如果沒有替換 DependencyResolver 會無法正常 trigger 10 秒更新軌跡的動作
+//https://stackoverflow.com/questions/21126624/signalr-autofac-owin-why-doesnt-globalhost-connectionmanager-gethubcontext
+GlobalHost.DependencyResolver = resolver;
+
+var yourService = resolver.Resolve<YourService>();
+
+// Any connection or hub wire up and configuration should go here
+app.UseAutofacMiddleware(container);
+
+//設定 signalr
+app.Map("/signalr", map =>
+{
+   map.UseCors(CorsOptions.AllowAll);
+
+   //這裡直接插 config 會失效
+   //var config = new HubConfiguration { Resolver = resolver };
+
+   //要選用這個方法
+   //map.MapHubs(config);
+
+   //如果直接用這句的話不曉得為啥會不給過 , 可能是 autofac 跟 signalr 整合的 bug
+   //map.RunSignalR(config);
+
+   //同上面的問題 GlobalHost.DependencyResolver , 上面三句在此處其實都不起作用  , 直接呼叫 RunSignalR 即可
+   map.RunSignalR();
+});
+
+//註冊背景物件 , 這個會去定時每隔 10 秒呼叫一次 hub
+//撈 sql 把資料給送給前端使用
+HostingEnvironment.RegisterObject(new BackgroundServerTimer(yourService));
+
+```
+
+
+
 
 ### web api
 #### autofac

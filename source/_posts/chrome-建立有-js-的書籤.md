@@ -4,6 +4,7 @@ date: 2020-11-21 08:17:56
 tags: chrome
 ---
 &nbsp;
+![chrome](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/480px-Google_Chrome_icon_%28February_2022%29.svg.png)
 <!-- more -->
 工作上遇到常常需要切換多組帳號，每次都要敲帳號密碼覺得很麻煩，所以研究有無方法可以自訂 script
 首先輸入 chrome://bookmarks/

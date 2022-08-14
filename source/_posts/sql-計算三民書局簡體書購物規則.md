@@ -6,6 +6,7 @@ tags:
 - postgresql
 ---
 &nbsp;
+![sql](https://raw.githubusercontent.com/weber87na/flowers/master/sql.png)
 <!-- more -->
 
 無聊到三民書局買書剛好看到該站的限時購物車規則，就隨手寫看看，剛開始腦子還有點卡。

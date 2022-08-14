@@ -5,6 +5,7 @@ tags:
 - chrome
 ---
 &nbsp;
+![chrome](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/480px-Google_Chrome_icon_%28February_2022%29.svg.png)
 <!-- more -->
 整理一下 chrome 好用的 extension
 * 可以看 html 大綱增強 seo [HTML5 Outliner](https://chrome.google.com/webstore/detail/html5-outliner/afoibpobokebhgfnknfndkgemglggomo?hl=zh-TW)

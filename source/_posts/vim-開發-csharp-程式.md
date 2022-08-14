@@ -4,6 +4,7 @@ date: 2020-12-29 00:38:02
 tags: vim
 ---
 &nbsp;
+![terminal](https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png)
 <!-- more -->
 ## 安裝 .net core 3.1
 ```

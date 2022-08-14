@@ -139,7 +139,7 @@ SET SERVEROUTPUT ON
 ```
 
 ### 實測 http get web request
-這個網站可以通 GET [撈假資料]http://jsonplaceholder.typicode.com/
+這個網站可以通 GET [撈假資料](http://jsonplaceholder.typicode.com/)
 建立測試用的 stored procedure
 [參考網址](https://technology.amis.nl/database/invoke-a-rest-service-from-plsql-make-an-http-post-request-using-utl_http-in-oracle-database-11g-xe/)
 [主要參考](https://gist.github.com/ser1zw/3757715)

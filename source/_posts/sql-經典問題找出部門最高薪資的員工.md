@@ -5,6 +5,7 @@ tags:
 - sql
 ---
 &nbsp;
+![sql](https://raw.githubusercontent.com/weber87na/flowers/master/sql.png)
 <!-- more -->
 
 看書時複習到這題，記得有至少兩本書有講過順便筆記一下，印象中應該是用視窗函數最快，記得自己也有用過類似方法提升查詢效能。
@@ -92,4 +93,19 @@ from (
 	from cte
 ) x
 --where seq = 3
+```
+
+### 實際案例
+今天幫忙在 Oracle 上面看看 , 同事不曉得為啥 ORDER BY 的時候出現一個版本號 `9 > 1x` 的狀況 , 原來是資料型別為字串造成
+所以先加上 `TO_NUMBER` 轉換 , 接著即可找出最大版本號的文件名稱
+```
+SELECT DNAME, VER
+FROM (
+	SELECT DNAME, VER , ROW_NUMBER() OVER (PARTITION BY DNAME ORDER BY TO_NUMBER(VER) DESC) SEQ
+	FROM DOCS
+	WHERE 1 = 1
+	AND STATUS = 'RELEASE'
+	AND DTYPE = 'Sheet'
+) X
+WHERE SEQ = 1
 ```

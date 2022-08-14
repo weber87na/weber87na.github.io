@@ -7,6 +7,7 @@ tags:
 top: true
 ---
 &nbsp;
+![vim](https://raw.githubusercontent.com/weber87na/flowers/master/04.jpg)
 <!-- more -->
 
 
@@ -26,7 +27,7 @@ top: true
 
 ## 安裝及設定
 ### 安裝
-首先在 vscode 搜尋 [`VSCodeVim`](https://github.com/VSCodeVim/Vim) , 然後無腦安裝就搞定了
+首先在 vscode 搜尋 [`VSCodeVim`](https://github.com/VSCodeVim/Vim) , 然後無腦安裝就搞定了 , 如果有好奇 vscode neovim 可以參考我[這篇](https://weber87na.github.io//2022/02/08/vscode-neovim-筆記)
 接著開始 config 在 `win + r` 輸入
 ```
 %APPDATA%/Code/User
@@ -100,6 +101,227 @@ top: true
 },
 ```
 
+### im-select
+這個是在 `visual studio code 實用指南` 書上看到的 , 有中文書還是要加減支持下 , 不過他示範的是 mac os , 礙於我一開始實在看不太懂他寫啥 , 所以研究筆記下
+首先下載 [im-select](https://github.com/daipeihust/im-select) , 接著丟到 `c:` 底下 , 要丟謎片槽也是可以
+然後 cd 到放置 `im-select` 的資料夾 , 執行看看
+我用英文輸入法 + 新注音輸入法分別得出這樣的結果 `1033` => `英文` , `1028` => `中文`
+接著在 vscode 設定這樣 , 自此之後就可以在中文輸入完按下 `esc` 自動幫你切回英文輸入法 , 詳細點可以看[這裡](https://github.com/VSCodeVim/Vim#input-method)
+
+`settings.json`
+```
+"vim.autoSwitchInputMethod.enable": true,
+"vim.autoSwitchInputMethod.defaultIM": "1033",
+"vim.autoSwitchInputMethod.switchIMCmd": "c:\\im-select.exe 1033 {im}",
+"vim.autoSwitchInputMethod.obtainIMCmd": "c:\\im-select.exe"
+```
+
+
+### Search Everywhere
+最近都在用 vscode 開發 , 有時候要找東西覺得原生的 search 不是那麼方便 , 無意中看到這個[Search everywhere](https://marketplace.visualstudio.com/items?itemName=kbysiec.vscode-search-everywhere)
+感覺用起來體驗比較優 , 快速鍵預設是 `ctrl + alt + p` 我把他重新 bind 下
+`settings.json`
+```
+{
+	"before": [
+		"<leader>",
+		"q",
+		"q"
+	],
+	"commands": [
+		//"workbench.action.findInFiles"
+		"searchEverywhere.search"
+	]
+},
+```
+
+### 折疊的小技巧
+最近維護 angularjs 老舊程式碼 , 大概有 1000 - 2000 行左右的 js
+之前在維護後端通常會用 region 來分類這種沒啥辦法拆開的檔案
+研究下想不到 vscode 也有這個功能 , 可以參考[官方說明](https://code.visualstudio.com/docs/editor/codebasics#_folding)
+另外 visual studio 2022 也有支援 js 這個功能
+```
+//#region haha
+function haha(){
+	console.log('haha');
+}
+haha();
+//#endregion
+```
+在 vim 上面我只記得 za 可以切換折疊 , 其他都不太常用 , 不過還是[筆記下](https://vim.fandom.com/wiki/Folding)
+
+另外如果在 region 摺疊情況下去移動的話有個缺點 , 就是他是往下移動一行 , 沒辦法直接移動到結尾 , 這時候只好自己土炮 , 借用 [matchit](https://github.com/redguardtoo/vscode-matchit) 的 code 來增強這塊 , 可以先看看效果
+
+![image](https://raw.githubusercontent.com/weber87na/video/main/matchit-region.gif)
+
+主要就是參考他的 `cpp.ts` 這隻檔案
+可以看到 `cppMacroList` 這個 array 內有 regex 來定義自己想要的開頭或結尾
+接著看到 `cppMacroAtPoint` 這隻函數 , 會去判斷是否吻合 regex 內的結果
+最後看到 `cppMacroJump` 他利用 `sdk.findMatchedTagAndJump` 去實現跳到 `開頭` , `身體` , `結尾`
+所以我們需要先把 `sdk.findMatchedTagAndJump` 修改下 , 讓他只要符合開頭與結尾之間切換即可
+新增以下函數 `findMatchedRegionAndJump` 在 `sdk.ts` 這隻檔案內 , 主要就是修改 case  的部分 , 調整成只有 0 & 1
+```
+//跳到 region 頭尾
+export function findMatchedRegionAndJump(tagAtPoint: any, tagList: any[]) {
+  let level = 1;
+  let found = -1; // match tag line number
+
+  const editor = getEditor();
+  if(!editor) {
+    return;
+  }
+
+  let n = getCurrentLineNumber();
+
+  switch(tagAtPoint) {
+    case 0:
+      // open tag
+      n++;
+      for(let i = n ; i < editor.document.lineCount; i++) {
+        const m = lineMatchTagList(getLineText(i), tagList) ;
+        if(level === 1 && (m === 1 || m === 2)) {
+          found = i;
+          break; // stop for loop
+        }
+        if(m === 0)  {
+          level++;
+        } else if(m === 2) {
+          level--;
+        }
+      }
+      break;
+
+    case 1:
+      // end tag
+      n--;
+      for(let i = n ; i >= 0; i--) {
+        const m = lineMatchTagList(getLineText(i), tagList) ;
+        if(level === 1 && m === 0) {
+          found = i;
+          break; // stop for loop
+        }
+        if(m === 2)  {
+          level++;
+        } else if(m === 0) {
+          level--;
+        }
+      }
+      break;
+  }
+  if(found !== -1) {
+    gotoChar(new vscode.Position(found, editor.document.lineAt(found).firstNonWhitespaceCharacterIndex));
+  }
+}
+```
+
+接著就可以依照官方的 [region 規則](https://code.visualstudio.com/docs/editor/codebasics#_folding) 說明去自訂 , 我這裡寫了 3 個常用的 `js` , `css` , `python`
+要測 regex 的話可以用這個 [regex101](https://regex101.com/) 先玩看看
+
+支援 js 這個比較簡單 , 把正則定義好就能用了 , 沒啥特殊規則
+`jsregion.ts`
+```
+
+import * as sdk from './sdk';
+
+const regionList = [/^[ \t]*(\/\/#region*)/, /^[ \t]*(\/\/#endregion*)/];
+
+export function jsAtPoint() {
+  const m = sdk.lineMatchTagList(sdk.getCurrentLineText(), regionList);
+  return m === -1 ? null : m;
+}
+
+export function jsJump(tagAtPoint: any) {
+  sdk.findMatchedRegionAndJump(tagAtPoint, regionList);
+}
+
+```
+
+支援 css 比較特別 , 實務上會在 region 後面接些說明 , 像是這樣 , 所以定義 regex 需要讓後面有單字可以出現
+```
+/*#region footer*/
+.footer{
+    margin: 0;
+    padding: 0;
+}
+.footer nav{
+    background-color: #fff;
+}
+/*#endregion end of footer*/
+```
+
+`cssregion.ts`
+```
+import * as sdk from './sdk';
+
+const regionList = [/^[ \t]*(\/\*#region.*\*\/)/, /^[ \t]*(\/\*#endregion.*\*\/)/];
+
+export function cssAtPoint() {
+  const m = sdk.lineMatchTagList(sdk.getCurrentLineText(), regionList);
+  return m === -1 ? null : m;
+}
+
+export function cssJump(tagAtPoint: any) {
+  sdk.findMatchedRegionAndJump(tagAtPoint, regionList);
+}
+```
+
+至於 python 則是會習慣性在 `#` 號後面加上一個空白 , 所以用 regex 的 or 多處理下應該就能用
+`pyregion.ts`
+```
+import * as sdk from './sdk';
+
+const regionList = [/^[ \t]*(#\sregion|#region)/, /^[ \t]*(#\sendregion|#endregion)/];
+
+export function pyAtPoint() {
+  const m = sdk.lineMatchTagList(sdk.getCurrentLineText(), regionList);
+  return m === -1 ? null : m;
+}
+
+export function pyJump(tagAtPoint: any) {
+  sdk.findMatchedRegionAndJump(tagAtPoint, regionList);
+}
+```
+
+最後在 `extensions.ts` 找到 `cppMacroAtPoint` 下面補上剛剛定義的幾個函數即可搞定
+
+```
+  if(sdk.languageMatched(['c', 'cpp'])) {
+    tagAtPoint = cpp.cppMacroAtPoint();
+    if(tagAtPoint !== null) {
+      cpp.cppMacroJump(tagAtPoint);
+      return;
+    }
+  }
+
+  //設定 js region
+  if(sdk.languageMatched(['javascript' , 'html'])) {
+    tagAtPoint = jsregion.jsAtPoint();
+    if(tagAtPoint !== null) {
+      jsregion.jsJump(tagAtPoint);
+      return;
+    }
+  }
+
+  //設定 css region
+  if(sdk.languageMatched(['css' , 'html'])) {
+    tagAtPoint = cssregion.cssAtPoint();
+    if(tagAtPoint !== null) {
+      cssregion.cssJump(tagAtPoint);
+      return;
+    }
+  }
+
+
+  //設定 py region
+  if(sdk.languageMatched(['python'])) {
+    tagAtPoint = pyregion.pyAtPoint();
+    if(tagAtPoint !== null) {
+      pyregion.pyJump(tagAtPoint);
+      return;
+    }
+  }
+```
+
 ### 產生常用假資料
 不要臉推薦下自己寫的 extension [假的](https://marketplace.visualstudio.com/items?itemName=weber87na.tw-fake-data-gen) [github在此](https://github.com/weber87na/tw-fake-data-gen)
 難得有放圖 XD
@@ -153,6 +375,15 @@ top: true
 		"command": "editor.emmet.action.wrapWithAbbreviation"
 },
 ```
+
+好久沒用 vscode 寫靜態網頁 , 突然發現以前常常用的 `!` 整組壞光光
+google 了一下只要在 `settings.json` 加上以下設定即可 , 可以參考[這裡](https://code.visualstudio.com/blogs/2017/08/07/emmet-2.0)
+不過這個問題好像很多年前就有了 , 怎麼又突然在 2022 年跑出來就不得而知啦 , 可能 vscode 又更新了啥鬼東西吧
+```
+    "emmet.triggerExpansionOnTab" : true,
+```
+
+
 ### 自訂 emmet snippet
 一直以來都有個很火大的需求 , 就是每次用 `emmet` `!` 產生 html 時都會送你英文 `lang="en"`
 這時候你打開 chrome 就會出現翻譯要你點選 , 每次都彈這個視窗很賭爛 , 所以才想辦法寫這篇
@@ -188,6 +419,9 @@ top: true
 ```
 最後特別注意 , 這種設定檔的 json 如果是最後一個 item 不能有 comma 逗號 `,` 會跳 error 爽得你不要不要的 , 設定完後要重啟 vscode 才會生效
 其他產生 snippet 就暫時沒太多研究 , 只知道這個[工具](https://snippet-generator.app/?description=&tabtrigger=&snippet=&mode=vscode)可以幫你
+
+### 多選功能
+很久沒用這個功能已經忘了預設是怎麼按 , 不過在 vscode vim 底下是用 `alt + 滑鼠左鍵` , ideavim 好像也是這樣?
 
 ### Hippie Completion
 這個 [simple-autocomplete](https://marketplace.visualstudio.com/items?itemName=mksafi.simple-autocomplete) 外掛是無意中發現的
@@ -339,13 +573,61 @@ neovim 啟用原生
 以前玩遊戲的時候會希望腳色可以瞬間定住開槍，fps 遊戲差個 0.x 毫秒就差很多 , 在 windows 底下可以這樣設定
 `win + r` => `control panel` => `keyboard` => `重複延遲設定最短` => `重複速度設定最快`
 
+### which key
+[whichkey](https://vspacecode.github.io/docs/whichkey/)
+這個 extension 可以用空白鍵呼叫出額外的菜單 , 算是擴充一些常用的功能方便從他的 menu 來找
+他跟 [VSpaceCode](https://vspacecode.github.io/docs/default-keybindings) 有高度整合 , 如果用這套的話直接就幫你把 key binding 給設計好了 , 不過礙於我已經有自己的 key binding 就看看就好
+安裝以後要加上這串在 `settings.json`
+```
+"vim.normalModeKeyBindingsNonRecursive": [
+  {
+    "before": ["<space>"],
+    "commands": ["whichkey.show"]
+  }
+],
+"vim.visualModeKeyBindingsNonRecursive": [
+  {
+    "before": ["<space>"],
+    "commands": ["whichkey.show"]
+  }
+]
+```
+
 
 
 ### 把 html 轉為 js string
-工作上遇到轉換的問題特別筆記一下
+工作上遇到轉換的問題特別筆記一下 , 用 notepad++ or 其他 GUI 用下面這個 replace 應該也都可以執行
 ```
 (<[^>]*>.*)
 + '$1'
+```
+
+後來覺得每次都要翻筆記太麻煩 , 所幸自己也試著實現一個 vscode 的 [extension](https://marketplace.visualstudio.com/items?itemName=weber87na.htmltostring) 玩看看 , 不過寫完了才發現有大陸人早就[實作](https://marketplace.visualstudio.com/items?itemName=wyhere.htmltojs)了 , 暈倒 ~
+```
+"vim.visualModeKeyBindingsNonRecursive": [
+	{
+		"before": [
+			"<leader>",
+			"s",
+			"2",
+			"h"
+		],
+		"commands": [
+			"htmltostring.toHtml"
+		]
+	},
+	{
+		"before": [
+			"<leader>",
+			"h",
+			"2",
+			"s"
+		],
+		"commands": [
+			"htmltostring.toString"
+		]
+	}
+]
 ```
 
 vim binding
@@ -603,6 +885,13 @@ internal Author(Guid id ,
 ```
 "q   f,a<CR><Esc>
 ```
+
+### js debug 好用套件 quokkajs
+以前曾經看過 OZCode ?? 一些很棒的功能 , 不過因為沒錢所以沒買 , 偶然發現這個 `quokkajs` 套件上有類似的影子
+實際使用起來即使是免費版 , 還是滿實用的 , 可以看看這個影片 , 詳情有空再補
+![示範](https://quokkajs.com/assets/img/main-video.gif)
+
+
 ## 設定檔
 ### full keybindings
 ```

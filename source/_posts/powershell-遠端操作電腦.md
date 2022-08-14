@@ -5,6 +5,7 @@ tags:
 - powershell
 ---
 &nbsp;
+![terminal](https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png)
 <!-- more -->
 #參考文章
 http://chienleebug.blogspot.com/2017/11/powershellpowershell.html

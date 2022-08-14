@@ -4,6 +4,7 @@ date: 2022-01-22 02:02:09
 tags: vscode
 ---
 &nbsp;
+![vim](https://raw.githubusercontent.com/weber87na/flowers/master/06.jpg)
 <!-- more -->
 
 這篇算是我第一個 vscode extension [假的](https://marketplace.visualstudio.com/items?itemName=weber87na.tw-fake-data-gen) 開發筆記 , [github在此](https://github.com/weber87na/tw-fake-data-gen)

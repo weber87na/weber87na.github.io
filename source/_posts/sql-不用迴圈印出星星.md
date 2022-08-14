@@ -5,6 +5,7 @@ tags:
 - sql
 ---
 &nbsp;
+![sql](https://raw.githubusercontent.com/weber87na/flowers/master/sql.png)
 <!-- more -->
 
 這個方法是看視窗函數開的一個腦洞，以往常見印星星的問題都需要依靠迴圈進行輸出，

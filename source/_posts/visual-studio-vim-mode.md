@@ -8,6 +8,7 @@ tags:
 top: true
 ---
 &nbsp;
+![vim](https://raw.githubusercontent.com/weber87na/flowers/master/03.jpg)
 <!-- more -->
 
 ## 課程與書籍推薦
@@ -192,7 +193,7 @@ var x = new YourObject(); var t = x.GetType(); foreach (var prop in t.GetPropert
 看這老外是運用 roslyn 來達成這套功能 , 屌!
 ```
 var x = new LaSai();
-//marcos.properties(LaSai)
+//macros.properties(LaSai)
 //p.${name} = 
 ```
 
@@ -324,6 +325,37 @@ Lang.LaSai
 我自己 bind 成以下這樣
 ```
 map ,fse :vsc CodeMaid.FindInSolutionExplorer<CR>
+```
+
+### regex 多行替換
+這是一個工作上遇到真實的問題 , 因為把 ng-show 的陳年老 code 寫爛了 , 希望他強制顯示出來 , 所以借用 regex 的力量 , 不然改到往生
+`老 code` , 要測試的話可以先在這個網站[玩看看](https://regex101.com/)
+```
+<div class="mb-3" ng-show="specForm['IMin' + itemIdx + '_' + specIdx].$invalid && 
+			  specForm['IMin' + itemIdx + '_' + specIdx].$dirty">
+```
+
+`希望變得樣子`
+```
+<div class="mb-3" ng-show="true">
+```
+
+打開正則視窗輸入以下這段即可 , 其中最機車的地方就是有換行問題 , 我是參考老外[這篇](https://stackoverflow.com/questions/4017278/multi-line-regular-expressions-in-visual-studio)
+
+`regex find`
+```
+<div class="mb-3" ng-show="+.*.*?\r?\n.*?">
+```
+
+`replace to`
+```
+<div class="mb-3" ng-show="true">
+```
+
+### regex 找中文
+今天遇到要把多語系沒補上的欄位翻修 , 想想覺得一個一個中文去找範圍太廣 , 開啟 Regex 搜尋功能試看看 , 沒想到還真的 highlight
+```
+[\u4e00-\u9fa5]
 ```
 
 ### coding style 大小寫轉換

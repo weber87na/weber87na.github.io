@@ -4,6 +4,7 @@ date: 2020-11-15 16:55:29
 tags: cmder
 ---
 &nbsp;
+![terminal](https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png)
 <!-- more -->
 
 由於工作的關係，公司發派的環境為 win7，在沒有 wsl 底下猶如斷手斷腳，只好找到這套 [cmder](https://cmder.net/)

@@ -7,6 +7,7 @@ tags:
 top: true
 ---
 &nbsp;
+![vim](https://raw.githubusercontent.com/weber87na/flowers/master/02.jpg)
 <!-- more -->
 
 前言，老實說呢，我很懶得寫這篇，因為之前的電腦 win 10 跑 wsl or cmder 基本上都很順，
@@ -111,6 +112,116 @@ return 1 即可
 ```
 :w !sudo tee %
 ```
+
+## Narrow to region
+最近無意中發現 emacs 大師說過的 Narrow to region vim 版 , 就抓來用看看 , 發現還滿有用的
+
+### 安裝
+安裝老樣子在 init.vim or vimrc 加上這行
+```
+Plug 'chrisbra/nrrwrgn'
+```
+接著
+```
+:PlugInstall
+```
+
+### 複習 split window
+要用 narrow to region 需要些 split window 基本知識才好用 , 我平時不太常用 split window 功能所以複習下
+切換 focus split window `ctrl + w + w`
+移動 focus split window 上下左右 `ctrl + w + h/j/k/l` 注意是小寫
+移動 split window `ctrl + w + H/J/K/L` 注意是大寫
+
+### 操作
+裝好以後先把想要變成 Narrow to region 的部分選起來 , 也就是進入到 visual mode , 然後輸入 `:NR`
+他會用 split window 多開一個分割視窗 , 我不太喜歡上下的分割方式 , 所以調整 `ctrl + w + H`
+
+詳細操作如下 , 可以看他 [github](https://github.com/chrisbra/NrrwRgn)
+:NR  - Open the selected region in a new narrowed window
+以 narrow to region 開啟目前所選的內容
+
+:NW  - Open the current visual window in a new narrowed window
+在 narrow to region 的視窗新開一個 narrow to region 視窗 (當小部分修改的時候可以用這個)
+
+:WR  - (In the narrowed window) write the changes back to the original buffer.
+寫入 narrow to region 的內容至原本的文件
+
+:NRV - Open the narrowed window for the region that was last visually selected.
+將最後一個選取內容於 narrow to region 中開啟
+
+:NUD - (In a unified diff) open the selected diff in 2 Narrowed windows
+不太清楚這個作用 , 沒詳細研究
+
+:NRP - Mark a region for a Multi narrowed window
+將這段選取內容變成 Multi narrowed window
+這個用法應該是當某兩個區塊互相有影響的時候 , 可以開這個模式一次看到
+(當同時有上下內容需要一起改的時候可以用這個功能)
+
+:NRM - Create a new Multi narrowed window (after :NRP) - experimental!
+將變成 Multi narrowed window 的視窗一起顯示在一個 buffer 內讓你編輯 (要先有執行 :NRP 指令才能用)
+(當同時有上下內容需要一起改的時候可以用這個功能)
+
+大概可以這樣用 , 假設有個片段長這樣 , 想要修改 id 為 header , footer 的內容
+```
+<div id="header" class="container">
+	<div class="row">
+		<div class="col-md-4">col</div>
+		<div class="col-md-4">col</div>
+		<div class="col-md-4">col</div>
+	</div>
+</div>
+
+<div id="mid" class="container">
+	<div class="row">
+		<div class="col-md-6">col</div>
+		<div class="col-md-6">col</div>
+	</div>
+</div>
+
+<div id="footer" class="container">
+	<div class="row">
+		<div class="col-md-3">col</div>
+		<div class="col-md-3">col</div>
+		<div class="col-md-3">col</div>
+		<div class="col-md-3">col</div>
+	</div>
+</div>
+```
+
+
+他會給你 header 及 footer 片端像是這樣
+```
+<!-- Start NrrwRgn1 buffer: .\bootstrap4.html -->
+    <div id="header" class="container">
+		<div class="row">
+            <div class="col-md-4">col</div>
+            <div class="col-md-4">col</div>
+            <div class="col-md-4">col</div>
+        </div>
+    </div>
+<!-- End NrrwRgn1 buffer: .\bootstrap4.html -->
+
+<!-- Start NrrwRgn2 buffer: .\bootstrap4.html -->
+    <div id="footer" class="container">
+		<div class="row">
+            <div class="col-md-3">col</div>
+            <div class="col-md-3">col</div>
+            <div class="col-md-3">col</div>
+            <div class="col-md-3">col</div>
+        </div>
+    </div>
+<!-- End NrrwRgn2 buffer: .\bootstrap4.html -->
+```
+
+這時候就可以下 replace 命令把 col 內容換成 xxxx 之類的操作 , 然後不會動到中間 id 為 mid 的內容
+`:%s/>col</>xxxx<`
+
+:NRS - Enable Syncing the buffer content back (default on)
+
+:NRN - Disable Syncing the buffer content back
+
+:NRL - Reselect the last selected region and open it again in a narrowed window
+不太清楚這個作用 , 沒詳細研究
 
 ## Tmux 安裝
 萬事起頭難，參考還不錯的[大陸人設定](https://github.com/xnng/my-git-bash)
@@ -1001,6 +1112,26 @@ fuck
 source ~/.bashrc
 
 ```
+
+## Pokete
+人生苦悶 , 尤其值班時要守在電腦前 , 這時候玩點類寶可夢散散心 [Pokete](https://github.com/lxgr-linux/pokete) 坦白說還不錯玩 XD
+![vim](https://raw.githubusercontent.com/lxgr-linux/pokete/master/assets/ss/ss01.png)
+
+## 打字練習
+小時後在百貨公司的遊樂場? 有個叫做[死亡鬼屋](https://store.steampowered.com/app/246580/The_Typing_of_The_Dead_Overkill/)的遊戲 , 沒想到這個還有打字版 XD
+不過我看 steam 上面的的好像是 2013 年出的版本 , 但是還是買來玩看看 , 讓討厭的英打變得有趣
+![typing](https://cdn.cloudflare.steamstatic.com/steam/apps/246580/ss_fbc049532e42291fe852adae05232f74d2ed53c2.1920x1080.jpg?t=1603130707)
+如果 win10 閃退 or 黑頻可以參考[這個](https://www.youtube.com/watch?v=QPWCTPUziO8)
+`win` => `設定` => `顯示器` => `圖形設定圖形` => `C:\Program Files (x86)\Steam\steamapps\common\Typing of the Dead Overkill\HOTD_NG.exe` => `省電`
+
+另外有個特色就是可以下載字典 , 這裡列兩個 `1000 most-common words` , `C# Developer` (這個簡直自虐) , 其他語言應該也都有 XD
+最後想要自訂字典[可以參考這裡](https://steamcommunity.com/sharedfiles/filedetails/?id=414808565)
+因為預設只會顯示遊戲 , 滿不好找的 , 這邊順便列一下 , 不過實在懶得自己動手做 , 還是用別人的就好
+英文: `LIBRARY` => `Search Bar` => `TOOLS` => `The Typing of the Dead: Workshop Tool` => `Install`
+中文: `收藏庫` => `搜尋條` => `工具` => `The Typing of the Dead: Workshop Tool` => `安裝`
+後來我實際製作看看好像有 bug , 不曉得為啥狂跳這句 `There are other files and folders in the same folder as the dictionary file. Please remove them and leave the dictionary file on its own in the folder.`
+後來解法 `Dictionary Name` 那欄不要填欄 , 然後 `Description` 先故意不寫 , 按 `publish` 以後 , 他會跳個視窗 , 這時候寫 `Descirption` 後 , 接著點 `publish` 才會成功 , 想刪除的話 , 也要從 steam 上面刪 , 有夠麻煩 ...
+順帶一提他這個工具是 c# 開發的 , 路徑在 `C:\Program Files (x86)\Steam\steamapps\common\Typing of the Dead Workshop Tool\TotDO Tools.exe` , 所以可以 decompile 看看
 
 ## 其他好玩咚咚
 https://github.com/agarrharr/awesome-cli-apps

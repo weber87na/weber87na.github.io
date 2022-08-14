@@ -4,6 +4,7 @@ date: 2021-12-01 02:23:38
 tags: powershell
 ---
 &nbsp;
+![terminal](https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png)
 <!-- more -->
 
 我工作上用 powershell 多半是拿來開個 git 或是用它來當 ssh (較為輕量速度也快) 不然就是開 neovim 來用或是下一些常用指令
@@ -157,6 +158,15 @@ Install-PackageProvider -Name NuGet
 Set-ExecutionPolicy RemoteSigned
 ```
 
+
+### PSReadLine 警告
+不曉得從啥時開始會一直出現這串訊息 `警告: PowerShell 偵測到您可能正在使用螢幕助讀程式，且已基於相容性而停用 PSReadLine。如果您想要重新啟用它，請執行 'Import-Module PSReadLine'。`
+
+可以參考這個[解法](https://stackoverflow.com/questions/66748513/re-enable-import-module-psreadline-warning) 記得要重新開機
+```
+Set-ItemProperty 'registry::HKEY_CURRENT_USER\Control Panel\Accessibility\Blind Access' On 0
+```
+
 ## full config
 最後額外設定自己的 config , 過程中太頻繁懶得打 docker 直接用 alias , 另外還有像是 history 搜尋可以按 `ctrl + r` 往前搜尋這種不錯的小技巧可以用 , 詳情參考[印度仔](https://www.thewindowsclub.com/how-to-see-powershell-command-history-on-windows-10)
 另外可以設定 Emacs 的 key binding 這樣操作起來就跟用 bash 預設的熱鍵一樣 , 這個一定要啟用 , 不然對不起 emacs 大師
@@ -221,3 +231,4 @@ function tig { & "C:\Program Files\Git\usr\bin\tig.exe" }
 #直接在 chrome 開 remote git repo
 function current-repo { start chrome (git config remote.origin.url).trim(".git") }
 ```
+

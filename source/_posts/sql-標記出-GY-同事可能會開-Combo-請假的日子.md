@@ -6,6 +6,7 @@ tags:
 - postgresql
 ---
 &nbsp;
+![sql](https://raw.githubusercontent.com/weber87na/flowers/master/sql.png)
 <!-- more -->
 
 印象這是很多年前一個計算周期的問題，主要是利用 generate_series 產生出當月日期，搭配 case 標記邏輯規則產製出該月可能被開 Combo 的狀態。

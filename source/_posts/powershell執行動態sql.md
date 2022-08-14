@@ -8,6 +8,7 @@ tags:
 - mssql
 ---
 &nbsp;
+![terminal](https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png)
 <!-- more -->
 以往要執行動態 sql 多半都會用半手動方式先在 sql server 裡面寫好 script 然後才執行 , 萬一有一堆 sql 要執行時就是一場噩夢了!
 最近用 powershell 搭配簡化一下整體工作流程 (可惜 postgresql 沒法用)

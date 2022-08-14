@@ -5,6 +5,7 @@ tags:
 - chrome
 ---
 &nbsp;
+![chrome](https://upload.wikimedia.org/wikipedia/commons/thumb/e/e1/Google_Chrome_icon_%28February_2022%29.svg/480px-Google_Chrome_icon_%28February_2022%29.svg.png)
 <!-- more -->
 在 chrome 一個長年困擾的問題，我用 vim 一陣子了，每次都要使用滑鼠移動到 url 網址列上很浪費時間，卻一直懶得找出方法
 無意中發現 ctrl + L 可以在 chrome 快速移動到 url 網址列

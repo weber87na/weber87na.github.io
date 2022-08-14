@@ -350,3 +350,74 @@ code::selection{
 .back-to-top:hover{
 	transform:rotate(10deg);
 }
+
+/*中元節效果*/
+.noise{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	content: "";
+	/* you can control opacity of noise  */
+	opacity: .1;
+	z-index: 1000;
+	pointer-events: none;
+	background: url(https://raw.githubusercontent.com/taimoorshahzada/Film-Grain-Noise-Effect-on-Background-in-Website-using-Pure-CSS/main/noise.gif);
+}
+
+.noise2{
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	content: "";
+	/* you can control opacity of noise  */
+	opacity: .1;
+	z-index: 1000;
+	pointer-events: none;
+	background: url(https://c.tenor.com/8q6gzdjYlCcAAAAC/white-noise-error.gif) ;
+}
+
+.spell {
+	position: fixed;
+	top: calc(50% - 147px / 2);
+	left: 0;
+	width: 96px;
+	height: 147px;
+	z-index: 99999;
+	background: url(https://raw.githubusercontent.com/weber87na/flowers/master/shell-medium.png);
+	background-size: 100% 100%;
+	cursor: pointer;
+}
+
+.ghost {
+	position: fixed;
+	top: calc(50% - 147px / 2);
+	left: 0;
+	width: 96px;
+	height: 147px;
+	z-index: 1000;
+	background: url(https://raw.githubusercontent.com/weber87na/flowers/master/ghost-medium.png);
+	background-size: 100% 100%;
+	cursor: pointer;
+	animation: ghostmove 15s infinite;
+	/* display: none; */
+}
+
+@keyframes ghostmove {
+	0% {
+		top: 50%;
+		transform: rotate(0);
+	}
+
+	50% {
+		top: calc(50% - 147px / 2);
+		transform: rotateY(360deg);
+	}
+
+	100% {
+		top: 50%;
+	}
+}

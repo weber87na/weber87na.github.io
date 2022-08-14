@@ -4,6 +4,7 @@ date: 2020-12-29 01:38:42
 tags: vim
 ---
 &nbsp;
+![terminal](https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png)
 <!-- more -->
 
 ## 升級 ubuntu 18 to 20

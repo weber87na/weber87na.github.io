@@ -75,6 +75,60 @@ choco install python
 python -m venv .env
 ```
 
+### 斷網安裝 selenium
+先在有網路的環境執行以下指令 , 看看有無正常下載 , 然後加入到 7zip
+```
+mkdir yourfolder
+
+# 沒加環境變數就用下面這句然後把 yourfolder 壓到 7zip
+python -m pip download selenium -d yourfolder
+
+
+Mode                LastWriteTime         Length Name
+----                -------------         ------ ----
+-a----      2022/8/10  下午 04:37          18857   async_generator-1.10-py3-none-any.whl
+-a----      2022/8/10  下午 04:37          58795   attrs-22.1.0-py2.py3-none-any.whl
+-a----      2022/8/10  下午 04:37         160247   certifi-2022.6.15-py3-none-any.whl
+-a----      2022/8/10  下午 04:37         179079   cffi-1.15.1-cp39-cp39-win_amd64.whl
+-a----      2022/8/10  下午 04:37        2422362   cryptography-37.0.4-cp36-abi3-win_amd64.whl
+-a----      2022/8/10  下午 04:37          58155   h11-0.13.0-py3-none-any.whl
+-a----      2022/8/10  下午 04:37          61160   idna-3.3-py3-none-any.whl
+-a----      2022/8/10  下午 04:37           9726   outcome-1.2.0-py2.py3-none-any.whl
+-a----      2022/8/10  下午 04:37         118697   pycparser-2.21-py2.py3-none-any.whl
+-a----      2022/8/10  下午 04:37          55833   pyOpenSSL-22.0.0-py2.py3-none-any.whl
+-a----      2022/8/10  下午 04:37          16725   PySocks-1.7.1-py3-none-any.whl
+-a----      2022/8/10  下午 04:37         985827   selenium-4.4.0-py3-none-any.whl
+-a----      2022/8/10  下午 04:37          10033   sniffio-1.2.0-py3-none-any.whl
+-a----      2022/8/10  下午 04:37          29575   sortedcontainers-2.4.0-py2.py3-none-any.whl
+-a----      2022/8/10  下午 04:37         358991   trio-0.21.0-py3-none-any.whl
+-a----      2022/8/10  下午 04:37          16980   trio_websocket-0.9.2-py3-none-any.whl
+-a----      2022/8/10  下午 04:37         139901   urllib3-1.26.11-py2.py3-none-any.whl
+-a----      2022/8/10  下午 04:37          24203   wsproto-1.1.0-py3-none-any.whl
+```
+
+在斷網環境跑以下指令 , 遇到斷網環境真的會想撞牆 , 機器不一致還是很有可能會爆掉
+```
+#建立虛擬環境
+python -m venv env_selenium
+
+#啟動虛擬環境
+cd .\env_selenium\
+.\Scripts\activate
+
+#離開的話這樣
+#deactivate
+
+#安裝看看注意自己的路徑在哪
+pip install ../yourfolder/selenium-4.4.0-py3-none-any.whl -f ../yourfolder --no-index
+
+#如果噴這類錯誤可能是 python 版本不正確 , 要確定自己機器與離線環境機器的版本是否相同
+#ERROR: Could not find a version that satisfies the requirement cffi>=1.14; os_name == "nt" and implementation_name != "pypy" (from trio~=0.17->selenium==4.4.0) (from versions: none)
+
+#最後跑看看
+python
+from selenium import webdriver
+```
+
 ### 安裝 flask 常用的 lib
 ```
 pip install flask

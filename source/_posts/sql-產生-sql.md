@@ -4,6 +4,7 @@ date: 2021-02-02 19:37:19
 tags: sql
 ---
 &nbsp;
+![sql](https://raw.githubusercontent.com/weber87na/flowers/master/sql.png)
 <!-- more -->
 
 實務上遇到一堆 NULL 需要補值 , 利用 sql 產生全部欄位的 update 語法

@@ -5,6 +5,7 @@ tags:
 - powershell
 ---
 &nbsp;
+![terminal](https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png)
 <!-- more -->
 工作久了有的東西常沒用就忘了 , 剛好又遇到以前的問題 , 趁機吃個老本筆記一下
 

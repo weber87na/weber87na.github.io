@@ -4,6 +4,7 @@ date: 2022-01-03 02:45:09
 tags: kotlin
 ---
 &nbsp;
+![vim](https://raw.githubusercontent.com/weber87na/flowers/master/09.jpg)
 <!-- more -->
 
 最近被抓來寫 android 程式 , 順便筆記下遇到的問題 , 不然久了又忘了

@@ -4,6 +4,7 @@ date: 2022-01-07 20:36:05
 tags:
 ---
 &nbsp;
+![vim](https://raw.githubusercontent.com/weber87na/flowers/master/08.jpg)
 <!-- more -->
 
 工作以來一直沒機會用 Oracle , 都用窮人用的 postgresql , Oracle 頂多只用過 ado.net 去連 , 最近在 ef 上遇到一堆雷 , 順便筆記一下
@@ -294,3 +295,25 @@ private static void EF()
 }
 
 ```
+
+### sqlcl 筆記
+可以在這裡[下載](https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/)
+
+今天被 sqlcl 愚弄了一波 , 一直連不上去 , 後來發現環境是用 `sid` 去連 , 不是 `service name` , 所以要寫下面這樣 , 真的折磨人
+"username/password@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=123.45.67.89)(PORT=1521))(CONNECT_DATA=(SID=yoursid)))"
+
+設定日期 format
+```
+alter session set nls_date_format = 'YYYY-MM-DD HH24:MI:SS';
+```
+
+[轉出 json ](https://database.guide/how-to-export-oracle-query-results-to-a-json-file-when-using-sqlcl/)
+```
+SET SQLFORMAT json;
+SPOOL test.json;
+SELECT * FROM test;
+SPOOL off;
+SET SQLFORMAT ansiconsole;
+```
+
+結論 , 就算身為 terminal 的愛好者 , Oracle 的工具還是稍微更難用點 , 相比之下這個 [dbcli](https://github.com/dbcli) 用起來更加友善多了

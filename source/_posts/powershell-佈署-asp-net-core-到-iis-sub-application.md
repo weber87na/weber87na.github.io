@@ -8,6 +8,7 @@ tags:
 - powershell
 ---
 &nbsp;
+![terminal](https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png)
 <!-- more -->
 上線前為了方便讓前端可以去做畫面的調整建議把 csproj 內的 RazorCompileOnPublish 設定為 true
 

@@ -671,3 +671,16 @@ systemctl status docker.service
 ps auxw | grep dockerd
 #root      829386  3.2  2.8 2422328 114552 ?      Ssl  12:48   0:19 /usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock
 ```
+
+### 其他錯誤
+[今天噴個奇怪錯誤](https://stackoverflow.com/questions/39130263/docker-proxy-using-port-when-no-containers-are-running)
+```
+docker: Error response from daemon: driver failed programming external connectivity on endpoint upbeat_cartwright (7b56e9f46ca459fcfd5e28b3fb4740dee0d7a0efc5dfc217b9f6a883db678b13): Bind for 0.0.0.0:80 failed: port is already allocated
+
+
+sudo lsof -i -P -n
+sudo service docker stop
+sudo rm -f /var/lib/docker/network/files/local-kv.db
+
+sudo service docker start
+```

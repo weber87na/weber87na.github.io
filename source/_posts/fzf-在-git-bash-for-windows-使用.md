@@ -4,6 +4,7 @@ date: 2021-01-02 09:18:54
 tags: fzf
 ---
 &nbsp;
+![terminal](https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png)
 <!-- more -->
 
 由於需要維護大型專案，很多功能都是接手其他人的在 visual studio 裡面的全局查詢又不太好用，常常開了就當在那邊

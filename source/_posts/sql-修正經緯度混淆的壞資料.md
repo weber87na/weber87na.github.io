@@ -5,6 +5,7 @@ tags:
 - sql
 ---
 &nbsp;
+![sql](https://raw.githubusercontent.com/weber87na/flowers/master/sql.png)
 <!-- more -->
 
 看書看到 case 運用，記得以前曾經碰過落雷資料有類似的問題，不過當時是遇到的資料為經緯度寫反，
