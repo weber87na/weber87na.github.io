@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Autofac 踩雷筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/12/18/Autofac-%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-12-17T19:59:42.000Z">
+<meta property="article:modified_time" content="2022-08-15T08:38:57.136Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content=".net core">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/12/18/Autofac-%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Autofac 踩雷筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/12/18/Autofac-%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Autofac 踩雷筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-12-18 03:59:42" itemprop="dateCreated datePublished" datetime="2021-12-18T03:59:42+08:00">2021-12-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-08-15 16:38:57" itemprop="dateModified" datetime="2022-08-15T16:38:57+08:00">2022-08-15</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/12/18/Autofac-%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/12/18/Autofac-踩雷筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>8.3k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>8 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<p>最近專案因為用 autofac , 又踩一堆雷 , 套件換來換去心累 , 只好筆記一下 , 我是用 <code>net 5</code> 進行實作 , <a href="https://vickchen.win/2020/202002182318/" target="_blank" rel="noopener">參考這個大陸人</a></p>
+<h3 id="net-core"><a href="#net-core" class="headerlink" title=".net core"></a>.net core</h3><p>這邊直接開個預設 web api 範本來起手</p>
+<p>先安裝 <code>Autofac</code> 跟 <code>Autofac.Extensions.DependencyInjection</code> , 接著調整 <code>Program</code> 多插上這句 <code>UseServiceProviderFactory(new AutofacServiceProviderFactory())</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class Program</span><br><span class="line">&#123;</span><br><span class="line">	public static void Main( string[] args )</span><br><span class="line">	&#123;</span><br><span class="line">		CreateHostBuilder( args ).Build().Run();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public static IHostBuilder CreateHostBuilder( string[] args ) &#x3D;&gt;</span><br><span class="line">		Host.CreateDefaultBuilder( args )</span><br><span class="line">			.UseServiceProviderFactory(new AutofacServiceProviderFactory())</span><br><span class="line">			.ConfigureWebHostDefaults( webBuilder &#x3D;&gt;</span><br><span class="line">			 &#123;</span><br><span class="line">				 webBuilder.UseStartup&lt;Startup&gt;();</span><br><span class="line">			 &#125; );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著手動在 <code>Startup</code> 加入方法 <code>ConfigureContainer</code> 然後寫 autofac 的設定在裡面 , 我是遇到 <code>Cannot choose between multiple constructors with equal length 1 on type</code> 這個雷 , 所以設定去找自己想要的建構子<br>在 <code>ConfigureServices</code> 先調整這句 <code>services.AddControllers()</code> =&gt; <code>services.AddControllers().AddControllersAsServices()</code><br>接著加入這句 <code>services.AddAutofac( ConfigureContainer )</code> 即可 , 另外也可以繼承自 autofac 的 <code>Module</code> override Load 方法寫設定在裡面也可以</p>
+<p><code>Startup</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">public class Startup</span><br><span class="line">&#123;</span><br><span class="line">	public Startup( IConfiguration configuration )</span><br><span class="line">	&#123;</span><br><span class="line">		Configuration &#x3D; configuration;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public IConfiguration Configuration &#123; get; &#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; This method gets called by the runtime. Use this method to add services to the container.</span><br><span class="line">	public void  ConfigureServices( IServiceCollection services )</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		services.AddControllers().AddControllersAsServices();</span><br><span class="line">		services.AddSwaggerGen( c &#x3D;&gt;</span><br><span class="line">		 &#123;</span><br><span class="line">			 c.SwaggerDoc( &quot;v1&quot;, new OpenApiInfo &#123; Title &#x3D; &quot;WebApplicationAutofac&quot;, Version &#x3D; &quot;v1&quot; &#125; );</span><br><span class="line">		 &#125; );</span><br><span class="line"></span><br><span class="line">		services.AddAutofac( ConfigureContainer );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void ConfigureContainer( ContainerBuilder builder )</span><br><span class="line">	&#123;</span><br><span class="line">		&#x2F;&#x2F;方法 1 直接寫裡面即可</span><br><span class="line">		builder.RegisterType&lt;WeatherForecastController&gt;().PropertiesAutowired();</span><br><span class="line">		builder.RegisterType&lt;TestDI&gt;()</span><br><span class="line">			.AsSelf()</span><br><span class="line">			.UsingConstructor(typeof(string))</span><br><span class="line">			.WithParameter( new TypedParameter( typeof( string ), &quot;s&quot; ) )</span><br><span class="line">			.WithParameter( new TypedParameter( typeof( int ), 123 ) )</span><br><span class="line">			.PropertiesAutowired();</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;方法 2</span><br><span class="line">		&#x2F;&#x2F;builder.RegisterModule&lt;ConfigureAutofac&gt;();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; This method gets called by the runtime. Use this method to configure the HTTP request pipeline.</span><br><span class="line">	public void Configure( IApplicationBuilder app, IWebHostEnvironment env )</span><br><span class="line">	&#123;</span><br><span class="line">		if (env.IsDevelopment())</span><br><span class="line">		&#123;</span><br><span class="line">			app.UseDeveloperExceptionPage();</span><br><span class="line">			app.UseSwagger();</span><br><span class="line">			app.UseSwaggerUI( c &#x3D;&gt; c.SwaggerEndpoint( &quot;&#x2F;swagger&#x2F;v1&#x2F;swagger.json&quot;, &quot;WebApplicationAutofac v1&quot; ) );</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		app.UseRouting();</span><br><span class="line"></span><br><span class="line">		app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">		app.UseEndpoints( endpoints &#x3D;&gt;</span><br><span class="line">		 &#123;</span><br><span class="line">			 endpoints.MapControllers();</span><br><span class="line">		 &#125; );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>ConfigureAutofac</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class ConfigureAutofac : Module</span><br><span class="line">&#123;</span><br><span class="line">	protected override void Load( ContainerBuilder builder )</span><br><span class="line">	&#123;</span><br><span class="line">		builder.RegisterType&lt;WeatherForecastController&gt;().PropertiesAutowired();</span><br><span class="line">		builder.RegisterType&lt;TestDI&gt;()</span><br><span class="line">			.AsSelf()</span><br><span class="line">			.UsingConstructor(typeof(string))</span><br><span class="line">			.WithParameter( new TypedParameter( typeof( string ), &quot;s&quot; ) )</span><br><span class="line">			.WithParameter( new TypedParameter( typeof( int ), 123 ) )</span><br><span class="line">			.PropertiesAutowired();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>TestDI</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class TestDI    &#123;</span><br><span class="line">	public ILogger&lt;TestDI&gt; MyProperty &#123; get; set; &#125;</span><br><span class="line">	public TestDI( string s )</span><br><span class="line">	&#123;</span><br><span class="line">		Console.WriteLine( s );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public TestDI( int i )</span><br><span class="line">	&#123;</span><br><span class="line">		Console.WriteLine( i );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void Test()</span><br><span class="line">	&#123;</span><br><span class="line">		MyProperty.LogInformation( &quot;test&quot; );</span><br><span class="line">		Console.WriteLine(&quot;test&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="abp"><a href="#abp" class="headerlink" title="abp"></a>abp</h3><p>abp 內建就直接整合 autofac<br>因為炸了這個 error <code>Cannot choose between multiple constructors with equal length 1 on type</code> 不得不手動設定 , 不然預設就可以直接無腦用 DI<br>以官方的範例為例只要加在 <code>Acme.BookStore.Web</code> 這個專案底下的 <code>BookStoreWebModule</code> 這個類別的 <code>PreConfigureServices</code> 方法即可<br>後來發現直接放在 <code>ConfigureServices</code> 也是可以動</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public override void PreConfigureServices(ServiceConfigurationContext context)</span><br><span class="line">&#123;</span><br><span class="line">	context.Services.PreConfigure&lt;AbpMvcDataAnnotationsLocalizationOptions&gt;(options &#x3D;&gt;</span><br><span class="line">	&#123;</span><br><span class="line">		options.AddAssemblyResource(</span><br><span class="line">			typeof(BookStoreResource),</span><br><span class="line">			typeof(BookStoreDomainModule).Assembly,</span><br><span class="line">			typeof(BookStoreDomainSharedModule).Assembly,</span><br><span class="line">			typeof(BookStoreApplicationModule).Assembly,</span><br><span class="line">			typeof(BookStoreApplicationContractsModule).Assembly,</span><br><span class="line">			typeof(BookStoreWebModule).Assembly</span><br><span class="line">		);</span><br><span class="line"></span><br><span class="line">	&#125;);</span><br><span class="line"></span><br><span class="line">	context.Services.PreConfigure&lt;IMvcBuilder&gt;( mvcBuilder &#x3D;&gt;</span><br><span class="line">	&#123;</span><br><span class="line">		mvcBuilder.AddNewtonsoftJson(</span><br><span class="line">		 options &#x3D;&gt; options.SerializerSettings.ContractResolver &#x3D; new DefaultContractResolver() );</span><br><span class="line">	&#125; );</span><br><span class="line">	context.Services.PreConfigure&lt;AbpJsonOptions&gt;( options &#x3D;&gt;</span><br><span class="line">	&#123;</span><br><span class="line">		options.UseHybridSerializer &#x3D; false;</span><br><span class="line">	&#125; );</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;設定手動 DI</span><br><span class="line">	var builder &#x3D; context.Services.GetContainerBuilder();</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;abp 的話這句預設就會幫你注入</span><br><span class="line">	&#x2F;&#x2F;builder.RegisterType&lt;MyAppService&gt;().PropertiesAutowired();</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;手動設定選擇建構子</span><br><span class="line">	builder.RegisterType&lt;TestDI&gt;()</span><br><span class="line">		.AsSelf()</span><br><span class="line">		.UsingConstructor( typeof( string ) )</span><br><span class="line">		.WithParameter( new TypedParameter( typeof( string ), &quot;s&quot; ) )</span><br><span class="line">		&#x2F;&#x2F;.WithParameter( new TypedParameter( typeof( int ), 123 ) )</span><br><span class="line">		.PropertiesAutowired();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>TestDI</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class TestDI    &#123;</span><br><span class="line">    public ILogger&lt;TestDI&gt; MyProperty &#123; get; set; &#125;</span><br><span class="line">    public TestDI( string s )</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine( s );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public TestDI( int i )</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine( i );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Test()</span><br><span class="line">    &#123;</span><br><span class="line">        MyProperty.LogInformation( &quot;test&quot; );</span><br><span class="line">        Console.WriteLine(&quot;test&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>MyAppService</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class MyAppService : BookStoreAppService</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;private readonly TestService service;</span><br><span class="line">	&#x2F;&#x2F;public MyAppService( TestService service )</span><br><span class="line">	&#x2F;&#x2F;&#123;</span><br><span class="line">	&#x2F;&#x2F;    this.service &#x3D; service;</span><br><span class="line">	&#x2F;&#x2F;&#125;</span><br><span class="line"></span><br><span class="line">	protected TestService MyTestService &#x3D;&gt; lazy.Value;</span><br><span class="line">	private readonly Lazy&lt;TestService&gt; lazy &#x3D; null;</span><br><span class="line">	public MyAppService()</span><br><span class="line">	&#123;</span><br><span class="line"></span><br><span class="line">		lazy &#x3D; new Lazy&lt;TestService&gt;( () &#x3D;&gt; new TestService(   ) );</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public TestDI Haha &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">	[HttpGet(&quot;Ha&quot;)]</span><br><span class="line">	public void Ha()</span><br><span class="line">	&#123;</span><br><span class="line">		Haha.Test();</span><br><span class="line">		Haha.Test();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>最後萬一炸 Could not find ContainerBuilder. Be sure that you have called UseAutofac method before!<br>可以參考<a href="https://github.com/abpframework/abp/issues/391" target="_blank" rel="noopener">這篇</a><br>把 <code>Program</code> 的 <code>UseAutofac()</code> 順序調整一下即可<br><code>Program</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">internal static IHostBuilder CreateHostBuilder(string[] args) &#x3D;&gt;</span><br><span class="line">	Host.CreateDefaultBuilder(args)</span><br><span class="line">		&#x2F;&#x2F;調整過的位置</span><br><span class="line">		.UseAutofac()</span><br><span class="line">		.ConfigureAppConfiguration(build &#x3D;&gt;</span><br><span class="line">		&#123;</span><br><span class="line">			build.AddJsonFile(&quot;appsettings.secrets.json&quot;, optional: true);</span><br><span class="line">		&#125;)</span><br><span class="line">		.ConfigureWebHostDefaults(webBuilder &#x3D;&gt;</span><br><span class="line">		&#123;</span><br><span class="line">			webBuilder.UseStartup&lt;Startup&gt;();</span><br><span class="line">		&#125;)</span><br><span class="line">		&#x2F;&#x2F;原本位置</span><br><span class="line">		&#x2F;&#x2F;.UseAutofac()</span><br><span class="line">		.UseSerilog();</span><br></pre></td></tr></table></figure>
+
+<h3 id="lazy-地雷"><a href="#lazy-地雷" class="headerlink" title="lazy 地雷"></a>lazy 地雷</h3><p>今天遇到的雷筆記一下 , 因為舊系統用了一堆 lazy , 三不五時就炸 null , 只好想辦法乖乖把 lazy 先暫時換掉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class TestLazyService: ITransientDependency</span><br><span class="line">&#123;</span><br><span class="line">	protected LaSaiService LazyService &#x3D;&gt; lazyService.Value;</span><br><span class="line">	private readonly Lazy&lt;LaSaiService&gt; lazyService &#x3D; null;</span><br><span class="line"></span><br><span class="line">	public TestLazyService()</span><br><span class="line">	&#123;</span><br><span class="line">		lazyService &#x3D; new Lazy&lt;LaSaiService&gt;( () &#x3D;&gt; new LaSaiService() );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void Test()</span><br><span class="line">	&#123;</span><br><span class="line">		LazyService.Test();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class LaSaiService: ITransientDependency</span><br><span class="line">&#123;</span><br><span class="line">	public ILogger&lt;LineService&gt; Logger &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">	public LaSaiService()</span><br><span class="line">	&#123;</span><br><span class="line">		&#x2F;&#x2F;注意這句使用 property injection 時一開始在建構子裡面會是 null</span><br><span class="line">		if(Logger is null)</span><br><span class="line">			Console.WriteLine(&quot;Logger is null&quot;);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public void Test()</span><br><span class="line">	&#123;</span><br><span class="line">		&#x2F;&#x2F;這句也是關鍵 , 使用 lazy 去 new 出來 LaSaiService 的話 , 這邊會是 null</span><br><span class="line">		Logger.LogInformation( &quot;TEST&quot; );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>ConfigureServices</code> 插入這個測試看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private void TestDI()</span><br><span class="line">&#123;</span><br><span class="line">	ContainerBuilder builder &#x3D; new ContainerBuilder();</span><br><span class="line"></span><br><span class="line">	builder.RegisterType&lt;LaSaiService&gt;()</span><br><span class="line">		.PropertiesAutowired();</span><br><span class="line">	&#x2F;&#x2F;TestLazyService</span><br><span class="line"></span><br><span class="line">	builder.RegisterType&lt;TestLazyService&gt;()</span><br><span class="line">		.PropertiesAutowired();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>後來又遇到 <a href="https://autofac.readthedocs.io/en/latest/advanced/circular-dependencies.html" target="_blank" rel="noopener">circular-dependencies</a> 可以這樣解看看</p>
+<h3 id="快速寫-Autofac-屬性注入"><a href="#快速寫-Autofac-屬性注入" class="headerlink" title="快速寫 Autofac 屬性注入"></a>快速寫 Autofac 屬性注入</h3><p>實務上遇到一個煩人的問題 , 因為舊系統搬到 .net core 一堆物件需要使用 DI<br>如果用建構子注入的話會造成太多建構子相依 , 導致系統難以修改 , 所以改用 property injection 找到 <code>ConfigureServices</code><br>接著加入這段 , 可想而知一堆要加進去手動寫的話會想哭</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;todo: property injection</span><br><span class="line">ContainerBuilder builder &#x3D; new ContainerBuilder();</span><br><span class="line">builder.RegisterType&lt;A&gt;().PropertiesAutowired();</span><br><span class="line">builder.RegisterType&lt;B&gt;().PropertiesAutowired();</span><br><span class="line">builder.RegisterType&lt;C&gt;().PropertiesAutowired();</span><br><span class="line">builder.RegisterType&lt;D&gt;().PropertiesAutowired();</span><br><span class="line">builder.RegisterType&lt;E&gt;().PropertiesAutowired();</span><br><span class="line">builder.RegisterType&lt;F&gt;().PropertiesAutowired();</span><br></pre></td></tr></table></figure>
+
+<p>所以參考<a href="https://shellgeek.com/powershell-get-filename-without-extension/" target="_blank" rel="noopener">這篇</a>直接依靠 powershell 快速收工</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls | ForEach-Object -Process &#123; &quot;builder.RegisterType&lt;&quot; + [System.IO.Path]::GetFileNameWithoutExtension($_) + &quot;&gt;().PropertiesAutowired();&quot; &#125;</span><br></pre></td></tr></table></figure>
+<p><a href="https://www.cnblogs.com/lenmom/p/9081658.html" target="_blank" rel="noopener">abp 用法參考強國人</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/net-core/" rel="tag"># .net core</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/02/%E5%9C%A8-asp-net-core-%E4%B8%AD%E4%BD%BF%E7%94%A8-NewtonsoftJson/" rel="prev" title="在 asp.net core 中使用 NewtonsoftJson">
+      <i class="fa fa-chevron-left"></i> 在 asp.net core 中使用 NewtonsoftJson
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/18/webform-%E5%8A%A0%E5%85%A5-webapi/" rel="next" title="webform 加入 webapi">
+      webform 加入 webapi <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#net-core"><span class="nav-number">1.</span> <span class="nav-text">.net core</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#abp"><span class="nav-number">2.</span> <span class="nav-text">abp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#lazy-地雷"><span class="nav-number">3.</span> <span class="nav-text">lazy 地雷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速寫-Autofac-屬性注入"><span class="nav-number">4.</span> <span class="nav-text">快速寫 Autofac 屬性注入</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">686k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">10:23</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/12/18/Autofac-%E8%B8%A9%E9%9B%B7%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2021/12/18/Autofac-踩雷筆記/";
+    this.page.title = "Autofac 踩雷筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>

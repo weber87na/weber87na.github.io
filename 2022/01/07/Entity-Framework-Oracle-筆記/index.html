@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Entity Framework Oracle 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/01/07/Entity-Framework-Oracle-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/08.jpg">
+<meta property="article:published_time" content="2022-01-07T12:36:05.000Z">
+<meta property="article:modified_time" content="2022-08-15T08:38:57.136Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="喇賽">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/08.jpg">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/01/07/Entity-Framework-Oracle-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Entity Framework Oracle 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/01/07/Entity-Framework-Oracle-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Entity Framework Oracle 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-01-07 20:36:05" itemprop="dateCreated datePublished" datetime="2022-01-07T20:36:05+08:00">2022-01-07</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-08-15 16:38:57" itemprop="dateModified" datetime="2022-08-15T16:38:57+08:00">2022-08-15</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/01/07/Entity-Framework-Oracle-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/01/07/Entity-Framework-Oracle-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>8.6k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>8 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/08.jpg" alt="vim"></p>
+<a id="more"></a>
+
+<p>工作以來一直沒機會用 Oracle , 都用窮人用的 postgresql , Oracle 頂多只用過 ado.net 去連 , 最近在 ef 上遇到一堆雷 , 順便筆記一下</p>
+<h3 id="安裝及-config-設定"><a href="#安裝及-config-設定" class="headerlink" title="安裝及 config 設定"></a>安裝及 config 設定</h3><p>首先安裝套件 <code>Oracle.ManagedDataAccess</code> <code>Oracle.ManagedDataAccess.EntityFramework</code><br>然後在 <code>web.config</code> 加入這串 , 比較特別的是我拿到的權限是用 <code>SID</code> 一般常見會是 <code>SERVICE_NAME</code><br>在 connectionString 的 <code>Data Source</code> 部分寫上你要連的 <code>alias</code> 即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&lt;connectionStrings&gt;</span><br><span class="line">	&lt;add name&#x3D;&quot;OracleDbContext&quot; providerName&#x3D;&quot;Oracle.ManagedDataAccess.Client&quot; connectionString&#x3D;&quot;User Id&#x3D;LADISAI;Password&#x3D;LADISAI;Data Source&#x3D;oracle&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;connectionStrings&gt;</span><br><span class="line"></span><br><span class="line">&lt;oracle.manageddataaccess.client&gt;</span><br><span class="line">	&lt;version number&#x3D;&quot;*&quot;&gt;</span><br><span class="line">		&lt;dataSources&gt;</span><br><span class="line">			&lt;dataSource alias&#x3D;&quot;oracle&quot; descriptor&#x3D;&quot;(DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;tcp)(HOST&#x3D;10.123.45.67)(PORT&#x3D;1521))(CONNECT_DATA&#x3D;(SID&#x3D;LADISAI))) &quot; &#x2F;&gt;</span><br><span class="line">		&lt;&#x2F;dataSources&gt;</span><br><span class="line">	&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;oracle.manageddataaccess.client&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ado-net"><a href="#ado-net" class="headerlink" title="ado.net"></a>ado.net</h3><p>接著寫看看 ado.net 的測試 function , 沒特別遇到什麼問題</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private static void Read()</span><br><span class="line">&#123;</span><br><span class="line">	var str &#x3D; System.Configuration.ConfigurationManager.ConnectionStrings[&quot;OracleDbContext&quot;].ConnectionString;</span><br><span class="line">	using (var conn &#x3D; new OracleConnection(str))</span><br><span class="line">	using (var cmd &#x3D; conn.CreateCommand())</span><br><span class="line">	&#123;</span><br><span class="line">		conn.Open();</span><br><span class="line">		cmd.CommandText &#x3D; @&quot;SELECT * from YOURVIEW&quot;;</span><br><span class="line">		var reader &#x3D; cmd.ExecuteReader();</span><br><span class="line">		while (reader.Read())</span><br><span class="line">		&#123;</span><br><span class="line">			var gg &#x3D; reader[&quot;GG&quot;];</span><br><span class="line">			Console.WriteLine(gg);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Dapper"><a href="#Dapper" class="headerlink" title="Dapper"></a>Dapper</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private static void DapperQuery()</span><br><span class="line">&#123;</span><br><span class="line">	string sql &#x3D; &quot;SELECT * FROM YOURVIEW WHERE ROWNUM &lt;&#x3D; 1&quot;;</span><br><span class="line"></span><br><span class="line">	var str &#x3D; System.Configuration.ConfigurationManager.ConnectionStrings[&quot;OracleDbContext&quot;].ConnectionString;</span><br><span class="line">	using (var connection &#x3D; new OracleConnection(str))</span><br><span class="line">	&#123;</span><br><span class="line">		var result &#x3D; connection.Query(sql).FirstOrDefault();</span><br><span class="line">		Console.WriteLine(result);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-code-first"><a href="#ef-code-first" class="headerlink" title="ef code first"></a>ef code first</h3><p>接著用 ef code first 測試看看<br>此處有兩個關鍵 , 首先要在建構子設定 <code>Database.SetInitializer&lt;OracleDbContext&gt;(null);</code> 不然會噴 ORA-01031: 權限不足<br>接著在 <code>OnModelCreating</code> 設定 <code>HasDefaultSchema(&quot;&quot;)</code> 不然會噴 ORA-01918: 使用者 ‘dbo’ 不存在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class OracleDbContext : DbContext</span><br><span class="line">&#123;</span><br><span class="line">	public OracleDbContext() : base(&quot;name&#x3D;OracleDbContext&quot;)</span><br><span class="line">	&#123;</span><br><span class="line">		&#x2F;&#x2F;要設定這樣 不然會噴 ORA-01031: 權限不足</span><br><span class="line">		Database.SetInitializer&lt;OracleDbContext&gt;(null);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public DbSet&lt;YOURVIEW&gt; YOURVIEW &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">	protected override void OnModelCreating(DbModelBuilder modelBuilder)</span><br><span class="line">	&#123;</span><br><span class="line">		&#x2F;&#x2F;這裡要設定空字串 ORA-01918: 使用者 &#39;dbo&#39; 不存在</span><br><span class="line">		modelBuilder.HasDefaultSchema(&quot;&quot;);</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;設定 view 的 config</span><br><span class="line">		modelBuilder.Configurations.Add(new YOURVIEWConfiguration());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因為我只有 view 的權限 , 這裡要多設定 <code>EntityTypeConfiguration</code> 並且指定 key 跟 view 的名稱 , 整個就搞定了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[Table(&quot;YOURVIEW&quot;)]</span><br><span class="line">public class YOURVIEW</span><br><span class="line">&#123;</span><br><span class="line">	public string GG &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class YOURVIEWConfiguration : EntityTypeConfiguration&lt;YOURVIEW&gt;</span><br><span class="line">&#123;</span><br><span class="line">	public YOURVIEWConfiguration()</span><br><span class="line">	&#123;</span><br><span class="line">		this.HasKey(t &#x3D;&gt; t.GG);</span><br><span class="line">		this.ToTable(&quot;YOURVIEW&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著測試看看 , 這部分是關鍵</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">private static void EF()</span><br><span class="line">&#123;</span><br><span class="line">	YOURDbContext db &#x3D; new YOURDbContext();</span><br><span class="line">	&#x2F;&#x2F;這裡可以印出來 sql 觀察問題點</span><br><span class="line">	db.Database.Log &#x3D; s &#x3D;&gt; System.Diagnostics.Debug.WriteLine(s);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;跑這段正常運作</span><br><span class="line">	var test &#x3D; db.YOURVIEW.SqlQuery(&quot;SELECT * FROM YOURVIEW&quot;);</span><br><span class="line">	var all &#x3D; test.ToList();</span><br><span class="line">	var one &#x3D; all.First();</span><br><span class="line">	Console.WriteLine(one.GG);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;如果沒有設定 HasDefaultSchema 為空字串 , 會噴 ORA-01918</span><br><span class="line">	&#x2F;&#x2F;另外一開始以為指定我的 schema 為 LADISAI 以後會噴 ORA-00942</span><br><span class="line">	var list &#x3D; db.YOURVIEW.Take(100).ToList();</span><br><span class="line">	Print(list);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;印出這個物件的欄位及數值</span><br><span class="line">private static void Print&lt;T&gt;(List&lt;T&gt; list)</span><br><span class="line">&#123;</span><br><span class="line">	foreach (var item in list)</span><br><span class="line">	&#123;</span><br><span class="line">		Type t &#x3D; item.GetType();</span><br><span class="line">		PropertyInfo[] pi &#x3D; t.GetProperties();</span><br><span class="line">		foreach (PropertyInfo p in pi)</span><br><span class="line">		&#123;</span><br><span class="line">			var val &#x3D; p.GetValue(item) ?? &quot;(null)&quot;;</span><br><span class="line">			Console.WriteLine($&quot;&#123;p.Name&#125;:&#123;val&#125;&quot;);</span><br><span class="line">		&#125;</span><br><span class="line">		Console.Write(new string(&#39;*&#39;, 100));</span><br><span class="line">		Console.WriteLine();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>當你手動指定自己的 sql 語法 <code>db.YOURVIEW.SqlQuery(&quot;SELECT * FROM YOURVIEW&quot;)</code> 就算 <code>DbContext</code> 的 <code>HasDefaultSchema</code> 沒設定也可以正常跑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM YOURVIEW</span><br></pre></td></tr></table></figure>
+
+<p>當你直接呼叫 <code>db.YOURVIEW.Take(10).ToList()</code> 可以看到他生出的語法噴 ORA-00942 , 他產的 sql 會長下面這樣<br>所以到此問題迎刃而解 , 只要把來喇低賽的 schema 用 <code>modelBuilder.HasDefaultSchema(&quot;&quot;)</code> 移除掉事情就解決了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">&quot;c&quot;.&quot;GG&quot; AS &quot;GG&quot;</span><br><span class="line">FROM &quot;LADISAI&quot;.&quot;YOURVIEW&quot; &quot;c&quot;</span><br><span class="line">WHERE (ROWNUM &lt;&#x3D; (10) )</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h3><p>另外要看是啥資料型態可以這樣下 , <a href="https://stackoverflow.com/questions/22962114/get-data-type-of-field-in-select-statement-in-oracle" target="_blank" rel="noopener">參考</a><br>Data Type Mapping 參考(<a href="https://docs.microsoft.com/zh-tw/dotnet/framework/data/adonet/oracle-data-type-mappings" target="_blank" rel="noopener">https://docs.microsoft.com/zh-tw/dotnet/framework/data/adonet/oracle-data-type-mappings</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT  table_name, column_name, data_type, data_length  , nullable</span><br><span class="line">FROM all_tab_columns</span><br><span class="line">WHERE table_name &#x3D; &#39;YOURVIEW&#39;</span><br></pre></td></tr></table></figure>
+
+<p>後來發現他有工具可以自己反轉出類別 , 不過還沒支援 vs2022 <a href="https://www.oracle.com/database/technologies/net-downloads.html" target="_blank" rel="noopener">ODT for Visual Studio 2019</a><br>安裝好後點選專案 =&gt; <code>Add</code> =&gt; <code>New Item</code> =&gt; <code>Data</code> =&gt; <code>ADO.NET Entity Data Model</code> =&gt; <code>起個好名</code> =&gt; <code>Add</code> =&gt;<br><code>Code First From Database</code> =&gt; <code>New Connection</code> =&gt; <code>Oracle Database</code> =&gt; <code>ODP.NET, Managed Driver</code> =&gt; <code>Continue</code> =&gt; <code>Connection Type</code> =&gt; <code>Advanced</code> =&gt; <code>Data source name</code> =&gt; <code>User name</code> =&gt; <code>Password</code><br>這樣就搞定了 , 真的超複雜 , 後來發現 ef6 好像沒辦法直接生出來要退回 ef5 <a href="https://entityframework.net/knowledge-base/50911394/visual-studio-entity-data-wizard--crashes-when-trying-to-connect-to-oracle" target="_blank" rel="noopener">參考這篇</a><br>最後忽略一點 , 好像沒辦法直接從 view 去自動產生類別</p>
+<p><code>Data source name</code> 範例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;tcp)(HOST&#x3D;10.123.45.67)(PORT&#x3D;1521))(CONNECT_DATA&#x3D;(SID&#x3D;LADISAI)))</span><br></pre></td></tr></table></figure>
+
+<p>後來參考這個<a href="https://stackoverflow.com/questions/34336722/with-odp-net-create-c-sharp-class-struct-from-column-info-of-an-oracle-dbs-tab" target="_blank" rel="noopener">老外</a><br>自己改寫一個撈 view 用的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">WITH cte AS (</span><br><span class="line">SELECT  table_name, column_name, data_type, data_length  , nullable ,</span><br><span class="line">		--這裡在 mapping c# 資料型別</span><br><span class="line">         case utc.data_type</span><br><span class="line">            when &#39;DATE&#39; then &#39;DateTime&#39;</span><br><span class="line">            when &#39;VARCHAR2&#39; then &#39;string&#39;</span><br><span class="line">            when &#39;CLOB&#39; then &#39;string&#39;</span><br><span class="line">            when &#39;NUMBER&#39; then</span><br><span class="line">              case when utc.data_scale&#x3D;0 then</span><br><span class="line">                case</span><br><span class="line">                  when utc.data_precision &#x3D; 19 then &#39;long&#39;</span><br><span class="line">                  when utc.data_precision &#x3D; 9 then &#39;int&#39;</span><br><span class="line">                  when utc.data_precision &#x3D; 4 then &#39;int&#39;</span><br><span class="line">                  when utc.data_precision &#x3D; 1 then &#39;Boolean&#39;</span><br><span class="line">                  else &#39;int&#39;|| utc.data_precision  end</span><br><span class="line">              else &#39;decimal&#39; end</span><br><span class="line">            when &#39;CHAR&#39; then</span><br><span class="line">              case when utc.data_length &#x3D; 1 then &#39;char&#39;</span><br><span class="line">              else &#39;string&#39; end</span><br><span class="line">            else &#39;&#39; end as clr_data_type</span><br><span class="line"></span><br><span class="line">FROM all_tab_columns utc</span><br><span class="line"></span><br><span class="line">)</span><br><span class="line">SELECT &#39;public &#39; || clr_data_type ||</span><br><span class="line">    --判斷是否為 null 型別</span><br><span class="line">    case when clr_data_type &#x3D; &#39;string&#39; then &#39;&#39;</span><br><span class="line">    else</span><br><span class="line">        case when nullable &#x3D; &#39;Y&#39; then &#39;?&#39;</span><br><span class="line">        else &#39;&#39; end</span><br><span class="line">    end</span><br><span class="line">    || &#39; &#39; || COLUMN_NAME || &#39; &#123; get;set; &#125;&#39; as prop</span><br><span class="line">FROM cte</span><br><span class="line">WHERE table_name &#x3D; &#39;YOURVIEW&#39;</span><br></pre></td></tr></table></figure>
+
+<p>最後發現可以直接用 Oracle SQL Developer 連線 MSSQL , 不過斷手斷腳嚴重 , <a href="https://bioticssupport.natureserve.org/support/solutions/articles/216887-connecting-oracle-sql-developer-to-sql-server-database" target="_blank" rel="noopener">參考這篇</a></p>
+<h3 id="Net-Core"><a href="#Net-Core" class="headerlink" title=".Net Core"></a>.Net Core</h3><p>在 .net core 的 ef 使用要注意下自己的版本 , 如果沒那麼快升到最新的 6 , 要留意一下 , 這裡用 5.x 最後一版</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Install-Package Oracle.ManagedDataAccess.Core -Version 3.21.50</span><br><span class="line">Install-Package Oracle.EntityFrameworkCore -Version 5.21.5</span><br></pre></td></tr></table></figure>
+
+<p>設定 Configuration , 這裡在 core 改成 <code>IEntityTypeConfiguration</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public class YOURVIEWConfiguration : IEntityTypeConfiguration&lt;YOURVIEW&gt;</span><br><span class="line">&#123;</span><br><span class="line">	public void Configure(EntityTypeBuilder&lt;YOURVIEW&gt; builder)</span><br><span class="line">	&#123;</span><br><span class="line">		builder.HasKey(t &#x3D;&gt; t.GG);</span><br><span class="line">		builder.ToTable(&quot;YOURVIEW&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>設定 DbContext , 這裡有個暴雷點 , 要看自己的 Oracle 版本是多少去設定 <code>UseOracleSQLCompatibility</code> 這個參數值<br>我的環境好死不死是 10g , <a href="https://docs.microsoft.com/en-us/ef/core/providers/?tabs=dotnet-core-cli" target="_blank" rel="noopener">官網</a>寫最低好像支援到 11g … 滿尷尬的 , 不過我測起來還是能跑 , 可以看看官方(<a href="https://docs.oracle.com/en/database/oracle/oracle-data-access-components/19.3.2/odpnt/EFCoreAPI.html#GUID-D237259B-0A8A-42D1-A142-1685AAC4178C" target="_blank" rel="noopener">https://docs.oracle.com/en/database/oracle/oracle-data-access-components/19.3.2/odpnt/EFCoreAPI.html#GUID-D237259B-0A8A-42D1-A142-1685AAC4178C</a>) 跟<a href="https://stackoverflow.com/questions/66398282/entity-framework-core-5-doesnt-support-oracle-10g" target="_blank" rel="noopener">這篇</a>還有<a href="https://stackoverflow.com/questions/56341445/entity-framework-core-take1-single-first-not-working-with-oracle-pr/56343155#56343155" target="_blank" rel="noopener">這篇</a><br>另外 <code>HasDefaultSchema</code> 沒辦法讓你設定空字串 , 會噴 <code>System.ArgumentException: &#39;The string argument &#39;schema&#39; cannot be empty.&#39;</code> , 我註解掉就能動了<br>最後想要 Log 的話可以直接用 <code>optionsBuilder.LogTo(Console.WriteLine)</code> 即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class OracleDbContext : DbContext</span><br><span class="line">&#123;</span><br><span class="line">	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)</span><br><span class="line">	&#123;</span><br><span class="line">		&#x2F;&#x2F;Log</span><br><span class="line">		optionsBuilder.LogTo(Console.WriteLine);</span><br><span class="line">		var str &#x3D; @&quot;User Id&#x3D;LADISAI;Password&#x3D;LADISAI;Data Source&#x3D;(DESCRIPTION&#x3D;(ADDRESS&#x3D;(PROTOCOL&#x3D;tcp)(HOST&#x3D;10.123.45.67)(PORT&#x3D;1521))(CONNECT_DATA&#x3D;(SID&#x3D;LADISAI)))&quot;;</span><br><span class="line">		&#x2F;&#x2F;這裡要指定版本用 11</span><br><span class="line">		optionsBuilder.UseOracle(str , opt &#x3D;&gt; opt.UseOracleSQLCompatibility(&quot;11&quot;) );</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	protected override void OnModelCreating(ModelBuilder modelBuilder)</span><br><span class="line">	&#123;</span><br><span class="line">		&#x2F;&#x2F;這句在 .net framework 上要寫</span><br><span class="line">		&#x2F;&#x2F;modelBuilder.HasDefaultSchema(&quot;&quot;);</span><br><span class="line">		modelBuilder.ApplyConfiguration(new YOURVIEWConfiguration());</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public virtual DbSet&lt;YOURVIEW&gt; YOURVIEW &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後測連看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">private static void EF()</span><br><span class="line">&#123;</span><br><span class="line">	OracleDbContext db &#x3D; new OracleDbContext();</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;這句要選擇 Oracle 版本 opt.UseOracleSQLCompatibility(&quot;11&quot;) , 不然會噴錯</span><br><span class="line">	var test1 &#x3D; db.YOURVIEW.Take(100).ToList();</span><br><span class="line">	Print(test1);</span><br><span class="line"></span><br><span class="line">	var test2 &#x3D; db.YOURVIEW.ToList();</span><br><span class="line">	Print(test2);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="sqlcl-筆記"><a href="#sqlcl-筆記" class="headerlink" title="sqlcl 筆記"></a>sqlcl 筆記</h3><p>可以在這裡<a href="https://www.oracle.com/database/sqldeveloper/technologies/sqlcl/download/" target="_blank" rel="noopener">下載</a></p>
+<p>今天被 sqlcl 愚弄了一波 , 一直連不上去 , 後來發現環境是用 <code>sid</code> 去連 , 不是 <code>service name</code> , 所以要寫下面這樣 , 真的折磨人<br>“username/password@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=123.45.67.89)(PORT=1521))(CONNECT_DATA=(SID=yoursid)))”</p>
+<p>設定日期 format</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">alter session set nls_date_format &#x3D; &#39;YYYY-MM-DD HH24:MI:SS&#39;;</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://database.guide/how-to-export-oracle-query-results-to-a-json-file-when-using-sqlcl/" target="_blank" rel="noopener">轉出 json </a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SET SQLFORMAT json;</span><br><span class="line">SPOOL test.json;</span><br><span class="line">SELECT * FROM test;</span><br><span class="line">SPOOL off;</span><br><span class="line">SET SQLFORMAT ansiconsole;</span><br></pre></td></tr></table></figure>
+
+<p>結論 , 就算身為 terminal 的愛好者 , Oracle 的工具還是稍微更難用點 , 相比之下這個 <a href="https://github.com/dbcli" target="_blank" rel="noopener">dbcli</a> 用起來更加友善多了</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/01/03/android-%E5%9C%B0%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="prev" title="android 地雷筆記">
+      <i class="fa fa-chevron-left"></i> android 地雷筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/19/sql-server-%E7%94%9F%E8%B3%87%E6%96%99/" rel="next" title="sql server 生資料">
+      sql server 生資料 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝及-config-設定"><span class="nav-number">1.</span> <span class="nav-text">安裝及 config 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ado-net"><span class="nav-number">2.</span> <span class="nav-text">ado.net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Dapper"><span class="nav-number">3.</span> <span class="nav-text">Dapper</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-code-first"><span class="nav-number">4.</span> <span class="nav-text">ef code first</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他"><span class="nav-number">5.</span> <span class="nav-text">其他</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Net-Core"><span class="nav-number">6.</span> <span class="nav-text">.Net Core</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlcl-筆記"><span class="nav-number">7.</span> <span class="nav-text">sqlcl 筆記</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">686k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">10:23</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/01/07/Entity-Framework-Oracle-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2022/01/07/Entity-Framework-Oracle-筆記/";
+    this.page.title = "Entity Framework Oracle 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>

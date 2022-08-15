@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="python 操作 netcdf 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/08/13/python-%E6%93%8D%E4%BD%9C-netcdf-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/weather.jpg">
+<meta property="article:published_time" content="2022-08-12T20:18:02.000Z">
+<meta property="article:modified_time" content="2022-08-15T08:38:57.146Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="GIS">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="netcdf">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/weather.jpg">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/08/13/python-%E6%93%8D%E4%BD%9C-netcdf-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>python 操作 netcdf 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/08/13/python-%E6%93%8D%E4%BD%9C-netcdf-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          python 操作 netcdf 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-08-13 04:18:02" itemprop="dateCreated datePublished" datetime="2022-08-13T04:18:02+08:00">2022-08-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-08-15 16:38:57" itemprop="dateModified" datetime="2022-08-15T16:38:57+08:00">2022-08-15</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/08/13/python-%E6%93%8D%E4%BD%9C-netcdf-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/08/13/python-操作-netcdf-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>6.9k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>6 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/weather.jpg" alt="netcdf"></p>
+<a id="more"></a>
+
+<p>礙於某年接觸到這個該死的檔案格式 , 後來三不五時就會有人來煩我 , 不過以前是用 ncl 這個鬼語言去搞這些東西<br>那個環境實在太麻煩了 , 剛好有人找我就把這些方法換成 python 筆記下 , 不然這個鬼玩意實在有夠冷門 , 每次做每次忘<br>下次有空再把以前 ncl 的挖出來寫一寫好了</p>
+<h2 id="環境準備"><a href="#環境準備" class="headerlink" title="環境準備"></a>環境準備</h2><h3 id="下載-Panpoly"><a href="#下載-Panpoly" class="headerlink" title="下載 Panpoly"></a>下載 Panpoly</h3><p>先到 NASA 下載最新版本 5.1.1<br><a href="https://www.giss.nasa.gov/tools/panoply/download/" target="_blank" rel="noopener">https://www.giss.nasa.gov/tools/panoply/download/</a><br><code>特別注意電腦一定要有 java 11 才能跑!</code></p>
+<h3 id="安裝及設定-OpenJDK11"><a href="#安裝及設定-OpenJDK11" class="headerlink" title="安裝及設定 OpenJDK11"></a>安裝及設定 OpenJDK11</h3><p>這裡用微軟的 <a href="https://docs.microsoft.com/zh-tw/java/openjdk/download" target="_blank" rel="noopener">OpenJdk 11</a><br>接著在環境變數 <code>Path</code> 加上這樣 <code>C:\Program Files\OpenJDK\jdk-11.0.15+10\bin</code><br>然後新增 <code>JAVA_HOME</code> 設定這樣 <code>C:\Program Files\OpenJDK\jdk-11.0.15+10\bin</code></p>
+<h3 id="Panpoly-操作說明"><a href="#Panpoly-操作說明" class="headerlink" title="Panpoly 操作說明"></a>Panpoly 操作說明</h3><p>礙於 Panpoly 操作與之前不太一樣 , 這邊順便帶一下<br>點選 <code>File</code> =&gt; <code>Open</code> =&gt; <code>YOURNETCDF.nc</code> =&gt; <code>點選變數</code> =&gt; <code>右鍵</code> =&gt; <code>Create Plot</code> =&gt;<br><code>接著點選 Georeferenced Longitude-Latitude color contour plot</code> =&gt; <code>Create</code><br>建立地圖後 , 會發現以前可以選時間的選項不見了 , 他現在被藏在 <code>Window</code> =&gt; <code>Arrays</code> 裡面 , 想關閉的話點選左上角的叉叉<br>選完之後時間的小視窗就會跳出來 , 有任何需要修改 view 的地方就找看看 <code>Window</code></p>
+<h3 id="conda-準備"><a href="#conda-準備" class="headerlink" title="conda 準備"></a>conda 準備</h3><p><code>注意要用 Anaconda Prompt 這個 shell 開啟!!</code> 開啟後會長下面這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(base) ┏[lasai]</span><br><span class="line">┖[~]&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接著準備 <a href="https://www.anaconda.com/products/distribution" target="_blank" rel="noopener">conda</a> 需要的環境 , 這邊用 <a href="https://docs.xarray.dev/en/stable/" target="_blank" rel="noopener">xarray</a> 這個 lib 來操作 netcdf 應該可以省不少事<br>如果需要合併 netcdf 要多安裝 <code>dask</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">conda env list</span><br><span class="line">conda create --name netcdf</span><br><span class="line">conda install xarray</span><br><span class="line">conda install pandas</span><br><span class="line">conda install numpy</span><br><span class="line">conda install dask</span><br><span class="line">conda install jupyter notebook</span><br><span class="line">conda install psycopg2</span><br><span class="line">conda install matplotlib</span><br><span class="line">conda activate netcdf</span><br></pre></td></tr></table></figure>
+<p>最後會長這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(netcdf) ┏[lasai]</span><br><span class="line">┖[~]&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="example"><a href="#example" class="headerlink" title="example"></a>example</h2><h3 id="匯出為-csv"><a href="#匯出為-csv" class="headerlink" title="匯出為 csv"></a>匯出為 csv</h3><p>本來以為會很麻煩 , 沒想到很無腦<br>比較需要注意的是萬一不要有 NaN 的資料可以用 <a href="https://stackoverflow.com/questions/39695606/querying-panda-df-to-filter-rows-where-a-column-is-not-nan" target="_blank" rel="noopener"><code>dropna</code></a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import xarray as xr</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">nc &#x3D; xr.open_dataset(&#39;YOURFILE.nc&#39;)</span><br><span class="line"></span><br><span class="line">list(nc.keys())</span><br><span class="line"></span><br><span class="line"># 可以直接這樣撈</span><br><span class="line">nc.yourvariable.to_dataframe().to_csv(&#39;YOURFILE.csv&#39;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 或是這樣撈</span><br><span class="line">nc[&#39;yourvariable&#39;].to_dataframe().to_csv(&#39;YOURFILE.csv&#39;)</span><br><span class="line"></span><br><span class="line"># 過濾 nan</span><br><span class="line">nc.yourvariable.to_dataframe().dropna(subset&#x3D;[&#39;yourvariable&#39;]).to_csv(&#39;YOURFILE.csv&#39;)</span><br><span class="line"></span><br><span class="line"># 一次撈多個</span><br><span class="line">df &#x3D; nc.to_dataframe()</span><br><span class="line">df.dropna(subset&#x3D;[&#39;var1&#39;,&#39;var2&#39;]).to_csv(&#39;test.csv&#39;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="合併-netcdf"><a href="#合併-netcdf" class="headerlink" title="合併 netcdf"></a>合併 netcdf</h3><p>我有數個月的 netcdf 資料類似這樣的結構 <code>YOURNETCDF\2020</code> , 希望可以合成一個單檔</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Mode                LastWriteTime         Length Name</span><br><span class="line">----                -------------         ------ ----</span><br><span class="line">------      2021&#x2F;7&#x2F;19  下午 05:22       12883288   YOURNETCDF_202001.nc</span><br><span class="line">------      2021&#x2F;7&#x2F;19  下午 05:22       14316965   YOURNETCDF_202002.nc</span><br><span class="line">------      2021&#x2F;7&#x2F;19  下午 05:22       15383188   YOURNETCDF_202003.nc</span><br><span class="line">------      2021&#x2F;7&#x2F;19  下午 05:22       11371512   YOURNETCDF_202004.nc</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>Anaconda Prompt</code> 底下輸入指令開啟 vscode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd YOURNETCDF\2020</span><br><span class="line">code .</span><br></pre></td></tr></table></figure>
+
+<p>接著合併看看 , 一樣在 <code>YOURNETCDF\2020</code> 資料夾新增一隻 <code>merge_netcdf.py</code><br>這裡最大的雷應該就是沒安裝 <code>dask</code> , 只要安裝了就是無腦合併</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import xarray as xr</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line"># 取得目前資料夾名稱</span><br><span class="line">year_name &#x3D; os.path.basename(os.getcwd())</span><br><span class="line"></span><br><span class="line"># 取得上層目錄的絕對路徑</span><br><span class="line">prev_dir_name &#x3D; os.path.abspath(os.path.join(os.getcwd(), os.path.pardir))</span><br><span class="line"></span><br><span class="line"># 過濾出變數名稱</span><br><span class="line">variable_name &#x3D; os.path.basename(prev_dir_name)</span><br><span class="line"></span><br><span class="line"># 合成完整名稱</span><br><span class="line">full_name &#x3D; f&quot;&#123;variable_name&#125;_&#123;year_name&#125;.nc&quot;</span><br><span class="line"># print(full_name)</span><br><span class="line"></span><br><span class="line"># 需先安裝 dask 模組</span><br><span class="line"># conda install dask</span><br><span class="line">ds &#x3D; xr.open_mfdataset(&#39;*.nc&#39;, parallel&#x3D;True)</span><br><span class="line"></span><br><span class="line">ds.to_netcdf(full_name)</span><br></pre></td></tr></table></figure>
+
+<p>最後執行 <code>merge_netcdf_demo.py</code> 看看應該會得到以下結果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Mode                LastWriteTime         Length Name</span><br><span class="line">----                -------------         ------ ----</span><br><span class="line">-a----       2022&#x2F;7&#x2F;31  上午 11:19      186940159   YOURNETCDF_2020.nc</span><br></pre></td></tr></table></figure>
+
+<p>接著開啟 <code>Panpoly</code> 來驗證是否正確合併了<br>點選 <code>File</code> =&gt; <code>Open</code> =&gt; <code>YOURNETCDF_2020.nc</code> =&gt; <code>點選變數</code> =&gt; <code>右鍵</code> =&gt; <code>Create Plot</code><br>接著點選 <code>Georeferenced Longitude-Latitude color contour plot</code> =&gt; <code>Create</code><br>接著點選 <code>Window</code> =&gt; <code>Arrays</code> 可以看到現在有 365 天了</p>
+<h3 id="修復時間-Coordinates"><a href="#修復時間-Coordinates" class="headerlink" title="修復時間 Coordinates"></a>修復時間 Coordinates</h3><p>今天拿到一份檔案 , 本來之前的資料都正常 work , 偏偏這份出了問題 , 拿 jupyter 跟 Panpoly debug 看看 , 發現是時間的 Coordinates 有問題<br>這個在轉資料或是製作資料時 , 應該要把 <code>date</code> 這個變數放在 <code>Coordinates</code> 裡面才對<br>神奇的是 , 用 Panpoly 也是可以選擇時間這個維度 , 只不過顯示的是 1 - 31 , 並非正常的時間<br>我陸續看了幾個 api <code>expand_dims</code> , <code>assign_coords</code> 下去 try , 不過都沒成功 , 所以用以下比較蠢的方法去做</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 讀取 netcdf</span><br><span class="line">nc &#x3D; xr.open_dataset(&#39;XXX.nc&#39;)</span><br><span class="line">nc</span><br></pre></td></tr></table></figure>
+<p>輸出如下結果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dimensions:</span><br><span class="line">	time: 31 latitude: 409 longitude: 313</span><br><span class="line">Coordinates:</span><br><span class="line">	latitude (latitude) float32 ...</span><br><span class="line">	longitude (longitude) float32 ...</span><br><span class="line">Data variables:</span><br><span class="line">	date (time) float32 ...</span><br><span class="line">	othervar (time, latitude, longitude) float32 ...</span><br><span class="line">	othervar2 (time, latitude, longitude) float32 ...</span><br></pre></td></tr></table></figure>
+
+<p>如果要變成正常格式應該會長這樣 , 特別注意 <code>xarray</code> 時間通常都是 <code>datetime64[ns]</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Dimensions:</span><br><span class="line">	time: 31 latitude: 409 longitude: 313</span><br><span class="line">Coordinates:</span><br><span class="line">	time (time) datetime64[ns] ...</span><br><span class="line">	latitude (latitude) float32 ...</span><br><span class="line">	longitude (longitude) float32 ...</span><br><span class="line">Data variables:</span><br><span class="line">	othervar (time, latitude, longitude) float32 ...</span><br><span class="line">	othervar2 (time, latitude, longitude) float32 ...</span><br></pre></td></tr></table></figure>
+
+<p>首先建立時間這個 dataframe , 可以參考<a href="https://pandas.pydata.org/docs/reference/api/pandas.to_datetime.html" target="_blank" rel="noopener">這裡</a><br>我這裡方法可能比較蠢 , python 寫得斷斷續續 , 所以就直接 for loop<br>假設時間是 <code>2008-01-01</code> 至 <code>2008-01-31</code> 可以這樣寫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">import xarray as xr</span><br><span class="line">import numpy as np</span><br><span class="line">import pandas as pd</span><br><span class="line">import pandas.io.sql as sqlio</span><br><span class="line"></span><br><span class="line"># 讀取 netcdf</span><br><span class="line">nc &#x3D; xr.open_dataset(&#39;BADFILE.nc&#39;)</span><br><span class="line"># nc</span><br><span class="line"></span><br><span class="line"># 手動加入時間</span><br><span class="line">newyear &#x3D; []</span><br><span class="line">newmonth &#x3D; []</span><br><span class="line">newdate &#x3D; []</span><br><span class="line">newminute &#x3D; []</span><br><span class="line"></span><br><span class="line"># 31 天</span><br><span class="line">print(len(nc.date))</span><br><span class="line"></span><br><span class="line">for x in nc.date:</span><br><span class="line">    newyear.append(2008)</span><br><span class="line">    newmonth.append(1)</span><br><span class="line">    newdate.append(int(x))</span><br><span class="line">    # 這裡沒小時可以設定 , 所以要這樣寫</span><br><span class="line">    # format like this 2008-01-01 12:00:00</span><br><span class="line">    newminute.append(int(60 * 12))</span><br><span class="line"></span><br><span class="line">df &#x3D; pd.DataFrame(&#123;&#39;year&#39;: newyear, &#39;month&#39;: newmonth, &#39;day&#39;: newdate , &#39;minute&#39;: newminute&#125;)</span><br><span class="line">newfulltime &#x3D; pd.to_datetime(df)</span><br></pre></td></tr></table></figure>
+
+<p>接著撈出 <code>變數</code> 與 <code>global 屬性</code> 及 <code>經緯度</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 取得經緯度</span><br><span class="line">lat &#x3D; nc[&#39;latitude&#39;].values</span><br><span class="line">lon &#x3D; nc[&#39;longitude&#39;].values</span><br><span class="line"></span><br><span class="line"># 撈變數</span><br><span class="line">othervar &#x3D; nc.othervar.values</span><br><span class="line">othervar2 &#x3D; nc.othervar2.values</span><br><span class="line"></span><br><span class="line"># 取得 global 屬性</span><br><span class="line">att &#x3D; nc.attrs</span><br></pre></td></tr></table></figure>
+
+<p>針對每個變數建立 DataArray</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 建立 DataArray</span><br><span class="line">new_othervar &#x3D; xr.DataArray(</span><br><span class="line">othervar,</span><br><span class="line">coords&#x3D;&#123;</span><br><span class="line">	&#39;time&#39;: newfulltime,</span><br><span class="line">	&#39;latitude&#39;: lat,</span><br><span class="line">	&#39;longitude&#39;: lon</span><br><span class="line">&#125;,</span><br><span class="line">dims&#x3D;[&#39;time&#39;, &#39;latitude&#39;, &#39;longitude&#39;],</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 建立 DataArray</span><br><span class="line">new_othervar2 &#x3D; xr.DataArray(</span><br><span class="line">othervar2,</span><br><span class="line">coords&#x3D;&#123;</span><br><span class="line">	&#39;time&#39;: newfulltime,</span><br><span class="line">	&#39;latitude&#39;: lat,</span><br><span class="line">	&#39;longitude&#39;: lon</span><br><span class="line">&#125;,</span><br><span class="line">dims&#x3D;[&#39;time&#39;, &#39;latitude&#39;, &#39;longitude&#39;],</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>最後重建檔案</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"># 重建 netcdf 檔案</span><br><span class="line">newds &#x3D; xr.Dataset(</span><br><span class="line">    data_vars&#x3D;dict(</span><br><span class="line">        othervar &#x3D; new_othervar,</span><br><span class="line">        othervar2 &#x3D; new_othervar2</span><br><span class="line">    ),</span><br><span class="line">    attrs&#x3D;att,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 他這個有指定用 NETCDF4 去存檔</span><br><span class="line">newds.to_netcdf(&#39;FIXFILE.nc&#39;,format&#x3D;&#39;NETCDF4&#39;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 讀取新搞出來的檔案</span><br><span class="line">newnc &#x3D; xr.open_dataset(&#39;FIXFILE.nc&#39;)</span><br><span class="line"># newnc</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="匯入-netcdf-資料到-postgresql"><a href="#匯入-netcdf-資料到-postgresql" class="headerlink" title="匯入 netcdf 資料到 postgresql"></a>匯入 netcdf 資料到 postgresql</h3><p>這個看起來好像很困難的作業 , 其實骨子裡就是把資料先弄成 csv 然後匯進去<br>如果是用 postgres 有個無腦的資料型別 <code>precision</code> 可以使用<br>如果是 sql server 就要考慮欄位其精度通常 <code>lon</code> 會設定為 <code>decimal(11,8)</code> , <code>lat</code> 則是 <code>decimal(10,8)</code><br>另外私心推薦個好用工具 <a href="https://www.pgcli.com/" target="_blank" rel="noopener">pgcli</a> , 當只有 cli 時很好用 , 他也有 sql server &amp; mysql 的版本</p>
+<p>建立資料表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">create database mydb;</span><br><span class="line">create table test(</span><br><span class="line">	id bigserial primary key,</span><br><span class="line">	time timestamp,</span><br><span class="line">	lon double precision,</span><br><span class="line">	lat double precision,</span><br><span class="line">	yourvariable double precision</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>沒記錯的話 , 這裡要注意只有一點就是使用 <code>COPY</code> 指令 <code>只能在那台電腦上 run!!!</code><br>當然也可以一筆一筆 insert , 但是 netcdf 資料量很大 , 沒人這樣搞的 , 很蠢</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">import psycopg2</span><br><span class="line">import xarray as xr</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line"># Update connection string information</span><br><span class="line">host &#x3D; &quot;localhost&quot;</span><br><span class="line">dbname &#x3D; &quot;mydb&quot;</span><br><span class="line">user &#x3D; &quot;postgres&quot;</span><br><span class="line">password &#x3D; &quot;postgres&quot;</span><br><span class="line">sslmode &#x3D; &quot;allow&quot;</span><br><span class="line"></span><br><span class="line"># Construct connection string</span><br><span class="line">conn_string &#x3D; &quot;host&#x3D;&#123;0&#125; user&#x3D;&#123;1&#125; dbname&#x3D;&#123;2&#125; password&#x3D;&#123;3&#125; sslmode&#x3D;&#123;4&#125;&quot;.format(host, user, dbname, password, sslmode)</span><br><span class="line">conn &#x3D; psycopg2.connect(conn_string)</span><br><span class="line">print(&quot;Connection established&quot;)</span><br><span class="line"></span><br><span class="line">cursor &#x3D; conn.cursor()</span><br><span class="line"></span><br><span class="line">nc &#x3D; xr.open_dataset(&#39;YOURFILE.nc&#39;)</span><br><span class="line"># 這步會把 nan 過濾掉</span><br><span class="line">nc.yourvariable.to_dataframe().dropna(subset&#x3D;[&#39;yourvariable&#39;]).to_csv(&#39;YOURFILE.csv&#39;)</span><br><span class="line"></span><br><span class="line">csv_file_name &#x3D; &#39;C:\\test\\YOURFILE.csv&#39;</span><br><span class="line">sql &#x3D; &quot;COPY test(time, lat, lon, yourvariable) FROM &#39;C:\\test\\YOURFILE.csv&#39; DELIMITER &#39;,&#39; CSV HEADER;&quot;</span><br><span class="line">cursor.copy_expert(sql, open(csv_file_name, &quot;r&quot;))</span><br><span class="line">conn.commit()</span><br><span class="line"></span><br><span class="line">cursor.close()</span><br><span class="line">conn.close()</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GIS/" rel="tag"># GIS</a>
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/netcdf/" rel="tag"># netcdf</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/03/chrome-%E5%A4%9A%E8%AA%9E%E7%B3%BB%E5%9C%B0%E9%9B%B7/" rel="prev" title="chrome 多語系地雷">
+      <i class="fa fa-chevron-left"></i> chrome 多語系地雷
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/08/16/%E6%88%91%E7%9A%84%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%832022/" rel="next" title="我的開發環境2022">
+      我的開發環境2022 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#環境準備"><span class="nav-number">1.</span> <span class="nav-text">環境準備</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下載-Panpoly"><span class="nav-number">1.1.</span> <span class="nav-text">下載 Panpoly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝及設定-OpenJDK11"><span class="nav-number">1.2.</span> <span class="nav-text">安裝及設定 OpenJDK11</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Panpoly-操作說明"><span class="nav-number">1.3.</span> <span class="nav-text">Panpoly 操作說明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#conda-準備"><span class="nav-number">1.4.</span> <span class="nav-text">conda 準備</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#example"><span class="nav-number">2.</span> <span class="nav-text">example</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#匯出為-csv"><span class="nav-number">2.1.</span> <span class="nav-text">匯出為 csv</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#合併-netcdf"><span class="nav-number">2.2.</span> <span class="nav-text">合併 netcdf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修復時間-Coordinates"><span class="nav-number">2.3.</span> <span class="nav-text">修復時間 Coordinates</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匯入-netcdf-資料到-postgresql"><span class="nav-number">2.4.</span> <span class="nav-text">匯入 netcdf 資料到 postgresql</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">686k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">10:23</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/08/13/python-%E6%93%8D%E4%BD%9C-netcdf-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2022/08/13/python-操作-netcdf-筆記/";
+    this.page.title = "python 操作 netcdf 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>

@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vscode vim mode">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2020/07/05/vscode-vim-mode/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/04.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/video/main/matchit-region.gif">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/tw-fake-data-gen/main/images/fake128x128.jpg">
+<meta property="og:image" content="https://quokkajs.com/assets/img/main-video.gif">
+<meta property="article:published_time" content="2020-07-05T07:04:27.000Z">
+<meta property="article:modified_time" content="2022-08-15T08:38:57.146Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="vscode">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/04.jpg">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2020/07/05/vscode-vim-mode/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>vscode vim mode | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2020/07/05/vscode-vim-mode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vscode vim mode
+        </h1>
+
+        <div class="post-meta">
+		
+			<i class="fa fa-thumb-tack"></i>
+			<font color="7D26CD">我自己要看 頂</font>
+			<span class="post-meta-divider">|</span>
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2020-07-05 15:04:27" itemprop="dateCreated datePublished" datetime="2020-07-05T15:04:27+08:00">2020-07-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-08-15 16:38:57" itemprop="dateModified" datetime="2022-08-15T16:38:57+08:00">2022-08-15</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/07/05/vscode-vim-mode/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/vscode-vim-mode/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>34k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>31 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/04.jpg" alt="vim"></p>
+<a id="more"></a>
+
+
+<h2 id="教學及資源"><a href="#教學及資源" class="headerlink" title="教學及資源"></a>教學及資源</h2><h3 id="還不錯的教學"><a href="#還不錯的教學" class="headerlink" title="還不錯的教學"></a>還不錯的教學</h3><ul>
+<li><a href="https://www.youtube.com/watch?v=mPVwS8gjDVI&amp;list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&amp;index=1" target="_blank" rel="noopener">五倍紅寶石</a></li>
+<li><a href="https://www.youtube.com/watch?v=rzpoMlss7Kk&amp;list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB" target="_blank" rel="noopener">Victor Lee</a></li>
+<li><a href="https://www.barbarianmeetscoding.com/boost-your-coding-fu-with-vscode-and-vim/table-of-contents" target="_blank" rel="noopener">boost your coding fu with vscode and vim</a></li>
+<li><a href="https://www.youtube.com/c/Vintharas/videos" target="_blank" rel="noopener">上面那本書作者的 youtube Jaime González García</a></li>
+<li><a href="https://www.youtube.com/watch?v=g4dXZ0RQWdw&feature=youtu.be" target="_blank" rel="noopener">neovim 對照功能</a></li>
+</ul>
+<h3 id="一些實用小抄"><a href="#一些實用小抄" class="headerlink" title="一些實用小抄"></a>一些實用小抄</h3><ul>
+<li><a href="https://vim.rtorr.com/lang/zh_tw" target="_blank" rel="noopener">vim 小抄</a></li>
+<li><a href="https://github.com/VSCodeVim/Vim/blob/master/ROADMAP.md" target="_blank" rel="noopener">vscode vim 小抄</a></li>
+<li><a href="https://chengjingchao.com/2020/06/13/VS-Code-%E4%B8%8E-Vim/" target="_blank" rel="noopener">大陸人寫的功能介紹</a></li>
+<li><a href="http://blog.vanutsteen.nl/secrets-of-the-vim-ninja/" target="_blank" rel="noopener">vim ninja 小抄</a></li>
+</ul>
+<h2 id="安裝及設定"><a href="#安裝及設定" class="headerlink" title="安裝及設定"></a>安裝及設定</h2><h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><p>首先在 vscode 搜尋 <a href="https://github.com/VSCodeVim/Vim" target="_blank" rel="noopener"><code>VSCodeVim</code></a> , 然後無腦安裝就搞定了 , 如果有好奇 vscode neovim 可以參考我<a href="https://weber87na.github.io//2022/02/08/vscode-neovim-筆記" target="_blank" rel="noopener">這篇</a><br>接著開始 config 在 <code>win + r</code> 輸入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%APPDATA%&#x2F;Code&#x2F;User</span><br></pre></td></tr></table></figure>
+<p>在 <code>setting.json</code> 加上 vim 的 config 內容 , 建議 <code>easymotion</code> 要打開 , easymotion介紹 <a href="http://wklken.me/posts/2015/06/07/vim-plugin-easymotion.html" target="_blank" rel="noopener">這篇</a><br>有安裝 neovim 需要開啟整合的話可以打開最後面的設定 , 初學的話就不用理這個選項</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;vim</span><br><span class="line">&quot;editor.lineNumbers&quot;: &quot;relative&quot;,</span><br><span class="line">&quot;vim.easymotion&quot;: true,</span><br><span class="line">&quot;vim.incsearch&quot;: true,</span><br><span class="line">&quot;vim.useSystemClipboard&quot;: true,</span><br><span class="line">&quot;vim.useCtrlKeys&quot;: true,</span><br><span class="line">&quot;vim.hlsearch&quot;: true,</span><br><span class="line">&quot;vim.insertModeKeyBindings&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;j&quot;, &quot;j&quot;],</span><br><span class="line">  &quot;after&quot;: [&quot;&lt;Esc&gt;&quot;]</span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line">&quot;vim.normalModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;&lt;leader&gt;&quot;, &quot;d&quot;],</span><br><span class="line">  &quot;after&quot;: [&quot;d&quot;, &quot;d&quot;]</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;before&quot;: [&quot;&lt;C-n&gt;&quot;],</span><br><span class="line">  &quot;commands&quot;: [&quot;:nohl&quot;]</span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line">&quot;vim.leader&quot;: &quot;&lt;space&gt;&quot;,</span><br><span class="line">&quot;vim.handleKeys&quot;: &#123;</span><br><span class="line">	&#x2F;&#x2F;&quot;&lt;C-a&gt;&quot;: false,</span><br><span class="line">	&#x2F;&#x2F;&quot;&lt;C-f&gt;&quot;: false</span><br><span class="line">&#125;</span><br><span class="line">&quot;vim.enableNeovim&quot; : true,</span><br><span class="line">&quot;vim.neovimPath&quot; : &quot;&quot;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="intellisense-移動設定"><a href="#intellisense-移動設定" class="headerlink" title="intellisense 移動設定"></a>intellisense 移動設定</h3><p>在 <code>keybindings.json</code> 加 上config 內容 開 <code>intellisense</code> 時也使用鍵盤 <code>alt+j</code> <code>alt+k</code> 上下移動 , 可以參考<a href="https://stackoverflow.com/questions/18153541/scrolling-through-visual-studio-intellisense-list-without-mouse-or-keyboard-arro" target="_blank" rel="noopener">這篇</a><br>注意這邊要照著老外 <code>Rocco Ruscitti</code> 才正確!</p>
+<p>後來發現預設的 <code>ctrl+n ctrl+p</code> 也可以完成 <code>intellisense</code> 的上下移動 menu 也可以<br>還有一種特殊的 <code>intellisense</code> 就是補全已經輸入過的片段 <code>ctrl+x ctrl+l</code> 算是補整句用</p>
+<p>如果想要客製化 menu 移動可以參考這篇 <a href="https://stackoverflow.com/questions/56121333/how-to-remap-down-quick-open-menu-in-vscode" target="_blank" rel="noopener">解決辦法</a> 感恩老外!<br><code>keybindings.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;key&quot;: &quot;alt+j&quot;,</span><br><span class="line">    &quot;command&quot;: &quot;selectNextSuggestion&quot;,</span><br><span class="line">    &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">    &quot;key&quot;: &quot;alt+k&quot;,</span><br><span class="line">    &quot;command&quot;: &quot;selectPrevSuggestion&quot;,</span><br><span class="line">    &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#x2F;&#x2F;menu 選擇時 alt+j alt+k 上下移動</span><br><span class="line">&#123;</span><br><span class="line">  &quot;key&quot;: &quot;alt+j&quot;,</span><br><span class="line">  &quot;command&quot;: &quot;workbench.action.quickOpenSelectNext&quot;,</span><br><span class="line">  &quot;when&quot;: &quot;inQuickOpen&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">  &quot;key&quot;: &quot;alt+k&quot;,</span><br><span class="line">  &quot;command&quot;: &quot;workbench.action.quickOpenSelectPrevious&quot;,</span><br><span class="line">  &quot;when&quot;: &quot;inQuickOpen&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="im-select"><a href="#im-select" class="headerlink" title="im-select"></a>im-select</h3><p>這個是在 <code>visual studio code 實用指南</code> 書上看到的 , 有中文書還是要加減支持下 , 不過他示範的是 mac os , 礙於我一開始實在看不太懂他寫啥 , 所以研究筆記下<br>首先下載 <a href="https://github.com/daipeihust/im-select" target="_blank" rel="noopener">im-select</a> , 接著丟到 <code>c:</code> 底下 , 要丟謎片槽也是可以<br>然後 cd 到放置 <code>im-select</code> 的資料夾 , 執行看看<br>我用英文輸入法 + 新注音輸入法分別得出這樣的結果 <code>1033</code> =&gt; <code>英文</code> , <code>1028</code> =&gt; <code>中文</code><br>接著在 vscode 設定這樣 , 自此之後就可以在中文輸入完按下 <code>esc</code> 自動幫你切回英文輸入法 , 詳細點可以看<a href="https://github.com/VSCodeVim/Vim#input-method" target="_blank" rel="noopener">這裡</a></p>
+<p><code>settings.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&quot;vim.autoSwitchInputMethod.enable&quot;: true,</span><br><span class="line">&quot;vim.autoSwitchInputMethod.defaultIM&quot;: &quot;1033&quot;,</span><br><span class="line">&quot;vim.autoSwitchInputMethod.switchIMCmd&quot;: &quot;c:\\im-select.exe 1033 &#123;im&#125;&quot;,</span><br><span class="line">&quot;vim.autoSwitchInputMethod.obtainIMCmd&quot;: &quot;c:\\im-select.exe&quot;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Search-Everywhere"><a href="#Search-Everywhere" class="headerlink" title="Search Everywhere"></a>Search Everywhere</h3><p>最近都在用 vscode 開發 , 有時候要找東西覺得原生的 search 不是那麼方便 , 無意中看到這個<a href="https://marketplace.visualstudio.com/items?itemName=kbysiec.vscode-search-everywhere" target="_blank" rel="noopener">Search everywhere</a><br>感覺用起來體驗比較優 , 快速鍵預設是 <code>ctrl + alt + p</code> 我把他重新 bind 下<br><code>settings.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;before&quot;: [</span><br><span class="line">		&quot;&lt;leader&gt;&quot;,</span><br><span class="line">		&quot;q&quot;,</span><br><span class="line">		&quot;q&quot;</span><br><span class="line">	],</span><br><span class="line">	&quot;commands&quot;: [</span><br><span class="line">		&#x2F;&#x2F;&quot;workbench.action.findInFiles&quot;</span><br><span class="line">		&quot;searchEverywhere.search&quot;</span><br><span class="line">	]</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="折疊的小技巧"><a href="#折疊的小技巧" class="headerlink" title="折疊的小技巧"></a>折疊的小技巧</h3><p>最近維護 angularjs 老舊程式碼 , 大概有 1000 - 2000 行左右的 js<br>之前在維護後端通常會用 region 來分類這種沒啥辦法拆開的檔案<br>研究下想不到 vscode 也有這個功能 , 可以參考<a href="https://code.visualstudio.com/docs/editor/codebasics#_folding" target="_blank" rel="noopener">官方說明</a><br>另外 visual studio 2022 也有支援 js 這個功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;#region haha</span><br><span class="line">function haha()&#123;</span><br><span class="line">	console.log(&#39;haha&#39;);</span><br><span class="line">&#125;</span><br><span class="line">haha();</span><br><span class="line">&#x2F;&#x2F;#endregion</span><br></pre></td></tr></table></figure>
+<p>在 vim 上面我只記得 za 可以切換折疊 , 其他都不太常用 , 不過還是<a href="https://vim.fandom.com/wiki/Folding" target="_blank" rel="noopener">筆記下</a></p>
+<p>另外如果在 region 摺疊情況下去移動的話有個缺點 , 就是他是往下移動一行 , 沒辦法直接移動到結尾 , 這時候只好自己土炮 , 借用 <a href="https://github.com/redguardtoo/vscode-matchit" target="_blank" rel="noopener">matchit</a> 的 code 來增強這塊 , 可以先看看效果</p>
+<p><img src="https://raw.githubusercontent.com/weber87na/video/main/matchit-region.gif" alt="image"></p>
+<p>主要就是參考他的 <code>cpp.ts</code> 這隻檔案<br>可以看到 <code>cppMacroList</code> 這個 array 內有 regex 來定義自己想要的開頭或結尾<br>接著看到 <code>cppMacroAtPoint</code> 這隻函數 , 會去判斷是否吻合 regex 內的結果<br>最後看到 <code>cppMacroJump</code> 他利用 <code>sdk.findMatchedTagAndJump</code> 去實現跳到 <code>開頭</code> , <code>身體</code> , <code>結尾</code><br>所以我們需要先把 <code>sdk.findMatchedTagAndJump</code> 修改下 , 讓他只要符合開頭與結尾之間切換即可<br>新增以下函數 <code>findMatchedRegionAndJump</code> 在 <code>sdk.ts</code> 這隻檔案內 , 主要就是修改 case  的部分 , 調整成只有 0 &amp; 1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;跳到 region 頭尾</span><br><span class="line">export function findMatchedRegionAndJump(tagAtPoint: any, tagList: any[]) &#123;</span><br><span class="line">  let level &#x3D; 1;</span><br><span class="line">  let found &#x3D; -1; &#x2F;&#x2F; match tag line number</span><br><span class="line"></span><br><span class="line">  const editor &#x3D; getEditor();</span><br><span class="line">  if(!editor) &#123;</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  let n &#x3D; getCurrentLineNumber();</span><br><span class="line"></span><br><span class="line">  switch(tagAtPoint) &#123;</span><br><span class="line">    case 0:</span><br><span class="line">      &#x2F;&#x2F; open tag</span><br><span class="line">      n++;</span><br><span class="line">      for(let i &#x3D; n ; i &lt; editor.document.lineCount; i++) &#123;</span><br><span class="line">        const m &#x3D; lineMatchTagList(getLineText(i), tagList) ;</span><br><span class="line">        if(level &#x3D;&#x3D;&#x3D; 1 &amp;&amp; (m &#x3D;&#x3D;&#x3D; 1 || m &#x3D;&#x3D;&#x3D; 2)) &#123;</span><br><span class="line">          found &#x3D; i;</span><br><span class="line">          break; &#x2F;&#x2F; stop for loop</span><br><span class="line">        &#125;</span><br><span class="line">        if(m &#x3D;&#x3D;&#x3D; 0)  &#123;</span><br><span class="line">          level++;</span><br><span class="line">        &#125; else if(m &#x3D;&#x3D;&#x3D; 2) &#123;</span><br><span class="line">          level--;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      break;</span><br><span class="line"></span><br><span class="line">    case 1:</span><br><span class="line">      &#x2F;&#x2F; end tag</span><br><span class="line">      n--;</span><br><span class="line">      for(let i &#x3D; n ; i &gt;&#x3D; 0; i--) &#123;</span><br><span class="line">        const m &#x3D; lineMatchTagList(getLineText(i), tagList) ;</span><br><span class="line">        if(level &#x3D;&#x3D;&#x3D; 1 &amp;&amp; m &#x3D;&#x3D;&#x3D; 0) &#123;</span><br><span class="line">          found &#x3D; i;</span><br><span class="line">          break; &#x2F;&#x2F; stop for loop</span><br><span class="line">        &#125;</span><br><span class="line">        if(m &#x3D;&#x3D;&#x3D; 2)  &#123;</span><br><span class="line">          level++;</span><br><span class="line">        &#125; else if(m &#x3D;&#x3D;&#x3D; 0) &#123;</span><br><span class="line">          level--;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      break;</span><br><span class="line">  &#125;</span><br><span class="line">  if(found !&#x3D;&#x3D; -1) &#123;</span><br><span class="line">    gotoChar(new vscode.Position(found, editor.document.lineAt(found).firstNonWhitespaceCharacterIndex));</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著就可以依照官方的 <a href="https://code.visualstudio.com/docs/editor/codebasics#_folding" target="_blank" rel="noopener">region 規則</a> 說明去自訂 , 我這裡寫了 3 個常用的 <code>js</code> , <code>css</code> , <code>python</code><br>要測 regex 的話可以用這個 <a href="https://regex101.com/" target="_blank" rel="noopener">regex101</a> 先玩看看</p>
+<p>支援 js 這個比較簡單 , 把正則定義好就能用了 , 沒啥特殊規則<br><code>jsregion.ts</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">import * as sdk from &#39;.&#x2F;sdk&#39;;</span><br><span class="line"></span><br><span class="line">const regionList &#x3D; [&#x2F;^[ \t]*(\&#x2F;\&#x2F;#region*)&#x2F;, &#x2F;^[ \t]*(\&#x2F;\&#x2F;#endregion*)&#x2F;];</span><br><span class="line"></span><br><span class="line">export function jsAtPoint() &#123;</span><br><span class="line">  const m &#x3D; sdk.lineMatchTagList(sdk.getCurrentLineText(), regionList);</span><br><span class="line">  return m &#x3D;&#x3D;&#x3D; -1 ? null : m;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function jsJump(tagAtPoint: any) &#123;</span><br><span class="line">  sdk.findMatchedRegionAndJump(tagAtPoint, regionList);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>支援 css 比較特別 , 實務上會在 region 後面接些說明 , 像是這樣 , 所以定義 regex 需要讓後面有單字可以出現</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;*#region footer*&#x2F;</span><br><span class="line">.footer&#123;</span><br><span class="line">    margin: 0;</span><br><span class="line">    padding: 0;</span><br><span class="line">&#125;</span><br><span class="line">.footer nav&#123;</span><br><span class="line">    background-color: #fff;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;*#endregion end of footer*&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p><code>cssregion.ts</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import * as sdk from &#39;.&#x2F;sdk&#39;;</span><br><span class="line"></span><br><span class="line">const regionList &#x3D; [&#x2F;^[ \t]*(\&#x2F;\*#region.*\*\&#x2F;)&#x2F;, &#x2F;^[ \t]*(\&#x2F;\*#endregion.*\*\&#x2F;)&#x2F;];</span><br><span class="line"></span><br><span class="line">export function cssAtPoint() &#123;</span><br><span class="line">  const m &#x3D; sdk.lineMatchTagList(sdk.getCurrentLineText(), regionList);</span><br><span class="line">  return m &#x3D;&#x3D;&#x3D; -1 ? null : m;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function cssJump(tagAtPoint: any) &#123;</span><br><span class="line">  sdk.findMatchedRegionAndJump(tagAtPoint, regionList);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>至於 python 則是會習慣性在 <code>#</code> 號後面加上一個空白 , 所以用 regex 的 or 多處理下應該就能用<br><code>pyregion.ts</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import * as sdk from &#39;.&#x2F;sdk&#39;;</span><br><span class="line"></span><br><span class="line">const regionList &#x3D; [&#x2F;^[ \t]*(#\sregion|#region)&#x2F;, &#x2F;^[ \t]*(#\sendregion|#endregion)&#x2F;];</span><br><span class="line"></span><br><span class="line">export function pyAtPoint() &#123;</span><br><span class="line">  const m &#x3D; sdk.lineMatchTagList(sdk.getCurrentLineText(), regionList);</span><br><span class="line">  return m &#x3D;&#x3D;&#x3D; -1 ? null : m;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export function pyJump(tagAtPoint: any) &#123;</span><br><span class="line">  sdk.findMatchedRegionAndJump(tagAtPoint, regionList);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後在 <code>extensions.ts</code> 找到 <code>cppMacroAtPoint</code> 下面補上剛剛定義的幾個函數即可搞定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">if(sdk.languageMatched([&#39;c&#39;, &#39;cpp&#39;])) &#123;</span><br><span class="line">  tagAtPoint &#x3D; cpp.cppMacroAtPoint();</span><br><span class="line">  if(tagAtPoint !&#x3D;&#x3D; null) &#123;</span><br><span class="line">    cpp.cppMacroJump(tagAtPoint);</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;設定 js region</span><br><span class="line">if(sdk.languageMatched([&#39;javascript&#39; , &#39;html&#39;])) &#123;</span><br><span class="line">  tagAtPoint &#x3D; jsregion.jsAtPoint();</span><br><span class="line">  if(tagAtPoint !&#x3D;&#x3D; null) &#123;</span><br><span class="line">    jsregion.jsJump(tagAtPoint);</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;設定 css region</span><br><span class="line">if(sdk.languageMatched([&#39;css&#39; , &#39;html&#39;])) &#123;</span><br><span class="line">  tagAtPoint &#x3D; cssregion.cssAtPoint();</span><br><span class="line">  if(tagAtPoint !&#x3D;&#x3D; null) &#123;</span><br><span class="line">    cssregion.cssJump(tagAtPoint);</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;設定 py region</span><br><span class="line">if(sdk.languageMatched([&#39;python&#39;])) &#123;</span><br><span class="line">  tagAtPoint &#x3D; pyregion.pyAtPoint();</span><br><span class="line">  if(tagAtPoint !&#x3D;&#x3D; null) &#123;</span><br><span class="line">    pyregion.pyJump(tagAtPoint);</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="產生常用假資料"><a href="#產生常用假資料" class="headerlink" title="產生常用假資料"></a>產生常用假資料</h3><p>不要臉推薦下自己寫的 extension <a href="https://marketplace.visualstudio.com/items?itemName=weber87na.tw-fake-data-gen" target="_blank" rel="noopener">假的</a> <a href="https://github.com/weber87na/tw-fake-data-gen" target="_blank" rel="noopener">github在此</a><br>難得有放圖 XD<br><img src="https://raw.githubusercontent.com/weber87na/tw-fake-data-gen/main/images/fake128x128.jpg" alt="假的"></p>
+<p>這個問題源自於常常開發時需要生出假資料 , 客戶或是 user 打死都不給你 , 這類咚咚多半都是老外有搞 , 但是你放英文就會開始被打搶 , 所以特別研究看看有無方法直接在 vscode 內搞出來<br>目前支援以下命令:</p>
+<p><a href="https://raw.githubusercontent.com/weber87na/tw-fake-data-gen/d9a2e0bb76c0cc7960dc5e8efb784cd0f19da053/images/features.gif" target="_blank" rel="noopener">操作法</a></p>
+<ul>
+<li><code>fcname</code> 產生中文名字</li>
+<li><code>fename</code> 產生老外名字</li>
+<li><code>fphone</code> 產生手機號碼</li>
+<li><code>ftwid</code> 產生身分證字號</li>
+<li><code>ftwpoint</code> 產生隨機台灣範圍的經緯度格式 lon lat</li>
+<li><code>ftwdate</code> 產生隨機日期(民國年)</li>
+<li><code>fendate</code> 產生隨機日期(西元年)</li>
+<li><code>fcolor</code> 產生隨機 html 色碼</li>
+<li><code>fage</code> 產生隨機年齡</li>
+<li><code>femail</code> 產生隨機 email</li>
+</ul>
+<h3 id="雙重行號"><a href="#雙重行號" class="headerlink" title="雙重行號"></a>雙重行號</h3><p>以前有在 visual studio 使用 relative number 這個外掛 , 在 vscode 則叫做 <code>double line numbers</code> , 可以開啟兩條行號方便使用相對數字進行移動 , 需要的話可以在這裡 <a href="https://marketplace.visualstudio.com/items?itemName=slhsxcmy.vscode-double-line-numbers" target="_blank" rel="noopener">下載</a><br>使用方式 <code>ctrl + shift +p</code> =&gt; <code>double line numbers:absolute + relative</code></p>
+<h3 id="包裹標籤"><a href="#包裹標籤" class="headerlink" title="包裹標籤"></a>包裹標籤</h3><p>另外我有設定 <code>emmet</code> 包裹功能可以參考 <a href="https://stackoverflow.com/questions/40155875/how-to-do-tag-wrapping-in-vs-code" target="_blank" rel="noopener">老外設定</a><br>特別要注意的是使用 Individual 模式時選擇器需要這樣寫 li* 才會分開包裹 (注意新版已經改成只剩下 <code>wrapWithAbbreviation</code> 命令)<br>若使用 <a href="https://github.com/VSCodeVim/Vim#vim-surround" target="_blank" rel="noopener">vscode  vim surround</a> 則是在 visual mode 底下輸入大寫 S 以後輸入 &lt;標籤&gt; 這樣就可以包起來了<br><code>keybindings.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+w&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;editor.emmet.action.wrapWithAbbreviation&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">	&#123;</span><br><span class="line">		&quot;key&quot;: &quot;alt+i&quot;,</span><br><span class="line">		&quot;command&quot;: &quot;editor.emmet.action.wrapIndividualLinesWithAbbreviation&quot;</span><br><span class="line">	&#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="emment-更新"><a href="#emment-更新" class="headerlink" title="emment 更新"></a>emment 更新</h3><p>太久沒用 vscode 寫前端發現 emmet 的 wrap 功能不曉得哪個版本開始被合併了現在只剩下 <code>wrapWithAbbreviation</code> ˊ這個設定<br>要包分開多個標籤可以這樣用 <code>alt + w</code> =&gt; <code>div*</code>就搞定了<br>單個還是老樣子 <code>alt + w</code> =&gt; <code>div</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;key&quot;: &quot;alt+w&quot;,</span><br><span class="line">		&quot;command&quot;: &quot;editor.emmet.action.wrapWithAbbreviation&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p>好久沒用 vscode 寫靜態網頁 , 突然發現以前常常用的 <code>!</code> 整組壞光光<br>google 了一下只要在 <code>settings.json</code> 加上以下設定即可 , 可以參考<a href="https://code.visualstudio.com/blogs/2017/08/07/emmet-2.0" target="_blank" rel="noopener">這裡</a><br>不過這個問題好像很多年前就有了 , 怎麼又突然在 2022 年跑出來就不得而知啦 , 可能 vscode 又更新了啥鬼東西吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;emmet.triggerExpansionOnTab&quot; : true,</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="自訂-emmet-snippet"><a href="#自訂-emmet-snippet" class="headerlink" title="自訂 emmet snippet"></a>自訂 emmet snippet</h3><p>一直以來都有個很火大的需求 , 就是每次用 <code>emmet</code> <code>!</code> 產生 html 時都會送你英文 <code>lang=&quot;en&quot;</code><br>這時候你打開 chrome 就會出現翻譯要你點選 , 每次都彈這個視窗很賭爛 , 所以才想辦法寫這篇<br>另外 Safari 9.0 還有個很北爛的 bug , 需要在加上 meta <code>shrink-to-fit=no</code><br>像下面這樣才會正常 ,  可以參考<a href="https://stackoverflow.com/questions/33767533/what-does-the-shrink-to-fit-viewport-meta-attribute-do" target="_blank" rel="noopener">這篇討論</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;meta name&#x3D;&quot;viewport&quot; content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0, shrink-to-fit&#x3D;no&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>根據<a href="https://code.visualstudio.com/docs/editor/emmet#_using-custom-emmet-snippets" target="_blank" rel="noopener">官方說明</a><br>要設定需要在你的 <code>settings.json</code> 設定 <code>emmet.extensionsPath</code> 這個區塊 , 然後建立資料夾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;emmet.extensionsPath&quot;: [</span><br><span class="line">    &quot;C:\\Users\\YourName\\mysnippet&quot;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+<p>然後新增 <code>snippets.json</code> 這個檔案 , 注意結尾有 <code>s</code> 很容易忘了加 , 然後下面加入自己爽的內容 , 預設可以參考這個<a href="https://github.com/emmetio/snippets/blob/master/html.json" target="_blank" rel="noopener">官方檔案</a><br>另外自己定義的時候他吃 emmet 語法 , 所以單純想輸出文字的話需要用花括號包起來 , 如果你是謎片業者就可以定義常用的迷片連結 ? 可以看我下面的例子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;html&quot;: &#123;</span><br><span class="line">    &quot;snippets&quot;: &#123;</span><br><span class="line">      &quot;lasai&quot;: &quot;&#123;喇賽&#125;&quot;,</span><br><span class="line">	  &quot;lilasai&quot;: &quot;&#123;你喇賽&#125;&quot;,</span><br><span class="line">	  &quot;liladisai&quot;: &quot;&#123;你喇低賽&#125;&quot;,</span><br><span class="line">	  &quot;myblog&quot; : &quot;&#123;https:&#x2F;&#x2F;weber87na.github.io&#x2F;&#125;&quot;</span><br><span class="line">	  &quot;meta:vp&quot;: &quot;meta[name&#x3D;viewport content&#x3D;&#39;width&#x3D;$&#123;1:device-width&#125;, initial-scale&#x3D;$&#123;2:1.0&#125;, shrink-to-fit&#x3D;no&#39;]&quot;,</span><br><span class="line">	  &quot;doctw&quot;: &quot;html[lang&#x3D;zh-Hant]&gt;(head&gt;meta[charset&#x3D;$&#123;charset&#125;]+meta:vp+title&#123;$&#123;1:Document&#125;&#125;)+body&quot;,</span><br><span class="line">	  &quot;!tw&quot;: &quot;!!!+doctw&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最後特別注意 , 這種設定檔的 json 如果是最後一個 item 不能有 comma 逗號 <code>,</code> 會跳 error 爽得你不要不要的 , 設定完後要重啟 vscode 才會生效<br>其他產生 snippet 就暫時沒太多研究 , 只知道這個<a href="https://snippet-generator.app/?description=&tabtrigger=&snippet=&mode=vscode" target="_blank" rel="noopener">工具</a>可以幫你</p>
+<h3 id="多選功能"><a href="#多選功能" class="headerlink" title="多選功能"></a>多選功能</h3><p>很久沒用這個功能已經忘了預設是怎麼按 , 不過在 vscode vim 底下是用 <code>alt + 滑鼠左鍵</code> , ideavim 好像也是這樣?</p>
+<h3 id="Hippie-Completion"><a href="#Hippie-Completion" class="headerlink" title="Hippie Completion"></a>Hippie Completion</h3><p>這個 <a href="https://marketplace.visualstudio.com/items?itemName=mksafi.simple-autocomplete" target="_blank" rel="noopener">simple-autocomplete</a> 外掛是無意中發現的<br>這個在 <code>webstorm</code> 稱為 <a href="https://www.jetbrains.com/help/webstorm/auto-completing-code.html#hippie_completion" target="_blank" rel="noopener">嬉皮補全</a><br>不過他這個功能的實作細節是包含某個字元就判定補全 , 並非用字首來計算 , 所以還是有些細微差異</p>
+<p>因為之前都沒在 <code>setting.json</code> 設定過 bind <code>alt key</code> 所以不太曉得怎麼用 , 搞了半天好像不 work<br>後來查了看看老外的半殘<a href="https://stackoverflow.com/questions/50724308/is-it-possible-to-map-alts-to-escape-in-vscode-vim" target="_blank" rel="noopener">解法</a><br>最後還是要在 <code>keybindings.json</code> 設定 , 貼上以下內容即可搞定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+&#x2F;&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;simpleAutocomplete.next&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;editorTextFocus &amp;&amp; vim.active &amp;&amp; vim.mode &#x3D;&#x3D; &#39;Insert&#39;&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="設定-terminal-focus"><a href="#設定-terminal-focus" class="headerlink" title="設定 terminal focus"></a>設定 terminal focus</h3><p>最近偶爾會用 terminal 功能可以增加以下片段進行切換動作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;42796887&#x2F;switch-focus-between-editor-and-integrated-terminal-in-visual-studio-code</span><br><span class="line">&#x2F;&#x2F; Toggle between terminal and editor focus</span><br><span class="line">&#123; &quot;key&quot;: &quot;ctrl+&#96;&quot;, &quot;command&quot;: &quot;workbench.action.terminal.focus&quot;&#125;,</span><br><span class="line">&#123; &quot;key&quot;: &quot;ctrl+&#96;&quot;, &quot;command&quot;: &quot;workbench.action.focusActiveEditorGroup&quot;, &quot;when&quot;: &quot;terminalFocus&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="css-navigation"><a href="#css-navigation" class="headerlink" title="css navigation"></a>css navigation</h3><p>vscode 在 css 裡面使用 go to definition 功能好用外掛 <a href="https://marketplace.visualstudio.com/items?itemName=pucelle.vscode-css-navigation&ssr=false#overview" target="_blank" rel="noopener">CSS Navigation</a><br>之前一直無法直接使用 gd 在 css 裡面跳，安裝 css peek 也無解，還好發現這套，解決困擾好幾個月的問題，感動<br><code>ctrl + shift + p</code> 開啟 settings.json 裡面設定讓目前文件也啟用 go to definition 功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;CSNavigation.alsoSearchDefinitionsInStyleTag&quot; : true</span><br></pre></td></tr></table></figure>
+<p>使用 <code>gd</code> 可以直接呼叫 go to definition 的 class or ID 連 Html Tag 也是可以直接跳<br>使用 <code>ctrl + o</code> 或是 <code>ctrl + i</code>  可以跳回來</p>
+<p>後來發現撰寫 javascript 時需要加入 jsconfig.json 才可以使用 gd 功能<a href="https://code.visualstudio.com/docs/nodejs/working-with-javascript#_typings-and-automatic-type-acquisition" target="_blank" rel="noopener">參考官方文件</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;compilerOptions&quot;: &#123;</span><br><span class="line">        &quot;target&quot;: &quot;ES6&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;exclude&quot;: [</span><br><span class="line">        &quot;node_modules&quot;,</span><br><span class="line">        &quot;**&#x2F;node_modules&#x2F;*&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="特殊功能筆記"><a href="#特殊功能筆記" class="headerlink" title="特殊功能筆記"></a>特殊功能筆記</h3><p>刪除檔案內全部文字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:1,$d</span><br></pre></td></tr></table></figure>
+<p>format documnet 並且跳回原來 cursor 位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mmgg&#x3D;G&#96;m</span><br></pre></td></tr></table></figure>
+<p>或是使用等價方法 <code>gg=G</code> 接著輸入 <code>ctrl + o</code></p>
+<p>format documnet 並且跳回行首 <code>gg=G&#39;&#39;</code></p>
+<p>交換上下行 <code>ddp</code><br>交換前後字 <code>xp</code></p>
+<p>解決預設 % 不能找到尖括號的問題 <code>set mps+=&lt;:&gt;</code> 這個在 vim 才會發生 , vscode 好像不會</p>
+<h3 id="刪除-function-內的變數"><a href="#刪除-function-內的變數" class="headerlink" title="刪除 function 內的變數"></a>刪除 function 內的變數</h3><p>刪除 function 內的變數，自從學會 vim 基本操作以後就很少用 <code>t</code> or <code>T</code> 這種操作，看到高手用在刪除參數筆記一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#開頭</span><br><span class="line">f(lct,</span><br><span class="line">#結尾</span><br><span class="line">f)dF,</span><br></pre></td></tr></table></figure>
+
+<h3 id="快速在-html-標籤移動"><a href="#快速在-html-標籤移動" class="headerlink" title="快速在 html 標籤移動"></a>快速在 html 標籤移動</h3><p>之前常常用 % 來對 tag 進行起始/結尾切換，但是寫 html 完全沒法這樣做，後來發現原來只要 <code>vat</code> 接著用 <code>o</code> 就可以來回切換。<br>不然就要安裝 emacs 大師的 <a href="https://marketplace.visualstudio.com/items?itemName=redguardtoo.matchit" target="_blank" rel="noopener">matchit</a> , 現在連 java , c++ 都 support</p>
+<h3 id="設定-html-屬性換行"><a href="#設定-html-屬性換行" class="headerlink" title="設定 html 屬性換行"></a>設定 html 屬性換行</h3><p>配合 teamwork 開發 angular 導致 html attribute 又臭又長尋求解法，每個 team member 的 html 空格數也不太一樣所幸找以到下解法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;editor.detectIndentation&quot;: false,</span><br><span class="line">&#x2F;&#x2F; The number of spaces a tab is equal to. This setting is overridden based on the file contents when &#96;editor.detectIndentation&#96; is on.</span><br><span class="line">&quot;editor.tabSize&quot;: 4,</span><br><span class="line">&#x2F;&#x2F; Config the editor that making the &quot;space&quot; instead of &quot;tab&quot;</span><br><span class="line">&quot;editor.insertSpaces&quot;: true,</span><br><span class="line">&quot;html.format.wrapAttributes&quot;: &quot;force&quot;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="正則表達式搜尋替換"><a href="#正則表達式搜尋替換" class="headerlink" title="正則表達式搜尋替換"></a>正則表達式搜尋替換</h3><p>開啟搜尋 <code>,ss</code><br>切換到替換或搜尋 <code>ctrl + h</code><br>比較特別的可以用以下操作去進行替換<br>假設搜尋 pattern <code>(abc)(def)</code><br>可以用 $1 $2 這種方法去判斷符合的組別，然後去執行一些進階操作，此外還有 $0 為完全匹配<br>假設我有以下列表想在加號或減號前面都補上乘三</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 + 102 &#x3D;</span><br><span class="line">11 * 92 &#x3D;</span><br><span class="line">111 - 12 &#x3D;</span><br></pre></td></tr></table></figure>
+<p>就可以設樣運用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">([+-])</span><br><span class="line">* 3 $ 1</span><br></pre></td></tr></table></figure>
+<p>結果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">1 * 3 + 102 &#x3D;</span><br><span class="line">11 * 92 &#x3D;</span><br><span class="line">111 * 3 - 12 &#x3D;</span><br></pre></td></tr></table></figure>
+<p>99 乘法 example</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var x1 &#x3D; 1</span><br><span class="line">var x2 &#x3D; 2</span><br><span class="line">var x3 &#x3D; 3</span><br><span class="line">(\s[\d+&#123;1&#125;])</span><br><span class="line">$1 * $1</span><br></pre></td></tr></table></figure>
+<p>result</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var x1 &#x3D; 1 * 1</span><br><span class="line">var x2 &#x3D; 2 * 2</span><br><span class="line">var x3 &#x3D; 3 * 3</span><br></pre></td></tr></table></figure>
+<p>可以看這個<a href="https://blog.darkthread.net/blog/vs-find-replace-regex/" target="_blank" rel="noopener">參考</a><br>跟<a href="https://docs.microsoft.com/zh-tw/visualstudio/ide/using-regular-expressions-in-visual-studio?view=vs-2019" target="_blank" rel="noopener">官方說明</a></p>
+<p>直接用 vim 的功能替換，這邊要特別注意替換 pattern 是否有開啟 neovim 有的話會用原生的方式進行替換<br>vscode</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s&#x2F;([+-])&#x2F;* 3 $1&#x2F;g</span><br></pre></td></tr></table></figure>
+<p>neovim 啟用原生</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s&#x2F;\([+-]\)&#x2F;* 3 \1&#x2F;g</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="設定鍵盤延遲時間"><a href="#設定鍵盤延遲時間" class="headerlink" title="設定鍵盤延遲時間"></a>設定鍵盤延遲時間</h3><p>以前玩遊戲的時候會希望腳色可以瞬間定住開槍，fps 遊戲差個 0.x 毫秒就差很多 , 在 windows 底下可以這樣設定<br><code>win + r</code> =&gt; <code>control panel</code> =&gt; <code>keyboard</code> =&gt; <code>重複延遲設定最短</code> =&gt; <code>重複速度設定最快</code></p>
+<h3 id="which-key"><a href="#which-key" class="headerlink" title="which key"></a>which key</h3><p><a href="https://vspacecode.github.io/docs/whichkey/" target="_blank" rel="noopener">whichkey</a><br>這個 extension 可以用空白鍵呼叫出額外的菜單 , 算是擴充一些常用的功能方便從他的 menu 來找<br>他跟 <a href="https://vspacecode.github.io/docs/default-keybindings" target="_blank" rel="noopener">VSpaceCode</a> 有高度整合 , 如果用這套的話直接就幫你把 key binding 給設計好了 , 不過礙於我已經有自己的 key binding 就看看就好<br>安裝以後要加上這串在 <code>settings.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&quot;vim.normalModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;before&quot;: [&quot;&lt;space&gt;&quot;],</span><br><span class="line">    &quot;commands&quot;: [&quot;whichkey.show&quot;]</span><br><span class="line">  &#125;</span><br><span class="line">],</span><br><span class="line">&quot;vim.visualModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">  &#123;</span><br><span class="line">    &quot;before&quot;: [&quot;&lt;space&gt;&quot;],</span><br><span class="line">    &quot;commands&quot;: [&quot;whichkey.show&quot;]</span><br><span class="line">  &#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="把-html-轉為-js-string"><a href="#把-html-轉為-js-string" class="headerlink" title="把 html 轉為 js string"></a>把 html 轉為 js string</h3><p>工作上遇到轉換的問題特別筆記一下 , 用 notepad++ or 其他 GUI 用下面這個 replace 應該也都可以執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(&lt;[^&gt;]*&gt;.*)</span><br><span class="line">+ &#39;$1&#39;</span><br></pre></td></tr></table></figure>
+
+<p>後來覺得每次都要翻筆記太麻煩 , 所幸自己也試著實現一個 vscode 的 <a href="https://marketplace.visualstudio.com/items?itemName=weber87na.htmltostring" target="_blank" rel="noopener">extension</a> 玩看看 , 不過寫完了才發現有大陸人早就<a href="https://marketplace.visualstudio.com/items?itemName=wyhere.htmltojs" target="_blank" rel="noopener">實作</a>了 , 暈倒 ~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&quot;vim.visualModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">	&#123;</span><br><span class="line">		&quot;before&quot;: [</span><br><span class="line">			&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;2&quot;,</span><br><span class="line">			&quot;h&quot;</span><br><span class="line">		],</span><br><span class="line">		&quot;commands&quot;: [</span><br><span class="line">			&quot;htmltostring.toHtml&quot;</span><br><span class="line">		]</span><br><span class="line">	&#125;,</span><br><span class="line">	&#123;</span><br><span class="line">		&quot;before&quot;: [</span><br><span class="line">			&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;h&quot;,</span><br><span class="line">			&quot;2&quot;,</span><br><span class="line">			&quot;s&quot;</span><br><span class="line">		],</span><br><span class="line">		&quot;commands&quot;: [</span><br><span class="line">			&quot;htmltostring.toString&quot;</span><br><span class="line">		]</span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>vim binding</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">string to html</span><br><span class="line">vmap &lt;silent&gt; ;h :s?^\(\s*\)+ &#39;\([^&#39;]\+\)&#39;,*\s*$?\1\2?g&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;html to js string</span><br><span class="line">vmap &lt;silent&gt; ;q :s?^\(\s*\)\(.*\)\s*$? \1 + &#39;\2&#39;?&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+
+<p>vscode binding 滿自虐的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">&quot;vim.visualModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">&#123;</span><br><span class="line">	&quot;before&quot;: [</span><br><span class="line">	&quot;;&quot;,</span><br><span class="line">	&quot;h&quot;</span><br><span class="line">	],</span><br><span class="line">	&quot;after&quot;: [</span><br><span class="line">	&#x2F;&#x2F;vmap &lt;silent&gt; ;h :s?^\(\s*\)+ &#39;\([^&#39;]\+\)&#39;,*\s*$?\1\2?g&lt;CR&gt;</span><br><span class="line">	&quot;:&quot;,</span><br><span class="line">	&quot;s&quot;,</span><br><span class="line">	&quot;?&quot;,</span><br><span class="line">	&quot;^&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;(&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;s&quot;,</span><br><span class="line">	&quot;*&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;)&quot;,</span><br><span class="line">	&quot;+&quot;,</span><br><span class="line">	&quot;&#39;&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;(&quot;,</span><br><span class="line">	&quot;[&quot;,</span><br><span class="line">	&quot;^&quot;,</span><br><span class="line">	&quot;&#39;&quot;,</span><br><span class="line">	&quot;]&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;+&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;)&quot;,</span><br><span class="line">	&quot;&#39;&quot;,</span><br><span class="line">	&quot;,&quot;,</span><br><span class="line">	&quot;*&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;s&quot;,</span><br><span class="line">	&quot;*&quot;,</span><br><span class="line">	&quot;$&quot;,</span><br><span class="line">	&quot;?&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;1&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;2&quot;,</span><br><span class="line">	&quot;?&quot;,</span><br><span class="line">	&quot;g&quot;,</span><br><span class="line"></span><br><span class="line">	&quot;&lt;CR&gt;&quot;</span><br><span class="line"></span><br><span class="line">	]</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">	&quot;before&quot;: [</span><br><span class="line">	&quot;;&quot;,</span><br><span class="line">	&quot;q&quot;</span><br><span class="line">	],</span><br><span class="line">	&quot;after&quot;: [</span><br><span class="line">	&#x2F;&#x2F;vmap &lt;silent&gt; ;q :s?^\(\s*\)\(.*\)\s*$? \1 + &#39;\2&#39;?&lt;CR&gt;</span><br><span class="line">	&quot;:&quot;,</span><br><span class="line">	&quot;s&quot;,</span><br><span class="line">	&quot;?&quot;,</span><br><span class="line">	&quot;^&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;(&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;s&quot;,</span><br><span class="line">	&quot;*&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;)&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;(&quot;,</span><br><span class="line">	&quot;.&quot;,</span><br><span class="line">	&quot;*&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;)&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;s&quot;,</span><br><span class="line">	&quot;*&quot;,</span><br><span class="line">	&quot;$&quot;,</span><br><span class="line">	&quot;?&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;1&quot;,</span><br><span class="line">	&quot;+&quot;,</span><br><span class="line">	&quot;&#39;&quot;,</span><br><span class="line">	&quot;\\&quot;,</span><br><span class="line">	&quot;2&quot;,</span><br><span class="line">	&quot;&#39;&quot;,</span><br><span class="line">	&quot;?&quot;,</span><br><span class="line">	&quot;&lt;CR&gt;&quot;</span><br><span class="line"></span><br><span class="line">	]</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+<h3 id="vscode-不傷眼深色佈景及-terminal-設定"><a href="#vscode-不傷眼深色佈景及-terminal-設定" class="headerlink" title="vscode 不傷眼深色佈景及 terminal 設定"></a>vscode 不傷眼深色佈景及 terminal 設定</h3><p>透明度的解決方案 <a href="https://ourcodeworld.com/articles/read/669/how-to-make-the-visual-studio-code-window-transparent-in-windows" target="_blank" rel="noopener">參考自</a> 共有兩套 , 我自己是用 <a href="https://marketplace.visualstudio.com/items?itemName=skacekachna.win-opacity" target="_blank" rel="noopener">這套</a><br>由於會需要用到透明度代表會在深色底下工作 , 這裡安裝德古拉吸血鬼樣式 , 實測起來透明度 240 比較舒服</p>
+<p>額外會用 k9s 管理工具所以設定樣式為 one_dark 效果比較好 , 可以看這邊的 <a href="https://github.com/derailed/k9s/tree/master/skins" target="_blank" rel="noopener">樣式列表</a><br><code>terminal</code> 習慣用 <code>emacs</code> 模式 , 所以 vscode 預設的 <code>ctrl + p</code> 會影響到操作 <code>terminal</code> 的體驗感 , 參考 <a href="https://github.com/microsoft/vscode/issues/35722" target="_blank" rel="noopener">老外的解法</a><br>在開啟 <code>terminal</code> 時停用 <code>ctrl + p</code> , 最後就是從 <code>terminal</code> 切換回 editor , <code>ctrl +</code> <code>`</code>  , 詳細可以參考 <a href="https://stackoverflow.com/questions/42796887/switch-focus-between-editor-and-integrated-terminal-in-visual-studio-code" target="_blank" rel="noopener">此篇</a><br>最後就是關掉 <code>ctrl + k</code> <a href="https://stackoverflow.com/questions/50569100/vscode-how-to-make-ctrlk-kill-till-the-end-of-line" target="_blank" rel="noopener">參考自</a><br>後續操作上又遇到很奇怪的問題 , 會一直自動的 ForwardPorts , 參考<a href="https://github.com/microsoft/vscode/issues/109819" target="_blank" rel="noopener">老外解法</a></p>
+<p><code>settings.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&quot;workbench.colorTheme&quot;: &quot;Dracula&quot;,</span><br><span class="line">&quot;winopacity.opacity&quot;: 240,</span><br><span class="line">&quot;redhat.telemetry.enabled&quot;: true,</span><br><span class="line">&quot;terminal.integrated.allowChords&quot;: false,</span><br><span class="line">&quot;terminal.integrated.commandsToSkipShell&quot;:[</span><br><span class="line">	&quot;-workbench.action.quickOpen&quot;</span><br><span class="line">],</span><br><span class="line">&quot;remote.autoForwardPorts&quot;: false</span><br></pre></td></tr></table></figure>
+
+<p>還有幾個常用的功能或是尚需排除的問題點</p>
+<ul>
+<li>將 panel 最大化</li>
+<li>terminal 有 focus 關掉 find 的功能</li>
+<li>zen mode , 因為是開 termial 比較不想要其他視窗干擾可以直接 <code>ctrl + shift + p</code> 搜尋 zen mode 來開關</li>
+</ul>
+<p><code>keybindings.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;key&quot;: &quot;ctrl+alt+m&quot;,</span><br><span class="line">	&quot;command&quot;: &quot;workbench.action.toggleMaximizedPanel&quot;</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">	&quot;key&quot;: &quot;ctrl+f&quot;, &quot;command&quot;: &quot;&quot;,</span><br><span class="line">	&quot;when&quot;: &quot;terminalFocus&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>總結下我在 vscode 開發 k8s 有用到的 extension<br><a href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools" target="_blank" rel="noopener">kubernetes</a><br><a href="https://marketplace.visualstudio.com/items?itemName=ms-azuretools.vscode-docker" target="_blank" rel="noopener">docker</a><br><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers" target="_blank" rel="noopener">Remote - Containers</a><br><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh" target="_blank" rel="noopener">Remote - SSH</a><br><a href="https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-ssh-edit" target="_blank" rel="noopener">Remote - SSH: Editing Configuration Files</a><br><a href="https://marketplace.visualstudio.com/items?itemName=redhat.vscode-yaml" target="_blank" rel="noopener">Yaml</a></p>
+<p>深色不傷眼的 extension<br><a href="https://marketplace.visualstudio.com/items?itemName=skacekachna.win-opacity" target="_blank" rel="noopener">Windows opacity</a><br><a href="https://marketplace.visualstudio.com/items?itemName=dracula-theme.theme-dracula" target="_blank" rel="noopener">dracula</a></p>
+<h3 id="後記-emacs"><a href="#後記-emacs" class="headerlink" title="後記 emacs"></a>後記 emacs</h3><p>看 emacs 大神有些操作跟 keybinding 導致自己也有點混用 emacs 快捷，可以安裝以下幾個 emacs 生態系的 extension<br><a href="https://marketplace.visualstudio.com/items?itemName=tuttieee.emacs-mcx&ssr=false#overview" target="_blank" rel="noopener">emacs keybinding</a><br>半殘的 <a href="https://vscode-org-mode.github.io/vscode-org-mode/" target="_blank" rel="noopener">org mode</a><br><a href="https://marketplace.visualstudio.com/items?itemName=lucax88x.codeacejumper" target="_blank" rel="noopener">Code Ace Jumper</a></p>
+<h3 id="colab-整合-vscode"><a href="#colab-整合-vscode" class="headerlink" title="colab 整合 vscode"></a>colab 整合 vscode</h3><p>基本上<a href="https://medium.com/swlh/connecting-local-vscode-to-google-colabs-gpu-runtime-bceda3d6cf64" target="_blank" rel="noopener">參考這老外</a><br>先依照老外說的<a href="https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/install-and-setup/installation" target="_blank" rel="noopener">下載 cloudflare</a><br>然後看要放在哪我是直接放在這個路徑 <code>c:\cloudflare\cloudflare.exe</code><br>開啟 vscode 安裝 <code>Remote SSH</code> =&gt; <code>Remote SSH Open SSH Configuration File</code> 貼以下這段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># Read more about SSH config files: https:&#x2F;&#x2F;linux.die.net&#x2F;man&#x2F;5&#x2F;ssh_config</span><br><span class="line">Host *.trycloudflare.com</span><br><span class="line">    HostName %h</span><br><span class="line">    User root</span><br><span class="line">    Port 22</span><br><span class="line">ProxyCommand C:\cloudflared\cloudflared.exe access ssh --hostname %h</span><br></pre></td></tr></table></figure>
+<p>接著開啟 colab 在 jupyter 貼上這段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># Install colab_ssh on google colab</span><br><span class="line">!pip install colab_ssh --upgrade</span><br><span class="line"></span><br><span class="line">from colab_ssh import launch_ssh_cloudflared, init_git_cloudflared</span><br><span class="line">launch_ssh_cloudflared(password&#x3D;&quot;helloworld&quot;)</span><br><span class="line"></span><br><span class="line"># Optional: if you want to clone a github repository</span><br><span class="line"># init_git_cloudflared(githubRepositoryUrl)</span><br></pre></td></tr></table></figure>
+<p>在 vscode 呼叫 Remote SSH Connect To Host 貼上生出來的片段大概長這樣 , 然後 vscode 會要你輸入密碼 , 之前設定 <code>helloworld</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xxxx-xxxx-oooo-oooo.trycloudflare.com</span><br></pre></td></tr></table></figure>
+<p>連線成功後可以選 <code>Open Folder</code> 直接複製 colab 上面的資料夾路徑 , 然後貼在 vscode 上面即可去遠端資料夾</p>
+<h3 id="colab-整合-vscode-印度仔版"><a href="#colab-整合-vscode-印度仔版" class="headerlink" title="colab 整合 vscode (印度仔版)"></a>colab 整合 vscode (印度仔版)</h3><p><a href="https://www.youtube.com/watch?v=ah_7J0w1Wac" target="_blank" rel="noopener">主要參考這個印度仔</a><br>直接在 colab 貼上以下片段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">!pip install -q colabcode</span><br><span class="line">from colabcode import ColabCode</span><br><span class="line">ColabCode(port&#x3D;10000, password&#x3D;&quot;helloworld&quot;)</span><br></pre></td></tr></table></figure>
+<p>設定完後印度仔寫得程式會跳一個 ngork 的連結 , 點選連結會跳一個輸入密碼的視窗 , 打完後 chrome 跳出 vscode 視窗 , 注意非自己 local 的 vscode 就好了</p>
+<h3 id="開啟-k8s-自動提示"><a href="#開啟-k8s-自動提示" class="headerlink" title="開啟 k8s 自動提示"></a>開啟 k8s 自動提示</h3><p><a href="https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools" target="_blank" rel="noopener">直接安裝 kubernetes 這個 extension</a><br>他會連同 redhat 的 yaml extension 一起安裝<br>老樣子在 setting.json 內加入以下片段即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;yaml.schemas&quot;: &#123;</span><br><span class="line">  &quot;Kubernetes&quot;: &quot;*.yaml&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="參數換行技巧"><a href="#參數換行技巧" class="headerlink" title="參數換行技巧"></a>參數換行技巧</h3><p>這個方法 visual studio 不曉得啥時就可以自動 wrap 參數 , 可是 vscode 好像不行 , 所以特別筆記一下<br>假設 function 的參數很多 , 有時候會希望讓參數換行 , 像是下面這個片段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public Author(Guid id , [NotNull] string name , DateTime birthDate , [CanBeNull] string shortBio &#x3D; null)</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;喇賽懶得寫</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>這時正常情況會像智障一樣慢慢敲換行 , 可是有這樣一個操作技巧<br>開啟 <code>replace</code> 的功能然後選住 <code>Author</code> 這一行 , 開啟 <code>regex</code> 選項及 <code>Match Case</code><br>接著輸入要替換的內容 search term <code>,</code> 及 replacement term 如下面這樣 , 這個方法 notepad++ 也適用<br>特別注意如果是 vscode 的 newline 要用 <code>\n</code> , <code>\r\n</code> 好像沒用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">,\n\t\t\t</span><br></pre></td></tr></table></figure>
+<p><code>visual studio</code> or <code>notepad++</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">,\r\n\t\t\t</span><br></pre></td></tr></table></figure>
+
+<p>最後就可以得到這樣的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">internal Author(Guid id ,</span><br><span class="line">	 [NotNull] string name ,</span><br><span class="line">	 DateTime birthDate ,</span><br><span class="line">	 [CanBeNull] string shortBio &#x3D; null)</span><br><span class="line">	: base( id )</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;喇賽懶得寫</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外也可以先用 vim 錄製 <code>f,a&lt;CR&gt;&lt;Esc&gt;</code> 這樣的動作 , 用 @q 來重播達到一樣的效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;q   f,a&lt;CR&gt;&lt;Esc&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="js-debug-好用套件-quokkajs"><a href="#js-debug-好用套件-quokkajs" class="headerlink" title="js debug 好用套件 quokkajs"></a>js debug 好用套件 quokkajs</h3><p>以前曾經看過 OZCode ?? 一些很棒的功能 , 不過因為沒錢所以沒買 , 偶然發現這個 <code>quokkajs</code> 套件上有類似的影子<br>實際使用起來即使是免費版 , 還是滿實用的 , 可以看看這個影片 , 詳情有空再補<br><img src="https://quokkajs.com/assets/img/main-video.gif" alt="示範"></p>
+<h2 id="設定檔"><a href="#設定檔" class="headerlink" title="設定檔"></a>設定檔</h2><h3 id="full-keybindings"><a href="#full-keybindings" class="headerlink" title="full keybindings"></a>full keybindings</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 將按鍵繫結關係放在此檔案中以覆寫預設auto[]</span><br><span class="line">[</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+w&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;editor.emmet.action.wrapWithAbbreviation&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+i&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;editor.emmet.action.wrapIndividualLinesWithAbbreviation&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+j&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectNextSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+k&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;selectPrevSuggestion&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;suggestWidgetMultipleSuggestions &amp;&amp; suggestWidgetVisible &amp;&amp; textInputFocus&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#x2F;&#x2F;menu 選擇時 alt+j alt+k 上下移動</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+j&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;workbench.action.quickOpenSelectNext&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;inQuickOpen&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        &quot;key&quot;: &quot;alt+k&quot;,</span><br><span class="line">        &quot;command&quot;: &quot;workbench.action.quickOpenSelectPrevious&quot;,</span><br><span class="line">        &quot;when&quot;: &quot;inQuickOpen&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#x2F;&#x2F;https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;42796887&#x2F;switch-focus-between-editor-and-integrated-terminal-in-visual-studio-code</span><br><span class="line">    &#x2F;&#x2F; Toggle between terminal and editor focus</span><br><span class="line">    &#123; &quot;key&quot;: &quot;ctrl+&#96;&quot;, &quot;command&quot;: &quot;workbench.action.terminal.focus&quot;&#125;,</span><br><span class="line">    &#123; &quot;key&quot;: &quot;ctrl+&#96;&quot;, &quot;command&quot;: &quot;workbench.action.focusActiveEditorGroup&quot;, &quot;when&quot;: &quot;terminalFocus&quot;&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h3 id="full-settings"><a href="#full-settings" class="headerlink" title="full settings"></a>full settings</h3><p>我這份 config 是參考自 emacs 大神改造而成的可以看看他的原始 <a href="https://github.com/redguardtoo/vscode-setup/blob/master/settings.json" target="_blank" rel="noopener">config</a><br>這裡還有老外一些<a href="https://gist.github.com/benjamincharity/9349506" target="_blank" rel="noopener">小技巧</a> 值得參考看看<br><a href="https://zhuanlan.zhihu.com/p/73561114" target="_blank" rel="noopener">後來發現還滿特別的 config 跟 extension</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br><span class="line">348</span><br><span class="line">349</span><br><span class="line">350</span><br><span class="line">351</span><br><span class="line">352</span><br><span class="line">353</span><br><span class="line">354</span><br><span class="line">355</span><br><span class="line">356</span><br><span class="line">357</span><br><span class="line">358</span><br><span class="line">359</span><br><span class="line">360</span><br><span class="line">361</span><br><span class="line">362</span><br><span class="line">363</span><br><span class="line">364</span><br><span class="line">365</span><br><span class="line">366</span><br><span class="line">367</span><br><span class="line">368</span><br><span class="line">369</span><br><span class="line">370</span><br><span class="line">371</span><br><span class="line">372</span><br><span class="line">373</span><br><span class="line">374</span><br><span class="line">375</span><br><span class="line">376</span><br><span class="line">377</span><br><span class="line">378</span><br><span class="line">379</span><br><span class="line">380</span><br><span class="line">381</span><br><span class="line">382</span><br><span class="line">383</span><br><span class="line">384</span><br><span class="line">385</span><br><span class="line">386</span><br><span class="line">387</span><br><span class="line">388</span><br><span class="line">389</span><br><span class="line">390</span><br><span class="line">391</span><br><span class="line">392</span><br><span class="line">393</span><br><span class="line">394</span><br><span class="line">395</span><br><span class="line">396</span><br><span class="line">397</span><br><span class="line">398</span><br><span class="line">399</span><br><span class="line">400</span><br><span class="line">401</span><br><span class="line">402</span><br><span class="line">403</span><br><span class="line">404</span><br><span class="line">405</span><br><span class="line">406</span><br><span class="line">407</span><br><span class="line">408</span><br><span class="line">409</span><br><span class="line">410</span><br><span class="line">411</span><br><span class="line">412</span><br><span class="line">413</span><br><span class="line">414</span><br><span class="line">415</span><br><span class="line">416</span><br><span class="line">417</span><br><span class="line">418</span><br><span class="line">419</span><br><span class="line">420</span><br><span class="line">421</span><br><span class="line">422</span><br><span class="line">423</span><br><span class="line">424</span><br><span class="line">425</span><br><span class="line">426</span><br><span class="line">427</span><br><span class="line">428</span><br><span class="line">429</span><br><span class="line">430</span><br><span class="line">431</span><br><span class="line">432</span><br><span class="line">433</span><br><span class="line">434</span><br><span class="line">435</span><br><span class="line">436</span><br><span class="line">437</span><br><span class="line">438</span><br><span class="line">439</span><br><span class="line">440</span><br><span class="line">441</span><br><span class="line">442</span><br><span class="line">443</span><br><span class="line">444</span><br><span class="line">445</span><br><span class="line">446</span><br><span class="line">447</span><br><span class="line">448</span><br><span class="line">449</span><br><span class="line">450</span><br><span class="line">451</span><br><span class="line">452</span><br><span class="line">453</span><br><span class="line">454</span><br><span class="line">455</span><br><span class="line">456</span><br><span class="line">457</span><br><span class="line">458</span><br><span class="line">459</span><br><span class="line">460</span><br><span class="line">461</span><br><span class="line">462</span><br><span class="line">463</span><br><span class="line">464</span><br><span class="line">465</span><br><span class="line">466</span><br><span class="line">467</span><br><span class="line">468</span><br><span class="line">469</span><br><span class="line">470</span><br><span class="line">471</span><br><span class="line">472</span><br><span class="line">473</span><br><span class="line">474</span><br><span class="line">475</span><br><span class="line">476</span><br><span class="line">477</span><br><span class="line">478</span><br><span class="line">479</span><br><span class="line">480</span><br><span class="line">481</span><br><span class="line">482</span><br><span class="line">483</span><br><span class="line">484</span><br><span class="line">485</span><br><span class="line">486</span><br><span class="line">487</span><br><span class="line">488</span><br><span class="line">489</span><br><span class="line">490</span><br><span class="line">491</span><br><span class="line">492</span><br><span class="line">493</span><br><span class="line">494</span><br><span class="line">495</span><br><span class="line">496</span><br><span class="line">497</span><br><span class="line">498</span><br><span class="line">499</span><br><span class="line">500</span><br><span class="line">501</span><br><span class="line">502</span><br><span class="line">503</span><br><span class="line">504</span><br><span class="line">505</span><br><span class="line">506</span><br><span class="line">507</span><br><span class="line">508</span><br><span class="line">509</span><br><span class="line">510</span><br><span class="line">511</span><br><span class="line">512</span><br><span class="line">513</span><br><span class="line">514</span><br><span class="line">515</span><br><span class="line">516</span><br><span class="line">517</span><br><span class="line">518</span><br><span class="line">519</span><br><span class="line">520</span><br><span class="line">521</span><br><span class="line">522</span><br><span class="line">523</span><br><span class="line">524</span><br><span class="line">525</span><br><span class="line">526</span><br><span class="line">527</span><br><span class="line">528</span><br><span class="line">529</span><br><span class="line">530</span><br><span class="line">531</span><br><span class="line">532</span><br><span class="line">533</span><br><span class="line">534</span><br><span class="line">535</span><br><span class="line">536</span><br><span class="line">537</span><br><span class="line">538</span><br><span class="line">539</span><br><span class="line">540</span><br><span class="line">541</span><br><span class="line">542</span><br><span class="line">543</span><br><span class="line">544</span><br><span class="line">545</span><br><span class="line">546</span><br><span class="line">547</span><br><span class="line">548</span><br><span class="line">549</span><br><span class="line">550</span><br><span class="line">551</span><br><span class="line">552</span><br><span class="line">553</span><br><span class="line">554</span><br><span class="line">555</span><br><span class="line">556</span><br><span class="line">557</span><br><span class="line">558</span><br><span class="line">559</span><br><span class="line">560</span><br><span class="line">561</span><br><span class="line">562</span><br><span class="line">563</span><br><span class="line">564</span><br><span class="line">565</span><br><span class="line">566</span><br><span class="line">567</span><br><span class="line">568</span><br><span class="line">569</span><br><span class="line">570</span><br><span class="line">571</span><br><span class="line">572</span><br><span class="line">573</span><br><span class="line">574</span><br><span class="line">575</span><br><span class="line">576</span><br><span class="line">577</span><br><span class="line">578</span><br><span class="line">579</span><br><span class="line">580</span><br><span class="line">581</span><br><span class="line">582</span><br><span class="line">583</span><br><span class="line">584</span><br><span class="line">585</span><br><span class="line">586</span><br><span class="line">587</span><br><span class="line">588</span><br><span class="line">589</span><br><span class="line">590</span><br><span class="line">591</span><br><span class="line">592</span><br><span class="line">593</span><br><span class="line">594</span><br><span class="line">595</span><br><span class="line">596</span><br><span class="line">597</span><br><span class="line">598</span><br><span class="line">599</span><br><span class="line">600</span><br><span class="line">601</span><br><span class="line">602</span><br><span class="line">603</span><br><span class="line">604</span><br><span class="line">605</span><br><span class="line">606</span><br><span class="line">607</span><br><span class="line">608</span><br><span class="line">609</span><br><span class="line">610</span><br><span class="line">611</span><br><span class="line">612</span><br><span class="line">613</span><br><span class="line">614</span><br><span class="line">615</span><br><span class="line">616</span><br><span class="line">617</span><br><span class="line">618</span><br><span class="line">619</span><br><span class="line">620</span><br><span class="line">621</span><br><span class="line">622</span><br><span class="line">623</span><br><span class="line">624</span><br><span class="line">625</span><br><span class="line">626</span><br><span class="line">627</span><br><span class="line">628</span><br><span class="line">629</span><br><span class="line">630</span><br><span class="line">631</span><br><span class="line">632</span><br><span class="line">633</span><br><span class="line">634</span><br><span class="line">635</span><br><span class="line">636</span><br><span class="line">637</span><br><span class="line">638</span><br><span class="line">639</span><br><span class="line">640</span><br><span class="line">641</span><br><span class="line">642</span><br><span class="line">643</span><br><span class="line">644</span><br><span class="line">645</span><br><span class="line">646</span><br><span class="line">647</span><br><span class="line">648</span><br><span class="line">649</span><br><span class="line">650</span><br><span class="line">651</span><br><span class="line">652</span><br><span class="line">653</span><br><span class="line">654</span><br><span class="line">655</span><br><span class="line">656</span><br><span class="line">657</span><br><span class="line">658</span><br><span class="line">659</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	&quot;workbench.iconTheme&quot;: &quot;material-icon-theme&quot;,</span><br><span class="line">		&#x2F;&#x2F; &quot;workbench.colorTheme&quot;: &quot;Solarized Dark&quot;,</span><br><span class="line">		&quot;workbench.colorTheme&quot;: &quot;Visual Studio Light&quot;,</span><br><span class="line">		&quot;workbench.colorCustomizations&quot;: &#123;</span><br><span class="line">			&quot;editor.background&quot;: &quot;#efffef&quot;,</span><br><span class="line">		&#125;,</span><br><span class="line">		&#x2F;&#x2F;fontFamily</span><br><span class="line">		&quot;editor.fontFamily&quot;: &quot;Fira Code&quot;,</span><br><span class="line">		&quot;editor.fontSize&quot;: 14,</span><br><span class="line">		&quot;editor.fontLigatures&quot;: true,</span><br><span class="line">		&quot;html.format.wrapAttributes&quot;: &quot;force&quot;,</span><br><span class="line">		&#x2F;&#x2F; &quot;editor.formatOnSave&quot;: true,</span><br><span class="line">		&quot;emmet.includeLanguages&quot;: &#123;</span><br><span class="line">			&quot;razor&quot;: &quot;html&quot;</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;files.associations&quot;: &#123;</span><br><span class="line">			&quot;*.cshtml&quot;: &quot;html&quot;</span><br><span class="line">		&#125;,</span><br><span class="line">		&#x2F;&#x2F;vim</span><br><span class="line">		&#x2F;&#x2F;&quot;editor.lineNumbers&quot;: &quot;relative&quot;,</span><br><span class="line">		&quot;vim.easymotion&quot;: true,</span><br><span class="line">		&quot;vim.incsearch&quot;: true,</span><br><span class="line">		&quot;vim.useSystemClipboard&quot;: true,</span><br><span class="line">		&quot;vim.useCtrlKeys&quot;: true,</span><br><span class="line">		&quot;vim.hlsearch&quot;: true,</span><br><span class="line">		&quot;vim.leader&quot;: &quot;,&quot;,</span><br><span class="line">		&quot;vim.insertModeKeyBindings&quot;: [</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;&lt;leader&gt;&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;&lt;Esc&gt;&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;;&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">                &quot;&lt;Esc&gt;&quot;, &quot;$&quot; , &quot;a&quot; , &quot;;&quot;</span><br><span class="line">			],</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;h&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">                &quot;&lt;Esc&gt;&quot;, &quot;^&quot; , &quot;i&quot;</span><br><span class="line">			],</span><br><span class="line">		&#125; ,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;l&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">                &quot;&lt;Esc&gt;&quot; , &quot;$&quot; , &quot;a&quot;</span><br><span class="line">			],</span><br><span class="line">		&#125; ,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;,&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">                &quot;&lt;Esc&gt;&quot; , &quot;$&quot; , &quot;a&quot; , &quot;,&quot;</span><br><span class="line">			],</span><br><span class="line">		&#125;</span><br><span class="line">		],</span><br><span class="line">		&quot;vim.visualModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;;&quot;,</span><br><span class="line">			&quot;h&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&#x2F;&#x2F;vmap &lt;silent&gt; ;h :s?^\(\s*\)+ &#39;\([^&#39;]\+\)&#39;,*\s*$?\1\2?g&lt;CR&gt;</span><br><span class="line">				&quot;:&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;?&quot;,</span><br><span class="line">			&quot;^&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;(&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;*&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;)&quot;,</span><br><span class="line">			&quot;+&quot;,</span><br><span class="line">			&quot;&#39;&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;(&quot;,</span><br><span class="line">			&quot;[&quot;,</span><br><span class="line">			&quot;^&quot;,</span><br><span class="line">			&quot;&#39;&quot;,</span><br><span class="line">			&quot;]&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;+&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;)&quot;,</span><br><span class="line">			&quot;&#39;&quot;,</span><br><span class="line">			&quot;,&quot;,</span><br><span class="line">			&quot;*&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;*&quot;,</span><br><span class="line">			&quot;$&quot;,</span><br><span class="line">			&quot;?&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;1&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;2&quot;,</span><br><span class="line">			&quot;?&quot;,</span><br><span class="line">			&quot;g&quot;,</span><br><span class="line"></span><br><span class="line">			&quot;&lt;CR&gt;&quot;</span><br><span class="line"></span><br><span class="line">				]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;;&quot;,</span><br><span class="line">			&quot;q&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&#x2F;&#x2F;vmap &lt;silent&gt; ;q :s?^\(\s*\)\(.*\)\s*$? \1 + &#39;\2&#39;?&lt;CR&gt;</span><br><span class="line">				&quot;:&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;?&quot;,</span><br><span class="line">			&quot;^&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;(&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;*&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;)&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;(&quot;,</span><br><span class="line">			&quot;.&quot;,</span><br><span class="line">			&quot;*&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;)&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;*&quot;,</span><br><span class="line">			&quot;$&quot;,</span><br><span class="line">			&quot;?&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;1&quot;,</span><br><span class="line">			&quot;+&quot;,</span><br><span class="line">			&quot;&#39;&quot;,</span><br><span class="line">			&quot;\\&quot;,</span><br><span class="line">			&quot;2&quot;,</span><br><span class="line">			&quot;&#39;&quot;,</span><br><span class="line">			&quot;?&quot;,</span><br><span class="line">			&quot;&lt;CR&gt;&quot;</span><br><span class="line"></span><br><span class="line">				]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;&lt;leader&gt;&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;&lt;Esc&gt;&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;v&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;editor.action.smartSelect.expand&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;%&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;extension.matchitJumpItems&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;x&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;editor.action.smartSelect.expand&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;z&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;editor.action.smartSelect.shrink&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;c&quot;,</span><br><span class="line">			&quot;i&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;editor.action.commentLine&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&quot;,</span><br><span class="line">			&quot;a&quot;,</span><br><span class="line">			&quot;a&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;editor.action.clipboardCopyAction&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;q&quot;,</span><br><span class="line">			&quot;q&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.findInFiles&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;s&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;actions.find&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;</span><br><span class="line">		],</span><br><span class="line">		&quot;vim.normalModeKeyBindingsNonRecursive&quot;: [</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;&lt;leader&gt;&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;&lt;Esc&gt;&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;r&quot;,</span><br><span class="line">			&quot;v&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;editor.action.rename&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;q&quot;,</span><br><span class="line">			&quot;q&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.findInFiles&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;f&quot;,</span><br><span class="line">			&quot;p&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.files.copyPathOfActiveFile&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;f&quot;,</span><br><span class="line">			&quot;n&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;copyRelativeFilePath&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;t&quot;,</span><br><span class="line">			&quot;p&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.togglePanel&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;m&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.showCommands&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;c&quot;,</span><br><span class="line">			&quot;i&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;editor.action.commentLine&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;x&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;editor.action.smartSelect.expand&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;z&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;editor.action.smartSelect.shrink&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;t&quot;,</span><br><span class="line">			&quot;a&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.toggleActivityBarVisibility&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;t&quot;,</span><br><span class="line">			&quot;b&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.toggleSidebarVisibility&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;s&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.files.save&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;s&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;actions.find&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;%&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;extension.matchitJumpItems&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;s&quot;,</span><br><span class="line">			&quot;i&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;extension.matchitSelectItems&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;d&quot;,</span><br><span class="line">			&quot;i&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;extension.matchitDeleteItems&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;f&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.files.openFile&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;k&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.closeActiveEditor&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;r&quot;,</span><br><span class="line">			&quot;r&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.openRecent&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;k&quot;,</span><br><span class="line">			&quot;k&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.quickOpen&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;i&quot;,</span><br><span class="line">			&quot;i&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.gotoSymbol&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;1&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.editorLayoutSingle&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;3&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.splitEditorRight&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;2&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.splitEditorDown&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;4&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.editorLayoutTwoByTwoGrid&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;0&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.closeGroup&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;x&quot;,</span><br><span class="line">			&quot;z&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.terminal.focus&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;f&quot;,</span><br><span class="line">			&quot;f&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;commands&quot;: [</span><br><span class="line">				&quot;workbench.action.toggleZenMode&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;w&quot;,</span><br><span class="line">			&quot;h&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;&lt;C-w&gt;&quot;,</span><br><span class="line">			&quot;h&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;w&quot;,</span><br><span class="line">			&quot;j&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;&lt;C-w&gt;&quot;,</span><br><span class="line">			&quot;j&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;w&quot;,</span><br><span class="line">			&quot;k&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;&lt;C-w&gt;&quot;,</span><br><span class="line">			&quot;k&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;w&quot;,</span><br><span class="line">			&quot;l&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;&lt;C-w&gt;&quot;,</span><br><span class="line">			&quot;l&quot;</span><br><span class="line">			]</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">				&quot;&lt;leader&gt;&quot;,</span><br><span class="line">			&quot;w&quot;,</span><br><span class="line">			&quot;q&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;:wq&quot;</span><br><span class="line">			],</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;h&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;^&quot;</span><br><span class="line">			],</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;l&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;$&quot;</span><br><span class="line">			],</span><br><span class="line">		&#125;,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;;&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">				&quot;$&quot; , &quot;a&quot; , &quot;;&quot; , &quot;&lt;Esc&gt;&quot;</span><br><span class="line">			],</span><br><span class="line">		&#125; ,</span><br><span class="line">		&#123;</span><br><span class="line">			&quot;before&quot;: [</span><br><span class="line">			&quot;z&quot;,</span><br><span class="line">			&quot;,&quot;</span><br><span class="line">			],</span><br><span class="line">			&quot;after&quot;: [</span><br><span class="line">                &quot;$&quot; , &quot;a&quot; , &quot;,&quot; , &quot;&lt;Esc&gt;&quot; ,</span><br><span class="line">			],</span><br><span class="line">		&#125;</span><br><span class="line">		],</span><br><span class="line">		&quot;vim.handleKeys&quot;: &#123;</span><br><span class="line">			&#x2F;&#x2F; &quot;&lt;C-a&gt;&quot;: false,</span><br><span class="line">			&quot;&lt;C-f&gt;&quot;: false</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;vim.enableNeovim&quot;: true,</span><br><span class="line">		&quot;vim.neovimPath&quot;: &quot;&quot;,</span><br><span class="line">		&quot;[html]&quot;: &#123;</span><br><span class="line">			&quot;editor.defaultFormatter&quot;: &quot;HookyQR.beautify&quot;</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;window.zoomLevel&quot;: 0,</span><br><span class="line">		&quot;workbench.activityBar.visible&quot;: true,</span><br><span class="line">		&quot;[javascript]&quot;: &#123;</span><br><span class="line">			&quot;editor.defaultFormatter&quot;: &quot;HookyQR.beautify&quot;</span><br><span class="line">		&#125;,</span><br><span class="line">		&quot;yaml.schemas&quot;:&#123;</span><br><span class="line">            &quot;Kubernetes&quot; : &quot;*.yaml&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">		&#x2F;&#x2F;德古拉樣式</span><br><span class="line">        &#x2F;&#x2F;&quot;workbench.colorTheme&quot;: &quot;Dracula&quot;,</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;透明度</span><br><span class="line">        &#x2F;&#x2F;&quot;winopacity.opacity&quot;: 240,</span><br><span class="line">        &quot;redhat.telemetry.enabled&quot;: true,</span><br><span class="line">        &quot;terminal.integrated.allowChords&quot;: false,</span><br><span class="line">		&quot;terminal.integrated.commandsToSkipShell&quot;:[</span><br><span class="line">			&quot;-workbench.action.quickOpen&quot;,</span><br><span class="line">		],</span><br><span class="line">		&quot;remote.autoForwardPorts&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/05/%E5%A5%BD%E7%94%A8%E7%9A%84xsd%E9%A1%9E%E5%88%A5%E7%94%A2%E7%94%9F%E5%B7%A5%E5%85%B7/" rel="prev" title="好用的xsd類別產生工具">
+      <i class="fa fa-chevron-left"></i> 好用的xsd類別產生工具
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/05/visual-studio-vim-mode/" rel="next" title="visual studio vim mode">
+      visual studio vim mode <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#教學及資源"><span class="nav-number">1.</span> <span class="nav-text">教學及資源</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#還不錯的教學"><span class="nav-number">1.1.</span> <span class="nav-text">還不錯的教學</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一些實用小抄"><span class="nav-number">1.2.</span> <span class="nav-text">一些實用小抄</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝及設定"><span class="nav-number">2.</span> <span class="nav-text">安裝及設定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">2.1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#intellisense-移動設定"><span class="nav-number">2.2.</span> <span class="nav-text">intellisense 移動設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#im-select"><span class="nav-number">2.3.</span> <span class="nav-text">im-select</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Search-Everywhere"><span class="nav-number">2.4.</span> <span class="nav-text">Search Everywhere</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#折疊的小技巧"><span class="nav-number">2.5.</span> <span class="nav-text">折疊的小技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#產生常用假資料"><span class="nav-number">2.6.</span> <span class="nav-text">產生常用假資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#雙重行號"><span class="nav-number">2.7.</span> <span class="nav-text">雙重行號</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包裹標籤"><span class="nav-number">2.8.</span> <span class="nav-text">包裹標籤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#emment-更新"><span class="nav-number">2.9.</span> <span class="nav-text">emment 更新</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂-emmet-snippet"><span class="nav-number">2.10.</span> <span class="nav-text">自訂 emmet snippet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多選功能"><span class="nav-number">2.11.</span> <span class="nav-text">多選功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hippie-Completion"><span class="nav-number">2.12.</span> <span class="nav-text">Hippie Completion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-terminal-focus"><span class="nav-number">2.13.</span> <span class="nav-text">設定 terminal focus</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#css-navigation"><span class="nav-number">2.14.</span> <span class="nav-text">css navigation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特殊功能筆記"><span class="nav-number">2.15.</span> <span class="nav-text">特殊功能筆記</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刪除-function-內的變數"><span class="nav-number">2.16.</span> <span class="nav-text">刪除 function 內的變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速在-html-標籤移動"><span class="nav-number">2.17.</span> <span class="nav-text">快速在 html 標籤移動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-html-屬性換行"><span class="nav-number">2.18.</span> <span class="nav-text">設定 html 屬性換行</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#正則表達式搜尋替換"><span class="nav-number">2.19.</span> <span class="nav-text">正則表達式搜尋替換</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定鍵盤延遲時間"><span class="nav-number">2.20.</span> <span class="nav-text">設定鍵盤延遲時間</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#which-key"><span class="nav-number">2.21.</span> <span class="nav-text">which key</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#把-html-轉為-js-string"><span class="nav-number">2.22.</span> <span class="nav-text">把 html 轉為 js string</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vscode-不傷眼深色佈景及-terminal-設定"><span class="nav-number">2.23.</span> <span class="nav-text">vscode 不傷眼深色佈景及 terminal 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#後記-emacs"><span class="nav-number">2.24.</span> <span class="nav-text">後記 emacs</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#colab-整合-vscode"><span class="nav-number">2.25.</span> <span class="nav-text">colab 整合 vscode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#colab-整合-vscode-印度仔版"><span class="nav-number">2.26.</span> <span class="nav-text">colab 整合 vscode (印度仔版)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#開啟-k8s-自動提示"><span class="nav-number">2.27.</span> <span class="nav-text">開啟 k8s 自動提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#參數換行技巧"><span class="nav-number">2.28.</span> <span class="nav-text">參數換行技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js-debug-好用套件-quokkajs"><span class="nav-number">2.29.</span> <span class="nav-text">js debug 好用套件 quokkajs</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#設定檔"><span class="nav-number">3.</span> <span class="nav-text">設定檔</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#full-keybindings"><span class="nav-number">3.1.</span> <span class="nav-text">full keybindings</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#full-settings"><span class="nav-number">3.2.</span> <span class="nav-text">full settings</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">686k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">10:23</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2020/07/05/vscode-vim-mode/";
+    this.page.identifier = "2020/07/05/vscode-vim-mode/";
+    this.page.title = "vscode vim mode";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>

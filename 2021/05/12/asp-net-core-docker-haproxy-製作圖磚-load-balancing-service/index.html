@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="asp.net core &amp; docker &amp; haproxy 製作圖磚 load balancing service">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/05/12/asp-net-core-docker-haproxy-%E8%A3%BD%E4%BD%9C%E5%9C%96%E7%A3%9A-load-balancing-service/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-05-12T14:34:41.000Z">
+<meta property="article:modified_time" content="2022-08-15T08:38:57.136Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="GIS">
+<meta property="article:tag" content="asp.net core">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="haproxy">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/05/12/asp-net-core-docker-haproxy-%E8%A3%BD%E4%BD%9C%E5%9C%96%E7%A3%9A-load-balancing-service/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>asp.net core & docker & haproxy 製作圖磚 load balancing service | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/05/12/asp-net-core-docker-haproxy-%E8%A3%BD%E4%BD%9C%E5%9C%96%E7%A3%9A-load-balancing-service/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          asp.net core & docker & haproxy 製作圖磚 load balancing service
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-05-12 22:34:41" itemprop="dateCreated datePublished" datetime="2021-05-12T22:34:41+08:00">2021-05-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-08-15 16:38:57" itemprop="dateModified" datetime="2022-08-15T16:38:57+08:00">2022-08-15</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/05/12/asp-net-core-docker-haproxy-%E8%A3%BD%E4%BD%9C%E5%9C%96%E7%A3%9A-load-balancing-service/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/05/12/asp-net-core-docker-haproxy-製作圖磚-load-balancing-service/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>5 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="事前準備下載圖磚"><a href="#事前準備下載圖磚" class="headerlink" title="事前準備下載圖磚"></a>事前準備下載圖磚</h3><p>剛好研究 docker 就隨手紀錄一下 , 把以前的遺珠給完整<br><a href="https://maps.nlsc.gov.tw/homePage.action?in_type=web#" target="_blank" rel="noopener">國土測繪中心官網</a><br><a href="https://maps.nlsc.gov.tw/download/TaiwanEMap6.mbtiles" target="_blank" rel="noopener">臺灣通用電子地圖 MBTiles</a><br><a href="https://github.com/mapbox/mbutil" target="_blank" rel="noopener">下載 mbutil</a><br>萬一沒 gsudo 可以安裝一下 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">gsudo</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">mkdir map</span><br><span class="line">cd map</span><br><span class="line">git clone git:&#x2F;&#x2F;github.com&#x2F;mapbox&#x2F;mbutil.git</span><br><span class="line">cd mbutil</span><br><span class="line"></span><br><span class="line">#安裝</span><br><span class="line">gsudo python setup.py install</span><br><span class="line"></span><br><span class="line">#解壓縮</span><br><span class="line">python mb-util TaiwanEMap6.mbtiles Taiwan</span><br><span class="line"></span><br><span class="line">#最後複製到你的 $home 目錄裡</span><br></pre></td></tr></table></figure>
+
+<h3 id="建立-asp-net-core-圖磚-server"><a href="#建立-asp-net-core-圖磚-server" class="headerlink" title="建立 asp.net core 圖磚 server"></a>建立 asp.net core 圖磚 server</h3><p>新增一個 <code>asp.net core web api</code> 專案 =&gt; 專案名稱 <code>TaiwanMap</code> =&gt; <code>選 5.0</code> =&gt; 直接建立<br>多蓋一個 <code>wwwroot</code> 資料夾 =&gt; 把剛剛解壓的 <code>Taiwan</code> 丟進去<br>特別注意到 , 如果 wwwroot 是空的 , 系統不會偵測到 , 所以就算用 bash 登入進去也不會有資料夾 , 建議先隨便新增個檔案</p>
+<p>後端驗證用的 <code>LogMiddleware</code> 要用來看看圖磚被請求的 path 是哪台</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class LogMiddleware</span><br><span class="line">&#123;</span><br><span class="line">    private readonly RequestDelegate next;</span><br><span class="line">    public LogMiddleware(RequestDelegate next)</span><br><span class="line">    &#123;</span><br><span class="line">        this.next &#x3D; next;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public async Task Invoke(HttpContext context)</span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine( context.Request.Path );</span><br><span class="line">        await next( context );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>插入 <code>LogMiddleware</code> 在 <code>app.UseRouting();</code> 後面 , 因為之前有做過怎麼發 terrain 就直接拿來複製貼上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">public void Configure(IApplicationBuilder app, IWebHostEnvironment env)</span><br><span class="line">&#123;</span><br><span class="line">    if (env.IsDevelopment( ))</span><br><span class="line">    &#123;</span><br><span class="line">        app.UseDeveloperExceptionPage( );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    app.UseCors( builder &#x3D;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        builder.AllowAnyOrigin( );</span><br><span class="line">        builder.AllowAnyMethod( );</span><br><span class="line">        builder.AllowAnyHeader( );</span><br><span class="line">    &#125; );</span><br><span class="line"></span><br><span class="line">    app.UseRouting( );</span><br><span class="line">    app.UseMiddleware&lt;LogMiddleware&gt;();</span><br><span class="line"></span><br><span class="line">    var provider &#x3D; new FileExtensionContentTypeProvider( );</span><br><span class="line">    provider.Mappings.Add( &quot;.terrain&quot;, &quot;application&#x2F;vnd.quantized-mesh&quot; );</span><br><span class="line"></span><br><span class="line">    app.UseStaticFiles( new StaticFileOptions</span><br><span class="line">    &#123;</span><br><span class="line">        ContentTypeProvider &#x3D; provider,</span><br><span class="line">        OnPrepareResponse &#x3D; ctx &#x3D;&gt;</span><br><span class="line">        &#123;</span><br><span class="line">            string extension &#x3D; System.IO.Path.GetExtension( ctx.File.Name );</span><br><span class="line">            if (extension &#x3D;&#x3D; &quot;.terrain&quot;)</span><br><span class="line">            &#123;</span><br><span class="line">                ctx.Context.Response.Headers.Add( &quot;Content-Encoding&quot;, &quot;gzip&quot; );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125; );</span><br><span class="line"></span><br><span class="line">    app.UseAuthorization( );</span><br><span class="line"></span><br><span class="line">    app.UseEndpoints( endpoints &#x3D;&gt;</span><br><span class="line">     &#123;</span><br><span class="line">         endpoints.MapControllers( );</span><br><span class="line">     &#125; );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新增前端地圖程式碼 <code>map.html</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line">&lt;!doctype html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;!--&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;openlayers&#x2F;openlayers.github.io@master&#x2F;en&#x2F;v6.5.0&#x2F;css&#x2F;ol.css&quot; type&#x3D;&quot;text&#x2F;css&quot;&gt;--&gt;</span><br><span class="line">    &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;ol.css&quot;&#x2F;&gt;</span><br><span class="line">    &lt;style&gt;</span><br><span class="line">        body &#123;</span><br><span class="line">            padding: 0px;</span><br><span class="line">            margin: 0px;</span><br><span class="line">            height: 100vh;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        .map &#123;</span><br><span class="line">            height:100%;</span><br><span class="line">            width: 100%;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        h2 &#123;</span><br><span class="line">            position: absolute;</span><br><span class="line">            top:0px;</span><br><span class="line">            right:0px;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;&#x2F;style&gt;</span><br><span class="line">    &lt;!--&lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cdn.jsdelivr.net&#x2F;gh&#x2F;openlayers&#x2F;openlayers.github.io@master&#x2F;en&#x2F;v6.5.0&#x2F;build&#x2F;ol.js&quot;&gt;&lt;&#x2F;script&gt;--&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;ol.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">    &lt;title&gt;Docker map example&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;h2&gt;Docker Load Balancing Example&lt;&#x2F;h2&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;map&quot; class&#x3D;&quot;map&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;script type&#x3D;&quot;text&#x2F;javascript&quot;&gt;</span><br><span class="line">        var map &#x3D; new ol.Map(&#123;</span><br><span class="line">            target: &#39;map&#39;,</span><br><span class="line">            layers: [</span><br><span class="line">                new ol.layer.Tile(&#123;</span><br><span class="line">                    source: new ol.source.XYZ(&#123;</span><br><span class="line">                        &#x2F;&#x2F;給 load balancing 用的網址</span><br><span class="line">                        url: &#39;http:&#x2F;&#x2F;localhost:3080&#x2F;Taiwan&#x2F;&#123;z&#125;&#x2F;&#123;x&#125;&#x2F;&#123;y&#125;.png&#39;</span><br><span class="line"></span><br><span class="line">                        &#x2F;&#x2F;給直接跑 docker 用的網址</span><br><span class="line">                        &#x2F;&#x2F;url: &#39;http:&#x2F;&#x2F;localhost:5000&#x2F;Taiwan&#x2F;&#123;z&#125;&#x2F;&#123;x&#125;&#x2F;&#123;y&#125;.png&#39;</span><br><span class="line">                    &#125;)</span><br><span class="line">                &#125;)</span><br><span class="line">            ],</span><br><span class="line">            view: new ol.View(&#123;</span><br><span class="line">                center: ol.proj.fromLonLat([121.5, 22.5]),</span><br><span class="line">                zoom: 4</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;);</span><br><span class="line">    &lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接著新增 Dockerfile 在目前的專案底下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">FROM mcr.microsoft.com&#x2F;dotnet&#x2F;aspnet:5.0</span><br><span class="line">COPY bin&#x2F;Release&#x2F;net5.0&#x2F;publish&#x2F; App&#x2F;</span><br><span class="line">#RUN sed -i &#39;s&#x2F;MinProtocol &#x3D; TLSv1.2&#x2F;MinProtocol &#x3D; TLSv1&#x2F;g&#39; &#x2F;etc&#x2F;ssl&#x2F;openssl.cnf</span><br><span class="line">#RUN sed -i &#39;s&#x2F;MinProtocol &#x3D; TLSv1.2&#x2F;MinProtocol &#x3D; TLSv1&#x2F;g&#39; &#x2F;usr&#x2F;lib&#x2F;ssl&#x2F;openssl.cnf</span><br><span class="line"></span><br><span class="line">WORKDIR &#x2F;App</span><br><span class="line">EXPOSE 5000</span><br><span class="line">#ENV ASPNETCORE_URLS&#x3D;http:&#x2F;&#x2F;0.0.0.0:5000;https:&#x2F;&#x2F;0.0.0.0:5001</span><br><span class="line">ENV ASPNETCORE_URLS&#x3D;http:&#x2F;&#x2F;0.0.0.0:5000</span><br><span class="line">ENTRYPOINT [&quot;dotnet&quot;, &quot;TaiwanMap.dll&quot;]</span><br></pre></td></tr></table></figure>
+
+
+
+<p>自己 build docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#專案的路徑</span><br><span class="line">#~\source\repos\TaiwanMap\TaiwanMap</span><br><span class="line">dotnet build</span><br><span class="line">dotnet publish -c Release</span><br><span class="line">docker build --no-cache -t map -f Dockerfile .</span><br></pre></td></tr></table></figure>
+
+<p>開另外一個 powershell , 前端先用 5000 port 驗證是否成功吃到圖磚</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">docker container create -p 5000:5000 -v $home&#x2F;map&#x2F;Taiwan:&#x2F;App&#x2F;wwwroot&#x2F;Taiwan --name map map</span><br><span class="line"></span><br><span class="line">#直接執行</span><br><span class="line">#docker container run -p 5000:5000 -v $home&#x2F;map&#x2F;Taiwan:&#x2F;App&#x2F;wwwroot&#x2F;Taiwan --name map map</span><br><span class="line"></span><br><span class="line">docker start map</span><br><span class="line"></span><br><span class="line">docker exec 8b0da2096d60 ls &#x2F;app</span><br><span class="line"></span><br><span class="line">#進入到 bash 內</span><br><span class="line">docker container exec -it map bash</span><br><span class="line">cd &#x2F;App&#x2F;wwwroot&#x2F;Taiwan</span><br><span class="line">ls</span><br><span class="line">#0  1  10  11  12  13  14  15  2  3  4  5  6  7  8  9  metadata.json</span><br></pre></td></tr></table></figure>
+
+<p>最後開這兩個 url 測看看 api or 地圖服務是否正常運作<br><a href="http://localhost:5000/WeatherForecast" target="_blank" rel="noopener">http://localhost:5000/WeatherForecast</a><br><a href="http://localhost:5000/Taiwan/0/0/0.png" target="_blank" rel="noopener">http://localhost:5000/Taiwan/0/0/0.png</a></p>
+<p>接著我們建立 haproxy</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#對應到 haproxy 內的 backend</span><br><span class="line">docker network create backend</span><br><span class="line"></span><br><span class="line">#對應到 haproxy 內的 frontend</span><br><span class="line">docker network create frontend</span><br><span class="line"></span><br><span class="line">#圖磚主機 1</span><br><span class="line">docker create --name map1 -v $home&#x2F;map&#x2F;Taiwan:&#x2F;App&#x2F;wwwroot&#x2F;Taiwan -p 5000:5000 --network backend map</span><br><span class="line"></span><br><span class="line">#圖磚主機 2</span><br><span class="line">docker create --name map2 -v $home&#x2F;map&#x2F;Taiwan:&#x2F;App&#x2F;wwwroot&#x2F;Taiwan -p 6000:5000 --network backend map</span><br><span class="line"></span><br><span class="line">#將網路串連起來</span><br><span class="line">docker network connect frontend map1</span><br><span class="line">docker network connect frontend map2</span><br><span class="line"></span><br><span class="line">#啟動</span><br><span class="line">docker container start map1 map2</span><br><span class="line"></span><br><span class="line">#load balancing 主機</span><br><span class="line">docker container run --network frontend -d -p 3080:80 -p 3081:443 -v $home&#x2F;haproxy.cfg:&#x2F;usr&#x2F;local&#x2F;etc&#x2F;haproxy&#x2F;haproxy.cfg --name haproxy haproxy</span><br></pre></td></tr></table></figure>
+
+<p>注意換行符號只能用 LF , 在 windows 是 CR LF 會炸 error<br>haproxy.cfg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">defaults</span><br><span class="line">	timeout connect 5000</span><br><span class="line">	timeout client 50000</span><br><span class="line">	timeout server 50000</span><br><span class="line"></span><br><span class="line">frontend localhosts</span><br><span class="line">	bind *:80</span><br><span class="line">	bind *:443</span><br><span class="line">	mode http</span><br><span class="line">	default_backend map</span><br><span class="line"></span><br><span class="line">backend map</span><br><span class="line">	mode http</span><br><span class="line">	balance roundrobin</span><br><span class="line">	server map1 map1:5000</span><br><span class="line">	server map2 map2:5000</span><br></pre></td></tr></table></figure>
+
+<p>最後執行 <a href="http://localhost:3080/map.html" target="_blank" rel="noopener">http://localhost:3080/map.html</a> 即可 , 可以看到 docker 目前 print 出來到底是哪個容器被呼叫圖磚服務</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GIS/" rel="tag"># GIS</a>
+              <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/haproxy/" rel="tag"># haproxy</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/12/docker-%E5%BB%BA%E7%AB%8B%E7%A7%81%E6%9C%89%E7%9A%84-registry/" rel="prev" title="docker 建立私有的 registry">
+      <i class="fa fa-chevron-left"></i> docker 建立私有的 registry
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/16/docker-redis-lab/" rel="next" title="docker redis lab">
+      docker redis lab <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#事前準備下載圖磚"><span class="nav-number">1.</span> <span class="nav-text">事前準備下載圖磚</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立-asp-net-core-圖磚-server"><span class="nav-number">2.</span> <span class="nav-text">建立 asp.net core 圖磚 server</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">686k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">10:23</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/05/12/asp-net-core-docker-haproxy-%E8%A3%BD%E4%BD%9C%E5%9C%96%E7%A3%9A-load-balancing-service/";
+    this.page.identifier = "2021/05/12/asp-net-core-docker-haproxy-製作圖磚-load-balancing-service/";
+    this.page.title = "asp.net core & docker & haproxy 製作圖磚 load balancing service";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>

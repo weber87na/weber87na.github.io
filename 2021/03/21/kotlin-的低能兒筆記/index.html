@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kotlin 的低能兒筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/03/21/kotlin-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-03-21T13:33:35.000Z">
+<meta property="article:modified_time" content="2022-08-15T08:38:57.146Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="kotlin">
+<meta property="article:tag" content="android">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/03/21/kotlin-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>kotlin 的低能兒筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/03/21/kotlin-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          kotlin 的低能兒筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-03-21 21:33:35" itemprop="dateCreated datePublished" datetime="2021-03-21T21:33:35+08:00">2021-03-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-08-15 16:38:57" itemprop="dateModified" datetime="2022-08-15T16:38:57+08:00">2022-08-15</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/03/21/kotlin-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/03/21/kotlin-的低能兒筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>5k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>5 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="activity-沒有-intelli-sense"><a href="#activity-沒有-intelli-sense" class="headerlink" title="activity 沒有 intelli sense"></a>activity 沒有 intelli sense</h3><p><code>在 Gradle Scripts</code> =&gt; <code>build.gradle (Module: XXX)</code> 貼上 <code>id &#39;kotlin-android-extensions&#39;</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">plugins &#123;</span><br><span class="line">	id &#39;com.android.application&#39;</span><br><span class="line">	id &#39;kotlin-android&#39;</span><br><span class="line">	id &#39;kotlin-android-extensions&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 <code>MainActivity.kt</code> import 下面這句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import kotlinx.android.synthetic.main.activity_main.*</span><br></pre></td></tr></table></figure>
+<h3 id="SharedPreferences-的路徑"><a href="#SharedPreferences-的路徑" class="headerlink" title="SharedPreferences 的路徑"></a>SharedPreferences 的路徑</h3><p>開啟 =&gt; <code>DeviceFileExplorer</code> =&gt; <code>data</code> =&gt; <code>data</code> =&gt; <code>com.xxx.yourappname</code> =&gt; <code>shared_prefs</code></p>
+<h3 id="基本低能知識"><a href="#基本低能知識" class="headerlink" title="基本低能知識"></a>基本低能知識</h3><p>常數 =&gt; <code>val</code> 在 c# 裡面應該是 <code>const</code><br>變數 =&gt; <code>var</code> 跟 c# 一樣<br>有明確資料型態的變數 =&gt; <code>var x: Int = 1</code> <code>var x: Float = 10f</code> <code>var x:String = &quot;xxx&quot;</code><br>註解 =&gt; <code>//</code> or <code>/* xxx */</code><br>template string =&gt; <code>println(&quot;$x&quot;)</code> 有夠懶<br>資料型別轉換 <code>toInt()</code> <code>toString()</code> <code>toFloat()</code> <code>toDouble()</code> 相比 c# 還要 Convert.ToInt(xxx) 實在是超懶<br><code>when</code> 像是 c# 的 switch 這語法倒是滿不適應的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">when(x)&#123;</span><br><span class="line">	1 -&gt; print(1)</span><br><span class="line">	2 -&gt; print(2)</span><br><span class="line">	else -&gt; &#123;</span><br><span class="line">		print(&quot;gg&quot;)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更噁心的是他可以 return value</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val x &#x3D; when(y)&#123;</span><br><span class="line">	&quot;O&quot; -&gt; &quot;OK&quot;</span><br><span class="line">	&quot;X&quot; -&gt; &quot;NO&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>集合 <code>listof(&quot;xxx&quot; , &quot;ooo&quot;)</code> 在 c# 內是 List<String>{“xxx” , “ooo”}; kotlin 真是噁心</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">for(x in listof(&quot;xxx&quot; , &quot;ooo&quot;)&#123;</span><br><span class="line">	println(x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">listOf&lt;String&gt;(&quot;xxx&quot;,&quot;ooo&quot;).forEach&#123;</span><br><span class="line">	println(it)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>range 這個有夠噁心 , 像是 python 的語法 , 最經典應該還是 99 乘法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">val r &#x3D; 1..9</span><br><span class="line">for(x in r)</span><br><span class="line">	for(y in r)</span><br><span class="line">		println(&quot;x * y &#x3D; $&#123;x*y&#125;&quot;)</span><br></pre></td></tr></table></figure>
+<p>function 這種 data type 放在後面有點不太習慣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">fun add : Int(a : Int &#x3D; 0 , b : Int &#x3D; 0)&#123;</span><br><span class="line">	return a + b;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>liline function</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fun  x(a : Int &#x3D; 0 ,  b : Int &#x3D; 0) &#x3D; a + b</span><br></pre></td></tr></table></figure>
+<p>匿名函式 這個有 js IIFE 立即函式的感覺</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var result : Int &#x3D; &#123;</span><br><span class="line">	var x &#x3D; 10;</span><br><span class="line">	var y &#x3D; 20;</span><br><span class="line">	x + y</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure>
+<p>建構子 constructor 這個萬萬沒想到竟然有兩個步驟先是執行 <code>init</code> 才執行 <code>constructor</code> 簡直顛覆三觀</p>
+<p>操作 json 也是 , 撈回來的 JSONArray 竟然沒法直接 forEach 要這樣寫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for(i in 0 until features.length())&#123;</span><br><span class="line">	var properties &#x3D; features.getJSONObject(i).getString(&quot;properties&quot;)</span><br><span class="line">	var property &#x3D; JSONObject(properties)</span><br><span class="line">	var name &#x3D; property.getString(&quot;name&quot;)</span><br><span class="line">	sb.append(name + &quot;\n&quot;)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>還好老外有講以下這種方法感覺稍微直覺點</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">(0 until features.length()).forEach(&#123;</span><br><span class="line">	var properties &#x3D; features.getJSONObject(it).getString(&quot;properties&quot;)</span><br><span class="line">	var property &#x3D; JSONObject(properties)</span><br><span class="line">	var name &#x3D; property.getString(&quot;name&quot;)</span><br><span class="line">	sb.append(name + &quot;\n&quot;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<p>kotlin 噁爛語法 apply 記得以前學 vb.net 有 with 跟 apply 一樣的等價語法 , c# 9 (.net 5) 好像也可以直接使用 with</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">box with &#123; color &#x3D; &quot;RED&quot; , name &#x3D; &quot;aaa&quot; &#125;</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">box.apply&#123;</span><br><span class="line">	color &#x3D; &quot;RED&quot; ,</span><br><span class="line">	name &#x3D; &quot;aaa&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="類別"><a href="#類別" class="headerlink" title="類別"></a>類別</h3><p>c# 類別基本上只要記得 <code>get</code> , <code>set</code> ,  <code>value</code> 這個些個關鍵字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Person</span><br><span class="line">&#123;</span><br><span class="line">	private string name &#x3D; &quot;ooxx&quot;;</span><br><span class="line">	public string Name</span><br><span class="line">	&#123;</span><br><span class="line">		get&#123; return name;&#125;</span><br><span class="line">		set&#123; name &#x3D; value;&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>kotlin 基本上抄 c# 又保有 java 那種怪怪的特性硬要加個 <code>field</code> 反而不好記<br>如果不自己手動寫 <code>getter</code> 跟 <code>setter</code> 的話只要直接寫 <code>var name = &quot;ooxx&quot;</code> kotlin 就會直接幫你自動生出來超無腦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Person&#123;</span><br><span class="line">	var name &#x3D; &quot;ooxx&quot;</span><br><span class="line">	get() &#x3D; field</span><br><span class="line">	set(value)&#123;</span><br><span class="line">		field &#x3D; value</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>kotlin 的建構子非常變態 , 有分主父 , 顛覆三觀<br>老派比較能接受的寫法 , 不過命名超怪</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">class Person(_isGoodGame : Boolean)&#123;</span><br><span class="line">	var name &#x3D; &quot;ooxx&quot;</span><br><span class="line">	get() &#x3D; field</span><br><span class="line">	set(value)&#123;</span><br><span class="line">		field &#x3D; value</span><br><span class="line">	&#125;</span><br><span class="line">	var isGoodGame &#x3D; _isGoodGame</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>還可以直接定義屬性在建構子上面 , 奇耙</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">class Person(var isGoodGame : Boolean)&#123;</span><br><span class="line">	var name &#x3D; &quot;ooxx&quot;</span><br><span class="line">	get() &#x3D; field</span><br><span class="line">	set(value)&#123;</span><br><span class="line">		field &#x3D; value</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接著會進入次要建構子 <code>constructor</code> 老實說這樣的語法實在記不太起來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Player(</span><br><span class="line">		_name : String,</span><br><span class="line">		var isGoodGame: Boolean</span><br><span class="line">		)&#123;</span><br><span class="line">	var name &#x3D; &quot;&quot;</span><br><span class="line">		get() &#x3D; field.capitalize()</span><br><span class="line">		private set(value)&#123;</span><br><span class="line">			field &#x3D; value.trim()</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">	constructor(name : String) : this( name , isGoodGame &#x3D; false)&#123;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>更變態的是還有個 <code>init</code> 這鬼東西感覺以前寫讀取 config 的區段現在只要寫在此就可以避開一堆軌問題</p>
+<h3 id="kotlin-linq"><a href="#kotlin-linq" class="headerlink" title="kotlin linq"></a>kotlin linq</h3><p>詳細可以看這篇<a href="https://github.com/mythz/kotlin-linq-examples" target="_blank" rel="noopener">佛心老外</a>做的 linq 101 sample 的 kotlin 版本<br>linq where 在 kotlin 裡面是用 filter 比較不習慣的是 kotlin 的箭頭符號是用 <code>-&gt;</code> c# 是用 <code>=&gt;</code> 滿討厭的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">lists.Where( x &#x3D;&gt; x.Name &#x3D;&#x3D; &quot;aaa&quot;);</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">lists.filter&#123; it.Name &#x3D; &quot;aaa&quot; &#125;;</span><br></pre></td></tr></table></figure>
+<p>在某書中看到函數式的 select 真正名稱是 map , kotlin 也用 map 好像更純一點</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">c#</span><br><span class="line">lists.Select(x&#x3D;&gt; x.Name);</span><br><span class="line"></span><br><span class="line">kt</span><br><span class="line">lists.map&#123; x -&gt; x.Name &#125;;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="debug"><a href="#debug" class="headerlink" title="debug"></a>debug</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Log.d(&quot;TAG&quot; , &quot;Message&quot;)</span><br><span class="line">println(&quot;xxxxx&quot;)</span><br></pre></td></tr></table></figure>
+<p>或是直接用 <code>F5</code> , <code>F10</code> , <code>F11</code> 設定中斷點來看</p>
+<h3 id="安裝-3rd-lib"><a href="#安裝-3rd-lib" class="headerlink" title="安裝 3rd lib"></a>安裝 3rd lib</h3><p>在 .net 裡面通常都用 nuget 來安裝 3rd lib<br>在 kotlin 裡面跟智障一樣連 lib 都不會裝原來要在 <code>Gradle Scripts</code> =&gt; <code>Module</code> =&gt; <code>dependencies</code> 裡面加上 3rd lib =&gt; 接著點 <code>Sync Now</code><br>至於要去哪邊找 3rd lib 呢? 原來是在 <a href="https://mvnrepository.com/" target="_blank" rel="noopener">MVNRepository</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">	implementation group: &#39;com.squareup.okhttp3&#39;, name: &#39;okhttp&#39;, version: &#39;4.9.1&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="開放-android-權限給-user"><a href="#開放-android-權限給-user" class="headerlink" title="開放 android 權限給 user"></a>開放 android 權限給 user</h3><p>在 <code>AndroidManifest.xml</code> 裡面加上以下片段即可給 user 網路權限<br>注意要貼在 <code>manifest</code> 標籤下方 <code>application</code> 標籤的上方</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name&#x3D;&quot;android.permission.INTERNET&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="跨執行緒更新-UI"><a href="#跨執行緒更新-UI" class="headerlink" title="跨執行緒更新 UI"></a>跨執行緒更新 UI</h3><p>記得以前寫 winform 有 Control.BeginInvoke 這鬼東西 , 以前完全無法理解這莫名其妙的機制 , 反直覺<br>沒想到 android 上面只要寫上 <code>runOnUiThread</code> 就搞定了 , 真是無腦</p>
+<h3 id="viewbinding"><a href="#viewbinding" class="headerlink" title="viewbinding"></a>viewbinding</h3><p>在 <code>Gradle Scripts</code> =&gt; <code>build.gradle</code> =&gt; <code>Module</code> =&gt; <code>kotlinOptions下方</code> 底下加入 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">buildFeatures&#123;</span><br><span class="line">	viewBinding true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="json-操作"><a href="#json-操作" class="headerlink" title="json 操作"></a>json 操作</h3><p>跟在 .net 上面幾乎差不多 , kotlin 有 data class 這種鬼東西跟一般類別不太一樣的是用逗號把屬性分開</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">data class Geometry (</span><br><span class="line">	val type: String,</span><br><span class="line">	val coordinates: List&lt;Double&gt;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>可以裝<a href="https://plugins.jetbrains.com/plugin/9960-json-to-kotlin-class-jsontokotlinclass-" target="_blank" rel="noopener">JSON To Kotlin</a><br>或是以前常用的<a href="https://app.quicktype.io/" target="_blank" rel="noopener">quicktype</a>也是可以產<br>看網路上一狗票人都用 <a href="https://github.com/google/gson" target="_blank" rel="noopener">GSON</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">	  implementation &#39;com.google.code.gson:gson:2.8.6&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>用起來跟 Json.Net 差不太多<br>這是 Json.Net</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var xxx &#x3D; JsonConvert.DeserializeObject&lt;XXX&gt;(data)</span><br></pre></td></tr></table></figure>
+
+<p>這是 Gson 你抄我我抄你 , 嘴個兩句好像 Json.Net 更簡單用 , 那串 <code>XXX:class.java</code> 看起來有夠詭異</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var xxx &#x3D; Gson().fromJson&lt;XXX&gt;(data, XXX::class.java)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/kotlin/" rel="tag"># kotlin</a>
+              <a href="/tags/android/" rel="tag"># android</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/03/15/%E5%AF%A6%E7%94%A8%E7%9A%84%E7%B6%B2%E9%A0%81%E8%A8%AD%E8%A8%88%E8%B3%87%E6%BA%90/" rel="prev" title="實用的網頁設計資源">
+      <i class="fa fa-chevron-left"></i> 實用的網頁設計資源
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/01/%E6%84%9A%E4%BA%BA%E7%AF%80%E7%9A%84%E7%92%B0%E5%A2%83%E7%AD%86%E8%A8%98/" rel="next" title="愚人節的環境筆記">
+      愚人節的環境筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#activity-沒有-intelli-sense"><span class="nav-number">1.</span> <span class="nav-text">activity 沒有 intelli sense</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SharedPreferences-的路徑"><span class="nav-number">2.</span> <span class="nav-text">SharedPreferences 的路徑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基本低能知識"><span class="nav-number">3.</span> <span class="nav-text">基本低能知識</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#類別"><span class="nav-number">4.</span> <span class="nav-text">類別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kotlin-linq"><span class="nav-number">5.</span> <span class="nav-text">kotlin linq</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#debug"><span class="nav-number">6.</span> <span class="nav-text">debug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-3rd-lib"><span class="nav-number">7.</span> <span class="nav-text">安裝 3rd lib</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#開放-android-權限給-user"><span class="nav-number">8.</span> <span class="nav-text">開放 android 權限給 user</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#跨執行緒更新-UI"><span class="nav-number">9.</span> <span class="nav-text">跨執行緒更新 UI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#viewbinding"><span class="nav-number">10.</span> <span class="nav-text">viewbinding</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#json-操作"><span class="nav-number">11.</span> <span class="nav-text">json 操作</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">686k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">10:23</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/03/21/kotlin-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2021/03/21/kotlin-的低能兒筆記/";
+    this.page.title = "kotlin 的低能兒筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>

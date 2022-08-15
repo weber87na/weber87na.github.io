@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="我的 vim&#x2F;neovim config">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2020/08/18/%E6%88%91%E7%9A%84-vim-neovim-config/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/02.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/lxgr-linux/pokete/master/assets/ss/ss01.png">
+<meta property="og:image" content="https://cdn.cloudflare.steamstatic.com/steam/apps/246580/ss_fbc049532e42291fe852adae05232f74d2ed53c2.1920x1080.jpg?t=1603130707">
+<meta property="article:published_time" content="2020-08-18T03:32:43.000Z">
+<meta property="article:modified_time" content="2022-08-15T08:38:57.146Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="neovim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/02.jpg">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2020/08/18/%E6%88%91%E7%9A%84-vim-neovim-config/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>我的 vim/neovim config | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2020/08/18/%E6%88%91%E7%9A%84-vim-neovim-config/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          我的 vim/neovim config
+        </h1>
+
+        <div class="post-meta">
+		
+			<i class="fa fa-thumb-tack"></i>
+			<font color="7D26CD">我自己要看 頂</font>
+			<span class="post-meta-divider">|</span>
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2020-08-18 11:32:43" itemprop="dateCreated datePublished" datetime="2020-08-18T11:32:43+08:00">2020-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-08-15 16:38:57" itemprop="dateModified" datetime="2022-08-15T16:38:57+08:00">2022-08-15</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/08/18/%E6%88%91%E7%9A%84-vim-neovim-config/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/08/18/我的-vim-neovim-config/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>25k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>23 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/02.jpg" alt="vim"></p>
+<a id="more"></a>
+
+<p>前言，老實說呢，我很懶得寫這篇，因為之前的電腦 win 10 跑 wsl or cmder 基本上都很順，<br>但跑到 win 7 上就很靈異，先是 cmder 顯示錯誤，安裝 cygwin 顯示也是不正確，我看 git for windows 好像顯示就沒問題，為了讓工作順暢特別研究了這篇 @__@!</p>
+<h2 id="windows-對照-vim-快速操作技巧"><a href="#windows-對照-vim-快速操作技巧" class="headerlink" title="windows 對照 vim 快速操作技巧"></a>windows 對照 vim 快速操作技巧</h2><p>最近又回來用 windows 覺得賭爛 , 筆記一下操作 , 應該還要寫個 emacs 的方式才對畢竟 terminal 常常用 , 有空再搞<br><code>ctrl + z</code> 復原 <code>u</code><br><code>ctrl + y</code> 復原前的狀態 <code>ctrl + r</code><br><code>ctrl + g</code> 移動到行號 <code>:5</code><br><code>ctrl + ←</code> 往左移動一整個單字 <code>b</code><br><code>ctrl + →</code> 往右移動一整個單字 <code>w</code><br><code>ctrl + shift + ←</code> 往左選取一整個單字 <code>vb</code><br><code>ctrl + shift + →</code> 往右選取一整個單字 <code>ve</code><br><code>home</code> 移動到行頭 <code>^</code><br><code>end</code> 移動到行尾 <code>$</code><br><code>shift + home</code> 目前位置選到行頭 <code>v^</code><br><code>shift + end</code> 目前位置選到行尾 <code>v$</code><br><code>ctrl + backspace</code> 刪除一個單字 , 中文的話就是刪除到空白為止 <code>daw</code><br><code>ctrl + home</code> 移動到文件最頂端 <code>gg</code><br><code>ctrl + end</code> 移動到文件最尾端 <code>G</code><br><code>ctrl + ↑</code> 往上捲 <code>ctrl + e</code><br><code>ctrl + ↓</code> 往下捲 <code>ctrl + y</code><br><code>ctrl + shift + ↑</code> 將此行往上移動 <code>:m-2</code><br><code>ctrl + shift + ↓</code> 將此行往下移動 <code>:m+1</code></p>
+<h2 id="windows-對照-terminal-快速操作技巧"><a href="#windows-對照-terminal-快速操作技巧" class="headerlink" title="windows 對照 terminal 快速操作技巧"></a>windows 對照 terminal 快速操作技巧</h2><p><code>end</code> 往前刪除一個字 <code>ctrl + h</code><br><code>delete</code> 刪除目前游標的字 <code>ctrl + d</code></p>
+<p><code>←</code> 往左移動一個字 <code>ctrl + b</code><br><code>→</code> 往右移動一個字 <code>ctrl + f</code></p>
+<p><code>ctrl + ←</code> 往左移動一個單字 <code>alt + b</code><br><code>ctrl + →</code> 往右移動一個單字 <code>alt + f</code></p>
+<p><code>ctrl + shift + ← + delete</code> or <code>ctrl + backspace</code> 往左刪除一個單字 <code>ctrl + w</code><br><code>ctrl + shift + → + delete</code> or <code>ctrl + → + backspace</code> 往右刪除一個單字 <code>alt + d</code></p>
+<p><code>shift + end + delete</code> 刪除目前游標之後的所有字 <code>ctrl + k</code><br><code>home + shift + end + delete</code> 刪除整行 <code>ctrl + a</code> <code>ctrl + k</code></p>
+<p><code>home</code> 移動到開頭 <code>ctrl + a</code><br><code>end</code> 移動到結尾 <code>ctrl + e</code></p>
+<p><code>ctrl + l</code> 清除畫面</p>
+<h2 id="安裝-oh-my-bash"><a href="#安裝-oh-my-bash" class="headerlink" title="安裝 oh-my-bash"></a>安裝 oh-my-bash</h2><p>算是無腦安裝 <a href="https://github.com/ohmybash/oh-my-bash" target="_blank" rel="noopener">oh-my-bash</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd $HOME</span><br><span class="line">bash -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;ohmybash&#x2F;oh-my-bash&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;</span><br></pre></td></tr></table></figure>
+<p>預設會幫你蓋 .bashrc 我想要啟動時也直接啟動，所以把 .bashrc 裡面的設定直接複製到 .bash_profile , 若沒有這兩個檔案可以自己手動建立<br>注意他這邊用 powerline 當作樣式的話會一直跳出要你用 admin 的視窗，暫時無解先用 OSH_THEME=”agnoster”</p>
+<h2 id="Git-bash-for-windows-設定-vim"><a href="#Git-bash-for-windows-設定-vim" class="headerlink" title="Git bash for windows 設定 vim"></a>Git bash for windows 設定 vim</h2><p>在 git bash for windows 底下輸入以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs \</span><br><span class="line">    https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br></pre></td></tr></table></figure>
+
+<p>搞定後會在 ~/.vim 目錄底下多出 autoload , plugged 資料夾跟 neovim 有點不太一樣</p>
+<p>要 config vim 的設定檔則在以下路徑<br><code>C:\Program Files\Git\etc\vimrc</code></p>
+<p>安裝 :PlugInstall<br>萬一出現 airline missing comma 錯誤，調整以下修正即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">~\.vim\plugged\vim-airline\autoload\airline\extensions\tabline\buffers.vim</span><br><span class="line"></span><br><span class="line">let s:number_map &#x3D; &#123; &#39;0&#39; : 0 , &#39;1&#39; : 1 , &#39;2&#39; : 2 , &#39;3&#39; : 3 , 4 : &#39;4&#39; , 5 : &#39;5&#39; , 6 : &#39;6&#39; , 7 : &#39;7&#39; , 8 : &#39;8&#39; , 9 : &#39;9&#39; &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="解決-git-bash-for-windows-python-輸出有問題"><a href="#解決-git-bash-for-windows-python-輸出有問題" class="headerlink" title="解決 git bash for windows python 輸出有問題"></a>解決 git bash for windows python 輸出有問題</h2><p>nodejs 應該也會有這種類似的狀況，解法就是要用 winpty 把 windows 的 exe 指令給包一層 <a href="https://magicjackting.pixnet.net/blog/post/222998706" target="_blank" rel="noopener">參考不錯的說明</a><br>後來想說裝個 nvim 會支援 python3 ， 結果在 windows 底下就算用 winpty 包起來也是沒有真色支援，頭很痛</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">vim ~&#x2F;.bashrc</span><br><span class="line">#加入內容</span><br><span class="line">alias python&#x3D;&#39;winpty python&#39;</span><br><span class="line">alias pip&#x3D;&#39;winpty pip&#39;</span><br><span class="line">source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="check-vim-support-python"><a href="#check-vim-support-python" class="headerlink" title="check vim support python"></a>check vim support python</h2><p>這個 python support 在 git for windows 的 vim 底下一定是沒 support 的，又雷得不要不要的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim --version | grep &quot;+python&quot;</span><br><span class="line">:echo has(&#39;python3&#39;) </span><br><span class="line">:echo has(&#39;python&#39;) </span><br><span class="line">return 1 即可</span><br></pre></td></tr></table></figure>
+
+<h2 id="解決-vim-編輯檔案時忘了加上-sudo-造成-readonly-的問題"><a href="#解決-vim-編輯檔案時忘了加上-sudo-造成-readonly-的問題" class="headerlink" title="解決 vim 編輯檔案時忘了加上 sudo 造成 readonly 的問題"></a>解決 vim 編輯檔案時忘了加上 sudo 造成 readonly 的問題</h2><p>這問題困擾滿久的 , 有時候編輯一堆內容才發現忘了加 sudo , 今天無意中看到<a href="https://superuser.com/questions/694450/using-vim-to-force-edit-a-file-when-you-opened-without-permissions" target="_blank" rel="noopener">老外說明</a><br>可以執行以下指令 , 就搞定啦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:w !sudo tee %</span><br></pre></td></tr></table></figure>
+
+<h2 id="Narrow-to-region"><a href="#Narrow-to-region" class="headerlink" title="Narrow to region"></a>Narrow to region</h2><p>最近無意中發現 emacs 大師說過的 Narrow to region vim 版 , 就抓來用看看 , 發現還滿有用的</p>
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><p>安裝老樣子在 init.vim or vimrc 加上這行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug &#39;chrisbra&#x2F;nrrwrgn&#39;</span><br></pre></td></tr></table></figure>
+<p>接著</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<h3 id="複習-split-window"><a href="#複習-split-window" class="headerlink" title="複習 split window"></a>複習 split window</h3><p>要用 narrow to region 需要些 split window 基本知識才好用 , 我平時不太常用 split window 功能所以複習下<br>切換 focus split window <code>ctrl + w + w</code><br>移動 focus split window 上下左右 <code>ctrl + w + h/j/k/l</code> 注意是小寫<br>移動 split window <code>ctrl + w + H/J/K/L</code> 注意是大寫</p>
+<h3 id="操作"><a href="#操作" class="headerlink" title="操作"></a>操作</h3><p>裝好以後先把想要變成 Narrow to region 的部分選起來 , 也就是進入到 visual mode , 然後輸入 <code>:NR</code><br>他會用 split window 多開一個分割視窗 , 我不太喜歡上下的分割方式 , 所以調整 <code>ctrl + w + H</code></p>
+<p>詳細操作如下 , 可以看他 <a href="https://github.com/chrisbra/NrrwRgn" target="_blank" rel="noopener">github</a><br>:NR  - Open the selected region in a new narrowed window<br>以 narrow to region 開啟目前所選的內容</p>
+<p>:NW  - Open the current visual window in a new narrowed window<br>在 narrow to region 的視窗新開一個 narrow to region 視窗 (當小部分修改的時候可以用這個)</p>
+<p>:WR  - (In the narrowed window) write the changes back to the original buffer.<br>寫入 narrow to region 的內容至原本的文件</p>
+<p>:NRV - Open the narrowed window for the region that was last visually selected.<br>將最後一個選取內容於 narrow to region 中開啟</p>
+<p>:NUD - (In a unified diff) open the selected diff in 2 Narrowed windows<br>不太清楚這個作用 , 沒詳細研究</p>
+<p>:NRP - Mark a region for a Multi narrowed window<br>將這段選取內容變成 Multi narrowed window<br>這個用法應該是當某兩個區塊互相有影響的時候 , 可以開這個模式一次看到<br>(當同時有上下內容需要一起改的時候可以用這個功能)</p>
+<p>:NRM - Create a new Multi narrowed window (after :NRP) - experimental!<br>將變成 Multi narrowed window 的視窗一起顯示在一個 buffer 內讓你編輯 (要先有執行 :NRP 指令才能用)<br>(當同時有上下內容需要一起改的時候可以用這個功能)</p>
+<p>大概可以這樣用 , 假設有個片段長這樣 , 想要修改 id 為 header , footer 的內容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;header&quot; class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">	&lt;div class&#x3D;&quot;row&quot;&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;col-md-4&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;col-md-4&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;col-md-4&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">	&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div id&#x3D;&quot;mid&quot; class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">	&lt;div class&#x3D;&quot;row&quot;&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;col-md-6&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;col-md-6&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">	&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div id&#x3D;&quot;footer&quot; class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">	&lt;div class&#x3D;&quot;row&quot;&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;col-md-3&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;col-md-3&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;col-md-3&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;col-md-3&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">	&lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>他會給你 header 及 footer 片端像是這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- Start NrrwRgn1 buffer: .\bootstrap4.html --&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;header&quot; class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;row&quot;&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;col-md-4&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;col-md-4&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;col-md-4&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;!-- End NrrwRgn1 buffer: .\bootstrap4.html --&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- Start NrrwRgn2 buffer: .\bootstrap4.html --&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;footer&quot; class&#x3D;&quot;container&quot;&gt;</span><br><span class="line">		&lt;div class&#x3D;&quot;row&quot;&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;col-md-3&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;col-md-3&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;col-md-3&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">            &lt;div class&#x3D;&quot;col-md-3&quot;&gt;col&lt;&#x2F;div&gt;</span><br><span class="line">        &lt;&#x2F;div&gt;</span><br><span class="line">    &lt;&#x2F;div&gt;</span><br><span class="line">&lt;!-- End NrrwRgn2 buffer: .\bootstrap4.html --&gt;</span><br></pre></td></tr></table></figure>
+
+<p>這時候就可以下 replace 命令把 col 內容換成 xxxx 之類的操作 , 然後不會動到中間 id 為 mid 的內容<br><code>:%s/&gt;col&lt;/&gt;xxxx&lt;</code></p>
+<p>:NRS - Enable Syncing the buffer content back (default on)</p>
+<p>:NRN - Disable Syncing the buffer content back</p>
+<p>:NRL - Reselect the last selected region and open it again in a narrowed window<br>不太清楚這個作用 , 沒詳細研究</p>
+<h2 id="Tmux-安裝"><a href="#Tmux-安裝" class="headerlink" title="Tmux 安裝"></a>Tmux 安裝</h2><p>萬事起頭難，參考還不錯的<a href="https://github.com/xnng/my-git-bash" target="_blank" rel="noopener">大陸人設定</a><br>無意中還發現還不錯的<a href="https://www.youtube.com/watch?v=M76pb775bWk" target="_blank" rel="noopener">教學</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;xnng&#x2F;bash.git</span><br><span class="line">cd bash</span><br><span class="line">explorer .</span><br><span class="line">分別複製</span><br><span class="line">tmux&#x2F;bin 底下所有檔案到 C:\Program Files\Git\usr\bin</span><br><span class="line">tmux&#x2F;share 底下所有檔案到 C:\Program Files\Git\usr\share</span><br></pre></td></tr></table></figure>
+
+<p>應該也可以直接下 command 不過需要 windows admin 權限，可以安裝 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">gsudo</a></p>
+<p>在 $HOME 底下新增以下 .tmux.conf 檔案<a href="https://blog.roy4801.tw/2018/08/25/tmux%20%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8/" target="_blank" rel="noopener">參考自</a><br>最關鍵 =&gt; 啟動真色，否則在 vim 底下會失去顏色<a href="https://github.com/tmux/tmux/issues/1246" target="_blank" rel="noopener">參考自印度仔</a><br>tmux.conf</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set -g default-terminal &quot;xterm-256color&quot;</span><br><span class="line">set -ga terminal-overrides &quot;,*256col*:Tc&quot;</span><br></pre></td></tr></table></figure>
+<p>vimrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if (has(&quot;termguicolors&quot;))</span><br><span class="line">  set termguicolors</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+
+<h2 id="Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><a href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定" class="headerlink" title="Bash for Windows tmux vim 中文亂碼設定及真色設定"></a>Bash for Windows tmux vim 中文亂碼設定及真色設定</h2><p>在 git bash for windows 開啟 options =&gt; text =&gt; Locale zh_TW =&gt; Character set UTF-8<br>Window =&gt; UI Language =&gt; Windows language<br>Terminal =&gt; Type =&gt; xterm-256 color<br>cursor 變粗 =&gt; options =&gt; looks =&gt; cursor =&gt; Block</p>
+<p>萬一遇到簡體中文造成亂碼可在 vimrc 加入以下內容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set fileencodings&#x3D;utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1</span><br><span class="line">set enc&#x3D;utf8</span><br><span class="line">set fencs&#x3D;utf8,gbk,gb2312,gb18030</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="最終-vim-設定檔"><a href="#最終-vim-設定檔" class="headerlink" title="最終 vim 設定檔"></a>最終 vim 設定檔</h2><p>注意如果是用 git bash for windows 這些要放在預設的那段下面，另外 utf8 要註解掉</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br></pre></td><td class="code"><pre><span class="line">&quot; 注意如果是用 git bash for windows 這些要放在預設的那段下面</span><br><span class="line">call plug#begin(&#39;~&#x2F;.vim&#x2F;plugged&#39;)</span><br><span class="line"></span><br><span class="line">&quot; Plug &#39;joshdick&#x2F;onedark.vim&#39;</span><br><span class="line">&quot; Plug &#39;iCyMind&#x2F;NeoSolarized&#39;</span><br><span class="line"></span><br><span class="line">Plug &#39;vim-airline&#x2F;vim-airline&#39;</span><br><span class="line">Plug &#39;vim-airline&#x2F;vim-airline-themes&#39;</span><br><span class="line"></span><br><span class="line">&quot; 佈景主題</span><br><span class="line">Plug &#39;ayu-theme&#x2F;ayu-vim&#39;</span><br><span class="line"></span><br><span class="line">&quot; 檔案樹</span><br><span class="line">Plug &#39;scrooloose&#x2F;nerdtree&#39;</span><br><span class="line"></span><br><span class="line">&quot; 會亂碼</span><br><span class="line">&quot; Plug &#39;ryanoasis&#x2F;vim-devicons&#39;</span><br><span class="line"></span><br><span class="line">&quot; emmet</span><br><span class="line">Plug &#39;mattn&#x2F;emmet-vim&#39;</span><br><span class="line"></span><br><span class="line">&quot; 註解外掛</span><br><span class="line">Plug &#39;tpope&#x2F;vim-commentary&#39;</span><br><span class="line"></span><br><span class="line">&quot; 快速替換開頭結尾</span><br><span class="line">Plug &#39;tpope&#x2F;vim-surround&#39;</span><br><span class="line"></span><br><span class="line">&quot; 多重游標</span><br><span class="line">Plug &#39;mg979&#x2F;vim-visual-multi&#39;, &#123;&#39;branch&#39;: &#39;master&#39;&#125;</span><br><span class="line"></span><br><span class="line">&quot; 縮排線</span><br><span class="line">&quot; 無效?</span><br><span class="line">&quot; Plug &#39;Yggdroot&#x2F;indentLine&#39;</span><br><span class="line"></span><br><span class="line">&quot; 縮排線</span><br><span class="line"> Plug &#39;nathanaelkane&#x2F;vim-indent-guides&#39;</span><br><span class="line"></span><br><span class="line">&quot; Error</span><br><span class="line">&quot; live server</span><br><span class="line">&quot; Plug &#39;turbio&#x2F;bracey.vim&#39;</span><br><span class="line"></span><br><span class="line">&quot; css 顏色</span><br><span class="line">Plug &#39;ap&#x2F;vim-css-color&#39;</span><br><span class="line"></span><br><span class="line">&quot; 自動括號</span><br><span class="line">Plug &#39;jiangmiao&#x2F;auto-pairs&#39;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">call plug#end()</span><br><span class="line"></span><br><span class="line">&quot; 設定編碼</span><br><span class="line">set encoding&#x3D;UTF-8</span><br><span class="line"></span><br><span class="line">set fileformat&#x3D;unix</span><br><span class="line"></span><br><span class="line">&quot; 行號</span><br><span class="line">set nu</span><br><span class="line">set relativenumber</span><br><span class="line"></span><br><span class="line">&quot; 剪貼設定</span><br><span class="line">set clipboard&#x3D;unnamed</span><br><span class="line"></span><br><span class="line">&quot; 設定cursor顏色</span><br><span class="line">&quot; set cursorcolumn</span><br><span class="line">&quot; set cursorline</span><br><span class="line"></span><br><span class="line">&quot; tab寬度</span><br><span class="line">syntax enable</span><br><span class="line">set smartindent</span><br><span class="line">set tabstop&#x3D;4</span><br><span class="line">set shiftwidth&#x3D;4</span><br><span class="line">&quot; set expandtab</span><br><span class="line"></span><br><span class="line">&quot; 設定字體</span><br><span class="line">&quot; set guifont&#x3D;Fira\ Code:h12</span><br><span class="line"></span><br><span class="line">&quot; ariline</span><br><span class="line">&quot; 開啟tab樣式</span><br><span class="line">let g:airline#extensions#tabline#enabled &#x3D; 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot; 設定NERDTree</span><br><span class="line">nnoremap &lt;silent&gt; &lt;C-k&gt;&lt;C-B&gt; :NERDTreeToggle&lt;CR&gt;</span><br><span class="line">autocmd bufenter * if (winnr(&quot;$&quot;) &#x3D;&#x3D; 1 &amp;&amp; exists(&quot;b:NERDTree&quot;) &amp;&amp; b:NERDTree.isTabTree()) | q | endif</span><br><span class="line"></span><br><span class="line">&quot; 設定 emmet</span><br><span class="line">&quot;</span><br><span class="line">let g:user_emmet_install_global &#x3D; 0</span><br><span class="line">autocmd FileType html,css EmmetInstall</span><br><span class="line">imap &lt;expr&gt; &lt;tab&gt; emmet#expandAbbrIntelligent(&quot;\&lt;tab&gt;&quot;)</span><br><span class="line"></span><br><span class="line">&quot; 設定縮排顏色</span><br><span class="line">&quot; let g:indentLine_setColors &#x3D; 0</span><br><span class="line">&quot; let g:indentLine_color_term &#x3D; 239</span><br><span class="line">&quot; let g:indentLine_char_list &#x3D; [&#39;|&#39;, &#39;¦&#39;, &#39;┆&#39;, &#39;┊&#39;]</span><br><span class="line"></span><br><span class="line">&quot; 設定縮排第二種</span><br><span class="line">let g:indent_guides_enable_on_vim_startup &#x3D; 1</span><br><span class="line">hi IndentGuidesOdd  ctermbg&#x3D;white</span><br><span class="line">hi IndentGuidesEven ctermbg&#x3D;lightgrey</span><br><span class="line"></span><br><span class="line">&quot; 設定自動括號</span><br><span class="line">let g:AutoPairsFlyMode &#x3D; 1</span><br><span class="line"></span><br><span class="line">&quot; 設定佈景主題</span><br><span class="line">set termguicolors     &quot; enable true colors support</span><br><span class="line">let ayucolor&#x3D;&quot;light&quot;  &quot; for light version of theme</span><br><span class="line">&quot; let ayucolor&#x3D;&quot;mirage&quot; &quot; for mirage version of theme</span><br><span class="line">&quot; let ayucolor&#x3D;&quot;dark&quot;   &quot; for dark version of theme</span><br><span class="line">colorscheme ayu&quot;</span><br><span class="line">&quot;</span><br><span class="line">&quot; tmux true color</span><br><span class="line">if (has(&quot;termguicolors&quot;))</span><br><span class="line">  set termguicolors</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">&quot;esc</span><br><span class="line">inoremap ,, &lt;Esc&gt;</span><br><span class="line">nnoremap ,, &lt;Esc&gt;</span><br><span class="line">map ,so :so ~&#x2F;.vimrc &lt;CR&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最終-Tmux-設定"><a href="#最終-Tmux-設定" class="headerlink" title="最終 Tmux 設定"></a>最終 Tmux 設定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">### rebind hotkey</span><br><span class="line"></span><br><span class="line"># prefix setting (screen-like)</span><br><span class="line">set -g prefix C-a</span><br><span class="line">unbind C-b</span><br><span class="line">bind C-a send-prefix</span><br><span class="line"></span><br><span class="line"># reload config without killing server</span><br><span class="line">bind R source-file ~&#x2F;.tmux.conf \; display-message &quot;Config reloaded...&quot;</span><br><span class="line"></span><br><span class="line"># &quot;|&quot; splits the current window vertically, and &quot;-&quot; splits it horizontally</span><br><span class="line">unbind %</span><br><span class="line">bind | split-window -h</span><br><span class="line">bind - split-window -v</span><br><span class="line"></span><br><span class="line"># Pane navigation (vim-like)</span><br><span class="line">bind h select-pane -L</span><br><span class="line">bind j select-pane -D</span><br><span class="line">bind k select-pane -U</span><br><span class="line">bind l select-pane -R</span><br><span class="line"></span><br><span class="line"># Pane resizing</span><br><span class="line">bind -r Left  resize-pane -L 4</span><br><span class="line">bind -r Down  resize-pane -D 4</span><br><span class="line">bind -r Up    resize-pane -U 4</span><br><span class="line">bind -r Right resize-pane -R 4</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### other optimization</span><br><span class="line"></span><br><span class="line"># set the shell you like (zsh, &quot;which zsh&quot; to find the path)</span><br><span class="line"># set -g default-command &#x2F;bin&#x2F;zsh</span><br><span class="line"># set -g default-shell &#x2F;bin&#x2F;zsh</span><br><span class="line"></span><br><span class="line"># use UTF8</span><br><span class="line">#set -g utf8</span><br><span class="line">#set-window-option -g utf8 on</span><br><span class="line"></span><br><span class="line"># display things in 256 colors</span><br><span class="line">set -g default-terminal &quot;screen-256color&quot;</span><br><span class="line">#set -g default-terminal &quot;xterm-256color&quot;</span><br><span class="line">#set -g default-terminal &quot;xterm&quot;</span><br><span class="line"></span><br><span class="line">#啟動真色</span><br><span class="line">set -g default-terminal &quot;xterm-256color&quot;</span><br><span class="line">set -ga terminal-overrides &quot;,*256col*:Tc&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># mouse is great!</span><br><span class="line">set-option -g mouse on</span><br><span class="line"></span><br><span class="line"># history size</span><br><span class="line">set -g history-limit 10000</span><br><span class="line"></span><br><span class="line"># fix delay</span><br><span class="line">set -g escape-time 0</span><br><span class="line"></span><br><span class="line"># 0 is too far</span><br><span class="line">set -g base-index 1</span><br><span class="line">setw -g pane-base-index 1</span><br><span class="line"></span><br><span class="line"># stop auto renaming</span><br><span class="line">setw -g automatic-rename off</span><br><span class="line">set-option -g allow-rename off</span><br><span class="line"></span><br><span class="line"># renumber windows sequentially after closing</span><br><span class="line">set -g renumber-windows on</span><br><span class="line"></span><br><span class="line"># window notifications; display activity on other window</span><br><span class="line">setw -g monitor-activity on</span><br><span class="line">set -g visual-activity on</span><br></pre></td></tr></table></figure>
+
+<h2 id="後記的靈異事件"><a href="#後記的靈異事件" class="headerlink" title="後記的靈異事件"></a>後記的靈異事件</h2><p>這個事件是由某天懶得貼上格式發生的直接把 set paste 寫在 .vimrc 裡面發生悲劇了 ,<br> 本來想 remap esc , 搞了半天如果設定 paste 的話進入 insert mode 會變成 <code>INSERT PASET</code><br>暫時找不到偷懶的解法就先不要在 .vimrc 內使用 set paste 吧</p>
+<h2 id="windows-底下使用-neovim"><a href="#windows-底下使用-neovim" class="headerlink" title="windows 底下使用 neovim"></a>windows 底下使用 neovim</h2><p>chocolatey <a href="https://community.chocolatey.org/packages/neovim#releasenotes" target="_blank" rel="noopener">下載 nvim</a></p>
+<p>將 vimrc 複製到以下路徑 , 並修改為 init.vim<br><code>C:\Users\YourName\AppData\Local\nvim</code></p>
+<p>下載 <a href="https://github.com/junegunn/vim-plug" target="_blank" rel="noopener">vim-plug</a></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">iwr <span class="literal">-useb</span> https://raw.githubusercontent.com/junegunn/vim<span class="literal">-plug</span>/master/plug.vim |`</span><br><span class="line">    ni <span class="string">"<span class="variable">$</span>(@(<span class="variable">$env:XDG_DATA_HOME</span>, <span class="variable">$env:LOCALAPPDATA</span>)[<span class="variable">$null</span> -eq <span class="variable">$env:XDG_DATA_HOME</span>])/nvim-data/site/autoload/plug.vim"</span> <span class="literal">-Force</span></span><br></pre></td></tr></table></figure>
+
+<p>開啟 nvim 安裝 plugin</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<h2 id="ubuntu-設定-vim"><a href="#ubuntu-設定-vim" class="headerlink" title="ubuntu 設定 vim"></a>ubuntu 設定 vim</h2><p>下載外掛管理員</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs     https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br></pre></td></tr></table></figure>
+
+<p>建立 .vimrc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">touch .vimrc</span><br></pre></td></tr></table></figure>
+
+<p>登入 vim 安裝外掛</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim</span><br><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+<p>或是直接在 terminal <code>vim +PlugInstall</code></p>
+<p>在 root 使用者安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo -i</span><br><span class="line">cd &#x2F;root</span><br><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs     https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br><span class="line">touch .vimrc</span><br><span class="line">vim</span><br><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="選取與移動的實用技巧"><a href="#選取與移動的實用技巧" class="headerlink" title="選取與移動的實用技巧"></a>選取與移動的實用技巧</h2><h3 id="啪啪神器-matchit"><a href="#啪啪神器-matchit" class="headerlink" title="啪啪神器 matchit"></a>啪啪神器 matchit</h3><p>vim 內建的 matchit 參考<a href="https://github.com/wsdjeg/vim-galore-zh_cn#%E5%9C%A8-vim-8-%E4%B8%AD%E5%AE%89%E8%A3%85" target="_blank" rel="noopener">這篇</a><br>現在好像老外都用<a href="https://github.com/andymass/vim-matchup" target="_blank" rel="noopener">vim-matchup</a><br>老樣子無腦安裝在 vimrc 加上以下這段 , 這邊用 neovim <code>~/AppData/Local/nvim/init.vim</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug &#39;andymass&#x2F;vim-matchup&#39;</span><br></pre></td></tr></table></figure>
+
+<p>打開 vim 輸入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<p>他好像是會認附檔名 , 所以附檔名要正確才會生效 , 感覺比較有用的增強功能應該是 <code>z%</code> , 經典功能 %%% 一樣可以在頭尾快速移動<br>他會一直往下找 matchit 的點 , 其他還有滿多增強 , 有空在搞</p>
+<h3 id="往外延伸選取-vim-expand-region"><a href="#往外延伸選取-vim-expand-region" class="headerlink" title="往外延伸選取 vim-expand-region"></a>往外延伸選取 vim-expand-region</h3><p>可以參考<a href="https://github.com/terryma/vim-expand-region" target="_blank" rel="noopener">這個</a><br>第一次看到這個咚咚是在 visual studio 上面 , 現在好像大多數 ide 都有預設這功能</p>
+<p>老樣子無腦安裝在 vimrc 加上以下這段 , 這邊用 neovim <code>~/AppData/Local/nvim/init.vim</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug &#39;terryma&#x2F;vim-expand-region&#39;</span><br></pre></td></tr></table></figure>
+
+<p>打開 vim 輸入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<p>接著 map 成 emacs 大師教的即可 , 他官方好像還有教可以自定義 expand 的行為 , 這裡就懶得設定了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">map ,xx &lt;Plug&gt;(expand_region_expand)</span><br><span class="line">map ,zz &lt;Plug&gt;(expand_region_shrink)</span><br></pre></td></tr></table></figure>
+
+<h3 id="縮排選取好幫手-vim-indent-object"><a href="#縮排選取好幫手-vim-indent-object" class="headerlink" title="縮排選取好幫手 vim-indent-object"></a>縮排選取好幫手 vim-indent-object</h3><p>可以參考<a href="https://github.com/michaeljsmith/vim-indent-object#install" target="_blank" rel="noopener">這個</a><br>這個對有在寫 k8s yaml 或是 python 的人來說可以算是個半殘的福音吧? 用起來靈異靈異的</p>
+<p>老樣子無腦安裝在 vimrc 加上以下這段 , 這邊用 neovim <code>~/AppData/Local/nvim/init.vim</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plug &#39;michaeljsmith&#x2F;vim-indent-object&#39;</span><br></pre></td></tr></table></figure>
+
+<p>打開 vim 輸入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<p>接下來搭配這串 code 進行說明<br>example code</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">admin:</span><br><span class="line">  address:</span><br><span class="line">    socket_address: &#123; address: 127.0.0.1, port_value: 9901 &#125;</span><br><span class="line"></span><br><span class="line">static_resources:</span><br><span class="line">  listeners:</span><br><span class="line">  - name: listener_0</span><br><span class="line">    address:</span><br><span class="line">      socket_address: &#123; address: 127.0.0.1, port_value: 10000 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>假設游標在 <code>address</code> 上 , 用 <code>vii</code> 可以選到以下兩行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">address:</span><br><span class="line">  socket_address: &#123; address: 127.0.0.1, port_value: 9901 &#125;</span><br></pre></td></tr></table></figure>
+
+<p>假設游標在 <code>address</code> 上 , 用 <code>vai</code> 可以選到以下三行 , 另外有個細節就是要搭配 <code>o</code> 使用可以移動到選取的頭尾<br>還有就是 yaml 有 <code>-</code> 這個符號會造成誤判 , 所以選的時候要慎用 , python 也是相同原理 , 總之就是個半殘的選法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">admin:</span><br><span class="line">  address:</span><br><span class="line">    socket_address: &#123; address: 127.0.0.1, port_value: 9901 &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用-COC-補全-k8s-yaml"><a href="#使用-COC-補全-k8s-yaml" class="headerlink" title="使用 COC 補全 k8s yaml"></a>使用 COC 補全 k8s yaml</h2><p>因為在搞 docker + k8s , 需要編輯 yaml 檔 , 直接在 linux 上面沒有 auto complete 實在太噁心了<br>決定找個至少能用的方法主要參考 <a href="https://octetz.com/docs/2020/2020-01-06-vim-k8s-yaml-support/" target="_blank" rel="noopener">這篇老外文章</a> , 之前好像沒用過 coc? 忘了?<br>這老外還有<a href="https://www.youtube.com/watch?v=eSAzGx34gUE" target="_blank" rel="noopener">教學影片</a> 真佛心<br>先在 vimrc or init.vim 內加入以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot; Use release branch (Recommend)</span><br><span class="line">Plug &#39;neoclide&#x2F;coc.nvim&#39;, &#123;&#39;branch&#39;: &#39;release&#39;&#125;</span><br><span class="line"></span><br><span class="line">&quot; Or build from source code by use yarn: https:&#x2F;&#x2F;yarnpkg.com</span><br><span class="line">Plug &#39;neoclide&#x2F;coc.nvim&#39;, &#123;&#39;do&#39;: &#39;yarn install --frozen-lockfile&#39;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著輸入以下命令安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<p>萬一 coc 炸 error 檢查看看自己有無安裝 python , 另外好像還要裝 nodejs 不過我機器上已經有了<br>並且加入以下命令 <a href="https://stackoverflow.com/questions/65160481/neovim-on-windows-cant-find-python-provider" target="_blank" rel="noopener">參考自老外解法</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python3 -m pip install --user --upgrade pynvim</span><br></pre></td></tr></table></figure>
+
+<p>如果是用 ubuntu 需要先安裝 nodejs , 注意 nodejs 版本要 12.12 以上 , 小心不要直接用 apt-get install 有可能安裝到舊版 , 在 ubuntu 20.04 上 default 好像是 node 10?<br>萬一不小心安裝舊版可以參考這個<a href="https://askubuntu.com/questions/786015/how-to-remove-nodejs-from-ubuntu-16-04" target="_blank" rel="noopener">移除</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -sL https:&#x2F;&#x2F;deb.nodesource.com&#x2F;setup_14.x | sudo bash -</span><br><span class="line">sudo apt-get install -y nodejs</span><br></pre></td></tr></table></figure>
+
+<p>安裝 coc-yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:CocInstall coc-yaml</span><br></pre></td></tr></table></figure>
+
+<p>萬一 coc 炸出這個 error 可能是 nodejs or python 沒安裝或是版本錯誤 , 請確認版本是否正確</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">client coc abnormal exit with: -1</span><br></pre></td></tr></table></figure>
+
+<p>接著照打開 CocConfig 編輯</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:CocConfig</span><br></pre></td></tr></table></figure>
+
+<p>使用 vim 的話 coc 路徑會在如下位置 <code>~/.vim/coc-settings.json</code><br>windows 的 neovim 在 <code>~/AppData/Local/nvim/coc-settings.json</code><br>設定完應該就能動了 , 最後就可以用 <code>ctrl + n</code> <code>ctrl + p</code> 上下移動補全的 menu 不過好像 vscode 的更好用一點</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;languageserver&quot;: &#123;</span><br><span class="line">      &quot;golang&quot;: &#123;</span><br><span class="line">        &quot;command&quot;: &quot;gopls&quot;,</span><br><span class="line">        &quot;rootPatterns&quot;: [&quot;go.mod&quot;],</span><br><span class="line">        &quot;filetypes&quot;: [&quot;go&quot;]</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  &quot;yaml.schemas&quot;: &#123;</span><br><span class="line">      &quot;kubernetes&quot;: &quot;&#x2F;*.yaml&quot;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝-zsh-oh-my-zsh-及-powerline"><a href="#安裝-zsh-oh-my-zsh-及-powerline" class="headerlink" title="安裝 zsh oh-my-zsh 及 powerline"></a>安裝 zsh oh-my-zsh 及 powerline</h2><p>參考 <code>oh-my-zsh</code> <a href="https://ohmyz.sh/#install" target="_blank" rel="noopener">官網</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install zsh</span><br><span class="line">sh -c &quot;$(curl -fsSL https:&#x2F;&#x2F;raw.github.com&#x2F;ohmyzsh&#x2F;ohmyzsh&#x2F;master&#x2F;tools&#x2F;install.sh)&quot;</span><br><span class="line">sudo apt install powerline fonts-powerline</span><br></pre></td></tr></table></figure>
+
+<p>在 ubuntu 內挑選<a href="https://github.com/ohmyzsh/ohmyzsh/wiki/Themes" target="_blank" rel="noopener">佈景</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.zshrc</span><br><span class="line"></span><br><span class="line">#比較不花俏的預設佈景</span><br><span class="line">#ZSH_THEME&#x3D;&quot;darkblood&quot;</span><br><span class="line"></span><br><span class="line">#dracula</span><br><span class="line">#ZSH_THEME&#x3D;&quot;dracula&quot;</span><br><span class="line"></span><br><span class="line">#重新載入</span><br><span class="line">source ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
+
+<p>因為 git for windows 上面預設的布景 <a href="https://draculatheme.com/zsh" target="_blank" rel="noopener">dracula</a> 用習慣了 , 所以就安裝看看<br>不得不說這個作者還滿屌的 , 各種 ide editor 都有 dracula 的布景<br>第一次用滿陌生的 , 我這邊手動安裝 , clone 以後會有個 zsh 資料夾 , 照官網說的 cp or mv 進去就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;dracula&#x2F;zsh.git</span><br><span class="line">cd zsh</span><br><span class="line">cp dracula.zsh-theme ~&#x2F;.oh-my-zsh&#x2F;themes&#x2F;.</span><br><span class="line">cp -r lib ~&#x2F;.oh-my-zsh&#x2F;themes&#x2F;.</span><br></pre></td></tr></table></figure>
+
+<p>搞定布景後安裝 oh my zsh 的 plugin , 這裡參考大神 <a href="https://www.youtube.com/watch?v=l4xt5B0NObQ" target="_blank" rel="noopener">Victor</a> 的設定<br><a href="https://github.com/zsh-users/zsh-autosuggestions" target="_blank" rel="noopener">zsh-autosuggestions</a><br><a href="https://github.com/zsh-users/zsh-completions" target="_blank" rel="noopener">zsh-completions</a><br><a href="https://github.com/zsh-users/zsh-syntax-highlighting" target="_blank" rel="noopener">zsh-syntax-highlighting</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd ~&#x2F;.oh-my-zsh&#x2F;custom&#x2F;plugins</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;zsh-users&#x2F;zsh-autosuggestions.git</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;zsh-users&#x2F;zsh-completions.git</span><br><span class="line">git clone https:&#x2F;&#x2F;github.com&#x2F;zsh-users&#x2F;zsh-syntax-highlighting.git</span><br></pre></td></tr></table></figure>
+
+<p>接著找到 plugins 改成這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.zshrc</span><br><span class="line"></span><br><span class="line">#plugins&#x3D;(</span><br><span class="line">#  git</span><br><span class="line">#  zsh-autosuggestions</span><br><span class="line">#  zsh-completions</span><br><span class="line">#  zsh-syntax-highlighting</span><br><span class="line">#  colored-man-pages</span><br><span class="line">#)</span><br><span class="line"></span><br><span class="line">source ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
+<h2 id="為你的-cat-加上色彩"><a href="#為你的-cat-加上色彩" class="headerlink" title="為你的 cat 加上色彩"></a>為你的 cat 加上色彩</h2><p>因為常常會用 cat 看些東東但是沒有語法高量可以考慮安裝 <a href="https://github.com/sharkdp/bat" target="_blank" rel="noopener">bat</a> 讓操作舒服點</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install bat</span><br><span class="line">vim ~&#x2F;.zshrc</span><br><span class="line">#加上 alias</span><br><span class="line">alias bat&#x3D;batcat</span><br></pre></td></tr></table></figure>
+<h2 id="裝-B-移動目錄神器-Ranger-筆記"><a href="#裝-B-移動目錄神器-Ranger-筆記" class="headerlink" title="裝 B 移動目錄神器 Ranger 筆記"></a>裝 B 移動目錄神器 Ranger 筆記</h2><p>安裝 <a href="https://github.com/ranger/ranger" target="_blank" rel="noopener">ranger</a> , 也可以參考這<a href="https://www.digitalocean.com/community/tutorials/installing-and-using-ranger-a-terminal-file-manager-on-a-ubuntu-vps" target="_blank" rel="noopener">老外教學</a> , 也可以看下強國人<a href="https://www.bilibili.com/video/BV1b4411R7ck?from=search&seid=7286148057737927194" target="_blank" rel="noopener">影片</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ranger</span><br></pre></td></tr></table></figure>
+
+<p>開啟 ranger 讓他自動建立資料夾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ranger</span><br><span class="line">q</span><br></pre></td></tr></table></figure>
+
+<p>複製 ranger 的預設設定檔 template</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ranger --copy-config&#x3D;all</span><br></pre></td></tr></table></figure>
+
+<p>設定 ascii preview image 首先設定 <code>scope.sh</code> 找到這段把 <code>img2txt</code> 原本的註解開起來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.config&#x2F;ranger&#x2F;scope.sh</span><br><span class="line"></span><br><span class="line">## Image</span><br><span class="line">image&#x2F;*)</span><br><span class="line">	## Preview as text conversion</span><br><span class="line">	img2txt --gamma&#x3D;0.6 --width&#x3D;&quot;$&#123;PV_WIDTH&#125;&quot; -- &quot;$&#123;FILE_PATH&#125;&quot; &amp;&amp; exit 4</span><br><span class="line">	exiftool &quot;$&#123;FILE_PATH&#125;&quot; &amp;&amp; exit 5</span><br><span class="line">	exit 1;;</span><br></pre></td></tr></table></figure>
+
+<p>接著設定 <code>~/.config/ranger/rc.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set preview_images false</span><br><span class="line">set use_preview_script true</span><br><span class="line">set preview_script ~&#x2F;.config&#x2F;ranger&#x2F;scope.sh</span><br></pre></td></tr></table></figure>
+
+<p>設定 x11 preview image 注意只有在 ubuntu 有 gui 的機器有用 , 用 ssh 應該回 ascii 模式 , 先安裝 x11 相關工具及 ueberzug</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br><span class="line">sudo apt-get install -y libx11-dev</span><br><span class="line">sudo apt-get install -y xorg openbox</span><br><span class="line">sudo apt-get install -y x11proto-xext-dev</span><br><span class="line">sudo apt-get install -y libxext-dev</span><br><span class="line">pip3 install ueberzug</span><br></pre></td></tr></table></figure>
+
+<p>設定 <code>~/.config/ranger/rc.conf</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set preview_images true</span><br><span class="line">set preview_images_method ueberzug</span><br></pre></td></tr></table></figure>
+
+<p>萬一炸 WARNING 設定以下即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#echo &#39;export PATH&#x3D;~&#x2F;.local&#x2F;bin:$PATH&#39; &gt;&gt; ~&#x2F;.bashrc</span><br><span class="line">echo &#39;export PATH&#x3D;~&#x2F;.local&#x2F;bin:$PATH&#39; &gt;&gt; ~&#x2F;.zshrc</span><br></pre></td></tr></table></figure>
+
+<p>最後預覽一下正妹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crul https:&#x2F;&#x2F;instagram.frmq3-1.fna.fbcdn.net&#x2F;v&#x2F;t51.2885-15&#x2F;sh0.08&#x2F;e35&#x2F;s640x640&#x2F;169486234_744729692910070_7136376512717038837_n.jpg?tp&#x3D;1&amp;_nc_ht&#x3D;instagram.frmq3-1.fna.fbcdn.net&amp;_nc_cat&#x3D;110&amp;_nc_ohc&#x3D;jehk2TKowmEAX8DDWGK&amp;edm&#x3D;AABBvjUBAAAA&amp;ccb&#x3D;7-4&amp;oh&#x3D;95e49414292080950b57f70c1e6d1c09&amp;oe&#x3D;60C92944&amp;_nc_sid&#x3D;83d603 --output nono.png</span><br></pre></td></tr></table></figure>
+
+<h2 id="在-ubuntu-上撰寫-net-core-5"><a href="#在-ubuntu-上撰寫-net-core-5" class="headerlink" title="在 ubuntu 上撰寫 .net core 5"></a>在 ubuntu 上撰寫 .net core 5</h2><p>今天在 ubuntu 20.04 linux 上安裝 .net core 5 莫名其妙炸了個奇怪的 error</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">E: The repository &#39;https:&#x2F;&#x2F;packages.microsoft.com&#x2F;ubuntu&#x2F;18.04&#x2F;prod focal Release&#39; does not have a Release file</span><br></pre></td></tr></table></figure>
+
+<p>查了下發現多了錯誤的版本在上面 , 可能之前沒睡飽下錯指令所致<br>把它們都註解掉 , 接著重新安裝 .net core 5 就搞定了 , 安裝可以參考<a href="https://docs.microsoft.com/zh-tw/dotnet/core/install/linux-ubuntu#2004-" target="_blank" rel="noopener">微軟官方</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">sudo vim &#x2F;etc&#x2F;apt&#x2F;sources.list</span><br><span class="line">#deb https:&#x2F;&#x2F;packages.microsoft.com&#x2F;ubuntu&#x2F;18.04&#x2F;prod focal main</span><br><span class="line"># deb-src https:&#x2F;&#x2F;packages.microsoft.com&#x2F;ubuntu&#x2F;18.04&#x2F;prod focal main</span><br><span class="line"></span><br><span class="line">wget https:&#x2F;&#x2F;packages.microsoft.com&#x2F;config&#x2F;ubuntu&#x2F;20.04&#x2F;packages-microsoft-prod.deb -O packages-microsoft-prod.deb</span><br><span class="line">sudo dpkg -i packages-microsoft-prod.deb</span><br><span class="line">rm packages-microsoft-prod.deb</span><br><span class="line"></span><br><span class="line">#sdk</span><br><span class="line">sudo apt-get update; \</span><br><span class="line">  sudo apt-get install -y apt-transport-https &amp;&amp; \</span><br><span class="line">  sudo apt-get update &amp;&amp; \</span><br><span class="line">  sudo apt-get install -y dotnet-sdk-5.0</span><br><span class="line"></span><br><span class="line">#run time</span><br><span class="line">sudo apt-get update; \</span><br><span class="line">  sudo apt-get install -y apt-transport-https &amp;&amp; \</span><br><span class="line">  sudo apt-get update &amp;&amp; \</span><br><span class="line">  sudo apt-get install -y aspnetcore-runtime-5.0</span><br></pre></td></tr></table></figure>
+
+<p>主要參考這篇(<a href="https://github.com/OmniSharp/Omnisharp-vim" target="_blank" rel="noopener">https://github.com/OmniSharp/Omnisharp-vim</a>)<br>打開 vimrc 並找到以下區塊加上 OmniSharp/omnisharp-vim</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.vimrc</span><br><span class="line">call plug#begin(&#39;~&#x2F;.vim&#x2F;plugged&#39;)</span><br><span class="line"></span><br><span class="line">#for csharp</span><br><span class="line">Plug &#39;OmniSharp&#x2F;omnisharp-vim&#39;</span><br></pre></td></tr></table></figure>
+
+<p>接著在 vim 執行以下命令安裝 OmniSharp , 搞定後首次他會問我們要不要安裝 OmniSharp-Roslyn server 選 Yes 即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:PlugInstall</span><br></pre></td></tr></table></figure>
+
+<p>接著在 Ubuntu 上面玩看看 .net core , 可以通過 dotnet xxx –help 來看詳細命令 , 這邊就直接蓋個 console 看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">mkdir helloworld</span><br><span class="line">cd helloworld</span><br><span class="line">dotnet new --list</span><br><span class="line"></span><br><span class="line">#Console Application                           console         [C#],F#,VB  Common&#x2F;Console</span><br><span class="line">#Class library                                 classlib        [C#],F#,VB  Common&#x2F;Library</span><br><span class="line">#Worker Service                                worker          [C#],F#     Common&#x2F;Worker&#x2F;Web</span><br><span class="line">#MSTest Test Project                           mstest          [C#],F#,VB  Test&#x2F;MSTest</span><br><span class="line">#NUnit 3 Test Item                             nunit-test      [C#],F#,VB  Test&#x2F;NUnit</span><br><span class="line">#......</span><br></pre></td></tr></table></figure>
+
+<p>蓋個 console 看看幫我們建了什麼</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dotnet new console</span><br><span class="line">ls</span><br><span class="line">helloworld.csproj  obj  Program.cs</span><br></pre></td></tr></table></figure>
+
+<p>試著弄個 helloworld , 體驗一下 , 只能說連維護都不是很好用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.IO;</span><br><span class="line"></span><br><span class="line">namespace helloworld</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">			Console.WriteLine(&quot;HelloWorld&quot;);</span><br><span class="line">            &#x2F;&#x2F;StreamWriter file &#x3D; new StreamWriter(&quot;test.txt&quot;);</span><br><span class="line">            &#x2F;&#x2F;file.WriteLine(&quot;Hello world&quot;);</span><br><span class="line">            &#x2F;&#x2F;file.Close();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後跑看看是否成功寫入 , 結論就是裝 B 跟拿來看看 code 還可以用 , 實際開發還是用 IDE 比較有效率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">dotnet run</span><br><span class="line">cat test.txt</span><br></pre></td></tr></table></figure>
+
+<p>老樣子包個 Dockerfile 來玩看看 , 參考<a href="https://docs.microsoft.com/zh-tw/aspnet/core/host-and-deploy/docker/building-net-docker-images?view=aspnetcore-5.0" target="_blank" rel="noopener">官方</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># https:&#x2F;&#x2F;hub.docker.com&#x2F;_&#x2F;microsoft-dotnet</span><br><span class="line">FROM mcr.microsoft.com&#x2F;dotnet&#x2F;sdk:5.0 AS build</span><br><span class="line">WORKDIR &#x2F;source</span><br><span class="line"></span><br><span class="line"># copy csproj and restore as distinct layers</span><br><span class="line">COPY *.sln .</span><br><span class="line">COPY helloworld&#x2F;*.csproj .&#x2F;helloworld&#x2F;</span><br><span class="line">RUN dotnet restore</span><br><span class="line"></span><br><span class="line"># copy everything else and build app</span><br><span class="line">COPY helloworld&#x2F;. .&#x2F;helloworld&#x2F;</span><br><span class="line">WORKDIR &#x2F;source&#x2F;helloworld</span><br><span class="line">RUN dotnet publish -c release -o &#x2F;app --no-restore</span><br><span class="line"></span><br><span class="line"># final stage&#x2F;image</span><br><span class="line">FROM mcr.microsoft.com&#x2F;dotnet&#x2F;aspnet:5.0</span><br><span class="line">WORKDIR &#x2F;app</span><br><span class="line">COPY --from&#x3D;build &#x2F;app .&#x2F;</span><br><span class="line">ENTRYPOINT [&quot;dotnet&quot;, &quot;helloworld.dll&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>試跑看看 docker , 注意指定的 image 在最後面 , 另外如果用 -d 參數的話 , 這種單純的 console 是沒辦法跑起來的 , 需要切換 entrypoint</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker run  -it hello-console --name hello-console</span><br><span class="line">#HelloWorld</span><br><span class="line"></span><br><span class="line">#切換進入點 , 並且用 attach 進去看看</span><br><span class="line">docker run -d -it --name hello-console --entrypoint sh hello-console</span><br><span class="line">docker attach 341</span><br><span class="line">ls</span><br><span class="line">#helloworld  helloworld.deps.json  helloworld.dll  helloworld.pdb  helloworld.runtimeconfig.json</span><br></pre></td></tr></table></figure>
+
+<h2 id="fzf-安裝"><a href="#fzf-安裝" class="headerlink" title="fzf 安裝"></a>fzf 安裝</h2><p>navi 相依於 fzf , 所以先安裝 fzf , 注意最好用新一點的版本 , 不然 navi 會炸這個 error <code>invalid preview window layout: up:2:nohidden</code><br>安裝好跟 vim 用法差不多因為太多電腦懶得一一 config , 最近更習慣直接 esc 用 <code>ctrl + [</code> 來代替 or <code>ctrl + q</code> 也可以<br>另外 fzf 除了 <code>ctrl + n</code> <code>ctrl +p</code> 以外還可以用 <code>ctrl + j</code> <code>ctrl + k</code> 上下移動</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br><span class="line"></span><br><span class="line">git clone --depth 1 https:&#x2F;&#x2F;github.com&#x2F;junegunn&#x2F;fzf.git ~&#x2F;.fzf</span><br><span class="line">~&#x2F;.fzf&#x2F;install</span><br><span class="line">source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝-navi"><a href="#安裝-navi" class="headerlink" title="安裝 navi"></a>安裝 navi</h2><p>參考<a href="https://github.com/denisidoro/navi#installation" target="_blank" rel="noopener">官方</a><br>安裝這個 navi 滿雷的 , 我最後退回到 v2.15.0 才跑得起來 , 平常沒在用 git 的 tag 功能查了下才知道還有這鬼東西</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">sudo git clone --depth 1 https:&#x2F;&#x2F;github.com&#x2F;denisidoro&#x2F;navi</span><br><span class="line">cd navi</span><br><span class="line">sudo git fetch --all --tags</span><br><span class="line">sudo apt-get install cargo</span><br><span class="line">sudo git checkout tags&#x2F;v2.15.0</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+
+<p>都安裝好後可以自己蓋個檔案來玩看看 , 注意副檔名要是 <code>.cheat</code> , 可以把自己常用的一些 script 寫進來方便用<br><code>%</code> 符號是 大類 <code>#</code> 是小類 , 還滿直覺的<br>docker.cheat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br></pre></td><td class="code"><pre><span class="line">% docker 掛狗大全</span><br><span class="line"></span><br><span class="line"># docker container 幫助</span><br><span class="line">docker container --help</span><br><span class="line"></span><br><span class="line"># docker 幫助串 grep</span><br><span class="line">docker --help | grep --color container</span><br><span class="line"></span><br><span class="line"># docker 列出 container</span><br><span class="line">docker container ls</span><br><span class="line"></span><br><span class="line"># docker 列出 image</span><br><span class="line">docker image ls</span><br><span class="line"></span><br><span class="line"># docker helloworld</span><br><span class="line">docker run hello-world</span><br><span class="line"></span><br><span class="line"># docker 列出停止的 container</span><br><span class="line">docker container ls -a</span><br><span class="line"></span><br><span class="line"># docker 列出停止的 container</span><br><span class="line">docker container ls -a</span><br><span class="line"></span><br><span class="line"># docker 跑 busybox</span><br><span class="line">docker run -it busybox sh</span><br><span class="line"></span><br><span class="line"># docker 跑 dotnet core</span><br><span class="line">docker run -it --rm mcr.microsoft.com&#x2F;dotnet&#x2F;sdk dotnet</span><br><span class="line"></span><br><span class="line"># docker 跑 nginx</span><br><span class="line">docker run --name nginx -d -p 8080:80 nginx</span><br><span class="line"></span><br><span class="line"># docker 查歷史</span><br><span class="line">docker history 22d</span><br><span class="line"></span><br><span class="line"># docker 查 log</span><br><span class="line">docker logs 418</span><br><span class="line"></span><br><span class="line"># docker 查 container 詳細訊息</span><br><span class="line">docker inspect 418</span><br><span class="line"></span><br><span class="line"># docker 拉 hello-world</span><br><span class="line">docker pull hello-world</span><br><span class="line"></span><br><span class="line"># docker 刪除沒用的 container</span><br><span class="line">docker container prune</span><br><span class="line"></span><br><span class="line"># docker 附加到 container 上</span><br><span class="line">docker attach 7d3</span><br><span class="line"></span><br><span class="line"># docker 啟動停止的容器</span><br><span class="line">docker start 723</span><br><span class="line"></span><br><span class="line"># docker 跳進容器 (bash)</span><br><span class="line">docker exec -it 23d &#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line"># docker 死亡指令 (注意不要亂用 機器會爆炸)</span><br><span class="line">echo &quot;docker run -v &#x2F;:&#x2F;data busybox rm -rf &#x2F;&quot;</span><br><span class="line"></span><br><span class="line"># docker 拉 imagemagick</span><br><span class="line">docker pull dpokidov&#x2F;imagemagick</span><br><span class="line"></span><br><span class="line"># docker 轉換圖片為 ico</span><br><span class="line">docker run -v ~&#x2F;imgs:&#x2F;imgs dpokidov&#x2F;imagemagick -background transparent &#x2F;imgs&#x2F;kuai.png -define icon:auto-resize&#x3D;16,24,32,48,64,72,96,128,258 &#x2F;imgs&#x2F;kuai.ico</span><br><span class="line"></span><br><span class="line"># docker 建立 volume</span><br><span class="line">docker volume create test</span><br><span class="line"></span><br><span class="line"># docker 執行 imagemagick 在 volume 上</span><br><span class="line">docker run -v test:imgs -d -it --entrypoint-&#x2F;bin&#x2F;bash dpokidov&#x2F;imagemagick</span><br><span class="line"></span><br><span class="line"># docker 查網路</span><br><span class="line">docker network ls</span><br><span class="line"></span><br><span class="line"># docker 讓網路跑在 host 上</span><br><span class="line">docker run -d --network&#x3D;host nginx</span><br><span class="line"></span><br><span class="line"># docker 網路跑橋接</span><br><span class="line">docker run -d -p 8080:80 --network&#x3D;bridge nginx</span><br><span class="line"></span><br><span class="line"># docker 查 container 內的 ip</span><br><span class="line">docker inspect 345 | grep -i ipaddress</span><br><span class="line"></span><br><span class="line"># docker container 網路用其他 container 的網路</span><br><span class="line">docker run -it --net&#x3D;container:345 nginx</span><br><span class="line"></span><br><span class="line"># docker 查 pid</span><br><span class="line">docker inspect 2f3 | grep -i pid</span><br><span class="line"></span><br><span class="line"># nsenter 看 docker 網路</span><br><span class="line">sudo nsenter -t 12342 -n</span><br><span class="line"></span><br><span class="line"># docker 看 netns</span><br><span class="line">sudo ls &#x2F;var&#x2F;run&#x2F;docker&#x2F;netns</span><br><span class="line"></span><br><span class="line"># docker 打標籤 tag</span><br><span class="line">docker tag dotnet-cowsay:latest dotnet-cowsay:latest</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># docker 打標籤 tag remote</span><br><span class="line">docker tag dotnet-cowsay:latest 172.18.22.33&#x2F;dotnet-cowsay:latest</span><br><span class="line"></span><br><span class="line"># docker login harbor</span><br><span class="line">docker login http:&#x2F;&#x2F;10.1.2.123 --username admin --password Harbor12345</span><br><span class="line"></span><br><span class="line"># docker commit</span><br><span class="line">docker commit -m &quot;cowsay&quot; -c &quot;ENV PATH&#x3D;$PATH:&#x2F;usr&#x2F;games&quot; 1234asfw dotnet5-new-cowsay</span><br><span class="line"></span><br><span class="line"># docker 搭配 jq 輸出 raw</span><br><span class="line">ls $(docker inspect test | jq -r &quot;.[0].Mountpoint&quot;)</span><br><span class="line"></span><br><span class="line"># docker 持續監控 log</span><br><span class="line">docker logs s12 -f -t</span><br></pre></td></tr></table></figure>
+
+<p>接著讀取自己的檔案看看 , 如果按了 enter 會直接把 command 執行在 terminal<br>如果加了 –print 參數會把 command 寫在畫面上不會直接執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">navi --path .</span><br><span class="line">navi --path . --print</span><br><span class="line"></span><br><span class="line">docker 掛狗大全  docker image 用法    docker image ls  ⠀</span><br><span class="line">docker 掛狗大全  docker 用法          docker container ls  ⠀</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="tldr"><a href="#tldr" class="headerlink" title="tldr"></a>tldr</h2><p>ubuntu 20 基本上無腦安裝 , 老實說這個訊息量確實少了很多 , 有好有壞</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install tldr</span><br><span class="line">#測看看 docker 用法</span><br><span class="line">tldr docker</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝-thefuck"><a href="#安裝-thefuck" class="headerlink" title="安裝 thefuck"></a>安裝 thefuck</h2><p><a href="https://github.com/nvbn/thefuck" target="_blank" rel="noopener">https://github.com/nvbn/thefuck</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y pip</span><br><span class="line">pip install thefuck</span><br><span class="line"></span><br><span class="line">vim ~&#x2F;.bashrc</span><br><span class="line">PATH&#x3D;$PATH:&#x2F;home&#x2F;vagrant&#x2F;.local&#x2F;bin</span><br><span class="line">source ~&#x2F;.bashrc</span><br><span class="line"></span><br><span class="line">fuck</span><br><span class="line">#Seems like fuck alias isn&#39;t configured!</span><br><span class="line">#Please put eval &quot;$(thefuck --alias)&quot; in your ~&#x2F;.bashrc and apply changes with source ~&#x2F;.bashrc or restart your shell.</span><br><span class="line">#Or run fuck a second time to configure it automatically.</span><br><span class="line">#More details - https:&#x2F;&#x2F;github.com&#x2F;nvbn&#x2F;thefuck#manual-installation</span><br><span class="line">source ~&#x2F;.bashrc</span><br></pre></td></tr></table></figure>
+
+<h2 id="Pokete"><a href="#Pokete" class="headerlink" title="Pokete"></a>Pokete</h2><p>人生苦悶 , 尤其值班時要守在電腦前 , 這時候玩點類寶可夢散散心 <a href="https://github.com/lxgr-linux/pokete" target="_blank" rel="noopener">Pokete</a> 坦白說還不錯玩 XD<br><img src="https://raw.githubusercontent.com/lxgr-linux/pokete/master/assets/ss/ss01.png" alt="vim"></p>
+<h2 id="打字練習"><a href="#打字練習" class="headerlink" title="打字練習"></a>打字練習</h2><p>小時後在百貨公司的遊樂場? 有個叫做<a href="https://store.steampowered.com/app/246580/The_Typing_of_The_Dead_Overkill/" target="_blank" rel="noopener">死亡鬼屋</a>的遊戲 , 沒想到這個還有打字版 XD<br>不過我看 steam 上面的的好像是 2013 年出的版本 , 但是還是買來玩看看 , 讓討厭的英打變得有趣<br><img src="https://cdn.cloudflare.steamstatic.com/steam/apps/246580/ss_fbc049532e42291fe852adae05232f74d2ed53c2.1920x1080.jpg?t=1603130707" alt="typing"><br>如果 win10 閃退 or 黑頻可以參考<a href="https://www.youtube.com/watch?v=QPWCTPUziO8" target="_blank" rel="noopener">這個</a><br><code>win</code> =&gt; <code>設定</code> =&gt; <code>顯示器</code> =&gt; <code>圖形設定圖形</code> =&gt; <code>C:\Program Files (x86)\Steam\steamapps\common\Typing of the Dead Overkill\HOTD_NG.exe</code> =&gt; <code>省電</code></p>
+<p>另外有個特色就是可以下載字典 , 這裡列兩個 <code>1000 most-common words</code> , <code>C# Developer</code> (這個簡直自虐) , 其他語言應該也都有 XD<br>最後想要自訂字典<a href="https://steamcommunity.com/sharedfiles/filedetails/?id=414808565" target="_blank" rel="noopener">可以參考這裡</a><br>因為預設只會顯示遊戲 , 滿不好找的 , 這邊順便列一下 , 不過實在懶得自己動手做 , 還是用別人的就好<br>英文: <code>LIBRARY</code> =&gt; <code>Search Bar</code> =&gt; <code>TOOLS</code> =&gt; <code>The Typing of the Dead: Workshop Tool</code> =&gt; <code>Install</code><br>中文: <code>收藏庫</code> =&gt; <code>搜尋條</code> =&gt; <code>工具</code> =&gt; <code>The Typing of the Dead: Workshop Tool</code> =&gt; <code>安裝</code><br>後來我實際製作看看好像有 bug , 不曉得為啥狂跳這句 <code>There are other files and folders in the same folder as the dictionary file. Please remove them and leave the dictionary file on its own in the folder.</code><br>後來解法 <code>Dictionary Name</code> 那欄不要填欄 , 然後 <code>Description</code> 先故意不寫 , 按 <code>publish</code> 以後 , 他會跳個視窗 , 這時候寫 <code>Descirption</code> 後 , 接著點 <code>publish</code> 才會成功 , 想刪除的話 , 也要從 steam 上面刪 , 有夠麻煩 …<br>順帶一提他這個工具是 c# 開發的 , 路徑在 <code>C:\Program Files (x86)\Steam\steamapps\common\Typing of the Dead Workshop Tool\TotDO Tools.exe</code> , 所以可以 decompile 看看</p>
+<h2 id="其他好玩咚咚"><a href="#其他好玩咚咚" class="headerlink" title="其他好玩咚咚"></a>其他好玩咚咚</h2><p><a href="https://github.com/agarrharr/awesome-cli-apps" target="_blank" rel="noopener">https://github.com/agarrharr/awesome-cli-apps</a><br><a href="https://github.com/alebcay/awesome-shell" target="_blank" rel="noopener">https://github.com/alebcay/awesome-shell</a><br><a href="https://vim.reversed.top/" target="_blank" rel="noopener">https://vim.reversed.top/</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/neovim/" rel="tag"># neovim</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/17/neovim-%E6%95%B4%E5%90%88-vscode-%E7%AD%86%E8%A8%98/" rel="prev" title="neovim 整合 vscode 筆記">
+      <i class="fa fa-chevron-left"></i> neovim 整合 vscode 筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/08/20/chrome-%E5%BF%AB%E9%80%9F%E5%88%87%E6%8F%9B-url-%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="next" title="chrome 快速切換 url 小技巧">
+      chrome 快速切換 url 小技巧 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-對照-vim-快速操作技巧"><span class="nav-number">1.</span> <span class="nav-text">windows 對照 vim 快速操作技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-對照-terminal-快速操作技巧"><span class="nav-number">2.</span> <span class="nav-text">windows 對照 terminal 快速操作技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-oh-my-bash"><span class="nav-number">3.</span> <span class="nav-text">安裝 oh-my-bash</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Git-bash-for-windows-設定-vim"><span class="nav-number">4.</span> <span class="nav-text">Git bash for windows 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-git-bash-for-windows-python-輸出有問題"><span class="nav-number">5.</span> <span class="nav-text">解決 git bash for windows python 輸出有問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#check-vim-support-python"><span class="nav-number">6.</span> <span class="nav-text">check vim support python</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#解決-vim-編輯檔案時忘了加上-sudo-造成-readonly-的問題"><span class="nav-number">7.</span> <span class="nav-text">解決 vim 編輯檔案時忘了加上 sudo 造成 readonly 的問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Narrow-to-region"><span class="nav-number">8.</span> <span class="nav-text">Narrow to region</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">8.1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#複習-split-window"><span class="nav-number">8.2.</span> <span class="nav-text">複習 split window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作"><span class="nav-number">8.3.</span> <span class="nav-text">操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tmux-安裝"><span class="nav-number">9.</span> <span class="nav-text">Tmux 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Bash-for-Windows-tmux-vim-中文亂碼設定及真色設定"><span class="nav-number">10.</span> <span class="nav-text">Bash for Windows tmux vim 中文亂碼設定及真色設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-vim-設定檔"><span class="nav-number">11.</span> <span class="nav-text">最終 vim 設定檔</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最終-Tmux-設定"><span class="nav-number">12.</span> <span class="nav-text">最終 Tmux 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#後記的靈異事件"><span class="nav-number">13.</span> <span class="nav-text">後記的靈異事件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#windows-底下使用-neovim"><span class="nav-number">14.</span> <span class="nav-text">windows 底下使用 neovim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu-設定-vim"><span class="nav-number">15.</span> <span class="nav-text">ubuntu 設定 vim</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#選取與移動的實用技巧"><span class="nav-number">16.</span> <span class="nav-text">選取與移動的實用技巧</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#啪啪神器-matchit"><span class="nav-number">16.1.</span> <span class="nav-text">啪啪神器 matchit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#往外延伸選取-vim-expand-region"><span class="nav-number">16.2.</span> <span class="nav-text">往外延伸選取 vim-expand-region</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#縮排選取好幫手-vim-indent-object"><span class="nav-number">16.3.</span> <span class="nav-text">縮排選取好幫手 vim-indent-object</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用-COC-補全-k8s-yaml"><span class="nav-number">17.</span> <span class="nav-text">使用 COC 補全 k8s yaml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-zsh-oh-my-zsh-及-powerline"><span class="nav-number">18.</span> <span class="nav-text">安裝 zsh oh-my-zsh 及 powerline</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#為你的-cat-加上色彩"><span class="nav-number">19.</span> <span class="nav-text">為你的 cat 加上色彩</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#裝-B-移動目錄神器-Ranger-筆記"><span class="nav-number">20.</span> <span class="nav-text">裝 B 移動目錄神器 Ranger 筆記</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#在-ubuntu-上撰寫-net-core-5"><span class="nav-number">21.</span> <span class="nav-text">在 ubuntu 上撰寫 .net core 5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fzf-安裝"><span class="nav-number">22.</span> <span class="nav-text">fzf 安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-navi"><span class="nav-number">23.</span> <span class="nav-text">安裝 navi</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#tldr"><span class="nav-number">24.</span> <span class="nav-text">tldr</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝-thefuck"><span class="nav-number">25.</span> <span class="nav-text">安裝 thefuck</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pokete"><span class="nav-number">26.</span> <span class="nav-text">Pokete</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#打字練習"><span class="nav-number">27.</span> <span class="nav-text">打字練習</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他好玩咚咚"><span class="nav-number">28.</span> <span class="nav-text">其他好玩咚咚</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">686k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">10:23</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2020/08/18/%E6%88%91%E7%9A%84-vim-neovim-config/";
+    this.page.identifier = "2020/08/18/我的-vim-neovim-config/";
+    this.page.title = "我的 vim/neovim config";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>

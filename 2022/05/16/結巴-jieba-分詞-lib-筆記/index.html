@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="結巴 jieba 分詞 lib 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/05/16/%E7%B5%90%E5%B7%B4-jieba-%E5%88%86%E8%A9%9E-lib-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-05-16T11:43:07.000Z">
+<meta property="article:modified_time" content="2022-08-15T08:38:57.146Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="c#">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/05/16/%E7%B5%90%E5%B7%B4-jieba-%E5%88%86%E8%A9%9E-lib-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>結巴 jieba 分詞 lib 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/05/16/%E7%B5%90%E5%B7%B4-jieba-%E5%88%86%E8%A9%9E-lib-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          結巴 jieba 分詞 lib 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-05-16 19:43:07" itemprop="dateCreated datePublished" datetime="2022-05-16T19:43:07+08:00">2022-05-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-08-15 16:38:57" itemprop="dateModified" datetime="2022-08-15T16:38:57+08:00">2022-08-15</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/05/16/%E7%B5%90%E5%B7%B4-jieba-%E5%88%86%E8%A9%9E-lib-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/05/16/結巴-jieba-分詞-lib-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>5.1k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>5 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="python"><a href="#python" class="headerlink" title="python"></a>python</h3><p>最近遇到一個非常通靈的需求 , user 希望在留言欄內寫了些字眼 , 要求能夠分類出來<br>例如這樣 <code>好棒</code> , <code>好棒棒</code> , <code>很棒</code> 視為同一類 , 表示給予正面評價<br>如果是 <code>機車</code> , <code>wtf</code> , <code>GG</code> 這類 , 給予負面評價<br>剛開始沒啥方向 , 想說這種黑科技只能往 python 去看看應該比較多<br>在一翻尋找後發現這種類似的需求可能要用 <code>斷詞</code> 這類的術語去找 , 最後發現了這個 lib <a href="https://github.com/fxsjy/jieba" target="_blank" rel="noopener">jieba</a><br>另外撰寫過程中又發現 , 除了斷詞外還需要過濾關鍵字 , 所以用了 <a href="https://github.com/vi3k6i5/flashtext" target="_blank" rel="noopener">flashtext</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip3 install jieba</span><br><span class="line">pip3 install flashtext</span><br><span class="line">conda install pymssql</span><br></pre></td></tr></table></figure>
+
+<p>我這裡直接跑 jupyter notebook 來測試</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">#coding&#x3D;utf8</span><br><span class="line">import jieba</span><br><span class="line">import jieba.analyse</span><br><span class="line">import pymssql</span><br><span class="line">import sys</span><br><span class="line">import json</span><br><span class="line"></span><br><span class="line">from flashtext import KeywordProcessor</span><br><span class="line"></span><br><span class="line">#得到目前編碼</span><br><span class="line">#print(sys.getdefaultencoding())</span><br><span class="line"></span><br><span class="line">#https:&#x2F;&#x2F;github.com&#x2F;vi3k6i5&#x2F;flashtext</span><br><span class="line">#https:&#x2F;&#x2F;github.com&#x2F;fxsjy&#x2F;jieba</span><br><span class="line">#載入字典</span><br><span class="line">filename &#x3D; &#39;dict.txt&#39;</span><br><span class="line">jieba.load_userdict(filename)</span><br><span class="line">keyword_processor &#x3D; KeywordProcessor(case_sensitive&#x3D;False)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#加入關鍵字</span><br><span class="line">for str in get_keyword(filename):</span><br><span class="line">    #print(str)</span><br><span class="line">    keyword_processor.add_keyword(str)</span><br><span class="line"></span><br><span class="line">#分詞</span><br><span class="line">#換成 get_from_sql 則切成正式資料</span><br><span class="line">for str in get_all():</span><br><span class="line">    #print(str)</span><br><span class="line">    seg_list &#x3D; jieba.cut(str,use_paddle&#x3D;True)</span><br><span class="line">    result &#x3D; keyword_processor.extract_keywords(&#39;&#x2F;&#39;.join(list(seg_list)))</span><br><span class="line">    #print(seg_list)</span><br><span class="line">    #print(result)</span><br><span class="line">    if len(result) &gt; 0:</span><br><span class="line">        print(result)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_keyword(filename):</span><br><span class="line">    lines &#x3D; []</span><br><span class="line">    with open(filename,&quot;r&quot;,encoding&#x3D;&quot;utf-8&quot;) as f:</span><br><span class="line">        for line in f:</span><br><span class="line">            #消除 UTF8-BOM 還有換行符號</span><br><span class="line">            #https:&#x2F;&#x2F;blog.csdn.net&#x2F;qq_38939991&#x2F;article&#x2F;details&#x2F;116103252</span><br><span class="line">            lines.append(line.lstrip(&quot;\ufeff&quot;).rstrip(&#39;\n&#39;))</span><br><span class="line">    return lines</span><br><span class="line"></span><br><span class="line">def get_all():</span><br><span class="line">    result &#x3D; [</span><br><span class="line">        &quot;這個賣家真的很機車&quot;,</span><br><span class="line">        &quot;這個客戶真的很棒&quot;,</span><br><span class="line">        &quot;好棒棒&quot;,</span><br><span class="line">        &quot;GY 產品難用又垃圾&quot;,</span><br><span class="line">        &quot;我剛買回來馬上就壞了 GG&quot;,</span><br><span class="line">        &quot;舒服 ~&quot;,</span><br><span class="line">        &quot;無聊留言看看&quot;,</span><br><span class="line">        &quot;工程師測試&quot;</span><br><span class="line">    ]</span><br><span class="line">    return result</span><br><span class="line"></span><br><span class="line">def get_from_sql():</span><br><span class="line">    #這裡跟 sql server 的定序有關 , 要找到跟你 DB 一樣的定序 , 繁體中文為 cp950</span><br><span class="line">    #SELECT COLLATIONPROPERTY(&#39;Chinese_Taiwan_Stroke_CI_AS&#39;, &#39;CodePage&#39;)</span><br><span class="line">    result &#x3D; []</span><br><span class="line">    conn &#x3D; pymssql.connect(server&#x3D;&#39;123.456.78&#39;,</span><br><span class="line">                           user&#x3D;&#39;1234&#39;,</span><br><span class="line">                           password&#x3D;&#39;12345678&#39;,</span><br><span class="line">                           database&#x3D;&#39;GGDB&#39;,</span><br><span class="line">                           charset&#x3D;&#39;cp950&#39;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    cursor &#x3D; conn.cursor(as_dict&#x3D;True)</span><br><span class="line">    cursor.execute(</span><br><span class="line">u&quot;&quot;&quot;</span><br><span class="line">select Comment</span><br><span class="line">from Board</span><br><span class="line">where Comment is not null</span><br><span class="line">and (</span><br><span class="line">	Comment like &#39;%機車%&#39; or</span><br><span class="line">	Comment like &#39;%wtf%&#39; or</span><br><span class="line">	Comment like &#39;%GY%&#39; or</span><br><span class="line">	Comment like &#39;%GG%&#39; or</span><br><span class="line">	Comment like &#39;%FQ%&#39; or</span><br><span class="line">	Comment like &#39;%好棒%&#39; or</span><br><span class="line">	Comment like &#39;%好棒棒%&#39; or</span><br><span class="line">	Comment like &#39;%很棒%&#39;</span><br><span class="line">)</span><br><span class="line">order by Comment</span><br><span class="line">&quot;&quot;&quot;.encode(&#39;cp950&#39;)</span><br><span class="line">    )</span><br><span class="line">    comments &#x3D; cursor.fetchall()</span><br><span class="line">    for row in comments:</span><br><span class="line">        result.append(row[&#39;Comment&#39;])</span><br><span class="line">        #print(row[&#39;Comment&#39;])</span><br><span class="line">    conn.close()</span><br><span class="line">    return result</span><br></pre></td></tr></table></figure>
+
+
+<p>dict</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wtf</span><br><span class="line">GY</span><br><span class="line">GG</span><br><span class="line">FQ</span><br><span class="line">機車</span><br><span class="line">好棒</span><br><span class="line">好棒棒</span><br><span class="line">很棒</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="c"><a href="#c" class="headerlink" title="c#"></a>c#</h3><p>後來發現它也有 <a href="https://github.com/anderscui/jieba.NET/" target="_blank" rel="noopener">.net 的實作</a> , 所以也在轉寫一次看看<br>唯一要注意的就是他的 <code>Resources</code> 要丟到 <code>bin</code> 底下 , 不然就是要設定到其他目錄<br>本來也想在 jupyter 上面測試看看 , 可是一直吃不到 <code>Resources</code> 只好放棄</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">using static System.Linq.Enumerable;</span><br><span class="line">using static System.Console;</span><br><span class="line">using static System.Math;</span><br><span class="line">using System.Data.SqlClient;</span><br><span class="line">using System.Data;</span><br><span class="line"></span><br><span class="line">using System.Diagnostics;</span><br><span class="line">using System.IO;</span><br><span class="line">using System.Resources;</span><br><span class="line"></span><br><span class="line">using Unit &#x3D; System.ValueTuple;</span><br><span class="line">using System.Xml.Linq;</span><br><span class="line"></span><br><span class="line">using System.Collections;</span><br><span class="line">using System.Resources;</span><br><span class="line">using JiebaNet.Segmenter;</span><br><span class="line"></span><br><span class="line">namespace ConsoleApp1</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            var kp &#x3D; new KeywordProcessor();</span><br><span class="line">            kp.AddKeywords(</span><br><span class="line">                new[] &#123;</span><br><span class="line">                    &quot;GY&quot;,</span><br><span class="line">                    &quot;GG&quot;,</span><br><span class="line">                    &quot;好棒棒&quot;,</span><br><span class="line">                    &quot;好棒&quot;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;https:&#x2F;&#x2F;github.com&#x2F;anderscui&#x2F;jieba.NET&#x2F;</span><br><span class="line">            &#x2F;&#x2F;預設目錄叫做 Resources 在此手動修改目錄名稱 , 執行務必確保 bin 底下有這個資料夾</span><br><span class="line">            JiebaNet.Segmenter.ConfigManager.ConfigFileBaseDir &#x3D; AppDomain.CurrentDomain.BaseDirectory + @&quot;jiebanet_config&quot;;</span><br><span class="line">            var segmenter &#x3D; new JiebaSegmenter();</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;載入自己定義的字典</span><br><span class="line">            segmenter.LoadUserDict(&quot;dict.txt&quot;);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;計算看看最後有多少詞進入到分類</span><br><span class="line">            var total &#x3D; new List&lt;string&gt;();</span><br><span class="line"></span><br><span class="line">            foreach (var item in GetAll().ToList())</span><br><span class="line">            &#123;</span><br><span class="line">                &#x2F;&#x2F;分詞</span><br><span class="line">                var segments &#x3D; segmenter.Cut(item, cutAll: true);</span><br><span class="line">                &#x2F;&#x2F;Console.WriteLine(&quot;&#123;0&#125;&quot;, string.Join(&quot;&#x2F;&quot;, segments));</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;拿分詞找關鍵字</span><br><span class="line">                var result &#x3D; kp.ExtractKeywords(string.Join(&quot;&#x2F;&quot;, segments));</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;計算到底有多少關鍵詞</span><br><span class="line">                if (result.Count() &gt; 0) total.Add(item);</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;輸出關鍵詞關係</span><br><span class="line">                result.ToList().ForEach(x &#x3D;&gt;</span><br><span class="line">                &#123;</span><br><span class="line">                    Console.WriteLine($&quot;&#123;x&#125; &#x2F; parent:&#123;item&#125;&quot;);</span><br><span class="line">                &#125;);</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;分隔線</span><br><span class="line">                if (result.Count() &gt; 0) Console.WriteLine($&quot;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&#x3D;&quot;);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;看筆數</span><br><span class="line">            Console.WriteLine($&quot;total: &#123;total.Count&#125;&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        static List&lt;string&gt; GetAll()</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F;模擬 db 資料</span><br><span class="line">            return new List&lt;string&gt; &#123;</span><br><span class="line">				&quot;這個賣家真的很機車&quot;,</span><br><span class="line">				&quot;這個客戶真的很棒&quot;,</span><br><span class="line">				&quot;好棒棒&quot;,</span><br><span class="line">				&quot;GY 產品難用又垃圾&quot;,</span><br><span class="line">				&quot;我剛買回來馬上就壞了 GG&quot;,</span><br><span class="line">				&quot;舒服 ~&quot;,</span><br><span class="line">				&quot;無聊留言看看&quot;,</span><br><span class="line">				&quot;工程師測試&quot;</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c#</a>
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/05/15/chrome-%E8%A8%AD%E5%AE%9A%E5%85%81%E8%A8%B1-http/" rel="prev" title="chrome 設定允許 http">
+      <i class="fa fa-chevron-left"></i> chrome 設定允許 http
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/16/%E4%B8%AD%E5%9C%8B%E4%BF%A1%E8%A8%97%E5%B8%B8%E7%94%A8%E7%B9%B3%E8%B2%BB/" rel="next" title="中國信託常用繳費">
+      中國信託常用繳費 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#python"><span class="nav-number">1.</span> <span class="nav-text">python</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c"><span class="nav-number">2.</span> <span class="nav-text">c#</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">174</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">91</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">686k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">10:23</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/05/16/%E7%B5%90%E5%B7%B4-jieba-%E5%88%86%E8%A9%9E-lib-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2022/05/16/結巴-jieba-分詞-lib-筆記/";
+    this.page.title = "結巴 jieba 分詞 lib 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>
