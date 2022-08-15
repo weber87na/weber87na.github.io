@@ -15,10 +15,12 @@
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage">
+  <!--
   <div class="spell" ></div>
   <div class="ghost" style="display: none;"></div>
   <div class="noise"></div>
   <div class="noise2"></div>
+  -->
 
 
   <div class="container{%- if theme.motion.enable %} use-motion{%- endif %}">
@@ -98,6 +100,7 @@
   </div>
 </div>
 
+<!--
 <script>
 	function toggleSpell() {
 		let spell = document.getElementsByClassName('spell')[0];
@@ -123,6 +126,7 @@
 	spell.addEventListener('click',toggleSpell);
 	ghost.addEventListener('click',toggleSpell);
 </script>
+-->
 
 
 
