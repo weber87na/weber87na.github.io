@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2022-08-21T17:18:57.000Z">
-<meta property="article:modified_time" content="2022-08-22T10:53:10.798Z">
+<meta property="article:modified_time" content="2022-08-22T20:06:09.495Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="wsl">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2022-08-22 01:18:57 / 修改時間：18:53:10" itemprop="dateCreated datePublished" datetime="2022-08-22T01:18:57+08:00">2022-08-22</time>
+              <time title="亂入時間：2022-08-22 01:18:57" itemprop="dateCreated datePublished" datetime="2022-08-22T01:18:57+08:00">2022-08-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-08-23 04:06:09" itemprop="dateModified" datetime="2022-08-23T04:06:09+08:00">2022-08-23</time>
+              </span>
 
           
   
@@ -309,7 +315,7 @@
 <a id="more"></a>
 
 <p>因為常用 wsl 有時候又會不小心忘記一些細節 , 索性筆記下 , 詳細可以參考<a href="https://docs.microsoft.com/zh-tw/windows/wsl/install" target="_blank" rel="noopener">官網</a></p>
-<p>列出可以從網路上安裝的 linux</p>
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><p>列出可以從網路上安裝的 linux</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">wsl --list --online</span><br><span class="line"></span><br><span class="line">NAME            FRIENDLY NAME</span><br><span class="line">Ubuntu          Ubuntu</span><br><span class="line">Debian          Debian GNU&#x2F;Linux</span><br><span class="line">kali-linux      Kali Linux Rolling</span><br><span class="line">openSUSE-42     openSUSE Leap 42</span><br><span class="line">SLES-12         SUSE Linux Enterprise Server v12</span><br><span class="line">Ubuntu-16.04    Ubuntu 16.04 LTS</span><br><span class="line">Ubuntu-18.04    Ubuntu 18.04 LTS</span><br><span class="line">Ubuntu-20.04    Ubuntu 20.04 LTS</span><br></pre></td></tr></table></figure>
 
 <p>安裝指定版本的 linux</p>
@@ -318,17 +324,27 @@
 <p>列出目前有的 instance</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wsl --list</span><br><span class="line">Ubuntu (預設值)</span><br><span class="line">Ubuntu-18.04</span><br></pre></td></tr></table></figure>
 
-
 <p>啟動指定的 instance</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl -d Ubuntu-18.04</span><br></pre></td></tr></table></figure>
 
 <p>刪除 instance</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --unregister Ubuntu-18.04</span><br></pre></td></tr></table></figure>
 
+
+<h3 id="版本-amp-狀態"><a href="#版本-amp-狀態" class="headerlink" title="版本 &amp; 狀態"></a>版本 &amp; 狀態</h3><p>如果你之前的 ubuntu 是 <code>wsl1</code> 要升上 <code>wsl2</code> 可以用下面這句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl.exe --set-version Ubuntu 2</span><br></pre></td></tr></table></figure>
+
+<p>若不確定版本可以這樣看詳細訊息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --list -v</span><br></pre></td></tr></table></figure>
+
+
+<p>如果想直接讓安裝 <code>wsl</code> 預設就是 <code>wsl2</code> 可以直接這樣下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl.exe --set-default-version 2</span><br></pre></td></tr></table></figure>
+
 <p>看目前 wsl 狀態</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --status</span><br></pre></td></tr></table></figure>
 
-<p>有趣用法 , 直接在 powershell 上面對 wsl 進行操控 , 像這樣可以直接列出我 ubuntu 裡面的檔案</p>
+<h3 id="有趣用法"><a href="#有趣用法" class="headerlink" title="有趣用法"></a>有趣用法</h3><p>有趣用法 , 直接在 powershell 上面對 wsl 進行操控 , 像這樣可以直接列出我 ubuntu 裡面的檔案</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wsl ls ~</span><br><span class="line">Anaconda3-2022.05-Linux-x86_64.sh  anaconda3  blog</span><br></pre></td></tr></table></figure>
 
 <p>在 windows 上如果需要從 wsl 裡面撈檔案出來的話 , 可以這樣進去找</p>
@@ -340,25 +356,14 @@
 <p>如果在 wsl 內想用 windows 檔案總管導覽某個目錄可以直接這樣下 , 萬一不 work 可以參考<a href="https://stackoverflow.com/questions/63753322/opening-the-file-explorer-from-wsl2-debian" target="_blank" rel="noopener">這篇</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explorer.exe .</span><br></pre></td></tr></table></figure>
 
-<p>如果你之前的 ubuntu 是 <code>wsl1</code> 要升上 <code>wsl2</code> 可以用下面這句</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl.exe --set-version Ubuntu 2</span><br></pre></td></tr></table></figure>
-
-<p>若不確定版本可以這樣看詳細訊息</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --list -v</span><br></pre></td></tr></table></figure>
-
-
-<p>如果想直接讓安裝 <code>wsl</code> 預設就是 <code>wsl2</code> 可以直接這樣下</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl.exe --set-default-version 2</span><br></pre></td></tr></table></figure>
-
 <p>如果不想一開始在 <code>/mnt/c/Users/yourname</code> 底下的話 , 想要直接在 linux home 目錄可以這樣下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wsl --cd ~</span><br></pre></td></tr></table></figure>
 
-<p>如果想在 wsl 裡面有 gui 的話可以參考這兩篇 , 我自己用起來的體驗是不大好 , 需要 gui 可能還是裝 vm 比較優<br><a href="https://github.com/QMonkey/wsl-tutorial/blob/master/README.wsl2.md" target="_blank" rel="noopener">Xfce</a> , 這個我有跑起來<br><a href="https://gist.github.com/Ta180m/e1471413f62e3ed94e72001d42e77e22" target="_blank" rel="noopener">GNOME</a> , 我 try 這個失敗不曉得為啥<br>懶得裝<a href="https://sourceforge.net/projects/vcxsrv/" target="_blank" rel="noopener">vsxsrv</a> 的話可以參考<a href="https://opticos.github.io/gwsl/" target="_blank" rel="noopener">GWSL</a> , 用起來更無腦一點</p>
+<h3 id="gui"><a href="#gui" class="headerlink" title="gui"></a>gui</h3><p>如果想在 wsl 裡面有 gui 的話可以參考這兩篇 , 我自己用起來的體驗是不大好 , 需要 gui 可能還是裝 vm 比較優<br><a href="https://github.com/QMonkey/wsl-tutorial/blob/master/README.wsl2.md" target="_blank" rel="noopener">Xfce</a> , 這個我有跑起來<br><a href="https://gist.github.com/Ta180m/e1471413f62e3ed94e72001d42e77e22" target="_blank" rel="noopener">GNOME</a> , 我 try 這個失敗不曉得為啥<br>懶得裝<a href="https://sourceforge.net/projects/vcxsrv/" target="_blank" rel="noopener">vsxsrv</a> 的話可以參考<a href="https://opticos.github.io/gwsl/" target="_blank" rel="noopener">GWSL</a> , 用起來更無腦一點</p>
 <p>他 gui 可以自己幫你加上這些參數在 <code>~/.bashrc</code> 你也可以自己手動加 , 我自己試玩 GNOME 就跟老外噴的錯誤一樣滿多問題 , 最後也失敗</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export DISPLAY&#x3D;:0.0  #GWSL</span><br><span class="line">export PULSE_SERVER&#x3D;tcp:localhost #GWSL</span><br><span class="line">export LIBGL_ALWAYS_INDIRECT&#x3D;1 #GWSL</span><br></pre></td></tr></table></figure>
 
-
-<p>最後玩看看匯入 wsl 的功能 , 要自己做的話好像挺麻煩的 , 這裡下載 <a href="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-minirootfs-3.16.2-x86_64.tar.gz" target="_blank" rel="noopener">alpinelinux</a> , 注意要先解壓成 <code>tar</code> , 詳細可以參考<a href="https://www.youtube.com/watch?v=KtN6sNJlQrA" target="_blank" rel="noopener">這個影片</a></p>
+<h3 id="匯入"><a href="#匯入" class="headerlink" title="匯入"></a>匯入</h3><p>最後玩看看匯入 wsl 的功能 , 要自己做的話好像挺麻煩的 , 這裡下載 <a href="https://dl-cdn.alpinelinux.org/alpine/v3.16/releases/x86_64/alpine-minirootfs-3.16.2-x86_64.tar.gz" target="_blank" rel="noopener">alpinelinux</a> , 注意要先解壓成 <code>tar</code> , 詳細可以參考<a href="https://www.youtube.com/watch?v=KtN6sNJlQrA" target="_blank" rel="noopener">這個影片</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">mkdir c:\alpine</span><br><span class="line"></span><br><span class="line">wsl --import alpine c:\alpine C:\Users\TF200119\Downloads\alpine-minirootfs-3.16.2-x86_64.tar</span><br><span class="line">wsl</span><br><span class="line"></span><br><span class="line">#更新並且安裝 curl</span><br><span class="line">apk update</span><br><span class="line">apk upgrade</span><br><span class="line">apk add curl</span><br></pre></td></tr></table></figure>
 
     </div>
@@ -450,6 +455,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本-amp-狀態"><span class="nav-number">2.</span> <span class="nav-text">版本 &amp; 狀態</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有趣用法"><span class="nav-number">3.</span> <span class="nav-text">有趣用法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#gui"><span class="nav-number">4.</span> <span class="nav-text">gui</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#匯入"><span class="nav-number">5.</span> <span class="nav-text">匯入</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
