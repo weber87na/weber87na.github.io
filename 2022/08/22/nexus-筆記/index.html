@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2022-08-22T10:53:40.000Z">
-<meta property="article:modified_time" content="2022-08-22T19:59:13.711Z">
+<meta property="article:modified_time" content="2022-08-23T11:20:13.580Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="nexus">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2022-08-23 03:59:13" itemprop="dateModified" datetime="2022-08-23T03:59:13+08:00">2022-08-23</time>
+                <time title="修改時間：2022-08-23 19:20:13" itemprop="dateModified" datetime="2022-08-23T19:20:13+08:00">2022-08-23</time>
               </span>
 
           
@@ -292,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.4k</span>
+              <span>4.2k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>3 分鐘</span>
+              <span>4 分鐘</span>
             </span>
 
         </div>
@@ -360,6 +360,15 @@
 
 <p>接著開個 console 專案 , 我還真沒想到會有這麼廢的套件 , 真不可思議</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; See https:&#x2F;&#x2F;aka.ms&#x2F;new-console-template for more information</span><br><span class="line">using System;</span><br><span class="line">using HelloWorld;</span><br><span class="line"></span><br><span class="line">HelloWorld.Hello h &#x3D; new Hello();</span><br><span class="line">h.World();</span><br></pre></td></tr></table></figure>
+
+<h3 id="maven"><a href="#maven" class="headerlink" title="maven"></a>maven</h3><p>先找到 maven 的 <code>setting.xml</code> , 我之前 maven 應該是 chocolatey 裝的 <code>C:\ProgramData\chocolatey\lib\maven\apache-maven-3.8.1\conf\settings.xml</code><br>如果不確定 maven 到底有沒有的話 , 可以這樣測試看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn -v</span><br></pre></td></tr></table></figure>
+
+<p>接著找到 <code>mirrors</code> 加上這段 , 應該就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;mirror&gt;  </span><br><span class="line">	&lt;id&gt;nexus-maven&lt;&#x2F;id&gt;  </span><br><span class="line">	&lt;name&gt;nexus-maven&lt;&#x2F;name&gt;  </span><br><span class="line">	&lt;url&gt;http:&#x2F;&#x2F;123.45.67.89:8081&#x2F;repository&#x2F;maven-public&#x2F;&lt;&#x2F;url&gt;  </span><br><span class="line">	&lt;mirrorOf&gt;central&lt;&#x2F;mirrorOf&gt;          </span><br><span class="line">&lt;&#x2F;mirror&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然後看是用 intellij or vscode , 在 <code>pom.xml</code> 的 <code>dependencies</code> 裡面加上去想要的套件基本就搞定了 , 要啥就去 <a href="https://mvnrepository.com" target="_blank" rel="noopener">mvnrepository</a> 找看看<br>以下拿 jackson 來測試看看 , 加完後記得要更新就搞定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;com.fasterxml.jackson.core&#x2F;jackson-core --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.fasterxml.jackson.core&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;jackson-core&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;2.13.3&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -447,7 +456,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wsl-網路問題"><span class="nav-number">2.</span> <span class="nav-text">wsl 網路問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#conda"><span class="nav-number">3.</span> <span class="nav-text">conda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nuget"><span class="nav-number">4.</span> <span class="nav-text">nuget</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wsl-網路問題"><span class="nav-number">2.</span> <span class="nav-text">wsl 網路問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#conda"><span class="nav-number">3.</span> <span class="nav-text">conda</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nuget"><span class="nav-number">4.</span> <span class="nav-text">nuget</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#maven"><span class="nav-number">5.</span> <span class="nav-text">maven</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -529,13 +538,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">698k</span>
+    <span title="總廢話字數">700k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">10:34</span>
+    <span title="所需總浪費時間">10:36</span>
 </div>
 
         
