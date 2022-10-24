@@ -50,7 +50,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://angular.tw/assets/images/logos/angular/angular.svg">
 <meta property="article:published_time" content="2022-10-11T10:26:18.000Z">
-<meta property="article:modified_time" content="2022-10-24T11:19:26.910Z">
+<meta property="article:modified_time" content="2022-10-24T14:10:50.949Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="angular">
 <meta name="twitter:card" content="summary">
@@ -271,7 +271,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2022-10-24 19:19:26" itemprop="dateModified" datetime="2022-10-24T19:19:26+08:00">2022-10-24</time>
+                <time title="修改時間：2022-10-24 22:10:50" itemprop="dateModified" datetime="2022-10-24T22:10:50+08:00">2022-10-24</time>
               </span>
 
           
@@ -407,12 +407,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div [(ngModel)]&#x3D;&quot;banana&quot;&gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 
 <h4 id="ngClass-binding"><a href="#ngClass-binding" class="headerlink" title="ngClass binding"></a>ngClass binding</h4><p>注意要加上中括號 <code>[ngClass]</code> , 新手剛寫很容易忘記 , 還有其他寫法就懶得筆記了 XD<br>另外注意切換 class 不要白目加上 <code>.</code> , 例如 <code>.bg-text</code> 應該要寫 <code>bg-text</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;div [ngClass]&#x3D;&quot;&#39;text-white m-2 p-2 &#39; + getClasses()&quot;&gt;</span><br><span class="line">	Hello World</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;div ngClass&#x3D;&quot;&#39;text-white m-2 p-2 &#39; + getClasses()&quot;&gt;</span><br><span class="line">	Hello World</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 正確寫法 --&gt;</span><br><span class="line">&lt;div [ngClass]&#x3D;&quot;&#39;text-white m-2 p-2 &#39; + getClasses()&quot;&gt;</span><br><span class="line">	Hello World</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 錯誤寫法 --&gt;</span><br><span class="line">&lt;div ngClass&#x3D;&quot;&#39;text-white m-2 p-2 &#39; + getClasses()&quot;&gt;</span><br><span class="line">	Hello World</span><br><span class="line">&lt;&#x2F;div&gt;</span><br><span class="line"></span><br><span class="line">&lt;!-- 其他寫法 --&gt;</span><br><span class="line">&lt;div [class.red]&#x3D;&quot;items.length &gt; 10&quot;&gt;</span><br><span class="line">	Hello World</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+
 
 <h4 id="ngStyle-binding"><a href="#ngStyle-binding" class="headerlink" title="ngStyle binding"></a>ngStyle binding</h4><p>這個我的記憶法就是裡面放 json , 然後 json 屬性都使用單引號即可</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div [ngStyle]&#x3D;&quot;&#123; &#39;font-size&#39; : &#39;200px&#39;&#125;&quot;&gt;</span><br><span class="line">	龜</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 
-<p>另外 style 還可以寫成這樣 <code>[style.fontSize]=&quot;&#39;20px&#39;&quot;</code> 要串多個的話可以像下面這樣寫 , class 也可以利用類似的寫法</p>
+<p>另外 style 還可以寫成這樣 <code>[style.fontSize]=&quot;&#39;20px&#39;&quot;</code> 要串多個的話可以像下面這樣寫 </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;div [(colorPicker)]&#x3D;&quot;headColor&quot;</span><br><span class="line">	[style.background]&#x3D;&quot;headColor&quot;</span><br><span class="line">	[style.width]&#x3D;&quot;&#39;100px&#39;&quot;</span><br><span class="line">	[style.height]&#x3D;&quot;&#39;100px&#39;&quot;</span><br><span class="line">	[style.borderRadius]&#x3D;&quot;&#39;50%&#39;&quot;</span><br><span class="line">	[style.fontSize]&#x3D;&quot;&#39;20px&#39;&quot;&gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 
 <h4 id="字串插值-binding-string-interpolation-binding"><a href="#字串插值-binding-string-interpolation-binding" class="headerlink" title="字串插值 binding (string interpolation binding)"></a>字串插值 binding (string interpolation binding)</h4><p>這應該最簡單啦 , 用兩個花括號包著即可</p>
@@ -621,6 +623,7 @@
 <p>在 <code>angular.json</code> 加入引用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;styles&quot;: [</span><br><span class="line">	&quot;node_modules&#x2F;bootstrap&#x2F;dist&#x2F;css&#x2F;bootstrap.min.css&quot;,</span><br><span class="line">	&quot;node_modules&#x2F;@fortawesome&#x2F;fontawesome-free&#x2F;css&#x2F;all.css&quot;,</span><br><span class="line">	&quot;src&#x2F;styles.css&quot;</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
 
+<p>另外還有看到這個<a href="https://www.npmjs.com/package/@fortawesome/angular-fontawesome" target="_blank" rel="noopener">官方元件</a> 有空也可以玩看看</p>
 <h4 id="ModuleMapLoaderModule-Error"><a href="#ModuleMapLoaderModule-Error" class="headerlink" title="ModuleMapLoaderModule Error"></a>ModuleMapLoaderModule Error</h4><p>註解 <code>app.server.module.ts</code> ModuleMapLoaderModule 的部分</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">import &#123; NgModule &#125; from &#39;@angular&#x2F;core&#39;;</span><br><span class="line">import &#123; ServerModule &#125; from &#39;@angular&#x2F;platform-server&#39;;</span><br><span class="line">&#x2F;&#x2F; import &#123; ModuleMapLoaderModule &#125; from &#39;@nguniversal&#x2F;module-map-ngfactory-loader&#39;;</span><br><span class="line">import &#123; AppComponent &#125; from &#39;.&#x2F;app.component&#39;;</span><br><span class="line">import &#123; AppModule &#125; from &#39;.&#x2F;app.module&#39;;</span><br><span class="line"></span><br><span class="line">@NgModule(&#123;</span><br><span class="line">	imports: [</span><br><span class="line">		AppModule,</span><br><span class="line">		ServerModule,</span><br><span class="line">		&#x2F;&#x2F; ModuleMapLoaderModule</span><br><span class="line">	],</span><br><span class="line">	bootstrap: [AppComponent]</span><br><span class="line">&#125;)</span><br><span class="line">export class AppServerModule &#123; &#125;</span><br></pre></td></tr></table></figure>
 
