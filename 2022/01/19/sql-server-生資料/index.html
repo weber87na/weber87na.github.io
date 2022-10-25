@@ -50,7 +50,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/sql.png">
 <meta property="article:published_time" content="2022-01-18T17:12:05.000Z">
-<meta property="article:modified_time" content="2022-08-15T16:27:32.770Z">
+<meta property="article:modified_time" content="2022-10-25T16:55:21.265Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary">
@@ -271,7 +271,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2022-08-16 00:27:32" itemprop="dateModified" datetime="2022-08-16T00:27:32+08:00">2022-08-16</time>
+                <time title="修改時間：2022-10-26 00:55:21" itemprop="dateModified" datetime="2022-10-26T00:55:21+08:00">2022-10-26</time>
               </span>
 
           
@@ -294,7 +294,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.9k</span>
+              <span>4.3k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -324,6 +324,8 @@
 
 <h3 id="生經緯度點位"><a href="#生經緯度點位" class="headerlink" title="生經緯度點位"></a>生經緯度點位</h3><p>這以前在 postgresql 寫過 N 次 , 印象中比 sql server 好搞多了關鍵點如下:<br>1.經緯度資料型態最好設定 decimal(11,8) 及 decimal(10,8) 防止經度不足<br>2.用 RAND , CHECKSUM , NEWID 搭配生出亂數<br>3.用 CTE 搭配 CROSS JOIN , 並且開啟遞迴最高上限限制 OPTION (MAXRECURSION 0)</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">--https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;7878287&#x2F;generate-random-int-value-from-3-to-6</span><br><span class="line">DECLARE @maxlat DECIMAL(10 , 8), @minlat DECIMAL(10 , 8)</span><br><span class="line">SELECT @maxlat&#x3D;22.68575,@minlat&#x3D;22.593361</span><br><span class="line"></span><br><span class="line">DECLARE @maxlon DECIMAL(11 , 8), @minlon DECIMAL(11 , 8)</span><br><span class="line">SELECT @maxlon&#x3D;120.520868,@minlon&#x3D;120.461685</span><br><span class="line"></span><br><span class="line">--SELECT CAST(((@maxlat ) - @minlat) *</span><br><span class="line">--    RAND(CHECKSUM(NEWID())) + @minlat AS decimal(10 , 8))  as lat,</span><br><span class="line">--	CAST(((@maxlon ) - @minlon) *</span><br><span class="line">--		RAND(CHECKSUM(NEWID())) + @minlon AS decimal(11 , 8)) as lon</span><br><span class="line"></span><br><span class="line">--產生限定時間</span><br><span class="line">--https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;33978254&#x2F;random-datetime-in-given-datetime-range</span><br><span class="line">DECLARE @FromDate DATETIME2(0)</span><br><span class="line">DECLARE @ToDate   DATETIME2(0)</span><br><span class="line"></span><br><span class="line">SET @FromDate &#x3D; &#39;2022-01-10 08:22:13&#39;</span><br><span class="line">SET @ToDate &#x3D; &#39;2022-01-10 17:56:31&#39;</span><br><span class="line"></span><br><span class="line">DECLARE @Seconds INT &#x3D; DATEDIFF(SECOND, @FromDate, @ToDate)</span><br><span class="line">DECLARE @Random INT &#x3D; ROUND(((@Seconds-1) * RAND()), 0)</span><br><span class="line"></span><br><span class="line">--使用遞迴(RECURSIVE)</span><br><span class="line">;WITH TALLY(N) AS (</span><br><span class="line">    SELECT  1 N</span><br><span class="line">    UNION ALL</span><br><span class="line">    SELECT 1 + N</span><br><span class="line">    FROM Tally</span><br><span class="line">    WHERE N &lt; 10</span><br><span class="line">)</span><br><span class="line">SELECT &#39;001&#39; ID ,</span><br><span class="line">	DATEADD(SECOND, ROUND(((@Seconds-1) * RAND(CHECKSUM(NEWID()))), 0), @FromDate) DateTime,</span><br><span class="line">	CAST(((@maxlon ) - @minlon) *</span><br><span class="line">		RAND(CHECKSUM(NEWID())) + @minlon AS decimal(11 , 8)) as X ,</span><br><span class="line">	CAST(((@maxlat ) - @minlat) *</span><br><span class="line">		RAND(CHECKSUM(NEWID())) + @minlat AS decimal(10 , 8))  as Y</span><br><span class="line">FROM Tally A</span><br><span class="line">CROSS JOIN Tally B</span><br><span class="line">ORDER BY DateTime</span><br><span class="line">OPTION (MAXRECURSION 0);</span><br></pre></td></tr></table></figure>
+
+<h3 id="找出忘了加-identity-的資料表"><a href="#找出忘了加-identity-的資料表" class="headerlink" title="找出忘了加 identity 的資料表"></a>找出忘了加 identity 的資料表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">SELECT TABLE_NAME</span><br><span class="line">FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE</span><br><span class="line">WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + &#39;.&#39; + QUOTENAME(CONSTRAINT_NAME)), &#39;IsPrimaryKey&#39;) &#x3D; 1</span><br><span class="line">AND TABLE_SCHEMA &#x3D; &#39;dbo&#39;</span><br><span class="line">except</span><br><span class="line"></span><br><span class="line">select TABLE_NAME</span><br><span class="line">from information_schema.columns tt</span><br><span class="line">where columnproperty(object_id(table_name), column_name,&#39;IsIdentity &#39;) &#x3D; 1</span><br><span class="line">and table_schema &#x3D; &#39;dbo&#39;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -414,7 +416,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#生-c-類別"><span class="nav-number">1.</span> <span class="nav-text">生 c# 類別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生經緯度點位"><span class="nav-number">2.</span> <span class="nav-text">生經緯度點位</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#生-c-類別"><span class="nav-number">1.</span> <span class="nav-text">生 c# 類別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#生經緯度點位"><span class="nav-number">2.</span> <span class="nav-text">生經緯度點位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#找出忘了加-identity-的資料表"><span class="nav-number">3.</span> <span class="nav-text">找出忘了加 identity 的資料表</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -430,14 +432,14 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">195</span>
+          <span class="site-state-item-count">196</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">97</span>
+        <span class="site-state-item-count">98</span>
         <span class="site-state-item-name">標籤</span></a>
       </div>
   </nav>
@@ -496,13 +498,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">897k</span>
+    <span title="總廢話字數">898k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">13:35</span>
+    <span title="所需總浪費時間">13:36</span>
 </div>
 
         
