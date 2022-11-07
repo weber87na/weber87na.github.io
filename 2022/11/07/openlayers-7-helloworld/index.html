@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="openlayers 7 helloworld">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/11/07/openlayers-7-helloworld/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-11-07T11:44:59.000Z">
+<meta property="article:modified_time" content="2022-11-07T11:47:00.857Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="GIS">
+<meta property="article:tag" content="openlayer">
+<meta property="article:tag" content="typescript">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/11/07/openlayers-7-helloworld/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>openlayers 7 helloworld | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/11/07/openlayers-7-helloworld/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          openlayers 7 helloworld
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2022-11-07 19:44:59 / 修改時間：19:47:00" itemprop="dateCreated datePublished" datetime="2022-11-07T19:44:59+08:00">2022-11-07</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/11/07/openlayers-7-helloworld/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/07/openlayers-7-helloworld/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>10 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<p>最近因為 angular 的關係 , 要練練 typescript 想說從以前的跑龍套的美食地圖下手<br>因為太久沒搞 openlayers 了 , 發現官方 example 換成 <a href="https://cn.vitejs.dev/guide/features.html#web-workers" target="_blank" rel="noopener">vite</a> 還好要蓋個 helloworld 算是簡單</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">npm create vite@latest</span><br><span class="line">#Project name: » example</span><br><span class="line">#? Select a framework: » - Use arrow-keys. Return to submit.</span><br><span class="line">#&gt;   Vanilla</span><br><span class="line">#? Select a variant: » - Use arrow-keys. Return to submit.</span><br><span class="line">#    JavaScript</span><br><span class="line">#&gt;   TypeScript</span><br><span class="line"></span><br><span class="line">cd example</span><br><span class="line">npm install</span><br><span class="line">npm install ol</span><br></pre></td></tr></table></figure>
+
+<p><code>package.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;test&quot;,</span><br><span class="line">    &quot;private&quot;: true,</span><br><span class="line">    &quot;version&quot;: &quot;0.0.0&quot;,</span><br><span class="line">    &quot;type&quot;: &quot;module&quot;,</span><br><span class="line">    &quot;scripts&quot;: &#123;</span><br><span class="line">        &quot;dev&quot;: &quot;vite&quot;,</span><br><span class="line">        &quot;build&quot;: &quot;tsc &amp;&amp; vite build&quot;,</span><br><span class="line">        &quot;preview&quot;: &quot;vite preview&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;devDependencies&quot;: &#123;</span><br><span class="line">        &quot;typescript&quot;: &quot;^4.6.4&quot;,</span><br><span class="line">        &quot;vite&quot;: &quot;^3.2.0&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;dependencies&quot;: &#123;</span><br><span class="line">        &quot;ol&quot;: &quot;^7.1.0&quot;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>tsconfig.json</code><br>這裡有把 <code>noUnusedLocals</code> <code>noUnusedParameters</code> 設定為 <code>false</code> 防止 declare 錯誤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;compilerOptions&quot;: &#123;</span><br><span class="line">        &quot;target&quot;: &quot;ESNext&quot;,</span><br><span class="line">        &quot;useDefineForClassFields&quot;: true,</span><br><span class="line">        &quot;module&quot;: &quot;ESNext&quot;,</span><br><span class="line">        &quot;lib&quot;: [</span><br><span class="line">            &quot;ESNext&quot;,</span><br><span class="line">            &quot;DOM&quot;</span><br><span class="line">        ],</span><br><span class="line">        &quot;moduleResolution&quot;: &quot;Node&quot;,</span><br><span class="line">        &quot;strict&quot;: true,</span><br><span class="line">        &quot;resolveJsonModule&quot;: true,</span><br><span class="line">        &quot;isolatedModules&quot;: true,</span><br><span class="line">        &quot;esModuleInterop&quot;: true,</span><br><span class="line">        &quot;noEmit&quot;: true,</span><br><span class="line">        &#x2F;&#x2F; &quot;noUnusedLocals&quot;: true,</span><br><span class="line">        &#x2F;&#x2F; &quot;noUnusedParameters&quot;: true,</span><br><span class="line">        &quot;noUnusedLocals&quot;: false,</span><br><span class="line">        &quot;noUnusedParameters&quot;: false,</span><br><span class="line">        &quot;noImplicitReturns&quot;: true,</span><br><span class="line">        &quot;skipLibCheck&quot;: true</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;include&quot;: [</span><br><span class="line">        &quot;src&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>main.ts</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import &#39;.&#x2F;style.css&#39;;</span><br><span class="line">import &#123; Map, View &#125; from &#39;ol&#39;;</span><br><span class="line">import TileLayer from &#39;ol&#x2F;layer&#x2F;Tile&#39;;</span><br><span class="line">import OSM from &#39;ol&#x2F;source&#x2F;OSM&#39;;</span><br><span class="line"></span><br><span class="line">const map &#x3D; new Map(&#123;</span><br><span class="line">    target: &#39;map&#39;,</span><br><span class="line">    layers: [</span><br><span class="line">        new TileLayer(&#123;</span><br><span class="line">            source: new OSM()</span><br><span class="line">        &#125;)</span><br><span class="line">    ],</span><br><span class="line">    view: new View(&#123;</span><br><span class="line">        center: [0, 0],</span><br><span class="line">        zoom: 2</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p><code>style.css</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@import url(&#39;&#x2F;node_modules&#x2F;ol&#x2F;ol.css&#39;);</span><br><span class="line"></span><br><span class="line">html,</span><br><span class="line">body &#123;</span><br><span class="line">    margin: 0;</span><br><span class="line">    height: 100%;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#map &#123;</span><br><span class="line">    position: absolute;</span><br><span class="line">    top: 0;</span><br><span class="line">    bottom: 0;</span><br><span class="line">    width: 100%;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><code>index.html</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line"></span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot; &#x2F;&gt;</span><br><span class="line">    &lt;link rel&#x3D;&quot;icon&quot;</span><br><span class="line">        type&#x3D;&quot;image&#x2F;x-icon&quot;</span><br><span class="line">        href&#x3D;&quot;https:&#x2F;&#x2F;openlayers.org&#x2F;favicon.ico&quot; &#x2F;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot;</span><br><span class="line">        content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0&quot; &#x2F;&gt;</span><br><span class="line">    &lt;!-- &lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;node_modules&#x2F;ol&#x2F;ol.css&quot;&gt; --&gt;</span><br><span class="line">    &lt;title&gt;Using OpenLayers with Vite&lt;&#x2F;title&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line"></span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;map&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;script type&#x3D;&quot;module&quot;</span><br><span class="line">        src&#x3D;&quot;&#x2F;src&#x2F;main.ts&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p><code>vite.config.js</code><br>加這個可以讓 ip 對外 , 詳細還沒研究</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export default (&#123;</span><br><span class="line">    server: &#123;</span><br><span class="line">        host: &#39;0.0.0.0&#39;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<p>執行 , 另外如果要 Debug 的話 , 選擇 Debug URL 就可以進中斷點了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run dev</span><br></pre></td></tr></table></figure>
+
+<p>打包會在 <code>dist</code> 底下出現相對應的資料夾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure>
+
+
+<p>接著嘗試把我之前奇怪美食地圖的功能搬上來看看 , 先在 <code>public</code> 資料夾底下新增 <code>data</code> <code>img</code> 等資源<br>接著在 <code>src</code> 加入 <code>attractions.ts</code> 然後 export geojson 資源看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">export const attractions &#x3D; &#123;</span><br><span class="line">    &quot;type&quot;: &quot;FeatureCollection&quot;,</span><br><span class="line">	    &quot;features&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;type&quot;: &quot;Feature&quot;,</span><br><span class="line">            &quot;properties&quot;: &#123; &quot;Name&quot;: &quot;林老師卡好咖啡&quot; &#125;,</span><br><span class="line">            &quot;geometry&quot;: &#123; &quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [120.6817005, 22.9100108] &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;type&quot;: &quot;Feature&quot;,</span><br><span class="line">            &quot;properties&quot;: &#123; &quot;Name&quot;: &quot;蛋黃酥冰&quot; &#125;,</span><br><span class="line">            &quot;geometry&quot;: &#123; &quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [120.4594596, 23.1247144] &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;type&quot;: &quot;Feature&quot;,</span><br><span class="line">            &quot;properties&quot;: &#123; &quot;Name&quot;: &quot;台灣豬隊友&quot; &#125;,</span><br><span class="line">            &quot;geometry&quot;: &#123; &quot;type&quot;: &quot;Point&quot;, &quot;coordinates&quot;: [120.3314311, 22.6418476] &#125;</span><br><span class="line">        &#125;,</span><br><span class="line">		]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後改 <code>main.ts</code> 就整個搞好了 , 低能兒也可以跟上前端 XD  , 不過搬起來還是跟 angular 有一點點差異</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br></pre></td><td class="code"><pre><span class="line">import &#39;.&#x2F;style.css&#39;;</span><br><span class="line"></span><br><span class="line">import &#39;ol&#x2F;ol.css&#39;;</span><br><span class="line">import Map from &#39;ol&#x2F;Map&#39;;</span><br><span class="line">import View from &#39;ol&#x2F;View&#39;;</span><br><span class="line">import &#123; OSM &#125; from &#39;ol&#x2F;source&#39;;</span><br><span class="line">import TileLayer from &#39;ol&#x2F;layer&#x2F;Tile&#39;;</span><br><span class="line">import GeoJSON from &#39;ol&#x2F;format&#x2F;GeoJSON&#39;;</span><br><span class="line">import VectorSource from &#39;ol&#x2F;source&#x2F;Vector&#39;;</span><br><span class="line">import &#123; Fill, Icon, Stroke, Style, Text &#125; from &#39;ol&#x2F;style&#39;;</span><br><span class="line">import &#123; getBottomLeft, getHeight, getWidth &#125; from &#39;ol&#x2F;extent&#39;;</span><br><span class="line">import &#123; toContext &#125; from &#39;ol&#x2F;render&#39;;</span><br><span class="line">import VectorLayer from &#39;ol&#x2F;layer&#x2F;Vector&#39;;</span><br><span class="line">import XYZ from &#39;ol&#x2F;source&#x2F;XYZ&#39;</span><br><span class="line">import &#123; Control, defaults as defaultControls &#125; from &#39;ol&#x2F;control&#39;;</span><br><span class="line">import &#123; Size &#125; from &#39;ol&#x2F;size&#39;;</span><br><span class="line">import &#123; Feature &#125; from &#39;ol&#39;;</span><br><span class="line">import &#123; Geometry &#125; from &#39;ol&#x2F;geom&#39;;</span><br><span class="line">import &#123; FeatureLike &#125; from &#39;ol&#x2F;Feature&#39;;</span><br><span class="line">import &#123; attractions &#125; from &#39;.&#x2F;attractions&#39;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;定義基本底圖</span><br><span class="line">let baseLayerUrl &#x3D; &#39;https:&#x2F;&#x2F;wmts.nlsc.gov.tw&#x2F;wmts&#x2F;EMAP&#x2F;default&#x2F;GoogleMapsCompatible&#x2F;&#123;z&#125;&#x2F;&#123;y&#125;&#x2F;&#123;x&#125;.png&#39;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;osm</span><br><span class="line">&#x2F;&#x2F;baseLayerUrl &#x3D; &#39;https:&#x2F;&#x2F;tile.openstreetmap.org&#x2F;&#123;z&#125;&#x2F;&#123;x&#125;&#x2F;&#123;y&#125;.png&#39;</span><br><span class="line">let baseLayer &#x3D; new TileLayer(&#123;</span><br><span class="line">    source: new XYZ(&#123;</span><br><span class="line">        url: baseLayerUrl,</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;osm</span><br><span class="line">let osmLayer &#x3D; new TileLayer(&#123;</span><br><span class="line">    source: new OSM(),</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;樣式</span><br><span class="line">let twLayerStyles: Array&lt;Style&gt; &#x3D; []</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;景點圖層</span><br><span class="line">let attractionsLayer &#x3D; new VectorLayer(&#123;</span><br><span class="line">    source: new VectorSource(&#123;</span><br><span class="line">        format: new GeoJSON(),</span><br><span class="line">        features: new GeoJSON().readFeatures(attractions)</span><br><span class="line">        &#x2F;&#x2F;url: &#39;.&#x2F;data&#x2F;attractions.geojson&#39;</span><br><span class="line">    &#125;),</span><br><span class="line"></span><br><span class="line">    style: feature &#x3D;&gt; &#123;</span><br><span class="line">        return genStyle(feature)</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;地圖</span><br><span class="line">const map &#x3D; new Map(&#123;</span><br><span class="line">    controls: defaultControls(&#123;</span><br><span class="line">        attribution: false,</span><br><span class="line">        zoom: false,</span><br><span class="line">        rotate: false</span><br><span class="line">    &#125;).extend([</span><br><span class="line"></span><br><span class="line">    ]),</span><br><span class="line">    &#x2F;&#x2F; layers: this.layers,</span><br><span class="line">    layers: [</span><br><span class="line">        baseLayer,</span><br><span class="line">        attractionsLayer</span><br><span class="line">    ],</span><br><span class="line">    target: &#39;map&#39;,</span><br><span class="line">    view: new View(&#123;</span><br><span class="line">        projection: &#39;EPSG:4326&#39;,</span><br><span class="line">        center: [120.4553, 22.873],</span><br><span class="line">        zoom: 11,</span><br><span class="line">        maxZoom: 18,</span><br><span class="line">    &#125;),</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 縮放 icon</span><br><span class="line">function scaleAttractionsIcon(map: Map) &#123;</span><br><span class="line">    var zoom &#x3D; map.getView().getZoom();</span><br><span class="line"></span><br><span class="line">    if (zoom &#x3D;&#x3D;&#x3D; undefined) return 1</span><br><span class="line"></span><br><span class="line">    if (zoom &#x3D;&#x3D; 9) &#123;</span><br><span class="line">        return 0.4;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (zoom &lt; 9) &#123;</span><br><span class="line">        return 0.2;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; icon 圖片</span><br><span class="line">function setIconSrc(feature: FeatureLike): string &#123;</span><br><span class="line">    var name &#x3D; feature.getProperties()[&#39;Name&#39;];</span><br><span class="line">    console.log(name);</span><br><span class="line">    return &#96;img&#x2F;attractions-min&#x2F;$&#123;name&#125;.jpg&#96;;</span><br><span class="line">    &#x2F;&#x2F; return &#39;&#39;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;台灣</span><br><span class="line">let twLayer &#x3D; new VectorLayer(&#123;</span><br><span class="line">    &#x2F;&#x2F; renderMode: &#39;image&#39;,</span><br><span class="line">    source: new VectorSource(&#123;</span><br><span class="line">        format: new GeoJSON(),</span><br><span class="line">        url: &#39;data&#x2F;tw.geojson&#39;</span><br><span class="line">    &#125;),</span><br><span class="line">    style: feature &#x3D;&gt; &#123;</span><br><span class="line">        let style: Style</span><br><span class="line">        let countryName &#x3D; feature.getProperties()[&#39;COUNTYNAME&#39;];</span><br><span class="line">        console.log(countryName)</span><br><span class="line"></span><br><span class="line">        let isFind &#x3D; twLayerStyles.some(x &#x3D;&gt; x.getText().getText() &#x3D;&#x3D;&#x3D; countryName)</span><br><span class="line">        if (isFind) &#123;</span><br><span class="line">            style &#x3D; twLayerStyles.filter(x &#x3D;&gt; x.getText().getText() &#x3D;&#x3D;&#x3D; countryName)[0];</span><br><span class="line">            return style</span><br><span class="line">        &#125; else &#123;</span><br><span class="line"></span><br><span class="line">            let style &#x3D; new Style(&#123;</span><br><span class="line">                stroke: new Stroke(&#123;</span><br><span class="line">                    color: &#39;rgba(0, 0, 0, 1)&#39;,</span><br><span class="line">                    width: 1</span><br><span class="line">                &#125;),</span><br><span class="line">                text: new Text(&#123;</span><br><span class="line">                    text: countryName,</span><br><span class="line">                    fill: new Fill(&#123; color: &#39;#000&#39; &#125;),</span><br><span class="line">                    stroke: new Stroke(&#123;</span><br><span class="line">                        color: &#39;#FF8800&#39;,</span><br><span class="line">                        width: 10</span><br><span class="line">                    &#125;),</span><br><span class="line">                &#125;)</span><br><span class="line">            &#125;)</span><br><span class="line">            twLayerStyles.push(style)</span><br><span class="line">            return style</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">function scaleAttractionsText(feature: FeatureLike): string | string[] &#123;</span><br><span class="line">    let name &#x3D; feature.getProperties()[&#39;Name&#39;]</span><br><span class="line">    return name</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let styles: Array&lt;Style&gt; &#x3D; []</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function genStyle(feature: FeatureLike) &#123;</span><br><span class="line">    let style: Style;</span><br><span class="line">    &#x2F;&#x2F; 從 styles 的 cache 裡面找出資料</span><br><span class="line">    let isFind &#x3D; styles.some(x &#x3D;&gt; &#123;</span><br><span class="line">        return x.getText().getText() &#x3D;&#x3D;&#x3D; feature.get(&#39;Name&#39;)</span><br><span class="line">    &#125;)</span><br><span class="line">    console.log(&#39;isFind&#39;, isFind)</span><br><span class="line">    if (isFind) &#123;</span><br><span class="line">        &#x2F;&#x2F; 如果 styles 的 cache 裡面有資料的話 , 回傳該名稱的樣式</span><br><span class="line">        style &#x3D; styles.filter(x &#x3D;&gt; &#123;</span><br><span class="line">            return x.getText().getText() &#x3D;&#x3D;&#x3D; feature.get(&#39;Name&#39;)</span><br><span class="line">        &#125;)[0]</span><br><span class="line">        return style</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        &#x2F;&#x2F; 如果沒找到的話新增 style 並且 push 到裡面去 , 最後回傳</span><br><span class="line">        style &#x3D; new Style(&#123;</span><br><span class="line">            image: new Icon((&#123;</span><br><span class="line">                src: setIconSrc(feature),</span><br><span class="line">                scale: scaleAttractionsIcon(map)</span><br><span class="line">            &#125;)),</span><br><span class="line">            text: new Text(&#123;</span><br><span class="line">                text: scaleAttractionsText(feature),</span><br><span class="line">                fill: new Fill(&#123;</span><br><span class="line">                    color: &#39;#000&#39;</span><br><span class="line">                &#125;),</span><br><span class="line">                stroke: new Stroke(&#123;</span><br><span class="line">                    color: &#39;#fff&#39;,</span><br><span class="line">                    width: 2</span><br><span class="line">                &#125;),</span><br><span class="line">                offsetY: 24</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;);</span><br><span class="line">        styles.push(style)</span><br><span class="line">        return style;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>移動</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">setInterval(function () &#123;</span><br><span class="line">    console.log(&#39;test&#39;)</span><br><span class="line">    let prop &#x3D; attractionsLayer.getProperties()</span><br><span class="line">    let source &#x3D; attractionsLayer.getSource();</span><br><span class="line">    let features &#x3D; source?.getFeatures()</span><br><span class="line">    features?.forEach(feature &#x3D;&gt; &#123;</span><br><span class="line">        let geom &#x3D; feature.getGeometry() as Point</span><br><span class="line">        let coord &#x3D; geom.getFlatCoordinates()</span><br><span class="line">        let newCoord &#x3D; [</span><br><span class="line">            coord[0] +&#x3D; 0.0005,</span><br><span class="line">            coord[1] +&#x3D; 0.0005</span><br><span class="line">        ]</span><br><span class="line">        geom.setCoordinates(newCoord)</span><br><span class="line"></span><br><span class="line">    &#125;)</span><br><span class="line">    console.log(prop)</span><br><span class="line">    console.log(source)</span><br><span class="line">    console.log(features)</span><br><span class="line">&#125;, 2000)</span><br></pre></td></tr></table></figure>
+
+
+<p>點選</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">map.on(&#39;click&#39;, function (e) &#123;</span><br><span class="line">    map.forEachFeatureAtPixel(e.pixel, function (feature, layer) &#123;</span><br><span class="line">        &#x2F;&#x2F;do something</span><br><span class="line">        console.log(feature, layer)</span><br><span class="line">        let prop &#x3D; feature.getProperties()</span><br><span class="line">        let name &#x3D; prop[&#39;Name&#39;]</span><br><span class="line">        console.log(prop)</span><br><span class="line">        modalToggle()</span><br><span class="line">        let img &#x3D; document.getElementById(&#39;img&#39;) as HTMLImageElement</span><br><span class="line">        img.src &#x3D; &#96;img\\$&#123;name&#125;.png&#96;</span><br><span class="line"></span><br><span class="line">        let geom &#x3D; feature.getGeometry() as Point</span><br><span class="line">        let pos &#x3D; document.getElementById(&#39;pos&#39;)</span><br><span class="line">        let coord &#x3D; geom.getFlatCoordinates()</span><br><span class="line">        let x &#x3D; coord[0].toFixed(6)</span><br><span class="line">        let y &#x3D; coord[0].toFixed(6)</span><br><span class="line">        if(pos)&#123;</span><br><span class="line">            pos.textContent &#x3D; &#96;lon:$&#123;x&#125; lat:$&#123;y&#125;&#96; </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+
+<p>modal</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function modalToggle(): void &#123;</span><br><span class="line">    let modal &#x3D; document.querySelector(&#39;#modal&#39;)</span><br><span class="line">    let isShow &#x3D; modal?.classList.contains(&#39;show&#39;)</span><br><span class="line">    if (isShow) &#123;</span><br><span class="line">        &#x2F;&#x2F; modal?.classList.remove(&#39;show&#39;)</span><br><span class="line">        &#x2F;&#x2F; modal?.classList.add(&#39;hide&#39;)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        modal?.classList.add(&#39;show&#39;)</span><br><span class="line">        modal?.classList.remove(&#39;hide&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GIS/" rel="tag"># GIS</a>
+              <a href="/tags/openlayer/" rel="tag"># openlayer</a>
+              <a href="/tags/typescript/" rel="tag"># typescript</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/30/png-to-svg-%E7%AD%86%E8%A8%98/" rel="prev" title="png to svg 筆記">
+      <i class="fa fa-chevron-left"></i> png to svg 筆記
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">101</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">927k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">14:03</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/11/07/openlayers-7-helloworld/";
+    this.page.identifier = "2022/11/07/openlayers-7-helloworld/";
+    this.page.title = "openlayers 7 helloworld";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>
