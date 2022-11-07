@@ -50,7 +50,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://www.ncl.ucar.edu/Applications/Images/wrf_gsn_4_lg.png">
 <meta property="article:published_time" content="2022-08-16T12:13:19.000Z">
-<meta property="article:modified_time" content="2022-08-17T17:24:57.918Z">
+<meta property="article:modified_time" content="2022-11-07T17:46:22.364Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="GIS">
 <meta name="twitter:card" content="summary">
@@ -271,7 +271,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2022-08-18 01:24:57" itemprop="dateModified" datetime="2022-08-18T01:24:57+08:00">2022-08-18</time>
+                <time title="修改時間：2022-11-08 01:46:22" itemprop="dateModified" datetime="2022-11-08T01:46:22+08:00">2022-11-08</time>
               </span>
 
           
@@ -294,7 +294,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>5.5k</span>
+              <span>5.7k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -347,6 +347,13 @@
 
 <p>接著可以跑看看 <code>USFilled.ncl</code> 應該就正常會輸出檔案了 , 看他裡面的原理就是用 imagemagick 先轉 ps 為 tiff , 接著再用 tiff2geotiff 去加上 georeferenced<br>最後想要從 ssh 把檔案拿出來可以用 scp 類似這樣 , <code>注意是在 windows 跑這串</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#從 linux 複製檔案到 windows</span><br><span class="line">scp linux_user_name@192.168.137.123:&#x2F;home&#x2F;linux_user_name&#x2F;VAPOR3-3.6.0-Linux&#x2F;share&#x2F;examples&#x2F;NCL&#x2F;temp.tif &quot;C:&#x2F;Users&#x2F;YOURNAME&#x2F;Desktop&quot;</span><br><span class="line"></span><br><span class="line">#從 windows 複製進去 linux</span><br><span class="line">scp &quot;C:&#x2F;Users&#x2F;YOURNAME&#x2F;Desktop&#x2F;test.png&quot; linux_user_name@192.168.137.123:&#x2F;home&#x2F;linux_user_name&#x2F;data</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他地雷"><a href="#其他地雷" class="headerlink" title="其他地雷"></a>其他地雷</h3><p>萬一出現 <code>conda command not found</code> 可以參考<a href="https://stackoverflow.com/questions/35246386/conda-command-not-found" target="_blank" rel="noopener">這篇</a><br>我遇過這個</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~&#x2F;anaconda3&#x2F;etc&#x2F;profile.d&#x2F;conda.sh</span><br></pre></td></tr></table></figure>
+
+
+<p>萬一使用 ncl_filedump or 出現以下錯誤 <code>/bin/csh: bad interpreter: No such file or directory</code><br>表示沒安裝 csh , 安裝後就搞定了 , 一堆毛線 ..</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt-get install csh</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -437,7 +444,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#NCL-安裝"><span class="nav-number">1.</span> <span class="nav-text">NCL 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-Vapor"><span class="nav-number">2.</span> <span class="nav-text">安裝 Vapor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#資料下載"><span class="nav-number">3.</span> <span class="nav-text">資料下載</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vapor-NCL-Example"><span class="nav-number">4.</span> <span class="nav-text">Vapor NCL Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tiff2geotiff"><span class="nav-number">5.</span> <span class="nav-text">tiff2geotiff</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#NCL-安裝"><span class="nav-number">1.</span> <span class="nav-text">NCL 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-Vapor"><span class="nav-number">2.</span> <span class="nav-text">安裝 Vapor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#資料下載"><span class="nav-number">3.</span> <span class="nav-text">資料下載</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vapor-NCL-Example"><span class="nav-number">4.</span> <span class="nav-text">Vapor NCL Example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#tiff2geotiff"><span class="nav-number">5.</span> <span class="nav-text">tiff2geotiff</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他地雷"><span class="nav-number">6.</span> <span class="nav-text">其他地雷</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -453,7 +460,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">200</span>
+          <span class="site-state-item-count">201</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -519,13 +526,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">927k</span>
+    <span title="總廢話字數">931k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">14:03</span>
+    <span title="所需總浪費時間">14:06</span>
 </div>
 
         
