@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle MLE 爬蟲">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/11/28/Oracle-MLE-%E7%88%AC%E8%9F%B2/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-11-28T10:21:58.000Z">
+<meta property="article:modified_time" content="2022-11-28T10:23:00.899Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="oracle">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/11/28/Oracle-MLE-%E7%88%AC%E8%9F%B2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Oracle MLE 爬蟲 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/11/28/Oracle-MLE-%E7%88%AC%E8%9F%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Oracle MLE 爬蟲
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2022-11-28 18:21:58 / 修改時間：18:23:00" itemprop="dateCreated datePublished" datetime="2022-11-28T18:21:58+08:00">2022-11-28</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/11/28/Oracle-MLE-%E7%88%AC%E8%9F%B2/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/28/Oracle-MLE-爬蟲/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>5.8k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>5 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<p>Oracle 也可以搞爬蟲!? 老實說這是自虐!! 為了玩看看 <code>Oracle MLE (Multilingual Engine)</code> 的功能才寫這篇 , 完全嘗試用 js + pl/sql 去處理<br>雖然解得不太好 , 但整個解出來還是挺有趣的 , 畢竟現在沒啥範例可看<br>首先先到 <a href="https://www.pnb.com.ph/index.php/foreign-exchange-rates?tpl=revamp" target="_blank" rel="noopener">這個網站</a> 看看匯率</p>
+<h3 id="正常-js-寫法"><a href="#正常-js-寫法" class="headerlink" title="正常 js 寫法"></a>正常 js 寫法</h3><p>先用正常的 js 寫看看原理 , 基本上就是用到 css 的 selector , 外加 js 把 key &amp; value 的 array 縫合成物件就收工了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;取自此網站</span><br><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;www.pnb.com.ph&#x2F;index.php&#x2F;foreign-exchange-rates?tpl&#x3D;revamp</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;撈 table</span><br><span class="line">var table &#x3D; document.querySelector(&#39;.table-responsive table:nth-child(2)&#39;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;保存結果</span><br><span class="line">var result &#x3D; [];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;轉換 HtmlCollection 讓 foreach 可以用</span><br><span class="line">var rows &#x3D; Array.from(table.rows)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;跳過前兩個沒用的 row</span><br><span class="line">var sikp2rows &#x3D; rows.slice(2,rows.length)</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;迴圈</span><br><span class="line">sikp2rows.map(row &#x3D;&gt; &#123;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;轉換 HtmlCollection 讓 foeach 可以用</span><br><span class="line">	var cells &#x3D; Array.from(row.cells);</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;定義物件屬性</span><br><span class="line">	var keys &#x3D; [&#39;Currency&#39; , &#39;Buy&#39; , &#39;Sell&#39;]</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;保存 cell 數值</span><br><span class="line">	var values &#x3D; []</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;迴圈取得 cell 數值</span><br><span class="line">	cells.map(cell &#x3D;&gt; values.push(cell.innerText))</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;建立匯率物件</span><br><span class="line">	&#x2F;&#x2F;https:&#x2F;&#x2F;stackoverflow.com&#x2F;questions&#x2F;47517488&#x2F;zip-arrays-as-keys-and-values-of-an-object</span><br><span class="line">	var rate &#x3D; Object.assign(...keys.map((k, i) &#x3D;&gt; (&#123; [k]: values[i] &#125;)));</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;保存結果</span><br><span class="line">	result.push(rate);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;印出結果</span><br><span class="line">console.log(result)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Oracle-MLE-寫法"><a href="#Oracle-MLE-寫法" class="headerlink" title="Oracle MLE 寫法"></a>Oracle MLE 寫法</h3><p>接著玩看看噁爛的 MLE 寫法 , 目前好像只有 <code>require(&#39;mle-js-oracledb&#39;)</code> <code>require(&#39;mle-js-bindings&#39;)</code> <code>require(&quot;mle-js-plsqltypes&quot;)</code> 這三個 lib 可以用 , 也不支援 npm<br>這三個模組的用法可以看 <a href="https://github.com/oracle-samples/mle-modules" target="_blank" rel="noopener">這邊</a><br>好在 Oracle 本身有 http request 功能可以用 , 礙於設定複雜 , 建議先看我之前寫的<a href="https://www.blog.lasai.com.tw/2022/11/16/net-6-%E8%8F%B2%E5%BE%8B%E8%B3%93%E5%8C%AF%E7%8E%87%E7%88%AC%E8%9F%B2/#oracle">這篇</a></p>
+<p>首先建立資料表</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create table test_rate(Currency varchar2(100) , Buy varchar2(100), Sell varchar2(100));</span><br></pre></td></tr></table></figure>
+
+<p>接著呼叫網頁看看能否正常取得內容 , 這裡要注意 , 如果你的檔案內容超過 <code>4000</code> 字請一定要用 stored procedure 的方式去存 , 預設會限制 <code>4000</code> 字的上限<br>所以你如果這樣呼叫的話最多只有 <code>4000</code> 字 , 另外務必要設定 <code>wallet</code> 及 <code>憑證</code> , 不然會噴 http 錯誤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--設定錢包</span><br><span class="line">EXEC UTL_HTTP.set_wallet(&#39;file:&#x2F;home&#x2F;oracle&#x2F;wallet&#39;, &#39;WalletPasswd123&#39;);</span><br><span class="line"></span><br><span class="line">--呼叫 request</span><br><span class="line">SELECT UTL_HTTP.REQUEST(&#39;https:&#x2F;&#x2F;www.pnb.com.ph&#x2F;index.php&#x2F;foreign-exchange-rates?tpl&#x3D;revamp&#39;)</span><br><span class="line">FROM DUAL;</span><br></pre></td></tr></table></figure>
+
+<p>正常呼叫 http request 以後就可以新增看看資料 , 老樣子要注意網址 encode 之類的問題</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">EXEC UTL_HTTP.set_wallet(&#39;file:&#x2F;home&#x2F;oracle&#x2F;wallet&#39;, &#39;WalletPasswd123&#39;);</span><br><span class="line">EXEC WWW_GET(&#39;https:&#x2F;&#x2F;www.pnb.com.ph&#x2F;index.php&#x2F;foreign-exchange-rates?tpl&#x3D;revamp&#39;);</span><br><span class="line"></span><br><span class="line">SELECT *</span><br><span class="line">FROM WWW_DATA;</span><br></pre></td></tr></table></figure>
+
+<p>最後就是最噁心的地方來了 , 在 pl/sql 裡面跑 js<br>本來以為可以把 table 用 regex 找出來然後轉為 oracle 的 xmltype 搭配 xml query 應該就可以查了 , 不過礙於他的結構有問題 , 所以 parser 會噴 error<br>所以只好整個自幹 regex 自己 parser , 要測的話用老朋友 <a href="https://regex101.com/" target="_blank" rel="noopener">regex101</a> , 我這裡忘得差不多啦 , 寫得兩光兩光的<br>最後一個重點注意不要寫 <code>&amp;</code> 在 js 裡面 , oracle 會認為是要傳遞參數進去 , 然後會一直彈出視窗<br>順帶一提一開始我用 regexp_substr 去撈這個 table 的正則不曉得為啥總是跑不出來 , 丟其他正則也很慢 , 也許這就是 Oracle MLE 的價值所在吧!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line">SET SERVEROUTPUT ON;</span><br><span class="line">DECLARE</span><br><span class="line">   ctx DBMS_MLE.context_handle_t :&#x3D; DBMS_MLE.create_context();</span><br><span class="line">   --html_content varchar2(4000);</span><br><span class="line">   html_content clob;</span><br><span class="line">BEGIN</span><br><span class="line">   DBMS_MLE.eval(ctx, &#39;JAVASCRIPT&#39;, q&#39;~    </span><br><span class="line">&#x2F;&#x2F;example</span><br><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;github.com&#x2F;oracle-samples&#x2F;mle-modules</span><br><span class="line">const oracledb &#x3D; require(&#39;mle-js-oracledb&#39;);</span><br><span class="line">const bindings &#x3D; require(&#39;mle-js-bindings&#39;);</span><br><span class="line">const plsqltypes &#x3D; require(&quot;mle-js-plsqltypes&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">const conn &#x3D; oracledb.defaultConnection();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;www.pnb.com.ph&#x2F;index.php&#x2F;foreign-exchange-rates?tpl&#x3D;revamp</span><br><span class="line">const query &#x3D; &#96;select dat , dat from www_data where num &#x3D; 3&#96;;</span><br><span class="line"></span><br><span class="line">const options &#x3D; &#123; fetchInfo: &#123; N: &#123; type: oracledb.ORACLE_CLOB &#125; &#125; &#125;;</span><br><span class="line">const queryResult &#x3D; conn.execute(query, [], options);</span><br><span class="line">const OracleClob &#x3D; plsqltypes.OracleClob;</span><br><span class="line">const result &#x3D; queryResult.rows[0][0];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;取得 db 的 clob 長度</span><br><span class="line">let length &#x3D; result.length();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;從 clob 讀取 html</span><br><span class="line">let html &#x3D; result.read(length,1);</span><br><span class="line">console.log(&#39;clob length:&#39; + length);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;test</span><br><span class="line">&#x2F;&#x2F;https:&#x2F;&#x2F;regex101.com&#x2F;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;以 regex 撈 table</span><br><span class="line">let matches &#x3D; html.matchAll(&#x2F;&lt;table+[^&gt;]+&gt;[\S\s]*?&lt;\&#x2F;table&gt;&#x2F;g);</span><br><span class="line">let resultMatches &#x3D; [...matches];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;取得我們需要的 table 內容</span><br><span class="line">let htmlContent &#x3D; resultMatches[2];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;console.log(resultMatches.length);</span><br><span class="line">&#x2F;&#x2F;console.log(resultMatches);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;以展開運算子 toString 後 , 取得 match 所有的 tr 元素 , 並且跳過前兩列撈出 tr</span><br><span class="line">let rows &#x3D; [...htmlContent.toString().matchAll(&#x2F;&lt;tr+.*&gt;[\S\s]*?&lt;\&#x2F;tr&gt;&#x2F;gm)].splice(2,22);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;存放最後匯率結果</span><br><span class="line">let rates &#x3D; [];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;迴圈跑 tr</span><br><span class="line">for(let row of rows)&#123;</span><br><span class="line">    console.log(row);</span><br><span class="line">	let m;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;保存匯率數值</span><br><span class="line">	var values &#x3D; [];</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;建立匯率物件屬性</span><br><span class="line">	var keys &#x3D; [&#39;Currency&#39; , &#39;Buy&#39; , &#39;Sell&#39;];</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;過濾 td regex</span><br><span class="line">    const cellsRegex &#x3D; &#x2F;&lt;td+&gt;([\S\s]*?)&lt;\&#x2F;td&gt;|&lt;td[\S\s]*?&gt;([\S\s]*?)&lt;\&#x2F;td&gt;&#x2F;gm;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;迴圈跑 td</span><br><span class="line">	while ((m &#x3D; cellsRegex.exec(row)) !&#x3D;&#x3D; null) &#123;</span><br><span class="line">		if (m.index &#x3D;&#x3D;&#x3D; cellsRegex.lastIndex) &#123;</span><br><span class="line">			regex.lastIndex++;</span><br><span class="line">		&#125;</span><br><span class="line">        </span><br><span class="line">		&#x2F;&#x2F;迴圈取得 td 符合的數值</span><br><span class="line">		m.forEach((match, groupIndex) &#x3D;&gt; &#123;</span><br><span class="line">			if((groupIndex &#x3D;&#x3D;&#x3D; 1 || groupIndex &#x3D;&#x3D; 2) &amp;&amp; (match !&#x3D;&#x3D; undefined))&#123;</span><br><span class="line">				values.push(match);</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;);</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">	&#x2F;&#x2F;將 value and key 組合成 json 物件</span><br><span class="line">    var rate &#x3D; Object.assign(...keys.map((k, i) &#x3D;&gt; (&#123; [k]: values[i] &#125;)));</span><br><span class="line">	&#x2F;&#x2F;console.log(rate);</span><br><span class="line">    rates.push(rate);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;印出最後匯率的 array</span><br><span class="line">console.log(rates);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;迴圈 insert 結果到 test_rate 資料表內</span><br><span class="line">for(rate of rates)&#123;</span><br><span class="line">    console.log(JSON.stringify(rate));</span><br><span class="line">    &#x2F;&#x2F;https:&#x2F;&#x2F;oracle-samples.github.io&#x2F;mle-modules&#x2F;docs&#x2F;mle-js-oracledb&#x2F;21c&#x2F;</span><br><span class="line">    var insertResult &#x3D; conn.execute(&#96;insert into test_rate values (&#39;$&#123;rate.Currency&#125;&#39; , &#39;$&#123;rate.Buy&#125;&#39; , &#39;$&#123;rate.Sell&#125;&#39;)&#96;);</span><br><span class="line">    var rowsInserted &#x3D; insertResult.rowsAffected;</span><br><span class="line">    console.log(&#39;rowsInserted:&#39; + rowsInserted);</span><br><span class="line">&#125;</span><br><span class="line">   ~&#39;);</span><br><span class="line">    dbms_output.put_line(&#39;done&#39;);</span><br><span class="line">    DBMS_MLE.drop_context(ctx);</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/oracle/" rel="tag"># oracle</a>
+              <a href="/tags/js/" rel="tag"># js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/16/net-6-%E8%8F%B2%E5%BE%8B%E8%B3%93%E5%8C%AF%E7%8E%87%E7%88%AC%E8%9F%B2/" rel="prev" title=".net 6 菲律賓匯率爬蟲">
+      <i class="fa fa-chevron-left"></i> .net 6 菲律賓匯率爬蟲
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#正常-js-寫法"><span class="nav-number">1.</span> <span class="nav-text">正常 js 寫法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Oracle-MLE-寫法"><span class="nav-number">2.</span> <span class="nav-text">Oracle MLE 寫法</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">206</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">102</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">997k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">15:06</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/11/28/Oracle-MLE-%E7%88%AC%E8%9F%B2/";
+    this.page.identifier = "2022/11/28/Oracle-MLE-爬蟲/";
+    this.page.title = "Oracle MLE 爬蟲";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>
