@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="geoserver 發佈 cesium terrain">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/12/13/geoserver-%E7%99%BC%E4%BD%88-cesium-terrain/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/tw_terrain.png">
+<meta property="article:published_time" content="2022-12-12T17:25:19.000Z">
+<meta property="article:modified_time" content="2022-12-12T17:26:00.200Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="GIS">
+<meta property="article:tag" content="geoserver">
+<meta property="article:tag" content="cesium">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/tw_terrain.png">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/12/13/geoserver-%E7%99%BC%E4%BD%88-cesium-terrain/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>geoserver 發佈 cesium terrain | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/12/13/geoserver-%E7%99%BC%E4%BD%88-cesium-terrain/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          geoserver 發佈 cesium terrain
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2022-12-13 01:25:19 / 修改時間：01:26:00" itemprop="dateCreated datePublished" datetime="2022-12-13T01:25:19+08:00">2022-12-13</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/12/13/geoserver-%E7%99%BC%E4%BD%88-cesium-terrain/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/12/13/geoserver-發佈-cesium-terrain/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.1k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>6 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://raw.githubusercontent.com/weber87na/flowers/master/tw_terrain.png" alt="terrain"></p>
+<a id="more"></a>
+
+<p>今天心血來潮玩看看 geoserver 發 cesium terrain , 主要 <a href="https://github.com/kaktus40/Cesium-GeoserverTerrainProvider" target="_blank" rel="noopener">參考這篇文章</a><br>以前雖然也搞過發 cesium terrain , 可以<a href="https://www.blog.lasai.com.tw/2021/04/26/asp-net-core-%E7%99%BC%E4%BD%88-cesium-terrain/">參考這篇</a> , 不過那個難度對一個新手來說真是噁爛 , 這個搞起來友善多啦</p>
+<h3 id="Cesium-HelloWorld"><a href="#Cesium-HelloWorld" class="headerlink" title="Cesium HelloWorld"></a>Cesium HelloWorld</h3><p><a href="https://cesium.com/learn/cesiumjs-learn/cesiumjs-quickstart/" target="_blank" rel="noopener">HelloWorld 參考這裡</a><br>如果要用舊版的話 <a href="https://github.com/CesiumGS/cesium/releases" target="_blank" rel="noopener">載點在此</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html lang&#x3D;&quot;en&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">  &lt;meta charset&#x3D;&quot;utf-8&quot;&gt;</span><br><span class="line">  &lt;!-- Include the CesiumJS JavaScript and CSS files --&gt;</span><br><span class="line">  &lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cesium.com&#x2F;downloads&#x2F;cesiumjs&#x2F;releases&#x2F;1.100&#x2F;Build&#x2F;Cesium&#x2F;Cesium.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">  &lt;link href&#x3D;&quot;https:&#x2F;&#x2F;cesium.com&#x2F;downloads&#x2F;cesiumjs&#x2F;releases&#x2F;1.100&#x2F;Build&#x2F;Cesium&#x2F;Widgets&#x2F;widgets.css&quot; rel&#x3D;&quot;stylesheet&quot;&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">  &lt;div id&#x3D;&quot;cesiumContainer&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">  &lt;script&gt;</span><br><span class="line">    &#x2F;&#x2F; Your access token can be found at: https:&#x2F;&#x2F;cesium.com&#x2F;ion&#x2F;tokens.</span><br><span class="line">    &#x2F;&#x2F; Replace &#96;your_access_token&#96; with your Cesium ion access token.</span><br><span class="line"></span><br><span class="line">    Cesium.Ion.defaultAccessToken &#x3D; &#39;your_access_token&#39;;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Initialize the Cesium Viewer in the HTML element with the &#96;cesiumContainer&#96; ID.</span><br><span class="line">    const viewer &#x3D; new Cesium.Viewer(&#39;cesiumContainer&#39;, &#123;</span><br><span class="line">      terrainProvider: Cesium.createWorldTerrain()</span><br><span class="line">    &#125;);    </span><br><span class="line">    &#x2F;&#x2F; Add Cesium OSM Buildings, a global 3D buildings layer.</span><br><span class="line">    const buildingTileset &#x3D; viewer.scene.primitives.add(Cesium.createOsmBuildings());   </span><br><span class="line">    &#x2F;&#x2F; Fly the camera to San Francisco at the given longitude, latitude, and height.</span><br><span class="line">    viewer.camera.flyTo(&#123;</span><br><span class="line">      destination : Cesium.Cartesian3.fromDegrees(-122.4175, 37.655, 400),</span><br><span class="line">      orientation : &#123;</span><br><span class="line">        heading : Cesium.Math.toRadians(0.0),</span><br><span class="line">        pitch : Cesium.Math.toRadians(-15.0),</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &lt;&#x2F;script&gt;</span><br><span class="line"> &lt;&#x2F;div&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="下載資料"><a href="#下載資料" class="headerlink" title="下載資料"></a>下載資料</h3><p>想要底圖的話可以下載 <a href="https://www.naturalearthdata.com/downloads/" target="_blank" rel="noopener">naturalearth</a><br>或是 <a href="https://neo.gsfc.nasa.gov/view.php?datasetId=BlueMarbleNG-TB" target="_blank" rel="noopener">BlueMarble</a><br>等等給 <code>imageryProvider</code> 使用</p>
+<p><a href="https://www.tgos.tw/TGOS/Web/Metadata/TGOS_MetaData_View.aspx?MID=81D5440F802B9CE8657EDF62A376FC2A" target="_blank" rel="noopener">這裡</a> 可以下載台灣的 DTM<br>這裡有個關鍵要注意到 , 他的投影好像沒定義好 , 所以 geoserver 吃不到 , 所以設定下 twd97 給他</p>
+<p>最後如果要全世界的話就要用 <a href="https://srtm.csi.cgiar.org/srtmdata/" target="_blank" rel="noopener">srtmdata</a> 不過選起來很自虐就對啦</p>
+<h3 id="geoserver-安裝-DDS-BIL-extension"><a href="#geoserver-安裝-DDS-BIL-extension" class="headerlink" title="geoserver 安裝 DDS/BIL extension"></a>geoserver 安裝 DDS/BIL extension</h3><p>注意一定要裝這個 extension , 沒裝的話也是可以看到 terrain 效果 , 不過會穿模<br>下載<a href="https://docs.geoserver.org/stable/en/user/community/dds/index.html" target="_blank" rel="noopener">這個</a> DDS/BIL extension 檔名大概是這樣 <code>geoserver-2.21-SNAPSHOT-dds-plugin.zip</code> 看你用啥版本<br>老樣子把解開的 <code>jar</code> 丟到 <code>geoserver-2.21.x-latest-bin\webapps\geoserver\WEB-INF\lib</code><br>都裝好以後發圖層的時候會多一個 <code>BIL Format Settings</code> , 然後選 <code>16bit</code> 即可 , 這個步驟至關重要 , 設定成 8bit 的話就陣亡</p>
+<h3 id="設定-CORS"><a href="#設定-CORS" class="headerlink" title="設定 CORS"></a>設定 CORS</h3><p>通常會噴類似以下的訊息<br><code>Access to XMLHttpRequest at &#39;http://localhost:8080/geoserver/ows?SERVICE=WMS&amp;REQUEST=GetCapabilities&amp;tiled=true&#39; from origin &#39;http://127.0.0.1:5500&#39; has been blocked by CORS policy: No &#39;Access-Control-Allow-Origin&#39; header is present on the requested resource.</code></p>
+<p>首先找到這個檔案 <code>webapps\geoserver\WEB-INF\web.xml</code><br>看是用 Jetty or Tomcat 把它標示的註解打開就好 <code>Uncomment following filter to enable CORS in Jetty. Do not forget the second config block further down</code><br>接著要找到這串 <code>Uncomment following filter to enable CORS</code> 一樣把註解打開</p>
+<h3 id="解決-cesium-401-問題"><a href="#解決-cesium-401-問題" class="headerlink" title="解決 cesium 401 問題"></a>解決 cesium 401 問題</h3><p>這個不同版本好像不太一樣 , 有的會噴有的不會</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;code: &quot;InvalidCredentials&quot;, message: &quot;Invalid access token&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>解法看是要乖乖放 token 上去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cesium.Ion.defaultAccessToken&#x3D;&#39;token&#39;;</span><br></pre></td></tr></table></figure>
+
+<p>或是設定這兩個參數 false 應該就可以過 , 反正 <code>imageryProvider</code> 要用自己的就對啦 , <a href="https://community.cesium.com/t/invalid-access-token-when-not-using-ion/7563/4" target="_blank" rel="noopener">參考自此</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var viewer &#x3D; new Cesium.Viewer(&#39;cesiumContainer&#39;, &#123;</span><br><span class="line">	imageryProvider: false,</span><br><span class="line">	geocoder: false</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="新增樣式"><a href="#新增樣式" class="headerlink" title="新增樣式"></a>新增樣式</h3><p>看他的文章寫說這樣效果比較好就乖乖跟著弄吧 , 設定好以後記得回到圖層設定 style 指向這個 style</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&#39;1.0&#39; encoding&#x3D;&#39;ISO-8859-1&#39;?&gt;</span><br><span class="line">&lt;StyledLayerDescriptor version&#x3D;&#39;1.0.0&#39; xsi:schemaLocation&#x3D;&#39;http:&#x2F;&#x2F;www.opengis.net&#x2F;sld StyledLayerDescriptor.xsd&#39; xmlns&#x3D;&#39;http:&#x2F;&#x2F;www.opengis.net&#x2F;sld&#39; xmlns:ogc&#x3D;&#39;http:&#x2F;&#x2F;www.opengis.net&#x2F;ogc&#39; xmlns:xlink&#x3D;&#39;http:&#x2F;&#x2F;www.w3.org&#x2F;1999&#x2F;xlink&#39; xmlns:xsi&#x3D;&#39;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&#39;&gt;</span><br><span class="line">	&lt;!-- a Named Layer is the basic building block of an SLD document --&gt;</span><br><span class="line">	&lt;NamedLayer&gt;</span><br><span class="line">		&lt;Name&gt;SRTM2Color&lt;&#x2F;Name&gt;</span><br><span class="line">		&lt;UserStyle&gt;</span><br><span class="line">			&lt;FeatureTypeStyle&gt;</span><br><span class="line">				&lt;Rule&gt;</span><br><span class="line">					&lt;RasterSymbolizer&gt;</span><br><span class="line">						&lt;Opacity&gt;1.0&lt;&#x2F;Opacity&gt;</span><br><span class="line">						&lt;ChannelSelection&gt;</span><br><span class="line">							&lt;GrayChannel&gt;</span><br><span class="line">								&lt;SourceChannelName&gt;1&lt;&#x2F;SourceChannelName&gt;</span><br><span class="line">							&lt;&#x2F;GrayChannel&gt;</span><br><span class="line">						&lt;&#x2F;ChannelSelection&gt;</span><br><span class="line">						&lt;ColorMap extended&#x3D;&#39;true&#39; type&#x3D;&#39;ramp&#39;&gt;</span><br><span class="line">							&lt;ColorMapEntry color&#x3D;&#39;#000000&#39; quantity&#x3D;&#39;-32768&#39;&#x2F;&gt;</span><br><span class="line">							&lt;ColorMapEntry color&#x3D;&#39;#BA9800&#39; quantity&#x3D;&#39;15000&#39;&#x2F;&gt;</span><br><span class="line">						&lt;&#x2F;ColorMap&gt;</span><br><span class="line">					&lt;&#x2F;RasterSymbolizer&gt;</span><br><span class="line">				&lt;&#x2F;Rule&gt;</span><br><span class="line">			&lt;&#x2F;FeatureTypeStyle&gt;</span><br><span class="line">		&lt;&#x2F;UserStyle&gt;</span><br><span class="line">	&lt;&#x2F;NamedLayer&gt;</span><br><span class="line">&lt;&#x2F;StyledLayerDescriptor&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="最終結果"><a href="#最終結果" class="headerlink" title="最終結果"></a>最終結果</h3><p>最後要說這個做法有啥優點的話 , 大概就是不用搞一堆 <code>.terrain</code> 檔案在機器上面吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line">&lt;html lang&#x3D;&quot;zh-Hant&quot;&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset&#x3D;&quot;UTF-8&quot;&gt;</span><br><span class="line">    &lt;meta name&#x3D;&quot;viewport&quot;</span><br><span class="line">        content&#x3D;&quot;width&#x3D;device-width, initial-scale&#x3D;1.0, shrink-to-fit&#x3D;no&quot;&gt;</span><br><span class="line">    &lt;title&gt;Document&lt;&#x2F;title&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &lt;!-- &lt;script src&#x3D;&quot;Cesium&#x2F;Cesium.js&quot;&gt;&lt;&#x2F;script&gt; --&gt;</span><br><span class="line">    &lt;!-- &lt;link href&#x3D;&quot;Cesium&#x2F;Widgets&#x2F;widgets.css&quot; rel&#x3D;&quot;stylesheet&quot;&gt; --&gt;</span><br><span class="line"></span><br><span class="line">    &lt;script src&#x3D;&quot;https:&#x2F;&#x2F;cesium.com&#x2F;downloads&#x2F;cesiumjs&#x2F;releases&#x2F;1.100&#x2F;Build&#x2F;Cesium&#x2F;Cesium.js&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">    &lt;link href&#x3D;&quot;https:&#x2F;&#x2F;cesium.com&#x2F;downloads&#x2F;cesiumjs&#x2F;releases&#x2F;1.100&#x2F;Build&#x2F;Cesium&#x2F;Widgets&#x2F;widgets.css&quot;</span><br><span class="line">        rel&#x3D;&quot;stylesheet&quot;&gt;</span><br><span class="line">    &lt;script src&#x3D;&quot;.&#x2F;GeoserverTerrainProvider.js&quot;</span><br><span class="line">        type&#x3D;&quot;text&#x2F;javascript&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;div id&#x3D;&quot;cesiumContainer&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        async function init() &#123;</span><br><span class="line">            const container &#x3D; document.getElementById(&#39;cesiumContainer&#39;);</span><br><span class="line">            const terrainProvider &#x3D; await Cesium.GeoserverTerrainProvider(&#123;</span><br><span class="line">                &quot;url&quot;: &quot;http:&#x2F;&#x2F;localhost:8080&#x2F;geoserver&quot;,</span><br><span class="line">                &#x2F;&#x2F; &quot;layerName&quot;: &quot;elevation:SRTM90&quot;,</span><br><span class="line">                &#x2F;&#x2F; &quot;layerName&quot;: &quot;cite:srtm_61_08&quot;</span><br><span class="line">                &quot;layerName&quot;: &quot;cite:dem_20m&quot;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            const imageryProvider &#x3D; new Cesium.WebMapServiceImageryProvider(&#123;</span><br><span class="line">                &quot;url&quot;: &quot;http:&#x2F;&#x2F;localhost:8080&#x2F;geoserver&#x2F;ows&quot;,</span><br><span class="line">                &quot;parameters&quot;: &#123;</span><br><span class="line">                    &quot;format&quot;: &quot;image&#x2F;png&quot;,</span><br><span class="line">                    &quot;transparent&quot;: true</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;layers&quot;: &quot;cite:NE2_LR_LC_SR_W_DR&quot;,</span><br><span class="line">                &quot;maximumLevel&quot;: 15</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            const options &#x3D; &#123;</span><br><span class="line">                &#x2F;&#x2F; imageryProvider: imageryProvider,</span><br><span class="line">                baseLayerPicker: false,</span><br><span class="line">                showRenderLoopErrors: true,</span><br><span class="line">                animation: true,</span><br><span class="line">                fullscreenButton: false,</span><br><span class="line">                geocoder: false,</span><br><span class="line">                homeButton: false,</span><br><span class="line">                infoBox: false,</span><br><span class="line">                sceneModePicker: true,</span><br><span class="line">                selectionIndicator: false,</span><br><span class="line">                timeline: false,</span><br><span class="line">                navigationHelpButton: false,</span><br><span class="line">                navigationInstructionsInitiallyVisible: false,</span><br><span class="line">                targetFrameRate: 30,</span><br><span class="line">                terrainExaggeration: 1.0,</span><br><span class="line">            &#125;;</span><br><span class="line">            &#x2F;&#x2F; Cesium.Ion.defaultAccessToken&#x3D;&#39;申请的token&#39;;</span><br><span class="line">            viewer &#x3D; new Cesium.Viewer(container, options);</span><br><span class="line">            viewer.terrainProvider &#x3D; terrainProvider;</span><br><span class="line">        &#125;</span><br><span class="line">        init();</span><br><span class="line"></span><br><span class="line">    &lt;&#x2F;script&gt;</span><br><span class="line">&lt;&#x2F;body&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GIS/" rel="tag"># GIS</a>
+              <a href="/tags/geoserver/" rel="tag"># geoserver</a>
+              <a href="/tags/cesium/" rel="tag"># cesium</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/09/css-%E5%8F%AF%E6%A8%82%E7%93%B6%E6%95%88%E6%9E%9C/" rel="prev" title="css 可樂瓶效果">
+      <i class="fa fa-chevron-left"></i> css 可樂瓶效果
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cesium-HelloWorld"><span class="nav-number">1.</span> <span class="nav-text">Cesium HelloWorld</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#下載資料"><span class="nav-number">2.</span> <span class="nav-text">下載資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#geoserver-安裝-DDS-BIL-extension"><span class="nav-number">3.</span> <span class="nav-text">geoserver 安裝 DDS&#x2F;BIL extension</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-CORS"><span class="nav-number">4.</span> <span class="nav-text">設定 CORS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解決-cesium-401-問題"><span class="nav-number">5.</span> <span class="nav-text">解決 cesium 401 問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增樣式"><span class="nav-number">6.</span> <span class="nav-text">新增樣式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#最終結果"><span class="nav-number">7.</span> <span class="nav-text">最終結果</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">208</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">103</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">15:22</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/12/13/geoserver-%E7%99%BC%E4%BD%88-cesium-terrain/";
+    this.page.identifier = "2022/12/13/geoserver-發佈-cesium-terrain/";
+    this.page.title = "geoserver 發佈 cesium terrain";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>
