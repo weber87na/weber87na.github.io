@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2022-11-16T11:13:34.000Z">
-<meta property="article:modified_time" content="2022-11-28T10:21:11.939Z">
+<meta property="article:modified_time" content="2022-12-14T10:22:09.548Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="c#">
 <meta property="article:tag" content="爬蟲">
@@ -270,7 +270,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2022-11-28 18:21:11" itemprop="dateModified" datetime="2022-11-28T18:21:11+08:00">2022-11-28</time>
+                <time title="修改時間：2022-12-14 18:22:09" itemprop="dateModified" datetime="2022-12-14T18:22:09+08:00">2022-12-14</time>
               </span>
 
           
@@ -293,14 +293,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>29k</span>
+              <span>30k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>26 分鐘</span>
+              <span>27 分鐘</span>
             </span>
 
         </div>
@@ -474,6 +474,15 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ConnectName  &#x3D; </span><br><span class="line">  (DESCRIPTION &#x3D; </span><br><span class="line">    (ADDRESS &#x3D; </span><br><span class="line">      (PROTOCOL &#x3D; TCP)</span><br><span class="line">      (HOST &#x3D; 123.45.67.89)</span><br><span class="line">      (PORT &#x3D; 1521)</span><br><span class="line">    )</span><br><span class="line">    (CONNECT_DATA &#x3D; </span><br><span class="line">      (SID &#x3D; ORCLCDB)</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
 
 <p>接著加入環境變數 <code>ORACLE_HOME</code> =&gt; <code>C:\oracle</code><br>開 PL/SQL Developer 設定 <code>Preferences</code> =&gt; <code>OCI library</code> =&gt; <code>C:\oracle\instantclient_11_2\oci.dll</code> 這樣應該就可以連接到啦</p>
+<h4 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h4><p>可以看看這個<a href="https://www.youtube.com/watch?v=u4hCAMzOTH4" target="_blank" rel="noopener">說明影片</a><br>試起來老樣子難用 , 首先先安裝這個鬼玩意 <a href="https://marketplace.visualstudio.com/items?itemName=Oracle.oracledevtools" target="_blank" rel="noopener">Oracle Developer Tools for VS Code (SQL and PLSQL)</a><br>接著在 oracle server 打這句 , 他會 dump 連線的訊息給你</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tnsping ORCLCDB</span><br><span class="line">#(DESCRIPTION &#x3D; (ADDRESS &#x3D; (PROTOCOL &#x3D; TCP)(HOST &#x3D; 123.45.67.89)(PORT &#x3D; 1521)) (CONNECT_DATA &#x3D; (SERVER &#x3D; DEDICATED) (SERVICE_NAME &#x3D; ORCLCDB)))</span><br></pre></td></tr></table></figure>
+
+<p>接著參考<a href="https://docs.oracle.com/en/database/oracle/developer-tools-for-vscode/getting-started/connecttns.html#GUID-E805A7BA-9706-478F-B400-865BBA2AAD03" target="_blank" rel="noopener">這頁資訊</a><br>注意看他這段 <code>~/.vscode/extensions/oracle.oracledevtools-21.3.0/sample/network</code> 裡面有 sample 給你參考怎麼設定<br>先在 <code>C:\Users\YOURNAME\Oracle\network\admin</code> 新增 <code>tnsnames.ora</code><br>接著把剛剛 server dump 的那串資訊至貼入 <code>tnsnames.ora</code> 大概就長這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oracle21c &#x3D; (DESCRIPTION &#x3D; (ADDRESS &#x3D; (PROTOCOL &#x3D; TCP)(HOST &#x3D; 123.45.67.89)(PORT &#x3D; 1521)) (CONNECT_DATA &#x3D; (SERVER &#x3D; DEDICATED) (SERVICE_NAME &#x3D; ORCLCDB)))</span><br></pre></td></tr></table></figure>
+
+<p>接著點 <code>Oracle Explorer</code> 會出現一個很難用的畫面 , 然後開始設定<br>Create New Connection<br><code>Connection Type</code> =&gt; <code>TNS Alias</code></p>
+<p>然後他會要你選資料夾<br><code>TNS Admin Location *</code> =&gt; <code>C:\Users\YOURNAME\Oracle\network\admin</code></p>
+<p>接著你如果有一堆 alias 他會列出來可以選<br><code>TNS Alias *</code> =&gt; <code>oracle21c</code><br><code>User name *</code> =&gt; <code>SYSTEM</code><br><code>Password</code> =&gt; <code>123456</code><br><code>Connection name *</code> =&gt; <code>oracle21c</code></p>
 <h3 id="其他-Oracle-疑難雜症"><a href="#其他-Oracle-疑難雜症" class="headerlink" title="其他 Oracle 疑難雜症"></a>其他 Oracle 疑難雜症</h3><h4 id="failure-to-open-file"><a href="#failure-to-open-file" class="headerlink" title="failure to open file"></a>failure to open file</h4><p>後來莫名其妙噴 <code>ORA-28759: failure to open file</code> 因為太晚有點恍神 , 後來看看權限發現不小心用 root 去蓋 wallet</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ll</span><br><span class="line"></span><br><span class="line">drwxr-xr-x 1 oracle dba  4096 Nov 25 05:47 .&#x2F;</span><br><span class="line">drwxr-xr-x 1 root   root 4096 Nov 27  2015 ..&#x2F;</span><br><span class="line">-rw------- 1 oracle dba    13 Nov 25 05:40 .bash_history</span><br><span class="line">-rw-r--r-- 1 oracle dba   220 Apr  9  2014 .bash_logout</span><br><span class="line">-rw-r--r-- 1 oracle dba  3637 Apr  9  2014 .bashrc</span><br><span class="line">-rw-r--r-- 1 oracle dba   675 Apr  9  2014 .profile</span><br><span class="line">drwxr-xr-x 2 root   root 4096 Nov 25 05:47 crt&#x2F;</span><br><span class="line">drwx------ 2 root   root 4096 Nov 25 05:44 wallet&#x2F;</span><br></pre></td></tr></table></figure>
 
@@ -576,7 +585,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原理分析"><span class="nav-number">1.</span> <span class="nav-text">原理分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-撰寫"><span class="nav-number">2.</span> <span class="nav-text">powershell 撰寫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-撰寫續"><span class="nav-number">3.</span> <span class="nav-text">powershell 撰寫續</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#撰寫-api"><span class="nav-number">4.</span> <span class="nav-text">撰寫 api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oracle"><span class="nav-number">5.</span> <span class="nav-text">oracle</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#docker"><span class="nav-number">5.1.</span> <span class="nav-text">docker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝-oracle-database-21c"><span class="nav-number">5.2.</span> <span class="nav-text">安裝 oracle database 21c</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登入-oracle"><span class="nav-number">5.3.</span> <span class="nav-text">登入 oracle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wallet-與憑證設定"><span class="nav-number">5.4.</span> <span class="nav-text">wallet 與憑證設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撰寫預存程序"><span class="nav-number">5.5.</span> <span class="nav-text">撰寫預存程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sql-developer-設定"><span class="nav-number">5.6.</span> <span class="nav-text">sql developer 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pl-sql-developer-設定"><span class="nav-number">5.7.</span> <span class="nav-text">pl&#x2F;sql developer 設定</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他-Oracle-疑難雜症"><span class="nav-number">6.</span> <span class="nav-text">其他 Oracle 疑難雜症</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#failure-to-open-file"><span class="nav-number">6.1.</span> <span class="nav-text">failure to open file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#service-啟動關閉"><span class="nav-number">6.2.</span> <span class="nav-text">service 啟動關閉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#沒辦法輸出內容"><span class="nav-number">6.3.</span> <span class="nav-text">沒辦法輸出內容</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原理分析"><span class="nav-number">1.</span> <span class="nav-text">原理分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-撰寫"><span class="nav-number">2.</span> <span class="nav-text">powershell 撰寫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-撰寫續"><span class="nav-number">3.</span> <span class="nav-text">powershell 撰寫續</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#撰寫-api"><span class="nav-number">4.</span> <span class="nav-text">撰寫 api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oracle"><span class="nav-number">5.</span> <span class="nav-text">oracle</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#docker"><span class="nav-number">5.1.</span> <span class="nav-text">docker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝-oracle-database-21c"><span class="nav-number">5.2.</span> <span class="nav-text">安裝 oracle database 21c</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登入-oracle"><span class="nav-number">5.3.</span> <span class="nav-text">登入 oracle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wallet-與憑證設定"><span class="nav-number">5.4.</span> <span class="nav-text">wallet 與憑證設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#撰寫預存程序"><span class="nav-number">5.5.</span> <span class="nav-text">撰寫預存程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sql-developer-設定"><span class="nav-number">5.6.</span> <span class="nav-text">sql developer 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pl-sql-developer-設定"><span class="nav-number">5.7.</span> <span class="nav-text">pl&#x2F;sql developer 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vscode"><span class="nav-number">5.8.</span> <span class="nav-text">vscode</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他-Oracle-疑難雜症"><span class="nav-number">6.</span> <span class="nav-text">其他 Oracle 疑難雜症</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#failure-to-open-file"><span class="nav-number">6.1.</span> <span class="nav-text">failure to open file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#service-啟動關閉"><span class="nav-number">6.2.</span> <span class="nav-text">service 啟動關閉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#沒辦法輸出內容"><span class="nav-number">6.3.</span> <span class="nav-text">沒辦法輸出內容</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -664,7 +673,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">15:22</span>
+    <span title="所需總浪費時間">15:23</span>
 </div>
 
         
