@@ -48,7 +48,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/sql.png">
 <meta property="article:published_time" content="2022-10-11T10:44:42.000Z">
-<meta property="article:modified_time" content="2022-10-11T10:50:04.462Z">
+<meta property="article:modified_time" content="2022-12-19T10:32:14.921Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2022-10-11 18:44:42 / 修改時間：18:50:04" itemprop="dateCreated datePublished" datetime="2022-10-11T18:44:42+08:00">2022-10-11</time>
+              <time title="亂入時間：2022-10-11 18:44:42" itemprop="dateCreated datePublished" datetime="2022-10-11T18:44:42+08:00">2022-10-11</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2022-12-19 18:32:14" itemprop="dateModified" datetime="2022-12-19T18:32:14+08:00">2022-12-19</time>
+              </span>
 
           
   
@@ -286,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.1k</span>
+              <span>5.3k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>2 分鐘</span>
+              <span>5 分鐘</span>
             </span>
 
         </div>
@@ -322,6 +328,31 @@
 
 <p>在 linq 裡面用 <code>Except</code> 的話需要自訂比較方法 , 所以要繼承 <code>IEqualityComparer</code> 去比較 , 我這裡設定所有欄位當節點</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class ExceptIEqualityComparer : IEqualityComparer&lt;ExceptDocViewModel&gt;</span><br><span class="line">&#123;</span><br><span class="line">	public bool Equals( ExceptDocViewModel x, ExceptDocViewModel y )</span><br><span class="line">	&#123;</span><br><span class="line">		return ( x.Id &#x3D;&#x3D; y.Id &amp;&amp;</span><br><span class="line">			x.Item1 &#x3D;&#x3D; y.Item1 &amp;&amp;</span><br><span class="line">			x.ModifyDatetime &#x3D;&#x3D; y.ModifyDatetime &amp;&amp;</span><br><span class="line">			x.SysUpdateDatetime &#x3D;&#x3D; y.SysUpdateDatetime );</span><br><span class="line">	&#125;</span><br><span class="line">	public int GetHashCode( ExceptDocViewModel obj )</span><br><span class="line">	&#123;</span><br><span class="line">		return (obj.Id,</span><br><span class="line">			obj.Item1,</span><br><span class="line">			obj.ModifyDatetime,</span><br><span class="line">			obj.SysUpdateDatetime</span><br><span class="line">			).GetHashCode();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>後續又遇到效能問題 , 本來是在 ef 跑 loop , 去 insert or update or delete 結果因為資料量有 7 萬筆 , 速度超慢要跑個 20 - 30 分鐘<br>同步資料主要有三個動作 , 先刪除 sql server 內的多餘資料 , 接著 insert oracle 新增的資料 , 最後 update oracle 與 sql server 差異部分</p>
+<p>找出需要從 sql server 刪除的資料</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var deleteData &#x3D; ms.Except( oracle, new ExceptIdEqualityComparer () )</span><br></pre></td></tr></table></figure>
+
+<p>找出 oracle 新增的資料 , 等等新增到 sql server , 這裡的 Comparer 只需要比對 Id 即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var insertData &#x3D; oracle.Except( ms, new ExceptIdEqualityComparer () )</span><br></pre></td></tr></table></figure>
+
+<p>找出需要更新的資料 , 注意這裡的 Comparer 不一樣 , 需要比對數值</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var modifyOracleData &#x3D; oracleData.Except( msData, new ExceptIEqualityComparer() ).ToArray();</span><br></pre></td></tr></table></figure>
+
+
+<p>比對 ID 用 , 找出需要 insert &amp; delete 的資料</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class ExceptIdEqualityComparer : IEqualityComparer&lt;ExceptDocViewModel&gt;</span><br><span class="line">&#123;</span><br><span class="line">    public bool Equals( ExceptDocViewModel x, ExceptDocViewModel y )</span><br><span class="line">    &#123;</span><br><span class="line">        return (</span><br><span class="line">            x.Id &#x3D;&#x3D; y.Id</span><br><span class="line">            );</span><br><span class="line">    &#125;</span><br><span class="line">    public int GetHashCode( ExceptDocViewModel obj )</span><br><span class="line">    &#123;</span><br><span class="line">        return (</span><br><span class="line">            obj.Id</span><br><span class="line">            ).GetHashCode();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建立 datatable 等等寫入 temp table</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private static DataTable CreateDataTable( ExceptDocViewModel[] list )</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;欄位名稱不一樣所以多個多載</span><br><span class="line">	&#x2F;&#x2F;PlmDcItemElecDoc</span><br><span class="line">	var datatable &#x3D; new DataTable();</span><br><span class="line">	datatable.Columns.Add( &quot;Id&quot;, typeof( string ) );</span><br><span class="line">	datatable.Columns.Add( &quot;Item1&quot;, typeof( string ) );</span><br><span class="line">	datatable.Columns.Add( &quot;ModifyDatetime&quot;, typeof( DateTime ) );</span><br><span class="line">	datatable.Columns.Add( &quot;SysUpdateDatetime&quot;, typeof( DateTime ) );</span><br><span class="line">	foreach( var item in list )</span><br><span class="line">		datatable.Rows.Add(</span><br><span class="line">				item.Id,</span><br><span class="line">				item.Item1 ,</span><br><span class="line">				item.ModifyDatetime ,</span><br><span class="line">				item.SysUpdateDatetime </span><br><span class="line">			);</span><br><span class="line">	return datatable;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>塞入資料到 sql server 內 , 最關鍵就是先用 select into 建立空的臨時表 , 接著把 datatable 資料塞到臨時表<br>最後要新增的話就直接從臨時表新增至主表 , 更新的話則用 join 去更新資料 , 大概 20 秒內就可以解決原本要 20 - 30 分鐘的作業時間</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">                &#x2F;&#x2F;mapping data to datatable</span><br><span class="line">                var datatable &#x3D; CreateDataTable( needInsertData );</span><br><span class="line"></span><br><span class="line">                var conn &#x3D; db.Database.Connection;</span><br><span class="line">                conn.Open();</span><br><span class="line">                var transaction &#x3D; conn.BeginTransaction();</span><br><span class="line">                var cmd &#x3D; conn.CreateCommand();</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;這邊要設定交易不然會噴下面這個 error</span><br><span class="line">                &#x2F;&#x2F;當指定給命令的連接為擱置的本機交易時，ExecuteNonQuery 需要連接以交易。命令的 Transaction 屬性尚未初始化。</span><br><span class="line">                cmd.Transaction &#x3D; transaction;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;用 select into 建立暫時資料表</span><br><span class="line">                cmd.CommandText &#x3D;</span><br><span class="line">@&quot;</span><br><span class="line">select Item1 , ModifyDatetime , SysUpdateDatetime</span><br><span class="line">into #DocForInsert</span><br><span class="line">from Doc</span><br><span class="line">where 1 !&#x3D; 1;</span><br><span class="line">&quot;;</span><br><span class="line">                var effect &#x3D; cmd.ExecuteNonQuery();</span><br><span class="line">                using( var bulkCopy &#x3D; new SqlBulkCopy(</span><br><span class="line">                    (SqlConnection) conn,</span><br><span class="line">                    SqlBulkCopyOptions.Default,</span><br><span class="line">                    (SqlTransaction) transaction ) )</span><br><span class="line">                &#123;</span><br><span class="line">                    &#x2F;&#x2F;丟到 temp table</span><br><span class="line">                    bulkCopy.DestinationTableName &#x3D; &quot;#DocForInsert&quot;;</span><br><span class="line">                    bulkCopy.WriteToServer( datatable );</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;把 temp 資料表的內容丟入</span><br><span class="line">                cmd &#x3D; conn.CreateCommand();</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;這邊要設定交易不然會噴下面這個 error</span><br><span class="line">                &#x2F;&#x2F;當指定給命令的連接為擱置的本機交易時，ExecuteNonQuery 需要連接以交易。命令的 Transaction 屬性尚未初始化。</span><br><span class="line">                cmd.Transaction &#x3D; transaction;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;把暫存的資料丟進去真正的資料表內</span><br><span class="line">                cmd.CommandText &#x3D;</span><br><span class="line">@&quot;</span><br><span class="line">insert into Doc(Item1 , ModifyDatetime , SysUpdateDatetime)</span><br><span class="line">select Item1 , ModifyDatetime , SysUpdateDatetime</span><br><span class="line">from #DocForInsert</span><br><span class="line">&quot;;</span><br><span class="line">                effect &#x3D; cmd.ExecuteNonQuery();</span><br><span class="line"></span><br><span class="line">                transaction.Commit();</span><br><span class="line">                Debug.WriteLine( $&quot;新增筆數: &#123;effect&#125;&quot; );</span><br></pre></td></tr></table></figure>
+
+<p>如果要更新的話 sql 語法大改長這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">update Doc</span><br><span class="line">set Doc.Item1 &#x3D; #DocForInsert.Item1 ,</span><br><span class="line">Doc.ModifyDatetime &#x3D; #DocForInsert.ModifyDatetime ,</span><br><span class="line">Doc.SysUpdateDatetime &#x3D; #DocForInsert.SysUpdateDatetime</span><br><span class="line">from Doc join #DocForInsert</span><br><span class="line">on Doc.DocId &#x3D; #DocForInsert.DocId</span><br></pre></td></tr></table></figure>
+
+<p>最後如果是用 Oracle 可以參考 <a href="https://www.c-sharpcorner.com/article/two-ways-to-insert-bulk-data-into-oracle-database-using-c-sharp/" target="_blank" rel="noopener">這篇文章</a></p>
 
     </div>
 
@@ -499,7 +530,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">15:25</span>
+    <span title="所需總浪費時間">15:28</span>
 </div>
 
         
