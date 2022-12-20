@@ -48,7 +48,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/sql.png">
 <meta property="article:published_time" content="2022-10-11T10:44:42.000Z">
-<meta property="article:modified_time" content="2022-12-19T11:39:00.340Z">
+<meta property="article:modified_time" content="2022-12-20T17:27:24.193Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2022-12-19 19:39:00" itemprop="dateModified" datetime="2022-12-19T19:39:00+08:00">2022-12-19</time>
+                <time title="修改時間：2022-12-21 01:27:24" itemprop="dateModified" datetime="2022-12-21T01:27:24+08:00">2022-12-21</time>
               </span>
 
           
@@ -292,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>5.7k</span>
+              <span>7.3k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>5 分鐘</span>
+              <span>7 分鐘</span>
             </span>
 
         </div>
@@ -355,6 +355,13 @@
 <p>最後如果是用 Oracle 可以參考 <a href="https://www.c-sharpcorner.com/article/two-ways-to-insert-bulk-data-into-oracle-database-using-c-sharp/" target="_blank" rel="noopener">這篇文章</a></p>
 <p>後來又發現其實可以用 merge into , 以前好像在書上看過 , 可是沒實戰沒那個感覺 , 用這招三秒就全部的事都做完了 .. 真是淫蕩</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MERGE Doc AS T</span><br><span class="line">USING #DocSource AS S</span><br><span class="line">ON T.DocId &#x3D; S.DocId</span><br><span class="line">WHEN MATCHED THEN</span><br><span class="line">	UPDATE SET  T.Item1 &#x3D; S.Item1</span><br><span class="line">		  , T.ModifyDatetime &#x3D; S.ModifyDatetime</span><br><span class="line">		  , T.SysUpdateDatetime &#x3D; S.SysUpdateDatetime</span><br><span class="line">WHEN NOT MATCHED BY TARGET </span><br><span class="line">	THEN INSERT (Item1 , ModifyDatetime , SysUpdateDatetime) </span><br><span class="line">	VALUES (S.Item1 , S.ModifyDatetime , S.SysUpdateDatetime)</span><br><span class="line">WHEN NOT MATCHED BY SOURCE THEN DELETE;</span><br></pre></td></tr></table></figure>
+
+<p>另外還可以這樣用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO DocTest(S.Item1 , S.ModifyDatetime , S.SysUpdateDatetime)</span><br><span class="line">SELECT Item1 , ModifyDatetime , SysUpdateDatetime</span><br><span class="line">FROM (</span><br><span class="line">	MERGE Doc AS T</span><br><span class="line">	USING #DocSource AS S</span><br><span class="line">	ON T.DocId &#x3D; S.DocId</span><br><span class="line">	WHEN MATCHED THEN</span><br><span class="line">		UPDATE SET  T.Item1 &#x3D; S.Item1</span><br><span class="line">			  , T.ModifyDatetime &#x3D; S.ModifyDatetime</span><br><span class="line">			  , T.SysUpdateDatetime &#x3D; S.SysUpdateDatetime</span><br><span class="line">	WHEN NOT MATCHED BY TARGET </span><br><span class="line">		THEN INSERT (Item1 , ModifyDatetime , SysUpdateDatetime) </span><br><span class="line">		VALUES (S.Item1 , S.ModifyDatetime , S.SysUpdateDatetime)</span><br><span class="line">	WHEN NOT MATCHED BY SOURCE THEN DELETE</span><br><span class="line">	OUTPUT $action , Inserted.Item1 , Inserted.ModifyDatetime , SysUpdateDatetime.DocId</span><br><span class="line">) AS Changes (Action , Item1 , ModifyDatetime , DocId)</span><br><span class="line">WHERE Action &#x3D; &#39;INSERT&#39;</span><br></pre></td></tr></table></figure>
+
+<p>最後就是如果兩個資料集相同的話 , 其實 <code>merge into</code> 還是會 <code>update</code> , 本來腦補以為不會更新 , 結果觀念有點錯<br>如果要加工的話 insert update delete 結果的話可以這樣寫</p>
+<p>可以參考 <a href="https://www.sqlservercentral.com/articles/the-output-clause-for-the-merge-statements" target="_blank" rel="noopener">這篇</a> 或是 <a href="https://stackoverflow.com/questions/17165870/multiple-output-clauses-in-merge-insert-delete-sql-commands" target="_blank" rel="noopener">這篇</a> <a href="https://learn.microsoft.com/zh-tw/sql/t-sql/queries/output-clause-transact-sql?view=sql-server-ver16" target="_blank" rel="noopener">官方</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">DECLARE @DocTest TABLE</span><br><span class="line">(</span><br><span class="line">   MergeAction varchar(50),</span><br><span class="line">   Item1 varchar(30) not null,</span><br><span class="line">   ModifyDatetime datetime null,</span><br><span class="line">   SysUpdateDatetime datetime not null</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">MERGE Doc AS T</span><br><span class="line">USING #DocSource AS S</span><br><span class="line">ON T.DocId &#x3D; S.DocId</span><br><span class="line">WHEN MATCHED THEN</span><br><span class="line">	UPDATE SET  T.Item1 &#x3D; S.Item1</span><br><span class="line">		  , T.ModifyDatetime &#x3D; S.ModifyDatetime</span><br><span class="line">		  , T.SysUpdateDatetime &#x3D; S.SysUpdateDatetime</span><br><span class="line">WHEN NOT MATCHED BY TARGET </span><br><span class="line">	THEN INSERT (Item1 , ModifyDatetime , SysUpdateDatetime) </span><br><span class="line">	VALUES (S.Item1 , S.ModifyDatetime , S.SysUpdateDatetime)</span><br><span class="line">WHEN NOT MATCHED BY SOURCE THEN DELETE</span><br><span class="line">OUTPUT $action as MergeAction,</span><br><span class="line">    CASE $action</span><br><span class="line">		WHEN &#39;DELETE&#39; THEN deleted.Item1 </span><br><span class="line">		ELSE inserted.Item1 END AS Item1,</span><br><span class="line">    CASE $action</span><br><span class="line">		WHEN &#39;DELETE&#39; THEN deleted.ModifyDatetime </span><br><span class="line">		ELSE inserted.ModifyDatetime END AS ModifyDatetime,</span><br><span class="line">    CASE $action</span><br><span class="line">		WHEN &#39;DELETE&#39; THEN deleted.SysUpdateDatetime </span><br><span class="line">		ELSE inserted.DocId END AS SysUpdateDatetime</span><br><span class="line">    INTO @DocTest;</span><br><span class="line"></span><br><span class="line">SELECT *</span><br><span class="line">FROM @DocTest;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -532,7 +539,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">15:29</span>
+    <span title="所需總浪費時間">15:30</span>
 </div>
 
         
