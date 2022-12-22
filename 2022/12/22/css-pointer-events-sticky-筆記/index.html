@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2022-12-22T11:08:01.000Z">
-<meta property="article:modified_time" content="2022-12-22T11:13:36.781Z">
+<meta property="article:modified_time" content="2022-12-22T11:50:47.442Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="css">
 <meta name="twitter:card" content="summary">
@@ -263,7 +263,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2022-12-22 19:08:01 / 修改時間：19:13:36" itemprop="dateCreated datePublished" datetime="2022-12-22T19:08:01+08:00">2022-12-22</time>
+              <time title="亂入時間：2022-12-22 19:08:01 / 修改時間：19:50:47" itemprop="dateCreated datePublished" datetime="2022-12-22T19:08:01+08:00">2022-12-22</time>
             </span>
 
           
@@ -286,7 +286,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1k</span>
+              <span>974</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -311,7 +311,7 @@
 <p>工作上遇到的問題 , 需要用 RFID Reader 讀卡 , 讀卡的特性就是要有個 input focus 在上面才會正常 , 而且實際上也是會一個字一個字 key 入<br>雖然刷卡這個動作看似秒殺等級 , 不過實際上一口氣會有一堆 event 收到<br>之前做這個的人運氣好沒發生 bug , 測試好多台電腦有的有值有的又沒 , trace 到崩潰 , 研究半天靠設定 <code>pointer-events: none</code> 加上新增 <code>input</code> 來解決<br>當 modal 開啟的時候先 focus input , 搭配 #modal input 裡面 events 還是會觸發的特性 , 讓 input 被點到還是有效果<br>如果點其他 modal 內的元素 modal 就會直接關閉<br>最後刷卡就正常啦 , 算是小巧的解法 XD<br>可以參考下 <a href="https://stackoverflow.com/questions/1369035/how-do-i-prevent-a-parents-onclick-event-from-firing-when-a-child-anchor-is-cli" target="_blank" rel="noopener">這篇</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#modal * &#123;</span><br><span class="line">	pointer-events: none;</span><br><span class="line">	background-color: yellow;</span><br><span class="line">&#125;</span><br><span class="line">#modal input&#123;</span><br><span class="line">	pointer-events: auto;</span><br><span class="line">	background-color: red;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>今天同事的 table 要設定固定 header , sticky 效果<br>之前多多少少有做過 , 不過大多忘了怎麼做啦 , (參考這裡)[<a href="https://stackoverflow.com/questions/12266262/position-sticky-on-thead]" target="_blank" rel="noopener">https://stackoverflow.com/questions/12266262/position-sticky-on-thead]</a><br>自己拿回來寫在把 sticky 加在 <code>tr</code> 上面結果完全沒效果 , 又花了不少時間<br>google 到最後看老外這句是重點 , chrome 只有 support <code>th</code><br>position: sticky doesn’t work with table elements (as long as their display attribute starts with table-) since tables are not part of specification:<br>Other kinds of layout, such as tables, “floating” boxes, ruby annotations, grid layouts, columns and basic handling of normal “flow” content, are described in other modules.<br>Edit: As Jul 2019 according to <a href="https://caniuse.com/#feat=css-sticky" target="_blank" rel="noopener">https://caniuse.com/#feat=css-sticky</a> Firefox supports this feature and Chrome has at least support for <code>th</code> tag.</p>
+<p>今天同事的 table 要設定固定 header , sticky 效果<br>之前多多少少有做過 , 不過大多忘了怎麼做啦 , <a href="https://stackoverflow.com/questions/12266262/position-sticky-on-thead" target="_blank" rel="noopener">參考這裡</a><br>自己拿回來寫在把 sticky 加在 <code>tr</code> 上面結果完全沒效果 , 又花了不少時間<br>google 到最後看老外這句是重點 , 比較老的 chrome 只有 support <code>th</code> 差點暈過去<br>position: sticky doesn’t work with table elements (as long as their display attribute starts with table-) since tables are not part of specification:<br>Other kinds of layout, such as tables, “floating” boxes, ruby annotations, grid layouts, columns and basic handling of normal “flow” content, are described in other modules.<br>Edit: As Jul 2019 according to <a href="https://caniuse.com/#feat=css-sticky" target="_blank" rel="noopener">https://caniuse.com/#feat=css-sticky</a> Firefox supports this feature and Chrome has at least support for <code>th</code> tag.</p>
 
     </div>
 
