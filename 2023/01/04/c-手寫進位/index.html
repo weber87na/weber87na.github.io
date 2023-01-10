@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2023-01-04T10:58:04.000Z">
-<meta property="article:modified_time" content="2023-01-04T11:00:51.511Z">
+<meta property="article:modified_time" content="2023-01-10T21:14:29.673Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="c#">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2023-01-04 18:58:04 / 修改時間：19:00:51" itemprop="dateCreated datePublished" datetime="2023-01-04T18:58:04+08:00">2023-01-04</time>
+              <time title="亂入時間：2023-01-04 18:58:04" itemprop="dateCreated datePublished" datetime="2023-01-04T18:58:04+08:00">2023-01-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2023-01-11 05:14:29" itemprop="dateModified" datetime="2023-01-11T05:14:29+08:00">2023-01-11</time>
+              </span>
 
           
   
@@ -286,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>4k</span>
+              <span>5k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>4 分鐘</span>
+              <span>5 分鐘</span>
             </span>
 
         </div>
@@ -317,6 +323,11 @@
 
 <p>順便補個單元測試 , 如果是 <code>MSTest</code> <code>TestCase</code> 則用 <code>DataRow</code> 代替</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class Tests</span><br><span class="line">&#123;</span><br><span class="line">	[SetUp]</span><br><span class="line">	public void Setup()</span><br><span class="line">	&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[TestCase(&quot;00000&quot;,&quot;00001&quot;)]</span><br><span class="line">	[TestCase(&quot;00099&quot;,&quot;00100&quot;)]</span><br><span class="line">	[TestCase(&quot;99999&quot;,&quot;A0000&quot;)]</span><br><span class="line">	[TestCase(&quot;89999&quot;,&quot;90000&quot;)]</span><br><span class="line">	[TestCase(&quot;A0000&quot;,&quot;A0001&quot;)]</span><br><span class="line">	[TestCase(&quot;A0001&quot;,&quot;A0002&quot;)]</span><br><span class="line">	[TestCase(&quot;A0009&quot;,&quot;A0010&quot;)]</span><br><span class="line">	[TestCase(&quot;A0789&quot;,&quot;A0790&quot;)]</span><br><span class="line">	[TestCase(&quot;A9999&quot;,&quot;B0000&quot;)]</span><br><span class="line">	[TestCase(&quot;Z9999&quot;,&quot;00000&quot;)]</span><br><span class="line">	public void CarryNumAreEqual(</span><br><span class="line">		string currentNumber,</span><br><span class="line">		string expected)</span><br><span class="line">	&#123;</span><br><span class="line">		NumberGenerator generator &#x3D; new NumberGenerator();</span><br><span class="line">		string serialNumber &#x3D; generator.GetNext(currentNumber);</span><br><span class="line">		Assert.AreEqual(expected, serialNumber);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="遞迴數字進位"><a href="#遞迴數字進位" class="headerlink" title="遞迴數字進位"></a>遞迴數字進位</h3><p>練習看看遞迴 , 還是一樣噁心 , 想不太出來 XD</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">var serialNumber &#x3D; new SerialNumber();</span><br><span class="line">serialNumber.Calc(new string[] &#123; &quot;9&quot;, &quot;6&quot;, &quot;7&quot; &#125;);</span><br><span class="line">Console.WriteLine(serialNumber.GetResult());</span><br><span class="line">Console.Read();</span><br><span class="line"></span><br><span class="line">public class SerialNumber</span><br><span class="line">&#123;</span><br><span class="line">    string result &#x3D; &quot;&quot;;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;進位 flag</span><br><span class="line">    bool flag &#x3D; true;</span><br><span class="line">    public void Calc(string[] numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        if(numbers.Length &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            Calc(numbers.Skip(1).ToArray());</span><br><span class="line">            if (numbers[0].ToString() &#x3D;&#x3D; &quot;9&quot; &amp;&amp; flag &#x3D;&#x3D; true)</span><br><span class="line">            &#123;</span><br><span class="line">                numbers[0] &#x3D; &quot;0&quot;;</span><br><span class="line">                result +&#x3D; &quot;0&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                &#x2F;&#x2F;如果要進位的話設定 flag 為 false</span><br><span class="line">                if (flag)</span><br><span class="line">                &#123;</span><br><span class="line">                    var num &#x3D; Convert.ToInt32(numbers[0].ToString()) + 1;</span><br><span class="line">                    numbers[0] &#x3D; num.ToString();</span><br><span class="line">                    result +&#x3D; num.ToString();</span><br><span class="line">                    flag &#x3D; false;</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    var num &#x3D; Convert.ToInt32(numbers[0].ToString());</span><br><span class="line">                    numbers[0] &#x3D; num.ToString();</span><br><span class="line">                    result +&#x3D; num.ToString();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public string GetResult()</span><br><span class="line">    &#123;</span><br><span class="line">        return new string(result.Reverse().ToArray());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 
     </div>
 
@@ -404,7 +415,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#數字進位"><span class="nav-number">1.</span> <span class="nav-text">數字進位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客製進位規則"><span class="nav-number">2.</span> <span class="nav-text">客製進位規則</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#數字進位"><span class="nav-number">1.</span> <span class="nav-text">數字進位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客製進位規則"><span class="nav-number">2.</span> <span class="nav-text">客製進位規則</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遞迴數字進位"><span class="nav-number">3.</span> <span class="nav-text">遞迴數字進位</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -492,7 +503,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">15:42</span>
+    <span title="所需總浪費時間">15:43</span>
 </div>
 
         
