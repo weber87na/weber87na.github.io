@@ -48,7 +48,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/sql.png">
 <meta property="article:published_time" content="2022-10-11T10:44:42.000Z">
-<meta property="article:modified_time" content="2022-12-20T17:27:24.193Z">
+<meta property="article:modified_time" content="2023-01-13T14:43:55.040Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="sql">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2022-12-21 01:27:24" itemprop="dateModified" datetime="2022-12-21T01:27:24+08:00">2022-12-21</time>
+                <time title="修改時間：2023-01-13 22:43:55" itemprop="dateModified" datetime="2023-01-13T22:43:55+08:00">2023-01-13</time>
               </span>
 
           
@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>7.3k</span>
+              <span>7.7k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -326,7 +326,7 @@
 <p>知道特性後就可以來修正 ef 上面遇到的問題 , 情境大概是這樣 , 要從 <code>Oracle</code> 原始資料運用排程把資料倒進去 <code>sql server</code> 裡</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;這裡拿兩個特殊觸發欄位進行相減</span><br><span class="line">var oracleData &#x3D;</span><br><span class="line">	oracleDb.Doc.AsNoTracking()</span><br><span class="line">	.Select( x &#x3D;&gt; new ExceptViewModel</span><br><span class="line">	&#123;</span><br><span class="line">		Id &#x3D; x.Id,</span><br><span class="line">		Item1 &#x3D; x.Item1,</span><br><span class="line">		ModifyDatetime &#x3D; x.ModifyDatetime,</span><br><span class="line">		SysUpdateDatetime &#x3D; x.SysUpdateDatetime,</span><br><span class="line">	&#125; ).ToList();</span><br><span class="line"></span><br><span class="line">var msData &#x3D; msDb.Doc.AsNoTracking()</span><br><span class="line">	.Select( x &#x3D;&gt; new ExceptViewModel</span><br><span class="line">	&#123;</span><br><span class="line">		Id &#x3D; x.Id,</span><br><span class="line">		Item1 &#x3D; x.Item1,</span><br><span class="line">		ModifyDatetime &#x3D; x.ModifyDatetime,</span><br><span class="line">		SysUpdateDatetime &#x3D; x.SysUpdateDatetime,</span><br><span class="line">	&#125; ).ToList();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;取出全部 sql server 裡面存放的 oracle 同步資料</span><br><span class="line">var msFullData &#x3D; msData.Doc.ToList();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Oracle 減去 sql server 資料</span><br><span class="line">var modifyOracleData &#x3D; oracleData.Except( msData, new ExceptIEqualityComparer() ).ToArray();</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;做些其他處理</span><br></pre></td></tr></table></figure>
 
-<p>在 linq 裡面用 <code>Except</code> 的話需要自訂比較方法 , 所以要繼承 <code>IEqualityComparer</code> 去比較 , 我這裡設定所有欄位當節點</p>
+<p>在 linq 裡面用 <code>Except</code> 的話需要自訂比較方法 , 所以要繼承 <code>IEqualityComparer</code> 去比較 , 我這裡設定所有欄位當節點<br>另外一點特別注意 <code>GetHashCode</code> 只寫需要比較的欄位就好 , 多寫或是少寫都會錯誤</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class ExceptIEqualityComparer : IEqualityComparer&lt;ExceptDocViewModel&gt;</span><br><span class="line">&#123;</span><br><span class="line">	public bool Equals( ExceptDocViewModel x, ExceptDocViewModel y )</span><br><span class="line">	&#123;</span><br><span class="line">		return ( x.Id &#x3D;&#x3D; y.Id &amp;&amp;</span><br><span class="line">			x.Item1 &#x3D;&#x3D; y.Item1 &amp;&amp;</span><br><span class="line">			x.ModifyDatetime &#x3D;&#x3D; y.ModifyDatetime &amp;&amp;</span><br><span class="line">			x.SysUpdateDatetime &#x3D;&#x3D; y.SysUpdateDatetime );</span><br><span class="line">	&#125;</span><br><span class="line">	public int GetHashCode( ExceptDocViewModel obj )</span><br><span class="line">	&#123;</span><br><span class="line">		return (obj.Id,</span><br><span class="line">			obj.Item1,</span><br><span class="line">			obj.ModifyDatetime,</span><br><span class="line">			obj.SysUpdateDatetime</span><br><span class="line">			).GetHashCode();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>後續又遇到效能問題 , 本來是在 ef 跑 loop , 去 insert or update or delete 結果因為資料量有 7 萬筆 , 速度超慢要跑個 20 - 30 分鐘<br>同步資料主要有三個動作 , 先刪除 sql server 內的多餘資料 , 接著 insert oracle 新增的資料 , 最後 update oracle 與 sql server 差異部分</p>
@@ -353,6 +353,8 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">update Doc</span><br><span class="line">set Doc.Item1 &#x3D; #DocForInsert.Item1 ,</span><br><span class="line">Doc.ModifyDatetime &#x3D; #DocForInsert.ModifyDatetime ,</span><br><span class="line">Doc.SysUpdateDatetime &#x3D; #DocForInsert.SysUpdateDatetime</span><br><span class="line">from Doc join #DocForInsert</span><br><span class="line">on Doc.DocId &#x3D; #DocForInsert.DocId</span><br></pre></td></tr></table></figure>
 
 <p>最後如果是用 Oracle 可以參考 <a href="https://www.c-sharpcorner.com/article/two-ways-to-insert-bulk-data-into-oracle-database-using-c-sharp/" target="_blank" rel="noopener">這篇文章</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private static void BulkInsertToOracle(ErpDbContext erpDb, DataTable datatable)</span><br><span class="line">&#123;</span><br><span class="line">    var conn &#x3D; erpDb.Database.Connection;</span><br><span class="line">    erpDb.Database.Connection.Open();</span><br><span class="line">    using( var bulkCopy &#x3D; new OracleBulkCopy(</span><br><span class="line">	(OracleConnection) conn,</span><br><span class="line">	OracleBulkCopyOptions.Default</span><br><span class="line">	) )</span><br><span class="line">    &#123;</span><br><span class="line">	bulkCopy.DestinationTableName &#x3D; &quot;yourtable&quot;;</span><br><span class="line">	bulkCopy.WriteToServer( datatable );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <p>後來又發現其實可以用 merge into , 以前好像在書上看過 , 可是沒實戰沒那個感覺 , 用這招三秒就全部的事都做完了 .. 真是淫蕩</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MERGE Doc AS T</span><br><span class="line">USING #DocSource AS S</span><br><span class="line">ON T.DocId &#x3D; S.DocId</span><br><span class="line">WHEN MATCHED THEN</span><br><span class="line">	UPDATE SET  T.Item1 &#x3D; S.Item1</span><br><span class="line">		  , T.ModifyDatetime &#x3D; S.ModifyDatetime</span><br><span class="line">		  , T.SysUpdateDatetime &#x3D; S.SysUpdateDatetime</span><br><span class="line">WHEN NOT MATCHED BY TARGET </span><br><span class="line">	THEN INSERT (Item1 , ModifyDatetime , SysUpdateDatetime) </span><br><span class="line">	VALUES (S.Item1 , S.ModifyDatetime , S.SysUpdateDatetime)</span><br><span class="line">WHEN NOT MATCHED BY SOURCE THEN DELETE;</span><br></pre></td></tr></table></figure>
 
@@ -539,7 +541,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">15:49</span>
+    <span title="所需總浪費時間">15:50</span>
 </div>
 
         
