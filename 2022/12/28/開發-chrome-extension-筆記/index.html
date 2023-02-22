@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2022-12-28T11:09:44.000Z">
-<meta property="article:modified_time" content="2022-12-28T11:17:12.244Z">
+<meta property="article:modified_time" content="2023-02-22T17:49:18.512Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="chrome">
 <meta property="article:tag" content="js">
@@ -262,10 +262,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2022-12-28 19:09:44 / 修改時間：19:17:12" itemprop="dateCreated datePublished" datetime="2022-12-28T19:09:44+08:00">2022-12-28</time>
+              <time title="亂入時間：2022-12-28 19:09:44" itemprop="dateCreated datePublished" datetime="2022-12-28T19:09:44+08:00">2022-12-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2023-02-23 01:49:18" itemprop="dateModified" datetime="2023-02-23T01:49:18+08:00">2023-02-23</time>
+              </span>
 
           
   
@@ -287,7 +293,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1.4k</span>
+              <span>1.2k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -312,10 +318,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mkdir portal-killer</span><br><span class="line">cd portal-killer</span><br><span class="line">npm init --yes</span><br><span class="line">npm install --save @types&#x2F;chrome</span><br><span class="line">mkdir scripts</span><br><span class="line">touch scripts&#x2F;content.js</span><br><span class="line">touch manifest.json</span><br></pre></td></tr></table></figure>
 
 <p>加入以下內容 <code>manifest.json</code> , 特別注意 <code>matches</code> 的網址請帶星號讓整個網站生效</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;manifest_version&quot;: 2,</span><br><span class="line">    &quot;name&quot;: &quot;Portal Killer&quot;,</span><br><span class="line">    &quot;description&quot;: &quot;賭爛每次 PDF 都是 400x400 大小&quot;,</span><br><span class="line">    &quot;version&quot;: &quot;1.0&quot;,</span><br><span class="line">    &quot;content_scripts&quot;: [</span><br><span class="line">        &#123;</span><br><span class="line">            &quot;js&quot;: [</span><br><span class="line">                &quot;scripts&#x2F;content.js&quot;</span><br><span class="line">            ],</span><br><span class="line">            &quot;matches&quot;: [</span><br><span class="line">                &quot;http:&#x2F;&#x2F;ladisai.xxx.gy&#x2F;portal&#x2F;*&quot;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"manifest_version"</span>: <span class="number">2</span>,</span><br><span class="line">    <span class="attr">"name"</span>: <span class="string">"Portal Killer"</span>,</span><br><span class="line">    <span class="attr">"description"</span>: <span class="string">"賭爛每次 PDF 都是 400x400 大小"</span>,</span><br><span class="line">    <span class="attr">"version"</span>: <span class="string">"1.0"</span>,</span><br><span class="line">    <span class="attr">"content_scripts"</span>: [</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">"js"</span>: [</span><br><span class="line">                <span class="string">"scripts/content.js"</span></span><br><span class="line">            ],</span><br><span class="line">            <span class="attr">"matches"</span>: [</span><br><span class="line">                <span class="string">"http://ladisai.xxx.gy/portal/*"</span></span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>接著寫 code , 這裡搞了一陣子本來以為可以直接拿到這個網站的 function<br>沒想到好像沒辦法 , 可能我沒找到 , 所以用插入 script 的方式去達成<br>先撈出 function , 接著 <code>toString</code> , 得到程式碼 , 最後 replace 複寫要修改的的方<br>最後用 eval 讓程式碼生效即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">console.log(&#39;Portal Killer is work&#39;);</span><br><span class="line">(function () &#123;</span><br><span class="line">    var element &#x3D; document.createElement(&#39;script&#39;);</span><br><span class="line">    element.type &#x3D; &quot;text&#x2F;javascript&quot;;</span><br><span class="line">    element.innerText &#x3D; &#96;</span><br><span class="line">        console.log(document.scripts);</span><br><span class="line">        OPENFILE.toString();</span><br><span class="line">        var text &#x3D; OPENFILE.toString();</span><br><span class="line">        var fullSizeOPENFILE &#x3D; text.replace(&#39;,&quot;Scrollbars&#x3D;1,resizable&#x3D;1,width&#x3D;400,height&#x3D;440&quot;&#39;, &#39; &#39;);</span><br><span class="line">        eval(fullSizeOPENFILE);</span><br><span class="line">        console.log(&#39;PDF Size is fix&#39;);</span><br><span class="line">    &#96;</span><br><span class="line">    document.body.appendChild(element);</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">console</span>.log(<span class="string">'Portal Killer is work'</span>);</span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> element = <span class="built_in">document</span>.createElement(<span class="string">'script'</span>);</span><br><span class="line">    element.type = <span class="string">"text/javascript"</span>;</span><br><span class="line">    element.innerText = <span class="string">`</span></span><br><span class="line"><span class="string">        console.log(document.scripts);</span></span><br><span class="line"><span class="string">        OPENFILE.toString();</span></span><br><span class="line"><span class="string">        var text = OPENFILE.toString();</span></span><br><span class="line"><span class="string">        var fullSizeOPENFILE = text.replace(',"Scrollbars=1,resizable=1,width=400,height=440"', ' ');</span></span><br><span class="line"><span class="string">        eval(fullSizeOPENFILE);</span></span><br><span class="line"><span class="string">        console.log('PDF Size is fix');</span></span><br><span class="line"><span class="string">    `</span></span><br><span class="line">    <span class="built_in">document</span>.body.appendChild(element);</span><br><span class="line">&#125;());</span><br></pre></td></tr></table></figure>
 
 <p>最後開啟 chrome 打入以下網址 <code>chrome://extensions/</code><br><code>開啟開發人員模式</code> =&gt; <code>載入未封裝項目</code> =&gt; 選擇資料夾 <code>portal-killer</code> 即可搞定</p>
 
