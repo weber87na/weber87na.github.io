@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2023-02-15T10:56:56.000Z">
-<meta property="article:modified_time" content="2023-02-15T10:58:04.320Z">
+<meta property="article:modified_time" content="2023-02-24T18:11:13.097Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2023-02-15 18:56:56 / 修改時間：18:58:04" itemprop="dateCreated datePublished" datetime="2023-02-15T18:56:56+08:00">2023-02-15</time>
+              <time title="亂入時間：2023-02-15 18:56:56" itemprop="dateCreated datePublished" datetime="2023-02-15T18:56:56+08:00">2023-02-15</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2023-02-25 02:11:13" itemprop="dateModified" datetime="2023-02-25T02:11:13+08:00">2023-02-25</time>
+              </span>
 
           
   
@@ -286,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.4k</span>
+              <span>3.4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>2 分鐘</span>
+              <span>3 分鐘</span>
             </span>
 
         </div>
@@ -321,6 +327,12 @@
 
 <p>接著開始補 js , 這樣一來就可以摺疊了 , api 看起來也比較整潔 , 其他細部怎麼設定產 xml 網路上有一堆我就爛得寫啦 XD</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;取得 markdown 裡面的 p (asus jaguar 等說明 title)</span><br><span class="line">var titles &#x3D; document.querySelectorAll(&#39;.markdown p&#39;)</span><br><span class="line">titles.forEach(function (title) &#123;</span><br><span class="line">    console.log(title)</span><br><span class="line">    title.addEventListener(&#39;click&#39;, function () &#123;</span><br><span class="line">        &#x2F;&#x2F;取得下個子項目</span><br><span class="line">        var pre &#x3D; title.nextElementSibling</span><br><span class="line">        if (pre.getAttribute(&#39;style&#39;) &#x3D;&#x3D;&#x3D; null || pre.getAttribute(&#39;style&#39;) &#x3D;&#x3D;&#x3D; &#39;display: none&#39;)</span><br><span class="line">            pre.setAttribute(&#39;style&#39;, &#39;display: block&#39;);</span><br><span class="line">        else &#123;</span><br><span class="line">            pre.setAttribute(&#39;style&#39;, &#39;display: none&#39;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<p>後來懶得每次都手動複製很累 , 所以補個偽元素按鈕想說可以吃 click event 沒想到不行<br>看老外先把主體的 <code>pointer-events</code> 關了 , 然後開啟 <code>before or after</code> 的 <code>pointer-events</code> 就可以模擬這個效果</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    他先關掉父元素的事件 , 這樣就可以模擬偽元素被 click 才觸發這個 event 本例拿來複製 json 測試碼</span></span><br><span class="line"><span class="comment">    https://stackoverflow.com/questions/9395858/event-listener-on-a-css-pseudo-element-such-as-after-and-before</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="selector-class">.markdown</span> <span class="selector-tag">pre</span> <span class="selector-tag">code</span> &#123; <span class="attribute">pointer-events</span>: none; &#125;</span><br><span class="line"><span class="selector-class">.markdown</span> <span class="selector-tag">pre</span> <span class="selector-tag">code</span><span class="selector-pseudo">::before</span> &#123; <span class="attribute">pointer-events</span>: all; &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* 定位基準要開相對 */</span></span><br><span class="line"><span class="selector-class">.markdown</span> <span class="selector-tag">code</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 設定複製假按鈕 */</span></span><br><span class="line"><span class="selector-class">.markdown</span> <span class="selector-tag">pre</span> <span class="selector-tag">code</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">'📋'</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">10px</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">30px</span>;</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">40px</span>;</span><br><span class="line">    <span class="attribute">cursor</span>: pointer;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 設定 click 打勾 */</span></span><br><span class="line"><span class="selector-class">.markdown</span> <span class="selector-tag">pre</span> <span class="selector-tag">code</span><span class="selector-pseudo">:active</span><span class="selector-pseudo">::before</span>&#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">'✔️'</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>js</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//建立複製事件</span></span><br><span class="line"><span class="keyword">var</span> codes = <span class="built_in">document</span>.querySelectorAll(<span class="string">'.markdown pre code'</span>)</span><br><span class="line">codes.forEach(<span class="function"><span class="keyword">function</span>(<span class="params">code</span>) </span>&#123;</span><br><span class="line">	code.addEventListener(<span class="string">'click'</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">		<span class="keyword">var</span> testJson = code.innerText;</span><br><span class="line">		<span class="built_in">console</span>.log(testJson);</span><br><span class="line">        navigator.clipboard.writeText(testJson);</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
     </div>
 
