@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2023-02-19T12:38:49.000Z">
-<meta property="article:modified_time" content="2023-03-04T06:09:58.305Z">
+<meta property="article:modified_time" content="2023-03-04T09:55:22.864Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-03-04 14:09:58" itemprop="dateModified" datetime="2023-03-04T14:09:58+08:00">2023-03-04</time>
+                <time title="修改時間：2023-03-04 17:55:22" itemprop="dateModified" datetime="2023-03-04T17:55:22+08:00">2023-03-04</time>
               </span>
 
           
@@ -326,7 +326,7 @@
 <h3 id="License"><a href="#License" class="headerlink" title="License"></a>License</h3><p>後來發現 JSchema 會噴 license 問題 , 到他官網發現其實有免費仔 <a href="https://github.com/JamesNK/Newtonsoft.Json.Schema/releases" target="_blank" rel="noopener">open source</a> 版本<br>每小時可以 validation 1000 次 呼叫 (IncrementAndCheckValidationCount)<br>每小時可以 generation 10 次 呼叫 (IncrementAndCheckGenerationCount)<br>我主要需要測試 generation , 因為太多物件開發上 10 次有點不夠用 , 所以研究看看有無法子開發時暫時超過 10 次</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Newtonsoft.Json.Schema.JSchemaException: The free-quota limit of 10 schema generations per hour has been reached. Please visit http:&#x2F;&#x2F;www.newtonsoft.com&#x2F;jsonschema to upgrade to a commercial license.</span><br><span class="line">   at Newtonsoft.Json.Schema.Infrastructure.Licensing.LicenseHelpers.IncrementAndCheckGenerationCount()</span><br><span class="line">   at Newtonsoft.Json.Schema.Generation.JSchemaGenerator.Generate(Type type, Boolean rootSchemaNullable)</span><br><span class="line">   at Newtonsoft.Json.Schema.Generation.JSchemaGenerator.Generate(Type type)</span><br></pre></td></tr></table></figure>
 
-<p>就順便爬看看原始碼 , 發現他有個 <code>LicenseHelpers</code> 類別裡面控制有無註冊 license , 存取級別為 <code>internal</code> 自己平常沒再用 <code>internal</code> , 所以爬[大神(<a href="https://blog.poychang.net/c-sharp-unit-testing-with-internal-access-modifier/)文複習下" target="_blank" rel="noopener">https://blog.poychang.net/c-sharp-unit-testing-with-internal-access-modifier/)文複習下</a><br>使用 <code>internal</code> 的話就只能讓這個 project 看到 function , 其他引用專案則無法<br>又發現他單元測試裡面也可以訪問 <code>LicenseHelpers</code> 原來他有在專案加上 <code>AssemblyInfo</code> 然後開放讓測試專案可以呼叫 <code>internal</code></p>
+<p>就順便爬看看原始碼 , 發現他有個 <code>LicenseHelpers</code> 類別裡面控制有無註冊 license , 存取級別為 <code>internal</code> 自己平常沒再用 <code>internal</code> , 所以爬<a href="https://blog.poychang.net/c-sharp-unit-testing-with-internal-access-modifier/" target="_blank" rel="noopener">大神</a>文複習下<br>使用 <code>internal</code> 的話就只能讓這個 project 看到 function , 其他引用專案則無法<br>又發現他單元測試裡面也可以訪問 <code>LicenseHelpers</code> 原來他有在專案加上 <code>AssemblyInfo</code> 然後開放讓測試專案可以呼叫 <code>internal</code></p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">assembly: InternalsVisibleTo(<span class="meta-string">"Newtonsoft.Json.Schema.Tests"</span>)</span>]</span><br></pre></td></tr></table></figure>
 
 <p>接著發現他在 <code>JSchemaGenerator</code> 裡面 <code>Generate</code> 會呼叫這個函數 <code>LicenseHelpers.IncrementAndCheckGenerationCount</code></p>
