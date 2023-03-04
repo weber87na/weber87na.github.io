@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2022-10-30T10:55:04.000Z">
-<meta property="article:modified_time" content="2023-02-22T18:03:15.282Z">
+<meta property="article:modified_time" content="2023-03-04T06:10:47.785Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="codesoft">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-02-23 02:03:15" itemprop="dateModified" datetime="2023-02-23T02:03:15+08:00">2023-02-23</time>
+                <time title="修改時間：2023-03-04 14:10:47" itemprop="dateModified" datetime="2023-03-04T14:10:47+08:00">2023-03-04</time>
               </span>
 
           
@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.4k</span>
+              <span>2.7k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -332,6 +332,11 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[CS_DataFileDesc]</span><br><span class="line">Version&#x3D;320</span><br><span class="line">FileType&#x3D;ASCII_DELIMITED</span><br><span class="line">RecordDelimiter&#x3D;\013</span><br><span class="line">FieldDelimiter&#x3D;,</span><br><span class="line">CharSet&#x3D;255</span><br><span class="line">Fields&#x3D;7</span><br><span class="line">Field1&#x3D;Code</span><br><span class="line">Field2&#x3D;Name</span><br><span class="line">Field3&#x3D;FirstName</span><br><span class="line">Field4&#x3D;Address</span><br><span class="line">Field5&#x3D;City</span><br><span class="line">Field6&#x3D;State</span><br><span class="line">Field7&#x3D;Zip</span><br></pre></td></tr></table></figure>
 
 <p>選擇 <code>資料庫</code> =&gt; <code>開啟 ASCII 表格</code> =&gt; <code>資料檔案 (CSV)</code> =&gt; <code>說明檔案 (DSC)</code><br>都設定好以後點 <code>列印</code> =&gt; <code>資料庫</code> =&gt; <code>所有紀錄</code> =&gt; 看你有幾筆資料他就會讓你去挑選 , 也可以選 <code>目前記錄</code> 就只會印一筆</p>
+<h3 id="版本問題"><a href="#版本問題" class="headerlink" title="版本問題"></a>版本問題</h3><p>後續遇到在本機 2019 寫得好好的 , 一上線就噴 null , 搞了半天是版本的問題<br>所以它是沒辦法用低版本的 instance 去讀高版本的檔案 , 這點要特別注意</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this file has been created with a more recent designer 2019.02.00</span><br></pre></td></tr></table></figure>
+
+<h3 id="COM-元件引用問題"><a href="#COM-元件引用問題" class="headerlink" title="COM 元件引用問題"></a>COM 元件引用問題</h3><p>今天自己 try 發現會噴噴 <code>CS1752</code> 以下 error , <a href="https://stackoverflow.com/questions/2483659/interop-type-cannot-be-embedded" target="_blank" rel="noopener">爬文</a>發現只要這樣設定就好了在 <code>References</code> =&gt; <code>LabelManager2</code> =&gt; <code>右鍵</code> =&gt;  <code>Properties</code> =&gt; <code>Embed Interop Types</code> =&gt; <code>False</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error	CS1752	Interop type &#39;ApplicationClass&#39; cannot be embedded. Use the applicable interface instead.</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -422,7 +427,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example"><span class="nav-number">2.</span> <span class="nav-text">example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂變數"><span class="nav-number">3.</span> <span class="nav-text">自訂變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印時的坑"><span class="nav-number">4.</span> <span class="nav-text">列印時的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZPL"><span class="nav-number">5.</span> <span class="nav-text">ZPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csv-設定"><span class="nav-number">6.</span> <span class="nav-text">csv 設定</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example"><span class="nav-number">2.</span> <span class="nav-text">example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂變數"><span class="nav-number">3.</span> <span class="nav-text">自訂變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印時的坑"><span class="nav-number">4.</span> <span class="nav-text">列印時的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZPL"><span class="nav-number">5.</span> <span class="nav-text">ZPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csv-設定"><span class="nav-number">6.</span> <span class="nav-text">csv 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本問題"><span class="nav-number">7.</span> <span class="nav-text">版本問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COM-元件引用問題"><span class="nav-number">8.</span> <span class="nav-text">COM 元件引用問題</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -510,7 +515,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">16:04</span>
+    <span title="所需總浪費時間">16:11</span>
 </div>
 
         
