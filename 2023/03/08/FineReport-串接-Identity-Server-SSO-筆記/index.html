@@ -50,7 +50,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://www.finereport.com/jp/wp-content/themes/newsite/banner-try4.png">
 <meta property="article:published_time" content="2023-03-07T16:01:59.000Z">
-<meta property="article:modified_time" content="2023-03-07T16:05:19.506Z">
+<meta property="article:modified_time" content="2023-03-07T16:27:29.353Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta property="article:tag" content="finereport">
@@ -266,7 +266,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2023-03-08 00:01:59 / 修改時間：00:05:19" itemprop="dateCreated datePublished" datetime="2023-03-08T00:01:59+08:00">2023-03-08</time>
+              <time title="亂入時間：2023-03-08 00:01:59 / 修改時間：00:27:29" itemprop="dateCreated datePublished" datetime="2023-03-08T00:01:59+08:00">2023-03-08</time>
             </span>
 
           
@@ -312,10 +312,10 @@
 <a id="more"></a>
 
 <p>為了設定這個大概前後折磨了 24 小時有 , 差點精神崩潰 , 他的參數實在太噁心<br>首先要註冊 , 偏偏我註冊 <code>FineReport</code> 他們家官網剛好壞掉 , 註冊注意手機號碼要輸入完整 <code>0987987987</code> , 不要因為看到他有 <code>+886</code> 就以為會自動幫你轉<br>接著下載這個 <a href="https://help.fanruan.com/finereport/index.php?doc-view-4947.html" target="_blank" rel="noopener">類Oauth2單點登錄插件</a> , 然後用本地安裝匯入進去 , 我的 <code>FineReport</code> 是 11 版 , 記得看下版本</p>
-<h3 id="重要連結"><a href="#重要連結" class="headerlink" title="重要連結"></a>重要連結</h3><p>幾個很重要連結 , 萬一設定錯會頻繁使用到 , 另外 Plugin 文件最好都先看下<br><code>Plugin 文件 1</code> =&gt; <code>https://help.fanruan.com/finereport/index.php?doc-view-4947.html</code><br><code>Plugin 文件 2</code> =&gt; <code>https://help.fanruan.com/finereport/doc-view-5037.html</code><br><code>FineReport 後台</code> =&gt; <code>http://localhost:8075/webroot/decision</code><br><code>FineReport 後台 login 夜面</code> =&gt; <code>http://localhost:8075/webroot/decision/login</code></p>
+<h3 id="重要連結"><a href="#重要連結" class="headerlink" title="重要連結"></a>重要連結</h3><p>幾個很重要連結 , 萬一設定錯會頻繁使用到 , 另外 Plugin 文件最好都先看下<br><code>Plugin 文件 1</code> =&gt; <code>https://help.fanruan.com/finereport/index.php?doc-view-4947.html</code><br><code>Plugin 文件 2</code> =&gt; <code>https://help.fanruan.com/finereport/doc-view-5037.html</code><br><code>FineReport 後台</code> =&gt; <code>http://localhost:8075/webroot/decision</code><br><code>FineReport 後台 login</code> =&gt; <code>http://localhost:8075/webroot/decision/login</code></p>
 <p><code>Identity Server 文件</code> =&gt; <code>https://docs.duendesoftware.com/identityserver/v6</code> 這裡用新版的文件看起來比較舒服 , 用法應該都一樣<br><code>Identity Server 個人訊息</code> =&gt; <code>https://localhost:44310</code></p>
 <p><code>Identity Server Admin 後台</code> =&gt; <code>https://localhost:44303</code><br><code>管理 Identity Server 4 的 client 用</code> =&gt; <code>https://localhost:44303/Configuration/Clients</code></p>
-<p><code>查 Identity Server endpoint</code> =&gt; <code>https://localhost:44310/.well-known/openid-configuration</code> 這次會用到以下三個<br><code>authorization_endpoint 拿 code 用</code> =&gt; <code>https://localhost:44310/connect/authorize</code><br><code>token_endpoint 換 token 用&quot; =&gt;</code><a href="https://localhost:44310/connect/token`" target="_blank" rel="noopener">https://localhost:44310/connect/token`</a><br><code>userinfo_endpoint 得到使用者資訊用&quot; =&gt;</code><a href="https://localhost:44310/connect/userinfo`" target="_blank" rel="noopener">https://localhost:44310/connect/userinfo`</a></p>
+<p><code>查 Identity Server endpoint</code> =&gt; <code>https://localhost:44310/.well-known/openid-configuration</code> 這次會用到以下三個<br><code>authorization_endpoint 拿 code 用</code> =&gt; <code>https://localhost:44310/connect/authorize</code><br><code>token_endpoint 換 token 用&quot; =&gt;</code><a href="https://localhost:44310/connect/token`" target="_blank" rel="noopener">https://localhost:44310/connect/token`</a><br><code>userinfo_endpoint 得到使用者資訊用</code> =&gt; <code>https://localhost:44310/connect/userinfo</code></p>
 <h3 id="Identity-Server-Clients-參數設定"><a href="#Identity-Server-Clients-參數設定" class="headerlink" title="Identity Server Clients 參數設定"></a>Identity Server Clients 參數設定</h3><p>看這裡之前可以先 <a href="https://www.blog.lasai.com.tw/2022/09/27/IdentityServer4-%E7%AD%86%E8%A8%98/">參考</a> 我之前寫的筆記 , 不然有點複雜<br>首先到 <code>https://localhost:44303/Configuration/Clients</code> 然後設定</p>
 <p><code>Add Client</code> =&gt; <code>Web Application - Server side Authorization Code Flow with PKCE</code></p>
 <p><code>Name</code><br><code>Client Id</code> =&gt; <code>test</code><br><code>Client Name</code> =&gt; <code>test</code></p>
