@@ -50,7 +50,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://www.finereport.com/jp/wp-content/themes/newsite/banner-try4.png">
 <meta property="article:published_time" content="2023-03-07T16:01:59.000Z">
-<meta property="article:modified_time" content="2023-03-07T16:31:01.883Z">
+<meta property="article:modified_time" content="2023-03-08T21:13:11.136Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta property="article:tag" content="finereport">
@@ -264,10 +264,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2023-03-08 00:01:59 / 修改時間：00:31:01" itemprop="dateCreated datePublished" datetime="2023-03-08T00:01:59+08:00">2023-03-08</time>
+              <time title="亂入時間：2023-03-08 00:01:59" itemprop="dateCreated datePublished" datetime="2023-03-08T00:01:59+08:00">2023-03-08</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2023-03-09 05:13:11" itemprop="dateModified" datetime="2023-03-09T05:13:11+08:00">2023-03-09</time>
+              </span>
 
           
   
@@ -289,14 +295,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.5k</span>
+              <span>4.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>3 分鐘</span>
+              <span>4 分鐘</span>
             </span>
 
         </div>
@@ -320,7 +326,7 @@
 <h3 id="Identity-Server-Clients-參數設定"><a href="#Identity-Server-Clients-參數設定" class="headerlink" title="Identity Server Clients 參數設定"></a>Identity Server Clients 參數設定</h3><p>看這裡之前可以先 <a href="https://www.blog.lasai.com.tw/2022/09/27/IdentityServer4-%E7%AD%86%E8%A8%98/">參考</a> 我之前寫的筆記 , 不然有點複雜<br>首先到 <code>https://localhost:44303/Configuration/Clients</code> 然後設定</p>
 <p><code>Add Client</code> =&gt; <code>Web Application - Server side Authorization Code Flow with PKCE</code></p>
 <p><code>Name</code><br><code>Client Id</code> =&gt; <code>test</code><br><code>Client Name</code> =&gt; <code>test</code></p>
-<p><code>Basics</code><br><code>Allow Access Token Via Browser</code> =&gt; <code>開啟</code> 好像 postman 要 debug 要開這個有點忘了<br><code>Allowed Scopes</code> =&gt; <code>openid</code> <code>email</code> <code>profile</code> <code>roles</code> 忘了哪個才是得到 name , 如果沒設定的話好像 <code>FineReport</code> 會在最後環節噴 error<br><code>Redirect Uris</code> =&gt; <code>http://localhost:8075/webroot/decision</code> 導回 <code>FineReport</code> 頁面<br><code>Allowed Grant Types</code> =&gt; <code>authorization_code</code><br><code>Client Secrets</code> =&gt; <code>點 Manage Client Secrets 按鈕</code> =&gt; <code>Secret Value</code> =&gt; <code>test</code> =&gt; <code>Add Client Secret</code></p>
+<p><code>Basics</code><br><code>Require Pkce</code> =&gt; <code>關閉</code> 如果打開的話會去驗 Pkce<br><code>Allow Access Token Via Browser</code> =&gt; <code>開啟</code> 好像 postman 要 debug 要開這個有點忘了<br><code>Allowed Scopes</code> =&gt; <code>openid</code> <code>email</code> <code>profile</code> <code>roles</code> 忘了哪個才是得到 name , 如果沒設定的話好像 <code>FineReport</code> 會在最後環節噴 error<br><code>Redirect Uris</code> =&gt; <code>http://localhost:8075/webroot/decision</code> 導回 <code>FineReport</code> 頁面<br><code>Allowed Grant Types</code> =&gt; <code>authorization_code</code><br><code>Client Secrets</code> =&gt; <code>點 Manage Client Secrets 按鈕</code> =&gt; <code>Secret Value</code> =&gt; <code>test</code> =&gt; <code>Add Client Secret</code></p>
 <p><code>Consent Screen</code><br><code>Require Consent</code> =&gt; <code>開啟</code><br><code>Client Uri</code> =&gt; <code>http://localhost:8075/webroot/decision</code></p>
 <h3 id="FineReport-參數設定"><a href="#FineReport-參數設定" class="headerlink" title="FineReport 參數設定"></a>FineReport 參數設定</h3><p>設定這裡之前最好先開 postman 起來打看看 , 比較好 debug , 不然會設定到抓狂</p>
 <p><code>系統管理</code> =&gt; <code>單點整合</code> =&gt; <code>PC端訪問</code><br><code>是否開啓單點功能</code> =&gt; <code>開啟</code></p>
@@ -338,6 +344,10 @@
 <p><code>請求體</code> =&gt; <code>不設定</code></p>
 <p><code>請求結果</code> =&gt; 新增 1 個參數<br><code>fr_login_name</code> =&gt; <code>name</code> 這裡為啥設定 name 呢 , 因為打回來的結果是這樣 , 他會帶入到 <code>FineReport</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;sub&quot;: &quot;18bb6b18-39e2-4f63-b7fb-24d5b85dcf89&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;role&quot;: &quot;SkorubaIdentityAdminAdministrator&quot;,</span><br><span class="line">    &quot;preferred_username&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;email&quot;: &quot;admin@skoruba.com&quot;,</span><br><span class="line">    &quot;email_verified&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外你的 Identity Server 上面的 user 帳號要在 FineReport 裡面預先設定 , 不然會噴找不到 username 的錯誤<br><code>系統管理</code> =&gt; <code>使用者管理</code> =&gt; <code>新增使用者</code> =&gt; <code>帳號</code> </p>
+<p>這裡 <code>帳號</code> 就是 <code>fr_login_name</code> 等價 userinfo 傳回來的 <code>name</code><br>也有可能 Identity Server 上面定義其他自己的附加屬性當成 FineReport 上面的帳號這個欄位 , 像是下面假設 <code>account_name</code> 為實際帳號<br>就應該要設定 <code>fr_login_name</code> =&gt; <code>account_name</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;sub&quot;: &quot;18bb6b18-39e2-4f63-b7fb-24d5b85dcf89&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;account_name&quot; : &quot;S123456789&quot; , </span><br><span class="line">    &quot;role&quot;: &quot;SkorubaIdentityAdminAdministrator&quot;,</span><br><span class="line">    &quot;preferred_username&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;email&quot;: &quot;admin@skoruba.com&quot;,</span><br><span class="line">    &quot;email_verified&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -514,7 +524,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">16:18</span>
+    <span title="所需總浪費時間">16:19</span>
 </div>
 
         
