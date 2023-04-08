@@ -48,7 +48,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://www.finereport.com/jp/wp-content/themes/newsite/banner-try4.png">
 <meta property="article:published_time" content="2023-04-08T19:26:10.000Z">
-<meta property="article:modified_time" content="2023-04-08T19:31:38.009Z">
+<meta property="article:modified_time" content="2023-04-08T19:38:19.088Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="finereport">
 <meta property="article:tag" content="sql server">
@@ -266,7 +266,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2023-04-09 03:26:10 / 修改時間：03:31:38" itemprop="dateCreated datePublished" datetime="2023-04-09T03:26:10+08:00">2023-04-09</time>
+              <time title="亂入時間：2023-04-09 03:26:10 / 修改時間：03:38:19" itemprop="dateCreated datePublished" datetime="2023-04-09T03:26:10+08:00">2023-04-09</time>
             </span>
 
           
@@ -289,14 +289,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1.6k</span>
+              <span>2.5k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>1 分鐘</span>
+              <span>2 分鐘</span>
             </span>
 
         </div>
@@ -325,7 +325,10 @@
 <h3 id="jTDS-jdbc-下載及設定"><a href="#jTDS-jdbc-下載及設定" class="headerlink" title="jTDS jdbc 下載及設定"></a>jTDS jdbc 下載及設定</h3><p><a href="https://github.com/milesibastos/jTDS/releases/download/v1.3.2/jtds-1.3.2-dist.zip" target="_blank" rel="noopener">jTDS 1.3.2 載點</a><br>下載後解壓然後找到 <code>jtds-1.3.2.jar</code> 接著也解壓 <code>META-INF\services\java.sql.Driver</code> 找到這個文件用 notepad 開啟<br>把裡面的 Driver 名稱抄下來 <code>net.sourceforge.jtds.jdbc.Driver</code></p>
 <p>接著要把 <code>jtds-1.3.2-dist\x64\SSO\ntlmauth.dll</code> 這個丟到 finereport java home 裡面 , 位置在此 <code>C:\FineReport_11.0\jre\bin</code><br>可以看到他的 java 是用 redhat 的 openjdk</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding&#x3D;UTF-8</span><br><span class="line">openjdk version &quot;1.8.0_191-1-redhat&quot;</span><br><span class="line">OpenJDK Runtime Environment (build 1.8.0_191-1-redhat-b12)</span><br><span class="line">OpenJDK 64-Bit Server VM (build 25.191-b12, mixed mode)</span><br></pre></td></tr></table></figure>
-<p>這步驟沒做的話會噴 <code>I/O Error: SSO Failed: Native SSPI library not loaded</code><br>這個 dll 丟完以後記得重新啟動 finereport , 不然會沒 load 進去</p>
+
+<p>這步驟沒做的話會噴這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">java.sql.SQLException: I&#x2F;O Error: SSO Failed: Native SSPI library not loaded. Check the java.library.path system property.</span><br><span class="line">	at net.sourceforge.jtds.jdbc.TdsCore.login(TdsCore.java:654)</span><br><span class="line">	at net.sourceforge.jtds.jdbc.JtdsConnection.&lt;init&gt;(JtdsConnection.java:371)</span><br><span class="line">	at net.sourceforge.jtds.jdbc.Driver.connect(Driver.java:184)</span><br><span class="line">	at com.fr.third.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1666)</span><br><span class="line">	at com.fr.third.alibaba.druid.pool.DruidAbstractDataSource.createPhysicalConnection(DruidAbstractDataSource.java:1732)</span><br><span class="line">	at com.fr.third.alibaba.druid.pool.DruidDataSource$CreateConnectionThread.run(DruidDataSource.java:2907)</span><br><span class="line">Caused by: java.io.IOException: SSO Failed: Native SSPI library not loaded. Check the java.library.path system property.</span><br><span class="line">	at net.sourceforge.jtds.jdbc.TdsCore.sendMSLoginPkt(TdsCore.java:1963)</span><br><span class="line">	at net.sourceforge.jtds.jdbc.TdsCore.login(TdsCore.java:617)</span><br><span class="line">	... 5 more</span><br></pre></td></tr></table></figure>
+<p>這個 dll 丟完以後記得重新啟動 finereport , 不然會沒 load 進去</p>
 <h3 id="finereport-驅動設定"><a href="#finereport-驅動設定" class="headerlink" title="finereport 驅動設定"></a>finereport 驅動設定</h3><p>參考 finereport 的 <a href="https://help.fanruan.com/finereport/doc-view-4165.html" target="_blank" rel="noopener">驅動管理</a><br>這裡要先修改 <code>FineDB</code> 裡面的設定 , 可以直接下載他提供的模板 <a href="https://help.fanruan.com/finereport/doc-download-/finereport/uploads/file/20221118/finedb%E5%AD%97%E6%AE%B5%E4%BF%AE%E6%94%B9[point]cpt" target="_blank" rel="noopener">finedb字段修改.cpt</a><br>然後填入 <code>SystemConfig.driverUpload</code> <code>true</code> 即可<br>另外他這個模板的 <code>FineDB</code> 大小寫要注意下 , 我自己的環境是都小寫 , 記得要修改跟他一致<br>這個步驟做完後就可以在 <code>驅動器</code> 看到 <code>自訂</code> 這個選項 , 不然本來只有 <code>預設</code></p>
 <p>然後進入到管理後台 <code>http://localhost:8075/webroot/decision</code><br><code>資料連結</code> =&gt; <code>資料連結管理</code> =&gt; <code>驅動管理</code> =&gt; <code>新建驅動</code> =&gt; <code>localdb</code> =&gt; <code>上傳檔案</code> =&gt; <code>jtds-1.3.2.jar</code> =&gt; <code>驅動那欄填入 net.sourceforge.jtds.jdbc.Driver</code></p>
 <p><code>新建資料連結</code> =&gt; <code>其他</code> =&gt; <code>其他 JDBC</code><br><code>資料連結名稱</code> =&gt; <code>localdb</code><br><code>驅動</code> =&gt; <code>自訂</code> =&gt; <code>net.sourceforge.jtds.jdbc.Driver (localdb)</code><br><code>資料連結URL</code> =&gt; <code>jdbc:jtds:sqlserver://./YourDatabaseName;instance=LOCALDB#6F749DQQ;namedPipe=true</code></p>
@@ -508,7 +511,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">16:40</span>
+    <span title="所需總浪費時間">16:41</span>
 </div>
 
         
