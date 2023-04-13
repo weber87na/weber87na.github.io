@@ -48,7 +48,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://identityserver4.readthedocs.io/en/latest/_images/logo.png">
 <meta property="article:published_time" content="2022-09-27T11:12:51.000Z">
-<meta property="article:modified_time" content="2023-03-07T16:15:02.186Z">
+<meta property="article:modified_time" content="2023-04-13T18:12:12.694Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="c#">
 <meta property="article:tag" content="sso">
@@ -271,7 +271,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-03-08 00:15:02" itemprop="dateModified" datetime="2023-03-08T00:15:02+08:00">2023-03-08</time>
+                <time title="修改時間：2023-04-14 02:12:12" itemprop="dateModified" datetime="2023-04-14T02:12:12+08:00">2023-04-14</time>
               </span>
 
           
@@ -294,14 +294,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>13k</span>
+              <span>16k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>11 分鐘</span>
+              <span>14 分鐘</span>
             </span>
 
         </div>
@@ -331,7 +331,46 @@
 <p>這個等價於 IdentityServer4 的 STS (security token service) , 當你要設定你自己的網站受到保護時 , 要指向他 , 千萬不要設定錯了<br>剛開始不小心寫成 <code>https://localhost:44303/</code> 所以狂噴 Error<br>點選 <code>Discovery Document</code> 會跳到這個網址 <code>https://localhost:44310/.well-known/openid-configuration</code><br>如果有在自己的 c# 程式上安裝 <code>IdentityModel</code> 這個套件的話他會自己去撈並且轉成類別 , 馬上收工<br>另外如果要讓登出以後回到自己的網站 , 可以改這個類別內的 <code>AutomaticRedirectAfterSignOut</code> 為 <code>true</code> 即可登出後回到自己網站</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class AccountOptions</span><br><span class="line">&#123;</span><br><span class="line">    public static bool AllowLocalLogin &#x3D; true;</span><br><span class="line">    public static bool AllowRememberLogin &#x3D; true;</span><br><span class="line">    public static TimeSpan RememberMeLoginDuration &#x3D; TimeSpan.FromDays(30);</span><br><span class="line"></span><br><span class="line">    public static bool ShowLogoutPrompt &#x3D; true;</span><br><span class="line">    public static bool AutomaticRedirectAfterSignOut &#x3D; true;</span><br><span class="line"></span><br><span class="line">    public static string InvalidCredentialsErrorMessage &#x3D; &quot;Invalid username or password&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h4 id="實作-Client-Credentials"><a href="#實作-Client-Credentials" class="headerlink" title="實作 Client Credentials"></a>實作 Client Credentials</h4><p>這個比較簡單會用這個表示 <code>機器</code> 他不代表任何人 , 所以要走這個流程 , 說穿就是諸如 console 排程這類東西 , 有空再補</p>
+<h4 id="實作-Client-Credentials"><a href="#實作-Client-Credentials" class="headerlink" title="實作 Client Credentials"></a>實作 Client Credentials</h4><p>這個比較簡單會用這個表示 <code>機器</code> 他不代表任何人 , 所以要走這個流程 , 說穿就是諸如 console 排程這類東西<br>這裡有個細節 , 如果你的 scope 寫 email openid 之類的會噴 error , 要記得先去新增 Api 自己的 scope</p>
+<h5 id="Identity-Server-設定"><a href="#Identity-Server-設定" class="headerlink" title="Identity Server 設定"></a>Identity Server 設定</h5><p>先到 <code>https://localhost:44303/</code> =&gt; <code>Clients/Resources</code> =&gt; <code>Api Scopes</code></p>
+<p><code>Add Api Scope</code> =&gt; <code>Name</code> =&gt; <code>DemoApiClientCredentials</code> =&gt; <code>Save Api Scope</code></p>
+<p>接著回到 <code>https://localhost:44303/</code></p>
+<p><code>Add Client</code> =&gt; <code>Machine/Robot Client Credentials flow</code></p>
+<p><code>ClientId</code> =&gt; <code>DemoApiClientCredentials</code></p>
+<p><code>Allowed Scopes</code> =&gt; <code>DemoApiClientCredentials</code></p>
+<p><code>Allowed Grant Types</code> =&gt; <code>client_credentials</code></p>
+<p><code>Client Name</code> =&gt; <code>DemoApiClientCredentials</code> =&gt; <code>Save Client</code></p>
+<p>接著點 <code>Manage Client Secrets</code></p>
+<p><code>Secret Value</code> =&gt; <code>DemoApiClientCredentials</code></p>
+<p><code>Description</code> =&gt; <code>DemoApiClientCredentials</code></p>
+<p><code>Add Client Secret</code></p>
+<p>另外注意到 <code>Access Token Lifetime</code> 預設 <code>token</code> 有效期限為 <code>3600 / 60 = 1hr</code> 視情況調整</p>
+<h5 id="程式碼修正"><a href="#程式碼修正" class="headerlink" title="程式碼修正"></a>程式碼修正</h5><p>首先安裝 <code>Microsoft.AspNetCore.Authentication.JwtBearer</code> 注意下版本 <code>6.0.16</code></p>
+<p>調整 <code>Program</code> , 多加一組給 <code>Jwt</code> 的設定在前面 , 最後 postman 呼叫時噴了個莫名其妙的錯誤 <code>the audience is invalid</code> , 可以參考<a href="https://jscinin.medium.com/asp-net-core-3-1-%E7%B6%93jwt%E8%AA%8D%E8%AD%89%E5%BE%8C-post-api-%E9%8C%AF%E8%AA%A4%E8%A8%8A%E6%81%AF401-the-audience-is-invalid-39540ebe4b6e" target="_blank" rel="noopener">這篇</a>處理</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">builder.Services</span><br><span class="line">    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)</span><br><span class="line">    .AddJwtBearer(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.Authority = <span class="string">"https://localhost:44310/"</span>;</span><br><span class="line">        options.RequireHttpsMetadata = <span class="literal">false</span>;</span><br><span class="line">        options.Audience = <span class="string">"DemoApiClientCredentials"</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//the audience is invalid</span></span><br><span class="line">        <span class="comment">//https://jscinin.medium.com/asp-net-core-3-1-%E7%B6%93jwt%E8%AA%8D%E8%AD%89%E5%BE%8C-post-api-%E9%8C%AF%E8%AA%A4%E8%A8%8A%E6%81%AF401-the-audience-is-invalid-39540ebe4b6e</span></span><br><span class="line">        options.TokenValidationParameters = <span class="keyword">new</span> TokenValidationParameters &#123;</span><br><span class="line">            ValidateIssuer = <span class="literal">false</span>,</span><br><span class="line">            ValidateAudience = <span class="literal">false</span>,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+
+<p>最後在 <code>Controller</code> 上面加入 <code>[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]</code> 屬性即可</p>
+<h5 id="Postman-呼叫受保護的-Api"><a href="#Postman-呼叫受保護的-Api" class="headerlink" title="Postman 呼叫受保護的 Api"></a>Postman 呼叫受保護的 Api</h5><p><a href="https://identityserver4.readthedocs.io/en/latest/endpoints/token.html" target="_blank" rel="noopener">https://identityserver4.readthedocs.io/en/latest/endpoints/token.html</a></p>
+<p><a href="https://localhost:44310/.well-known/openid-configuration" target="_blank" rel="noopener">https://localhost:44310/.well-known/openid-configuration</a></p>
+<p><code>method</code> =&gt; <code>post</code></p>
+<p><code>網址</code> =&gt; <code>https://localhost:44310/connect/token</code></p>
+<p><code>content type</code> =&gt; <code>x-www-form-urlencoded</code></p>
+<p><code>client_id</code> =&gt; <code>DemoApiClientCredentials</code></p>
+<p><code>client_secret</code> =&gt; <code>DemoApiClientCredentials</code></p>
+<p><code>grant_type</code> =&gt; <code>client_credentials</code></p>
+<p><code>scope</code> =&gt; <code>DemoApiClientCredentials</code></p>
+<p>打出去後就得到下列結果</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">"access_token"</span>: <span class="string">"eyJhbGciOiJSUzoxmtpZCI6000xxxEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2ODEzNTczMDAsImV4cCI6MTY4MTM2MDkwMCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJjbGllbnRfaWQiOiJEZW1vQXBpQ2xpZW50IiwiaWF0IjoxNjgxMzU3MzAwLCJzY29wZSI6WyJEZW1vQXBpQ2xpZW50Il19.CTV-fHoW9MYDMoPHGr5Xc9F1-9OJxLT84w18kdxZcFAr9BmtGW0LjYrAfZbnZCe6J1N_Wi5KsSHzsobeZc9MO6EhzFEe_48KsdM-qmYvY2NeQHMq0DM3RtHEflrN2lnICas0Vdv7HKGC3SLV0AipOAor6SSU8G3c_MDjZglQ-rz3rP-FwWVxWf1haJY2ZFEJYmdKuElNX2fbzpZRkiiSB82Bmudtec284hFfP1Wu4GLzY-3P6TKtbSyB0eH2YXHIgcqIjX5ZcIYCdMYmBlsngU34QHLgV-hD6m_3CNJFiKeR-jjBGxpZRYMZRYofxrld5iJp8lhQbbLzpwOTh6FmYw"</span>,</span><br><span class="line">    <span class="attr">"expires_in"</span>: <span class="number">3600</span>,</span><br><span class="line">    <span class="attr">"token_type"</span>: <span class="string">"Bearer"</span>,</span><br><span class="line">    <span class="attr">"scope"</span>: <span class="string">"DemoApiClientCredentials"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著用 postman 呼叫 todos</p>
+<p><code>method</code> =&gt; <code>post</code></p>
+<p><code>網址</code> =&gt; <code>https://localhost:3001/LaSai/sais</code></p>
+<p><code>Headers</code> =&gt; <code>Authorization</code> =&gt; <code>Bearer 空白 token</code> 特別注意要有空白</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IxxooxxxRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2ODEzNTgzOTAsImV4cCI6MTY4MTM2MTk5MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJjbGllbnRfaWQiOiJEZW1vQXBpQ2xpZW50IiwiaWF0IjoxNjgxMzU4MzkwLCJzY29wZSI6WyJEZW1vQXBpQ2xpZW50Il19.nOO6CG8AkVZ6PAzsD5r4unmDK3wrnLBHCqhsjz0mmO_ZXL-NsKdTWPHPhDKKKhz9IXQ4CEKkKbPuxCwICO9TCjtWakLdB1S86NEqhXgeQ_i3BlYJYQyfMV5F1NgoTAOFUhdE1XdPiFjmE1YB8MAP3Db_LZ3jD940IcAVzFpEfnIG01qojvhjEpxlzo5LYc8hxaPHgDSRl9VyWrKzxV3iPCLWnuWRrVo6irHrpaJcbTaukjU9ZBkIJKdtdyJzi7E1Vl0BSmjAZhaXkJB0m10o4pEdOre4SmlXFaEHO6COt9Rl_LFC7bzAvNTujt7NOSpoDMQp3FlWQp4KIf3I6nAJcw</span><br></pre></td></tr></table></figure>
+
+
+
 <h4 id="實作-Authorization-Code"><a href="#實作-Authorization-Code" class="headerlink" title="實作 Authorization Code"></a>實作 Authorization Code</h4><h5 id="實作"><a href="#實作" class="headerlink" title="實作"></a>實作</h5><p>這個應該都是大多數人要搞 SSO 會用的 , 反正就是 mvc 站台拿 token 然後做事<br>先開一個 .net 6 mvc 專案 , 接著下載這個套件 <code>Microsoft.AspNetCore.Authentication.OpenIdConnect</code><br>然後開啟 <code>launchSettings.json</code> 找到你的網址</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">"Net6SSOMVC": &#123;</span><br><span class="line">  "commandName": "Project",</span><br><span class="line">  "dotnetRunMessages": true,</span><br><span class="line">  "launchBrowser": true,</span><br><span class="line">  "applicationUrl": "https://localhost:7069;http://localhost:5069",</span><br><span class="line">  "environmentVariables": &#123;</span><br><span class="line">    "ASPNETCORE_ENVIRONMENT": "Development"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
 
@@ -480,7 +519,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Skoruba-identityserver4-Admin"><span class="nav-number">1.</span> <span class="nav-text">Skoruba identityserver4 Admin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Skoruba-IdentityServer4-Admin"><span class="nav-number">1.1.</span> <span class="nav-text">Skoruba.IdentityServer4.Admin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Skoruba-IdentityServer4-Admin-Api"><span class="nav-number">1.2.</span> <span class="nav-text">Skoruba.IdentityServer4.Admin.Api</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Skoruba-IdentityServer4-STS-Identity"><span class="nav-number">1.3.</span> <span class="nav-text">Skoruba.IdentityServer4.STS.Identity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#實作-Client-Credentials"><span class="nav-number">1.4.</span> <span class="nav-text">實作 Client Credentials</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#實作-Authorization-Code"><span class="nav-number">1.5.</span> <span class="nav-text">實作 Authorization Code</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#實作"><span class="nav-number">1.5.1.</span> <span class="nav-text">實作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jquery-或-前後端混合的問題"><span class="nav-number">1.5.2.</span> <span class="nav-text">jquery 或 前後端混合的問題</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#補-CORS"><span class="nav-number">1.5.3.</span> <span class="nav-text">補 CORS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Implicit-實作"><span class="nav-number">1.6.</span> <span class="nav-text">Implicit 實作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IdentityServer4"><span class="nav-number">2.</span> <span class="nav-text">IdentityServer4</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Skoruba-identityserver4-Admin"><span class="nav-number">1.</span> <span class="nav-text">Skoruba identityserver4 Admin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Skoruba-IdentityServer4-Admin"><span class="nav-number">1.1.</span> <span class="nav-text">Skoruba.IdentityServer4.Admin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Skoruba-IdentityServer4-Admin-Api"><span class="nav-number">1.2.</span> <span class="nav-text">Skoruba.IdentityServer4.Admin.Api</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Skoruba-IdentityServer4-STS-Identity"><span class="nav-number">1.3.</span> <span class="nav-text">Skoruba.IdentityServer4.STS.Identity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#實作-Client-Credentials"><span class="nav-number">1.4.</span> <span class="nav-text">實作 Client Credentials</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Identity-Server-設定"><span class="nav-number">1.4.1.</span> <span class="nav-text">Identity Server 設定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#程式碼修正"><span class="nav-number">1.4.2.</span> <span class="nav-text">程式碼修正</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Postman-呼叫受保護的-Api"><span class="nav-number">1.4.3.</span> <span class="nav-text">Postman 呼叫受保護的 Api</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#實作-Authorization-Code"><span class="nav-number">1.5.</span> <span class="nav-text">實作 Authorization Code</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#實作"><span class="nav-number">1.5.1.</span> <span class="nav-text">實作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jquery-或-前後端混合的問題"><span class="nav-number">1.5.2.</span> <span class="nav-text">jquery 或 前後端混合的問題</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#補-CORS"><span class="nav-number">1.5.3.</span> <span class="nav-text">補 CORS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Implicit-實作"><span class="nav-number">1.6.</span> <span class="nav-text">Implicit 實作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IdentityServer4"><span class="nav-number">2.</span> <span class="nav-text">IdentityServer4</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -568,7 +607,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">16:41</span>
+    <span title="所需總浪費時間">16:45</span>
 </div>
 
         
