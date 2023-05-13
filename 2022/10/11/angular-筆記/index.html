@@ -50,7 +50,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://angular.tw/assets/images/logos/angular/angular.svg">
 <meta property="article:published_time" content="2022-10-11T10:26:18.000Z">
-<meta property="article:modified_time" content="2023-04-28T12:29:12.548Z">
+<meta property="article:modified_time" content="2023-05-13T14:57:58.946Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="angular">
 <meta name="twitter:card" content="summary">
@@ -271,7 +271,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-04-28 20:29:12" itemprop="dateModified" datetime="2023-04-28T20:29:12+08:00">2023-04-28</time>
+                <time title="修改時間：2023-05-13 22:57:58" itemprop="dateModified" datetime="2023-05-13T22:57:58+08:00">2023-05-13</time>
               </span>
 
           
@@ -294,7 +294,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>73k</span>
+              <span>74k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -430,6 +430,12 @@
 <h4 id="Attrbitue-binding"><a href="#Attrbitue-binding" class="headerlink" title="Attrbitue binding"></a>Attrbitue binding</h4><p>以前 jquery 常常寫這樣 <code>data-xxx=&quot;ooo&quot;</code> 在 angular 要寫這樣 <code>[attr.data-xxx]=&quot;ooo&quot;</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;lasai&quot; [attr.xx]&#x3D;&quot;ooo&quot;&gt;&lt;&#x2F;div&gt;</span><br><span class="line">&lt;div id&#x3D;&quot;lasai&quot; [attr.data-xx]&#x3D;&quot;ooo&quot;&gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 
+<p>這是一個工作上遇到的實例 , 套用 bootstrap 的 <code>list-group-item</code> , 底下有子選項 , 希望把子選項的數量也列出來 , 但是不想多加 <code>span</code><br>所以就想到可以靠 css 的 <code>content</code> 搭配 <code>attr</code> 挖洞把數值傳進去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class&#x3D;&quot;list-group overflow-auto  mt-2&quot;&gt;</span><br><span class="line">&lt;button type&#x3D;&quot;button&quot;</span><br><span class="line">class&#x3D;&quot;list-group-item list-group-item-action&quot;</span><br><span class="line">[class.child-len]&#x3D;&quot;true&quot;</span><br><span class="line">[attr.data-child-len]&#x3D;&quot;item?.childItems?.length&quot;</span><br><span class="line">*ngFor&#x3D;&quot;let item of items&quot;&gt;</span><br><span class="line">&#123;&#123;item.name&#125;&#125;</span><br><span class="line">&lt;&#x2F;button&gt;</span><br><span class="line">&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>撰寫 css 要注意需要先開啟父層空間為 <code>relative</code> , 這樣偽元素定位才會正確<br>這裡翻書看到日本人推薦一個有趣的 <a href="https://9elements.github.io/fancy-border-radius/" target="_blank" rel="noopener">border-radius 工具</a> 方便拉出好看的點綴效果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">.child-len &#123;</span><br><span class="line">  position: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.child-len::before &#123;</span><br><span class="line">  content: attr(data-child-len);</span><br><span class="line">  padding: 5px;</span><br><span class="line">  left: 0px;</span><br><span class="line">  width: 30px;</span><br><span class="line">  height: 30px;</span><br><span class="line">  line-height: 22px;</span><br><span class="line">  text-align: center;</span><br><span class="line">  position: absolute;</span><br><span class="line">  border-radius: 100% 0% 100% 0% &#x2F; 100% 37% 63% 0%;</span><br><span class="line">  background-color: rgba(138, 201, 57, 0.75);</span><br><span class="line">  color: white;</span><br><span class="line">  z-index: -1;</span><br><span class="line">  text-indent: 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 <h4 id="Property-binding"><a href="#Property-binding" class="headerlink" title="Property binding"></a>Property binding</h4><p>上面說到 property 是跟 dom 相關 , 最好的例子就是 <code>innerHtml</code> , 這樣就可以在裡面吃到 html</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id&#x3D;&quot;lasai&quot; [innerHtml]&#x3D;&quot;&lt;p&gt;helloworld&lt;&#x2F;p&gt;&quot;&gt;&lt;&#x2F;div&gt;</span><br></pre></td></tr></table></figure>
 
@@ -490,8 +496,8 @@
 <h4 id="ngFor"><a href="#ngFor" class="headerlink" title="ngFor"></a>ngFor</h4><p>for 就很直覺 , 另外還有 <code>first</code> , <code>last</code> , <code>index</code> 這類可以幫助微調</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;table class&#x3D;&quot;table table-sm table-bordered mt-1 text-dark&quot;&gt;</span><br><span class="line">	&lt;tr&gt;</span><br><span class="line">		&lt;th&gt;Name&lt;&#x2F;th&gt;</span><br><span class="line">		&lt;th&gt;Category&lt;&#x2F;th&gt;</span><br><span class="line">		&lt;th&gt;Price&lt;&#x2F;th&gt;</span><br><span class="line">	&lt;&#x2F;tr&gt;</span><br><span class="line">	&lt;tr *ngFor&#x3D;&quot;let item of getProducts();let first &#x3D; first;let i &#x3D; index;let odd &#x3D; odd;&quot;</span><br><span class="line">		[class.bg-primary]&#x3D;&quot;odd&quot; [class.bg-info]&#x3D;&quot;!odd&quot; [class.bg-danger]&#x3D;&quot;first&quot;</span><br><span class="line">	&gt;</span><br><span class="line">		&lt;td&gt;&#123;&#123;i + 1&#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;td&gt;&#123;&#123;item.name&#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;td&gt;&#123;&#123;item.category&#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">		&lt;td&gt;&#123;&#123;item.price&#125;&#125;&lt;&#x2F;td&gt;</span><br><span class="line">	&lt;&#x2F;tr&gt;</span><br><span class="line">&lt;&#x2F;table&gt;</span><br></pre></td></tr></table></figure>
 
-<h3 id="日期問題"><a href="#日期問題" class="headerlink" title="日期問題"></a>日期問題</h3><p>安裝參考<a href="https://fullstacksoup.blog/2020/06/17/angular-convert-date-to-sql-server-date-format/" target="_blank" rel="noopener">這篇</a><br>今天遇到一個問題用 <code>new Date()</code> , angular 新增時間到 sql server 時 , 差了八小時<br>本來想說在 api 上面做手腳但是 try 了半天 format 都沒辦法一致<br>web api 預設會打出這樣的 format <code>2023-03-28T08:02:18.513</code><br>最後發現應該前端要用 <code>DatePipe</code> 然後這樣寫就可以過了</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;modifyDatetime&quot;: this.datepipe.transform(new Date(), &#39;yyyy-MM-ddThh:mm:ss.SSS&#39;)!</span><br></pre></td></tr></table></figure>
+<h3 id="日期問題"><a href="#日期問題" class="headerlink" title="日期問題"></a>日期問題</h3><p>安裝參考<a href="https://fullstacksoup.blog/2020/06/17/angular-convert-date-to-sql-server-date-format/" target="_blank" rel="noopener">這篇</a><br>今天遇到一個問題用 <code>new Date()</code> , angular 新增時間到 sql server 時 , 差了八小時<br>本來想說在 api 上面做手腳但是 try 了半天 format 都沒辦法一致<br>web api 預設會打出這樣的 format <code>2023-03-28T08:02:18.513</code><br>最後發現應該前端要用 <code>DatePipe</code> 然後這樣寫就可以過了<br>可以參考這個網站有整理很好的<a href="https://www.numenta.com/resources/htm/htm-studio/date-time-formats/" target="_blank" rel="noopener">表格</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;modifyDatetime&quot;: this.datepipe.transform(new Date(), &#39;yyyy-MM-ddTHH:mm:ss.SSS&#39;)!</span><br></pre></td></tr></table></figure>
 
 
 <h3 id="route"><a href="#route" class="headerlink" title="route"></a>route</h3><p>本來以為用了 angular 還可以混合後端寫 , 沒想到連 route 都前端在控制 , 真是狠 XD<br>這個設定看上去還算是直覺 , <code>**</code> 的部分大概就是直接導向到 <code>/store</code> , 其他就導向自己對應的頁面</p>
@@ -906,7 +912,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">16:50</span>
+    <span title="所需總浪費時間">16:51</span>
 </div>
 
         
