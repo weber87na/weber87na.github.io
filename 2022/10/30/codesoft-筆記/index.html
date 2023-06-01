@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2022-10-30T10:55:04.000Z">
-<meta property="article:modified_time" content="2023-03-14T12:03:26.501Z">
+<meta property="article:modified_time" content="2023-06-01T11:10:28.952Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="codesoft">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-03-14 20:03:26" itemprop="dateModified" datetime="2023-03-14T20:03:26+08:00">2023-03-14</time>
+                <time title="修改時間：2023-06-01 19:10:28" itemprop="dateModified" datetime="2023-06-01T19:10:28+08:00">2023-06-01</time>
               </span>
 
           
@@ -292,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>10k</span>
+              <span>12k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>9 分鐘</span>
+              <span>11 分鐘</span>
             </span>
 
         </div>
@@ -387,6 +387,252 @@
 
 <h3 id="讀取及建立-Text"><a href="#讀取及建立-Text" class="headerlink" title="讀取及建立 Text"></a>讀取及建立 Text</h3><p>我觀察他的封裝好像沒很完整 , 就算你用 foreach 也是會噴 null 之類的錯誤 , 所以要像下面這樣建立物件才對<br>另外你設定 Left &amp; Top 實際上不見得有用 , 我後來發現呼叫 Move 函數才能正常<br>最後就是他字體大小好像也有 bug , 字體要乘 10000f , 其他物件建立方法也類似 , 就不一一列舉了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">public void CreateTexts(DocDto doc, Document save)</span><br><span class="line">&#123;</span><br><span class="line">	var count &#x3D; doc.TextDtos.Count;</span><br><span class="line">	for (int i &#x3D; 0; i &lt; count; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		var text &#x3D; doc.TextDtos[i];</span><br><span class="line">		var saveText &#x3D; save.DocObjects.Texts.Add(text.Name);</span><br><span class="line">		saveText.Name &#x3D; text.Name;</span><br><span class="line"></span><br><span class="line">		var rotation &#x3D; (RotationAngle)Enum.Parse(typeof(RotationAngle), text.Rotation);</span><br><span class="line">		saveText.Rotation &#x3D; rotation;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;datasource</span><br><span class="line">		saveText.DataSourceNames &#x3D; text.DataSourceNames;</span><br><span class="line">		saveText.VariableName &#x3D; text.VariableName;</span><br><span class="line"></span><br><span class="line">		if (string.IsNullOrEmpty(text.DataSourceNames))</span><br><span class="line">		&#123;</span><br><span class="line">			&#x2F;&#x2F;字的內容設定</span><br><span class="line">			saveText.Value &#x3D; text.Value;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;font</span><br><span class="line">		saveText.FontName &#x3D; text.FontName;</span><br><span class="line">		saveText.FontHeight &#x3D; text.FontHeight;</span><br><span class="line">		saveText.FontWidth &#x3D; text.FontWidth;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;todo 這句正常 FontSize 應該會顯示 12 , 可是 codesoft 這裡面疑似有 bug , 所以這裡要乘 10000f , 另外設定完也不見得 100% 準確</span><br><span class="line">		saveText.Font &#x3D; new Font(text.FontFamilyName, text.FontSize * 10000f);</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;位置</span><br><span class="line">		saveText.Left &#x3D; text.Left;</span><br><span class="line">		saveText.Top &#x3D; text.Top;</span><br><span class="line">		saveText.Width &#x3D; text.Width;</span><br><span class="line">		saveText.Height &#x3D; text.Height;</span><br><span class="line"></span><br><span class="line">		saveText.MarginLeft &#x3D; text.MarginLeft;</span><br><span class="line">		saveText.MarginRight &#x3D; text.MarginRight;</span><br><span class="line">		saveText.MarginTop &#x3D; text.MarginTop;</span><br><span class="line">		saveText.MarginBottom &#x3D; text.MarginBottom;</span><br><span class="line"></span><br><span class="line">		var alignment &#x3D; (Alignment)Enum.Parse(typeof(Alignment), text.Alignment);</span><br><span class="line">		saveText.Alignment &#x3D; alignment;</span><br><span class="line">		var verticalAlignment &#x3D; (VerticalAlignment)Enum.Parse(typeof(VerticalAlignment), text.VerticalAlignment);</span><br><span class="line">		saveText.VerticalAlignment &#x3D; verticalAlignment;</span><br><span class="line"></span><br><span class="line">		saveText.Bold &#x3D; text.Bold;</span><br><span class="line">		saveText.Italic &#x3D; text.Italic;</span><br><span class="line"></span><br><span class="line">		var anchorPoint &#x3D; (AnchorPointPosition)Enum.Parse(typeof(AnchorPointPosition), text.AnchorPoint);</span><br><span class="line">		saveText.AnchorPoint &#x3D; anchorPoint;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;todo: 這句一定要呼叫不然會偏移</span><br><span class="line">		saveText.Move(text.Left, text.Top);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Error-code-table"><a href="#Error-code-table" class="headerlink" title="Error code table"></a>Error code table</h3><p>說明文件路徑在此 <code>C:\Program Files (x86)\Teklynx\CODESOFT 2019\Help\ActiveXa.chm</code></p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>No error</td>
+</tr>
+<tr>
+<td>1100</td>
+<td>Can’t open TXT file</td>
+</tr>
+<tr>
+<td>1101</td>
+<td>Can’t open QRY file</td>
+</tr>
+<tr>
+<td>1102</td>
+<td>Can’t open DSC file</td>
+</tr>
+<tr>
+<td>1103</td>
+<td>Can’t open LAB file</td>
+</tr>
+<tr>
+<td>1104</td>
+<td>Can’t open POC file</td>
+</tr>
+<tr>
+<td>1105</td>
+<td>Can’t open LOG file</td>
+</tr>
+<tr>
+<td>1200</td>
+<td>Can’t open data file</td>
+</tr>
+<tr>
+<td>1201</td>
+<td>Can’t open query file</td>
+</tr>
+<tr>
+<td>1202</td>
+<td>Can’t open descriptor file</td>
+</tr>
+<tr>
+<td>1203</td>
+<td>Can’t open label file</td>
+</tr>
+<tr>
+<td>1204</td>
+<td>Can’t open POC file</td>
+</tr>
+<tr>
+<td>1205</td>
+<td>Can’t open log file</td>
+</tr>
+<tr>
+<td>1208</td>
+<td>Can’t open BACKGROUND file</td>
+</tr>
+<tr>
+<td>1300</td>
+<td>Printer not found</td>
+</tr>
+<tr>
+<td>1301</td>
+<td>Driver not found</td>
+</tr>
+<tr>
+<td>1302</td>
+<td>Printlabel not supported with several document.</td>
+</tr>
+<tr>
+<td>1400</td>
+<td>Incorrect Datasource enum value</td>
+</tr>
+<tr>
+<td>1401</td>
+<td>Incorrect Rotation enum value</td>
+</tr>
+<tr>
+<td>1402</td>
+<td>Incorrect HRAlign enum value</td>
+</tr>
+<tr>
+<td>1403</td>
+<td>Incorrect HRPosition enum value</td>
+</tr>
+<tr>
+<td>1404</td>
+<td>Incorrect HR check digit enum value</td>
+</tr>
+<tr>
+<td>1405</td>
+<td>Incorrect Anchor point enum value</td>
+</tr>
+<tr>
+<td>1406</td>
+<td>Incorrect counter base enum value</td>
+</tr>
+<tr>
+<td>1407</td>
+<td>Incorrect Label object enum value</td>
+</tr>
+<tr>
+<td>1408</td>
+<td>Incorrect view size enum value</td>
+</tr>
+<tr>
+<td>1409</td>
+<td>Incorrect view mode enum value</td>
+</tr>
+<tr>
+<td>1410</td>
+<td>Incorrect MeasureSystem enum value</td>
+</tr>
+<tr>
+<td>1411</td>
+<td>Incorrect dialog type enum value</td>
+</tr>
+<tr>
+<td>1412</td>
+<td>Incorrect language enum value</td>
+</tr>
+<tr>
+<td>1413</td>
+<td>Incorrect symbology enum value</td>
+</tr>
+<tr>
+<td>1414</td>
+<td>Incorrect built in document property enum value</td>
+</tr>
+<tr>
+<td>1415</td>
+<td>Incorrect view orientation enum value</td>
+</tr>
+<tr>
+<td>1416</td>
+<td>Incorrect form prompt mode enum value</td>
+</tr>
+<tr>
+<td>1500</td>
+<td>Object not found</td>
+</tr>
+<tr>
+<td>1501</td>
+<td>Can’t create object</td>
+</tr>
+<tr>
+<td>1502</td>
+<td>Variable not found</td>
+</tr>
+<tr>
+<td>1503</td>
+<td>Can’t create variable</td>
+</tr>
+<tr>
+<td>1504</td>
+<td>Invalid font object</td>
+</tr>
+<tr>
+<td>1505</td>
+<td>Invalid variable object</td>
+</tr>
+<tr>
+<td>1506</td>
+<td>Name of item already used</td>
+</tr>
+<tr>
+<td>1507</td>
+<td>Property dependency failed</td>
+</tr>
+<tr>
+<td>1600</td>
+<td>Database not connected</td>
+</tr>
+<tr>
+<td>1601</td>
+<td>Database connection failed</td>
+</tr>
+<tr>
+<td>1602</td>
+<td>TableLookup DSN not found</td>
+</tr>
+<tr>
+<td>1700</td>
+<td>Input mask not empty</td>
+</tr>
+<tr>
+<td>1701</td>
+<td>Invalid data</td>
+</tr>
+<tr>
+<td>1702</td>
+<td>Your counter value is outside of the allowed value range</td>
+</tr>
+<tr>
+<td>1703</td>
+<td>Superimposing is not allowed for some objects.</td>
+</tr>
+<tr>
+<td>1704</td>
+<td>Error during the change of base.</td>
+</tr>
+<tr>
+<td>1800</td>
+<td>Shared variable violation</td>
+</tr>
+<tr>
+<td>1900</td>
+<td>Can’t generate POC file</td>
+</tr>
+<tr>
+<td>2000</td>
+<td>Number must be positive</td>
+</tr>
+<tr>
+<td>2001</td>
+<td>Data type must be a boolean</td>
+</tr>
+<tr>
+<td>2002</td>
+<td>Invalid path</td>
+</tr>
+<tr>
+<td>2003</td>
+<td>File already exists</td>
+</tr>
+<tr>
+<td>2100</td>
+<td>Can’t prompt dialog box (no active document)</td>
+</tr>
+<tr>
+<td>3000</td>
+<td>Not sufficient access rights to perform this operation</td>
+</tr>
+<tr>
+<td>3001</td>
+<td>No license found</td>
+</tr>
+</tbody></table>
 
     </div>
 
@@ -477,7 +723,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example"><span class="nav-number">2.</span> <span class="nav-text">example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂變數"><span class="nav-number">3.</span> <span class="nav-text">自訂變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印時的坑"><span class="nav-number">4.</span> <span class="nav-text">列印時的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZPL"><span class="nav-number">5.</span> <span class="nav-text">ZPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csv-設定"><span class="nav-number">6.</span> <span class="nav-text">csv 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本問題"><span class="nav-number">7.</span> <span class="nav-text">版本問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COM-元件引用問題"><span class="nav-number">8.</span> <span class="nav-text">COM 元件引用問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止-2015-讀取-2019-lab-檔的錯誤處理-csharp-lab"><span class="nav-number">9.</span> <span class="nav-text">防止 2015 讀取 2019 lab 檔的錯誤處理 csharp lab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圖片問題"><span class="nav-number">10.</span> <span class="nav-text">圖片問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位置偏移問題"><span class="nav-number">11.</span> <span class="nav-text">位置偏移問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼字體大小問題"><span class="nav-number">12.</span> <span class="nav-text">條碼字體大小問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼長度問題"><span class="nav-number">13.</span> <span class="nav-text">條碼長度問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讀取及建立-Text"><span class="nav-number">14.</span> <span class="nav-text">讀取及建立 Text</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example"><span class="nav-number">2.</span> <span class="nav-text">example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂變數"><span class="nav-number">3.</span> <span class="nav-text">自訂變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印時的坑"><span class="nav-number">4.</span> <span class="nav-text">列印時的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZPL"><span class="nav-number">5.</span> <span class="nav-text">ZPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csv-設定"><span class="nav-number">6.</span> <span class="nav-text">csv 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本問題"><span class="nav-number">7.</span> <span class="nav-text">版本問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COM-元件引用問題"><span class="nav-number">8.</span> <span class="nav-text">COM 元件引用問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止-2015-讀取-2019-lab-檔的錯誤處理-csharp-lab"><span class="nav-number">9.</span> <span class="nav-text">防止 2015 讀取 2019 lab 檔的錯誤處理 csharp lab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圖片問題"><span class="nav-number">10.</span> <span class="nav-text">圖片問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位置偏移問題"><span class="nav-number">11.</span> <span class="nav-text">位置偏移問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼字體大小問題"><span class="nav-number">12.</span> <span class="nav-text">條碼字體大小問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼長度問題"><span class="nav-number">13.</span> <span class="nav-text">條碼長度問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讀取及建立-Text"><span class="nav-number">14.</span> <span class="nav-text">讀取及建立 Text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Error-code-table"><span class="nav-number">15.</span> <span class="nav-text">Error code table</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
