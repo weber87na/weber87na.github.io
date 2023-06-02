@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="csharp call python">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2023/06/02/csharp-call-python/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2023-06-02T10:47:29.000Z">
+<meta property="article:modified_time" content="2023-06-02T10:48:37.843Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="csharp">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2023/06/02/csharp-call-python/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>csharp call python | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2023/06/02/csharp-call-python/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          csharp call python
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2023-06-02 18:47:29 / 修改時間：18:48:37" itemprop="dateCreated datePublished" datetime="2023-06-02T18:47:29+08:00">2023-06-02</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/06/02/csharp-call-python/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/06/02/csharp-call-python/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>7 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="環境準備"><a href="#環境準備" class="headerlink" title="環境準備"></a>環境準備</h3><p>主要參考<a href="https://somegenericdev.medium.com/calling-python-from-c-an-introduction-to-pythonnet-c3d45f7d5232" target="_blank" rel="noopener">這篇</a> , 不過雷一堆<br>我自己是用 <code>anaconda</code> 作為 <code>python</code> 環境 , 首先要確認自己是 <code>x86</code> 還是 <code>x64</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import platform</span><br><span class="line">print(platform.architecture())</span><br></pre></td></tr></table></figure>
+
+<p>接著新增一個 <code>net4.8</code> 的 <code>console</code> 然後安裝 <a href="https://github.com/pythonnet/pythonnet" target="_blank" rel="noopener">pythonnet</a><br>然後開啟 <code>configuration manager</code> 假設你是 <code>x64</code> 複製一份給 <code>x64</code> 然後記得要切換到 <code>x64</code><br>接著照著以下程式碼設定應該就可以動了<br>這裡面最雷的部分應該就是要額外設定路徑 , 可以參考 <a href="https://stackoverflow.com/questions/51864404/pythonnet-import-error-visbrain-in-anaconda-3" target="_blank" rel="noopener">這篇</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">using Python.Runtime;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace ConsoleAppPy</span><br><span class="line">&#123;</span><br><span class="line">    internal class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F; Modify Path</span><br><span class="line">            &#x2F;&#x2F;string path &#x3D; @&quot;C:\tools\Anaconda3\envs;&quot; + Environment.GetEnvironmentVariable(&quot;PATH&quot;, EnvironmentVariableTarget.Machine);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Set Path</span><br><span class="line">            &#x2F;&#x2F;Environment.SetEnvironmentVariable(&quot;PATH&quot;, path, EnvironmentVariableTarget.Process);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Set PythonHome</span><br><span class="line">            Environment.SetEnvironmentVariable(&quot;PYTHONHOME&quot;, @&quot;C:\tools\Anaconda3&quot;, EnvironmentVariableTarget.Process);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Set PythonPath</span><br><span class="line">            &#x2F;&#x2F; ONLY SET THIS IF YOU ARE SURE WHAT YOU ARE DOING</span><br><span class="line">            Environment.SetEnvironmentVariable(&quot;PYTHONPATH&quot;, @&quot;C:\tools\Anaconda3\Lib&quot;, EnvironmentVariableTarget.Process);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;Runtime.PythonDLL &#x3D; @&quot;C:\\tools\\Anaconda3\\python38.dll&quot;;</span><br><span class="line">            &#x2F;&#x2F;PythonEngine.PythonHome &#x3D; Environment.GetEnvironmentVariable(&quot;PYTHONHOME&quot;, EnvironmentVariableTarget.Process);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;string pythonDll &#x3D; @&quot;C:\\tools\\Anaconda3\\python38.dll&quot;;</span><br><span class="line">            &#x2F;&#x2F;Environment.SetEnvironmentVariable(&quot;PYTHONNET_PYDLL&quot;, pythonDll);</span><br><span class="line"></span><br><span class="line">            Runtime.PythonDLL &#x3D; @&quot;C:\\tools\\Anaconda3\\python38.dll&quot;;</span><br><span class="line">            &#x2F;&#x2F;Runtime.PythonDLL &#x3D; @&quot;C:\tools\Anaconda3\envs\excel\python311.dll&quot;;</span><br><span class="line">            PythonEngine.Initialize();</span><br><span class="line">            using (Py.GIL())</span><br><span class="line">            &#123;</span><br><span class="line">                PythonEngine.RunSimpleString(@&quot;print(&quot;&quot;helloworld&quot;&quot;)&quot;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="串接-ddddocr"><a href="#串接-ddddocr" class="headerlink" title="串接 ddddocr"></a>串接 ddddocr</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">using Python.Runtime;</span><br><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line">namespace ConsoleAppPy</span><br><span class="line">&#123;</span><br><span class="line">    internal class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            ConfigPythonPath();</span><br><span class="line">            string result &#x3D; &quot;&quot;;</span><br><span class="line">            var text &#x3D; RunPythonCodeAndReturn(</span><br><span class="line">@&quot;</span><br><span class="line">import ddddocr</span><br><span class="line"></span><br><span class="line">ocr &#x3D; ddddocr.DdddOcr()</span><br><span class="line">with open(&#39;C:\captcha_images\img1.png&#39;, &#39;rb&#39;) as f:</span><br><span class="line">    img_bytes &#x3D; f.read()</span><br><span class="line">res &#x3D; ocr.classification(img_bytes)</span><br><span class="line">&quot;,</span><br><span class="line">&quot;res&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            Console.WriteLine(&quot;text:&quot; + text.ToString().ToUpper());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        static void ConfigPythonPath()</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F; Modify Path</span><br><span class="line">            &#x2F;&#x2F;string path &#x3D; @&quot;C:\tools\Anaconda3\envs;&quot; + Environment.GetEnvironmentVariable(&quot;PATH&quot;, EnvironmentVariableTarget.Machine);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Set Path</span><br><span class="line">            &#x2F;&#x2F;Environment.SetEnvironmentVariable(&quot;PATH&quot;, path, EnvironmentVariableTarget.Process);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Set PythonHome</span><br><span class="line">            &#x2F;&#x2F;Environment.SetEnvironmentVariable(&quot;PYTHONHOME&quot;, @&quot;C:\tools\Anaconda3&quot;, EnvironmentVariableTarget.Process);</span><br><span class="line">            Environment.SetEnvironmentVariable(&quot;PYTHONHOME&quot;, @&quot;C:\tools\Anaconda3\envs\excel&quot;, EnvironmentVariableTarget.Process);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Set PythonPath</span><br><span class="line">            &#x2F;&#x2F; ONLY SET THIS IF YOU ARE SURE WHAT YOU ARE DOING</span><br><span class="line">            &#x2F;&#x2F;Environment.SetEnvironmentVariable(&quot;PYTHONPATH&quot;, @&quot;C:\tools\Anaconda3\Lib&quot;, EnvironmentVariableTarget.Process);</span><br><span class="line">            Environment.SetEnvironmentVariable(&quot;PYTHONPATH&quot;, @&quot;C:\tools\Anaconda3\envs\excel\Lib&quot;, EnvironmentVariableTarget.Process);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;Runtime.PythonDLL &#x3D; @&quot;C:\\tools\\Anaconda3\\python38.dll&quot;;</span><br><span class="line">            &#x2F;&#x2F;PythonEngine.PythonHome &#x3D; Environment.GetEnvironmentVariable(&quot;PYTHONHOME&quot;, EnvironmentVariableTarget.Process);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;string pythonDll &#x3D; @&quot;C:\\tools\\Anaconda3\\python38.dll&quot;;</span><br><span class="line">            &#x2F;&#x2F;Environment.SetEnvironmentVariable(&quot;PYTHONNET_PYDLL&quot;, pythonDll);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;Runtime.PythonDLL &#x3D; @&quot;C:\\tools\\Anaconda3\\python38.dll&quot;;</span><br><span class="line">            Runtime.PythonDLL &#x3D; @&quot;C:\tools\Anaconda3\envs\excel\python311.dll&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        public static string RunPythonCodeAndReturn(string pycode, string returnedVariableName) &#123;</span><br><span class="line">            string returnedVariable &#x3D; &quot;&quot;;</span><br><span class="line">            PythonEngine.Initialize();</span><br><span class="line">            using (Py.GIL())</span><br><span class="line">            &#123;</span><br><span class="line">                using (var scope &#x3D; Py.CreateScope())</span><br><span class="line">                &#123;</span><br><span class="line">                    scope.Exec(pycode);</span><br><span class="line">                    returnedVariable&#x3D;scope.Get&lt;string&gt;(returnedVariableName);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            return returnedVariable;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="搭配-Puppeteer-ddddocr-破解驗證碼"><a href="#搭配-Puppeteer-ddddocr-破解驗證碼" class="headerlink" title="搭配 Puppeteer ddddocr 破解驗證碼"></a>搭配 Puppeteer ddddocr 破解驗證碼</h3><p>首先要先把 img 轉為 base64<br>先用 <code>WaitForSelectorAsync</code> 取得 <code>img</code> 標籤 , 接著用 <code>EvaluateFunctionAsync</code> 把 js 插進去<br>用 canvas 建立出來的 base64 預設會帶有 <code>image/png;base64,</code> , 所以要把它去除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">                        var img &#x3D; await page.WaitForSelectorAsync(@&quot;img&quot;);</span><br><span class="line">                        var jsCode &#x3D;</span><br><span class="line">@&quot;() &#x3D;&gt; &#123;</span><br><span class="line">	var img &#x3D; document.querySelector(&#39;img&#39;);</span><br><span class="line">	var canvas &#x3D; document.createElement(&#39;canvas&#39;);</span><br><span class="line">	canvas.width &#x3D; img.width;</span><br><span class="line">	canvas.height &#x3D; img.height;</span><br><span class="line">	var ctx &#x3D; canvas.getContext(&#39;2d&#39;);</span><br><span class="line">	ctx.drawImage(img, 0, 0);</span><br><span class="line">	var base64 &#x3D; canvas.toDataURL();</span><br><span class="line">    var strOnly &#x3D; canvas.toDataURL(&#39;image&#x2F;png&#39;).split(&#39;;base64,&#39;)[1]</span><br><span class="line">	return strOnly;</span><br><span class="line">&#125;&quot;;</span><br><span class="line"></span><br><span class="line">                        var b64 &#x3D; await img.EvaluateFunctionAsync&lt;string&gt;(jsCode);</span><br></pre></td></tr></table></figure>
+
+<p>接著回顧老外的 <a href="https://somegenericdev.medium.com/calling-python-from-c-an-introduction-to-pythonnet-c3d45f7d5232" target="_blank" rel="noopener">說明</a> 定義一個這樣的 function</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public static object RunPythonCodeAndReturn(string pycode, object parameter, string parameterName, string returnedVariableName)</span><br><span class="line">&#123;</span><br><span class="line">    object returnedVariable &#x3D; new object();</span><br><span class="line">    PythonEngine.Initialize();</span><br><span class="line">    using (Py.GIL())</span><br><span class="line">    &#123;</span><br><span class="line">        using (var scope &#x3D; Py.CreateScope())</span><br><span class="line">        &#123;</span><br><span class="line">            scope.Set(parameterName, parameter.ToPython());</span><br><span class="line">            scope.Exec(pycode);</span><br><span class="line">            returnedVariable &#x3D; scope.Get&lt;object&gt;(returnedVariableName);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return returnedVariable;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>接著在 c# 宣告 <code>b64</code> 這個變數 , 讓他承接 js 回傳的 base64 字串結果<br>然後再把 <code>b64</code> 丟入 <code>python</code> 內去辨識就大功告成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">                        var b64 &#x3D; await img.EvaluateFunctionAsync&lt;string&gt;(jsCode);</span><br><span class="line"></span><br><span class="line">                        Console.WriteLine(b64);</span><br><span class="line">                        var deText &#x3D; RunPythonCodeAndReturn(</span><br><span class="line">@&quot;</span><br><span class="line">import ddddocr</span><br><span class="line">import base64</span><br><span class="line">imgdata &#x3D; base64.b64decode(b64)</span><br><span class="line">ocr &#x3D; ddddocr.DdddOcr()</span><br><span class="line">res &#x3D; ocr.classification(imgdata)</span><br><span class="line">print(res)</span><br><span class="line"></span><br><span class="line">&quot;,</span><br><span class="line">            b64, &quot;b64&quot;, &quot;res&quot;);</span><br></pre></td></tr></table></figure>
+
+
+<p>程式碼大概長這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">        static async Task&lt;string&gt; Crack(string username, string pwd)</span><br><span class="line">        &#123;</span><br><span class="line">            string result &#x3D; &quot;&quot;;</span><br><span class="line">            try</span><br><span class="line">            &#123;</span><br><span class="line">                &#x2F;&#x2F;await new BrowserFetcher( ).DownloadAsync( BrowserFetcher.DefaultRevision );</span><br><span class="line">                using (var browser &#x3D; await Puppeteer.LaunchAsync(new LaunchOptions()</span><br><span class="line">                &#123;</span><br><span class="line">                    Headless &#x3D; false,</span><br><span class="line">                    ExecutablePath &#x3D; @&quot;C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe&quot;,</span><br><span class="line">                &#125;))</span><br><span class="line">                &#123;</span><br><span class="line">                    using (var page &#x3D; await browser.NewPageAsync())</span><br><span class="line">                    &#123;</span><br><span class="line">                        await page.GoToAsync(&quot;http:&#x2F;&#x2F;yourip&#x2F;index.php&quot;);</span><br><span class="line">                        await page.WaitForSelectorAsync(@&quot;input[name&#x3D;&#39;password&#39;]&quot;);</span><br><span class="line">                        await page.FocusAsync(&quot;input[name&#x3D;&#39;password&#39;]&quot;);</span><br><span class="line">                        await page.Keyboard.TypeAsync(pwd);</span><br><span class="line">                        var img &#x3D; await page.WaitForSelectorAsync(@&quot;img&quot;);</span><br><span class="line">                        var jsCode &#x3D;</span><br><span class="line">@&quot;() &#x3D;&gt; &#123;</span><br><span class="line">	var img &#x3D; document.querySelector(&#39;img&#39;);</span><br><span class="line">	var canvas &#x3D; document.createElement(&#39;canvas&#39;);</span><br><span class="line">	canvas.width &#x3D; img.width;</span><br><span class="line">	canvas.height &#x3D; img.height;</span><br><span class="line">	var ctx &#x3D; canvas.getContext(&#39;2d&#39;);</span><br><span class="line">	ctx.drawImage(img, 0, 0);</span><br><span class="line">	var base64 &#x3D; canvas.toDataURL();</span><br><span class="line">    var strOnly &#x3D; canvas.toDataURL(&#39;image&#x2F;png&#39;).split(&#39;;base64,&#39;)[1]</span><br><span class="line">	return strOnly;</span><br><span class="line">&#125;&quot;;</span><br><span class="line"></span><br><span class="line">                        var b64 &#x3D; await img.EvaluateFunctionAsync&lt;string&gt;(jsCode);</span><br><span class="line"></span><br><span class="line">                        Console.WriteLine(b64);</span><br><span class="line">                        var deText &#x3D; RunPythonCodeAndReturn(</span><br><span class="line">@&quot;</span><br><span class="line">import ddddocr</span><br><span class="line">import base64</span><br><span class="line">imgdata &#x3D; base64.b64decode(b64)</span><br><span class="line">ocr &#x3D; ddddocr.DdddOcr()</span><br><span class="line">res &#x3D; ocr.classification(imgdata)</span><br><span class="line">print(res)</span><br><span class="line"></span><br><span class="line">&quot;,</span><br><span class="line">            b64, &quot;b64&quot;, &quot;res&quot;);</span><br><span class="line"></span><br><span class="line">                        await page.FocusAsync(&quot;input[name&#x3D;&#39;authcode&#39;]&quot;);</span><br><span class="line">                        await page.Keyboard.TypeAsync(deText.ToString());</span><br><span class="line">                        await page.ClickAsync(&quot;input[name&#x3D;&#39;submit&#39;]&quot;);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                return await Task.FromResult(result);</span><br><span class="line">            &#125;</span><br><span class="line">            catch (Exception ex)</span><br><span class="line">            &#123;</span><br><span class="line">                throw;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/csharp/" rel="tag"># csharp</a>
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/06/01/js%E5%8F%96%E5%BE%97chrome%E7%9B%AE%E5%89%8D%E8%AA%9E%E7%B3%BB/" rel="prev" title="js取得chrome目前語系">
+      <i class="fa fa-chevron-left"></i> js取得chrome目前語系
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/06/02/privateGPT-%E7%AD%86%E8%A8%98/" rel="next" title="privateGPT 筆記">
+      privateGPT 筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#環境準備"><span class="nav-number">1.</span> <span class="nav-text">環境準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#串接-ddddocr"><span class="nav-number">2.</span> <span class="nav-text">串接 ddddocr</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭配-Puppeteer-ddddocr-破解驗證碼"><span class="nav-number">3.</span> <span class="nav-text">搭配 Puppeteer ddddocr 破解驗證碼</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">226</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">108</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.1m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">17:09</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2023/06/02/csharp-call-python/";
+    this.page.identifier = "2023/06/02/csharp-call-python/";
+    this.page.title = "csharp call python";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>
