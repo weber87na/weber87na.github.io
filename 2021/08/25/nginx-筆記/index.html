@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2021-08-24T17:01:05.000Z">
-<meta property="article:modified_time" content="2022-08-15T16:27:32.770Z">
+<meta property="article:modified_time" content="2023-07-03T11:03:39.640Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="nginx">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2022-08-16 00:27:32" itemprop="dateModified" datetime="2022-08-16T00:27:32+08:00">2022-08-16</time>
+                <time title="修改時間：2023-07-03 19:03:39" itemprop="dateModified" datetime="2023-07-03T19:03:39+08:00">2023-07-03</time>
               </span>
 
           
@@ -292,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>17k</span>
+              <span>19k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>15 分鐘</span>
+              <span>17 分鐘</span>
             </span>
 
         </div>
@@ -324,6 +324,40 @@
 
 <p>預設的 nginx html 文件在 /usr/share/nginx/html/<br>讓人看得到的 index 文件在 /var/www/html , 這個改了就可以用 curl 打會看到改變<br>另外 nginx 常常會需要看些 header 之類的 , 所以 curl 執行時可以多加 -v 參數 , 有更詳細訊息</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ls &#x2F;usr&#x2F;share&#x2F;nginx&#x2F;html&#x2F;</span><br><span class="line">index.html</span><br><span class="line"></span><br><span class="line">&#x2F;var&#x2F;www&#x2F;html</span><br><span class="line">index.nginx-debian.html</span><br><span class="line"></span><br><span class="line">sudo vim test.txt</span><br><span class="line">helloworld</span><br><span class="line">helloworld</span><br><span class="line">helloworld</span><br><span class="line">helloworld</span><br><span class="line">helloworld</span><br><span class="line">helloworld</span><br><span class="line"></span><br><span class="line">curl 192.168.137.219&#x2F;test.txt</span><br><span class="line">curl -v 192.168.137.219&#x2F;test.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="多網站設定"><a href="#多網站設定" class="headerlink" title="多網站設定"></a>多網站設定</h3><p>參考<a href="https://webdock.io/en/docs/how-guides/shared-hosting-multiple-websites/how-configure-nginx-to-serve-multiple-websites-single-vps" target="_blank" rel="noopener">自此</a><br>我本來有兩台 ubuntu , 各自都有 nginx 因為節費所以關閉一台<br>先確認要轉移的那台 , 確定連不上後把種花電信 or Godaddy 服務上面的 ip 換成要改用的那台<br>先複製設定檔 , 有噴權限問題就加上 sudo</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;nginx&#x2F;sites-available</span><br><span class="line">ls </span><br><span class="line">default  default.bak  default.full</span><br><span class="line">mv default default_old</span><br><span class="line">cp default.bak default</span><br><span class="line">nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<p>現在開始登入要改用的那台 , 建立資料夾然後慢慢搬內容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;var&#x2F;www&#x2F;html&#x2F;rose</span><br></pre></td></tr></table></figure>
+
+<p>或是直接複製 zip 到 /var/www/html 底下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">scp -i &quot;rose.pem&quot; rose.zip ubuntu@ec2-xx-xxx-xx-xxx.ap-northeast-1.compute.amazonaws.com:~&#x2F;.</span><br><span class="line">cp rose.zip &#x2F;var&#x2F;www&#x2F;html&#x2F;.</span><br><span class="line">unzip rose.zip</span><br></pre></td></tr></table></figure>
+
+<p>萬一用 scp 複製噴這個錯誤表示權限太高</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Permissions 0664 for &#39;ubuntu22.pem&#39; are too open.</span><br><span class="line">It is required that your private key files are NOT accessible by others.</span><br><span class="line">This private key will be ignored.</span><br><span class="line">Load key &quot;ubuntu22.pem&quot;: bad permissions</span><br><span class="line">ubuntu@yourip: Permission denied (publickey).</span><br><span class="line">lost connection</span><br></pre></td></tr></table></figure>
+
+<p>可以用以下命令修正</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod 400 ubuntu22.pem</span><br></pre></td></tr></table></figure>
+
+<p>接著新增你的設定檔大概長下面這樣 , 把原先有 Certbot 的地方註解</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;rose</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">server &#123;</span><br><span class="line"></span><br><span class="line">	root &#x2F;var&#x2F;www&#x2F;html&#x2F;rose;</span><br><span class="line"></span><br><span class="line">	# Add index.php to the list if you are using PHP</span><br><span class="line">	index index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">	#server_name _;</span><br><span class="line">	server_name www.rose.com rose.com; # managed by Certbot</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	location &#x2F; &#123;</span><br><span class="line">			# First attempt to serve request as file, then</span><br><span class="line">			# as directory, then fall back to displaying a 404.</span><br><span class="line">			try_files $uri $uri&#x2F; &#x3D;404;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    #listen [::]:443 ssl ipv6only&#x3D;on; # managed by Certbot</span><br><span class="line">    #listen 443 ssl; # managed by Certbot</span><br><span class="line">    #ssl_certificate &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;xn--momo-tk3h402d.com&#x2F;fullchain.pem; # managed by Certbot</span><br><span class="line">    #ssl_certificate_key &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;xn--momo-tk3h402d.com&#x2F;privkey.pem; # managed by Certbot</span><br><span class="line">    #include &#x2F;etc&#x2F;letsencrypt&#x2F;options-ssl-nginx.conf; # managed by Certbot</span><br><span class="line">    #ssl_dhparam &#x2F;etc&#x2F;letsencrypt&#x2F;ssl-dhparams.pem; # managed by Certbot</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著建立連結</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ln -s &#x2F;etc&#x2F;nginx&#x2F;sites-available&#x2F;rose &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;</span><br><span class="line">ls &#x2F;etc&#x2F;nginx&#x2F;sites-enabled&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>測試看看有啥問題</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nginx -t</span><br></pre></td></tr></table></figure>
+
+<p>都搞定的話</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure>
+
+<p>此時還沒有 ssl , 所以需要去跑 Lets Encrypt 他會產 https 的部分在你的設定檔內 , 記得要刷新下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot --nginx -d rose.com.tw -d www.rose.com.tw</span><br><span class="line">sudo nginx -s reload</span><br></pre></td></tr></table></figure>
+
+
+<p>最後可以跑這個看看 log</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo certbot renew --dry-run</span><br></pre></td></tr></table></figure>
 
 <h3 id="dotnet-反向代理"><a href="#dotnet-反向代理" class="headerlink" title="dotnet 反向代理"></a>dotnet 反向代理</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;packages.microsoft.com&#x2F;config&#x2F;ubuntu&#x2F;20.04&#x2F;packages-microsoft-prod.deb -O packages-microsoft-prod.deb</span><br><span class="line">sudo dpkg -i packages-microsoft-prod.deb</span><br><span class="line">rm packages-microsoft-prod.deb</span><br><span class="line"></span><br><span class="line">sudo apt-get update; \</span><br><span class="line">  sudo apt-get install -y apt-transport-https &amp;&amp; \</span><br><span class="line">  sudo apt-get update &amp;&amp; \</span><br><span class="line">  sudo apt-get install -y dotnet-sdk-5.0</span><br></pre></td></tr></table></figure>
 
@@ -523,7 +557,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-nginx"><span class="nav-number">1.</span> <span class="nav-text">安裝 nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dotnet-反向代理"><span class="nav-number">2.</span> <span class="nav-text">dotnet 反向代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cesium-terrain-設定"><span class="nav-number">3.</span> <span class="nav-text">cesium terrain 設定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#狀況-1-直接使用-nginx-當-terrain-server"><span class="nav-number">3.1.</span> <span class="nav-text">狀況 1 直接使用 nginx 當 terrain server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#狀況-2-上游-upstream-已經事先設定-terrain-的-cors-gzip-等參數-nginx-只當代理"><span class="nav-number">3.2.</span> <span class="nav-text">狀況 2 上游 upstream 已經事先設定 terrain 的 cors gzip 等參數 , nginx 只當代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dotnet-佈署在-ubuntu-上"><span class="nav-number">4.</span> <span class="nav-text">dotnet 佈署在 ubuntu 上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包裝-docker"><span class="nav-number">5.</span> <span class="nav-text">包裝 docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#envoy-proxy"><span class="nav-number">6.</span> <span class="nav-text">envoy proxy</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-nginx"><span class="nav-number">1.</span> <span class="nav-text">安裝 nginx</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多網站設定"><span class="nav-number">2.</span> <span class="nav-text">多網站設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dotnet-反向代理"><span class="nav-number">3.</span> <span class="nav-text">dotnet 反向代理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cesium-terrain-設定"><span class="nav-number">4.</span> <span class="nav-text">cesium terrain 設定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#狀況-1-直接使用-nginx-當-terrain-server"><span class="nav-number">4.1.</span> <span class="nav-text">狀況 1 直接使用 nginx 當 terrain server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#狀況-2-上游-upstream-已經事先設定-terrain-的-cors-gzip-等參數-nginx-只當代理"><span class="nav-number">4.2.</span> <span class="nav-text">狀況 2 上游 upstream 已經事先設定 terrain 的 cors gzip 等參數 , nginx 只當代理</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dotnet-佈署在-ubuntu-上"><span class="nav-number">5.</span> <span class="nav-text">dotnet 佈署在 ubuntu 上</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#包裝-docker"><span class="nav-number">6.</span> <span class="nav-text">包裝 docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#envoy-proxy"><span class="nav-number">7.</span> <span class="nav-text">envoy proxy</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -539,7 +573,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">230</span>
+          <span class="site-state-item-count">231</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -605,13 +639,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">1.1m</span>
+    <span title="總廢話字數">1.2m</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">17:24</span>
+    <span title="所需總浪費時間">17:27</span>
 </div>
 
         
