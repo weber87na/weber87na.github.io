@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2023-08-22T14:16:19.000Z">
-<meta property="article:modified_time" content="2023-08-22T14:29:29.590Z">
+<meta property="article:modified_time" content="2023-09-06T11:19:29.196Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="css">
 <meta property="article:tag" content="js">
@@ -262,10 +262,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2023-08-22 22:16:19 / 修改時間：22:29:29" itemprop="dateCreated datePublished" datetime="2023-08-22T22:16:19+08:00">2023-08-22</time>
+              <time title="亂入時間：2023-08-22 22:16:19" itemprop="dateCreated datePublished" datetime="2023-08-22T22:16:19+08:00">2023-08-22</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2023-09-06 19:19:29" itemprop="dateModified" datetime="2023-09-06T19:19:29+08:00">2023-09-06</time>
+              </span>
 
           
   
@@ -316,6 +322,8 @@
 </p>
 <script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
+<iframe width="853" height="480" src="https://www.youtube.com/embed/NQY69CNrcus" title="css grid 刮刮樂" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
 <p>今天無意間看到強國人<a href="https://juejin.cn/post/7134634087901298695" target="_blank" rel="noopener">這篇寫刮刮樂的</a> , 看他這個寫法應該是 vue<br>記憶中小時候有賣那種刮刮樂貼紙 , 只要貼上去就可以做出刮刮樂 , 自己也來寫看看</p>
 <p>我的想法是直接用 <code>grid</code> 然後在裡面塞一堆格子 , 我先開一個 <code>50 * 50</code> 格的空間出來<br>然後在 <code>grid</code> 放上底圖 , 這裡就放一哭二鬧比較多人認識 , 雖然我比較喜歡三姊妹 XD<br>接著當 <code>hover</code> 到格子就設定透明度為 0 , 本來想說看看有無辦法不靠 js , 不過一時想不出來</p>
 <p>這裡我懶得安裝 vue 這裡就直接用 vscode 的 <code>emmet</code> 來生<br>我測了下 <code>emmet</code> 好像上限就是 <code>1000</code> 個元素 , 超過就生不出來<br>所以當超過 <code>1000</code> 時可以用下面這個語法指定從 <code>1001</code> 開始計算 , 所以蓋 2500 格會這樣打</p>
@@ -329,6 +337,8 @@
 
 <p>最後 js 直接取得所有格子 , 然後當滑鼠移走的時候保持透明度也是 0</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let items &#x3D; document.querySelectorAll(&#39;[class^&#x3D;&quot;item&quot;]&#39;)</span><br><span class="line">Array.from(items).forEach(x&#x3D;&gt;&#123;</span><br><span class="line">	x.addEventListener(&#39;mouseleave&#39;,function()&#123;</span><br><span class="line">		this.style.opacity &#x3D; 0</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+
 
     </div>
 
@@ -507,7 +517,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">18:10</span>
+    <span title="所需總浪費時間">18:11</span>
 </div>
 
         
