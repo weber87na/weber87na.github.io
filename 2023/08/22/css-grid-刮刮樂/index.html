@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2023-08-22T14:16:19.000Z">
-<meta property="article:modified_time" content="2023-09-06T18:45:39.961Z">
+<meta property="article:modified_time" content="2023-09-07T11:21:07.234Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="css">
 <meta property="article:tag" content="js">
@@ -270,7 +270,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-09-07 02:45:39" itemprop="dateModified" datetime="2023-09-07T02:45:39+08:00">2023-09-07</time>
+                <time title="修改時間：2023-09-07 19:21:07" itemprop="dateModified" datetime="2023-09-07T19:21:07+08:00">2023-09-07</time>
               </span>
 
           
@@ -293,14 +293,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.7k</span>
+              <span>2.8k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>2 分鐘</span>
+              <span>3 分鐘</span>
             </span>
 
         </div>
@@ -339,9 +339,12 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">let items &#x3D; document.querySelectorAll(&#39;[class^&#x3D;&quot;item&quot;]&#39;)</span><br><span class="line">Array.from(items).forEach(x&#x3D;&gt;&#123;</span><br><span class="line">	x.addEventListener(&#39;mouseleave&#39;,function()&#123;</span><br><span class="line">		this.style.opacity &#x3D; 0</span><br><span class="line">	&#125;)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
 
 
-<p>後來研究下 <code>animation</code> 發現他有個暫停屬性 , 所以只要把 css 的部分改成下面這樣就真的可以不用 js 了 XD<br>我的想法是一開始先讓動畫暫停 , hover 過去才撥放<br>這裡有個重點先在 <code>item</code> 一開始要設定 <code>opacity</code> 為 <code>0 透明</code> , 他會第一個執行 , 不然你 <code>hover</code> 過去正常 <code>hover</code> 回來會很靈異<br>然後他跑 <code>animation 0%</code> 設定不透明<br>最後 <code>100%</code> 的時候設定透明 , 然後 <code>paused</code> , 不寫應該也是回到 <code>paused</code> 因為 <code>item</code> 上面本來就有設定 <code>paused</code><br>至於為啥我要寫 <code>[class^=&quot;item&quot;]</code> 是因為我其他 case 還是有程式化需求<br>結論 這個暫停好像上課有教過可是都還給老師了 XD 不然就是沒這個運用</p>
+<p>後來研究下 <code>animation</code> 發現他有個暫停屬性 , 所以只要把 css 的部分改成下面這樣就真的可以不用 js 了 XD<br>我的想法是一開始先讓動畫暫停 , hover 過去才撥放<br>這裡有個重點先在 <code>item</code> 一開始要設定 <code>opacity</code> 為 <code>0 透明</code> , 他會第一個執行 , 不然你 <code>hover</code> 過去正常 <code>hover</code> 回來會很靈異<br>然後他跑 <code>animation 0%</code> 設定不透明<br>最後 <code>100%</code> 的時候設定透明 , 然後 <code>paused</code> , 不寫應該也是回到 <code>paused</code> 因為 <code>item</code> 上面本來就有設定 <code>paused</code><br>至於為啥我要寫 <code>[class^=&quot;item&quot;]</code> 是因為我其他 case 還是有程式化需求<br>如果 opacity 效果覺得不好應該也可以換 z-index 看看</p>
 <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-attr">[class^=<span class="string">"item"</span>]</span> &#123;</span><br><span class="line">	<span class="attribute">background-color</span>: <span class="built_in">rgb</span>(<span class="number">150</span>, <span class="number">150</span>, <span class="number">150</span>);</span><br><span class="line">	<span class="comment">/*透明*/</span></span><br><span class="line">	<span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">animation</span>: scratch <span class="number">0.1s</span>;</span><br><span class="line">	<span class="attribute">animation-play-state</span>: paused;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-attr">[class^=<span class="string">"item"</span>]</span><span class="selector-pseudo">:hover</span> &#123;</span><br><span class="line">	<span class="attribute">animation-play-state</span>: running;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@keyframes</span> scratch &#123;</span><br><span class="line">	0% &#123;</span><br><span class="line">		<span class="comment">/*不透明*/</span></span><br><span class="line">		<span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	100% &#123;</span><br><span class="line">		<span class="comment">/*透明*/</span></span><br><span class="line">		<span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">		<span class="comment">/*不寫也可以*/</span></span><br><span class="line">		<span class="attribute">animation-play-state</span>: paused;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
+
+<p>最後覺得沒有硬幣好像沒那麼有 fu , 可以先用手機拍個 1 摳<br>然後到 <a href="https://www.remove.bg/" target="_blank" rel="noopener">這裡</a> 去背<br>接著到 <a href="https://www.photopea.com/" target="_blank" rel="noopener">這裡</a> 把硬幣框起來 , 然後選 <code>image</code> =&gt; <code>crop</code><br>接著改圖片大小為 <code>60</code> , 在 css 裡面 <code>cursor</code> 最大好像支援到 <code>128</code><br>最後在 <code>card</code> 上面設定這樣即可 , 30 表示它的中心位置</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cursor: url('onedollar60.png') 30 30, auto;</span><br></pre></td></tr></table></figure>
 
     </div>
 
