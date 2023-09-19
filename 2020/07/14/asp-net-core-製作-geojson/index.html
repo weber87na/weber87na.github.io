@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-13T18:05:52.000Z">
-<meta property="article:modified_time" content="2023-02-24T18:12:17.067Z">
+<meta property="article:modified_time" content="2023-09-19T16:26:46.179Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="gis">
 <meta property="article:tag" content="asp.net core">
@@ -271,7 +271,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-02-25 02:12:17" itemprop="dateModified" datetime="2023-02-25T02:12:17+08:00">2023-02-25</time>
+                <time title="修改時間：2023-09-20 00:26:46" itemprop="dateModified" datetime="2023-09-20T00:26:46+08:00">2023-09-20</time>
               </span>
 
           
@@ -294,14 +294,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.7k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>2 分鐘</span>
+              <span>4 分鐘</span>
             </span>
 
         </div>
@@ -326,6 +326,23 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package NetTopologySuite.IO.GeoJSON -Version 2.0.3</span><br></pre></td></tr></table></figure>
 <p>需要特別注意 GeoJson.Net 的規範比較嚴格 , 故需要加入 FeatureCollection 讓 NetTopologySuite 的物件轉換為符合 GeoJson.Net 規範的格式</p>
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//建議寫成service抽離</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> FeatureCollection <span class="title">getBufferGeoJson</span>(<span class="params"><span class="keyword">double</span> lon, <span class="keyword">double</span> lat, <span class="keyword">int</span> meter = <span class="number">100</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	NetTopologySuite.Geometries.Point center =</span><br><span class="line">		<span class="keyword">new</span> NetTopologySuite.Geometries.Point(lon, lat);</span><br><span class="line">	<span class="comment">//設定正規化單位(meter)</span></span><br><span class="line">	<span class="comment">//注意這段我沒有詳細驗證單位最後是否正確不過結果看起來應該是對的</span></span><br><span class="line">	<span class="keyword">double</span> normalize = <span class="number">0.00001</span>;</span><br><span class="line">	<span class="keyword">var</span> buffer = center.Buffer(meter * normalize);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//轉換低階的 geojson 讓其符合 geojson.net 的規格</span></span><br><span class="line">	<span class="comment">//主要就是要有 geojson 內的 properties</span></span><br><span class="line">	NetTopologySuite.Features.Feature feature = <span class="keyword">new</span> NetTopologySuite.Features.Feature();</span><br><span class="line">	feature.Geometry = buffer;</span><br><span class="line">	feature.Attributes = <span class="keyword">new</span> NetTopologySuite.Features.AttributesTable();</span><br><span class="line">	NetTopologySuite.Features.FeatureCollection fc = <span class="keyword">new</span> NetTopologySuite.Features.FeatureCollection();</span><br><span class="line">	fc.Add(feature);</span><br><span class="line"></span><br><span class="line">	GeoJsonWriter writer = <span class="keyword">new</span> GeoJsonWriter();</span><br><span class="line">	<span class="keyword">var</span> geojson = writer.Write(fc);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//轉換為 geojson.net 的 geojson 格式</span></span><br><span class="line">	<span class="keyword">var</span> result = JsonConvert.DeserializeObject&lt;FeatureCollection&gt;(geojson);</span><br><span class="line">	<span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//包裝為 api 吐出 buffer geojson</span></span><br><span class="line">[<span class="meta">HttpGet(<span class="meta-string">"BufferGeoJson/&#123;lon&#125;/&#123;lat&#125;/&#123;meter&#125;"</span>)</span>]</span><br><span class="line"><span class="function"><span class="keyword">public</span> ActionResult&lt;FeatureCollection&gt; <span class="title">GetBufferGeoJson</span>(<span class="params"><span class="keyword">double</span> lon, <span class="keyword">double</span> lat, <span class="keyword">int</span> meter = <span class="number">100</span></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">try</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">var</span> result = getBufferGeoJson(lon, lat, meter);</span><br><span class="line">		<span class="keyword">return</span> Ok(result);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">catch</span> (Exception ex)</span><br><span class="line">	&#123;</span><br><span class="line">		logger.LogError(ex.Message);</span><br><span class="line">		<span class="keyword">return</span> Problem(ex.Message);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="net-6"><a href="#net-6" class="headerlink" title=".net 6"></a>.net 6</h4><p>如果是 <code>.net 6</code> 則是安裝以下套件</p>
+<ul>
+<li><p><code>GeoJSON.Net</code> </p>
+</li>
+<li><p><code>Microsoft.AspNetCore.Mvc.NewtonsoftJson</code> 這個要注意下版本選 <code>6.x</code></p>
+</li>
+<li><p><code>Swashbuckle.AspNetCore.Newtonsoft</code> 這個也要裝 , 不然 swagger 沒辦法正確吃到</p>
+</li>
+</ul>
+<p>因為 <code>GeoJSON.Net</code> 要吃 <code>NewtonsoftJson</code> 所以調整 <code>Program.cs</code></p>
+<p>然後把程式碼改成以下這樣 , 他才會正確吃到 <code>NewtonsoftJson</code></p>
+<p><code>Program.cs</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Newtonsoft.Json.Serialization;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add services to the container.</span></span><br><span class="line"></span><br><span class="line">builder.Services.AddControllers().AddNewtonsoftJson(opt =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;</span><br><span class="line">    opt.SerializerSettings.ContractResolver = <span class="keyword">new</span> CamelCasePropertyNamesContractResolver();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle</span></span><br><span class="line">builder.Services.AddEndpointsApiExplorer();</span><br><span class="line">builder.Services.AddSwaggerGen();</span><br><span class="line">builder.Services.AddSwaggerGenNewtonsoftSupport();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = builder.Build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Configure the HTTP request pipeline.</span></span><br><span class="line"><span class="keyword">if</span> (app.Environment.IsDevelopment())</span><br><span class="line">&#123;</span><br><span class="line">    app.UseSwagger();</span><br><span class="line">    app.UseSwaggerUI();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">app.MapControllers();</span><br><span class="line"></span><br><span class="line">app.Run();</span><br></pre></td></tr></table></figure>
+
+<p>另外如果要讓你的 ip 在測試可以被打到的話可以加入下面設定 , 修改 <code>launchSetting.json</code> 加入後面 <code>0.0.0.0</code> 的部分</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;applicationUrl&quot;: &quot;https:&#x2F;&#x2F;localhost:3001;http:&#x2F;&#x2F;localhost:3000;https:&#x2F;&#x2F;0.0.0.0:3001;http:&#x2F;&#x2F;0.0.0.0:3000&quot;,</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -418,7 +435,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立吐站點的-GeoJson-API"><span class="nav-number">1.</span> <span class="nav-text">建立吐站點的 GeoJson API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立某點位的-buffer"><span class="nav-number">2.</span> <span class="nav-text">建立某點位的 buffer</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#建立吐站點的-GeoJson-API"><span class="nav-number">1.</span> <span class="nav-text">建立吐站點的 GeoJson API</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#建立某點位的-buffer"><span class="nav-number">2.</span> <span class="nav-text">建立某點位的 buffer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#net-6"><span class="nav-number">3.</span> <span class="nav-text">.net 6</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -506,7 +523,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">18:13</span>
+    <span title="所需總浪費時間">18:14</span>
 </div>
 
         
