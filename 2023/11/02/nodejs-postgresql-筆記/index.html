@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2023-11-02T10:23:58.000Z">
-<meta property="article:modified_time" content="2023-11-02T10:27:24.099Z">
+<meta property="article:modified_time" content="2023-11-03T10:42:12.998Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="postgresql">
 <meta property="article:tag" content="nodejs">
@@ -262,10 +262,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2023-11-02 18:23:58 / 修改時間：18:27:24" itemprop="dateCreated datePublished" datetime="2023-11-02T18:23:58+08:00">2023-11-02</time>
+              <time title="亂入時間：2023-11-02 18:23:58" itemprop="dateCreated datePublished" datetime="2023-11-02T18:23:58+08:00">2023-11-02</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2023-11-03 18:42:12" itemprop="dateModified" datetime="2023-11-03T18:42:12+08:00">2023-11-03</time>
+              </span>
 
           
   
@@ -287,14 +293,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.1k</span>
+              <span>3.4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>2 分鐘</span>
+              <span>3 分鐘</span>
             </span>
 
         </div>
@@ -361,6 +367,42 @@
 
 <p>看起來只有 <code>rowCount</code> 有用</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">Result &#123;</span><br><span class="line">  command: &#39;INSERT&#39;,</span><br><span class="line">  rowCount: 1,</span><br><span class="line">  oid: 0,</span><br><span class="line">  rows: [],</span><br><span class="line">  fields: [],</span><br><span class="line">  _parsers: undefined,</span><br><span class="line">  _types: TypeOverrides &#123;</span><br><span class="line">    _types: &#123;</span><br><span class="line">      getTypeParser: [Function: getTypeParser],</span><br><span class="line">      setTypeParser: [Function: setTypeParser],</span><br><span class="line">      arrayParser: [Object],</span><br><span class="line">      builtins: [Object]</span><br><span class="line">    &#125;,</span><br><span class="line">    text: &#123;&#125;,</span><br><span class="line">    binary: &#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  RowCtor: null,</span><br><span class="line">  rowAsArray: false,</span><br><span class="line">  _prebuiltEmptyResultObject: null</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="結合-express"><a href="#結合-express" class="headerlink" title="結合 express"></a>結合 express</h3><p>CRUD <a href="https://blog.logrocket.com/crud-rest-api-node-js-express-postgresql/" target="_blank" rel="noopener">參考</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install express</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; const express &#x3D; require(&#39;express&#39;)</span><br><span class="line">import pg from &#39;pg&#39;</span><br><span class="line">import express from &#39;express&#39;</span><br><span class="line"></span><br><span class="line">const &#123; Pool &#125; &#x3D; pg;</span><br><span class="line">const config &#x3D; &#123;</span><br><span class="line">    host: &#39;localhost&#39;,</span><br><span class="line">    user: &#39;postgres&#39;,</span><br><span class="line">    password: &#39;postgres&#39;,</span><br><span class="line">    database: &#39;postgres&#39;,</span><br><span class="line">    port: 5432,</span><br><span class="line">    &#x2F;&#x2F;ssl: true</span><br><span class="line">&#125;;</span><br><span class="line">const pool &#x3D; new Pool(config);</span><br><span class="line"></span><br><span class="line">const app &#x3D; express()</span><br><span class="line">const port &#x3D; 3000</span><br><span class="line">app.listen(port)</span><br><span class="line"></span><br><span class="line">app.get(&#39;&#x2F;&#39;, async (req, res) &#x3D;&gt; &#123;</span><br><span class="line">    const sqlResult &#x3D; await pool.query(&#39;select * from temperature_data;&#39;);</span><br><span class="line">    const rows &#x3D; sqlResult.rows;</span><br><span class="line">    res.send(rows)</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="crontab"><a href="#crontab" class="headerlink" title="crontab"></a>crontab</h3><p>可以參考<a href="https://stackoverflow.com/questions/5849402/how-can-you-execute-a-node-js-script-via-a-cron-job" target="_blank" rel="noopener">這篇</a><br>然後到<a href="https://crontab.guru/" target="_blank" rel="noopener">這個網站</a> 可以協助編輯 <code>crontab</code></p>
+<p>先用 <code>which</code> 查出 <code>nodejs</code> 安裝路徑 <code>/usr/local/bin/node</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">which node</span><br></pre></td></tr></table></figure>
+
+<p>看看目前有啥任務</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -l</span><br></pre></td></tr></table></figure>
+
+<p>編輯 crontab 表達式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+
+<p>設定每分鐘 <code>insert</code> 資料進去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*&#x2F;1 * * * * &#x2F;usr&#x2F;local&#x2F;bin&#x2F;node &#x2F;home&#x2F;ladisai&#x2F;pgtest&#x2F;index.js</span><br></pre></td></tr></table></figure>
+
+<p>用 <code>postgres</code> 登入進去 , 並且查有無成功</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">psql -d postgres</span><br><span class="line">select * from temperature_data;</span><br></pre></td></tr></table></figure>
+
+<p>或是可以這樣用 , 先在 index.js 最上面加上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;usr&#x2F;bin&#x2F;env node</span><br></pre></td></tr></table></figure>
+
+<p>接著給權限 , 讓他變成可執行的 <code>script</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">chmod +x index.js</span><br></pre></td></tr></table></figure>
+
+<p>測試看看能否執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;index.js</span><br></pre></td></tr></table></figure>
+
+<p>最後修改 <code>crontab</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crontab -e</span><br></pre></td></tr></table></figure>
+
+<p>編輯 crontab 如下即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#*&#x2F;1 * * * * &#x2F;usr&#x2F;local&#x2F;bin&#x2F;node &#x2F;home&#x2F;ladisai&#x2F;pgtest&#x2F;index.js</span><br><span class="line">*&#x2F;1 * * * * &#x2F;home&#x2F;ladisai&#x2F;pgtest&#x2F;index.js</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -449,7 +491,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查詢"><span class="nav-number">2.</span> <span class="nav-text">查詢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增"><span class="nav-number">3.</span> <span class="nav-text">新增</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查詢"><span class="nav-number">2.</span> <span class="nav-text">查詢</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#新增"><span class="nav-number">3.</span> <span class="nav-text">新增</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#結合-express"><span class="nav-number">4.</span> <span class="nav-text">結合 express</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#crontab"><span class="nav-number">5.</span> <span class="nav-text">crontab</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -537,7 +579,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">18:31</span>
+    <span title="所需總浪費時間">18:32</span>
 </div>
 
         
