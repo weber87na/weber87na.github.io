@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2022-10-25T16:51:39.000Z">
-<meta property="article:modified_time" content="2022-10-25T16:53:18.725Z">
+<meta property="article:modified_time" content="2023-11-07T10:49:05.884Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csv">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2022-10-26 00:51:39 / 修改時間：00:53:18" itemprop="dateCreated datePublished" datetime="2022-10-26T00:51:39+08:00">2022-10-26</time>
+              <time title="亂入時間：2022-10-26 00:51:39" itemprop="dateCreated datePublished" datetime="2022-10-26T00:51:39+08:00">2022-10-26</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2023-11-07 18:49:05" itemprop="dateModified" datetime="2023-11-07T18:49:05+08:00">2023-11-07</time>
+              </span>
 
           
   
@@ -286,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>793</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -315,6 +321,13 @@
 
 <p>最後 output 指令如下 , 利用他輸出空白分隔並且不要有 header 即可創出類似 sql 的 format<br>美中不足的就是好像沒有複寫的結果的指令 , 需要自己去 rm , 不過也還可以接受啦!</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">csvq -s .\statements.sql -f CSV -D &quot; &quot; --without-header -o result.txt</span><br></pre></td></tr></table></figure>
+
+<p>後來有個情境要找一份 csv 裡面的編號 , 然後串成 sql 裡面的 in (‘xxx’ , ‘xxx’) 查詢 debug</p>
+<p>這裡可以用 -D ‘,’ 然後 select 最後一個放 null 來欺騙他就搞定了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">csvq -o result.csv -D &#39;,&#39; -N -d &#39;\t&#39; -s sql.txt</span><br></pre></td></tr></table></figure>
+
+<p>sql 沒想到竟然也可以用 cte , 還滿猛的阿<br>這裡要注意下 , 他是用雙管道 <code>pipe</code> 當成加號 , 如果要串單引號 <code>&#39;</code> 的話需要使用 4 個單引號<br>號碼做出來後記得要把最後一個逗號自己去尾</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">with cte as (</span><br><span class="line">select distinct ID </span><br><span class="line">from &#96;data.txt&#96;</span><br><span class="line">)</span><br><span class="line">select &#39;&#39;&#39;&#39; || ID || &#39;&#39;&#39;&#39;  , null</span><br><span class="line">from cte</span><br></pre></td></tr></table></figure>
 
     </div>
 
