@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2022-10-30T10:55:04.000Z">
-<meta property="article:modified_time" content="2023-09-06T11:12:16.156Z">
+<meta property="article:modified_time" content="2023-11-14T10:04:03.339Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="codesoft">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-09-06 19:12:16" itemprop="dateModified" datetime="2023-09-06T19:12:16+08:00">2023-09-06</time>
+                <time title="修改時間：2023-11-14 18:04:03" itemprop="dateModified" datetime="2023-11-14T18:04:03+08:00">2023-11-14</time>
               </span>
 
           
@@ -292,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>12k</span>
+              <span>13k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>11 分鐘</span>
+              <span>12 分鐘</span>
             </span>
 
         </div>
@@ -640,6 +640,8 @@
 <li><code>Dotted line Cutting knife</code></li>
 </ul>
 <p>可以看這個 <a href="https://www.aliexpress.com/i/1005003275044420.html" target="_blank" rel="noopener">影片</a> 認識看看<br>如果沒有這個虛線刀的痕跡 , 非常容易發生偏移狀況 , 然後互推責任開始吵架弄到都煩<br>長官最後想的解法竟然是在 <code>標籤</code> 跟 <code>標籤</code> 中間拿黑筆畫線 , 讓標籤機感應到 , 這標籤機也通靈 , 先畫個幾張定位就準了 , 真是暴雷的經驗…</p>
+<h3 id="暴雷的-Margin-單位問題"><a href="#暴雷的-Margin-單位問題" class="headerlink" title="暴雷的 Margin 單位問題"></a>暴雷的 Margin 單位問題</h3><p>他這裡邊界 <code>MarginTop</code> <code>MarginLeft</code> <code>PageHeight</code> <code>PageWidth</code> 有個很雷的點 , 例如你設定邊界是 <code>3mm</code><br>然而實際上他都要 <code>乘 100</code> , 所以變成 <code>3 * 100 = 300</code> , 超無言 XD<br>而且我翻文件好像都沒發現這個說明 , 我自己在 2015 2019 驗證過<br>可以用下面段 code 來驗證</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Diagnostics;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> LabelManager2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">ConsoleAppPrint</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">var</span> app = <span class="keyword">new</span> ApplicationClass();</span><br><span class="line">            <span class="keyword">string</span> path = <span class="string">"D:\\Test.lab"</span>;</span><br><span class="line">            _ = app.Documents.Open(path, <span class="literal">false</span>);</span><br><span class="line">            <span class="keyword">var</span> doc = app.ActiveDocument;</span><br><span class="line"></span><br><span class="line">            Debug.WriteLine(<span class="string">"MarginTop"</span> + doc.Format.MarginTop);</span><br><span class="line">            Debug.WriteLine(<span class="string">"MarginLeft"</span> + doc.Format.MarginLeft);</span><br><span class="line">            Debug.WriteLine(<span class="string">"PageHeight"</span> + doc.Format.PageHeight);</span><br><span class="line">            Debug.WriteLine(<span class="string">"PageWidth"</span> + doc.Format.PageWidth);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -730,7 +732,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example"><span class="nav-number">2.</span> <span class="nav-text">example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂變數"><span class="nav-number">3.</span> <span class="nav-text">自訂變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印時的坑"><span class="nav-number">4.</span> <span class="nav-text">列印時的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZPL"><span class="nav-number">5.</span> <span class="nav-text">ZPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csv-設定"><span class="nav-number">6.</span> <span class="nav-text">csv 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本問題"><span class="nav-number">7.</span> <span class="nav-text">版本問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COM-元件引用問題"><span class="nav-number">8.</span> <span class="nav-text">COM 元件引用問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止-2015-讀取-2019-lab-檔的錯誤處理-csharp-lab"><span class="nav-number">9.</span> <span class="nav-text">防止 2015 讀取 2019 lab 檔的錯誤處理 csharp lab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圖片問題"><span class="nav-number">10.</span> <span class="nav-text">圖片問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位置偏移問題"><span class="nav-number">11.</span> <span class="nav-text">位置偏移問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼字體大小問題"><span class="nav-number">12.</span> <span class="nav-text">條碼字體大小問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼長度問題"><span class="nav-number">13.</span> <span class="nav-text">條碼長度問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讀取及建立-Text"><span class="nav-number">14.</span> <span class="nav-text">讀取及建立 Text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Error-code-table"><span class="nav-number">15.</span> <span class="nav-text">Error code table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印偏移-虛線刀"><span class="nav-number">16.</span> <span class="nav-text">列印偏移 虛線刀</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example"><span class="nav-number">2.</span> <span class="nav-text">example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂變數"><span class="nav-number">3.</span> <span class="nav-text">自訂變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印時的坑"><span class="nav-number">4.</span> <span class="nav-text">列印時的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZPL"><span class="nav-number">5.</span> <span class="nav-text">ZPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csv-設定"><span class="nav-number">6.</span> <span class="nav-text">csv 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本問題"><span class="nav-number">7.</span> <span class="nav-text">版本問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COM-元件引用問題"><span class="nav-number">8.</span> <span class="nav-text">COM 元件引用問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止-2015-讀取-2019-lab-檔的錯誤處理-csharp-lab"><span class="nav-number">9.</span> <span class="nav-text">防止 2015 讀取 2019 lab 檔的錯誤處理 csharp lab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圖片問題"><span class="nav-number">10.</span> <span class="nav-text">圖片問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位置偏移問題"><span class="nav-number">11.</span> <span class="nav-text">位置偏移問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼字體大小問題"><span class="nav-number">12.</span> <span class="nav-text">條碼字體大小問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼長度問題"><span class="nav-number">13.</span> <span class="nav-text">條碼長度問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讀取及建立-Text"><span class="nav-number">14.</span> <span class="nav-text">讀取及建立 Text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Error-code-table"><span class="nav-number">15.</span> <span class="nav-text">Error code table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印偏移-虛線刀"><span class="nav-number">16.</span> <span class="nav-text">列印偏移 虛線刀</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#暴雷的-Margin-單位問題"><span class="nav-number">17.</span> <span class="nav-text">暴雷的 Margin 單位問題</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -818,7 +820,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">18:39</span>
+    <span title="所需總浪費時間">18:40</span>
 </div>
 
         
