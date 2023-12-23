@@ -30,7 +30,7 @@ tags:
 
 ### ado.net
 接著寫看看 ado.net 的測試 function , 沒特別遇到什麼問題
-```
+``` c#
 private static void Read()
 {
 	var str = System.Configuration.ConfigurationManager.ConnectionStrings["OracleDbContext"].ConnectionString;
@@ -50,7 +50,7 @@ private static void Read()
 ```
 
 ### Dapper
-```
+``` c#
 private static void DapperQuery()
 {
 	string sql = "SELECT * FROM YOURVIEW WHERE ROWNUM <= 1";
@@ -69,7 +69,7 @@ private static void DapperQuery()
 接著用 ef code first 測試看看
 此處有兩個關鍵 , 首先要在建構子設定 `Database.SetInitializer<OracleDbContext>(null);` 不然會噴 ORA-01031: 權限不足
 接著在 `OnModelCreating` 設定 `HasDefaultSchema("")` 不然會噴 ORA-01918: 使用者 'dbo' 不存在
-```
+``` c#
 public class OracleDbContext : DbContext
 {
 	public OracleDbContext() : base("name=OracleDbContext")
@@ -93,7 +93,7 @@ public class OracleDbContext : DbContext
 ```
 
 因為我只有 view 的權限 , 這裡要多設定 `EntityTypeConfiguration` 並且指定 key 跟 view 的名稱 , 整個就搞定了
-```
+``` c#
 [Table("YOURVIEW")]
 public class YOURVIEW
 {
@@ -112,7 +112,7 @@ public class YOURVIEWConfiguration : EntityTypeConfiguration<YOURVIEW>
 ```
 
 接著測試看看 , 這部分是關鍵
-```
+``` c#
 private static void EF()
 {
 	YOURDbContext db = new YOURDbContext();
@@ -153,17 +153,134 @@ private static void Print<T>(List<T> list)
 ```
 
 當你手動指定自己的 sql 語法 `db.YOURVIEW.SqlQuery("SELECT * FROM YOURVIEW")` 就算 `DbContext` 的 `HasDefaultSchema` 沒設定也可以正常跑
-```
+``` sql
 SELECT * FROM YOURVIEW
 ```
 
 當你直接呼叫 `db.YOURVIEW.Take(10).ToList()` 可以看到他生出的語法噴 ORA-00942 , 他產的 sql 會長下面這樣
 所以到此問題迎刃而解 , 只要把來喇低賽的 schema 用 `modelBuilder.HasDefaultSchema("")` 移除掉事情就解決了
-```
+``` sql
 SELECT
 "c"."GG" AS "GG"
 FROM "LADISAI"."YOURVIEW" "c"
 WHERE (ROWNUM <= (10) )
+```
+
+
+### where in 的效能問題處理
+如果要在 ef 用 sql 的 in 最直覺就是寫這樣 , 可是這樣 oracle 會產一堆亂七八糟的 code
+資料筆數少的話效能還好 , 一多的話直接送你升天
+``` c#
+var nos = GetNos();
+var result = db.Prod.AsNoTracking()
+.Where( x => nos.Contains( x.Id ) )
+.ToArray();
+```
+
+這裡是精隨所在! 需要使用 `Union All` 搭配 `where in` 來完成這個動作
+要串 `Union All` 的原因是 oracle 用 `where in` 只允許 `1000` 筆 , 超過會噴 `ORA-01795` , 效能可以參考 [這篇](https://stackoverflow.com/questions/8107439/why-is-contains-slow-most-efficient-way-to-get-multiple-entities-by-primary-ke)
+接著要讓資料分頁 , 每頁 1000 筆 , 如果小於等於 1000 筆則要用另外一個 function
+``` c#
+private static string GetProdSqlGreaterThan1000( IEnumerable<string> nos )
+{
+	//計算有幾頁
+	var page = nos.Count() / 1000;
+
+	//取得餘數
+	var countMod = nos.Count() % 1000;
+
+	//加上餘數那頁
+	if( countMod > 0 )
+		page += 1;
+
+	//因為使用 in 的話 oracle 噴 ORA-01795 只允許 1000 筆 , 所以用 union all 避開這個問題
+	List<string> sqls = new List<string>();
+	for( int i = 0 ; i < page ; i++ )
+	{
+		//處理餘數
+		string strPage = "";
+		if( i == page )
+			strPage = string.Join( ", ", nos.Skip( i * 1000 ).Take( countMod ).Select( x => $"'{x}'" ) );
+		else
+			strPage = string.Join( ", ", nos.Skip( i * 1000 ).Take( 1000 ).Select( x => $"'{x}'" ) );
+
+		var sql = string.Format(
+			@"
+SELECT ID AS Id ,
+	PRODNAME AS ProdName
+FROM Prod WHERE Id IN ({0})",
+			strPage );
+		//Debug.WriteLine( sql );
+		sqls.Add( sql );
+	}
+
+	//把 sql 語法進行 union all 處理
+	string finalSql = "";
+	int count = 0;
+	foreach( var sql in sqls )
+	{
+		//最後一筆時不需要 union all
+		if( sqls.Count - 1 == count )
+			finalSql += sql;
+		else
+			finalSql += sql + " union all";
+
+		count++;
+	}
+
+	return finalSql;
+}
+
+```
+
+沒分頁的 function
+``` c#
+private static string GetProdSqlLessThan1000( IEnumerable<string> nos )
+{
+		var start = 0;
+		var end = nos.Count();
+		var strPage = string.Join( ", ", nos.Skip( start ).Take( end ).Select( x => $"'{x}'" ) );
+		var sql = string.Format(
+			@"
+SELECT ID AS Id ,
+	PRODNAME AS ProdName
+FROM Prod WHERE Id IN ({0})",
+			strPage );
+	//Debug.WriteLine( sql );
+	return sql;
+}
+```
+
+
+判斷資料比數看要用哪個 function
+``` c#
+private static string GetProdUnionAllSql( IEnumerable<string> nos )
+{
+	//小於等於 1000 就不用分頁
+	if( nos.Count() <= 1000 ) return GetProdSqlLessThan1000( nos );
+
+	//大於 1000 使用
+	return GetProdSqlGreaterThan1000( nos );
+}
+```
+
+最後這樣寫即可
+```
+var sql = GetProdUnionAllSql( nos );
+var result = db.Prod.SqlQuery( sql ).AsNoTracking().ToArray();
+```
+
+
+### Schema
+今天遇到特別的處理法 , 平常都只讀取資料 , 今天需要寫入 , 因為資料表 schema 有分測試及正式 , 只希望開放一張可以寫
+研究發發現可以這樣設定 Schema 在 attribute 上面 , 輕鬆切換
+``` c#
+#if DEBUG
+    [Table( "Product" , Schema = "TEST")]
+#endif
+    public class Product{
+	
+	}
 ```
 
 
@@ -189,7 +306,7 @@ WHERE table_name = 'YOURVIEW'
 
 後來參考這個[老外](https://stackoverflow.com/questions/34336722/with-odp-net-create-c-sharp-class-struct-from-column-info-of-an-oracle-dbs-tab)
 自己改寫一個撈 view 用的
-```
+``` sql
 WITH cte AS (
 SELECT  table_name, column_name, data_type, data_length  , nullable ,
 		--這裡在 mapping c# 資料型別
@@ -237,7 +354,7 @@ Install-Package Oracle.EntityFrameworkCore -Version 5.21.5
 ```
 
 設定 Configuration , 這裡在 core 改成 `IEntityTypeConfiguration`
-```
+``` c#
 public class YOURVIEWConfiguration : IEntityTypeConfiguration<YOURVIEW>
 {
 	public void Configure(EntityTypeBuilder<YOURVIEW> builder)
@@ -253,7 +370,7 @@ public class YOURVIEWConfiguration : IEntityTypeConfiguration<YOURVIEW>
 我的環境好死不死是 10g , [官網](https://docs.microsoft.com/en-us/ef/core/providers/?tabs=dotnet-core-cli)寫最低好像支援到 11g ... 滿尷尬的 , 不過我測起來還是能跑 , 可以看看官方(https://docs.oracle.com/en/database/oracle/oracle-data-access-components/19.3.2/odpnt/EFCoreAPI.html#GUID-D237259B-0A8A-42D1-A142-1685AAC4178C) 跟[這篇](https://stackoverflow.com/questions/66398282/entity-framework-core-5-doesnt-support-oracle-10g)還有[這篇](https://stackoverflow.com/questions/56341445/entity-framework-core-take1-single-first-not-working-with-oracle-pr/56343155#56343155)
 另外 `HasDefaultSchema` 沒辦法讓你設定空字串 , 會噴 `System.ArgumentException: 'The string argument 'schema' cannot be empty.'` , 我註解掉就能動了
 最後想要 Log 的話可以直接用 `optionsBuilder.LogTo(Console.WriteLine)` 即可
-```
+``` c#
 public class OracleDbContext : DbContext
 {
 	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -281,7 +398,7 @@ public class OracleDbContext : DbContext
 ```
 
 最後測連看看
-```
+``` c#
 private static void EF()
 {
 	OracleDbContext db = new OracleDbContext();
@@ -303,12 +420,12 @@ private static void EF()
 "username/password@(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=123.45.67.89)(PORT=1521))(CONNECT_DATA=(SID=yoursid)))"
 
 設定日期 format
-```
+``` sql
 alter session set nls_date_format = 'YYYY-MM-DD HH24:MI:SS';
 ```
 
 [轉出 json ](https://database.guide/how-to-export-oracle-query-results-to-a-json-file-when-using-sqlcl/)
-```
+``` sql
 SET SQLFORMAT json;
 SPOOL test.json;
 SELECT * FROM test;

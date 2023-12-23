@@ -66,6 +66,26 @@ where seq = 1
 order by salary desc
 ```
 
+後來發現這個淫蕩工具 [csvq](https://github.com/mithrandie/csvq)
+可以直接用 sql 操作 csv , 語法也差不多 , 可惜沒 2021 年薪水資料 , 不然應該找看看大谷的 XD
+
+```
+csvq -s .\statements.sql | less
+```
+
+`statements.sql`
+```
+select *
+from (
+	select * , row_number() over (partition by teamid order by salary desc) as seq
+	from `Salaries.csv`
+	where yearid = 2016
+)
+where seq = 1
+order by salary desc
+
+```
+
 今天遇到 SQL Server 也要解類似問題再多筆記一下
 ```
 with cte as (

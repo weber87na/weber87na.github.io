@@ -44,6 +44,7 @@ https://www.giss.nasa.gov/tools/panoply/download/
 ```
 conda env list
 conda create --name netcdf
+conda install netcdf4
 conda install xarray
 conda install pandas
 conda install numpy
@@ -271,6 +272,219 @@ newnc = xr.open_dataset('FIXFILE.nc')
 # newnc
 ```
 
+### 修復時間 Coordinates part2
+這次遇到一批資料格式為 `yymmddHH` , 本來沒詳細看 , 也不曉得問題在哪 , 處理老半天 , 圖資 server 偏偏免錢只吃標準 format 狂噴紅字
+後來才發現他的日期格式怪怪 , 因為一時也想不出啥好法子 , 就直接擷取 string 去逐一處理 , 還好最後屎運搞定
+
+```
+import xarray as xr
+import numpy as np
+import pandas as pd
+
+# 建立 DataArray
+def createDataArray(var, newfulltime, lat , lon):
+    new_var = xr.DataArray(
+        var,
+        coords={
+            'time': newfulltime,
+            'latitude': lat,
+            'longitude': lon
+        },
+        dims=['time', 'latitude', 'longitude'],
+    )
+    return new_var
+
+
+# 讀檔
+nc = xr.open_dataset('xxx.nc')
+
+
+# 修正時間 yymmddHH 轉為正式的時間格式
+time = nc['Time']
+# print(time)
+new_years = []
+new_months = []
+new_days = []
+new_times = []
+
+for x in time:
+    val = x.values
+    s = str(int(val))
+    new_year = int(f'20{s[0:2]}')
+    new_month = int(s[2:4])
+    new_day = int(s[4:6])
+    new_time = int(s[6:8])
+    new_years.append(new_year)
+    new_months.append(new_month)
+    new_days.append(new_day)
+    new_times.append(int(60 * new_time))
+
+df = pd.DataFrame({'year': new_years, 'month': new_months,
+                  'day': new_days, 'minute': new_times})
+# 正確的時間格式
+newfulltime = pd.to_datetime(df)
+
+# 取得經緯度
+lat = nc['latitude'].values
+lon = nc['longitude'].values
+
+# 撈變數
+xxx = nc['xxx']
+
+# 取得 global 屬性
+att = nc.attrs
+
+# 建立變數
+new_xxx = createDataArray(xxx, newfulltime , lat , lon)
+
+
+
+# 重建 netcdf 檔案
+newds = xr.Dataset(
+    data_vars=dict(
+        xxx = new_xxx,
+    ),
+    attrs=att,
+)
+
+# 他這個有指定用 NETCDF4 去存檔
+newds.to_netcdf('FIXFILE.nc',format='NETCDF4')
+
+
+# 讀取新搞出來的檔案
+newnc = xr.open_dataset('FIXFILE.nc')
+print(newnc)
+```
+
+### 修復 Coordinate 並降維
+今天又遇到個問題 , 檔案在 geoserver 上面沒法發佈 
+先讀看看資料發現又暴雷 , 他的變數指定到 `lon` , `lat` 的 coordinates , 可是實際上變數又命為 `longitude` , `latitude`
+這樣會造成錯誤需要修復
+```
+Dimensions:    (depth: 1, lon: 157, lat: 205, time: 31)
+Coordinates:
+  * depth      (depth) float64 0.494
+  * time       (time) datetime64[ns] 1998-01-01T12:00:00 ... 1998-01-31T12:00:00
+Dimensions without coordinates: lon, lat
+Data variables:
+    longitude  (lon) float64 ...
+    latitude   (lat) float64 ...
+    vo         (time, depth, lat, lon) float64 ...
+```
+
+修好了以後發現還是沒法在 geoserver 上面發佈 , 因為這次有多個 `depth` 的維度就認為是他搞的鬼
+反正他的資料也只有一個深度 , 基本上沒啥意義 , 所以跑個迴圈把需要的擷取出來即可
+
+實作 code
+```
+import xarray as xr
+
+# 讀取檔案
+nc = xr.open_dataset('xxx.nc')
+
+# 撈變數
+lat = nc['latitude']
+lon = nc['longitude']
+time = nc['time']
+uo = nc['uo']
+vo = nc['vo']
+
+# 保存修改後的變數
+vos = []
+uos = []
+
+# 猜測這裡的 depth 有問題導致 geoserver 發生錯誤
+# 以時間 loop 重新取出數值
+for i , ele in enumerate(time):
+    uo_val = uo[i][0][:][:]
+    vo_val = vo[i][0][:][:]
+    uos.append(uo_val)
+    vos.append(vo_val)
+
+
+# 合併每天的資料
+# https://docs.xarray.dev/en/stable/generated/xarray.concat.html
+new_uo = xr.concat(uos , dim='time')
+
+# 他這裡的 latitude longitude 寫在變數上面 coord 實際上是用 lon lat , 所以重新分配就可以正常
+new_uo = new_uo.assign_coords({
+    "lon" : lon,
+    "lat" : lat
+})
+
+# 合併每天的資料
+# https://docs.xarray.dev/en/stable/generated/xarray.concat.html
+new_vo = xr.concat(vos , dim='time')
+
+# 他這裡的 latitude longitude 寫在變數上面 coord 實際上是用 lon lat , 所以重新分配就可以正常
+new_vo = new_vo.assign_coords({
+    "lon" : lon,
+    "lat" : lat
+})
+
+# 製作 dataset
+newds = xr.Dataset(
+    data_vars=dict(
+        uo = new_uo,
+        vo = new_vo,
+    ),
+)
+
+# 刪除沒用到的變數
+# https://docs.xarray.dev/en/stable/generated/xarray.Dataset.drop_vars.html
+newds = newds.drop_vars('depth')
+newds.to_netcdf('xxx_fix.nc')
+```
+
+### 修復 Coordinate 並且補上 units 
+延續上個 example 後來覺得不該鴕鳥心態 , 這樣以後遇到類似問題不就爆炸 , 仔細看看資料發現沒有 units 猜 geoserver 認不得 , 補上去看看就搞定了 
+最關鍵的一句 `depth.attrs['units'] = 'm'`
+每次處理別人的資料還真是痛苦萬分 , 一堆問題要靠自己通靈的 ...
+
+```
+import xarray as xr
+
+# 讀取檔案
+nc = xr.open_dataset('XXX.nc')
+
+# 撈變數
+lat = nc['latitude']
+lon = nc['longitude']
+time = nc['time']
+depth = nc['depth']
+uo = nc['uo']
+vo = nc['vo']
+
+# 關鍵要設定深度單位不然 geoserver 認不得他
+depth.attrs['units'] = 'm'
+
+# 他這裡的 latitude longitude 寫在變數上面 coord 實際上是用 lon lat , 所以重新分配就可以正常
+new_uo = uo.assign_coords({
+    "lon" : lon,
+    "lat" : lat,
+    "depth" : depth
+})
+
+# 他這裡的 latitude longitude 寫在變數上面 coord 實際上是用 lon lat , 所以重新分配就可以正常
+new_vo = vo.assign_coords({
+    "lon" : lon,
+    "lat" : lat,
+    "depth" : depth
+})
+
+# 製作 dataset
+newds = xr.Dataset(
+    data_vars=dict(
+        depth = depth,
+        uo = new_uo,
+        vo = new_vo,
+    ),
+)
+
+# 保存檔案
+newds.to_netcdf('XXXFIX.nc')
+```
+
 
 ### 匯入 netcdf 資料到 postgresql
 這個看起來好像很困難的作業 , 其實骨子裡就是把資料先弄成 csv 然後匯進去
@@ -322,4 +536,24 @@ conn.commit()
 
 cursor.close()
 conn.close()
+```
+
+### 繪圖
+以往都是發成 wms 事情就結束了 , 繪圖基本上沒太多研究 , 暫時簡單記錄下 , 有空研究看看能否加上 Georeferencing
+```
+# 最基本畫法
+nc.chl[0].plot()
+
+# 可以這樣關閉 lon lat 格線
+plt.axis("off")
+
+# 找進階參數
+# https://docs.xarray.dev/en/stable/generated/xarray.plot.pcolormesh.html
+
+# 找 colormap
+# https://matplotlib.org/stable/gallery/color/colormap_reference.html
+nc.chl[0].plot(robust=True , add_colorbar=False ,cmap='rainbow', add_labels = False)
+
+# 保存圖片不帶邊框滿版
+plt.savefig('save.png', bbox_inches='tight',pad_inches = 0, transparent=True)
 ```

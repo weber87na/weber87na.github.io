@@ -32,7 +32,7 @@ app.UseStaticFiles(new StaticFileOptions
 由於切割 .ts 檔案並且製作加密需要符合 Aes-128 加密演算法 , 之前用 openssl 產生不曉得是否因為是在 windows 上 , 造成有的 key 無法使用 , 故手動用 .net 自己刻 Aes-128? 好吧偷懶[參考大神比較快](https://www.cnblogs.com/xyz0835/p/5775850.html)
 
 建立一個KeyController的ApiController
-```
+``` c#
 [Route("api/[controller]")]
 [ApiController]
 public class KeyController : ControllerBase

@@ -12,11 +12,30 @@ tags: powershell
 保哥應該是參考[老外](https://www.hanselman.com/blog/adding-predictive-intellisense-to-my-windows-terminal-powershell-prompt-with-psreadline)
 應該還有這[老外](https://megamorf.gitlab.io/cheat-sheets/powershell-psreadline/)
 最後還有這[老外](https://4sysops.com/archives/powerline-customize-your-powershell-console/)
+還有這個[超級高手日本人](https://www.youtube.com/watch?v=5-aK2_WwrmM)
 
 ## powershell 事前準備
 安裝 `CHOCOLATEY` [官網](https://chocolatey.org/install)
 ```
 Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
+```
+
+### 檢查版本
+礙於三不五時就有些靈異事件 , 建議先看看自己 powershell 版本 , 5.1 跟 7.x 是有些差異的 , 我設定都是以 5.1 為主
+也可以參考保哥的[最新設定](https://blog.miniasp.com/post/2021/11/24/PowerShell-prompt-with-Oh-My-Posh-and-Windows-Terminal?fbclid=IwAR1MlU0Q9EtwC6EimtJV13ddYph1lTcRvFxGHX6KMPHHPnNvOtKbrogH6qk)
+```
+$PSversionTable
+
+Name                           Value
+----                           -----
+PSVersion                      5.1.19041.1682
+PSEdition                      Desktop
+PSCompatibleVersions           {1.0, 2.0, 3.0, 4.0...}
+BuildVersion                   10.0.19041.1682
+CLRVersion                     4.0.30319.42000
+WSManStackVersion              3.0
+PSRemotingProtocolVersion      2.3
+SerializationVersion           1.1.0.1
 ```
 
 ### 安裝 gsudo
@@ -91,6 +110,19 @@ C:\Users\YourName\Documents\WindowsPowerShell\
 ```
 Install-Module posh-git -Scope CurrentUser
 Install-Module oh-my-posh -Scope CurrentUser
+Install-Module -Name Terminal-Icons
+```
+
+`注意!  oh-my-posh 更新頻繁度有點高` , 我在 2022/08/19 從新安裝 windows 10 又改了 , 可以參考這個老外[教學影片](https://www.youtube.com/watch?v=OL9Mr4dzIWU) 不然很有可能陣亡 , 文章可以[參考這個大大](https://www.kwchang0831.dev/dev-env/pwsh/oh-my-posh)
+
+我自己是手動下載
+```
+Set-ExecutionPolicy Bypass -Scope Process -Force; Invoke-Expression ((New-Object System.Net.WebClient).DownloadString('https://ohmyposh.dev/install.ps1'))
+```
+
+然後把這串丟進去你的 `$profile` 然後註解之前的相關命令 , 好像就好了 , 不然用之前的指令會一直跳針 my friend xxooxx 的訊息 , 然後噴一堆 error  , 不過之前的 `posh-git` & `Terminal-Icons` 好像還是要裝!? 有點沒印象了
+```
+oh-my-posh init pwsh --config "$env:POSH_THEMES_PATH\ys.omp.json" | Invoke-Expression
 ```
 
 ## 啟動提示及一些加強功能
@@ -112,6 +144,9 @@ Install-Module PSReadLine -RequiredVersion 2.1.0
 ```
 Install-Module PSReadLine -AllowPrerelease -Force
 ```
+
+我在 2022/08/19 用的 `2.2.6` 版已經沒有 -AllowPrerelease -Force 這個指令
+
 
 ### zLocation
 類似 acejump 的工具 , 提升爽度 , 用法無腦輸入 z 然後可以選要跳哪 , 詳細參考[官方](https://github.com/vors/ZLocation)
@@ -144,6 +179,35 @@ function current-repo { start chrome (git config remote.origin.url).trim(".git")
 
 或是直接加到 `PATH` 環境變數 `C:\Program Files\Git\usr\bin` 
 
+## 寶可夢
+無意中發現[PokemonTerminal](https://github.com/LazoCoder/Pokemon-Terminal) , 讓整個布景又可以豐富很多 , 順手筆記
+列出鬼系 , 鬼斯通用起來像 Ubuntu 的紫色畫面
+```
+pokemon  -t ghost -d 0.9 -r kanto
+```
+
+清除
+```
+pokemon -c
+```
+
+列出寶可夢名稱
+```
+pokemon -ne -dr
+```
+
+
+自訂圖片要丟的路徑 , 注意只能 jpg
+```
+C:\tools\Anaconda3\envs\netcdf\Lib\site-packages\pokemonterminal\Images\Extra
+```
+
+
+列出自訂目錄底下有啥圖片
+```
+pokemon -e -dr
+```
+
 ## 其他問題
 ### Security 問題
 Nuget 安裝套件炸過的問題 , 用 admin 執行以下命令 , 防止後續炸出 error
@@ -167,12 +231,14 @@ Set-ExecutionPolicy RemoteSigned
 Set-ItemProperty 'registry::HKEY_CURRENT_USER\Control Panel\Accessibility\Blind Access' On 0
 ```
 
+
 ## full config
 最後額外設定自己的 config , 過程中太頻繁懶得打 docker 直接用 alias , 另外還有像是 history 搜尋可以按 `ctrl + r` 往前搜尋這種不錯的小技巧可以用 , 詳情參考[印度仔](https://www.thewindowsclub.com/how-to-see-powershell-command-history-on-windows-10)
 另外可以設定 Emacs 的 key binding 這樣操作起來就跟用 bash 預設的熱鍵一樣 , 這個一定要啟用 , 不然對不起 emacs 大師
 看了保哥的設定之後我又多加了一個開啟 `_vsvimrc` 的功能 , 因為很常需要去找這些散落在各地的 vim 設定檔 , 也可以看你環境去加入如 vscode 的 `setting.json` 之類的
 ```
 #注意要用這串安裝才會有增強功能
+#新版已經移除 -AllowPrerelease
 #Install-Module PSReadLine -AllowPrerelease -Force
 
 #使用 bash 的 emacs 鍵盤設定
@@ -183,6 +249,7 @@ Import-Module posh-git
 Import-Module oh-my-posh
 Set-PoshPrompt darkblood
 #Set-PoshPrompt fish
+
 
 #設定 icon 檔
 Import-Module -Name Terminal-Icons

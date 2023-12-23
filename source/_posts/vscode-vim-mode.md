@@ -19,6 +19,11 @@ top: true
 - [上面那本書作者的 youtube Jaime González García](https://www.youtube.com/c/Vintharas/videos)
 - [neovim 對照功能](https://www.youtube.com/watch?v=g4dXZ0RQWdw&feature=youtu.be)
 
+### 我 2020 年剛學習時分享的影片
+- [vscode](https://www.youtube.com/watch?v=MDHmwCvHpzc)
+- [eclipse](https://www.youtube.com/watch?v=5_iKhtqVNPU)
+- [visual studio](https://www.youtube.com/watch?v=69L88XbXZZg)
+
 ### 一些實用小抄
 * [vim 小抄]( https://vim.rtorr.com/lang/zh_tw)
 * [vscode vim 小抄](https://github.com/VSCodeVim/Vim/blob/master/ROADMAP.md)
@@ -67,6 +72,71 @@ top: true
 "vim.neovimPath" : ""
 ```
 
+### 優化 easymotion
+因為他的熱鍵太難記憶 , 只好重新設定下 , 其實常用的也只有 `Start of word`
+```
+{
+    "before": [
+	"<leader>",
+	"<space>",
+    ],
+    "after": [
+	"<leader>",
+	"<leader>",
+	"<leader>",
+	"b",
+	"d",
+	"w",
+    ],
+},
+```
+### 火大的貼上問題
+久沒用 vim 或剛開始用 vim 都會遇到一個問題 , 假設有以下 html 片段
+```
+    <p>aaa</p>
+    <p>bbb</p>
+    <p>ccc</p>
+```
+
+當你先 `viwy` `aaa` 的地方 , 接著你移動到 `bbb` 這時候按下 `p` 會正常貼上 , code 會長這樣
+```
+    <p>aaa</p>
+    <p>aaa</p>
+    <p>ccc</p>
+```
+
+這時你移動到 `ccc` 的區塊 , 按下 `p` 貼上就錯屎了 , 竟然是貼上 `bbb`
+```
+    <p>aaa</p>
+    <p>aaa</p>
+    <p>bbb</p>
+```
+
+其實真正要貼上應該輸入 `"0p` 才會是正確結果 , 因為 vim 會把東西丟到 registry 裡面 , 可以用 `:reg` 看目前保存了啥
+
+無意中看這個老外也有遇到[一樣的問題](https://www.youtube.com/watch?v=Rb7lF2G0jds) , 下面老外給他留言多加上 `Esc` , 其實這個設定沒法解決真正問題 , 或多或少都會跟預期的行為不太一樣
+```
+{
+      "before": ["p"],
+      "commands": ["editor.action.clipboardPasteAction"],
+      "after": ["<Esc>"]
+}
+```
+
+要想解決這個問題應該這樣設定 , 直接綁定 `"0p` 即可 , 不過用 `after` 當電腦卡頓的時候其實也有一堆問題 XD
+```
+"vim.visualModeKeyBindingsNonRecursive": [
+{
+    "before" : [
+	"p"
+    ],
+    "after":[
+	"\"",
+	"0",
+	"p"
+    ]
+},
+```
 
 ### intellisense 移動設定
 在 `keybindings.json` 加 上config 內容 開 `intellisense` 時也使用鍵盤 `alt+j` `alt+k` 上下移動 , 可以參考[這篇](https://stackoverflow.com/questions/18153541/scrolling-through-visual-studio-intellisense-list-without-mouse-or-keyboard-arro)
@@ -136,6 +206,12 @@ top: true
 ```
 
 ### 折疊的小技巧
+首先摺疊會遇到一個很火大的問題 , 就是你往下移動時他會把折疊的部分給展開 , 這不是我們樂見的 , 找了半天終於[發現怎麼修](https://github.com/microsoft/vscode/issues/63972)
+`settings.json`
+```
+    "vim.foldfix": true,
+```
+
 最近維護 angularjs 老舊程式碼 , 大概有 1000 - 2000 行左右的 js
 之前在維護後端通常會用 region 來分類這種沒啥辦法拆開的檔案
 研究下想不到 vscode 也有這個功能 , 可以參考[官方說明](https://code.visualstudio.com/docs/editor/codebasics#_folding)
@@ -363,6 +439,14 @@ export function pyJump(tagAtPoint: any) {
 		"command": "editor.emmet.action.wrapIndividualLinesWithAbbreviation"
 	},
 ]
+```
+有了包裹標籤 , 自然也有移除的需求 , 找一下[老外說明](https://stackoverflow.com/questions/49336584/is-there-a-quick-way-to-delete-an-html-tag-pair-in-vscode) , 預設是 `ctrl` `shift` `k` 
+或是也可以直接用 `surround` 直接敲 `dst`
+```
+{
+    "key": "ctrl+shift+k",
+    "command": "editor.emmet.action.removeTag"
+}
 ```
 
 ### emment 更新
@@ -891,6 +975,75 @@ internal Author(Guid id ,
 實際使用起來即使是免費版 , 還是滿實用的 , 可以看看這個影片 , 詳情有空再補
 ![示範](https://quokkajs.com/assets/img/main-video.gif)
 
+### 括號輔助線
+這是我看一個大陸人影片發現的 , 他的括號竟然有線提示在哪裡 , 感覺很有幫助
+本來以為是 extension 後來找了半天才知道原來這功能已經內建
+可以[參考這個老外](https://neutrondev.com/vs-code-colored-bracket-pair-guides/)
+
+研究了下他的幾個屬性功能 顏色最多有六層超過的話會回到第一層
+`editorBracketPairGuide.activeBackground1` => 當你游標在第一層裡面的顏色 , 我是六層都設定
+`editorBracketPairGuide.background1` => 強制開啟第一層顏色建議不要開
+`editorBracketHighlight.unexpectedBracket.foreground` => 異常括號的顏色(預設紅色)
+`editor.guides.bracketPairs` => 設定 true 才會打開
+`editor.guides.bracketPairsHorizontal` => 水平線 如果設 `true` 會全顯示 , 預設 `active`
+
+另外如果你的游標在括號後面 `{` 他才會正確顯示你在的層次
+如果是 `vim` 的 `normal mode` 游標是在 `{` 前面 , 這點要稍微注意
+
+
+``` json
+    "workbench.colorCustomizations": {
+        //游標在括號的顏色
+        "editorBracketPairGuide.activeBackground1": "#ffff00",
+        "editorBracketPairGuide.activeBackground2": "#ffff00",
+        "editorBracketPairGuide.activeBackground3": "#ffff00",
+        "editorBracketPairGuide.activeBackground4": "#ffff00",
+        "editorBracketPairGuide.activeBackground5": "#ffff00",
+        "editorBracketPairGuide.activeBackground6": "#ffff00",
+        //異常括號顏色
+		"editorBracketHighlight.unexpectedBracket.foreground": "#ff0000",
+    },
+    "editor.guides.bracketPairs": "active",
+    "editor.guides.bracketPairsHorizontal": "active",
+```
+
+
+
+### go to definition
+解決 `go to definition` 會 `preview` 的問題
+可以參考[這篇](https://stackoverflow.com/questions/50993353/how-can-i-disable-the-preview-when-go-to-definition-in-vs-code)
+```
+	"editor.gotoLocation.multiple": "goto"
+```
+
+打開 js/ts function interface 參考
+```
+	"typescript.referencesCodeLens.enabled": true,
+    "typescript.referencesCodeLens.showOnAllFunctions": true,
+    "typescript.implementationsCodeLens.enabled": true,
+    "javascript.referencesCodeLens.showOnAllFunctions": true,
+    "javascript.referencesCodeLens.enabled": true,
+```
+
+無意中又爬到很特別的技巧
+https://dev.to/ansonh/10-vs-code-vim-tricks-to-boost-your-productivity-1b0n
+
+### sneak
+自己平日比較沒在用 EasyMotion 總覺得跳那些標籤電腦有點卡卡的
+今天發現還有個可以增強的方法 , 就是 sneak , 應該改叫做 slickback 更貼切阿 XD
+他預設是關閉所以要自己在 `settings.json` 打開
+然後用 `小寫 s` 或 `大寫 S` 輸入兩個字來跳 , 本來只能橫著走 , 現在可以斜著走 ~
+另外他跟 `f` and `t` 一樣可以用 `;` 往後跳也可用 `,` 往回跳 
+不過我的 `leader` 是用逗號直接閹割一半 , 很尷尬阿 ~
+```
+"vim.sneak" : true,
+```
+
+後來發現他還有個隱藏設定 `vim.sneakReplacesF` , 開啟後就可以把 `f` 替換掉 , 文件好像沒寫 XD
+```
+"vim.sneakReplacesF": true
+```
+
 
 ## 設定檔
 ### full keybindings
@@ -959,6 +1112,7 @@ internal Author(Guid id ,
 		},
 		//vim
 		//"editor.lineNumbers": "relative",
+		"vim.foldfix" : true,
 		"vim.easymotion": true,
 		"vim.incsearch": true,
 		"vim.useSystemClipboard": true,

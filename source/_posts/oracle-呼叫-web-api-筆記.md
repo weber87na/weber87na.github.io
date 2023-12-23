@@ -7,6 +7,7 @@ tags: oracle
 <!-- more -->
 
 工作上遇到一個奇怪的需求 , 需要直接用 oracle 去呼叫 web api , 順手筆記一下 , 寫得比較散
+後來又遇到類似問題 , 我又補一個實際需求 , [可以參考這篇](https://www.blog.lasai.com.tw/2022/11/16/net-6-%E8%8F%B2%E5%BE%8B%E8%B3%93%E5%8C%AF%E7%8E%87%E7%88%AC%E8%9F%B2/)
 
 ### 下載 oracle image 並且執行
 用 docker ps 看是否啟動成功 , 這邊其實要設定一堆東西 , 像是開啟 hyper-v , 設定 BIOS , 因為沒逐步筆記就沒寫 , 另外 windows 跟 linux 差異也不小

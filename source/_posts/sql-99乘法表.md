@@ -79,6 +79,16 @@ tags:
 	result.ToList().ForEach( x => Console.WriteLine(x));
 ```
 
+這裡還有很噁爛的 `SelectMany` 寫法 , 想要詳細知道 linq 可以看這個微軟 mvp 大神的 [blog](https://weblogs.asp.net/dixin/entity-framework-core-and-linq-to-entities-4-query-methods-7) , 應該是講解 linq 最細的 blog
+``` csharp
+var num = Enumerable.Range(1, 9);
+var result = num.SelectMany(
+		x => num,
+		(x, y) => $"{x} * {y} = {x * y}" 
+	);
+result.ToList().ForEach(x => Console.WriteLine(x));
+```
+
 ### sql server
 而 SQL 採用集合做為思考，一般都會使用 UNION ALL 搭配遞迴與 CROSS JOIN 進行計算，大概會長得像下面這樣
 ``` sql
@@ -252,4 +262,45 @@ for (var i = 1, j = 1; j <= 9;){
         i += 1
     }
 }
+```
+
+雙重遞迴 , 關鍵是在 N 裡面再多包一個 M 的遞迴
+首先當數字小於 10 時會不斷印出來 , 當數字執行到 10 的時候會 return
+接著再回到 N 開始往下個數字疊加下去 , 此時 m 已經歸零又重新進入 M 的遞迴
+有趣的是拿這串 code 去問 chatgpt 問他這串作用是啥 , 他竟然可以回出 99 乘法表 , 真是太噁心了
+```
+function N(n , m){
+	if(n === 10){
+		return
+	} else {
+		M(m + 1, n)
+		return N(n + 1 , m)
+	}
+}
+
+function M(m , n){
+	if(m === 10){
+		return
+	} else {
+		console.log(`${n} * ${m} = ${n * m}`)
+		return M(m + 1 , n)
+	}
+}
+
+N(0,0)
+```
+
+### rxjs
+最近搞 rxjs 開開腦洞
+```
+let A$ = range(1, 9)
+let B$ = range(1, 9)
+
+A$.subscribe(x => {
+    console.log(`----${x}-----`)
+    B$.subscribe(y =>
+        console.log(`${x} * ${y} = ${x * y}`)
+    )
+    console.log('----------')
+})
 ```

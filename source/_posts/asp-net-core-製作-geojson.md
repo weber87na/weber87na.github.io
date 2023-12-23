@@ -25,7 +25,7 @@ public void ConfigureServices(IServiceCollection services)
 }
 ```
 #### 建立吐站點的 GeoJson API
-```
+``` csharp
 public class Station
 {
     public string Name { get; set;}
@@ -33,7 +33,7 @@ public class Station
     public double Lat { get; set;}
 }
 ```
-```
+``` csharp
 public ActionResult<FeatureCollection> GetStationGeoJson()
 {
     List<Station> stations = new List<Station>(){
@@ -68,7 +68,7 @@ public ActionResult<FeatureCollection> GetStationGeoJson()
 Install-Package NetTopologySuite.IO.GeoJSON -Version 2.0.3
 ```
 需要特別注意 GeoJson.Net 的規範比較嚴格 , 故需要加入 FeatureCollection 讓 NetTopologySuite 的物件轉換為符合 GeoJson.Net 規範的格式
-```
+``` csharp
 //建議寫成service抽離
 private FeatureCollection getBufferGeoJson(double lon, double lat, int meter = 100)
 {
@@ -110,4 +110,59 @@ public ActionResult<FeatureCollection> GetBufferGeoJson(double lon, double lat, 
 		return Problem(ex.Message);
 	}
 }
+```
+
+#### .net 6
+如果是 `.net 6` 則是安裝以下套件
+
+* `GeoJSON.Net` 
+
+* `Microsoft.AspNetCore.Mvc.NewtonsoftJson` 這個要注意下版本選 `6.x`
+
+* `Swashbuckle.AspNetCore.Newtonsoft` 這個也要裝 , 不然 swagger 沒辦法正確吃到
+
+因為 `GeoJSON.Net` 要吃 `NewtonsoftJson` 所以調整 `Program.cs`
+
+然後把程式碼改成以下這樣 , 他才會正確吃到 `NewtonsoftJson`
+
+`Program.cs`
+``` csharp
+using Newtonsoft.Json.Serialization;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Add services to the container.
+
+builder.Services.AddControllers().AddNewtonsoftJson(opt =>
+{
+    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
+    opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+});
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGenNewtonsoftSupport();
+
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+app.UseAuthorization();
+
+app.MapControllers();
+
+app.Run();
+
+```
+
+另外如果要讓你的 ip 在測試可以被打到的話可以加入下面設定 , 修改 `launchSetting.json` 加入後面 `0.0.0.0` 的部分
+```
+"applicationUrl": "https://localhost:3001;http://localhost:3000;https://0.0.0.0:3001;http://0.0.0.0:3000",
 ```

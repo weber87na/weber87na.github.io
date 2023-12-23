@@ -187,3 +187,74 @@ keywordchange = new EventEmitter<string>();
 originalList : any[] = [{name : "test"}];
 list = this.originalList;
 ```
+
+### NullInjectorError: R3InjectorError(AppModule)[ProductService -> StaticDataSource -> StaticDataSource -> StaticDataSource]: NullInjectorError: No provider for StaticDataSource!
+
+看書遇到的錯誤 , 好像舊版只要寫 `@Injectable()` 就收工了 , 新版要補 `providedIn: 'root'` [參考這篇](https://stackoverflow.com/questions/47380239/nullinjectorerror-no-provider-for-angularfirestore)
+```
+import { Injectable } from "@angular/core";
+import { Product } from "./product.model";
+import { Observable, from } from "rxjs";
+
+//@Injectable()
+@Injectable({
+	providedIn: 'root'
+})
+export class StaticDataSource {
+    private products: Product[] = [
+        new Product(1, "Product 1", "Category 1", "Product 1 (Category 1)", 100),
+        new Product(2, "Product 2", "Category 1", "Product 2 (Category 1)", 100),
+        new Product(3, "Product 3", "Category 1", "Product 3 (Category 1)", 100),
+        new Product(4, "Product 4", "Category 1", "Product 4 (Category 1)", 100),
+    ];
+
+	getProducts(): Observable<Product[]>{
+		return from([this.products])
+	}
+}
+
+```
+
+### Type 'string' is not assignable to type 'LoadChildrenCallback'.ts(2322)
+錯誤大概是這句
+```
+loadChildren: "./admin/admin.module#AdminModule",
+```
+
+要改下面這樣
+```
+import { StoreFirstGuard } from './storeFirst.guard';
+import { CheckoutComponent } from './store/checkout.component';
+import { CartDetailComponent } from './store/cartDetail.component';
+import { StoreComponent } from './store/store.component';
+import { RouterModule } from '@angular/router';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
+import { AppComponent } from "./app.component";
+import { StoreModule } from "./store/store.module";
+
+@NgModule({
+	imports: [BrowserModule, StoreModule,
+		RouterModule.forRoot([
+			{ path: "store", component: StoreComponent, canActivate: [StoreFirstGuard] },
+			{ path: "cart", component: CartDetailComponent, canActivate: [StoreFirstGuard] },
+			{ path: "checkout", component: CheckoutComponent, canActivate: [StoreFirstGuard] },
+			{
+				path: "admin",
+				//錯誤
+				//loadChildren: "./admin/admin.module#AdminModule",
+				
+				//正確
+                loadChildren: () => import("./admin/admin.module")
+                    .then(m => m.AdminModule),
+				canActivate: [StoreFirstGuard]
+			},
+			{ path: "**", redirectTo: "/store" }
+		])],
+	providers: [StoreFirstGuard],
+	declarations: [AppComponent],
+	bootstrap: [AppComponent]
+})
+export class AppModule { }
+
+```

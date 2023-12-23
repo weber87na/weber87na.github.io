@@ -13,6 +13,10 @@ tags:
 接著到 [cesium-terrain-builder-docker](https://github.com/tum-gis/cesium-terrain-builder-docker) pull image
 也可以直接拿他給的 docker file 來編譯
 
+後來發現 2016 失效了 , 現在改 [2020](https://scidm.nchc.org.tw/zh_TW/dataset/best_wish35430)
+然後解出來後是一個 csv 然後又帶一個[連結](http://dtm.moi.gov.tw/不分幅_全台及澎湖.zip) , 實在無言 XD
+下面的 command 就自己依照新的 2020 去調整吧 , 剛好手上沒 linux 機器就不弄啦
+
 host
 ``` powershell
 cd ~
@@ -325,4 +329,178 @@ Server: Kestrel
     </script>
 </body>
 </html>
+```
+
+### nodejs
+如果要在 nodejs 發的話只要設定 `static` 裡面的 `setHeaders` 去定義即可 , 原理都一樣
+比較雷的是設定時常常忘記加上 `/` 開頭 XD
+可以看[官方說明](https://expressjs.com/en/4x/api.html#express.static)
+```
+const express = require('express')
+const path = require('path')
+const app = express()
+const port = 5000
+
+app.use('/CesiumUnminified', express.static(__dirname + '/CesiumUnminified'))
+
+var options = {
+    dotfiles: 'ignore',
+    // etag: false,
+    extensions: ['terrain', 'json'],
+    // index: false,
+    // maxAge: '1d',
+    // redirect: false,
+    setHeaders: function (res, p, stat) {
+        let ext = path.parse(p).ext
+        if (ext === '.terrain') {
+            console.log('is terrain')
+            res.set('.terrain' , 'application/vnd.quantized-mesh')
+            res.set('Content-Encoding', 'gzip')
+        }
+    }
+}
+
+
+app.use('/terrain', express.static(__dirname + '/terrain', options))
+
+
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '/index.html'));
+});
+
+app.listen(port, () => {
+    console.log(`app listening on port ${port}`)
+})
+```
+
+
+### nestjs
+最近剛好又看到 [nestjs](https://docs.nestjs.com/) 就順便玩看看 helloworld 直接上 terrain 有點硬阿 XD
+整個玩起來就是 angular + express 的 fu
+
+```
+npm i -g @nestjs/cli
+nest new test
+nest --help
+```
+
+一上來就直接陣亡因為對 `.eslintrc.js` 設定不是很熟狂噴紅字 , 所以先關閉確保我能正常工作
+```
+	ignorePatterns: ['*'],
+```
+
+建立一個 demo 的 controller
+```
+nest g co
+```
+
+程式碼如下
+```
+import { Controller, Get, Post, Req, Res } from '@nestjs/common';
+// import { Request, Response } from 'express'
+
+@Controller('demo')
+export class DemoController {
+    @Get()
+    index(@Res() res){
+        res.sendFile('index.html', { root: '.' })
+    }
+}
+```
+
+
+接著加入 `index.html` `CesiumUnminified` `terrain` 然後檔案結構大概這樣
+```
+CesiumUnminified
+src
+terrain
+index.html
+```
+
+接著安裝 `serve-static`
+
+```
+npm install --save @nestjs/serve-static
+```
+
+最後找到 `app.module.ts`
+
+```
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { DemoController } from './demo/demo.controller';
+import { join, parse } from 'path';
+
+import { Request, Response } from 'express'
+import { ServeStaticModule } from '@nestjs/serve-static';
+
+@Module({
+    imports: [
+
+        ServeStaticModule.forRoot({
+            serveRoot: '/CesiumUnminified',
+            rootPath: join(__dirname, '..', 'CesiumUnminified'),
+        }),
+        //for terrain
+        ServeStaticModule.forRoot({
+            serveRoot: '/terrain',
+            rootPath: join(__dirname, '..', 'terrain'),
+            serveStaticOptions: {
+                extensions: ['terrain', 'json', 'txt'],
+                setHeaders: function (res: Response, p, stat) {
+                    let ext = parse(p).ext
+                    console.log(ext)
+                    if (ext === '.terrain') {
+                        console.log('is terrain')
+                        res.set('.terrain', 'application/vnd.quantized-mesh')
+                        res.set('Content-Encoding', 'gzip')
+                    }
+                }
+            }
+        })
+    ],
+    controllers: [AppController, DemoController],
+    providers: [AppService],
+})
+export class AppModule { }
+```
+
+然後就可以執行看看
+```
+npm run start:dev
+```
+
+後來發現要在 vscode debug 可以這樣設定
+建立 `.vscode` 資料夾 , 然後建立 `.launch.json`
+接著點選蟲蟲圖示 `debug`
+詳細可以看這三篇 , 實在太累啦就懶得 format 了
+
+https://dev.to/gentax/nestjs-right-settings-for-debugging-kl0
+https://medium.com/@abhishek2kr/how-to-debug-nestjs-application-in-vscode-74379618760f
+https://www.youtube.com/watch?v=QL3KXE1hOgA
+
+```
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug Nest Framework",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "run",
+                "start:debug",
+                "--",
+                "--inspect-brk"
+            ],
+            "autoAttachChildProcesses": true,
+            "restart": true,
+            "sourceMaps": true,
+            "stopOnEntry": false,
+            "console": "integratedTerminal",
+        }
+    ]
+}
 ```

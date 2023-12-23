@@ -225,6 +225,14 @@ Service
         }
 ```
 
+後來在 .net 6 發現可以這樣寫
+```
+        public BeforeStationController(IEnumerable<IStationRepository> stationRepositories)
+        {
+            _stationRepository = stationRepositories.FirstOrDefault(x => x.GetType() == typeof(BeforeStationRepository));
+        }
+```
+
 
 ### 找不到 ToXXOOAsync 非同步方法
 
@@ -234,6 +242,21 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 ```
 
+### 怎麼讓在內網的同事也看得到你現在測試的結果
+調整 `launchSettings.json` 內的 `applicationUrl` 加入 `https://0.0.0.0:3001;http://0.0.0.0:3000` 即可
+```  
+  "profiles": {
+    "DemoApi": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "swagger",
+      "applicationUrl": "https://localhost:3001;http://localhost:3000;https://0.0.0.0:3001;http://0.0.0.0:3000",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+```
 
 ### 簡單指定 port 測試程式
 

@@ -122,3 +122,47 @@ CROSS JOIN Tally B
 ORDER BY DateTime
 OPTION (MAXRECURSION 0);
 ```
+
+### 找出忘了加 identity 的資料表
+```
+SELECT TABLE_NAME
+FROM INFORMATION_SCHEMA.KEY_COLUMN_USAGE
+WHERE OBJECTPROPERTY(OBJECT_ID(CONSTRAINT_SCHEMA + '.' + QUOTENAME(CONSTRAINT_NAME)), 'IsPrimaryKey') = 1
+AND TABLE_SCHEMA = 'dbo'
+except
+
+select TABLE_NAME
+from information_schema.columns tt
+where columnproperty(object_id(table_name), column_name,'IsIdentity ') = 1
+and table_schema = 'dbo'
+```
+
+### 產生補 NULL
+實務上遇到一堆 NULL 需要補值 , 利用 sql 產生全部欄位的 update 語法
+```
+with C as (
+        select table_name , column_name , DATA_TYPE , IS_NULLABLE
+        from information_schema.columns
+        where TABLE_NAME like 'TEST'
+)
+select
+        ' update ' + table_name +
+        ' set '  + column_name +  ' = @' +
+        ' where ' + column_name + ' is null ' as gen
+from C
+where C.TABLE_NAME = 'TEST'
+```
+
+### 快速修改 not null 的欄位為 null
+```
+select
+     'alter table CoilInsertPinOutput ' +
+     'alter column ' + COLUMN_NAME + ' ' +
+     case
+         when DATA_TYPE = 'int' then 'int'
+         when DATA_TYPE = 'decimal' then 'decimal(10,2)'
+     end +
+     ' null;'
+from INFORMATION_SCHEMA.COLUMNS
+where TABLE_NAME='CoilInsertPinOutput'
+```

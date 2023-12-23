@@ -493,6 +493,14 @@ iwr -useb https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim |`
 :PlugInstall
 ```
 
+## 無腦的 neovim 管理版本工具
+有時候 neovim 更新還滿麻煩的 , 無意中找到 [bob](https://github.com/MordechaiHadad/bob) , 乾脆就直接用它來管理版本吧
+我 rust 我驕傲 , 無腦安裝
+```
+cargo install bob-nvim
+```
+預設路徑在此 `C:\Users\YourName\AppData\Local\bob\v0.8.1\nvim-win64\bin` , 記得加入到環境變數就搞定了
+
 ## ubuntu 設定 vim
 下載外掛管理員
 ```
@@ -1117,21 +1125,6 @@ source ~/.bashrc
 人生苦悶 , 尤其值班時要守在電腦前 , 這時候玩點類寶可夢散散心 [Pokete](https://github.com/lxgr-linux/pokete) 坦白說還不錯玩 XD
 ![vim](https://raw.githubusercontent.com/lxgr-linux/pokete/master/assets/ss/ss01.png)
 
-## 打字練習
-小時後在百貨公司的遊樂場? 有個叫做[死亡鬼屋](https://store.steampowered.com/app/246580/The_Typing_of_The_Dead_Overkill/)的遊戲 , 沒想到這個還有打字版 XD
-不過我看 steam 上面的的好像是 2013 年出的版本 , 但是還是買來玩看看 , 讓討厭的英打變得有趣
-![typing](https://cdn.cloudflare.steamstatic.com/steam/apps/246580/ss_fbc049532e42291fe852adae05232f74d2ed53c2.1920x1080.jpg?t=1603130707)
-如果 win10 閃退 or 黑頻可以參考[這個](https://www.youtube.com/watch?v=QPWCTPUziO8)
-`win` => `設定` => `顯示器` => `圖形設定圖形` => `C:\Program Files (x86)\Steam\steamapps\common\Typing of the Dead Overkill\HOTD_NG.exe` => `省電`
-
-另外有個特色就是可以下載字典 , 這裡列兩個 `1000 most-common words` , `C# Developer` (這個簡直自虐) , 其他語言應該也都有 XD
-最後想要自訂字典[可以參考這裡](https://steamcommunity.com/sharedfiles/filedetails/?id=414808565)
-因為預設只會顯示遊戲 , 滿不好找的 , 這邊順便列一下 , 不過實在懶得自己動手做 , 還是用別人的就好
-英文: `LIBRARY` => `Search Bar` => `TOOLS` => `The Typing of the Dead: Workshop Tool` => `Install`
-中文: `收藏庫` => `搜尋條` => `工具` => `The Typing of the Dead: Workshop Tool` => `安裝`
-後來我實際製作看看好像有 bug , 不曉得為啥狂跳這句 `There are other files and folders in the same folder as the dictionary file. Please remove them and leave the dictionary file on its own in the folder.`
-後來解法 `Dictionary Name` 那欄不要填欄 , 然後 `Description` 先故意不寫 , 按 `publish` 以後 , 他會跳個視窗 , 這時候寫 `Descirption` 後 , 接著點 `publish` 才會成功 , 想刪除的話 , 也要從 steam 上面刪 , 有夠麻煩 ...
-順帶一提他這個工具是 c# 開發的 , 路徑在 `C:\Program Files (x86)\Steam\steamapps\common\Typing of the Dead Workshop Tool\TotDO Tools.exe` , 所以可以 decompile 看看
 
 ## 其他好玩咚咚
 https://github.com/agarrharr/awesome-cli-apps

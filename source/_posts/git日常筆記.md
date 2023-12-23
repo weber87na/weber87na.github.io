@@ -8,6 +8,24 @@ tags:
 <!-- more -->
 隨手紀錄一下日常遇到的git問題
 
+### 重新命名 master 為 main 分支
+因為 visual studio 開專案預設還是使用 master 當作分支 , 如果還在 local 的話可以這樣做
+```
+git branch -m master main
+# 確認已經修改為 main
+git status
+```
+
+因為 `gitlab` 現在預設都用 `main`
+如果要匯入 `gitlab` 的話  , 在 `gitlab` 點加號 `Create new project` => `Create blank project`
+填入你的專案名稱等等 , 記得不要勾加入 `readme`
+再次確認你現有的 local project 看看分支是否為 `main` 最後輸入以下指令即可
+
+```
+git remote add origin https://oooooxxxxx/ladisai/DemoApiDoc.git
+git push --set-upstream origin main
+```
+
 ### 中文亂碼
 參考以下文章
 powershell
@@ -50,6 +68,13 @@ remotes/origin/new1
 
 git checkout new1
 ```
+
+### visual studio clone 分支
+如果要用 `visual studio` 切換的話請參考 [這篇](https://saraford.net/2017/04/26/how-to-create-a-local-copy-of-a-remote-branch-in-visual-studio-116/)
+先點右下角的 `Manage Branches`
+接著他會 show 出 `本地 (local)` 分支及 `遠端 (remotes/origin)` 分支
+接著點開 `遠端 remotes` 分支看看目前有哪些可用分支 , 點選 `New Branch` 建立跟 `遠端 reomtes` 一樣的分支名稱 , 本例為 `ladisai` , 接著選你要 `based` 的遠端分支 , 本例為 `origin/ladisai`
+記得要勾選 `checkout` 及 `Track remote branch` 此時專案應該就正常了
 
 ### 救援
 腦子不清楚寫錯 code 時放棄目前所有檔案變更
@@ -306,6 +331,31 @@ public class DapperBaseRepository
 var x = System.Configuration.ConfigurationManager.AppSettings["mailAccount"];
 ```
 
+
+### 本地看不到遠端分支
+今天發生個詭異問題 , gitlab 上面看得到分支 , 但是自己電腦上看不到遠端分支 , 簡直活見鬼
+```
+#看不到
+git branch -r
+
+#先更新即可
+git remote update
+git branch -r
+```
+
+### 將 local 現有專案 push 至 gitlab 的方法
+首先在 gitlab 點選 create blank project
+由於現在 gitlab 都會用 main 當作主支 , 所以 init 時記得設定下
+```
+git init --initial-branch=main
+git status
+git add --all
+git commit -m "init"
+git remote add origin https://yourgitlab/yourproject.git
+git pull https://yourgitlab/yourproject.git main --allow-unrelated-histories
+git status
+git push --set-upstream origin main
+```
 
 ### 其他資源
 [git 練習](https://learngitbranching.js.org/?locale=zh_TW)

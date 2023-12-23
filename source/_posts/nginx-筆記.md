@@ -78,6 +78,107 @@ curl 192.168.137.219/test.txt
 curl -v 192.168.137.219/test.txt
 ```
 
+### 多網站設定
+參考[自此](https://webdock.io/en/docs/how-guides/shared-hosting-multiple-websites/how-configure-nginx-to-serve-multiple-websites-single-vps)
+我本來有兩台 ubuntu , 各自都有 nginx 因為節費所以關閉一台
+先確認要轉移的那台 , 確定連不上後把種花電信 or Godaddy 服務上面的 ip 換成要改用的那台
+先複製設定檔 , 有噴權限問題就加上 sudo
+```
+cd /etc/nginx/sites-available
+ls 
+default  default.bak  default.full
+mv default default_old
+cp default.bak default
+nginx -s reload
+```
+
+現在開始登入要改用的那台 , 建立資料夾然後慢慢搬內容
+```
+mkdir /var/www/html/rose
+```
+
+或是直接複製 zip 到 /var/www/html 底下
+```
+scp -i "rose.pem" rose.zip ubuntu@ec2-xx-xxx-xx-xxx.ap-northeast-1.compute.amazonaws.com:~/.
+cp rose.zip /var/www/html/.
+unzip rose.zip
+```
+
+萬一用 scp 複製噴這個錯誤表示權限太高
+```
+Permissions 0664 for 'ubuntu22.pem' are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+Load key "ubuntu22.pem": bad permissions
+ubuntu@yourip: Permission denied (publickey).
+lost connection
+```
+
+可以用以下命令修正
+```
+chmod 400 ubuntu22.pem
+```
+
+接著新增你的設定檔大概長下面這樣 , 把原先有 Certbot 的地方註解
+```
+vim /etc/nginx/sites-available/rose
+
+
+server {
+
+	root /var/www/html/rose;
+
+	# Add index.php to the list if you are using PHP
+	index index.html index.htm index.nginx-debian.html;
+
+	#server_name _;
+	server_name www.rose.com rose.com; # managed by Certbot
+
+
+	location / {
+			# First attempt to serve request as file, then
+			# as directory, then fall back to displaying a 404.
+			try_files $uri $uri/ =404;
+	}
+
+
+    #listen [::]:443 ssl ipv6only=on; # managed by Certbot
+    #listen 443 ssl; # managed by Certbot
+    #ssl_certificate /etc/letsencrypt/live/xn--momo-tk3h402d.com/fullchain.pem; # managed by Certbot
+    #ssl_certificate_key /etc/letsencrypt/live/xn--momo-tk3h402d.com/privkey.pem; # managed by Certbot
+    #include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    #ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+}
+```
+
+接著建立連結
+```
+ln -s /etc/nginx/sites-available/rose /etc/nginx/sites-enabled/
+ls /etc/nginx/sites-enabled/
+```
+
+測試看看有啥問題
+```
+nginx -t
+```
+
+都搞定的話
+```
+sudo nginx -s reload
+```
+
+此時還沒有 ssl , 所以需要去跑 Lets Encrypt 他會產 https 的部分在你的設定檔內 , 記得要刷新下
+```
+sudo certbot --nginx -d rose.com.tw -d www.rose.com.tw
+sudo nginx -s reload
+```
+
+
+最後可以跑這個看看 log
+```
+sudo certbot renew --dry-run
+```
+
 ### dotnet 反向代理
 ```
 wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb -O packages-microsoft-prod.deb
