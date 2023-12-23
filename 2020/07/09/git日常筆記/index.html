@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2020-07-08T16:06:28.000Z">
-<meta property="article:modified_time" content="2023-11-02T10:21:59.709Z">
+<meta property="article:modified_time" content="2023-12-23T19:22:07.326Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="git">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2023-11-02 18:21:59" itemprop="dateModified" datetime="2023-11-02T18:21:59+08:00">2023-11-02</time>
+                <time title="修改時間：2023-12-24 03:22:07" itemprop="dateModified" datetime="2023-12-24T03:22:07+08:00">2023-12-24</time>
               </span>
 
           
@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>6.4k</span>
+              <span>6.7k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -424,6 +424,9 @@
 <h3 id="本地看不到遠端分支"><a href="#本地看不到遠端分支" class="headerlink" title="本地看不到遠端分支"></a>本地看不到遠端分支</h3><p>今天發生個詭異問題 , gitlab 上面看得到分支 , 但是自己電腦上看不到遠端分支 , 簡直活見鬼</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#看不到</span><br><span class="line">git branch -r</span><br><span class="line"></span><br><span class="line">#先更新即可</span><br><span class="line">git remote update</span><br><span class="line">git branch -r</span><br></pre></td></tr></table></figure>
 
+<h3 id="將-local-現有專案-push-至-gitlab-的方法"><a href="#將-local-現有專案-push-至-gitlab-的方法" class="headerlink" title="將 local 現有專案 push 至 gitlab 的方法"></a>將 local 現有專案 push 至 gitlab 的方法</h3><p>首先在 gitlab 點選 create blank project<br>由於現在 gitlab 都會用 main 當作主支 , 所以 init 時記得設定下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git init --initial-branch&#x3D;main</span><br><span class="line">git status</span><br><span class="line">git add --all</span><br><span class="line">git commit -m &quot;init&quot;</span><br><span class="line">git remote add origin https:&#x2F;&#x2F;yourgitlab&#x2F;yourproject.git</span><br><span class="line">git pull https:&#x2F;&#x2F;yourgitlab&#x2F;yourproject.git main --allow-unrelated-histories</span><br><span class="line">git status</span><br><span class="line">git push --set-upstream origin main</span><br></pre></td></tr></table></figure>
+
 <h3 id="其他資源"><a href="#其他資源" class="headerlink" title="其他資源"></a>其他資源</h3><p><a href="https://learngitbranching.js.org/?locale=zh_TW" target="_blank" rel="noopener">git 練習</a></p>
 
     </div>
@@ -515,7 +518,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#重新命名-master-為-main-分支"><span class="nav-number">1.</span> <span class="nav-text">重新命名 master 為 main 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中文亂碼"><span class="nav-number">2.</span> <span class="nav-text">中文亂碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遠端切換分支"><span class="nav-number">3.</span> <span class="nav-text">遠端切換分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#visual-studio-clone-分支"><span class="nav-number">4.</span> <span class="nav-text">visual studio clone 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#救援"><span class="nav-number">5.</span> <span class="nav-text">救援</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log"><span class="nav-number">6.</span> <span class="nav-text">log</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刪檔"><span class="nav-number">7.</span> <span class="nav-text">刪檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#忽略檔案"><span class="nav-number">8.</span> <span class="nav-text">忽略檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fatal-fsync-error-on-‘-git-objects-pack-tmp-pack-DZTfQ3’-Bad-file-descriptor"><span class="nav-number">9.</span> <span class="nav-text">fatal: fsync error on ‘.git&#x2F;objects&#x2F;pack&#x2F;tmp_pack_DZTfQ3’: Bad file descriptor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#repository-改名"><span class="nav-number">10.</span> <span class="nav-text">repository 改名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排除-web-config-裡面的敏感資訊"><span class="nav-number">11.</span> <span class="nav-text">排除 web.config 裡面的敏感資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地看不到遠端分支"><span class="nav-number">12.</span> <span class="nav-text">本地看不到遠端分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他資源"><span class="nav-number">13.</span> <span class="nav-text">其他資源</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#重新命名-master-為-main-分支"><span class="nav-number">1.</span> <span class="nav-text">重新命名 master 為 main 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#中文亂碼"><span class="nav-number">2.</span> <span class="nav-text">中文亂碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遠端切換分支"><span class="nav-number">3.</span> <span class="nav-text">遠端切換分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#visual-studio-clone-分支"><span class="nav-number">4.</span> <span class="nav-text">visual studio clone 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#救援"><span class="nav-number">5.</span> <span class="nav-text">救援</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log"><span class="nav-number">6.</span> <span class="nav-text">log</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#刪檔"><span class="nav-number">7.</span> <span class="nav-text">刪檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#忽略檔案"><span class="nav-number">8.</span> <span class="nav-text">忽略檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fatal-fsync-error-on-‘-git-objects-pack-tmp-pack-DZTfQ3’-Bad-file-descriptor"><span class="nav-number">9.</span> <span class="nav-text">fatal: fsync error on ‘.git&#x2F;objects&#x2F;pack&#x2F;tmp_pack_DZTfQ3’: Bad file descriptor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#repository-改名"><span class="nav-number">10.</span> <span class="nav-text">repository 改名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#排除-web-config-裡面的敏感資訊"><span class="nav-number">11.</span> <span class="nav-text">排除 web.config 裡面的敏感資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本地看不到遠端分支"><span class="nav-number">12.</span> <span class="nav-text">本地看不到遠端分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#將-local-現有專案-push-至-gitlab-的方法"><span class="nav-number">13.</span> <span class="nav-text">將 local 現有專案 push 至 gitlab 的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他資源"><span class="nav-number">14.</span> <span class="nav-text">其他資源</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
