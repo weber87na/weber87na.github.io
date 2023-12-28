@@ -1,0 +1,723 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".net framework 4.8 to .net core 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2023/12/28/net-framework-4-8-to-net-core-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2023-12-28T12:01:34.000Z">
+<meta property="article:modified_time" content="2023-12-28T12:03:19.682Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="c#">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2023/12/28/net-framework-4-8-to-net-core-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>.net framework 4.8 to .net core 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2023/12/28/net-framework-4-8-to-net-core-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          .net framework 4.8 to .net core 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2023-12-28 20:01:34 / 修改時間：20:03:19" itemprop="dateCreated datePublished" datetime="2023-12-28T20:01:34+08:00">2023-12-28</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/12/28/net-framework-4-8-to-net-core-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/12/28/net-framework-4-8-to-net-core-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.3k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>7 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="ApiController-修正"><a href="#ApiController-修正" class="headerlink" title="ApiController 修正"></a>ApiController 修正</h3><p>.net core 改用 <code>IActionResult</code> 取代 <code>IHttpActionResult</code></p>
+<h3 id="new-DbContext"><a href="#new-DbContext" class="headerlink" title="new DbContext"></a>new DbContext</h3><p>如果在以前的類別裡面有直接 <code>new DbContext</code> 這樣會噴 Erorr</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> (<span class="keyword">var</span> db = <span class="keyword">new</span> YourrDbContext())</span><br></pre></td></tr></table></figure>
+
+<p>不想要注入的話可以參考以下這個方法</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> optionsBuilder = <span class="keyword">new</span> DbContextOptionsBuilder&lt;YourrDbContext&gt;();</span><br><span class="line">optionsBuilder.UseSqlServer(GetConnectionString());</span><br><span class="line"><span class="keyword">using</span> (<span class="keyword">var</span> db = <span class="keyword">new</span> YourrDbContext(optionsBuilder.Options))</span><br></pre></td></tr></table></figure>
+
+<p><code>GetConnectionString</code> 函數實作如下</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">string</span> <span class="title">GetConnectionString</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">var</span> builder = <span class="keyword">new</span> ConfigurationBuilder()</span><br><span class="line">                    .SetBasePath(Directory.GetCurrentDirectory())</span><br><span class="line">                    .AddJsonFile(<span class="string">"appsettings.json"</span>, optional: <span class="literal">false</span>, reloadOnChange: <span class="literal">true</span>);</span><br><span class="line">    <span class="keyword">var</span> configuration = builder.Build();</span><br><span class="line">    <span class="keyword">var</span> result = configuration.GetConnectionString(<span class="string">"YourrDbContext"</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="The-entity-type-‘IdentityUserLogin‘-requires-a-primary-key-to-be-defined"><a href="#The-entity-type-‘IdentityUserLogin‘-requires-a-primary-key-to-be-defined" class="headerlink" title="The entity type ‘IdentityUserLogin‘ requires a primary key to be defined"></a>The entity type ‘IdentityUserLogin<string>‘ requires a primary key to be defined</h3><p>可以參考<a href="https://stackoverflow.com/questions/40703615/the-entity-type-identityuserloginstring-requires-a-primary-key-to-be-defined" target="_blank" rel="noopener">這裡</a></p>
+<p>因為有使用到 <code>IdentityDbContext&lt;MyUser&gt;</code> 所以在 <code>OnModelCreating</code> 先呼叫</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnModelCreating</span>(<span class="params">ModelBuilder modelBuilder</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">  <span class="keyword">base</span>.OnModelCreating(modelBuilder);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="DbContext-Include-Roles"><a href="#DbContext-Include-Roles" class="headerlink" title="DbContext Include Roles"></a>DbContext Include Roles</h3><p>這個問題疑似要自己定義 Roles 沒定義這樣寫的話會噴紅字</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.Users.Include(x =&gt; x.Roles);</span><br></pre></td></tr></table></figure>
+
+<p>可以參考<a href="https://stackoverflow.com/questions/47767267/ef-core-2-how-to-include-roles-navigation-property-on-identityuser" target="_blank" rel="noopener">這篇</a></p>
+<p>解法如下 , 這裡注意到使用 <code>IdentityUser</code></p>
+<p>需要安裝套件 <code>Microsoft.AspNetCore.Identity.EntityFrameworkCore</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MyUser</span> : <span class="title">IdentityUser</span>&#123;</span><br><span class="line">    <span class="comment">//要自己手動加入</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Navigation property for the roles this user belongs to.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">virtual</span> ICollection&lt;IdentityUserRole&lt;<span class="keyword">string</span>&gt;&gt; Roles &#123; <span class="keyword">get</span>; &#125; = <span class="keyword">new</span> List&lt;IdentityUserRole&lt;<span class="keyword">string</span>&gt;&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-沒有-SqlQuery-的解法"><a href="#ef-core-沒有-SqlQuery-的解法" class="headerlink" title="ef core 沒有 SqlQuery 的解法"></a>ef core 沒有 SqlQuery 的解法</h3><p>我升級的版本是用 .net 6 我找到這個<a href="https://github.com/PaulARoy/EntityFrameworkCore.RawSQLExtensions" target="_blank" rel="noopener">套件</a> <code>EntityFrameworkCore.RawSQLExtensions</code><br>有了他以後基本上都無痛解決</p>
+<h3 id="Autofac-注入-DbContext"><a href="#Autofac-注入-DbContext" class="headerlink" title="Autofac 注入 DbContext"></a>Autofac 注入 DbContext</h3><p>基本上最好是用注入的</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">builder.Register(x =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">var</span> optionsBuilder = <span class="keyword">new</span> DbContextOptionsBuilder&lt;YourDbContext&gt;();</span><br><span class="line">    optionsBuilder.UseSqlServer(configuration.GetConnectionString(<span class="string">"YourDbContext"</span>));</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> YourDbContext(optionsBuilder.Options);</span><br><span class="line">&#125;)</span><br><span class="line">.InstancePerLifetimeScope()</span><br><span class="line">.Named(<span class="string">"db"</span>, <span class="keyword">typeof</span>(YourDbContext));</span><br></pre></td></tr></table></figure>
+
+<h3 id="Autofac-注入多參數建構子"><a href="#Autofac-注入多參數建構子" class="headerlink" title="Autofac 注入多參數建構子"></a>Autofac 注入多參數建構子</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">builder.RegisterType&lt;OOService&gt;()</span><br><span class="line">    .As&lt;IOOService&gt;()</span><br><span class="line">    .UsingConstructor(</span><br><span class="line">        <span class="keyword">typeof</span>(YourDbContext),</span><br><span class="line">        <span class="keyword">typeof</span>(GGDbContext)</span><br><span class="line">    )</span><br><span class="line">    .WithParameters(<span class="keyword">new</span> List&lt;ResolvedParameter&gt;() &#123;</span><br><span class="line">        <span class="keyword">new</span> ResolvedParameter(</span><br><span class="line">            (pi, ctx) =&gt; pi.ParameterType == <span class="keyword">typeof</span>(YourDbContext),</span><br><span class="line">            (pi, ctx) =&gt; ctx.ResolveNamed&lt;YourDbContext&gt;(<span class="string">"db"</span>)),</span><br><span class="line"></span><br><span class="line">        <span class="keyword">new</span> ResolvedParameter(</span><br><span class="line">            (pi, ctx) =&gt; pi.ParameterType == <span class="keyword">typeof</span>(GGDbContext),</span><br><span class="line">            (pi, ctx) =&gt; ctx.ResolveNamed&lt;GGDbContext&gt;(<span class="string">"gg"</span>))</span><br><span class="line">    &#125;)</span><br><span class="line">    .Named(<span class="string">"ooService"</span>, <span class="keyword">typeof</span>(IOOService));</span><br></pre></td></tr></table></figure>
+
+<h3 id="Autofac-注入物件"><a href="#Autofac-注入物件" class="headerlink" title="Autofac 注入物件"></a>Autofac 注入物件</h3><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//這裡好像不加 As 使用具名會壞掉</span></span><br><span class="line">builder.RegisterType&lt;OOService&gt;()</span><br><span class="line">.As&lt;OOService&gt;()</span><br><span class="line">.Named(<span class="string">"ooService"</span>,<span class="keyword">typeof</span>(OOService));</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-string-null-噴的錯誤"><a href="#ef-core-string-null-噴的錯誤" class="headerlink" title="ef core string null 噴的錯誤"></a>ef core string null 噴的錯誤</h3><p>在 ef core 裡面預設的 string 會變成 not null 想要沿用以前的行為的話要在 <code>.csproj</code> 把 <code>&lt;Nullable&gt;</code> 註解起來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--&lt;Nullable&gt;enable&lt;&#x2F;Nullable&gt;--&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Newtonsoft"><a href="#Newtonsoft" class="headerlink" title="Newtonsoft"></a>Newtonsoft</h3><p>舊版 <code>.net framework</code> 應該都用 <code>Newtonsoft</code><br><code>.net core</code> 預設會用 <code>System.Text.Json</code> 來處理 json<br>所以最好安裝以下這兩個套件<br><code>Microsoft.AspNetCore.Mvc.NewtonsoftJson</code><br><code>Swashbuckle.AspNetCore.Newtonsoft</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">builder.Services.AddControllers().AddNewtonsoftJson(opt =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    opt.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;</span><br><span class="line">    opt.SerializerSettings.ContractResolver = <span class="keyword">new</span> CamelCasePropertyNamesContractResolver();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">builder.Services.AddEndpointsApiExplorer();</span><br><span class="line">builder.Services.AddSwaggerGen(options =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    options.SwaggerDoc(<span class="string">"v1"</span>, <span class="keyword">new</span> OpenApiInfo</span><br><span class="line">    &#123;</span><br><span class="line">        Version = <span class="string">"v1"</span>,</span><br><span class="line">        Title = <span class="string">"ToDo API"</span>,</span><br><span class="line">        Description = <span class="string">"An ASP.NET Core Web API for managing ToDo items"</span>,</span><br><span class="line">        TermsOfService = <span class="keyword">new</span> Uri(<span class="string">"https://example.com/terms"</span>),</span><br><span class="line">        Contact = <span class="keyword">new</span> OpenApiContact</span><br><span class="line">        &#123;</span><br><span class="line">            Name = <span class="string">"Example Contact"</span>,</span><br><span class="line">            Url = <span class="keyword">new</span> Uri(<span class="string">"https://example.com/contact"</span>)</span><br><span class="line">        &#125;,</span><br><span class="line">        License = <span class="keyword">new</span> OpenApiLicense</span><br><span class="line">        &#123;</span><br><span class="line">            Name = <span class="string">"Example License"</span>,</span><br><span class="line">            Url = <span class="keyword">new</span> Uri(<span class="string">"https://example.com/license"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// using System.Reflection;</span></span><br><span class="line">    <span class="keyword">var</span> xmlFilename = <span class="string">$"<span class="subst">&#123;Assembly.GetExecutingAssembly().GetName().Name&#125;</span>.xml"</span>;</span><br><span class="line">    options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));</span><br><span class="line">&#125;);</span><br><span class="line">builder.Services.AddSwaggerGenNewtonsoftSupport();</span><br></pre></td></tr></table></figure>
+
+<p>此外好像 <code>.csproj</code> 還要加上這個設定才會正常產文件</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">GenerateDocumentationFile</span>&gt;</span>true<span class="tag">&lt;/<span class="name">GenerateDocumentationFile</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">NoWarn</span>&gt;</span>$(NoWarn);1591<span class="tag">&lt;/<span class="name">NoWarn</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="UserManager-CreateIdentityAsync-移除的解法"><a href="#UserManager-CreateIdentityAsync-移除的解法" class="headerlink" title="UserManager CreateIdentityAsync 移除的解法"></a>UserManager CreateIdentityAsync 移除的解法</h3><p>在 .net framework 使用到了 <code>CreateIdentityAsync</code> 這個函數但是 .net core 已經移除了</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//他這裡 return ClaimsIdentity</span></span><br><span class="line"><span class="keyword">var</span> claimsIdentity = <span class="keyword">await</span> mgr.CreateIdentityAsync(<span class="keyword">this</span>, DefaultAuthenticationTypes.ApplicationCookie);</span><br></pre></td></tr></table></figure>
+
+<p>我目前的解法是改用如下方式 , 不過尚未驗證<br>可參考<br><a href="https://stackoverflow.com/questions/40304516/the-name-defaultauthenticationtypes-does-not-exist-in-the-current-context" target="_blank" rel="noopener">https://stackoverflow.com/questions/40304516/the-name-defaultauthenticationtypes-does-not-exist-in-the-current-context</a><br><a href="https://github.com/aspnet/AspNetIdentity/blob/main/src/Microsoft.AspNet.Identity.Core/DefaultAuthenticationTypes.cs" target="_blank" rel="noopener">https://github.com/aspnet/AspNetIdentity/blob/main/src/Microsoft.AspNet.Identity.Core/DefaultAuthenticationTypes.cs</a></p>
+<p>這句 <code>DefaultAuthenticationTypes.ApplicationCookie</code> 就是個常數 <code>ApplicationCookie</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> claimsIdentity = <span class="keyword">new</span> ClaimsIdentity(<span class="keyword">await</span> mgr.GetClaimsAsync(<span class="keyword">this</span>), <span class="string">"ApplicationCookie"</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-HasOptional-WithMany"><a href="#ef-core-HasOptional-WithMany" class="headerlink" title="ef core HasOptional WithMany"></a>ef core HasOptional WithMany</h3><p>.net framework</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HasOptional( t =&gt; t.myUser ).WithMany();</span><br></pre></td></tr></table></figure>
+
+<p>.net core</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">modelBuilder.Entity&lt;ExtInfo&gt;(entity =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    entity.HasOne(x =&gt; x.myUser).WithMany();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-HasRequired-WithMany"><a href="#ef-core-HasRequired-WithMany" class="headerlink" title="ef core HasRequired WithMany"></a>ef core HasRequired WithMany</h3><p>.net framework</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">HasRequired(t &#x3D;&gt; t.ExtInfo)</span><br><span class="line">.WithMany()</span><br><span class="line">.HasForeignKey(t &#x3D;&gt; t.ExtId);</span><br></pre></td></tr></table></figure>
+
+<p>.net core</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">entity.HasOne(x =&gt; x.ExtInfo)</span><br><span class="line">    .WithMany()</span><br><span class="line">    .HasForeignKey(x =&gt; x.ExtId)</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-WillCascadeOnDelete"><a href="#ef-core-WillCascadeOnDelete" class="headerlink" title="ef core WillCascadeOnDelete"></a>ef core WillCascadeOnDelete</h3><p><a href="https://stackoverflow.com/questions/55233677/what-is-the-equivalent-of-willcascadeondeletefalse-in-ef-core" target="_blank" rel="noopener">https://stackoverflow.com/questions/55233677/what-is-the-equivalent-of-willcascadeondeletefalse-in-ef-core</a></p>
+<p>在 ef core 沒這個函數了改用 OnDelete(DeleteBehavior.SetNull)</p>
+<h3 id="ef-core-多-Key-的問題"><a href="#ef-core-多-Key-的問題" class="headerlink" title="ef core 多 Key 的問題"></a>ef core 多 Key 的問題</h3><p>has multiple properties with the [Key] attribute. Composite primary keys can only be set using ‘HasKey’ in ‘OnModelCreating’</p>
+<p><a href="https://stackoverflow.com/questions/74342264/the-entity-type-has-multiple-properties-with-the-key-attribute-composite-prim" target="_blank" rel="noopener">https://stackoverflow.com/questions/74342264/the-entity-type-has-multiple-properties-with-the-key-attribute-composite-prim</a></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnModelCreating</span>(<span class="params">ModelBuilder modelBuilder</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    modelBuilder.Entity&lt;MyModel&gt;()</span><br><span class="line">          .HasKey(m =&gt; <span class="keyword">new</span> &#123; m.column1 , m.column2 &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-手殘把關聯鍵設定為物件"><a href="#ef-core-手殘把關聯鍵設定為物件" class="headerlink" title="ef core 手殘把關聯鍵設定為物件"></a>ef core 手殘把關聯鍵設定為物件</h3><p>cannot be used as a property on entity type because it is configured as a navigation</p>
+<p>會出現這個應該是手殘打錯</p>
+<p><a href="https://stackoverflow.com/questions/58659431/propertyname-cannot-be-used-as-a-property-on-entity-type-typename-because-it" target="_blank" rel="noopener">https://stackoverflow.com/questions/58659431/propertyname-cannot-be-used-as-a-property-on-entity-type-typename-because-it</a></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">void</span> <span class="title">OnModelCreating</span>(<span class="params">ModelBuilder modelBuilder</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    modelBuilder.Entity&lt;User&gt;(user =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        user</span><br><span class="line">        .HasOne(x =&gt; x.Gender)</span><br><span class="line">        .WithMany(x =&gt; x.Users)</span><br><span class="line">        .HasForeignKey(x =&gt; x.GenderId);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    user.HasIndex(x =&gt; x.Gender);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡這個老外打錯成 <code>user.HasIndex(x =&gt; x.Gender)</code> 正解應該是 <code>user.HasIndex(x =&gt; x.GenderId)</code></p>
+<h3 id="AutoInclude"><a href="#AutoInclude" class="headerlink" title="AutoInclude"></a>AutoInclude</h3><p>如果之前的程式查詢下去會出現關聯屬性的話 , 但是你的沒出現則表示沒設定 <code>AutoInclude</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PointLog</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span>? Point1Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Point Point1 &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">Point</span>&#123;</span><br><span class="line">    [<span class="meta">Key, DatabaseGenerated(DatabaseGeneratedOption.None)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> Id &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">modelBuilder.Entity&lt;PointLog&gt;().HasOne(x =&gt; x.Point1).WithMany().HasForeignKey(r =&gt; r.Point1Id);</span><br><span class="line">modelBuilder.Entity&lt;PointLog&gt;().Navigation(x =&gt; x.Point1).AutoInclude();</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-view-上面-Key-的問題"><a href="#ef-core-view-上面-Key-的問題" class="headerlink" title="ef core view 上面 Key 的問題"></a>ef core view 上面 Key 的問題</h3><p>在舊版會這樣寫</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Table(<span class="meta-string">"YOURVIEW"</span>)</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">YOURVIEW</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Key</span>]</span><br><span class="line">    [<span class="meta">Column( Order = 0 )</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> YOURID &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>新版要把 <code>Key</code> 移除然後加上 <code>Keyless</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Table(<span class="meta-string">"YOURVIEW"</span>)</span>]</span><br><span class="line">[<span class="meta">Keyless</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">YOURVIEW</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">//todo 他應該是 view 在 ef core 不用寫 Key 也會動</span></span><br><span class="line">    <span class="comment">// [Key]</span></span><br><span class="line">    <span class="comment">// [Column( Order = 0 )]</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">string</span> YOURID &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="AspNetUser-資料表的問題"><a href="#AspNetUser-資料表的問題" class="headerlink" title="AspNetUser 資料表的問題"></a>AspNetUser 資料表的問題</h3><p>如果要在 .net core 使用 <code>IdentityUser</code> 的話會噴以下錯誤 , 這是因為新的資料表有這些欄位 , 升級時應該要注意下這個部分</p>
+<p><a href="https://stackoverflow.com/questions/50343512/migrate-existing-microsoft-aspnet-identity-db-ef-6-to-microsoft-aspnetcore-ide" target="_blank" rel="noopener">https://stackoverflow.com/questions/50343512/migrate-existing-microsoft-aspnet-identity-db-ef-6-to-microsoft-aspnetcore-ide</a></p>
+<p><a href="https://www.youtube.com/watch?v=CByZc2CDDqE" target="_blank" rel="noopener">https://www.youtube.com/watch?v=CByZc2CDDqE</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Microsoft.Data.SqlClient.SqlException (0x80131904): 無效的資料行名稱 &#39;ConcurrencyStamp&#39;。</span><br><span class="line">無效的資料行名稱 &#39;LockoutEnd&#39;。</span><br><span class="line">無效的資料行名稱 &#39;NormalizedEmail&#39;。</span><br><span class="line">無效的資料行名稱 &#39;NormalizedUserName</span><br></pre></td></tr></table></figure>
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/12/18/python-%E6%AD%A3%E5%A6%B9%E5%88%86%E6%9E%90/" rel="prev" title="python 正妹分析">
+      <i class="fa fa-chevron-left"></i> python 正妹分析
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ApiController-修正"><span class="nav-number">1.</span> <span class="nav-text">ApiController 修正</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new-DbContext"><span class="nav-number">2.</span> <span class="nav-text">new DbContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-entity-type-‘IdentityUserLogin‘-requires-a-primary-key-to-be-defined"><span class="nav-number">3.</span> <span class="nav-text">The entity type ‘IdentityUserLogin‘ requires a primary key to be defined</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DbContext-Include-Roles"><span class="nav-number">4.</span> <span class="nav-text">DbContext Include Roles</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-沒有-SqlQuery-的解法"><span class="nav-number">5.</span> <span class="nav-text">ef core 沒有 SqlQuery 的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac-注入-DbContext"><span class="nav-number">6.</span> <span class="nav-text">Autofac 注入 DbContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac-注入多參數建構子"><span class="nav-number">7.</span> <span class="nav-text">Autofac 注入多參數建構子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac-注入物件"><span class="nav-number">8.</span> <span class="nav-text">Autofac 注入物件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-string-null-噴的錯誤"><span class="nav-number">9.</span> <span class="nav-text">ef core string null 噴的錯誤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Newtonsoft"><span class="nav-number">10.</span> <span class="nav-text">Newtonsoft</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UserManager-CreateIdentityAsync-移除的解法"><span class="nav-number">11.</span> <span class="nav-text">UserManager CreateIdentityAsync 移除的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-HasOptional-WithMany"><span class="nav-number">12.</span> <span class="nav-text">ef core HasOptional WithMany</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-HasRequired-WithMany"><span class="nav-number">13.</span> <span class="nav-text">ef core HasRequired WithMany</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-WillCascadeOnDelete"><span class="nav-number">14.</span> <span class="nav-text">ef core WillCascadeOnDelete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-多-Key-的問題"><span class="nav-number">15.</span> <span class="nav-text">ef core 多 Key 的問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-手殘把關聯鍵設定為物件"><span class="nav-number">16.</span> <span class="nav-text">ef core 手殘把關聯鍵設定為物件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AutoInclude"><span class="nav-number">17.</span> <span class="nav-text">AutoInclude</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-view-上面-Key-的問題"><span class="nav-number">18.</span> <span class="nav-text">ef core view 上面 Key 的問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AspNetUser-資料表的問題"><span class="nav-number">19.</span> <span class="nav-text">AspNetUser 資料表的問題</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">252</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.3m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">19:15</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2023/12/28/net-framework-4-8-to-net-core-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2023/12/28/net-framework-4-8-to-net-core-筆記/";
+    this.page.title = ".net framework 4.8 to .net core 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>
