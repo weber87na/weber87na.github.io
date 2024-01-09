@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2023-12-28T12:01:34.000Z">
-<meta property="article:modified_time" content="2023-12-28T12:03:19.682Z">
+<meta property="article:modified_time" content="2024-01-09T19:26:08.038Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="c#">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2023-12-28 20:01:34 / 修改時間：20:03:19" itemprop="dateCreated datePublished" datetime="2023-12-28T20:01:34+08:00">2023-12-28</time>
+              <time title="亂入時間：2023-12-28 20:01:34" itemprop="dateCreated datePublished" datetime="2023-12-28T20:01:34+08:00">2023-12-28</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2024-01-10 03:26:08" itemprop="dateModified" datetime="2024-01-10T03:26:08+08:00">2024-01-10</time>
+              </span>
 
           
   
@@ -286,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>7.3k</span>
+              <span>10k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>7 分鐘</span>
+              <span>9 分鐘</span>
             </span>
 
         </div>
@@ -394,6 +400,55 @@
 <p><a href="https://www.youtube.com/watch?v=CByZc2CDDqE" target="_blank" rel="noopener">https://www.youtube.com/watch?v=CByZc2CDDqE</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Microsoft.Data.SqlClient.SqlException (0x80131904): 無效的資料行名稱 &#39;ConcurrencyStamp&#39;。</span><br><span class="line">無效的資料行名稱 &#39;LockoutEnd&#39;。</span><br><span class="line">無效的資料行名稱 &#39;NormalizedEmail&#39;。</span><br><span class="line">無效的資料行名稱 &#39;NormalizedUserName</span><br></pre></td></tr></table></figure>
 
+<h3 id="ef-core-HasDatabaseGeneratedOption-DatabaseGeneratedOption-Identity"><a href="#ef-core-HasDatabaseGeneratedOption-DatabaseGeneratedOption-Identity" class="headerlink" title="ef core HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)"></a>ef core HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)</h3><p>在 .net framework 會寫這樣</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Property( t =&gt; t.Id ).HasDatabaseGeneratedOption( DatabaseGeneratedOption.Identity )</span><br></pre></td></tr></table></figure>
+
+<p>ef core</p>
+<p><a href="https://stackoverflow.com/questions/36155429/auto-increment-on-partial-primary-key-with-entity-framework-core" target="_blank" rel="noopener">https://stackoverflow.com/questions/36155429/auto-increment-on-partial-primary-key-with-entity-framework-core</a></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">modelBuilder.Entity&lt;Foo&gt;()</span><br><span class="line">            .Property(f =&gt; f.Id)</span><br><span class="line">            .ValueGeneratedOnAdd();</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-Lazy-loading"><a href="#ef-core-Lazy-loading" class="headerlink" title="ef core Lazy loading"></a>ef core Lazy loading</h3><p>如果想要用 lazy loading 必須要自己手動啟用</p>
+<p><a href="https://learn.microsoft.com/en-us/ef/core/querying/related-data/lazy" target="_blank" rel="noopener">https://learn.microsoft.com/en-us/ef/core/querying/related-data/lazy</a></p>
+<p>需要先安裝這個套件 <code>Microsoft.EntityFrameworkCore.Proxies</code></p>
+<p>另外導覽屬性都要設定 <code>virtual</code> 不然也會噴 error ~</p>
+<p>另外要注意如果由 .net framework 升級的會有多處這種地方也要記得跟著修正 <code>var db = new YourDbContext()</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">builder.Services.AddDbContext&lt;YourDbContext&gt;(options =&gt;</span><br><span class="line">    options.UseLazyLoadingProxies().UseSqlServer(builder.Configuration.GetConnectionString(<span class="string">"YourDbContext"</span>))</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-Lazy-loading-is-not-supported-for-detached-entities-or-entities-that-are-loaded-with-‘AsNoTracking’"><a href="#ef-core-Lazy-loading-is-not-supported-for-detached-entities-or-entities-that-are-loaded-with-‘AsNoTracking’" class="headerlink" title="ef core Lazy loading is not supported for detached entities or entities that are loaded with ‘AsNoTracking’"></a>ef core Lazy loading is not supported for detached entities or entities that are loaded with ‘AsNoTracking’</h3><p>如果 <code>啟用了 Lazy loading</code> 好像跟 entity framework 寫法略有不同 , 以下這句在 entity framework 是正常的 , 可是 ef core 就需要去掉 <code>AsNoTracking</code></p>
+<p>錯誤</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> test = _db.YourTable</span><br><span class="line">    .Where(x =&gt; x.id == id)</span><br><span class="line">    .AsNoTracking()</span><br><span class="line">    .FirstOrDefault();</span><br></pre></td></tr></table></figure>
+
+<p>正常</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> test = _db.YourTable</span><br><span class="line">    .Where(x =&gt; x.id == id)</span><br><span class="line">    .FirstOrDefault();</span><br></pre></td></tr></table></figure>
+
+<p>這裡還有個重點 , 萬一你之前 <code>entity framework 6</code> navigation property 沒有加上 virtual 的話實際上 api 丟出來是取不到東西的像是下面這樣</p>
+<p>沒加 <code>virtual</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">ForeignKey( <span class="meta-string">"DeptId"</span> )</span>]</span><br><span class="line"><span class="keyword">public</span> DEPT Dept &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>沒加 <code>virtual</code> api 結果</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">"Dept": null,</span><br><span class="line">"Id": "123456",</span><br></pre></td></tr></table></figure>
+
+<p>加了 <code>virtual</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">ForeignKey( <span class="meta-string">"DeptId"</span> )</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">virtual</span> DEPT Dept &#123; <span class="keyword">get</span>; <span class="keyword">set</span>; &#125;</span><br></pre></td></tr></table></figure>
+
+<p>加了 <code>virtual</code> api 結果</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">"Dept": &#123;</span><br><span class="line">  "Id": "123456",</span><br><span class="line">  "DeptCode" : "AAA"</span><br><span class="line">&#125;,</span><br><span class="line">"oId": "123456",</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-Precision"><a href="#ef-core-Precision" class="headerlink" title="ef core Precision"></a>ef core Precision</h3><p>No store type was specified for the decimal property ‘YourColumn’ on entity type ‘YourClass’ This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in ‘OnModelCreating’ using ‘HasColumnType’, specify precision and scale using ‘HasPrecision’, or configure a value converter using ‘HasConversion’</p>
+<p>這個問題是沒有明確定義資料型別的大小 , 例如 sql server 是 decimal(10,4) 可以用這樣定義</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title">YourClass</span>&#123;</span><br><span class="line">    [<span class="meta">Precision(10, 4)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">decimal</span> YourColumn &#123;<span class="keyword">get</span>;<span class="keyword">set</span>;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>或是在 <code>OnModelCreating</code> 這樣定</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">modelBuilder.Entity&lt;YourClass&gt;(entity =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    entity.Property(x =&gt; x.YourColumn).HasPrecision(<span class="number">10</span>, <span class="number">4</span>);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-Keyless"><a href="#ef-core-Keyless" class="headerlink" title="ef core Keyless"></a>ef core Keyless</h3><p>The entity type ‘YourCol’ has the [Keyless] attribute, but the [Key] attribute was specified on property ‘YourView’; the two are incompatible, consider removing one. Note that the entity will have no key unless you configure one in ‘OnModelCreating’</p>
+<p>這個問題應該是你已經在類別設定 <code>Keyless</code> 那個欄位上的 <code>Key</code> 卻忘了移除</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Keyless</span>]</span><br><span class="line"><span class="keyword">class</span> <span class="title">YourView</span>&#123;</span><br><span class="line"></span><br><span class="line">    [<span class="meta">Key</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">int</span> YourCol &#123;<span class="keyword">get</span>;<span class="keyword">set</span>;&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ef-core-BackingField"><a href="#ef-core-BackingField" class="headerlink" title="ef core BackingField"></a>ef core BackingField</h3><p>Lazy-loaded navigations must have backing fields. Either name the backing field so that it is discovered by convention or configure the backing field to use</p>
+<p>這個問題是因為在 .net core 上面要標註 <code>BackingField</code> 不然會噴 error 以前好像沒這東西</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">string</span> name;</span><br><span class="line"></span><br><span class="line">[<span class="meta">BackingField(nameof(name))</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">virtual</span> <span class="keyword">string</span> Name</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">get</span> &#123; <span class="keyword">return</span> name; &#125;</span><br><span class="line">    <span class="keyword">set</span> &#123; name = <span class="keyword">value</span>; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -481,7 +536,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ApiController-修正"><span class="nav-number">1.</span> <span class="nav-text">ApiController 修正</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new-DbContext"><span class="nav-number">2.</span> <span class="nav-text">new DbContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-entity-type-‘IdentityUserLogin‘-requires-a-primary-key-to-be-defined"><span class="nav-number">3.</span> <span class="nav-text">The entity type ‘IdentityUserLogin‘ requires a primary key to be defined</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DbContext-Include-Roles"><span class="nav-number">4.</span> <span class="nav-text">DbContext Include Roles</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-沒有-SqlQuery-的解法"><span class="nav-number">5.</span> <span class="nav-text">ef core 沒有 SqlQuery 的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac-注入-DbContext"><span class="nav-number">6.</span> <span class="nav-text">Autofac 注入 DbContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac-注入多參數建構子"><span class="nav-number">7.</span> <span class="nav-text">Autofac 注入多參數建構子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac-注入物件"><span class="nav-number">8.</span> <span class="nav-text">Autofac 注入物件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-string-null-噴的錯誤"><span class="nav-number">9.</span> <span class="nav-text">ef core string null 噴的錯誤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Newtonsoft"><span class="nav-number">10.</span> <span class="nav-text">Newtonsoft</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UserManager-CreateIdentityAsync-移除的解法"><span class="nav-number">11.</span> <span class="nav-text">UserManager CreateIdentityAsync 移除的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-HasOptional-WithMany"><span class="nav-number">12.</span> <span class="nav-text">ef core HasOptional WithMany</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-HasRequired-WithMany"><span class="nav-number">13.</span> <span class="nav-text">ef core HasRequired WithMany</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-WillCascadeOnDelete"><span class="nav-number">14.</span> <span class="nav-text">ef core WillCascadeOnDelete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-多-Key-的問題"><span class="nav-number">15.</span> <span class="nav-text">ef core 多 Key 的問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-手殘把關聯鍵設定為物件"><span class="nav-number">16.</span> <span class="nav-text">ef core 手殘把關聯鍵設定為物件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AutoInclude"><span class="nav-number">17.</span> <span class="nav-text">AutoInclude</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-view-上面-Key-的問題"><span class="nav-number">18.</span> <span class="nav-text">ef core view 上面 Key 的問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AspNetUser-資料表的問題"><span class="nav-number">19.</span> <span class="nav-text">AspNetUser 資料表的問題</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ApiController-修正"><span class="nav-number">1.</span> <span class="nav-text">ApiController 修正</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#new-DbContext"><span class="nav-number">2.</span> <span class="nav-text">new DbContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#The-entity-type-‘IdentityUserLogin‘-requires-a-primary-key-to-be-defined"><span class="nav-number">3.</span> <span class="nav-text">The entity type ‘IdentityUserLogin‘ requires a primary key to be defined</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DbContext-Include-Roles"><span class="nav-number">4.</span> <span class="nav-text">DbContext Include Roles</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-沒有-SqlQuery-的解法"><span class="nav-number">5.</span> <span class="nav-text">ef core 沒有 SqlQuery 的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac-注入-DbContext"><span class="nav-number">6.</span> <span class="nav-text">Autofac 注入 DbContext</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac-注入多參數建構子"><span class="nav-number">7.</span> <span class="nav-text">Autofac 注入多參數建構子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac-注入物件"><span class="nav-number">8.</span> <span class="nav-text">Autofac 注入物件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-string-null-噴的錯誤"><span class="nav-number">9.</span> <span class="nav-text">ef core string null 噴的錯誤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Newtonsoft"><span class="nav-number">10.</span> <span class="nav-text">Newtonsoft</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UserManager-CreateIdentityAsync-移除的解法"><span class="nav-number">11.</span> <span class="nav-text">UserManager CreateIdentityAsync 移除的解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-HasOptional-WithMany"><span class="nav-number">12.</span> <span class="nav-text">ef core HasOptional WithMany</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-HasRequired-WithMany"><span class="nav-number">13.</span> <span class="nav-text">ef core HasRequired WithMany</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-WillCascadeOnDelete"><span class="nav-number">14.</span> <span class="nav-text">ef core WillCascadeOnDelete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-多-Key-的問題"><span class="nav-number">15.</span> <span class="nav-text">ef core 多 Key 的問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-手殘把關聯鍵設定為物件"><span class="nav-number">16.</span> <span class="nav-text">ef core 手殘把關聯鍵設定為物件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AutoInclude"><span class="nav-number">17.</span> <span class="nav-text">AutoInclude</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-view-上面-Key-的問題"><span class="nav-number">18.</span> <span class="nav-text">ef core view 上面 Key 的問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AspNetUser-資料表的問題"><span class="nav-number">19.</span> <span class="nav-text">AspNetUser 資料表的問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-HasDatabaseGeneratedOption-DatabaseGeneratedOption-Identity"><span class="nav-number">20.</span> <span class="nav-text">ef core HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-Lazy-loading"><span class="nav-number">21.</span> <span class="nav-text">ef core Lazy loading</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-Lazy-loading-is-not-supported-for-detached-entities-or-entities-that-are-loaded-with-‘AsNoTracking’"><span class="nav-number">22.</span> <span class="nav-text">ef core Lazy loading is not supported for detached entities or entities that are loaded with ‘AsNoTracking’</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-Precision"><span class="nav-number">23.</span> <span class="nav-text">ef core Precision</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-Keyless"><span class="nav-number">24.</span> <span class="nav-text">ef core Keyless</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ef-core-BackingField"><span class="nav-number">25.</span> <span class="nav-text">ef core BackingField</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -553,7 +608,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2023</span>
+  <span itemprop="copyrightYear">2024</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
@@ -569,7 +624,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">19:15</span>
+    <span title="所需總浪費時間">19:17</span>
 </div>
 
         
