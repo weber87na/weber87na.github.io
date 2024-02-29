@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js 俄羅斯方塊">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2024/02/29/js-%E4%BF%84%E7%BE%85%E6%96%AF%E6%96%B9%E5%A1%8A/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-02-29T14:41:10.000Z">
+<meta property="article:modified_time" content="2024-02-29T14:41:37.908Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2024/02/29/js-%E4%BF%84%E7%BE%85%E6%96%AF%E6%96%B9%E5%A1%8A/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>js 俄羅斯方塊 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2024/02/29/js-%E4%BF%84%E7%BE%85%E6%96%AF%E6%96%B9%E5%A1%8A/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          js 俄羅斯方塊
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2024-02-29 22:41:10 / 修改時間：22:41:37" itemprop="dateCreated datePublished" datetime="2024-02-29T22:41:10+08:00">2024-02-29</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2024/02/29/js-%E4%BF%84%E7%BE%85%E6%96%AF%E6%96%B9%E5%A1%8A/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/02/29/js-俄羅斯方塊/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>10 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+
+<p class="codepen" data-height="630" data-default-tab="result" data-slug-hash="gOEyyrz" data-user="weber87na" style="height: 630px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/weber87na/pen/gOEyyrz" target="_blank" rel="noopener">
+  俄羅斯方塊 Tetris</a> by 喇賽人 (<a href="https://codepen.io/weber87na" target="_blank" rel="noopener">@weber87na</a>)
+  on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>剛剛開工偏偏還在過年時段 , 士氣還很低迷 , 就寫寫俄羅斯方塊玩看看 , 本來只是跑龍套 , 沒想到還真搞出來 XD , 順手筆記下怕會忘記<br>整個開發也是依照以下順序進行實作 , 最難的點應該就是 <code>消除方塊</code> <code>旋轉方塊</code> <code>掉落方塊</code></p>
+<h3 id="基本定義"><a href="#基本定義" class="headerlink" title="基本定義"></a>基本定義</h3><p>首先定義三種狀態 <code>Empty</code> 表示空 , <code>Fill</code> 表示目前可移動的方塊佔據的範圍 , <code>Fixed</code> 表示固定了的方塊</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const CellStatus &#x3D; &#123;</span><br><span class="line">    Empty: &#39;Empty&#39;,</span><br><span class="line">    Fill: &#39;Fill&#39;,</span><br><span class="line">    Fixed: &#39;Fixed&#39;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>俄羅斯方塊可以變換上下左右旋轉的方向 , 預設都是朝上 <code>Up</code> 也就是躺平的狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const Direction &#x3D; &#123;</span><br><span class="line">    Up: &#39;Up&#39;,</span><br><span class="line">    Right: &#39;Right&#39;,</span><br><span class="line">    Down: &#39;Down&#39;,</span><br><span class="line">    Left: &#39;Left&#39;,</span><br><span class="line">&#125;;</span><br><span class="line">let currentRotation &#x3D; Direction.Up</span><br></pre></td></tr></table></figure>
+
+<p>俄羅斯方塊由長 20 寬 10 的格子組成 , 所以一開始就把他塞成空白 , 這裡直覺用一個 2D Array 來寫比較方便 , 跟以前寫象棋 or 暗棋那種物件式定義座標位置寫法也略有不同</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function fillBoard() &#123;</span><br><span class="line">    for (let y &#x3D; 0; y &lt; baseHeight; y++) &#123;</span><br><span class="line">        board.push([])</span><br><span class="line">        for (let x &#x3D; 0; x &lt; baseWidth; x++) &#123;</span><br><span class="line">            board[y][x] &#x3D; &#123;</span><br><span class="line">                status: CellStatus.Empty</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">fillBoard()</span><br></pre></td></tr></table></figure>
+
+<p>接著要定義各式各樣的方塊一共七總 , 因為我也沒玩過原版的俄羅斯方塊實在不曉得到底是否這樣定義正確 , 整能從其他人的實作來觀察<br>定義方塊時最好由上至下由左到右定義 , 方便旋轉時好計算</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">const TetrisType &#x3D; &#123;</span><br><span class="line">    1: &#39;I&#39;,</span><br><span class="line">    2: &#39;J&#39;,</span><br><span class="line">    3: &#39;L&#39;,</span><br><span class="line">    4: &#39;O&#39;,</span><br><span class="line">    5: &#39;S&#39;,</span><br><span class="line">    6: &#39;T&#39;,</span><br><span class="line">    7: &#39;Z&#39;,</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;目前方塊的類型</span><br><span class="line">let currentTetrisType &#x3D; 1;</span><br><span class="line"></span><br><span class="line">function genNewTetris() &#123;</span><br><span class="line">    let cells &#x3D; []</span><br><span class="line">    let num &#x3D; randomNumber(1, 7)</span><br><span class="line">    &#x2F;&#x2F; let num &#x3D; randomNumber(2, 3)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    currentRotation &#x3D; Direction.Up</span><br><span class="line">    &#x2F;&#x2F;設定目前方塊的類型</span><br><span class="line">    currentTetrisType &#x3D; num</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;產生新方塊時預設會是躺平</span><br><span class="line">    if (num &#x3D;&#x3D;&#x3D; 1) &#123;</span><br><span class="line">        &#x2F;&#x2F;I</span><br><span class="line">        cells.push(&#123; x: 3, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 4, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 5, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 6, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">    &#125; else if (num &#x3D;&#x3D;&#x3D; 2) &#123;</span><br><span class="line">        &#x2F;&#x2F;J</span><br><span class="line">        cells.push(&#123; x: 3, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 3, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 4, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 5, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">    &#125; else if (num &#x3D;&#x3D;&#x3D; 3) &#123;</span><br><span class="line">        &#x2F;&#x2F;L</span><br><span class="line">        cells.push(&#123; x: 5, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 3, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 4, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 5, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">    &#125; else if (num &#x3D;&#x3D;&#x3D; 4) &#123;</span><br><span class="line">        &#x2F;&#x2F;O</span><br><span class="line">        cells.push(&#123; x: 4, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 5, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 4, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 5, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">    &#125; else if (num &#x3D;&#x3D;&#x3D; 5) &#123;</span><br><span class="line">        &#x2F;&#x2F;S</span><br><span class="line">        cells.push(&#123; x: 5, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 6, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 4, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 5, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">    &#125; else if (num &#x3D;&#x3D;&#x3D; 6) &#123;</span><br><span class="line">        &#x2F;&#x2F;T</span><br><span class="line">        cells.push(&#123; x: 4, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 3, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 4, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 5, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        &#x2F;&#x2F;Z</span><br><span class="line">        cells.push(&#123; x: 4, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 5, y: 0, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 5, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">        cells.push(&#123; x: 6, y: 1, status: CellStatus.Fill &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (let cell of cells) &#123;</span><br><span class="line">        let x &#x3D; cell.x</span><br><span class="line">        let y &#x3D; cell.y</span><br><span class="line">        board[y][x] &#x3D; &#123; status: cell.status &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return cells</span><br><span class="line">&#125;</span><br><span class="line">current &#x3D; genNewTetris()</span><br></pre></td></tr></table></figure>
+
+<h3 id="Game-Loop-與繪製"><a href="#Game-Loop-與繪製" class="headerlink" title="Game Loop 與繪製"></a>Game Loop 與繪製</h3><p>繪製就是層層疊上去 , 所以先畫背景 , 接著畫格子即可 , 1000 為 1 秒 , 看你想要多快就除多少 , 這裡還會多個動作就是讓方塊往下掉落</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">function drawBackground() &#123;</span><br><span class="line">    &#x2F;&#x2F;黑色底色</span><br><span class="line">    ctx.fillStyle &#x3D; &#39;black&#39;</span><br><span class="line">    ctx.fillRect(0, 0, width, height)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function drawCells() &#123;</span><br><span class="line">    &#x2F;&#x2F; ctx.strokeStyle &#x3D; &#39;white&#39;</span><br><span class="line">    for (let y &#x3D; 0; y &lt; baseHeight; y +&#x3D; 1) &#123;</span><br><span class="line">        for (let x &#x3D; 0; x &lt; baseWidth; x +&#x3D; 1) &#123;</span><br><span class="line">            if (board[y][x].status &#x3D;&#x3D;&#x3D; CellStatus.Fill) &#123;</span><br><span class="line">                ctx.fillStyle &#x3D; &#39;blue&#39;</span><br><span class="line">                ctx.fillRect(</span><br><span class="line">                    x * cellSize,</span><br><span class="line">                    y * cellSize,</span><br><span class="line">                    cellSize, cellSize</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (board[y][x].status &#x3D;&#x3D;&#x3D; CellStatus.Fixed) &#123;</span><br><span class="line">                ctx.fillStyle &#x3D; &#39;gray&#39;</span><br><span class="line">                ctx.fillRect(</span><br><span class="line">                    x * cellSize,</span><br><span class="line">                    y * cellSize,</span><br><span class="line">                    cellSize, cellSize</span><br><span class="line">                )</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;game loop</span><br><span class="line">setInterval(() &#x3D;&gt; &#123;</span><br><span class="line">    drawBackground()</span><br><span class="line">    down()</span><br><span class="line">    drawCells()</span><br><span class="line">&#125;, 1000 &#x2F; 5)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="左右移動方塊"><a href="#左右移動方塊" class="headerlink" title="左右移動方塊"></a>左右移動方塊</h3><p>移動方塊主要就是怕跑出左右邊界 , 這裡定義防禦函數 , 當超過寬度時則判定不能移動<br>另外每次移動都是以 <code>一格</code> 作為單位 , 所以要判斷目前格子 +1 or -1 是否為 <code>Fixed</code></p>
+<p>確定可以移動後要先呼叫清空目前方塊的動作 , 然後迴圈讓目前的方塊 x +1 or -1 塞入 <code>Fill</code> 即可<br>最後要呼叫繪圖函數 <code>drawBackground</code> <code>drawCells</code> 讓 canvas 馬上更新才不會感覺有 lag</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">function outOfRangeRight(tetris) &#123;</span><br><span class="line">    for (let cell of tetris) &#123;</span><br><span class="line">        let x &#x3D; cell.x</span><br><span class="line">        if (x &gt;&#x3D; baseWidth - 1) return true</span><br><span class="line"></span><br><span class="line">        if (board[cell.y][x + 1].status &#x3D;&#x3D;&#x3D; CellStatus.Fixed)</span><br><span class="line">            return true</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return false</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function outOfRangeLeft(tetris) &#123;</span><br><span class="line">    for (let cell of tetris) &#123;</span><br><span class="line">        let x &#x3D; cell.x</span><br><span class="line">        if (x &lt;&#x3D; 0) return true</span><br><span class="line"></span><br><span class="line">        if (board[cell.y][x - 1].status &#x3D;&#x3D;&#x3D; CellStatus.Fixed)</span><br><span class="line">            return true</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return false</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function right() &#123;</span><br><span class="line">    if (outOfRangeRight(current) &#x3D;&#x3D;&#x3D; false) &#123;</span><br><span class="line">        &#x2F;&#x2F;先清空格子</span><br><span class="line">        for (let cell of current) &#123;</span><br><span class="line">            let x &#x3D; cell.x</span><br><span class="line">            let y &#x3D; cell.y</span><br><span class="line">            board[y][x] &#x3D; &#123; status: CellStatus.Empty &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;然後才塞</span><br><span class="line">        for (let cell of current) &#123;</span><br><span class="line">            cell.x +&#x3D; 1</span><br><span class="line">            let x &#x3D; cell.x</span><br><span class="line">            let y &#x3D; cell.y</span><br><span class="line">            board[y][x] &#x3D; &#123; status: cell.status &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        drawBackground()</span><br><span class="line">        drawCells()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function left() &#123;</span><br><span class="line">    if (outOfRangeLeft(current) &#x3D;&#x3D;&#x3D; false) &#123;</span><br><span class="line">        &#x2F;&#x2F;先清空格子</span><br><span class="line">        for (let cell of current) &#123;</span><br><span class="line">            let x &#x3D; cell.x</span><br><span class="line">            let y &#x3D; cell.y</span><br><span class="line">            board[y][x] &#x3D; &#123; status: CellStatus.Empty &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;然後才塞</span><br><span class="line">        for (let cell of current) &#123;</span><br><span class="line">            cell.x -&#x3D; 1</span><br><span class="line">            let x &#x3D; cell.x</span><br><span class="line">            let y &#x3D; cell.y</span><br><span class="line">            board[y][x] &#x3D; &#123; status: cell.status &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        drawBackground()</span><br><span class="line">        drawCells()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="消除方塊"><a href="#消除方塊" class="headerlink" title="消除方塊"></a>消除方塊</h3><p>接著就是比較重要的函數清除線 , 他邏輯大概就是由下往上開始掃描整條橫的 , 這裡用 <code>every</code> 去判斷是否狀態都是 <code>Fixed</code><br>如果是的話則取得該 row , 並且設定格子為 <code>Empty</code><br>然後呼叫 <code>splice</code> 取得目前那條 row 然後用 <code>unshift</code> 把空白行插在最頂端 , 讓長寬依舊保持 20 x 10<br>(注意 <code>splice</code> 回傳的會是 <code>Array</code> 要多加上 <code>[0]</code> 所以 code 比較醜)<br>因為有可能消除很多行 , 最後呼叫自己進入遞迴重複這個消除方塊的動作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">function clearLine() &#123;</span><br><span class="line">    &#x2F;&#x2F;從底下往上掃描看哪一行目前非空白</span><br><span class="line">    let lastIndex &#x3D; undefined</span><br><span class="line">    for (let y &#x3D; baseHeight - 1; y &gt;&#x3D; 0; y--) &#123;</span><br><span class="line">        let row &#x3D; board[y]</span><br><span class="line">        let isFixed &#x3D; row.every(c &#x3D;&gt; c.status &#x3D;&#x3D;&#x3D; CellStatus.Fixed)</span><br><span class="line">        if (isFixed) &#123;</span><br><span class="line">            if (y &#x3D;&#x3D;&#x3D; 0) lastIndex &#x3D; 0</span><br><span class="line">            else lastIndex &#x3D; y</span><br><span class="line">            break</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    if (lastIndex) &#123;</span><br><span class="line">        let row &#x3D; board[lastIndex]</span><br><span class="line">        &#x2F;&#x2F;設定格子被清空</span><br><span class="line">        for (let cell of row) &#123;</span><br><span class="line">            cell.status &#x3D; CellStatus.Empty</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;取得那一行</span><br><span class="line">        &#x2F;&#x2F;注意這裡用 splice 回傳的會是 Array 要多加上 [0] 所以 code 比較醜</span><br><span class="line">        let currentRow &#x3D; board.splice(lastIndex, 1)[0]</span><br><span class="line">        &#x2F;&#x2F; console.log(&#39;currentRow&#39;, currentRow)</span><br><span class="line">        &#x2F;&#x2F; console.log(&#39;splice&#39;, board)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;把現在這個改變成 Empty 的 row 插到最前端</span><br><span class="line">        board.unshift(currentRow)</span><br><span class="line">        &#x2F;&#x2F; console.log(&#39;unshift&#39;, board)</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;如果有找到的話還需要跑遞迴逐行消除</span><br><span class="line">        clearLine()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="往下移動方塊"><a href="#往下移動方塊" class="headerlink" title="往下移動方塊"></a>往下移動方塊</h3><p>如同左右移動 , 也要先定義防禦函數 , 防止超出 y 的邊界 , 並看看往下落那格是否為 <code>Fixed</code><br>當目前方塊沒超越 <code>y 邊界</code> 的話 一樣先清空格子 , 然後迴圈跑目前方塊讓 <code>y 遞增 1</code> , 並且塞入 <code>Fill</code> 狀態<br>接著不一樣的關鍵則是需要呼叫清除線 <code>clearLine</code> 函數來設定是否需要消除方塊</p>
+<p>最後因為方塊每隔 N 秒會自動往下移動 , 便會觸發 else 的區塊 , 此時就要讓方塊變成 <code>Fixed</code> 固定的狀態 , 固定完後一樣要呼叫 <code>clearLine</code> 判定是否需要清除方塊<br>然後別忘了呼叫 gg 的判定 , 看看是否需要重開新局</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">function outOfRangeY(tetris) &#123;</span><br><span class="line"></span><br><span class="line">    for (let cell of tetris) &#123;</span><br><span class="line">        let y &#x3D; cell.y</span><br><span class="line">        if (y &lt; 0) return true</span><br><span class="line">        if (y &gt;&#x3D; baseHeight - 1) return true</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;這裡的 1 表示下面那格</span><br><span class="line">        if (board[y + 1][cell.x].status &#x3D;&#x3D;&#x3D; CellStatus.Fixed)</span><br><span class="line">            return true</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return false</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function down() &#123;</span><br><span class="line">    if (outOfRangeY(current) &#x3D;&#x3D;&#x3D; false) &#123;</span><br><span class="line">        &#x2F;&#x2F;先清空格子</span><br><span class="line">        for (let cell of current) &#123;</span><br><span class="line">            let x &#x3D; cell.x</span><br><span class="line">            let y &#x3D; cell.y</span><br><span class="line">            board[y][x] &#x3D; &#123; status: CellStatus.Empty &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;然後才塞</span><br><span class="line">        for (let cell of current) &#123;</span><br><span class="line">            cell.y +&#x3D; 1</span><br><span class="line">            let x &#x3D; cell.x</span><br><span class="line">            let y &#x3D; cell.y</span><br><span class="line">            board[y][x] &#x3D; &#123; status: cell.status &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;清除線</span><br><span class="line">        clearLine()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125; else &#123;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;固定方塊的動作</span><br><span class="line">        for (let cell of current) &#123;</span><br><span class="line">            let x &#x3D; cell.x</span><br><span class="line">            let y &#x3D; cell.y</span><br><span class="line">            board[y][x] &#x3D; &#123; status: CellStatus.Fixed &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;清除線</span><br><span class="line">        clearLine()</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;判斷是否已經 gg</span><br><span class="line">        &#x2F;&#x2F;沒 gg 的話才會產生新的方塊</span><br><span class="line">        if (isGoodGame() &#x3D;&#x3D;&#x3D; false) &#123;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;產生新的方塊</span><br><span class="line">            current &#x3D; genNewTetris()</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="快速往下掉落"><a href="#快速往下掉落" class="headerlink" title="快速往下掉落"></a>快速往下掉落</h3><p>本來我是想寫優一點的解法 , 礙於太晚腦細胞死光 , 就用簡單粗暴的方法達成<br>這個函數基本上與原先的掉落幾乎相同 , 唯一關鍵就是他改用 while 迴圈來執行來達成目前方塊不斷往下移動的效果 , 其他 code 都一模一樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">function spaceDown() &#123;</span><br><span class="line">    while (outOfRangeY(current) &#x3D;&#x3D;&#x3D; false) &#123;</span><br><span class="line">        &#x2F;&#x2F;先清空格子</span><br><span class="line">        for (let cell of current) &#123;</span><br><span class="line">            let x &#x3D; cell.x</span><br><span class="line">            let y &#x3D; cell.y</span><br><span class="line">            board[y][x] &#x3D; &#123; status: CellStatus.Empty &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F;然後才塞</span><br><span class="line">        for (let cell of current) &#123;</span><br><span class="line">            cell.y +&#x3D; 1</span><br><span class="line">            let x &#x3D; cell.x</span><br><span class="line">            let y &#x3D; cell.y</span><br><span class="line">            board[y][x] &#x3D; &#123; status: cell.status &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;清除線</span><br><span class="line">        clearLine()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;超過範圍了</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;固定方塊的動作</span><br><span class="line">    for (let cell of current) &#123;</span><br><span class="line">        let x &#x3D; cell.x</span><br><span class="line">        let y &#x3D; cell.y</span><br><span class="line">        board[y][x] &#x3D; &#123; status: CellStatus.Fixed &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;清除線</span><br><span class="line">    clearLine()</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;判斷是否已經 gg</span><br><span class="line">    &#x2F;&#x2F;沒 gg 的話才會產生新的方塊</span><br><span class="line">    if (isGoodGame() &#x3D;&#x3D;&#x3D; false) &#123;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;產生新的方塊</span><br><span class="line">        current &#x3D; genNewTetris()</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="GG-判定"><a href="#GG-判定" class="headerlink" title="GG 判定"></a>GG 判定</h3><p>GG 判定比較簡單 , 只要取得最上面的 row 看看是否有 <code>Fixed</code> 即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function isGoodGame() &#123;</span><br><span class="line">    &#x2F;&#x2F;取得最上面那條的是否固定了</span><br><span class="line">    let result &#x3D; board[0].some(c &#x3D;&gt; c.status &#x3D;&#x3D;&#x3D; CellStatus.Fixed)</span><br><span class="line">    return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="旋轉方塊"><a href="#旋轉方塊" class="headerlink" title="旋轉方塊"></a>旋轉方塊</h3><p>這裡首先定義一個防止超出 20 x 10 範圍的函數 , 在方塊旋轉時會去呼叫他 , 防止出界<br>他第一個邏輯就是防止超出邊界 , 第二個則是防止方塊旋轉時的位置為 <code>Fixed</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function rotateTetrisOutOfRange(cells) &#123;</span><br><span class="line">    for (cell of cells) &#123;</span><br><span class="line">        if (cell.y &lt; 0 || cell.x &lt; 0) return true</span><br><span class="line">        if (cell.y &gt; baseHeight - 1 || cell.x &gt; baseWidth - 1) return true</span><br><span class="line"></span><br><span class="line">        let x &#x3D; cell.x</span><br><span class="line">        let y &#x3D; cell.y</span><br><span class="line">        if (board[y][x].status &#x3D;&#x3D;&#x3D; CellStatus.Fixed) return true</span><br><span class="line">    &#125;</span><br><span class="line">    return false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著就要定義真正用來旋轉的函數 , 這裡以 <code>L</code> 這個方塊為例 , 其實說白也沒什麼<br>首先先用 <code>JSON.parse(JSON.stringify(current))</code> 去複製一個克隆體 , 對著克隆體 <code>順時針</code> (也有人逆時針轉) 的把目前方塊的各個小格子 x , y 加減 1 or 2 移動到對的位置即可<br>然後呼叫剛剛準備好的 <code>rotateTetrisOutOfRange</code> 函數判定看看克隆體有無出界去送死 , 沒陣亡的話就讓本體方塊的位置 , 調整成跟克隆方塊一樣的位置<br>最後記得設定 <code>currentRotation</code> 的轉向就大功告成</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">function rotateTetrisL() &#123;</span><br><span class="line">    let cloneCurrent &#x3D; JSON.parse(JSON.stringify(current))</span><br><span class="line"></span><br><span class="line">    let cell1 &#x3D; cloneCurrent[0]</span><br><span class="line">    let cell2 &#x3D; cloneCurrent[1]</span><br><span class="line">    let cell3 &#x3D; cloneCurrent[2]</span><br><span class="line">    let cell4 &#x3D; cloneCurrent[3]</span><br><span class="line"></span><br><span class="line">    clearCurrentBoardPos()</span><br><span class="line"></span><br><span class="line">    switch (currentRotation) &#123;</span><br><span class="line">        case Direction.Up:</span><br><span class="line">            cell1.y +&#x3D; 1</span><br><span class="line">            cell2.x +&#x3D; 1</span><br><span class="line">            cell2.y -&#x3D; 2</span><br><span class="line">            cell3.y -&#x3D; 1</span><br><span class="line">            cell4.x -&#x3D; 1</span><br><span class="line"></span><br><span class="line">            if (rotateTetrisOutOfRange(cloneCurrent)) return</span><br><span class="line"></span><br><span class="line">            mappingCells(cell1, cell2, cell3, cell4)</span><br><span class="line">            currentRotation &#x3D; Direction.Right</span><br><span class="line">            break;</span><br><span class="line">        case Direction.Right:</span><br><span class="line">            cell1.x -&#x3D; 2</span><br><span class="line">            cell1.y -&#x3D; 1</span><br><span class="line">            cell2.x +&#x3D; 1</span><br><span class="line">            cell3.y -&#x3D; 1</span><br><span class="line">            cell4.x -&#x3D; 1</span><br><span class="line">            cell4.y -&#x3D; 2</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            if (rotateTetrisOutOfRange(cloneCurrent)) return</span><br><span class="line"></span><br><span class="line">            mappingCells(cell1, cell2, cell3, cell4)</span><br><span class="line">            currentRotation &#x3D; Direction.Down</span><br><span class="line">            break;</span><br><span class="line"></span><br><span class="line">        case Direction.Down:</span><br><span class="line">            cell1.x +&#x3D; 1</span><br><span class="line">            cell1.y -&#x3D; 1</span><br><span class="line">            cell2.y +&#x3D; 2</span><br><span class="line">            cell3.x +&#x3D; 1</span><br><span class="line">            cell3.y +&#x3D; 1</span><br><span class="line">            cell4.x +&#x3D; 2</span><br><span class="line"></span><br><span class="line">            if (rotateTetrisOutOfRange(cloneCurrent)) return</span><br><span class="line"></span><br><span class="line">            mappingCells(cell1, cell2, cell3, cell4)</span><br><span class="line">            currentRotation &#x3D; Direction.Left</span><br><span class="line">            break;</span><br><span class="line">        case Direction.Left:</span><br><span class="line">            cell1.x +&#x3D; 1</span><br><span class="line">            cell1.y +&#x3D; 1</span><br><span class="line">            cell2.x -&#x3D; 2</span><br><span class="line">            cell3.x -&#x3D; 1</span><br><span class="line">            cell3.y +&#x3D; 1</span><br><span class="line">            cell4.y +&#x3D; 2</span><br><span class="line"></span><br><span class="line">            if (rotateTetrisOutOfRange(cloneCurrent)) return</span><br><span class="line"></span><br><span class="line">            mappingCells(cell1, cell2, cell3, cell4)</span><br><span class="line">            currentRotation &#x3D; Direction.Up</span><br><span class="line">            break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    setCurrentBoardPos()</span><br><span class="line">    drawBackground()</span><br><span class="line">    drawCells()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"># js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/02/29/js-2048/" rel="prev" title="js 2048">
+      <i class="fa fa-chevron-left"></i> js 2048
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本定義"><span class="nav-number">1.</span> <span class="nav-text">基本定義</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Game-Loop-與繪製"><span class="nav-number">2.</span> <span class="nav-text">Game Loop 與繪製</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#左右移動方塊"><span class="nav-number">3.</span> <span class="nav-text">左右移動方塊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#消除方塊"><span class="nav-number">4.</span> <span class="nav-text">消除方塊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#往下移動方塊"><span class="nav-number">5.</span> <span class="nav-text">往下移動方塊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#快速往下掉落"><span class="nav-number">6.</span> <span class="nav-text">快速往下掉落</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GG-判定"><span class="nav-number">7.</span> <span class="nav-text">GG 判定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#旋轉方塊"><span class="nav-number">8.</span> <span class="nav-text">旋轉方塊</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">256</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">114</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2024</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.3m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">19:38</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2024/02/29/js-%E4%BF%84%E7%BE%85%E6%96%AF%E6%96%B9%E5%A1%8A/";
+    this.page.identifier = "2024/02/29/js-俄羅斯方塊/";
+    this.page.title = "js 俄羅斯方塊";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+
+
+</body>
+</html>
