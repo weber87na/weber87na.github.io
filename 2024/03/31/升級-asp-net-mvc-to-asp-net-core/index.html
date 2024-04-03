@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-03-30T16:04:05.000Z">
-<meta property="article:modified_time" content="2024-03-30T16:05:28.247Z">
+<meta property="article:modified_time" content="2024-04-03T10:25:21.697Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2024-03-31 00:04:05 / 修改時間：00:05:28" itemprop="dateCreated datePublished" datetime="2024-03-31T00:04:05+08:00">2024-03-31</time>
+              <time title="亂入時間：2024-03-31 00:04:05" itemprop="dateCreated datePublished" datetime="2024-03-31T00:04:05+08:00">2024-03-31</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2024-04-03 18:25:21" itemprop="dateModified" datetime="2024-04-03T18:25:21+08:00">2024-04-03</time>
+              </span>
 
           
   
@@ -286,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>4.9k</span>
+              <span>5.3k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>4 分鐘</span>
+              <span>5 分鐘</span>
             </span>
 
         </div>
@@ -320,8 +326,9 @@
 <figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class MvcApplication : System.Web.HttpApplication</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        AreaRegistration.RegisterAllAreas();</span><br><span class="line">        FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);</span><br><span class="line">        RouteConfig.RegisterRoutes(RouteTable.Routes);</span><br><span class="line">        BundleConfig.RegisterBundles(BundleTable.Bundles);</span><br><span class="line"></span><br><span class="line">        SystemWebAdapterConfiguration.AddSystemWebAdapters(<span class="keyword">this</span>)</span><br><span class="line">            .AddProxySupport(options =&gt; options.UseForwardedHeaders = <span class="literal">true</span>)</span><br><span class="line">            .AddRemoteAppServer(options =&gt; options.ApiKey = <span class="string">"25E65A2D-AFD2-4024-8C24-A81F8E9C5465"</span>)</span><br><span class="line">            .AddAuthenticationServer();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>接著開個 .net core mvc 新專案 , 安裝 <code>YARP</code> <code>Microsoft.AspNetCore.SystemWebAdapters</code> <code>Microsoft.AspNetCore.SystemWebAdapters.CoreServices</code> 這三個套件</p>
+<p>這裡有一點要注意 , 如果你的 asp.net mvc 網站是放在 <code>subsite</code> 底下的話 網址應該會長這樣 <code>http://localhost:58588/ladisai</code><br>這時候要設定 <code>RemoteAppUrl</code> 為 <code>http://localhost:58588/ladisai</code> 才能吃到 HttpContext , 如果你設定 <code>http://localhost:58588</code> 這樣的話會直接 GG 他會得到 null 被這個雷搞超久</p>
 <p>Program 設定如下</p>
-<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);</span><br><span class="line">builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection(<span class="string">"ReverseProxy"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add services to the container.</span></span><br><span class="line">builder.Services.AddControllersWithViews();</span><br><span class="line">builder.Services.AddSystemWebAdapters()</span><br><span class="line">    .AddRemoteAppClient(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.RemoteAppUrl = <span class="keyword">new</span>(builder.Configuration[<span class="string">"ReverseProxy:Clusters:fallbackCluster:Destinations:fallbackApp:Address"</span>]);</span><br><span class="line">        options.ApiKey = builder.Configuration[<span class="string">"RemoteAppApiKey"</span>];</span><br><span class="line">    &#125;)</span><br><span class="line">    .AddAuthenticationClient(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = builder.Build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Configure the HTTP request pipeline.</span></span><br><span class="line"><span class="keyword">if</span> (!app.Environment.IsDevelopment())</span><br><span class="line">&#123;</span><br><span class="line">    app.UseExceptionHandler(<span class="string">"/Home/Error"</span>);</span><br><span class="line">&#125;</span><br><span class="line">app.UseStaticFiles();</span><br><span class="line"></span><br><span class="line">app.UseRouting();</span><br><span class="line"></span><br><span class="line">app.UseAuthentication();</span><br><span class="line">app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">app.UseSystemWebAdapters();</span><br><span class="line"></span><br><span class="line">app.MapControllerRoute(</span><br><span class="line">    name: <span class="string">"default"</span>,</span><br><span class="line">    pattern: <span class="string">"&#123;controller=Home&#125;/&#123;action=Index&#125;/&#123;id?&#125;"</span>);</span><br><span class="line"></span><br><span class="line">app.MapReverseProxy();</span><br><span class="line"></span><br><span class="line">app.Run();</span><br></pre></td></tr></table></figure>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);</span><br><span class="line">builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection(<span class="string">"ReverseProxy"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add services to the container.</span></span><br><span class="line">builder.Services.AddControllersWithViews();</span><br><span class="line">builder.Services</span><br><span class="line">    .AddSystemWebAdapters()</span><br><span class="line">    .AddRemoteAppClient(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//options.RemoteAppUrl = new(builder.Configuration["ReverseProxy:Clusters:fallbackCluster:Destinations:fallbackApp:Address"]);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//注意這句要寫你的 asp.net mvc 站台 HttpContext 位置他跟 YARP Proxy 無關</span></span><br><span class="line">        <span class="comment">//建議不要用 YARP Proxy 裡面的設定</span></span><br><span class="line">        options.RemoteAppUrl = <span class="keyword">new</span>(<span class="string">"http://localhost:58588/ladisai"</span>);</span><br><span class="line">        options.ApiKey = builder.Configuration[<span class="string">"RemoteAppApiKey"</span>];</span><br><span class="line">    &#125;)</span><br><span class="line">    .AddAuthenticationClient(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = builder.Build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Configure the HTTP request pipeline.</span></span><br><span class="line"><span class="keyword">if</span> (!app.Environment.IsDevelopment())</span><br><span class="line">&#123;</span><br><span class="line">    app.UseExceptionHandler(<span class="string">"/Home/Error"</span>);</span><br><span class="line">&#125;</span><br><span class="line">app.UseStaticFiles();</span><br><span class="line"></span><br><span class="line">app.UseRouting();</span><br><span class="line"></span><br><span class="line">app.UseAuthentication();</span><br><span class="line">app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">app.UseSystemWebAdapters();</span><br><span class="line"></span><br><span class="line">app.MapControllerRoute(</span><br><span class="line">    name: <span class="string">"default"</span>,</span><br><span class="line">    pattern: <span class="string">"&#123;controller=Home&#125;/&#123;action=Index&#125;/&#123;id?&#125;"</span>);</span><br><span class="line"></span><br><span class="line">app.MapReverseProxy();</span><br><span class="line"></span><br><span class="line">app.Run();</span><br></pre></td></tr></table></figure>
 
 <p><code>RemoteAppApiKey</code> 稍早我們在 asp.net mvc 上面設定的 key</p>
 <p><code>appsetting.json</code></p>
@@ -508,7 +515,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">19:46</span>
+    <span title="所需總浪費時間">19:49</span>
 </div>
 
         
