@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-03-30T16:04:05.000Z">
-<meta property="article:modified_time" content="2024-04-11T10:51:30.257Z">
+<meta property="article:modified_time" content="2024-04-17T13:54:33.344Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2024-04-11 18:51:30" itemprop="dateModified" datetime="2024-04-11T18:51:30+08:00">2024-04-11</time>
+                <time title="修改時間：2024-04-17 21:54:33" itemprop="dateModified" datetime="2024-04-17T21:54:33+08:00">2024-04-17</time>
               </span>
 
           
@@ -292,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>9.6k</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>9 分鐘</span>
+              <span>10 分鐘</span>
             </span>
 
         </div>
@@ -376,6 +376,12 @@
 
 <h3 id="多語系切換"><a href="#多語系切換" class="headerlink" title="多語系切換"></a>多語系切換</h3><p>可以參考<a href="https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/localization/select-language-culture?view=aspnetcore-8.0" target="_blank" rel="noopener">這裡</a><br>這個新舊寫法好像不太一樣  <code>CookieRequestCultureProvider.DefaultCookieName</code> 這個值為 <code>.AspNetCore.Culture</code><br>然後要用 <code>CookieRequestCultureProvider.MakeCookieValue</code> 來建立才會正常</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[AllowAnonymous]</span><br><span class="line">[Route(&quot;switch-lang-core&#x2F;&#123;lang?&#125;&quot;)]</span><br><span class="line">[HttpGet]</span><br><span class="line">public IActionResult SwitchLang(string lang &#x3D; null)</span><br><span class="line">&#123;</span><br><span class="line">	Response.Cookies.Append(&quot;MyLang&quot;, lang);</span><br><span class="line">	Response.Cookies.Append(</span><br><span class="line">		CookieRequestCultureProvider.DefaultCookieName,</span><br><span class="line">		CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang))</span><br><span class="line">	);</span><br><span class="line">	string referrerUrl &#x3D; Request.Headers[&quot;Referer&quot;].ToString();</span><br><span class="line">	return Redirect(referrerUrl);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ControllerBase-沒辦法接收到-Model-參數的問題"><a href="#ControllerBase-沒辦法接收到-Model-參數的問題" class="headerlink" title="ControllerBase 沒辦法接收到 Model 參數的問題"></a>ControllerBase 沒辦法接收到 Model 參數的問題</h3><p>無意中發現 , 如果只用 ControllerBase 好像沒辦法收到 view 傳進來的參數<br>但加上 [ApiController] 這個 Attribute 就能動了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ApiController]</span><br><span class="line">public QQController : ControllerBase &#123;</span><br><span class="line">	public void Save(QQ model)&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="net-framework-AddSystemWebAdapters-沒辦法取得-identity"><a href="#net-framework-AddSystemWebAdapters-沒辦法取得-identity" class="headerlink" title=".net framework AddSystemWebAdapters 沒辦法取得 identity"></a>.net framework AddSystemWebAdapters 沒辦法取得 identity</h3><p>這個問題滿雷的 , 花了不少時間才發現<br>使用 SystemWebAdapters 要特別注意到套件是否有 conflicts 這裡如果發生 conflicts 會造成 null 完全讀不出來 identity 的狀況</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Warning		Found conflicts between different versions of the same dependent assembly. </span><br><span class="line">In Visual Studio, double-click this warning (or select it and press Enter) to fix the conflicts; </span><br><span class="line">otherwise, add the following binding redirects to the &quot;runtime&quot; node in the application configuration file: </span><br><span class="line">&lt;assemblyBinding xmlns&#x3D;&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;</span><br><span class="line">	&lt;dependentAssembly&gt;</span><br><span class="line">		&lt;assemblyIdentity name&#x3D;&quot;Microsoft.Extensions.Logging&quot; culture&#x3D;&quot;neutral&quot; publicKeyToken&#x3D;&quot;adb9793829ddae60&quot; &#x2F;&gt;</span><br><span class="line">		&lt;bindingRedirect oldVersion&#x3D;&quot;0.0.0.0-8.0.0.0&quot; newVersion&#x3D;&quot;8.0.0.0&quot; &#x2F;&gt;</span><br><span class="line">	&lt;&#x2F;dependentAssembly&gt;</span><br><span class="line">&lt;&#x2F;assemblyBinding&gt;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -466,7 +472,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#YARP-amp-SystemWebAdapter"><span class="nav-number">1.</span> <span class="nav-text">YARP &amp; SystemWebAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebOptimizer"><span class="nav-number">2.</span> <span class="nav-text">WebOptimizer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subsite-問題"><span class="nav-number">3.</span> <span class="nav-text">subsite 問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Json-Encode-解法"><span class="nav-number">4.</span> <span class="nav-text">Json.Encode 解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多語系切換"><span class="nav-number">5.</span> <span class="nav-text">多語系切換</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#YARP-amp-SystemWebAdapter"><span class="nav-number">1.</span> <span class="nav-text">YARP &amp; SystemWebAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebOptimizer"><span class="nav-number">2.</span> <span class="nav-text">WebOptimizer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subsite-問題"><span class="nav-number">3.</span> <span class="nav-text">subsite 問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Json-Encode-解法"><span class="nav-number">4.</span> <span class="nav-text">Json.Encode 解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多語系切換"><span class="nav-number">5.</span> <span class="nav-text">多語系切換</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ControllerBase-沒辦法接收到-Model-參數的問題"><span class="nav-number">6.</span> <span class="nav-text">ControllerBase 沒辦法接收到 Model 參數的問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#net-framework-AddSystemWebAdapters-沒辦法取得-identity"><span class="nav-number">7.</span> <span class="nav-text">.net framework AddSystemWebAdapters 沒辦法取得 identity</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -554,7 +560,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">19:55</span>
+    <span title="所需總浪費時間">19:57</span>
 </div>
 
         
