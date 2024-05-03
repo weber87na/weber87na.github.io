@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-03-30T16:04:05.000Z">
-<meta property="article:modified_time" content="2024-04-27T08:01:15.265Z">
+<meta property="article:modified_time" content="2024-05-03T18:59:26.537Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2024-04-27 16:01:15" itemprop="dateModified" datetime="2024-04-27T16:01:15+08:00">2024-04-27</time>
+                <time title="修改時間：2024-05-04 02:59:26" itemprop="dateModified" datetime="2024-05-04T02:59:26+08:00">2024-05-04</time>
               </span>
 
           
@@ -316,7 +316,7 @@
 
 <h3 id="YARP-amp-SystemWebAdapter"><a href="#YARP-amp-SystemWebAdapter" class="headerlink" title="YARP &amp; SystemWebAdapter"></a>YARP &amp; SystemWebAdapter</h3><p>我之前都是升級 <code>web api</code> <code>定時排程</code> <code>entity framework</code> 還有些 <code>底層類別</code> 不過也都一一克服逐步上線 , 可以看這篇<a href="https://www.blog.lasai.com.tw/2023/12/28/net-framework-4-8-to-net-core-%E7%AD%86%E8%A8%98/">筆記</a><br>現在也研究看看要如何將整個 asp.net mvc 網站升級上去到 .net core</p>
 <p>找了些資源後發現有 <a href="https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.upgradeassistant" target="_blank" rel="noopener">.NET Upgrade Assistant</a> 這個 extension<br>開來玩看看 , 礙於專案實在太大又亂馬上陣亡</p>
-<p>不過倒是發現兩個關鍵 <a href="https://microsoft.github.io/reverse-proxy/" target="_blank" rel="noopener">YARP</a> 跟 <a href="https://github.com/dotnet/systemweb-adapters" target="_blank" rel="noopener">systemweb-adapters</a><br><code>YARP</code> 是用 c# 寫的 Reverse Proxy 類似 <code>nginx</code> <code>envoy</code> 的作用 , 不過他可以很好的在 .net core 專案裡面直接用程式碼的方式來設定代理<br>如果新專案有實作了 asp.net mvc 的路由的話 , 會被轉到 .net core 的 controller , 反之會沿用 asp.net mvc 原本的 controller<br><code>systemweb-adapters</code> 這個東西也滿猛的 , 他可以讓 asp.net mvc 的 HttpContext Session Identity 等讓 .net core 吃到<br>不過他的文件還是滿難啃的一個閃神就設定失敗 XD<br>可以看看以下這幾個關鍵連結</p>
+<p>不過倒是發現兩個關鍵 <a href="https://microsoft.github.io/reverse-proxy/" target="_blank" rel="noopener">YARP</a> 跟 <a href="https://github.com/dotnet/systemweb-adapters" target="_blank" rel="noopener">systemweb-adapters</a><br><code>YARP</code> 是用 c# 寫的 Reverse Proxy 類似 <code>nginx</code> <code>envoy</code> 的作用 , 不過他可以很好的在 .net core 專案裡面直接用程式碼的方式來設定代理<br><code>systemweb-adapters</code> 這個東西也滿猛的 , 他可以讓 asp.net mvc 的 HttpContext Session Identity 等讓 .net core 吃到<br>這兩者搭起來如果有實作了 asp.net mvc 的路由的話 , 會被轉到 .net core 的 controller , 反之會沿用 asp.net mvc 原本的 controller<br>不過他的文件還是滿難啃的一個閃神就設定失敗 XD<br>可以看看以下這幾個關鍵連結</p>
 <p><a href="https://learn.microsoft.com/zh-tw/aspnet/core/migration/inc/overview?view=aspnetcore-8.0" target="_blank" rel="noopener">https://learn.microsoft.com/zh-tw/aspnet/core/migration/inc/overview?view=aspnetcore-8.0</a><br><a href="https://www.youtube.com/watch?v=zHgYDZK3MrA&amp;list=PLdo4fOcmZ0oWiK8r9OkJM3MUUL7_bOT9z" target="_blank" rel="noopener">https://www.youtube.com/watch?v=zHgYDZK3MrA&amp;list=PLdo4fOcmZ0oWiK8r9OkJM3MUUL7_bOT9z</a><br><a href="https://github.com/mjrousos/UpgradeSample" target="_blank" rel="noopener">https://github.com/mjrousos/UpgradeSample</a><br><a href="https://github.com/dotnet/systemweb-adapters/tree/main/samples" target="_blank" rel="noopener">https://github.com/dotnet/systemweb-adapters/tree/main/samples</a></p>
 <p>記錄下我測試 Identity 的過程<br>先開個 asp.net mvc 的站台 , 然後啟用身分認證 , 接著安裝 <code>Microsoft.AspNetCore.SystemWebAdapters</code> <code>Microsoft.AspNetCore.SystemWebAdapters.FrameworkServices</code></p>
 <p>關鍵要在 <code>web.config</code> 上面設定這段 , 如果要開 Session 好像還要設定別的模組 , 正常這段他會幫你自動加<br>可是我公司專案好像是使用新版的設定 , 所以不會自動加上去 , 整個暴雷</p>
