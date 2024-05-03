@@ -11,7 +11,7 @@ tags: asp.net core
 ef 在第一次 request 的時候速度總是慢吞吞 , 剛好有點時間調整效能就順便解看看
 主要解法大致上就是在啟動系統時先讓 ef 的 context 建立起來 , 舊版的話 code first 因為沒有 edmx 檔案 , 所以要加些奇怪的 code
 [參考自老外](https://stackoverflow.com/questions/30423838/entity-framework-very-slow-to-load-for-first-time-after-every-compilation)
-```
+``` csharp
 public void Configure( IApplicationBuilder app,
 	IWebHostEnvironment env ,
 	ApiDbContext dbContext){
@@ -26,9 +26,15 @@ public void Configure( IApplicationBuilder app,
 	}
 ```
 
+.net 6 則可以這樣寫
+``` csharp
+var warmUpDbContext = app.Services.GetService<YourDbContext>();
+await Task.Run(() => { _ = warmUpDbContext.Model; });
+```
+
 ### 舊版 ef warm up 暖身
 在 `Global.asax` 的 `Application_Start` 加入暖身程式碼
-```
+``` csharp
 //參考自以下
 //https://www.cnblogs.com/enternal/p/4764741.html
 //https://www.cnblogs.com/dudu/p/entity-framework-warm-up.html
@@ -50,7 +56,7 @@ public constructor accepting a single parameter of type DbContextOptions or
 has more than one constructor.'
 ```
 設定 pool 部分
-```
+``` csharp
 services.AddDbContextPool<ApiDbContext>(
 	(serviceProvider , options )=> {
 		options.UseLoggerFactory( LoggerFactory.Create( builder => builder.AddConsole() ) )

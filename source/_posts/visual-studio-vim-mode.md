@@ -15,7 +15,7 @@ top: true
 ### 收費課程
 1. [大神 91 老師的極速開發課程](https://tdd.best/courses/)
 這個課算是我學 `vim` 操作的啟發 , 接案公司要趕時間 , 偏偏就是沒那麼多時間 , 於是才找到這門課 , 結果排了一年才上到
-價格約 `1.w` 左右的摳摳 , 著重怎麼用 vim + ide 整合提升開發速度 , 也是有很多神奇技巧跟密技心法 , 建議先把下面的免費仔課程看完才去上 , 讚!
+價格約 `1.xw` 左右的摳摳 , 著重怎麼用 vim + ide 整合提升開發速度 , 也是有很多神奇技巧跟密技心法 , 建議先把下面的免費仔課程看完才去上 , 讚!
 
 2. [Emacs 大神如何提高編程速度](https://www.udemy.com/course/how-to-code-faster-zh/)
 emacs 大師 [vscode matchit 作者](https://marketplace.visualstudio.com/items?itemName=redguardtoo.matchit)
@@ -334,6 +334,11 @@ Lang.LaSai
 ```
 map ,fse :vsc CodeMaid.FindInSolutionExplorer<CR>
 ```
+
+### 快速找檔案
+不曉得哪個版本開始有這功能 , 好像是 2022 開始?
+工作上常常很困擾已知某個類別或檔案名稱 , 但用全局搜尋 `Edit.FindinFiles` 又太多訊息
+發現可以用 `ctrl` + `1` + `f` 就會跳個小窗快速搞定
 
 ### regex 多行替換
 這是一個工作上遇到真實的問題 , 因為把 ng-show 的陳年老 code 寫爛了 , 希望他強制顯示出來 , 所以借用 regex 的力量 , 不然改到往生

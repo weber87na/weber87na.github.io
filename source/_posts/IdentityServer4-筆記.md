@@ -620,6 +620,13 @@ Token
 options.ResponseType = "id_token token";
 ```
 
+### postgresql 16
+這是我在 postgresql 16 遇到的問題 ,  我的解法是 , 因為朋友用新專案 , 所以直接上 [Duende.IdentityServer.Admin](https://github.com/skoruba/Duende.IdentityServer.Admin) XD
+InvalidCastException: Cannot write DateTime with Kind=Local to PostgreSQL type 'timestamp with time zone', only UTC is supported. 
+Note that it's not possible to mix DateTimes with different Kinds in an array/range. See the Npgsql.EnableLegacyTimestampBehavior AppContext switch to enable legacy behavior.
+
+不過他新的文件不曉得是不是我沒找到怎麼設定的章節 , 我怎麼覺得舊版 [這段](https://github.com/skoruba/IdentityServer4.Admin/blob/master/docs/Configure-Ubuntu-PostgreSQL-Tutorial.md) 用 postgresql 寫得比較清楚
+
 
 
 ### IdentityServer4
@@ -650,4 +657,113 @@ cd src
 dotnet new is4empty -n IdentityServer
 ```
 
-未完
+### 無限 loop 與找不到 signin-oidc 的天坑
+在舊版 asp.net mvc 5 裡面用 SSO 的話 , 好像都會踩到這個雷 , 可是在 .net core 什麼都不用加直接秒殺
+不曉得到底是哪個環節有問題 , 我下面這個設定方法可以運氣好避開 loop 詳細什麼原理我也不曉得 , 可能都要設定 https?
+看網路上有些資源說是 chrome cookie SameSite 有問題或是要你安裝 [owin-cookie-saver](https://github.com/Sustainsys/owin-cookie-saver)
+不過好像也都不見得能解 , 反正就多比拚運氣吧... 試不過也別打我 XD
+```
+        public void ConfigureAuthNoLoop( IAppBuilder app )
+        {
+            //app.UseKentorOwinCookieSaver();
+            // Configure the db context, user manager and signin manager to use a single instance per request
+            app.CreatePerOwinContext(ApplicationDbContext.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+
+            //這句放在 Global 裡面
+            //AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;
+
+            // 清除掉預設的Claim Type對應
+            //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            app.UseCookieAuthentication( new CookieAuthenticationOptions
+            {
+                AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+                //CookieSameSite = SameSiteMode.None,
+            } );
+
+            app.UseOpenIdConnectAuthentication( new OpenIdConnectAuthenticationOptions
+            {
+                Authority = "https://localhost:44310",
+                ClientId = "mvc",
+                ClientSecret = "mvc",
+                RedirectUri = "https://localhost:44356/signin-oidc",//Net4MvcClient's URL
+
+                PostLogoutRedirectUri = "https://localhost:44356",
+                ResponseType = "id_token token",
+                RequireHttpsMetadata = false,
+
+                Scope = "openid profile email",
+
+                TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+                {
+                    NameClaimType = "name"
+                },
+
+                SignInAsAuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
+
+                Notifications = new OpenIdConnectAuthenticationNotifications
+                {
+                    SecurityTokenValidated = async n =>
+                    {
+                        n.AuthenticationTicket.Identity.AddClaim( new Claim( "access_token", n.ProtocolMessage.AccessToken ) );
+                        n.AuthenticationTicket.Identity.AddClaim( new Claim( "id_token", n.ProtocolMessage.IdToken ) );
+
+                        var discoveryDocument = new DiscoveryDocumentRequest()
+                        {
+                            Address = "https://localhost:44310",
+                            Policy = {
+                                RequireHttps = true,
+                                Authority = authority,
+                                ValidateEndpoints = true
+                            },
+                        };
+
+                        var client = new HttpClient();
+                        var disco = await client.GetDiscoveryDocumentAsync( discoveryDocument );
+                        if( disco.IsError ) return;
+
+                        // 建立取得id token的需求物件
+                        var idTokenRequest = new UserInfoRequest
+                        {
+                            Address = disco.UserInfoEndpoint,
+                            Token = n.ProtocolMessage.AccessToken
+                        };
+
+                        //建立取得id token的endPoint連接，傳入access token作為參數後，取回使用者資訊
+                        var userInfoResponse = await client.GetUserInfoAsync( idTokenRequest );
+                        n.AuthenticationTicket.Identity.AddClaims( userInfoResponse.Claims );
+
+                        n.OwinContext.Authentication.User.AddIdentity( n.AuthenticationTicket.Identity );
+						//這句好像可有可無
+                        System.Web.HttpContext.Current.User = n.OwinContext.Authentication.User;
+
+                        n.OwinContext.Authentication.SignIn(n.AuthenticationTicket.Identity);
+                    },
+                    RedirectToIdentityProvider = n =>
+                    {
+                        if( n.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout )
+                        {
+                            var id_token_claim = n.OwinContext.Authentication.User.Claims.FirstOrDefault( x => x.Type == "id_token" );
+                            if( id_token_claim != null )
+                            {
+                                n.ProtocolMessage.IdTokenHint = id_token_claim.Value;
+                            }
+                        }
+                        return Task.FromResult( 0 );
+                    },
+                }
+            } );
+        }
+```
+
+### asp.net core 無限 loop
+如果你是用 asp.net core 並且有啟用 identity 的話可以參考[這篇](https://stackoverflow.com/questions/47100607/infinite-authentication-loop-when-using-identityserver4-in-asp-net-core-2-0) , 也是很雷
+老外說在 client mvc 網站加上以下這段 , 還真的就不會無限 loop 超無言
+```
+builder.Services.AddIdentityCore<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                .AddRoles<IdentityRole>()
+                .AddRoleManager<RoleManager<IdentityRole>>()
+                .AddSignInManager<SignInManager<IdentityUser>>()
+                .AddEntityFrameworkStores<ApplicationDbContext>();
+```

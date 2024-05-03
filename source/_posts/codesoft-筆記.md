@@ -123,6 +123,7 @@ this file has been created with a more recent designer 2019.02.00
 
 ### COM 元件引用問題
 今天自己 try 發現會噴噴 `CS1752` 以下 error , [爬文](https://stackoverflow.com/questions/2483659/interop-type-cannot-be-embedded)發現只要這樣設定就好了在 `References` => `LabelManager2` => `右鍵` =>  `Properties` => `Embed Interop Types` => `False`
+順帶一提如果是用 .net 6 的話也已經支援 com object 可以安心用
 ```
 Error	CS1752	Interop type 'ApplicationClass' cannot be embedded. Use the applicable interface instead.
 ```
@@ -329,6 +330,64 @@ private void NetApp_DocumentOpened(object sender, Tkx.Lppa.DocumentEventArgs e)
 }
 ```
 
+### MsgBoxInvoked 補充
+這是後來翻為 .net 6 發現的問題 , 所以這裡沒用包成 .net 的 wrapper 而是呼叫 com object
+實務上每台機器的顯示語言不同 有 `簡體` `繁體` `英文` , 所以導致我之前埋的 log 沒生效 , 所以需要依照語言來判斷
+另外發現他的 `license` 如果滿的話在 `new Application` 就會直接掛掉 , 好像在這個 `MsgBoxInvoked` 埋 log 也沒用
+我自己測起來他的 license server 滿的時候會踢人 , 不過踢誰不一定 , 這裡還是嘗試一手
+此外這裡會有很多訊息 , 不是只有錯誤訊息 , 像是列印完成也會有訊息跑到這裡
+
+``` csharp
+private void ApplicationClass_MsgBoxInvoked(int nResult, int nCode, string strMessage)
+{
+	//這句在 license 滿了的話應該也不會觸發 , 因為 new Application 的時候就直接噴 com error 了
+	//但是他 license server 踢人是不一定的 , 所以如果有觸發到的話就會記錄下來(不確定)
+	//這裡的 strMessage 不只會記錄錯誤的訊息 , 印東西完他也會記錄
+	if (string.IsNullOrEmpty(strMessage) == false)
+	{
+		var lang = applicationClass.Options.Language;
+		switch (lang)
+		{
+			//這句可以得到是否使用正確版本開啟 codesoft , 萬一有開錯先 log 處理
+			case enumLanguage.lppxEnglish:
+				if (strMessage.Contains("This file has been created with a more recent designer") || 
+					strMessage.Contains("The maximum number of authorized users has been reached") || 
+					strMessage.Contains("No license has been found")
+					)
+
+				{
+					SfcPrintApiSrv.InfoBag = strMessage;
+					Logger.Fatal(strMessage);
+				}
+				break;
+			case enumLanguage.lppxSimplifiedChinese:
+				//此文件由最新版本的设计软件 (2019.02.00 ) 所生成。\n请升级您的设计软件。
+				if (strMessage.Contains("此文件由最新版本的设计软件") || 
+					strMessage.Contains("已达到授权用户最大数") ||
+					strMessage.Contains("未找到许可证") )
+				{
+					SfcPrintApiSrv.InfoBag = strMessage;
+					Logger.Fatal(strMessage);
+				}
+				break;
+			case enumLanguage.lppxTraditionalChinese:
+				//此文件由最新版本的軟件 (2019.02.00 )所生成.\n請升級您的軟件.
+				if (strMessage.Contains("此文件由最新版本的軟件") || 
+					strMessage.Contains("已經達到最大的授權使用者數目") ||
+					strMessage.Contains("找不到授權"))
+				{
+					SfcPrintApiSrv.InfoBag = strMessage;
+					Logger.Fatal(strMessage);
+				}
+				break;
+			default:
+				break;
+		}
+	}
+}
+
+```
+
 ### 圖片問題
 特別注意轉圖片的部分需要一同將圖片複製到 2015 的機器上 , ex 假設有兩張圖片 `tmp0.jpg` `tmp1.jpg` 需要將他們從 2019 的機器上面複製到 2015 的機器底下
 
@@ -484,12 +543,15 @@ public void CreateTexts(DocDto doc, Document save)
 | 3000 | Not sufficient access rights to perform this operation   |
 | 3001 | No license found                                         |
 
-### 列印偏移 虛線刀
-如果有遇到列印偏移的問題 , 當程式與樣板都確認過沒問題 , 八成會是買標籤貼紙時沒有 `虛線刀痕` 搞得鬼
+### 列印偏移 撕線
+如果有遇到列印偏移的問題 , 當程式與樣板都確認過沒問題 , 八成會是買標籤貼紙時沒有 `撕線` 搞得鬼
 如果不是搞這個 case 我也是第一次知道這鬼東西
 他的術語大概是以下幾種說法 , 我也不是很確定
 
 * `虛線刀`
+* `撕線`
+* `騎縫線`
+* `米線`
 * `dotted line knife`
 * `Dotted line Cutting knife`
 
