@@ -738,6 +738,7 @@
   <!-- <div class="snow1" style="position:fixed !important"></div> -->
   <div class="cobweb" style="position:fixed !important"></div>
   <div class="spider" style="position:fixed !important"></div>
+  <div class="fswitch">關閉</div>
 <div class="snowflakes" aria-hidden="true">
   <div class="snowflake">
  🌹
@@ -793,6 +794,49 @@
 </script>
 -->
 
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
 
 
 </body>
