@@ -508,7 +508,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">20:43</span>
+    <span title="所需總浪費時間">20:42</span>
 </div>
 
         
@@ -717,7 +717,6 @@ class ViNavigation {
     //可使用移動的字碼
     //共 18 個字 排除 vi 會用到的字
     this.tagChars = "ABCEILNOPQRSTVWXYZ";
-    // this.tagChars = "abc";
 
     //目前的 vim 標示字標籤 array
     this.holdTags = new Array();
@@ -730,8 +729,6 @@ class ViNavigation {
         this.dict.push(this.tagChars[i] + this.tagChars[j]);
       }
     }
-
-    //console.log("dict", this.dict);
   }
 
   viGoTop(keyPressed) {
@@ -742,7 +739,22 @@ class ViNavigation {
 
   viGoBottom(keyPressed) {
     if (keyPressed === "G") {
-      window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
     }
   }
 
@@ -786,39 +798,44 @@ class ViNavigation {
     });
   }
 
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
   createViTags() {
     let allTags = document.querySelectorAll("a");
     let counter = 0;
     for (let tag of allTags) {
       let rect = tag.getBoundingClientRect();
-      let newDiv = document.createElement("div");
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
       if (allTags.length <= this.tagChars.length) {
-        let text = this.tagChars[counter];
-        newDiv.textContent = text;
+        text = this.tagChars[counter];
         this.holdTags.push(text);
       } else {
-        let text = this.dict[counter];
-        newDiv.textContent = this.dict[counter];
+        text = this.dict[counter];
         this.holdTags.push(text);
       }
-      newDiv.classList.add("vim-tag");
-      newDiv.dataset.href = tag.href;
-      newDiv.style.fontFamily = "Arial, sans-serif";
-      newDiv.style.fontSize = "12px";
-      //newDiv.style.opacity = "0.8";
-      //newDiv.style.color = "red";
-
-      newDiv.style.position = "absolute";
-      newDiv.style.backgroundColor = "#89CF07";
-      newDiv.style.color = "black";
-      newDiv.style.padding = "2px";
-      newDiv.style.borderRadius = "2px";
-      //newDiv.style.border = "1px solid black";
-      newDiv.style.top = rect.top + "px";
-      newDiv.style.left = rect.left + "px";
-
+      let newDiv = this.createViTag(text, href, top, left);
       document.body.appendChild(newDiv);
-
       counter++;
     }
   }
@@ -961,7 +978,6 @@ class ViNavigation {
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
   }
 }
-
 
 const viNavigation = new ViNavigation();
 viNavigation.init();
