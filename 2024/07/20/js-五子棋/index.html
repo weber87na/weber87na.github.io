@@ -49,7 +49,7 @@
 <meta property="og:description" content="See the Pen    Gomoku by 喇賽人 (@weber87na)   on CodePen.">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-07-20T06:10:37.000Z">
-<meta property="article:modified_time" content="2024-07-20T06:10:52.063Z">
+<meta property="article:modified_time" content="2024-07-21T06:02:40.727Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2024-07-20 14:10:37 / 修改時間：14:10:52" itemprop="dateCreated datePublished" datetime="2024-07-20T14:10:37+08:00">2024-07-20</time>
+              <time title="亂入時間：2024-07-20 14:10:37" itemprop="dateCreated datePublished" datetime="2024-07-20T14:10:37+08:00">2024-07-20</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2024-07-21 14:02:40" itemprop="dateModified" datetime="2024-07-21T14:02:40+08:00">2024-07-21</time>
+              </span>
 
           
   
@@ -286,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.6k</span>
+              <span>3.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>2 分鐘</span>
+              <span>3 分鐘</span>
             </span>
 
         </div>
@@ -314,7 +320,8 @@
 
 <a id="more"></a>
 
-<p>印象中很多年前學程式的時候, 有買過一本書 <code>silverlight</code> 他有個範例就是五子棋, 那時也看不懂到底怎麼做的<br>他還有個教學影片, 不過聽起來滿痛苦的, 看完還是不曉得在做啥, 直接登出 ~<br>今天就來用 js 挑戰看看, 好像應該要用 <code>silverlight</code> 挑戰看看才對 XD</p>
+
+<h3 id="五子棋"><a href="#五子棋" class="headerlink" title="五子棋"></a>五子棋</h3><p>印象中很多年前學程式的時候, 有買過一本書 <code>silverlight</code> 他有個範例就是五子棋, 那時也看不懂到底怎麼做的<br>他還有個教學影片, 不過聽起來滿痛苦的, 看完還是不曉得在做啥, 直接登出 ~<br>今天就來用 js 挑戰看看, 好像應該要用 <code>silverlight</code> 挑戰看看才對 XD</p>
 <p>首先是建立 2d array, 然後用雙重迴圈把格子塞滿, 只要棋類好像都這樣<br>這次相對單純, 沒太多的狀態判斷, 所以就只塞 string 在格子裡</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function fillCells(cells, len) &#123;</span><br><span class="line">    for (let i &#x3D; 0; i &lt; len; i++) cells.push([]);</span><br><span class="line"></span><br><span class="line">    for (let y &#x3D; 0; y &lt; len; y++) &#123;</span><br><span class="line">        for (let x &#x3D; 0; x &lt; len; x++) &#123;</span><br><span class="line">            cells[y][x] &#x3D; &#39; &#39;;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -339,6 +346,16 @@
 
 <p>UI 則沒啥特別的部分, 在腦波一弱的狀況下, 不小心就直接寫 html<br>這種 dom 元素太多的手寫還是太累, 不過頭洗下去了就做到底<br>這裡可以用 vscode emmet 技巧, 比較特別的是 emmet 用 <code>$</code> 產生數字會從 <code>1</code> 開始, 要設定為 <code>0</code> 開始的話需要用 <code>$@0</code><br>不然 15 * 15 還真的是寫到登出 ~</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.cell*15[data-y&#x3D;0][data-x&#x3D;$@0]&gt;.chess</span><br></pre></td></tr></table></figure>
+
+<h2 id="四子棋"><a href="#四子棋" class="headerlink" title="四子棋"></a>四子棋</h2><p>後來又順便搞個四子棋, 還是第一次看到這東東<br>他最核心的 code 就是他的 Y 是看現在疊了幾顆子在 Y 那條上面決定的, 所以要給 X 然後計算出真正的 Y<br>算法就是讓 result 起始為 -1 , 萬一遇到空格則 <code>+1</code> , 反之直接 return</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;計算真正的 Y</span><br><span class="line">function getY(x) &#123;</span><br><span class="line">	let line &#x3D; []</span><br><span class="line">	for (let i &#x3D; 0; i &lt; size; i++) &#123;</span><br><span class="line">		let cell &#x3D; cells[i][x]</span><br><span class="line">		line.push(cell)</span><br><span class="line">	&#125;</span><br><span class="line">	let result &#x3D; -1</span><br><span class="line">	for (let cell of line) &#123;</span><br><span class="line">		if (cell &#x3D;&#x3D;&#x3D; &#39; &#39;) &#123;</span><br><span class="line">			result++</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			return result</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p class="codepen" data-height="625" data-default-tab="result" data-slug-hash="zYVqJWV" data-pen-title="Connect4" data-user="weber87na" style="height: 625px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/weber87na/pen/zYVqJWV" target="_blank" rel="noopener">
+  Connect4</a> by 喇賽人 (<a href="https://codepen.io/weber87na" target="_blank" rel="noopener">@weber87na</a>)
+  on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
 
     </div>
 
@@ -426,6 +443,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#五子棋"><span class="nav-number">1.</span> <span class="nav-text">五子棋</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四子棋"><span class="nav-number"></span> <span class="nav-text">四子棋</span></a></div>
       </div>
       <!--/noindex-->
 
@@ -513,7 +531,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">21:02</span>
+    <span title="所需總浪費時間">21:03</span>
 </div>
 
         
