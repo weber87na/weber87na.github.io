@@ -49,7 +49,7 @@
 <meta property="og:description" content="See the Pen    Gomoku by 喇賽人 (@weber87na)   on CodePen.">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-07-20T06:10:37.000Z">
-<meta property="article:modified_time" content="2024-07-21T06:04:07.557Z">
+<meta property="article:modified_time" content="2024-07-21T06:10:51.807Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2024-07-21 14:04:07" itemprop="dateModified" datetime="2024-07-21T14:04:07+08:00">2024-07-21</time>
+                <time title="修改時間：2024-07-21 14:10:51" itemprop="dateModified" datetime="2024-07-21T14:10:51+08:00">2024-07-21</time>
               </span>
 
           
@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.1k</span>
+              <span>3.6k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -349,6 +349,12 @@
 
 <h2 id="四子棋"><a href="#四子棋" class="headerlink" title="四子棋"></a>四子棋</h2><p>後來又順便搞個四子棋, 還是第一次看到這東東<br>他最核心的 code 就是他的 Y 是看現在疊了幾顆子在 Y 那條上面決定的, 所以要給 X 然後計算出真正的 Y<br>算法就是讓 result 起始為 -1 , 萬一遇到空格則 <code>+1</code> , 反之直接 return</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;計算真正的 Y</span><br><span class="line">function getY(x) &#123;</span><br><span class="line">	let line &#x3D; []</span><br><span class="line">	for (let i &#x3D; 0; i &lt; size; i++) &#123;</span><br><span class="line">		let cell &#x3D; cells[i][x]</span><br><span class="line">		line.push(cell)</span><br><span class="line">	&#125;</span><br><span class="line">	let result &#x3D; -1</span><br><span class="line">	for (let cell of line) &#123;</span><br><span class="line">		if (cell &#x3D;&#x3D;&#x3D; &#39; &#39;) &#123;</span><br><span class="line">			result++</span><br><span class="line">		&#125; else &#123;</span><br><span class="line">			return result</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	return result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>取得 dom 上面因為使用撈 xy 的方式, 一次需要使用兩個自訂屬性 querySelector 可以這樣寫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let realDomCell &#x3D; document.querySelector(&#96;[data-x&#x3D;&quot;$&#123;x&#125;&quot;][data-y&#x3D;&quot;$&#123;y&#125;&quot;]&#96;)</span><br></pre></td></tr></table></figure>
+
+<p>另外這把想說做完整點, 順便加了獲勝 <code>alert</code> 然後重新開始的功能, 結果沒想到 <code>alert</code> 的優先權高於設定背景, 所以要用 <code>setTimeout</code> 來避免<br>js 真是莫名其妙 XD</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">let gg &#x3D; isGG(x, y, turn)</span><br><span class="line">if (gg) &#123;</span><br><span class="line">&#x2F;&#x2F;因為 alert thread 的關係會先執行</span><br><span class="line">setTimeout(function () &#123;</span><br><span class="line">    if (turn &#x3D;&#x3D;&#x3D; &#39;X&#39;) alert(&#39;G__G 白方獲勝 ~~&#39;)</span><br><span class="line">    else alert(&#39;G__G 黑方獲勝 ~~&#39;)</span><br><span class="line">    startGame()</span><br><span class="line">&#125;, 0)</span><br><span class="line">&#125; else &#123;</span><br><span class="line">&#x2F;&#x2F;切換回合</span><br><span class="line">turn &#x3D; toggleSuit(turn)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p class="codepen" data-height="625" data-default-tab="result" data-slug-hash="zYVqJWV" data-pen-title="Connect4" data-user="weber87na" style="height: 625px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
   <span>See the Pen <a href="https://codepen.io/weber87na/pen/zYVqJWV" target="_blank" rel="noopener">
