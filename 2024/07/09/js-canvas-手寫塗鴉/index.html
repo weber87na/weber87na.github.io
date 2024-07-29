@@ -49,7 +49,7 @@
 <meta property="og:description" content="See the Pen    Canvas手寫Demo by 喇賽人 (@weber87na)   on CodePen.">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-07-09T11:18:08.000Z">
-<meta property="article:modified_time" content="2024-07-09T11:18:26.668Z">
+<meta property="article:modified_time" content="2024-07-29T11:29:31.064Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="js">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2024-07-09 19:18:08 / 修改時間：19:18:26" itemprop="dateCreated datePublished" datetime="2024-07-09T19:18:08+08:00">2024-07-09</time>
+              <time title="亂入時間：2024-07-09 19:18:08" itemprop="dateCreated datePublished" datetime="2024-07-09T19:18:08+08:00">2024-07-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2024-07-29 19:29:31" itemprop="dateModified" datetime="2024-07-29T19:29:31+08:00">2024-07-29</time>
+              </span>
 
           
   
@@ -286,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2k</span>
+              <span>3.5k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>2 分鐘</span>
+              <span>3 分鐘</span>
             </span>
 
         </div>
@@ -315,7 +321,7 @@
 <a id="more"></a>
 
 <p>今天沒啥 fu 一直想搞個小畫家之類的, 還有之前在搞啥 FineReport 長官很想要有啥手寫簽名, 無聊就寫看看<br>本來覺得沒啥, 實際上也是要 try 才曉得一堆雷 XD</p>
-<p>先說電腦版, 電腦版用到 <code>mousedown</code> <code>mouseup</code> <code>mousemove</code> 事件<br>我的想法是用 <code>mousedown</code> <code>mouseup</code> 搭配 <code>isDrawing</code> 這個 flag 當作是否正在手寫<br>如果 <code>mousemove</code> 觸發的話則把它畫出來, 這裡可以直接拿到 <code>offsetX</code> <code>offsetY</code> 這兩個座標<br>這裡最關鍵就是當 <code>isDrawing</code> 時畫線, 反之讓他的 <code>ctx.beginPath()</code> 還原, 才可以正常做出想要的效果</p>
+<h3 id="手機效果"><a href="#手機效果" class="headerlink" title="手機效果"></a>手機效果</h3><p>先說電腦版, 電腦版用到 <code>mousedown</code> <code>mouseup</code> <code>mousemove</code> 事件<br>我的想法是用 <code>mousedown</code> <code>mouseup</code> 搭配 <code>isDrawing</code> 這個 flag 當作是否正在手寫<br>如果 <code>mousemove</code> 觸發的話則把它畫出來, 這裡可以直接拿到 <code>offsetX</code> <code>offsetY</code> 這兩個座標<br>這裡最關鍵就是當 <code>isDrawing</code> 時畫線, 反之讓他的 <code>ctx.beginPath()</code> 還原, 才可以正常做出想要的效果</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">canvas.addEventListener(&#39;mousemove&#39;, (e) &#x3D;&gt; &#123;</span><br><span class="line">	console.log(e);</span><br><span class="line">	console.log(e.offsetX, e.offsetY);</span><br><span class="line">	let x &#x3D; e.offsetX;</span><br><span class="line">	let y &#x3D; e.offsetY;</span><br><span class="line"></span><br><span class="line">	point.x &#x3D; x;</span><br><span class="line">	point.y &#x3D; y;</span><br><span class="line"></span><br><span class="line">	if (isDrawing) &#123;</span><br><span class="line">	  drawLine(ctx, point);</span><br><span class="line">	&#125; else &#123;</span><br><span class="line">	  &#x2F;&#x2F;萬一非 Drawing 狀態則使用 beginPath 還原</span><br><span class="line">	  ctx.beginPath();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <p>最後呼叫 <code>drawLine</code> 就可以畫出來了, 這裡的 <code>drawLine</code> 搞比較久, 換了好幾種作法畫起來都會是一點一點的, 解鎖小畫家筆刷的原理 XD<br>另外如果每次都用 <code>ctx.beginPath()</code> 就會有怪小怪小的 bug</p>
@@ -326,6 +332,29 @@
 
 <p>最後存檔我直接偷懶用 ChatGPT 來生, 印象中以前搞 openlayers 好像也寫過把很多圖層變成一張圖的<br>當時折磨得半死還有 CORS 問題, 現在有 AI 來搞這些真的好快阿</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">btnSave.addEventListener(&#39;click&#39;, () &#x3D;&gt; &#123;</span><br><span class="line">	&#x2F;&#x2F; 使用 toBlob 方法生成 Blob 對象</span><br><span class="line">	canvas.toBlob(function (blob) &#123;</span><br><span class="line">	&#x2F;&#x2F; 創建一個下載連結</span><br><span class="line">	const a &#x3D; document.createElement(&#39;a&#39;);</span><br><span class="line">	a.download &#x3D; &#39;canvas-image.png&#39;; &#x2F;&#x2F; 下載文件名</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 生成一個 URL 對象來表示這個 Blob 對象</span><br><span class="line">	const url &#x3D; URL.createObjectURL(blob);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 設置下載連結的 href 屬性為這個 URL</span><br><span class="line">	a.href &#x3D; url;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 將下載連結插入到文檔中</span><br><span class="line">	document.body.appendChild(a);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 點擊下載連結，下載圖片</span><br><span class="line">	a.click();</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 釋放 URL 對象的資源</span><br><span class="line">	URL.revokeObjectURL(url);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F; 移除下載連結</span><br><span class="line">	document.body.removeChild(a);</span><br><span class="line">	&#125;, &#39;image&#x2F;png&#39;);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Undo-Redo"><a href="#Undo-Redo" class="headerlink" title="Undo/Redo"></a>Undo/Redo</h3><p>後來又搞個 <code>Undo/Redo</code> 效果</p>
+<p class="codepen" data-height="690" data-default-tab="result" data-slug-hash="wvLKPby" data-pen-title="Canvas手寫Demo(可 Undo/Redo)" data-user="weber87na" style="height: 690px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/weber87na/pen/wvLKPby" target="_blank" rel="noopener">
+  Canvas手寫Demo(可 Undo/Redo)</a> by 喇賽人 (<a href="https://codepen.io/weber87na" target="_blank" rel="noopener">@weber87na</a>)
+  on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+
+<p><code>Undo</code> 主要是依靠 <code>pop</code> 這個函數, 把最後一筆彈出去改變 array 大小<br>此時 array 的最後一筆即為上一步所繪製的圖</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (imageListUndo.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">	<span class="comment">//取得最後一筆, 並縮減 array 大小</span></span><br><span class="line">	<span class="keyword">var</span> lastBlob = imageListUndo.pop();</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'lastBlob'</span>, lastBlob);</span><br><span class="line"></span><br><span class="line">	imageListRedo.push(lastBlob);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//取得實際上要被繪製的圖片</span></span><br><span class="line">	<span class="comment">//如果 index 是負數的話會直接給 undefined</span></span><br><span class="line">	<span class="keyword">var</span> recoveryBlob = imageListUndo[imageListUndo.length - <span class="number">1</span>];</span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'realBlob'</span>, recoveryBlob);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (recoveryBlob) &#123;</span><br><span class="line">		renderImage(recoveryBlob);</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		clearCanvas();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Redo</code> 本身不難, 但萬一中間又執行其他動作會發生奇怪的現象<br>可以觀察小畫家先畫兩筆然後 <code>Undo</code> 之後又接著畫, 就可以得到正確邏輯<br>為了因應這個操作, 必須要有 <code>canRedo</code> 這個變數來決定可否使用 <code>Redo</code> 的功能</p>
+<p>所以當執行 <code>Undo</code> 時將 <code>canRedo</code> flag 設為 <code>true</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (event.ctrlKey &amp;&amp; (event.key === <span class="string">'z'</span> || event.key === <span class="string">'Z'</span>)) &#123;</span><br><span class="line">	<span class="comment">// 使用者按下了 Ctrl + Z</span></span><br><span class="line">	<span class="built_in">console</span>.log(<span class="string">'User pressed Ctrl + Z'</span>);</span><br><span class="line"></span><br><span class="line">	<span class="comment">// 讓使用者可以呼叫 redo</span></span><br><span class="line">	canRedo = <span class="literal">true</span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">//其他 code ...</span></span><br></pre></td></tr></table></figure>
+
+<p>萬一中間有新增筆畫的話需要於 <code>mouseup</code> 加上 <code>canRedo</code> 這個判斷, 需要把 <code>canRedo</code> 回歸為 <code>false</code> 並且 <code>imageListRedo</code> 清空</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">canvas.addEventListener(<span class="string">'mouseup'</span>,(e) =&gt; &#123;</span><br><span class="line">		isDrawing = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//萬一中間有新增筆畫的話, 需要把 canRedo 回歸為 false 並且 imageListRedo 清空</span></span><br><span class="line">		<span class="keyword">if</span> (canRedo) &#123;</span><br><span class="line">			canRedo = <span class="literal">false</span>;</span><br><span class="line">			imageListRedo = [];</span><br><span class="line">		&#125;</span><br><span class="line">		addToImageList();</span><br><span class="line">	&#125;,</span><br><span class="line">	<span class="literal">false</span></span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+
+<p>最後看到本身的邏輯, 一樣使用 <code>pop</code> 把 <code>imageListRedo</code> 彈出來的最後一筆加入回 <code>imageListUndo</code> 的 array 即可完成</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">document</span>.addEventListener(<span class="string">'keydown'</span>, <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">	<span class="comment">// 當狀態可以 redo 時才能夠觸發</span></span><br><span class="line">	<span class="keyword">if</span> (event.ctrlKey &amp;&amp; event.key === <span class="string">'y'</span> &amp;&amp; canRedo === <span class="literal">true</span>) &#123;</span><br><span class="line">		<span class="keyword">if</span> (imageListRedo.length &gt; <span class="number">0</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> lastBlob = imageListRedo.pop();</span><br><span class="line">			imageListUndo.push(lastBlob);</span><br><span class="line"></span><br><span class="line">			renderImage(lastBlob);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -416,6 +445,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#手機效果"><span class="nav-number">1.</span> <span class="nav-text">手機效果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Undo-Redo"><span class="nav-number">2.</span> <span class="nav-text">Undo&#x2F;Redo</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -503,7 +533,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">21:03</span>
+    <span title="所需總浪費時間">21:05</span>
 </div>
 
         
