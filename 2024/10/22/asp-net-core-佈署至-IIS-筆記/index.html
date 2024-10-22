@@ -43,18 +43,19 @@
 
   <meta name="description" content="&amp;nbsp;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="IIS HTTP 錯誤 403.14">
-<meta property="og:url" content="https://www.blog.lasai.com.tw/2024/08/22/IIS-HTTP-%E9%8C%AF%E8%AA%A4-403-14/index.html">
+<meta property="og:title" content="asp.net core 佈署至 IIS 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2024/10/22/asp-net-core-%E4%BD%88%E7%BD%B2%E8%87%B3-IIS-%E7%AD%86%E8%A8%98/index.html">
 <meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
-<meta property="article:published_time" content="2024-08-22T13:00:29.000Z">
-<meta property="article:modified_time" content="2024-08-22T13:00:51.548Z">
+<meta property="article:published_time" content="2024-10-22T13:43:15.000Z">
+<meta property="article:modified_time" content="2024-10-22T13:44:26.489Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
-<meta property="article:tag" content="IIS">
+<meta property="article:tag" content="asp.net core">
+<meta property="article:tag" content="iis">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="https://www.blog.lasai.com.tw/2024/08/22/IIS-HTTP-%E9%8C%AF%E8%AA%A4-403-14/">
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2024/10/22/asp-net-core-%E4%BD%88%E7%BD%B2%E8%87%B3-IIS-%E7%AD%86%E8%A8%98/">
 
 
 <script id="page-configurations">
@@ -67,7 +68,7 @@
   };
 </script>
 
-  <title>IIS HTTP 錯誤 403.14 | 🌹 喇賽的人 Blog 🌹</title>
+  <title>asp.net core 佈署至 IIS 筆記 | 🌹 喇賽的人 Blog 🌹</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
     <script>
@@ -238,7 +239,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
-    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2024/08/22/IIS-HTTP-%E9%8C%AF%E8%AA%A4-403-14/">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2024/10/22/asp-net-core-%E4%BD%88%E7%BD%B2%E8%87%B3-IIS-%E7%AD%86%E8%A8%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.png">
@@ -251,7 +252,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          IIS HTTP 錯誤 403.14
+          asp.net core 佈署至 IIS 筆記
         </h1>
 
         <div class="post-meta">
@@ -263,7 +264,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2024-08-22 21:00:29 / 修改時間：21:00:51" itemprop="dateCreated datePublished" datetime="2024-08-22T21:00:29+08:00">2024-08-22</time>
+              <time title="亂入時間：2024-10-22 21:43:15 / 修改時間：21:44:26" itemprop="dateCreated datePublished" datetime="2024-10-22T21:43:15+08:00">2024-10-22</time>
             </span>
 
           
@@ -275,8 +276,8 @@
       </span>
       <span class="post-meta-item-text">Disqus：</span>
     
-    <a title="disqus" href="/2024/08/22/IIS-HTTP-%E9%8C%AF%E8%AA%A4-403-14/#disqus_thread" itemprop="discussionUrl">
-      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/08/22/IIS-HTTP-錯誤-403-14/" itemprop="commentCount"></span>
+    <a title="disqus" href="/2024/10/22/asp-net-core-%E4%BD%88%E7%BD%B2%E8%87%B3-IIS-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/10/22/asp-net-core-佈署至-IIS-筆記/" itemprop="commentCount"></span>
     </a>
   </span>
   
@@ -286,7 +287,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>826</span>
+              <span>1.5k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -308,11 +309,19 @@
         <p>&nbsp;</p>
 <a id="more"></a>
 
-<p>今天想要把 .net core <code>Debug</code> 的 web api 佈署到自己 local 電腦測試<br>結果馬上 IIS 就噴 <code>IIS HTTP 錯誤 403.14 - Forbidden</code> 雷了陣子發現要加入以下 <code>web.config</code> 在 web api 目錄底下</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">location</span> <span class="attr">path</span>=<span class="string">"."</span> <span class="attr">inheritInChildApplications</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">handlers</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"aspNetCore"</span> <span class="attr">path</span>=<span class="string">"*"</span> <span class="attr">verb</span>=<span class="string">"*"</span> <span class="attr">modules</span>=<span class="string">"AspNetCoreModuleV2"</span> <span class="attr">resourceType</span>=<span class="string">"Unspecified"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">handlers</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">aspNetCore</span> <span class="attr">processPath</span>=<span class="string">"dotnet"</span> <span class="attr">arguments</span>=<span class="string">".\QQ.dll"</span> <span class="attr">stdoutLogEnabled</span>=<span class="string">"false"</span> <span class="attr">stdoutLogFile</span>=<span class="string">".\logs\stdout"</span> <span class="attr">hostingModel</span>=<span class="string">"inprocess"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">location</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>今天想要把 .net core <code>Debug</code> 的 web api 佈署到自己 Local IIS 測試<br>結果馬上 IIS 就噴 <code>IIS HTTP 錯誤 403.14 - Forbidden</code> 雷了好一陣子, 果然久沒用就忘了, 筆記下幾個遇到的問題</p>
+<h3 id="確認-IIS-是否安裝-hosting-bundle"><a href="#確認-IIS-是否安裝-hosting-bundle" class="headerlink" title="確認 IIS 是否安裝 hosting bundle"></a>確認 IIS 是否安裝 hosting bundle</h3><p>如果要確定自己的機器有無安裝 hosting bundle 可以到這裡查 <code>regedit</code><br>需要依照自己版本去安裝, 可以到<a href="https://dotnet.microsoft.com/en-us/download/dotnet/8.0" target="_blank" rel="noopener">官網下載</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node\Microsoft\Updates\.NET\Microsoft .NET 8.0.10 - Windows Server Hosting (x86)</span><br></pre></td></tr></table></figure>
 
-<p>後來因為專案有使用到 COM 元件, 結果噴這串, 最後調整 Application Pool 權限為 LocalSystem 才搞定</p>
+<h3 id="Visual-Studio-Publish"><a href="#Visual-Studio-Publish" class="headerlink" title="Visual Studio Publish"></a>Visual Studio Publish</h3><p>Publish 之前最好先把 IIS 上面的 ApplicationPool 建好, 建議一個 ApplicationPool 對應一隻程式, 這樣萬一有問題時, 關閉 ApplicationPool 即可</p>
+<p>先在<code>專案</code> 按下右鍵 =&gt; <code>Publish</code> =&gt; <code>Folder</code> 然後設定你的路徑<br>搞定後他會生設定檔在 <code>Properties</code> =&gt; <code>PublishProfiles</code> =&gt; <code>FolderProfile.pubxml</code><br>然後切換 config 檔案就可以正常 publish, 他會在佈署的資料夾底下生出 <code>web.config</code></p>
+<h3 id="手動佈署"><a href="#手動佈署" class="headerlink" title="手動佈署"></a>手動佈署</h3><p>如果是自己直接複製 Debug 資料夾的方式它不會產出 <code>web.config</code> 這樣會一直噴出 404, 須自己手動加入</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">location</span> <span class="attr">path</span>=<span class="string">"."</span> <span class="attr">inheritInChildApplications</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">handlers</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">add</span> <span class="attr">name</span>=<span class="string">"aspNetCore"</span> <span class="attr">path</span>=<span class="string">"*"</span> <span class="attr">verb</span>=<span class="string">"*"</span> <span class="attr">modules</span>=<span class="string">"AspNetCoreModuleV2"</span> <span class="attr">resourceType</span>=<span class="string">"Unspecified"</span> /&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">handlers</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">aspNetCore</span> <span class="attr">processPath</span>=<span class="string">"dotnet"</span> <span class="attr">arguments</span>=<span class="string">".\你的專案.dll"</span> <span class="attr">stdoutLogEnabled</span>=<span class="string">"false"</span> <span class="attr">stdoutLogFile</span>=<span class="string">".\logs\stdout"</span> <span class="attr">hostingModel</span>=<span class="string">"inprocess"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">system.webServer</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">location</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="存取問題"><a href="#存取問題" class="headerlink" title="存取問題"></a>存取問題</h3><p>這邊大概會噴什麼 <code>ACL</code> 或是 <code>403.14 - Forbidden</code> 類似的錯誤<br>如果遇到存取有問題的話可以在資料夾按右鍵<br><code>安全性</code> =&gt; <code>編輯</code> =&gt; <code>(從這個位置) 位置</code> =&gt; <code>選你的電腦</code> =&gt; <code>輸入物件名稱來選取</code> =&gt; <code>IUSR</code><br>(這裡要注意如果你是公司內網的話, 他預設會在公司 doamin 裡面)</p>
+<h3 id="COM-元件存取問題"><a href="#COM-元件存取問題" class="headerlink" title="COM 元件存取問題"></a>COM 元件存取問題</h3><p>後來因為專案有使用到 COM 元件, 結果噴這串, 最後調整 Application Pool 權限為 LocalSystem 才搞定</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UnauthorizedAccessException: Retrieving the COM class factory for component with CLSID &#123;3624XXX0-XE5X-12D3-AX96-XXC04F324E22&#125; failed due to the following error: 80070005 存取被拒</span><br></pre></td></tr></table></figure>
+
 
     </div>
 
@@ -322,7 +331,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/IIS/" rel="tag"># IIS</a>
+              <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+              <a href="/tags/iis/" rel="tag"># iis</a>
           </div>
 
         
@@ -331,12 +341,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2024/08/11/js-%E6%8E%92%E5%BA%8F%E7%AD%86%E8%A8%98/" rel="prev" title="js 排序筆記">
-      <i class="fa fa-chevron-left"></i> js 排序筆記
+    <a href="/2024/10/17/asp-net-core-%E5%8A%A0%E5%85%A5-git-commit-%E8%B3%87%E8%A8%8A/" rel="prev" title="asp.net core 加入 git commit 資訊">
+      <i class="fa fa-chevron-left"></i> asp.net core 加入 git commit 資訊
     </a></div>
       <div class="post-nav-item">
-    <a href="/2024/08/29/ts-%E7%9C%BC%E5%8A%9B%E6%B8%AC%E9%A9%97/" rel="next" title="ts 眼力測驗">
-      ts 眼力測驗 <i class="fa fa-chevron-right"></i>
+    <a href="/2024/10/22/asp-net-core-%E5%8F%96%E5%BE%97-IIS-ApplicationPoolName-SiteName/" rel="next" title="asp.net core 取得 IIS ApplicationPoolName SiteName">
+      asp.net core 取得 IIS ApplicationPoolName SiteName <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -403,6 +413,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#確認-IIS-是否安裝-hosting-bundle"><span class="nav-number">1.</span> <span class="nav-text">確認 IIS 是否安裝 hosting bundle</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Visual-Studio-Publish"><span class="nav-number">2.</span> <span class="nav-text">Visual Studio Publish</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手動佈署"><span class="nav-number">3.</span> <span class="nav-text">手動佈署</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#存取問題"><span class="nav-number">4.</span> <span class="nav-text">存取問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COM-元件存取問題"><span class="nav-number">5.</span> <span class="nav-text">COM 元件存取問題</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -418,7 +429,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">292</span>
+          <span class="site-state-item-count">293</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -490,7 +501,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">22:06</span>
+    <span title="所需總浪費時間">22:07</span>
 </div>
 
         
@@ -560,9 +571,9 @@
 </script>
 <script>
   var disqus_config = function() {
-    this.page.url = "https://www.blog.lasai.com.tw/2024/08/22/IIS-HTTP-%E9%8C%AF%E8%AA%A4-403-14/";
-    this.page.identifier = "2024/08/22/IIS-HTTP-錯誤-403-14/";
-    this.page.title = "IIS HTTP 錯誤 403.14";
+    this.page.url = "https://www.blog.lasai.com.tw/2024/10/22/asp-net-core-%E4%BD%88%E7%BD%B2%E8%87%B3-IIS-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2024/10/22/asp-net-core-佈署至-IIS-筆記/";
+    this.page.title = "asp.net core 佈署至 IIS 筆記";
     };
   NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
     if (window.DISQUS) {
