@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-11-01T13:07:21.000Z">
-<meta property="article:modified_time" content="2024-11-01T13:09:13.462Z">
+<meta property="article:modified_time" content="2024-11-02T19:58:04.300Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta property="article:tag" content="c">
@@ -262,10 +262,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2024-11-01 21:07:21 / 修改時間：21:09:13" itemprop="dateCreated datePublished" datetime="2024-11-01T21:07:21+08:00">2024-11-01</time>
+              <time title="亂入時間：2024-11-01 21:07:21" itemprop="dateCreated datePublished" datetime="2024-11-01T21:07:21+08:00">2024-11-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2024-11-03 03:58:04" itemprop="dateModified" datetime="2024-11-03T03:58:04+08:00">2024-11-03</time>
+              </span>
 
           
   
@@ -287,7 +293,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.4k</span>
+              <span>3.8k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -309,18 +315,23 @@
         <p>&nbsp;</p>
 <a id="more"></a>
 
-<p>最近練習 c 語言, 剛好拿個影像處理的 code 轉為 c# 玩看看, 順手筆記下<br>他原始 c 的 code 如下</p>
+<p>最近練習 c 語言, 剛好拿個影像處理的 code 轉為 c# 玩看看, 順手筆記下</p>
+<h3 id="灰階"><a href="#灰階" class="headerlink" title="灰階"></a>灰階</h3><p>他原始 c 的 code 如下</p>
+<p>這裡要注意 <code>bitDepth</code> 若為 24 則表示有 RGB 三色, 大小則為 <code>height * width * 3</code><br><code>bitDepth</code> 小於等於 8 則吃 <code>colorTable</code> 開闢的大小為 <code>height * width</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    FILE *fIn &#x3D; fopen(&quot;images&#x2F;lena_color.bmp&quot;, &quot;rb&quot;);</span><br><span class="line">    FILE *fOut &#x3D; fopen(&quot;images&#x2F;lena_gray.bmp&quot;, &quot;wb&quot;);</span><br><span class="line"></span><br><span class="line">    unsigned char imgHeader[54];</span><br><span class="line">    unsigned char colorTable[1024];</span><br><span class="line"></span><br><span class="line">    if (fIn &#x3D;&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;Unable to open image\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (int i &#x3D; 0; i &lt; 54; i++)</span><br><span class="line">        imgHeader[i] &#x3D; getc(fIn);</span><br><span class="line"></span><br><span class="line">    fwrite(imgHeader, sizeof(unsigned char), 54, fOut);</span><br><span class="line"></span><br><span class="line">    int height &#x3D; *(int *)&amp;imgHeader[22];</span><br><span class="line">    int width &#x3D; *(int *)&amp;imgHeader[18];</span><br><span class="line">    int bitDepth &#x3D; *(int *)&amp;imgHeader[28];</span><br><span class="line"></span><br><span class="line">    if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">    &#123;</span><br><span class="line">        fread(colorTable, sizeof(unsigned char), 1024, fIn);</span><br><span class="line">        fwrite(colorTable, sizeof(unsigned char), 1024, fOut);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int imgSize &#x3D; height * width;</span><br><span class="line">    unsigned char buffer[imgSize][3];</span><br><span class="line"></span><br><span class="line">    for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        buffer[i][0] &#x3D; getc(fIn);</span><br><span class="line">        buffer[i][1] &#x3D; getc(fIn);</span><br><span class="line">        buffer[i][2] &#x3D; getc(fIn);</span><br><span class="line"></span><br><span class="line">        int temp &#x3D; 0;</span><br><span class="line">        temp &#x3D; (buffer[i][0] * 0.3) + (buffer[i][1] * 0.59) + (buffer[i][2] * 0.11);</span><br><span class="line"></span><br><span class="line">        putc(temp, fOut);</span><br><span class="line">        putc(temp, fOut);</span><br><span class="line">        putc(temp, fOut);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    printf(&quot;Success!\n&quot;);</span><br><span class="line">    fclose(fIn);</span><br><span class="line">    fclose(fOut);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>轉為 c# 如下, 有 chatgpt 真速度 XD</p>
 <p>自己覺得比較難的點應該是這句 <code>int width = *(int *)&amp;imgHeader[18];</code> 他會撈 <code>18 19 20 21</code> 這塊 data<br>在 c# 則是用 <code>int width = BitConverter.ToInt32(imgHeader, 18)</code> 讓他去撈這塊<br>這邊如果直接寫成 <code>int width = imgHeader[18];</code> 的話就取錯數值了</p>
-<p>此外 c# 的 <code>2d array</code> 是用 <code>[,]</code> 表示如果寫成 <code>[][]</code> 則表示 <code>jagged array</code> 這點跟 c 不太一樣</p>
+<p>此外 c# 的 <code>2d array</code> 是用 <code>[,]</code> 表示<br>如果寫成 <code>[][]</code> 則表示 <code>jagged array</code> 這點跟 c 不太一樣</p>
+<p>還有 c 的 <code>unsigned char</code> 在 c# 是用 <code>byte</code></p>
 <p>讀取的部分 c# 則是用函數 Read 就可以一口氣讀取 <code>int bytesRead = fIn.Read(imgHeader, 0, imgHeader.Length)</code> , 不用搞個 loop</p>
 <p>還有他的範例 code 顏色順序是 <code>RGB</code>, 懷疑可能是錯的 XD?<br>我記憶中應該是 <code>BGR</code> 才正確, 所以修正下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">string inputFilePath &#x3D; &quot;images&#x2F;lena_color.bmp&quot;;</span><br><span class="line">string outputFilePath &#x3D; &quot;images&#x2F;lena_gray.bmp&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 打開輸入和輸出文件</span><br><span class="line">using FileStream fIn &#x3D; new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);</span><br><span class="line">using FileStream fOut &#x3D; new FileStream(outputFilePath, FileMode.Create, FileAccess.Write);</span><br><span class="line"></span><br><span class="line">byte[] imgHeader &#x3D; new byte[54];</span><br><span class="line">byte[] colorTable &#x3D; new byte[1024];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 讀取 BMP 標頭</span><br><span class="line">int bytesRead &#x3D; fIn.Read(imgHeader, 0, imgHeader.Length);</span><br><span class="line">if (bytesRead !&#x3D; imgHeader.Length)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;Unable to read image header&quot;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 寫入標頭到輸出文件</span><br><span class="line">fOut.Write(imgHeader, 0, imgHeader.Length);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 獲取圖像的寬度、高度和位深度</span><br><span class="line">int height &#x3D; BitConverter.ToInt32(imgHeader, 22);</span><br><span class="line">int width &#x3D; BitConverter.ToInt32(imgHeader, 18);</span><br><span class="line">int bitDepth &#x3D; BitConverter.ToInt16(imgHeader, 28);</span><br><span class="line"></span><br><span class="line">Console.WriteLine($&quot;height: &#123;height&#125;&quot;);</span><br><span class="line">Console.WriteLine($&quot;width: &#123;width&#125;&quot;);</span><br><span class="line">Console.WriteLine($&quot;bitDepth: &#123;bitDepth&#125;&quot;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 如果位深度小於等於 8，讀取顏色表</span><br><span class="line">if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">&#123;</span><br><span class="line">    fIn.Read(colorTable, 0, colorTable.Length);</span><br><span class="line">    fOut.Write(colorTable, 0, colorTable.Length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 計算圖像大小</span><br><span class="line">int imgSize &#x3D; height * width;</span><br><span class="line">byte[,] buffer &#x3D; new byte[imgSize, 3];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 讀取圖像數據並轉換為灰階</span><br><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; fIn.ReadByte();</span><br><span class="line">    var green &#x3D; fIn.ReadByte();</span><br><span class="line">    var red &#x3D; fIn.ReadByte();</span><br><span class="line"></span><br><span class="line">    buffer[i, 0] &#x3D; (byte)blue;</span><br><span class="line">    buffer[i, 1] &#x3D; (byte)green;</span><br><span class="line">    buffer[i, 2] &#x3D; (byte)red;</span><br><span class="line"></span><br><span class="line">    int temp &#x3D; 0;</span><br><span class="line">    &#x2F;&#x2F;轉換灰階公式 </span><br><span class="line">    &#x2F;&#x2F;R * 0.299 + G * 0.587 + B * 0.114</span><br><span class="line">    temp &#x3D; (int)(red * 0.299) + (int)(green * 0.587) + (int)(blue * 0.114);</span><br><span class="line">    fOut.WriteByte((byte)temp);</span><br><span class="line">    fOut.WriteByte((byte)temp);</span><br><span class="line">    fOut.WriteByte((byte)temp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Console.WriteLine(&quot;Success!&quot;);</span><br></pre></td></tr></table></figure>
 
 
 
+<h3 id="二值化"><a href="#二值化" class="headerlink" title="二值化"></a>二值化</h3><p>二值化只需要給個 threshold 當小於 threshold 則給黑色 0, 大於則給白色 255</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gray &#x3D; (int)(red * 0.299) + (int)(green * 0.587) + (int)(blue * 0.114);</span><br><span class="line">binValue &#x3D; 0;</span><br><span class="line">if(gray &lt; threshold) binValue &#x3D; 0;</span><br><span class="line">else binValue &#x3D; 255;</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -412,6 +423,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#灰階"><span class="nav-number">1.</span> <span class="nav-text">灰階</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二值化"><span class="nav-number">2.</span> <span class="nav-text">二值化</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -499,7 +511,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">22:17</span>
+    <span title="所需總浪費時間">22:18</span>
 </div>
 
         
