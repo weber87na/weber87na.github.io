@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-11-01T13:07:21.000Z">
-<meta property="article:modified_time" content="2024-11-02T19:59:28.340Z">
+<meta property="article:modified_time" content="2024-11-03T13:30:11.493Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta property="article:tag" content="c">
@@ -270,7 +270,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2024-11-03 03:59:28" itemprop="dateModified" datetime="2024-11-03T03:59:28+08:00">2024-11-03</time>
+                <time title="修改時間：2024-11-03 21:30:11" itemprop="dateModified" datetime="2024-11-03T21:30:11+08:00">2024-11-03</time>
               </span>
 
           
@@ -293,14 +293,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.8k</span>
+              <span>4.4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>3 分鐘</span>
+              <span>4 分鐘</span>
             </span>
 
         </div>
@@ -332,6 +332,10 @@
 
 <h3 id="二值化"><a href="#二值化" class="headerlink" title="二值化"></a>二值化</h3><p>二值化只需要給個 threshold 當小於 threshold 則給黑色 0, 大於則給白色 255</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gray &#x3D; (int)(red * 0.299) + (int)(green * 0.587) + (int)(blue * 0.114);</span><br><span class="line">binValue &#x3D; 0;</span><br><span class="line">if(gray &lt; threshold) binValue &#x3D; 0;</span><br><span class="line">else binValue &#x3D; 255;</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="亮度"><a href="#亮度" class="headerlink" title="亮度"></a>亮度</h3><p>亮度調整則是看要變亮還是變暗, 變亮的話就讓數值往 255 靠攏, 反之則往 0 靠攏即可<br>這裡往暗部調整練下指標, 他直接用 void, 參數要用 <code>unsigned char *value</code>, 呼叫時記得加上 <code>&amp;</code> 符號即可, 像這樣 <code>to_darkness(&amp;buffer[i][0])</code><br>這裡就懶得列 c# 的版本了 ~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#define BRIGTHNESS 50</span><br><span class="line">#define DARKNESS 50</span><br><span class="line"></span><br><span class="line">int to_brigthness(int value)</span><br><span class="line">&#123;</span><br><span class="line">    if (value + BRIGTHNESS &gt;&#x3D; 255)</span><br><span class="line">        return 255;</span><br><span class="line">    else</span><br><span class="line">        return value + BRIGTHNESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;用法</span><br><span class="line">&#x2F;&#x2F;to_darkness(&amp;buffer[i][0]);</span><br><span class="line">void to_darkness(unsigned char *value)</span><br><span class="line">&#123;</span><br><span class="line">    if (*value - DARKNESS &lt;&#x3D; 0)</span><br><span class="line">        *value &#x3D; 0;</span><br><span class="line">    else</span><br><span class="line">        *value &#x3D; *value - DARKNESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	&#x2F;&#x2F;略</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -423,7 +427,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#灰階"><span class="nav-number">1.</span> <span class="nav-text">灰階</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二值化"><span class="nav-number">2.</span> <span class="nav-text">二值化</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#灰階"><span class="nav-number">1.</span> <span class="nav-text">灰階</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二值化"><span class="nav-number">2.</span> <span class="nav-text">二值化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#亮度"><span class="nav-number">3.</span> <span class="nav-text">亮度</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
