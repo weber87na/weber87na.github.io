@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-11-01T13:07:21.000Z">
-<meta property="article:modified_time" content="2024-11-03T13:30:11.493Z">
+<meta property="article:modified_time" content="2024-11-04T11:51:19.180Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta property="article:tag" content="c">
@@ -270,7 +270,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2024-11-03 21:30:11" itemprop="dateModified" datetime="2024-11-03T21:30:11+08:00">2024-11-03</time>
+                <time title="修改時間：2024-11-04 19:51:19" itemprop="dateModified" datetime="2024-11-04T19:51:19+08:00">2024-11-04</time>
               </span>
 
           
@@ -293,14 +293,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>4.4k</span>
+              <span>5.3k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>4 分鐘</span>
+              <span>5 分鐘</span>
             </span>
 
         </div>
@@ -334,8 +334,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gray &#x3D; (int)(red * 0.299) + (int)(green * 0.587) + (int)(blue * 0.114);</span><br><span class="line">binValue &#x3D; 0;</span><br><span class="line">if(gray &lt; threshold) binValue &#x3D; 0;</span><br><span class="line">else binValue &#x3D; 255;</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br></pre></td></tr></table></figure>
 
 
-<h3 id="亮度"><a href="#亮度" class="headerlink" title="亮度"></a>亮度</h3><p>亮度調整則是看要變亮還是變暗, 變亮的話就讓數值往 255 靠攏, 反之則往 0 靠攏即可<br>這裡往暗部調整練下指標, 他直接用 void, 參數要用 <code>unsigned char *value</code>, 呼叫時記得加上 <code>&amp;</code> 符號即可, 像這樣 <code>to_darkness(&amp;buffer[i][0])</code><br>這裡就懶得列 c# 的版本了 ~</p>
+<h3 id="亮度"><a href="#亮度" class="headerlink" title="亮度"></a>亮度</h3><p>亮度調整則是看要變亮還是變暗, 變亮的話就讓數值往 255 靠攏, 反之則往 0 靠攏即可<br>這裡往暗部調整練下指標, 他直接用 void, 參數要用 <code>unsigned char *value</code>, 呼叫時記得加上 <code>&amp;</code> 符號即可, 像這樣 <code>to_darkness(&amp;buffer[i][0])</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#define BRIGTHNESS 50</span><br><span class="line">#define DARKNESS 50</span><br><span class="line"></span><br><span class="line">int to_brigthness(int value)</span><br><span class="line">&#123;</span><br><span class="line">    if (value + BRIGTHNESS &gt;&#x3D; 255)</span><br><span class="line">        return 255;</span><br><span class="line">    else</span><br><span class="line">        return value + BRIGTHNESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;用法</span><br><span class="line">&#x2F;&#x2F;to_darkness(&amp;buffer[i][0]);</span><br><span class="line">void to_darkness(unsigned char *value)</span><br><span class="line">&#123;</span><br><span class="line">    if (*value - DARKNESS &lt;&#x3D; 0)</span><br><span class="line">        *value &#x3D; 0;</span><br><span class="line">    else</span><br><span class="line">        *value &#x3D; *value - DARKNESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	&#x2F;&#x2F;略</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡 c# 的寫法如下, 首先需要在 <code>csproj</code> 裡面設定打開 <code>unsafe</code> 功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &lt;PropertyGroup&gt;</span><br><span class="line">   &lt;OutputType&gt;Exe&lt;&#x2F;OutputType&gt;</span><br><span class="line">   &lt;TargetFramework&gt;net8.0&lt;&#x2F;TargetFramework&gt;</span><br><span class="line">   &lt;ImplicitUsings&gt;enable&lt;&#x2F;ImplicitUsings&gt;</span><br><span class="line">   &lt;Nullable&gt;enable&lt;&#x2F;Nullable&gt;</span><br><span class="line">&lt;!-- 加入這行打開 unsafe 功能 --&gt;</span><br><span class="line">   &lt;AllowUnsafeBlocks&gt;True&lt;&#x2F;AllowUnsafeBlocks&gt;</span><br><span class="line"> &lt;&#x2F;PropertyGroup&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接著寫亮度調整的函數, 比較特別的是需要在函數開頭加上 <code>unsafe</code> 關鍵字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">unsafe void ToBrightness(byte* value)</span><br><span class="line">&#123;</span><br><span class="line">    const int BRIGHTNESS &#x3D; 100;</span><br><span class="line">    if (*value + BRIGHTNESS &gt;&#x3D; 255) *value &#x3D; 255;</span><br><span class="line">    else *value +&#x3D; BRIGHTNESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">unsafe void ToDarkness(byte* value)</span><br><span class="line">&#123;</span><br><span class="line">    const int DARKNESS &#x3D; 100;</span><br><span class="line">    if (*value - DARKNESS &lt;&#x3D; 0) *value &#x3D; 0;</span><br><span class="line">    else *value -&#x3D; DARKNESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>呼叫時要先開一個 <code>unsafe</code> 區塊, 用 <code>fixed</code> 撈指標, 最後跟 c 一樣呼叫就可以惹, 整個炫炮 ~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">unsafe</span><br><span class="line">&#123;</span><br><span class="line">	for (int j &#x3D; 0; j &lt; 3; j++)</span><br><span class="line">	&#123;</span><br><span class="line">		fixed (byte* ptr &#x3D; &amp;buffer[i, j])</span><br><span class="line">		&#123;</span><br><span class="line">			ToBrightness(ptr);</span><br><span class="line">			fOut.WriteByte(*ptr);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -515,7 +524,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">22:18</span>
+    <span title="所需總浪費時間">22:19</span>
 </div>
 
         
