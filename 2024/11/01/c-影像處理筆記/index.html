@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2024-11-01T13:07:21.000Z">
-<meta property="article:modified_time" content="2024-11-04T18:30:49.127Z">
+<meta property="article:modified_time" content="2024-11-05T14:46:27.794Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="csharp">
 <meta property="article:tag" content="c">
@@ -270,7 +270,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2024-11-05 02:30:49" itemprop="dateModified" datetime="2024-11-05T02:30:49+08:00">2024-11-05</time>
+                <time title="修改時間：2024-11-05 22:46:27" itemprop="dateModified" datetime="2024-11-05T22:46:27+08:00">2024-11-05</time>
               </span>
 
           
@@ -293,14 +293,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>5.3k</span>
+              <span>7.5k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>5 分鐘</span>
+              <span>7 分鐘</span>
             </span>
 
         </div>
@@ -345,6 +345,15 @@
 
 <p>呼叫時要先開一個 <code>unsafe</code> 區塊, 用 <code>fixed</code> 撈指標, 最後跟 c 一樣呼叫就可以惹, 整個炫炮 ~</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">unsafe</span><br><span class="line">&#123;</span><br><span class="line">	for (int j &#x3D; 0; j &lt; 3; j++)</span><br><span class="line">	&#123;</span><br><span class="line">		fixed (byte* ptr &#x3D; &amp;buffer[i, j])</span><br><span class="line">		&#123;</span><br><span class="line">			ToBrightness(ptr);</span><br><span class="line">			fOut.WriteByte(*ptr);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="直方圖-Histogram"><a href="#直方圖-Histogram" class="headerlink" title="直方圖 Histogram"></a>直方圖 Histogram</h3><p>這裡的 c# code 如下<br>首先開闢 <code>int[,] ihist = new int[3, 256]</code> 來放 bgr 每個 pixel 的色彩索引<br>因為色彩會由 <code>0 ~ 255</code> 共 <code>256</code> 個值, 開闢空間要注意下 <code>不要寫成 255</code>, 這裡一樣用 <code>bgr</code> 的順序來記錄</p>
+<p>接著開一個 sum array 來存目前 pixel 數量</p>
+<p>然後用 for loop 把目前 pixel 的 index 與 sum 保存起來</p>
+<p>接著宣告 <code>float[,] hist = new float[3, 256]</code> 來保存結果<br>用 loop 將 <code>保存色彩數值 / sum</code> 來取得每個點位直方圖的數值即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">string inputFilePath &#x3D; &quot;images&#x2F;lena_color.bmp&quot;;</span><br><span class="line">string outputFilePath &#x3D; &quot;images&#x2F;histogram_rgb.txt&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 打開輸入和輸出文件</span><br><span class="line">using FileStream fIn &#x3D; new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);</span><br><span class="line">using StreamWriter fOut &#x3D; new StreamWriter(outputFilePath);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;影像大小 (高 * 寬)</span><br><span class="line">int imgSize &#x3D; height * width;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;記錄 rgb 的 0 - 255 色彩索引</span><br><span class="line">int[,] ihist &#x3D; new int[3, 256];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;記錄 rgb 目前加總數量</span><br><span class="line">int[] sum &#x3D; new int[3];</span><br><span class="line"></span><br><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; fIn.ReadByte();</span><br><span class="line">    var green &#x3D; fIn.ReadByte();</span><br><span class="line">    var red &#x3D; fIn.ReadByte();</span><br><span class="line"></span><br><span class="line">    ihist[0, blue] &#x3D; ihist[0, blue] + 1;</span><br><span class="line">    ihist[1, green] &#x3D; ihist[1, green] + 1;</span><br><span class="line">    ihist[2, red] &#x3D; ihist[2, red] + 1;</span><br><span class="line">	</span><br><span class="line">    sum[0]++;</span><br><span class="line">    sum[1]++;</span><br><span class="line">    sum[2]++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;最終結果</span><br><span class="line">float[,] hist &#x3D; new float[3, 256];</span><br><span class="line"></span><br><span class="line">for (int i &#x3D; 0; i &lt; 256; i++)</span><br><span class="line">&#123;</span><br><span class="line">    hist[0, i] &#x3D; (float)ihist[0, i] &#x2F; (float)sum[0];</span><br><span class="line">    hist[1, i] &#x3D; (float)ihist[1, i] &#x2F; (float)sum[1];</span><br><span class="line">    hist[2, i] &#x3D; (float)ihist[2, i] &#x2F; (float)sum[2];</span><br><span class="line">    fOut.Write(&quot;&#123;0&#125; &#123;1&#125; &#123;2&#125;&quot; , hist[0 , i].ToString(&quot;F6&quot;), hist[1 , i].ToString(&quot;F6&quot;), hist[2 , i].ToString(&quot;F6&quot;));</span><br><span class="line">    if (i &lt; 255) fOut.WriteLine();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看他的課程用 gnuplot 懶得安裝的話可以直接用這個線上版本 <a href="https://gnuplot.io/" target="_blank" rel="noopener">https://gnuplot.io/</a><br>可以跟這個網站 <a href="https://sisik.eu/histo" target="_blank" rel="noopener">https://sisik.eu/histo</a> 畫出來的對照, 不過身材會有點走鐘走鐘 XD<br>然後敲入以下 code 來執行, 就可以畫出來三個 band 的直方圖惹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 設定標題</span><br><span class="line">set title &quot;RGB Histogram&quot;</span><br><span class="line"></span><br><span class="line"># 設定x軸範圍</span><br><span class="line">set xlabel &quot;Pixel Value&quot;</span><br><span class="line">set xrange [0:255]</span><br><span class="line"></span><br><span class="line"># 設定y軸範圍</span><br><span class="line">set ylabel &quot;Frequency&quot;</span><br><span class="line"></span><br><span class="line"># 設定顏色，這裡是紅色、綠色和藍色通道的顏色</span><br><span class="line">set style line 1 linecolor rgb &quot;blue&quot;  linetype 1 linewidth 2</span><br><span class="line">set style line 2 linecolor rgb &quot;green&quot; linetype 1 linewidth 2</span><br><span class="line">set style line 3 linecolor rgb &quot;red&quot; linetype 1 linewidth 2</span><br><span class="line"></span><br><span class="line"># 繪製直方圖，使用三列資料，並設定不同顏色</span><br><span class="line">plot &quot;data3.txt&quot; using 1 with lines linestyle 1 title &quot;Blue&quot;, \</span><br><span class="line">     &quot;data3.txt&quot; using 2 with lines linestyle 2 title &quot;Green&quot;, \</span><br><span class="line">     &quot;data3.txt&quot; using 3 with lines linestyle 3 title &quot;Red&quot;</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -436,7 +445,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#灰階"><span class="nav-number">1.</span> <span class="nav-text">灰階</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二值化"><span class="nav-number">2.</span> <span class="nav-text">二值化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#亮度"><span class="nav-number">3.</span> <span class="nav-text">亮度</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#灰階"><span class="nav-number">1.</span> <span class="nav-text">灰階</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二值化"><span class="nav-number">2.</span> <span class="nav-text">二值化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#亮度"><span class="nav-number">3.</span> <span class="nav-text">亮度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直方圖-Histogram"><span class="nav-number">4.</span> <span class="nav-text">直方圖 Histogram</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -524,7 +533,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">22:19</span>
+    <span title="所需總浪費時間">22:21</span>
 </div>
 
         
