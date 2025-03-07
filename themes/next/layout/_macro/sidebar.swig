@@ -51,6 +51,7 @@
 	  </div>
 
 	  <!-- google 廣告 -->
+	  <!--
 	  <ins class="adsbygoogle"
 		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
 		  data-ad-client="ca-pub-1069539516107706"
@@ -60,6 +61,7 @@
 	  <script>
 		  (adsbygoogle = window.adsbygoogle || []).push({});
 	  </script>
+	  -->
 
     </div>
   </aside>
