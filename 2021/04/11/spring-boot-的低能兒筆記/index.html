@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="spring boot 的低能兒筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/04/11/spring-boot-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-04-11T04:45:23.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="喇賽">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/04/11/spring-boot-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>spring boot 的低能兒筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/04/11/spring-boot-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          spring boot 的低能兒筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-04-11 12:45:23" itemprop="dateCreated datePublished" datetime="2021-04-11T12:45:23+08:00">2021-04-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/04/11/spring-boot-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/11/spring-boot-的低能兒筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.9k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>7 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="設定-java"><a href="#設定-java" class="headerlink" title="設定 java"></a>設定 java</h3><p>因為三不五時又會遇到討厭的 java , 為了了解其生態系 , 不得已只好花點時間看看 , 不然每次都雞同鴨講<br>第一步先安裝 JDK 可以裝 <a href="https://www.oracle.com/tw/java/technologies/javase/javase-jdk8-downloads.html" target="_blank" rel="noopener">Oracle 的版本</a> or OpenJDK , 現在有新選擇 <a href="https://www.microsoft.com/openjdk" target="_blank" rel="noopener">M$ 也有 OpenJDK 了</a><br>接著新增以下環境變數<br>變數名稱 <code>JAVA_HOME</code> 變數值 <code>C:\Program Files\Java\jdk1.8.0_151</code><br>變數名稱 <code>CLASSPATH</code> 變數值 <code>.;%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar</code><br>變數名稱 <code>PATH</code> 變數值 <code>%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin</code><br>接著 <code>cmd</code> <code>java -version</code> <code>javac -version</code> 看看有無成功輸出<br>然後下載類似 <code>Nuget</code> 的套件管理工具 <a href="https://maven.apache.org/" target="_blank" rel="noopener">Maven</a><br>變數名稱 <code>MAVEN_HOME</code> 變數值 <code>C:\apache-maven-3.5.2</code> 並在 <code>PATH</code> 後面加上 <code>%MAVEN_HOME%\bin\</code><br>接著一樣敲 <code>cmd</code> <code>mvn -v</code> 看看有無成功輸出</p>
+<h3 id="powershell-中文-build-java-亂碼問題"><a href="#powershell-中文-build-java-亂碼問題" class="headerlink" title="powershell 中文 build java 亂碼問題"></a>powershell 中文 build java 亂碼問題</h3><p>無意中發現 powershell 呼叫 java 亂碼的問題 , <a href="https://stackoverflow.com/questions/44208347/unable-to-set-correct-encoding-in-powershell" target="_blank" rel="noopener">參考自此</a><br>新增環境變數 <code>JAVA_TOOL_OPTIONS</code> <code>-Dfile.encoding=utf-8</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;public class HelloWorld &#123; public static void main(String[] args)&#123; System.out.println(&#96;&quot;Helloworld&#96;&quot; ); &#125; &#125;&quot; | Out-File -Encoding ascii HelloWorld.java</span><br></pre></td></tr></table></figure>
+
+<p>這裡如 Encoding 設定 utf8 會送你加了 BOM 的<br>有夠無言 javac 編譯又不會讓你過 , 寫個簡單的 echo 一堆問題有夠難用<br>如果真的要印中文無 BOM 最好參考這篇老外<a href="https://stackoverflow.com/questions/5596982/using-powershell-to-write-a-file-in-utf-8-without-the-bom" target="_blank" rel="noopener">解法</a> , 我就懶得多寫了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java HelloWorld</span><br><span class="line">#Picked up JAVA_TOOL_OPTIONS: -Dfile.encoding&#x3D;utf-8</span><br><span class="line">#Helloworld</span><br></pre></td></tr></table></figure>
+
+<h3 id="設定-intellij"><a href="#設定-intellij" class="headerlink" title="設定 intellij"></a>設定 intellij</h3><p>接著安裝 Intellij<br>老樣子安裝 <a href="https://plugins.jetbrains.com/plugin/index?xmlId=IdeaVIM" target="_blank" rel="noopener">IdeaVim</a> 因為之前用 <code>Android Studio</code> config 過了所以直接<a href="https://weber87na.github.io/2021/02/21/Android-Studio-vim-mode/" target="_blank" rel="noopener">拿以前的來抄</a><br>接著安裝 <code>Spring Assistant</code> &amp; <code>JPA Support</code> 這2個 plugin <code>File</code> =&gt; <code>Settings</code> =&gt; <code>Plugins</code> =&gt; <code>Spring Assistant</code> <code>JPA Support</code><br>然後設定 Maven 在 <code>File</code> =&gt; <code>Settings</code> =&gt; <code>Build,Execution,Deployment</code> =&gt; <code>Maven home path</code> 看看要不要自己手動設定 , 這邊先用預設<br>建立 Spring 專案 <code>File</code> =&gt; <code>New</code> =&gt; <code>Project</code> =&gt; <code>Spring Assistant</code> =&gt; <code>Java Version 8</code> =&gt; <code>Next</code> =&gt; <code>Web</code> =&gt; <code>Spring Web</code> 靜待片刻</p>
+<h3 id="choco-安裝-java"><a href="#choco-安裝-java" class="headerlink" title="choco 安裝 java"></a>choco 安裝 java</h3><p>用 choco 安裝 openjdk8 , 可以<a href="https://community.chocolatey.org/packages/jdk8#install" target="_blank" rel="noopener">參考此連結</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install openjdk8</span><br></pre></td></tr></table></figure>
+<p>從 powershell 下載訊息中可以看到基本上也是從 <a href="https://adoptopenjdk.net/?variant=openjdk8&jvmVariant=hotspot" target="_blank" rel="noopener">adoptopenjdk</a> 下載的<br><a href="https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jdk_x64_windows_8u282b08.zip" target="_blank" rel="noopener">https://github.com/AdoptOpenJDK/openjdk8-upstream-binaries/releases/download/jdk8u282-b08/OpenJDK8U-jdk_x64_windows_8u282b08.zip</a><br>下載後會幫你加 <code>JAVA_HOME</code> 在以下路徑 <code>C:\Program Files\OpenJDK\openjdk-8u282-b08</code><br><code>PATH</code> 也會幫你自動加上去 <code>C:\Program Files\OpenJDK\openjdk-8u282-b08\bin</code></p>
+<p>安裝 maven</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install maven</span><br></pre></td></tr></table></figure>
+<p>安裝完可以看到設定了 <code>M2_HOME</code> 在以下路徑 <code>C:\ProgramData\chocolatey\lib\maven\apache-maven-3.8.1</code><br>以及 <code>PATH</code> 追加了 <code>%M2_HOME%\bin</code><br>有點納悶不是應該叫做 <code>MAVEN_HOME</code> 嗎? [參考老外] 原來 Maven 1 是用 <code>MAVEN_HOME</code> Maven 2 則用 <code>M2_HOME</code> 其實沒差<br>感覺用 choco 安裝更無腦</p>
+<p>今天還遇到個之前沒遇過的低能問題 , 就是無法在 windows 底下新增開頭有點 <code>.</code> 的特殊檔案 , 搞了半天沒辦法用 <code>.ideavimrc</code><br>google 看到老外說用 notepad++ 選另存新檔 , file type 選擇 all 就可以了</p>
+<h3 id="在-intellij-安裝"><a href="#在-intellij-安裝" class="headerlink" title="在 intellij 安裝"></a>在 intellij 安裝</h3><p>主要參考這篇<a href="https://www.jetbrains.com/help/idea/convert-a-regular-project-into-a-maven-project.html" target="_blank" rel="noopener">官方</a><br>在 <code>pom.xml</code> 內加入類似如下片段即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">	&lt;dependency&gt;</span><br><span class="line">		&lt;groupId&gt;io.github.fanyong920&lt;&#x2F;groupId&gt;</span><br><span class="line">		&lt;artifactId&gt;jvppeteer&lt;&#x2F;artifactId&gt;</span><br><span class="line">		&lt;version&gt;1.1.3&lt;&#x2F;version&gt;</span><br><span class="line">	&lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;&#x2F;dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="牛刀小試-jdbcTemplate"><a href="#牛刀小試-jdbcTemplate" class="headerlink" title="牛刀小試 jdbcTemplate"></a>牛刀小試 jdbcTemplate</h3><p>看書上照著做沒多久就陣亡了 , 書上的範例是 mysql 懶得安裝 mysql 直接用現成的 M$<br>首先在 <code>application.properties</code> 底下增加連線訊息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">spring.datasource.url&#x3D;jdbc:sqlserver:&#x2F;&#x2F;localhost:1433;databaseName&#x3D;test</span><br><span class="line">spring.datasource.username&#x3D;sa</span><br><span class="line">spring.datasource.password&#x3D;yourpassword</span><br><span class="line">spring.datasource.driverClassName&#x3D;com.microsoft.sqlserver.jdbc.SQLServerDriver</span><br><span class="line">spring.datasource.initialize&#x3D;true</span><br></pre></td></tr></table></figure>
+<p>特別注意這句 <code>spring.datasource.driverClassName=com.microsoft.sqlserver.jdbc.SQLServerDriver</code> 這句是低能關鍵 , 一開始依照其他低能老外寫的怎麼 try 都掛點 , 後來是看到<a href="https://springframework.guru/configuring-spring-boot-for-microsoft-sql-server/" target="_blank" rel="noopener">這篇</a>佛心老外才成功<br>另外 pom.xml 要增加以下相依</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-jdbc&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.projectlombok&lt;&#x2F;groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;lombok&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;com.microsoft.sqlserver&lt;&#x2F;groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;mssql-jdbc&lt;&#x2F;artifactId&gt;</span><br><span class="line">	&lt;version&gt;9.2.1.jre8&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>老樣子可以<a href="https://docs.microsoft.com/zh-tw/sql/connect/jdbc/system-requirements-for-the-jdbc-driver?view=sql-server-ver15" target="_blank" rel="noopener">參考微軟天書</a> , 這邊會炸大概都是 jre 的版本寫錯 , 我是用 java 8 , 所以要進行相應的調整 , 才剛開始搞就發現 , spring 的 config 超級難設定 , 對新手真不友善</p>
+<p>接著加個 <code>Customer</code> 類別跟 <code>CustomerController</code> 類別<br>特別注意這邊標示 Data 的話起先 intellij 會認不得 , 只要無腦按 <code>Add CLASSPATH</code> 它會自動加入 <code>lombok</code> 到 <code>pom</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import lombok.Data;</span><br><span class="line">import org.springframework.jdbc.core.RowMapper;</span><br><span class="line"></span><br><span class="line">import java.sql.ResultSet;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line"></span><br><span class="line">@Data</span><br><span class="line">public class Customer implements RowMapper&lt;Customer&gt; &#123;</span><br><span class="line">	private  int id;</span><br><span class="line">	private  String firstName;</span><br><span class="line">	private String lastName;</span><br><span class="line">	@Override</span><br><span class="line">		public Customer mapRow(ResultSet resultSet, int i) throws SQLException &#123;</span><br><span class="line">			Customer customer &#x3D; new Customer();</span><br><span class="line">			customer.setId(resultSet.getInt(&quot;Id&quot;));</span><br><span class="line">			customer.setFirstName(resultSet.getString(&quot;FirstName&quot;));</span><br><span class="line">			customer.setLastName(resultSet.getString(&quot;LastName&quot;));</span><br><span class="line">			return customer;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>因為沒寫過 spring 所以特別筆記一下 Autowired 這個是讓 DI 自動注入 , 所以無腦標示以後就可以用了<br>controller 的部分寫起來有點像 .net core<br>撈資料程式碼寫起來有點像 <code>Dapper</code> or <code>ADO.NET</code> 以一個廢物第一天寫可以搞起來算是不錯了!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">import org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line">import org.springframework.jdbc.core.BeanPropertyRowMapper;</span><br><span class="line">import org.springframework.jdbc.core.JdbcTemplate;</span><br><span class="line">import org.springframework.web.bind.annotation.GetMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;customer&quot;)</span><br><span class="line">public class CustomerController &#123;</span><br><span class="line">	@Autowired</span><br><span class="line">		private JdbcTemplate jdbcTemplate;</span><br><span class="line"></span><br><span class="line">	@GetMapping(&quot;list&quot;)</span><br><span class="line">		public List&lt;Customer&gt; list() throws Exception&#123;</span><br><span class="line">			String sql &#x3D; &quot;SELECT Id , FirstName , LastName FROM Customers&quot;;</span><br><span class="line">			List&lt;Customer&gt; result &#x3D; jdbcTemplate.query(sql,new BeanPropertyRowMapper&lt;Customer&gt;(Customer.class));</span><br><span class="line">			return  result;</span><br><span class="line">		&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最後執行 <code>http://127.0.0.1:8080/customer/list</code> 就能得到 Customers 資料表內的 json 資料了 , 感動!</p>
+<h3 id="牛刀小試-JPA"><a href="#牛刀小試-JPA" class="headerlink" title="牛刀小試 JPA"></a>牛刀小試 JPA</h3><p>首先加入 pom 依賴</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">	&lt;groupId&gt;org.springframework.boot&lt;&#x2F;groupId&gt;</span><br><span class="line">	&lt;artifactId&gt;spring-boot-starter-data-jpa&lt;&#x2F;artifactId&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+<p>JPA 跟 entity framework 一樣難搞 , 通常在 M$ 荼毒之下會用大寫駝峰命資料庫欄位 <code>FirstName</code>  但 JPA 會解析成 <code>first_name</code> , <a href="https://stackoverflow.com/questions/25283198/spring-boot-jpa-column-name-annotation-ignored" target="_blank" rel="noopener">參考老外</a>所以要很變態的在 annotation 設定這樣 <code>@Column(name = &quot;firstname&quot;)</code><br>不過有有一勞永逸的方法就是直接在 properties 裡面直接設定以下內容即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">spring.jpa.hibernate.naming.implicit-strategy&#x3D;org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyJpaImpl</span><br><span class="line">spring.jpa.hibernate.naming.physical-strategy&#x3D;org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">import lombok.Data;</span><br><span class="line"></span><br><span class="line">import javax.persistence.*;</span><br><span class="line">import java.io.Serializable;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import java.io.Serializable;</span><br><span class="line"></span><br><span class="line">@Entity</span><br><span class="line">@Data</span><br><span class="line">@Table(name &#x3D; &quot;Customers&quot;)</span><br><span class="line">public class Customer2 implements Serializable &#123;</span><br><span class="line">	@GeneratedValue(strategy &#x3D; GenerationType.IDENTITY)</span><br><span class="line">	@Id</span><br><span class="line">	private  int id;</span><br><span class="line"></span><br><span class="line">	@Column(name &#x3D; &quot;firstname&quot;)</span><br><span class="line">	private  String firstName;</span><br><span class="line"></span><br><span class="line">	@Column(name &#x3D; &quot;lastname&quot;)</span><br><span class="line">	private String lastName;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>定義 Repository</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">import org.springframework.data.jpa.repository.JpaRepository;</span><br><span class="line">import org.springframework.data.jpa.repository.JpaSpecificationExecutor;</span><br><span class="line"></span><br><span class="line">public interface CustomerRepository extends JpaRepository&lt;Customer2,Integer&gt; ,</span><br><span class="line">	   JpaSpecificationExecutor&lt;Customer2&gt; &#123;</span><br><span class="line">		   Customer2 findById(int id);</span><br><span class="line">	   &#125;</span><br></pre></td></tr></table></figure>
+<p>Controller 應該還可以補個 Service</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">import org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line">import org.springframework.web.bind.annotation.RestController;</span><br><span class="line">import org.springframework.web.servlet.ModelAndView;</span><br><span class="line"></span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.Optional;</span><br><span class="line"></span><br><span class="line">@RestController</span><br><span class="line">@RequestMapping(&quot;customer&quot;)</span><br><span class="line">public class CustomerController &#123;</span><br><span class="line"></span><br><span class="line">	@Autowired</span><br><span class="line">	private CustomerRepository customerRepository;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	@GetMapping(&quot;all&quot;)</span><br><span class="line">	public List&lt;Customer2&gt; getCustomers()&#123;</span><br><span class="line">		List&lt;Customer2&gt; all &#x3D; customerRepository.findAll();</span><br><span class="line">		return all;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>看書上可以支援一對一關係就順便玩看看 , 關鍵是要設定 <code>OneToOne</code> 還有 <code>JoinColumn</code> 這兩個</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">package com.example.demo;</span><br><span class="line"></span><br><span class="line">import lombok.Data;</span><br><span class="line"></span><br><span class="line">import javax.persistence.*;</span><br><span class="line">import java.io.Serializable;</span><br><span class="line">import java.util.Arrays;</span><br><span class="line">import java.util.List;</span><br><span class="line"></span><br><span class="line">import java.io.Serializable;</span><br><span class="line"></span><br><span class="line">@Entity</span><br><span class="line">@Data</span><br><span class="line">@Table(name &#x3D; &quot;Customers&quot;)</span><br><span class="line">public class Customer2 implements Serializable &#123;</span><br><span class="line">	@GeneratedValue(strategy &#x3D; GenerationType.IDENTITY)</span><br><span class="line">	@Id</span><br><span class="line">	private  int id;</span><br><span class="line"></span><br><span class="line">	@Column(name &#x3D; &quot;firstname&quot;)</span><br><span class="line">	private  String firstName;</span><br><span class="line"></span><br><span class="line">	@Column(name &#x3D; &quot;lastname&quot;)</span><br><span class="line">	private String lastName;</span><br><span class="line"></span><br><span class="line">	@OneToOne(cascade &#x3D; CascadeType.ALL)</span><br><span class="line">	@JoinColumn(name &#x3D; &quot;id&quot;)</span><br><span class="line">	private  Card card;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@Entity</span><br><span class="line">@Table(name &#x3D;&quot;card&quot;)</span><br><span class="line">@Data</span><br><span class="line">public class Card &#123;</span><br><span class="line">	@Id</span><br><span class="line">	@GeneratedValue(strategy &#x3D; GenerationType.IDENTITY)</span><br><span class="line">	private int id;</span><br><span class="line">	private Integer num;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/01/%E6%84%9A%E4%BA%BA%E7%AF%80%E7%9A%84%E7%92%B0%E5%A2%83%E7%AD%86%E8%A8%98/" rel="prev" title="愚人節的環境筆記">
+      <i class="fa fa-chevron-left"></i> 愚人節的環境筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/" rel="next" title="常見的 asp.net core 低能問題">
+      常見的 asp.net core 低能問題 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-java"><span class="nav-number">1.</span> <span class="nav-text">設定 java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-中文-build-java-亂碼問題"><span class="nav-number">2.</span> <span class="nav-text">powershell 中文 build java 亂碼問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-intellij"><span class="nav-number">3.</span> <span class="nav-text">設定 intellij</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#choco-安裝-java"><span class="nav-number">4.</span> <span class="nav-text">choco 安裝 java</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-intellij-安裝"><span class="nav-number">5.</span> <span class="nav-text">在 intellij 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛刀小試-jdbcTemplate"><span class="nav-number">6.</span> <span class="nav-text">牛刀小試 jdbcTemplate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#牛刀小試-JPA"><span class="nav-number">7.</span> <span class="nav-text">牛刀小試 JPA</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/04/11/spring-boot-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2021/04/11/spring-boot-的低能兒筆記/";
+    this.page.title = "spring boot 的低能兒筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

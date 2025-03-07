@@ -1,0 +1,1043 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Vue3 暗棋">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2023/07/31/Vue3-%E6%9A%97%E6%A3%8B/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/%E9%9B%BB%E9%BE%9C3.png">
+<meta property="article:published_time" content="2023-07-31T11:19:55.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="vue3">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/%E9%9B%BB%E9%BE%9C3.png">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2023/07/31/Vue3-%E6%9A%97%E6%A3%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Vue3 暗棋 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2023/07/31/Vue3-%E6%9A%97%E6%A3%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue3 暗棋
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2023-07-31 19:19:55" itemprop="dateCreated datePublished" datetime="2023-07-31T19:19:55+08:00">2023-07-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/07/31/Vue3-%E6%9A%97%E6%A3%8B/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/07/31/Vue3-暗棋/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>14k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>13 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://raw.githubusercontent.com/weber87na/flowers/master/%E9%9B%BB%E9%BE%9C3.png" alt="電龜"></p>
+<a id="more"></a>
+<p>自己 coding 也有些年了 , 記得非常遠古以前學 java 的時候 , 曾經問要怎麼做出象棋 or 暗棋 , 不過對方卻回說非常困難 , 你還是放棄吧 ~ 直接勸退的概念<br>這次剛好弄到 vue drag &amp; drop 就順便開開腦洞來寫看看 , 此外我還有搞個 <a href="https://stackblitz.com/edit/dark-chess?file=src%2Fmain.ts" target="_blank" rel="noopener">angular 版本</a></p>
+<p class="codepen" data-height="300" data-default-tab="result" data-slug-hash="ExOoYMx" data-user="weber87na" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/weber87na/pen/ExOoYMx" target="_blank" rel="noopener">
+  龜小暗棋</a> by 喇賽人 (<a href="https://codepen.io/weber87na" target="_blank" rel="noopener">@weber87na</a>)
+  on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<h2 id="資料結構"><a href="#資料結構" class="headerlink" title="資料結構"></a>資料結構</h2><h3 id="棋子"><a href="#棋子" class="headerlink" title="棋子"></a>棋子</h3><p>首先棋子的部分主要有以下幾個屬性<br><code>id</code> =&gt; 區分每個子的唯一識別編號<br><code>name</code> =&gt; 顯示該棋子是 <code>兵</code> <code>炮</code> 或其他兵種使用<br><code>suit</code> =&gt; 紅色或黑色<br><code>lv</code> =&gt; 棋子的等級 , 由此判斷他能吃什麼子 , 或他的移動行為<br><code>isDie</code> =&gt; 判定這個子是否被打掛了 , 這個後來沒用到 , 不然應該要做個陣亡區之類的<br><code>isOpen</code> =&gt; 判斷是否已經翻開<br><code>x</code> =&gt; 目前的 x 座標<br><code>y</code> =&gt; 目前的 y 座標</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; id: 1, name: &#39;兵&#39;, suit: &#39;red&#39;, lv: 1, isDie: false, isOpen: false, x: 0, y: 0 &#125;,</span><br></pre></td></tr></table></figure>
+<p>接著把所有棋子都定義好 , 然後塞到一個 cheesPool 的 array 裡面即可</p>
+<h3 id="棋盤"><a href="#棋盤" class="headerlink" title="棋盤"></a>棋盤</h3><p>棋盤其實就是由一堆格子構成 , 它的結構比較簡單<br><code>id</code> =&gt; 區分每格的唯一識別編號<br><code>x</code> =&gt; 該格的 x 座標<br><code>y</code> =&gt; 該格的 y 座標<br><code>chees</code> =&gt; 這格上面的棋子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; id: 1, x: 0, y: 0, chees: undefined &#125;</span><br></pre></td></tr></table></figure>
+<p>如同棋子一樣 , 先定義 <code>cells</code> 這個 array 然後把格子塞進去就變成棋盤了<br>最後用 <code>shuffle</code> 方法把棋子設定擺滿整個棋盤 , 並且洗亂順序</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">shuffle</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    cheesPool.value = cheesPool.value.sort(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">Math</span>.random() - <span class="number">0.5</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; cells.value.length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> cell = cells.value[i]</span><br><span class="line">        <span class="keyword">let</span> chees = cheesPool.value[i]</span><br><span class="line">        chees.isOpen = <span class="literal">false</span></span><br><span class="line">        chees.isDie = <span class="literal">false</span></span><br><span class="line">        chees.x = cell.x</span><br><span class="line">        chees.y = cell.y</span><br><span class="line">        cell.chees = chees</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="UI-設計"><a href="#UI-設計" class="headerlink" title="UI 設計"></a>UI 設計</h2><h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><p>首先 drag &amp; drop 主要原理可以看<a href="https://learnvue.co/articles/vue-drag-and-drop" target="_blank" rel="noopener">這篇</a></p>
+<p>接著關鍵如下所述</p>
+<p>先用 <code>v-for</code> 對整個棋盤進行 <code>loop</code> 每個格子 <code>cell</code><br><code>@drop</code> 需要設定 <code>onDrop</code> 讓棋子可以被拖拉到格子上<br><code>@dragover</code> &amp; <code>@dragover</code> 都要設定 <code>prevent</code></p>
+<p>然後在格子內塞個 div  <code>v-if</code> 去判斷這格是否有棋子 , 如果有的話則顯示該子 , 並讓他的事件 &amp; 樣式可以觸發<br>首先看 <code>:data-xy</code> 這個會把該子的座標利用 <code>attr</code> 傳進去給 <code>css</code> 裡面方便 <code>debug</code><br><code>@click</code> 的 <code>onCheesClick</code> 方法則負責翻子的動作<br><code>:class</code> 內設定這個棋子是否被翻開及套用它的花色<br><code>:draggable</code> 需要該子已經翻開後 , 才可以觸發 <code>drag</code> 的事件<br><code>@dragstart</code> 裡面放 <code>onDrag</code> 這個事件<br>最後 <code>div</code> 內的文字則依照該子是否翻開才進行顯示</p>
+<p><code>status-panel</code> 的部分則 show 出現在是誰的回合</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"app"</span> <span class="attr">class</span>=<span class="string">"wrap"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"board"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"cell"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">v-for</span>=<span class="string">"cell in cells"</span></span></span><br><span class="line"><span class="tag">        @<span class="attr">drop</span>=<span class="string">"onDrop($event, cell)"</span></span></span><br><span class="line"><span class="tag">        @<span class="attr">dragover.prevent</span></span></span><br><span class="line"><span class="tag">        @<span class="attr">dragenter.prevent</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">div</span> <span class="attr">v-if</span>=<span class="string">"cell.chees"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"chees"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">:data-xy</span>=<span class="string">"`x:$&#123;cell.chees.x&#125;,y:$&#123;cell.chees.y&#125;`"</span></span></span><br><span class="line"><span class="tag">                @<span class="attr">click</span>=<span class="string">"onCheesClick($event, cell.chees)"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">:class</span>=<span class="string">"[&#123; 'chees-open': cell.chees.isOpen &#125;, cell.chees.suit]"</span></span></span><br><span class="line"><span class="tag">                <span class="attr">:draggable</span>=<span class="string">"cell.chees.isOpen"</span></span></span><br><span class="line"><span class="tag">                @<span class="attr">dragstart</span>=<span class="string">"onDrag($event, cell)"</span>&gt;</span></span><br><span class="line">                &#123;&#123; cell.chees.isOpen ? cell.chees.name : '' &#125;&#125;</span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"status-panel"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">button</span> <span class="attr">id</span>=<span class="string">"go"</span></span></span><br><span class="line"><span class="tag">        @<span class="attr">click</span>=<span class="string">"shuffle()"</span>&gt;</span>GO<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h3</span>&gt;</span></span><br><span class="line">        誰的回合: <span class="tag">&lt;<span class="name">span</span> <span class="attr">:class</span>=<span class="string">"currentPlayer"</span>&gt;</span>&#123;&#123; currentPlayer &#125;&#125;<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">h3</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="css"><a href="#css" class="headerlink" title="css"></a>css</h3><p>核心關鍵如下<br>首先先用 flex 繪製一個居中的區塊 , 接著裡面擺上 grid 當作棋盤即可<br>我的想法是棋盤是方格子 , 所以用 grid 應該比較可以快速建構布局 , 自己對 grid 也比較陌生就玩看看<br>真的不行還有<a href="https://cssgrid-generator.netlify.app/" target="_blank" rel="noopener">這個工具</a> 可以輔助產生 grid<br>棋盤一共 32 格所以可以定義如下</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.board</span> &#123;</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    因為 gap 是內部畫線</span></span><br><span class="line"><span class="comment">    8 - 1 = 7</span></span><br><span class="line"><span class="comment">    4 - 1 = 3</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="attribute">width</span>: <span class="number">647px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">323px</span>;</span><br><span class="line">    <span class="attribute">display</span>: grid;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">grid-template-columns</span>: <span class="built_in">repeat</span>(<span class="number">8</span>, <span class="number">1</span>fr);</span><br><span class="line">    <span class="attribute">grid-template-rows</span>: <span class="built_in">repeat</span>(<span class="number">4</span>, <span class="number">1</span>fr);</span><br><span class="line">    <span class="attribute">grid-column-gap</span>: <span class="number">1px</span>;</span><br><span class="line">    <span class="attribute">grid-row-gap</span>: <span class="number">1px</span>;</span><br><span class="line">    <span class="attribute">background-color</span>: red;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>棋子被翻開要設定 <code>chees-open</code> 讓他的色彩為白色 , 反之綠色則為蓋起來的時候</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.chees-open</span> &#123;</span><br><span class="line">    <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著利用偽元素的 <code>after</code> 設定 <code>content: attr(data-xy)</code> 讓棋子有 xy 座標方便 debug</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.chees</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: black;</span><br><span class="line">    <span class="attribute">font-family</span>: <span class="string">'微軟正黑體'</span>;</span><br><span class="line">    <span class="attribute">font-size</span>: <span class="number">8px</span>;</span><br><span class="line">    <span class="attribute">content</span>: <span class="built_in">attr</span>(data-xy);</span><br><span class="line">    <span class="attribute">line-height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">60px</span>;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">right</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後則是花色部分記得要設定 <code>red</code> &amp; <code>black</code> 這樣棋子翻開後上面的字就會是該顏色</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.red</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.black</span> &#123;</span><br><span class="line">    <span class="attribute">color</span>: <span class="number">#000</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="核心邏輯說明"><a href="#核心邏輯說明" class="headerlink" title="核心邏輯說明"></a>核心邏輯說明</h2><h3 id="切換玩家"><a href="#切換玩家" class="headerlink" title="切換玩家"></a>切換玩家</h3><p>先定義現在是誰的回合 , 接著定義 <code>togglePlayer</code> 即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> currentPlayer = ref(<span class="string">'black'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">togglePlayer</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (currentPlayer.value === <span class="string">'black'</span>) currentPlayer.value = <span class="string">'red'</span></span><br><span class="line">    <span class="keyword">else</span> currentPlayer.value = <span class="string">'black'</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="翻開棋子"><a href="#翻開棋子" class="headerlink" title="翻開棋子"></a>翻開棋子</h3><p>如果該子尚未翻開設定他翻開 , 並且切換回合</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onCheesClick</span>(<span class="params">event, chees</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(event)</span><br><span class="line">    <span class="built_in">console</span>.log(chees)</span><br><span class="line">    <span class="keyword">if</span> (chees.isOpen === <span class="literal">false</span>) &#123;</span><br><span class="line">        chees.isOpen = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">        togglePlayer()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="移動到空白格"><a href="#移動到空白格" class="headerlink" title="移動到空白格"></a>移動到空白格</h3><p>如果移動過去則回傳 true 反之 false , 如果該格上面沒子的話才會觸發 , 設定座標 &amp; 棋子到這格上面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">moveToEmptyCell</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> isMove = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">const</span> dragChees = dragCell.chees</span><br><span class="line"></span><br><span class="line">    <span class="comment">//如果沒有棋子在上面的話則移動過去</span></span><br><span class="line">    <span class="keyword">if</span> (dropCell.chees === <span class="literal">undefined</span>) &#123;</span><br><span class="line">        <span class="comment">//清空原來位置上的棋子</span></span><br><span class="line">        <span class="built_in">console</span>.log(dragCell)</span><br><span class="line">        dragCell.chees = <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//設定棋子位置</span></span><br><span class="line">        dragChees.x = dropCell.x</span><br><span class="line">        dragChees.y = dropCell.y</span><br><span class="line">        dropCell.chees = dragChees</span><br><span class="line"></span><br><span class="line">        isMove = <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> isMove</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="判斷該子是否陣亡"><a href="#判斷該子是否陣亡" class="headerlink" title="判斷該子是否陣亡"></a>判斷該子是否陣亡</h3><p>當吃子的動作觸發時便會呼叫這個函數<br>比較特別的是炮正常狀況不能吃子 , 需要跳躍後才能<br>小兵可以打掉將 , 將沒辦法打小兵<br>其他則比較等級大小即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">checkIsDie</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//正常狀況炮是沒辦法攻擊所以 return false</span></span><br><span class="line">    <span class="keyword">if</span> (dragCell.chees.lv === <span class="number">2</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//小兵可以打掉將</span></span><br><span class="line">    <span class="keyword">if</span> (dragCell.chees.lv === <span class="number">1</span> &amp;&amp; dropCell.chees.lv === <span class="number">7</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//將不能打小兵</span></span><br><span class="line">    <span class="keyword">if</span> (dragCell.chees.lv === <span class="number">7</span> &amp;&amp; dropCell.chees.lv === <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//正常情況</span></span><br><span class="line">    <span class="keyword">if</span> (dragCell.chees.lv &gt;= dropCell.chees.lv) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="攻擊棋子及移動的動作"><a href="#攻擊棋子及移動的動作" class="headerlink" title="攻擊棋子及移動的動作"></a>攻擊棋子及移動的動作</h3><p>要滿足以下條件才會執行<br>首先該格要有棋子<br>該子已經是翻開的狀態<br>drag &amp; drop 花色要相異<br>另外攻擊棋子也隱含著移動的動作 , 所以當把棋子打掛之後 , 要移動過去<br>倘若該格沒子則是正常移動過去 , 所以把 <code>moveToEmptyCell</code> 寫在最後面</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">attackChees</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="comment">//吃子的動作</span></span><br><span class="line">    <span class="keyword">if</span> (dropCell.chees !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">        <span class="comment">//棋子有被翻開才能攻擊</span></span><br><span class="line">        <span class="comment">//花色不同才能攻擊</span></span><br><span class="line">        <span class="comment">//棋子等級大於對方才能攻擊</span></span><br><span class="line">        <span class="keyword">if</span> (dragCell.chees.isOpen === <span class="literal">true</span> &amp;&amp; dropCell.chees.isOpen === <span class="literal">true</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (dragCell.chees.suit !== dropCell.chees.suit) &#123;</span><br><span class="line">                <span class="keyword">if</span> (checkIsDie(dragCell, dropCell)) &#123;</span><br><span class="line">                    dropCell.chees.isDie = <span class="literal">true</span></span><br><span class="line">                    dropCell.chees = <span class="literal">undefined</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> isMove = moveToEmptyCell(dragCell, dropCell)</span><br><span class="line">    <span class="keyword">return</span> isMove</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="判斷棋子能否移動到該格"><a href="#判斷棋子能否移動到該格" class="headerlink" title="判斷棋子能否移動到該格"></a>判斷棋子能否移動到該格</h3><p>這裡設定正常可以移動的狀況 <code>isIllegalMove</code> 做為一個收攏函數<br>如果是非法移動則回傳 <code>true</code> 正常移動回傳 <code>false</code><br><code>isDistanceOutofRange</code> 用來判斷是否移動超過一格以上或是有人白目原地移動<br>另外白目的人也會斜著移動 , 很邪惡 XD<br><code>isMoveTopLeft</code> 是否向左上移動<br><code>isMoveTopRight</code> 是否向右上移動<br><code>isMoveBottomRight</code> 是否向右下移動<br><code>isMoveBottomLeft</code> 是否向左下移動</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isIllegalMove</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="comment">// if (dragCell.chees.lv === 2 &amp;&amp; dragCell.y === dropCell.y) return false</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isDistanceOutofRange(dragCell, dropCell)) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> (isMoveTopLeft(dragCell, dropCell)) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> (isMoveTopRight(dragCell, dropCell)) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> (isMoveBottomRight(dragCell, dropCell)) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    <span class="keyword">if</span> (isMoveBottomLeft(dragCell, dropCell)) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isDistanceOutofRange</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> distanceX = <span class="built_in">Math</span>.abs(dragCell.x - dropCell.x)</span><br><span class="line">    <span class="keyword">let</span> distanceY = <span class="built_in">Math</span>.abs(dragCell.y - dropCell.y)</span><br><span class="line">    <span class="comment">//超過範圍</span></span><br><span class="line">    <span class="keyword">if</span> (distanceX &gt; <span class="number">1</span> || distanceY &gt; <span class="number">1</span>) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//白目原地移動</span></span><br><span class="line">    <span class="keyword">if</span> (distanceX === <span class="number">0</span> &amp;&amp; distanceY === <span class="number">0</span>) <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isMoveTopLeft</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> moveX = dragCell.x - <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> moveY = dragCell.y - <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> (dropCell.x === moveX &amp;&amp;</span><br><span class="line">        dropCell.y === moveY) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isMoveTopRight</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> moveX = dragCell.x + <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> moveY = dragCell.y - <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> (dropCell.x === moveX &amp;&amp;</span><br><span class="line">        dropCell.y === moveY) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isMoveBottomRight</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> moveX = dragCell.x + <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> moveY = dragCell.y + <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> (dropCell.x === moveX &amp;&amp;</span><br><span class="line">        dropCell.y === moveY) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isMoveBottomLeft</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> moveX = dragCell.x - <span class="number">1</span></span><br><span class="line">    <span class="keyword">let</span> moveY = dragCell.y + <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> (dropCell.x === moveX &amp;&amp;</span><br><span class="line">        dropCell.y === moveY) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="計算炮的移動中間有幾個子"><a href="#計算炮的移動中間有幾個子" class="headerlink" title="計算炮的移動中間有幾個子"></a>計算炮的移動中間有幾個子</h3><p>當炮要移動或是吃子時有飛這個動作 , 簡單的說就是中間要相隔一顆子 , 這裡統計往上下左右移動時有幾顆子<br>這裡關鍵就是 <code>i</code> 由 <code>1</code> 開始 , 且 <code>小於 distance</code> 然後利用 <code>find</code> 函數去找到該格上的棋子進行統計<br>我本來是想用遞迴寫這個邏輯 , 不過後來想想只要計算兩個子之間有幾顆子即可 , 所以看到 <code>findLeftCell findRightCell findTopCell findBottomCell</code> 這幾個函數都不用理他們<br>不然應該也可以先用遞迴去找第一顆當砲台的子後 , 然後找第二顆子確認是攻擊目標</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcLeftAtkRangeCount</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> distanceX = <span class="built_in">Math</span>.abs(dragCell.x - dropCell.x)</span><br><span class="line">    <span class="keyword">let</span> result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; distanceX; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> isFind = cells.value.find(<span class="function"><span class="params">cell</span> =&gt;</span> cell.x == dragCell.x - i &amp;&amp; cell.y == dragCell.y)</span><br><span class="line">        <span class="keyword">if</span> (isFind.chees) &#123;</span><br><span class="line">            result++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcTopAtkRangeCount</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> distanceY = <span class="built_in">Math</span>.abs(dragCell.y - dropCell.y)</span><br><span class="line">    <span class="keyword">let</span> result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; distanceY; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> isFind = cells.value.find(<span class="function"><span class="params">cell</span> =&gt;</span> cell.y == dragCell.y - i &amp;&amp; cell.x == dragCell.x)</span><br><span class="line">        <span class="keyword">if</span> (isFind.chees) &#123;</span><br><span class="line">            result++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcRightAtkRangeCount</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> distanceX = <span class="built_in">Math</span>.abs(dragCell.x - dropCell.x)</span><br><span class="line">    <span class="keyword">let</span> result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; distanceX; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> isFind = cells.value.find(<span class="function"><span class="params">cell</span> =&gt;</span> cell.x == dragCell.x + i &amp;&amp; cell.y == dragCell.y)</span><br><span class="line">        <span class="keyword">if</span> (isFind.chees) &#123;</span><br><span class="line">            result++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">calcBottomAtkRangeCount</span>(<span class="params">dragCell, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> distanceY = <span class="built_in">Math</span>.abs(dragCell.y - dropCell.y)</span><br><span class="line">    <span class="keyword">let</span> result = <span class="number">0</span></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; distanceY; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> isFind = cells.value.find(<span class="function"><span class="params">cell</span> =&gt;</span> cell.y == dragCell.y + i &amp;&amp; cell.x == dragCell.x)</span><br><span class="line">        <span class="keyword">if</span> (isFind.chees) &#123;</span><br><span class="line">            result++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Drag-棋子"><a href="#Drag-棋子" class="headerlink" title="Drag 棋子"></a>Drag 棋子</h3><p>先看看該格子上是否有棋子 , 有的話設定 <code>dataTransfer</code> 讓 <code>Drop</code> 時可以接收</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onDrag</span>(<span class="params">event, cell</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> chees = cell.chees</span><br><span class="line">    <span class="keyword">if</span> (chees === <span class="literal">undefined</span>) <span class="keyword">return</span></span><br><span class="line">    <span class="comment">// if(chees.isOpen === false) return</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'drag'</span>, event)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'drag'</span>, chees)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'drag'</span>, cell)</span><br><span class="line"></span><br><span class="line">    event.dataTransfer.dropEffect = <span class="string">'move'</span></span><br><span class="line">    event.dataTransfer.effectAllowed = <span class="string">'move'</span></span><br><span class="line">    event.dataTransfer.setData(<span class="string">'cheesId'</span>, chees.id)</span><br><span class="line">    event.dataTransfer.setData(<span class="string">'cellId'</span>, cell.id)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Drop-棋子"><a href="#Drop-棋子" class="headerlink" title="Drop 棋子"></a>Drop 棋子</h3><p>這裡應該要重構下炮的移動不過太晚沒啥精力了<br>主要分為兩個狀況 , 如果是炮的話則使用 <code>if (dragCell.chees.lv === 2 &amp;&amp; dropCell.chees?.suit != dragCell.chees?.suit)</code> 內的條件式 , 反之就是其他子</p>
+<p>先講正常狀況 , 在正常狀況先判斷是否為非法移動 <code>if (isIllegalMove(dragCell, dropCell)) return</code><br>接著判斷該格子是否為空 , 若為空直接呼叫 <code>moveToEmptyCell</code> 移動到該格<br>反之則呼叫 <code>attackChees</code><br>最後如果有移動的話則切換回合</p>
+<p>接著講炮的邏輯他有可能是橫向移動 <code>if (dragCell.y === dropCell.y &amp;&amp; Math.abs(dragCell.x - dropCell.x) &gt; 1)</code><br>或是垂直移動 <code>else if (dragCell.x === dropCell.x &amp;&amp; Math.abs(dragCell.y - dropCell.y) &gt; 1)</code><br>以橫向移動為例 , 首先判斷是往左打還是往右打 , 接著呼叫 <code>calcXXXAtkRangeCount</code> 系列函數得知有幾個子<br>如果中間是一個子的話則表示可以攻擊</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (dragCell.y === dropCell.y &amp;&amp; <span class="built_in">Math</span>.abs(dragCell.x - dropCell.x) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">	<span class="keyword">if</span> (dropCell.chees === <span class="literal">undefined</span>) <span class="keyword">return</span></span><br><span class="line">	<span class="comment">//往左打</span></span><br><span class="line">	<span class="keyword">if</span> (dragCell.x &gt; dropCell.x) &#123;</span><br><span class="line">		<span class="comment">//先計算到攻擊位置之間共有幾個棋子</span></span><br><span class="line">		<span class="keyword">let</span> inAtkRangeCount = calcLeftAtkRangeCount(dragCell, dropCell)</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'inAtkRangeCount'</span>, inAtkRangeCount)</span><br><span class="line">		<span class="keyword">if</span> (inAtkRangeCount === <span class="number">1</span>) &#123;</span><br><span class="line">			<span class="comment">// let leftCell = cells.value.find(cell =&gt; cell.x == dragCell.x - 1 &amp;&amp; cell.y == dragCell.y)</span></span><br><span class="line">			<span class="comment">//let leftCell = findLeftCell(dragCell, dropCell, 1)</span></span><br><span class="line">			<span class="comment">// console.log('leftCell', leftCell)</span></span><br><span class="line">			<span class="comment">//如果左邊這格有找到棋子表示可以攻擊不管有沒有翻開</span></span><br><span class="line">			<span class="keyword">if</span> (dropCell?.chees) &#123;</span><br><span class="line">				<span class="comment">//接著再往左邊找如果是自己人或是還沒翻開的話就不能攻擊</span></span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'find'</span>)</span><br><span class="line">				<span class="keyword">if</span> (dropCell?.chees?.isOpen) &#123;</span><br><span class="line">					dropCell.isDie = <span class="literal">true</span></span><br><span class="line">					dropCell.chees = <span class="literal">undefined</span></span><br><span class="line">					moveToEmptyCell(dragCell, dropCell)</span><br><span class="line">					togglePlayer()</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//往右打</span></span><br><span class="line">	<span class="keyword">if</span> (dragCell.x &lt; dropCell.x) &#123;</span><br><span class="line">		<span class="keyword">if</span> (dropCell.chees === <span class="literal">undefined</span>) <span class="keyword">return</span></span><br><span class="line">		<span class="comment">//先計算到攻擊位置之間共有幾個棋子</span></span><br><span class="line">		<span class="keyword">let</span> inAtkRangeCount = calcRightAtkRangeCount(dragCell, dropCell)</span><br><span class="line">		<span class="built_in">console</span>.log(<span class="string">'inAtkRangeCount'</span>, inAtkRangeCount)</span><br><span class="line">		<span class="keyword">if</span> (inAtkRangeCount === <span class="number">1</span>) &#123;</span><br><span class="line">			<span class="comment">//let rightCell = findRightCell(dragCell, dropCell, 1)</span></span><br><span class="line">			<span class="comment">//如果左邊這格有找到棋子表示可以攻擊不管有沒有翻開</span></span><br><span class="line">			<span class="keyword">if</span> (dropCell?.chees) &#123;</span><br><span class="line">				<span class="comment">//接著再往左邊找如果是自己人或是還沒翻開的話就不能攻擊</span></span><br><span class="line">				<span class="built_in">console</span>.log(<span class="string">'find'</span>)</span><br><span class="line">				<span class="keyword">if</span> (dropCell?.chees?.isOpen) &#123;</span><br><span class="line">					dropCell.isDie = <span class="literal">true</span></span><br><span class="line">					dropCell.chees = <span class="literal">undefined</span></span><br><span class="line">					moveToEmptyCell(dragCell, dropCell)</span><br><span class="line">					togglePlayer()</span><br><span class="line">					<span class="keyword">return</span></span><br><span class="line">				&#125;</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>完整的 <code>onDrop</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">onDrop</span>(<span class="params">event, dropCell</span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'drop'</span>, event)</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'drop'</span>, dropCell)</span><br><span class="line"></span><br><span class="line">    <span class="comment">// const dragCheesId = parseInt(event.dataTransfer.getData('cheesId'))</span></span><br><span class="line">    <span class="comment">// const dragChees = cheesPool.value.find(x =&gt; x.id == dragCheesId)</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> dragCellId = <span class="built_in">parseInt</span>(event.dataTransfer.getData(<span class="string">'cellId'</span>))</span><br><span class="line">    <span class="keyword">const</span> dragCell = cells.value.find(<span class="function"><span class="params">x</span> =&gt;</span> x.id == dragCellId)</span><br><span class="line">    <span class="keyword">if</span> (dragCell?.chees?.suit !== currentPlayer.value) <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//判斷是否可以走</span></span><br><span class="line">    <span class="keyword">if</span> (dragCell.chees.lv === <span class="number">2</span> &amp;&amp; dropCell.chees?.suit != dragCell.chees?.suit) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//如果 y 相同的話才能攻擊橫向單位</span></span><br><span class="line">        <span class="keyword">if</span> (dragCell.y === dropCell.y &amp;&amp; <span class="built_in">Math</span>.abs(dragCell.x - dropCell.x) &gt; <span class="number">1</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (dropCell.chees === <span class="literal">undefined</span>) <span class="keyword">return</span></span><br><span class="line">            <span class="comment">//往左打</span></span><br><span class="line">            <span class="keyword">if</span> (dragCell.x &gt; dropCell.x) &#123;</span><br><span class="line">                <span class="comment">//先計算到攻擊位置之間共有幾個棋子</span></span><br><span class="line">                <span class="keyword">let</span> inAtkRangeCount = calcLeftAtkRangeCount(dragCell, dropCell)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'inAtkRangeCount'</span>, inAtkRangeCount)</span><br><span class="line">                <span class="keyword">if</span> (inAtkRangeCount === <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="comment">// let leftCell = cells.value.find(cell =&gt; cell.x == dragCell.x - 1 &amp;&amp; cell.y == dragCell.y)</span></span><br><span class="line">                    <span class="comment">//let leftCell = findLeftCell(dragCell, dropCell, 1)</span></span><br><span class="line">                    <span class="comment">// console.log('leftCell', leftCell)</span></span><br><span class="line">                    <span class="comment">//如果左邊這格有找到棋子表示可以攻擊不管有沒有翻開</span></span><br><span class="line">                    <span class="keyword">if</span> (dropCell?.chees) &#123;</span><br><span class="line">                        <span class="comment">//接著再往左邊找如果是自己人或是還沒翻開的話就不能攻擊</span></span><br><span class="line">                        <span class="built_in">console</span>.log(<span class="string">'find'</span>)</span><br><span class="line">                        <span class="keyword">if</span> (dropCell?.chees?.isOpen) &#123;</span><br><span class="line">                            dropCell.isDie = <span class="literal">true</span></span><br><span class="line">                            dropCell.chees = <span class="literal">undefined</span></span><br><span class="line">                            moveToEmptyCell(dragCell, dropCell)</span><br><span class="line">                            togglePlayer()</span><br><span class="line">                            <span class="keyword">return</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//往右打</span></span><br><span class="line">            <span class="keyword">if</span> (dragCell.x &lt; dropCell.x) &#123;</span><br><span class="line">                <span class="keyword">if</span> (dropCell.chees === <span class="literal">undefined</span>) <span class="keyword">return</span></span><br><span class="line">                <span class="comment">//先計算到攻擊位置之間共有幾個棋子</span></span><br><span class="line">                <span class="keyword">let</span> inAtkRangeCount = calcRightAtkRangeCount(dragCell, dropCell)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'inAtkRangeCount'</span>, inAtkRangeCount)</span><br><span class="line">                <span class="keyword">if</span> (inAtkRangeCount === <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="comment">//let rightCell = findRightCell(dragCell, dropCell, 1)</span></span><br><span class="line">                    <span class="comment">//如果左邊這格有找到棋子表示可以攻擊不管有沒有翻開</span></span><br><span class="line">                    <span class="keyword">if</span> (dropCell?.chees) &#123;</span><br><span class="line">                        <span class="comment">//接著再往左邊找如果是自己人或是還沒翻開的話就不能攻擊</span></span><br><span class="line">                        <span class="built_in">console</span>.log(<span class="string">'find'</span>)</span><br><span class="line">                        <span class="keyword">if</span> (dropCell?.chees?.isOpen) &#123;</span><br><span class="line">                            dropCell.isDie = <span class="literal">true</span></span><br><span class="line">                            dropCell.chees = <span class="literal">undefined</span></span><br><span class="line">                            moveToEmptyCell(dragCell, dropCell)</span><br><span class="line">                            togglePlayer()</span><br><span class="line">                            <span class="keyword">return</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (dragCell.x === dropCell.x &amp;&amp; <span class="built_in">Math</span>.abs(dragCell.y - dropCell.y) &gt; <span class="number">1</span>)&#123;</span><br><span class="line">            <span class="keyword">if</span> (dropCell.chees === <span class="literal">undefined</span>) <span class="keyword">return</span></span><br><span class="line">            <span class="comment">//往上打</span></span><br><span class="line">            <span class="keyword">if</span> (dragCell.y &gt; dropCell.y) &#123;</span><br><span class="line">                <span class="comment">//先計算到攻擊位置之間共有幾個棋子</span></span><br><span class="line">                <span class="keyword">let</span> inAtkRangeCount = calcTopAtkRangeCount(dragCell, dropCell)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'inAtkRangeCount'</span>, inAtkRangeCount)</span><br><span class="line">                <span class="keyword">if</span> (inAtkRangeCount === <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="comment">// let leftCell = cells.value.find(cell =&gt; cell.x == dragCell.x - 1 &amp;&amp; cell.y == dragCell.y)</span></span><br><span class="line">                    <span class="comment">//let topCell = findTopCell(dragCell, dropCell, 1)</span></span><br><span class="line">                    <span class="comment">// console.log('topCell', topCell)</span></span><br><span class="line">                    <span class="comment">//如果左邊這格有找到棋子表示可以攻擊不管有沒有翻開</span></span><br><span class="line">                    <span class="keyword">if</span> (dropCell?.chees) &#123;</span><br><span class="line">                        <span class="comment">//接著再往左邊找如果是自己人或是還沒翻開的話就不能攻擊</span></span><br><span class="line">                        <span class="built_in">console</span>.log(<span class="string">'find'</span>)</span><br><span class="line">                        <span class="keyword">if</span> (dropCell?.chees?.isOpen) &#123;</span><br><span class="line">                            dropCell.isDie = <span class="literal">true</span></span><br><span class="line">                            dropCell.chees = <span class="literal">undefined</span></span><br><span class="line">                            moveToEmptyCell(dragCell, dropCell)</span><br><span class="line">                            togglePlayer()</span><br><span class="line">                            <span class="keyword">return</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//往下打</span></span><br><span class="line">            <span class="keyword">if</span> (dragCell.y &lt; dropCell.y) &#123;</span><br><span class="line">                <span class="keyword">if</span> (dropCell.chees === <span class="literal">undefined</span>) <span class="keyword">return</span></span><br><span class="line">                <span class="comment">//先計算到攻擊位置之間共有幾個棋子</span></span><br><span class="line">                <span class="keyword">let</span> inAtkRangeCount = calcBottomAtkRangeCount(dragCell, dropCell)</span><br><span class="line">                <span class="built_in">console</span>.log(<span class="string">'inAtkRangeCount'</span>, inAtkRangeCount)</span><br><span class="line">                <span class="keyword">if</span> (inAtkRangeCount === <span class="number">1</span>) &#123;</span><br><span class="line">                    <span class="comment">//let bottomCell = findBottomCell(dragCell, dropCell, 1)</span></span><br><span class="line">                    <span class="comment">//如果左邊這格有找到棋子表示可以攻擊不管有沒有翻開</span></span><br><span class="line">                    <span class="keyword">if</span> (dropCell?.chees) &#123;</span><br><span class="line">                        <span class="comment">//接著再往左邊找如果是自己人或是還沒翻開的話就不能攻擊</span></span><br><span class="line">                        <span class="built_in">console</span>.log(<span class="string">'find'</span>)</span><br><span class="line">                        <span class="keyword">if</span> (dropCell?.chees?.isOpen) &#123;</span><br><span class="line">                            dropCell.isDie = <span class="literal">true</span></span><br><span class="line">                            dropCell.chees = <span class="literal">undefined</span></span><br><span class="line">                            moveToEmptyCell(dragCell, dropCell)</span><br><span class="line">                            togglePlayer()</span><br><span class="line">                            <span class="keyword">return</span></span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (isIllegalMove(dragCell, dropCell)) <span class="keyword">return</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">//炮以外的棋子正常走</span></span><br><span class="line">        <span class="keyword">if</span> (isIllegalMove(dragCell, dropCell)) <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="comment">//移動到空的格子</span></span><br><span class="line">    <span class="comment">//或是吃子</span></span><br><span class="line">    <span class="keyword">let</span> isMove = <span class="literal">false</span></span><br><span class="line">    <span class="keyword">if</span> (dropCell.chees === <span class="literal">undefined</span>) &#123;</span><br><span class="line">        isMove = moveToEmptyCell(dragCell, dropCell)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        isMove = attackChees(dragCell, dropCell)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (isMove) togglePlayer()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"># js</a>
+              <a href="/tags/vue3/" rel="tag"># vue3</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/10/Vue3-drag-drop/" rel="prev" title="Vue3 drag drop">
+      <i class="fa fa-chevron-left"></i> Vue3 drag drop
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/01/Vue3-%E8%B1%A1%E6%A3%8B/" rel="next" title="Vue3 象棋">
+      Vue3 象棋 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#資料結構"><span class="nav-number">1.</span> <span class="nav-text">資料結構</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#棋子"><span class="nav-number">1.1.</span> <span class="nav-text">棋子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#棋盤"><span class="nav-number">1.2.</span> <span class="nav-text">棋盤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UI-設計"><span class="nav-number">2.</span> <span class="nav-text">UI 設計</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#html"><span class="nav-number">2.1.</span> <span class="nav-text">html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#css"><span class="nav-number">2.2.</span> <span class="nav-text">css</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#核心邏輯說明"><span class="nav-number">3.</span> <span class="nav-text">核心邏輯說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#切換玩家"><span class="nav-number">3.1.</span> <span class="nav-text">切換玩家</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#翻開棋子"><span class="nav-number">3.2.</span> <span class="nav-text">翻開棋子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#移動到空白格"><span class="nav-number">3.3.</span> <span class="nav-text">移動到空白格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判斷該子是否陣亡"><span class="nav-number">3.4.</span> <span class="nav-text">判斷該子是否陣亡</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#攻擊棋子及移動的動作"><span class="nav-number">3.5.</span> <span class="nav-text">攻擊棋子及移動的動作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#判斷棋子能否移動到該格"><span class="nav-number">3.6.</span> <span class="nav-text">判斷棋子能否移動到該格</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#計算炮的移動中間有幾個子"><span class="nav-number">3.7.</span> <span class="nav-text">計算炮的移動中間有幾個子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Drag-棋子"><span class="nav-number">3.8.</span> <span class="nav-text">Drag 棋子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Drop-棋子"><span class="nav-number">3.9.</span> <span class="nav-text">Drop 棋子</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2023/07/31/Vue3-%E6%9A%97%E6%A3%8B/";
+    this.page.identifier = "2023/07/31/Vue3-暗棋/";
+    this.page.title = "Vue3 暗棋";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

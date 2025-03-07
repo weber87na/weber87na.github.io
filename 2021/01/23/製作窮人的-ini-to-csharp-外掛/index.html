@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="製作窮人的 ini to csharp 外掛">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/01/23/%E8%A3%BD%E4%BD%9C%E7%AA%AE%E4%BA%BA%E7%9A%84-ini-to-csharp-%E5%A4%96%E6%8E%9B/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-01-23T10:55:16.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="csharp">
+<meta property="article:tag" content="visualstudio">
+<meta property="article:tag" content="ini">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/01/23/%E8%A3%BD%E4%BD%9C%E7%AA%AE%E4%BA%BA%E7%9A%84-ini-to-csharp-%E5%A4%96%E6%8E%9B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>製作窮人的 ini to csharp 外掛 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/01/23/%E8%A3%BD%E4%BD%9C%E7%AA%AE%E4%BA%BA%E7%9A%84-ini-to-csharp-%E5%A4%96%E6%8E%9B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          製作窮人的 ini to csharp 外掛
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-01-23 18:55:16" itemprop="dateCreated datePublished" datetime="2021-01-23T18:55:16+08:00">2021-01-23</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/01/23/%E8%A3%BD%E4%BD%9C%E7%AA%AE%E4%BA%BA%E7%9A%84-ini-to-csharp-%E5%A4%96%E6%8E%9B/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/01/23/製作窮人的-ini-to-csharp-外掛/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>13k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>12 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<p>一個人假日發呆找不到人陪我看海，剛好看到<a href="https://github.com/Apress/visual-studio-extensibility-development/tree/master/Chapter%205/JsonToCSharpCodeGeneration" target="_blank" rel="noopener">老外開掛</a> 這老外還真是猛，可以寫出這麼變態的東西<br>剛好案子在做 ini 有類似的情景就順應天命做一個窮人的 ini to c# 外掛，徹底當條掛狗<br>首先要安裝 <code>vsix 專案範本</code> 之前就裝過了詳情可以靠 google<br>新增專案 <code>VSIX Project</code> 注意!腦子已經在空白，不要選成空白的<br>接著新增 <code>Extensibility</code> =&gt; <code>command</code><br>然後新增類別 INIIoCSharpCodeGenerator 繼承 BaseCodeGeneratorWithSite<br>這個類別會用正則表達式簡單的驗證 ini 檔案，然後產生 csharp 類別，不支援陣列及註解還有其他特別狀況</p>
+<h2 id="核心轉換-INIToCSharpCodeGenerator"><a href="#核心轉換-INIToCSharpCodeGenerator" class="headerlink" title="核心轉換 INIToCSharpCodeGenerator"></a>核心轉換 INIToCSharpCodeGenerator</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">INIToCSharpCodeGenerator</span> : <span class="title">BaseCodeGeneratorWithSite</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">const</span> <span class="keyword">string</span> Name = <span class="keyword">nameof</span>(INIToCSharpCodeGenerator);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">const</span> <span class="keyword">string</span> Description = <span class="string">"Generates the C# class from INI file"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">override</span> <span class="keyword">string</span> <span class="title">GetDefaultExtension</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        ThreadHelper.ThrowIfNotOnUIThread();</span><br><span class="line">        <span class="keyword">var</span> item = (ProjectItem)GetService(<span class="keyword">typeof</span>(ProjectItem));</span><br><span class="line">        <span class="keyword">var</span> ext = Path.GetExtension(item?.FileNames[<span class="number">1</span>]);</span><br><span class="line">        <span class="keyword">return</span> <span class="string">$".cs"</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">string</span> <span class="title">PoorManINIToCS</span>(<span class="params"><span class="keyword">string</span> path</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">var</span> lines = File.ReadAllLines( path );</span><br><span class="line"></span><br><span class="line">        Dictionary&lt;<span class="keyword">string</span>, Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;&gt; dict = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">string</span>, Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;&gt;( );</span><br><span class="line"></span><br><span class="line">        <span class="comment">//類別區塊</span></span><br><span class="line">        <span class="keyword">var</span> classSection = <span class="keyword">new</span> Regex( <span class="string">@"\[\w+\]"</span> );</span><br><span class="line">        <span class="comment">//屬性區塊</span></span><br><span class="line">        <span class="keyword">var</span> propSection = <span class="keyword">new</span> Regex( <span class="string">@"(?&lt;prop&gt;\w+) (=) (?&lt;val&gt;.*)"</span> );</span><br><span class="line">        <span class="keyword">bool</span> isClass = <span class="literal">false</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">string</span> holdClass = <span class="string">""</span>;</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> line <span class="keyword">in</span> lines)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">//如果是的話進入到下個階段辨識</span></span><br><span class="line">            isClass = classSection.IsMatch( line );</span><br><span class="line">            <span class="keyword">if</span> (isClass == <span class="literal">true</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                dict.Add( line, <span class="literal">null</span> );</span><br><span class="line">                holdClass = line;</span><br><span class="line">                dict[holdClass] = <span class="keyword">new</span> Dictionary&lt;<span class="keyword">string</span>, <span class="keyword">string</span>&gt;( );</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">//如果完全符合規則取得屬性與數值</span></span><br><span class="line">            <span class="keyword">var</span> isProp = propSection.IsMatch( line );</span><br><span class="line">            <span class="keyword">if</span> (isProp)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> match = propSection.Match( line );</span><br><span class="line">                <span class="keyword">var</span> prop = match.Groups[<span class="string">"prop"</span>].Value;</span><br><span class="line">                <span class="keyword">var</span> val = match.Groups[<span class="string">"val"</span>].Value;</span><br><span class="line">                dict[holdClass].Add( prop, val );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        StringBuilder sb = <span class="keyword">new</span> StringBuilder( );</span><br><span class="line">        <span class="keyword">foreach</span> (<span class="keyword">var</span> d <span class="keyword">in</span> dict)</span><br><span class="line">        &#123;</span><br><span class="line">            sb.AppendLine(</span><br><span class="line">                <span class="string">$@"public class <span class="subst">&#123;d.Key.Replace( <span class="string">"["</span>, <span class="string">""</span> ).Replace( <span class="string">"]"</span>, <span class="string">""</span> )&#125;</span> "</span> );</span><br><span class="line">            sb.AppendLine( <span class="string">"&#123;"</span> );</span><br><span class="line">            <span class="keyword">foreach</span> (<span class="keyword">var</span> item <span class="keyword">in</span> d.Value)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">bool</span> boolVal = <span class="literal">false</span>;</span><br><span class="line">                <span class="keyword">var</span> isBool = <span class="keyword">bool</span>.TryParse( item.Value, <span class="keyword">out</span> boolVal );</span><br><span class="line"></span><br><span class="line">                <span class="keyword">int</span> intVal = <span class="number">0</span>;</span><br><span class="line">                <span class="keyword">var</span> isInt = <span class="keyword">int</span>.TryParse( item.Value, <span class="keyword">out</span> intVal );</span><br><span class="line"></span><br><span class="line">                <span class="keyword">double</span> doubleVal = <span class="number">0.0</span>;</span><br><span class="line">                <span class="keyword">var</span> isDouble = <span class="keyword">double</span>.TryParse( item.Value, <span class="keyword">out</span> doubleVal );</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (isBool)</span><br><span class="line">                &#123;</span><br><span class="line">                    sb.AppendLine( <span class="string">"\t"</span> + <span class="string">$@"public bool <span class="subst">&#123;item.Key&#125;</span> = <span class="subst">&#123;item.Value&#125;</span>"</span> + <span class="string">";"</span> );</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (isInt)</span><br><span class="line">                &#123;</span><br><span class="line">                    sb.AppendLine( <span class="string">"\t"</span> + <span class="string">$@"public int <span class="subst">&#123;item.Key&#125;</span> = <span class="subst">&#123;item.Value&#125;</span>"</span> + <span class="string">";"</span> );</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">if</span> (isDouble)</span><br><span class="line">                &#123;</span><br><span class="line">                    sb.AppendLine( <span class="string">"\t"</span> + <span class="string">$@"public double <span class="subst">&#123;item.Key&#125;</span> = <span class="subst">&#123;item.Value&#125;</span>"</span> + <span class="string">";"</span> );</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                sb.AppendLine( <span class="string">"\t"</span> + <span class="string">$@"public string <span class="subst">&#123;item.Key&#125;</span> =  ""<span class="subst">&#123;item.Value&#125;</span>"";"</span> );</span><br><span class="line">            &#125;</span><br><span class="line">            sb.AppendLine( <span class="string">"&#125;"</span> );</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> sb.ToString( );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">override</span> <span class="keyword">byte</span>[] <span class="title">GenerateCode</span>(<span class="params"><span class="keyword">string</span> inputFileName, <span class="keyword">string</span> inputFileContent</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        ThreadHelper.ThrowIfNotOnUIThread();</span><br><span class="line">        <span class="keyword">string</span> document = <span class="keyword">string</span>.Empty;</span><br><span class="line">        <span class="keyword">try</span></span><br><span class="line">        &#123;</span><br><span class="line">            document = ThreadHelper.JoinableTaskFactory.Run(<span class="keyword">async</span> () =&gt;</span><br><span class="line">           &#123;</span><br><span class="line">               <span class="keyword">var</span> text  = PoorManINIToCS( inputFileName );</span><br><span class="line">               <span class="comment">//var text = File.ReadAllText(inputFileName); // Alternatively, you can also use inputFileContent directly.</span></span><br><span class="line">               <span class="comment">//var schema = NJsonSchema.JsonSchema.FromSampleJson(text);</span></span><br><span class="line">               <span class="comment">//var generator = new CSharpGenerator(schema);</span></span><br><span class="line">               <span class="keyword">return</span> <span class="keyword">await</span> System.Threading.Tasks.Task.FromResult(text);</span><br><span class="line">           &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">catch</span> (Exception exception)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">// Write in output window</span></span><br><span class="line">            <span class="keyword">var</span> outputWindowPane = <span class="keyword">this</span>.GetService(<span class="keyword">typeof</span>(SVsGeneralOutputWindowPane)) <span class="keyword">as</span> IVsOutputWindowPane;</span><br><span class="line">            <span class="keyword">if</span> (outputWindowPane != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                outputWindowPane.OutputString(<span class="string">$"An exception occurred while generating code <span class="subst">&#123;exception.ToString()&#125;</span>"</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Show in error list</span></span><br><span class="line">            <span class="keyword">this</span>.GeneratorErrorCallback(<span class="literal">false</span>, <span class="number">1</span>, <span class="string">$"An exception occurred while generating code <span class="subst">&#123;exception.ToString()&#125;</span>"</span>, <span class="number">1</span>, <span class="number">1</span>);</span><br><span class="line">            <span class="keyword">this</span>.ErrorList.ForceShowErrors();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> Encoding.UTF8.GetBytes(document);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="命令部分-CodeGenCommand"><a href="#命令部分-CodeGenCommand" class="headerlink" title="命令部分 CodeGenCommand"></a>命令部分 CodeGenCommand</h2><p>接著修改 <code>CodeGenCommand</code></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">internal</span> <span class="keyword">sealed</span> <span class="keyword">class</span> <span class="title">CodeGenCommand</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Command ID.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">const</span> <span class="keyword">int</span> CommandId = <span class="number">0x0100</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Command menu group (command set GUID).</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">readonly</span> Guid CommandSet = <span class="keyword">new</span> Guid( <span class="string">"9623d4ed-6401-4963-b5aa-fc850be96b6e"</span> );</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> VS Package that provides this command, not null.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">readonly</span> AsyncPackage package;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">CodeGenCommand</span>(<span class="params">AsyncPackage package, IMenuCommandService commandService</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="keyword">this</span>.package = package ?? <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException( <span class="keyword">nameof</span>( package ) );</span><br><span class="line">        commandService = commandService ?? <span class="keyword">throw</span> <span class="keyword">new</span> ArgumentNullException( <span class="keyword">nameof</span>( commandService ) );</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> menuCommandID = <span class="keyword">new</span> CommandID( CommandSet, CommandId );</span><br><span class="line">        <span class="keyword">var</span> menuItem = <span class="keyword">new</span> MenuCommand( <span class="keyword">this</span>.Execute, menuCommandID );</span><br><span class="line">        commandService.AddCommand( menuItem );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Gets the instance of the command.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> CodeGenCommand Instance</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span>;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">set</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Gets the service provider from the owner package.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="keyword">private</span> Microsoft.VisualStudio.Shell.IAsyncServiceProvider ServiceProvider</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">get</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.package;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> Initializes the singleton instance of the command.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="package"&gt;</span>Owner package, not null.<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">async</span> Task <span class="title">InitializeAsync</span>(<span class="params">AsyncPackage package</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="comment">// Switch to the main thread - the call to AddCommand in CodeGenCommand's constructor requires</span></span><br><span class="line">        <span class="comment">// the UI thread.</span></span><br><span class="line">        <span class="comment">//await ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync( package.DisposalToken );</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//OleMenuCommandService commandService = await package.GetServiceAsync( typeof( IMenuCommandService ) ) as OleMenuCommandService;</span></span><br><span class="line">        <span class="comment">//Instance = new CodeGenCommand( package, commandService );</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">await</span> ThreadHelper.JoinableTaskFactory.SwitchToMainThreadAsync(package.DisposalToken);</span><br><span class="line">        dte = (DTE)<span class="keyword">await</span> package.GetServiceAsync(<span class="keyword">typeof</span>(DTE));</span><br><span class="line">        Assumes.Present(dte);</span><br><span class="line">        IMenuCommandService commandService = <span class="keyword">await</span> package.GetServiceAsync(<span class="keyword">typeof</span>(IMenuCommandService)) <span class="keyword">as</span> IMenuCommandService;</span><br><span class="line">        Instance = <span class="keyword">new</span> CodeGenCommand(package, commandService);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> DTE dte;</span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> This function is the callback used to execute the command when the menu item is clicked.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> See the constructor to see how the menu item is associated with this function using</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> OleMenuCommandService service and MenuCommand class.</span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;/summary&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="sender"&gt;</span>Event sender.<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="comment"><span class="doctag">///</span> <span class="doctag">&lt;param name="e"&gt;</span>Event args.<span class="doctag">&lt;/param&gt;</span></span></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">Execute</span>(<span class="params"><span class="keyword">object</span> sender, EventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        <span class="comment">//ThreadHelper.ThrowIfNotOnUIThread( );</span></span><br><span class="line">        <span class="comment">//string message = string.Format( CultureInfo.CurrentCulture, "Inside &#123;0&#125;.MenuItemCallback()", this.GetType( ).FullName );</span></span><br><span class="line">        <span class="comment">//string title = "CodeGenCommand";</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">// Show a message box to prove we were here</span></span><br><span class="line">        <span class="comment">//VsShellUtilities.ShowMessageBox(</span></span><br><span class="line">        <span class="comment">//    this.package,</span></span><br><span class="line">        <span class="comment">//    message,</span></span><br><span class="line">        <span class="comment">//    title,</span></span><br><span class="line">        <span class="comment">//    OLEMSGICON.OLEMSGICON_INFO,</span></span><br><span class="line">        <span class="comment">//    OLEMSGBUTTON.OLEMSGBUTTON_OK,</span></span><br><span class="line">        <span class="comment">//    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST );</span></span><br><span class="line"></span><br><span class="line">        ThreadHelper.ThrowIfNotOnUIThread();</span><br><span class="line">        ProjectItem item = dte.SelectedItems.Item(<span class="number">1</span>).ProjectItem;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (item != <span class="literal">null</span>)</span><br><span class="line">        &#123;</span><br><span class="line">            item.Properties.Item(<span class="string">"CustomTool"</span>).Value = INIToCSharpCodeGenerator.Name;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="命令部分-PoorManINIToCSharpVSIXPackage"><a href="#命令部分-PoorManINIToCSharpVSIXPackage" class="headerlink" title="命令部分 PoorManINIToCSharpVSIXPackage"></a>命令部分 PoorManINIToCSharpVSIXPackage</h2><p>最後修改 <code>PoorManINIToCSharpVSIXPackage</code><br>這個步驟會在 visual studio 的 UI 上加一些訊息<br>像是這個屬性 ProvideUIContextRule</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">[PackageRegistration( UseManagedResourcesOnly &#x3D; true, AllowsBackgroundLoading &#x3D; true )]</span><br><span class="line">[Guid( PoorManINIToCSharpVSIXPackage.PackageGuidString )]</span><br><span class="line">&#x2F;&#x2F;[ProvideMenuResource(&quot;Menus.ctmenu&quot;, 1)]</span><br><span class="line">[ProvideCodeGenerator(typeof(INIToCSharpCodeGenerator), INIToCSharpCodeGenerator.Name, INIToCSharpCodeGenerator.Description, true)]</span><br><span class="line">[ProvideCodeGeneratorExtension(INIToCSharpCodeGenerator.Name, PoorManINIToCSharpVSIXPackage.IniExt)]</span><br><span class="line">[ProvideUIContextRule(PackageGuids.guidPoorManINIToCSharpVSIXPackageString,</span><br><span class="line">    name: &quot;Context&quot;,</span><br><span class="line">    expression: PoorManINIToCSharpVSIXPackage.IniExt,</span><br><span class="line">    termNames: new[] &#123; PoorManINIToCSharpVSIXPackage.IniExt &#125;,</span><br><span class="line">    termValues: new[] &#123; &quot;HierSingleSelectionName:.&quot; + PoorManINIToCSharpVSIXPackage.IniExt + &quot;$&quot; &#125;)]</span><br><span class="line">public sealed class PoorManINIToCSharpVSIXPackage : AsyncPackage</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; PoorManINIToCSharpVSIXPackage GUID string.</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    public const string PackageGuidString &#x3D; &quot;2c67d035-a33c-4d5a-a354-e99aa615100c&quot;;</span><br><span class="line">    public const string IniExt &#x3D; &quot;ini&quot;;</span><br><span class="line">    #region Package Members</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; Initialization of the package; this method is called right after the package is sited, so this is the place</span><br><span class="line">    &#x2F;&#x2F;&#x2F; where you can put all the initialization code that rely on services provided by VisualStudio.</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;cancellationToken&quot;&gt;A cancellation token to monitor for initialization cancellation, which can occur when VS is shutting down.&lt;&#x2F;param&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;progress&quot;&gt;A provider for progress updates.&lt;&#x2F;param&gt;</span><br><span class="line">    &#x2F;&#x2F;&#x2F; &lt;returns&gt;A task representing the async work of package initialization, or an already completed task if there is none. Do not return null from this method.&lt;&#x2F;returns&gt;</span><br><span class="line">    protected override async Task InitializeAsync(CancellationToken cancellationToken, IProgress&lt;ServiceProgressData&gt; progress)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; When initialized asynchronously, the current thread may be a background thread at this point.</span><br><span class="line">        &#x2F;&#x2F; Do any initialization that requires the UI thread after switching to the UI thread.</span><br><span class="line">        await this.JoinableTaskFactory.SwitchToMainThreadAsync( cancellationToken );</span><br><span class="line">        await CodeGenCommand.InitializeAsync(this);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    #endregion</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Debug-設定"><a href="#Debug-設定" class="headerlink" title="Debug 設定"></a>Debug 設定</h2><p>在 csproj 把這幾個都給設定為 true 不然不能 debug</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;IncludeAssemblyInVSIXContainer&gt;true&lt;&#x2F;IncludeAssemblyInVSIXContainer&gt;</span><br><span class="line">&lt;IncludeDebugSymbolsInVSIXContainer&gt;true&lt;&#x2F;IncludeDebugSymbolsInVSIXContainer&gt;</span><br><span class="line">&lt;IncludeDebugSymbolsInLocalVSIXDeployment&gt;true&lt;&#x2F;IncludeDebugSymbolsInLocalVSIXDeployment&gt;</span><br><span class="line">&lt;CopyBuildOutputToOutputDirectory&gt;true&lt;&#x2F;CopyBuildOutputToOutputDirectory&gt;</span><br><span class="line">&lt;CopyOutputSymbolsToOutputDirectory&gt;true&lt;&#x2F;CopyOutputSymbolsToOutputDirectory&gt;</span><br></pre></td></tr></table></figure>
+
+<p>此外要在 Debug Properties 內設定以下兩個進階命令<br><code>Start external program</code> =&gt; <code>C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\devenv.exe</code><br><code>Command line arguments</code> =&gt; <code>/rootsuffix Exp</code><br>最後就可以把 ini 檔放進來點選右鍵 <code>Run Custom Command</code> 以後就可以順利產生類別了</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[Test]</span></span><br><span class="line"><span class="attr">SomeString</span> = Hello World!</span><br><span class="line"><span class="attr">SomeInteger</span> = <span class="number">10</span></span><br><span class="line"><span class="attr">SomeFloat</span> = <span class="number">20.05</span></span><br><span class="line"><span class="attr">SomeBoolean</span> = <span class="literal">true</span></span><br><span class="line"><span class="attr">Day</span> = Monday</span><br><span class="line"></span><br><span class="line"><span class="section">[Person]</span></span><br><span class="line"><span class="attr">Name</span> = Peter</span><br><span class="line"><span class="attr">Age</span> = <span class="number">50</span></span><br></pre></td></tr></table></figure>
+<p>結論要當個開掛仔還是非常辛苦低!</p>
+<h2 id="附贈-console-版本"><a href="#附贈-console-版本" class="headerlink" title="附贈 console 版本"></a>附贈 console 版本</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Collections.Generic;</span><br><span class="line">using System.Linq;</span><br><span class="line">using System.Text;</span><br><span class="line">using System.Threading.Tasks;</span><br><span class="line">using System.IO;</span><br><span class="line">using System.Text.RegularExpressions;</span><br><span class="line"></span><br><span class="line">namespace ConvINIToCSharp</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            PoorManINIToCS( &quot;d:\\test.ini&quot; );</span><br><span class="line">        &#125;</span><br><span class="line">        public static void PoorManINIToCS(string path)</span><br><span class="line">        &#123;</span><br><span class="line">            var lines &#x3D; File.ReadAllLines( path );</span><br><span class="line"></span><br><span class="line">            Dictionary&lt;string, Dictionary&lt;string, string&gt;&gt; dict &#x3D; new Dictionary&lt;string, Dictionary&lt;string, string&gt;&gt;( );</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;類別區塊</span><br><span class="line">            var classSection &#x3D; new Regex( @&quot;\[\w+\]&quot; );</span><br><span class="line">            &#x2F;&#x2F;屬性區塊</span><br><span class="line">            var propSection &#x3D; new Regex( @&quot;(?&lt;prop&gt;\w+) (&#x3D;) (?&lt;val&gt;.*)&quot; );</span><br><span class="line">            bool isClass &#x3D; false;</span><br><span class="line"></span><br><span class="line">            string holdClass &#x3D; &quot;&quot;;</span><br><span class="line">            foreach (var line in lines)</span><br><span class="line">            &#123;</span><br><span class="line">                &#x2F;&#x2F;如果是的話進入到下個階段辨識</span><br><span class="line">                isClass &#x3D; classSection.IsMatch( line );</span><br><span class="line">                if (isClass &#x3D;&#x3D; true)</span><br><span class="line">                &#123;</span><br><span class="line">                    dict.Add( line, null );</span><br><span class="line">                    holdClass &#x3D; line;</span><br><span class="line">                    dict[holdClass] &#x3D; new Dictionary&lt;string, string&gt;( );</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;如果完全符合規則取得屬性與數值</span><br><span class="line">                var isProp &#x3D; propSection.IsMatch( line );</span><br><span class="line">                if (isProp)</span><br><span class="line">                &#123;</span><br><span class="line">                    var match &#x3D; propSection.Match( line );</span><br><span class="line">                    var prop &#x3D; match.Groups[&quot;prop&quot;].Value;</span><br><span class="line">                    var val &#x3D; match.Groups[&quot;val&quot;].Value;</span><br><span class="line">                    dict[holdClass].Add( prop, val );</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            foreach (var d in dict)</span><br><span class="line">            &#123;</span><br><span class="line">                Console.WriteLine(</span><br><span class="line">                    $@&quot;public class &#123;d.Key.Replace( &quot;[&quot;, &quot;&quot; ).Replace( &quot;]&quot;, &quot;&quot; )&#125; &quot; );</span><br><span class="line">                Console.WriteLine( &quot;&#123;&quot; );</span><br><span class="line">                foreach (var item in d.Value)</span><br><span class="line">                &#123;</span><br><span class="line">                    bool boolVal &#x3D; false;</span><br><span class="line">                    var isBool &#x3D; bool.TryParse( item.Value, out boolVal );</span><br><span class="line"></span><br><span class="line">                    int intVal &#x3D; 0;</span><br><span class="line">                    var isInt &#x3D; int.TryParse( item.Value, out intVal );</span><br><span class="line"></span><br><span class="line">                    double doubleVal &#x3D; 0.0;</span><br><span class="line">                    var isDouble &#x3D; double.TryParse( item.Value, out doubleVal );</span><br><span class="line"></span><br><span class="line">                    if (isBool)</span><br><span class="line">                    &#123;</span><br><span class="line">                        Console.WriteLine( &quot;\t&quot; + $@&quot;public bool &#123;item.Key&#125; &#x3D; &#123;item.Value&#125;&quot; + &quot;;&quot; );</span><br><span class="line">                        continue;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if (isInt)</span><br><span class="line">                    &#123;</span><br><span class="line">                        Console.WriteLine( &quot;\t&quot; + $@&quot;public int &#123;item.Key&#125; &#x3D; &#123;item.Value&#125;&quot; + &quot;;&quot; );</span><br><span class="line">                        continue;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    if (isDouble)</span><br><span class="line">                    &#123;</span><br><span class="line">                        Console.WriteLine( &quot;\t&quot; + $@&quot;public double &#123;item.Key&#125; &#x3D; &#123;item.Value&#125;&quot; + &quot;;&quot; );</span><br><span class="line">                        continue;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    Console.WriteLine( &quot;\t&quot; + $@&quot;public string &#123;item.Key&#125; &#x3D;  &quot;&quot;&#123;item.Value&#125;&quot;&quot;;&quot; );</span><br><span class="line">                &#125;</span><br><span class="line">                Console.WriteLine( &quot;&#125;&quot; );</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="其他資源"><a href="#其他資源" class="headerlink" title="其他資源"></a>其他資源</h2><p><a href="https://github.com/Microsoft/VSSDK-Extensibility-Samples" target="_blank" rel="noopener">官方範例</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/csharp/" rel="tag"># csharp</a>
+              <a href="/tags/visualstudio/" rel="tag"># visualstudio</a>
+              <a href="/tags/ini/" rel="tag"># ini</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/16/puppeteer-%E7%AD%86%E8%A8%98/" rel="prev" title="puppeteer 筆記">
+      <i class="fa fa-chevron-left"></i> puppeteer 筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/01/31/visual-studio-%E8%A3%BD%E4%BD%9C%E5%A4%9A%E8%AA%9E%E7%B3%BB-extension/" rel="next" title="visual studio 製作多語系 extension">
+      visual studio 製作多語系 extension <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心轉換-INIToCSharpCodeGenerator"><span class="nav-number">1.</span> <span class="nav-text">核心轉換 INIToCSharpCodeGenerator</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令部分-CodeGenCommand"><span class="nav-number">2.</span> <span class="nav-text">命令部分 CodeGenCommand</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#命令部分-PoorManINIToCSharpVSIXPackage"><span class="nav-number">3.</span> <span class="nav-text">命令部分 PoorManINIToCSharpVSIXPackage</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Debug-設定"><span class="nav-number">4.</span> <span class="nav-text">Debug 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#附贈-console-版本"><span class="nav-number">5.</span> <span class="nav-text">附贈 console 版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他資源"><span class="nav-number">6.</span> <span class="nav-text">其他資源</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/01/23/%E8%A3%BD%E4%BD%9C%E7%AA%AE%E4%BA%BA%E7%9A%84-ini-to-csharp-%E5%A4%96%E6%8E%9B/";
+    this.page.identifier = "2021/01/23/製作窮人的-ini-to-csharp-外掛/";
+    this.page.title = "製作窮人的 ini to csharp 外掛";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

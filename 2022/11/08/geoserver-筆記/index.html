@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="geoserver 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/11/08/geoserver-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-11-07T17:47:24.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="GIS">
+<meta property="article:tag" content="geoserver">
+<meta property="article:tag" content="netcdf">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/11/08/geoserver-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>geoserver 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/11/08/geoserver-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          geoserver 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-11-08 01:47:24" itemprop="dateCreated datePublished" datetime="2022-11-08T01:47:24+08:00">2022-11-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/11/08/geoserver-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/11/08/geoserver-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>25k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>23 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<p>因為搞 openlayers 沒有資料玩起來還是挺麻煩的 , 順手筆記下一些測試 geoserver 的 lab 過程</p>
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><p>手冊<a href="https://docs.geoserver.org/stable/en/user/installation/win_binary.html" target="_blank" rel="noopener">在此</a> , 首先需要 JAVA 8 or JAVA 11 , 可以參考我<a href="https://www.blog.lasai.com.tw/2022/08/13/python-%E6%93%8D%E4%BD%9C-netcdf-%E7%AD%86%E8%A8%98/#%E5%AE%89%E8%A3%9D%E5%8F%8A%E8%A8%AD%E5%AE%9A-OpenJDK11">這篇</a><br>接著萬事起頭難 , 到官方這個 <a href="https://geoserver.org/download/" target="_blank" rel="noopener">載點</a> 或 <a href="https://build.geoserver.org/geoserver/2.21.x/" target="_blank" rel="noopener">這裡</a> 找找 , 他有分 <code>war</code> &amp; <code>bin</code> 兩種版本給你<br><code>war</code> =&gt; 有 tomcat 的話要用這個 , <code>bin</code> =&gt; 沒 tomcat 可以直接用<br>另外外掛的部分有分 <a href="https://build.geoserver.org/geoserver/2.21.x/ext-latest/" target="_blank" rel="noopener">官方</a> 或 <a href="https://build.geoserver.org/geoserver/2.21.x/community-latest/" target="_blank" rel="noopener">community</a> 感覺現在功能用來越多啦 , 真的猛~<br>這裡先拿 <code>bin</code> 玩看看 , 我下載到 <code>%userprofile%</code> 目錄底下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">cd ~&#x2F;geoserver-2.21.x-latest-bin&#x2F;bin</span><br></pre></td></tr></table></figure>
+
+<p>啟動的話 , 可以在他的 <code>bin</code> 目錄找到以下 4 個 script 來啟動或關閉 <code>http://localhost:8080/geoserver</code> , 帳號 <code>admin</code> , 密碼 <code>geoserver</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">.\startup.bat</span><br><span class="line"></span><br><span class="line">#shutdown.bat</span><br><span class="line">#shutdown.sh</span><br><span class="line">#startup.bat</span><br><span class="line">#startup.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="Workspace"><a href="#Workspace" class="headerlink" title="Workspace"></a>Workspace</h3><p>預設有以下這些 Workspace 不過我就暫時不動他們</p>
+<ul>
+<li>cite</li>
+<li>it.geosolutions        </li>
+<li>nurc        </li>
+<li>sde        </li>
+<li>sf        </li>
+<li>tiger        </li>
+<li>topp</li>
+</ul>
+<p>自己建立 New Workspace , <code>Name test</code> , <code>Namespace URI test</code><br>接著設定以下 4 種都打勾 , 以前在玩的時候多半都只用到 WMS , 其他的部分就沒深入玩到啦<br>Services<br>WMTS<br>WCS<br>WFS<br>WMS</p>
+<h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><p>Store 掛在 Workspace 底下 , 就看自己要怎麼分類去建立<br>都沒安裝 extension 的話預設就只有以下這些</p>
+<p>New data source<br>Choose the type of data source you wish to configure</p>
+<p>Vector Data Sources<br>    Directory of spatial files (shapefiles) - Takes a directory of shapefiles and exposes it as a data store<br>    GeoPackage - GeoPackage<br>    PostGIS - PostGIS Database<br>    PostGIS (JNDI) - PostGIS Database (JNDI)<br>    Properties - Allows access to Java Property files containing Feature information<br>    Shapefile - ESRI(tm) Shapefiles (*.shp)<br>    Web Feature Server (NG) - Provides access to the Features published a Web Feature Service, and the ability to perform transactions on the server (when supported / allowed).</p>
+<p>Raster Data Sources<br>    ArcGrid - ARC/INFO ASCII GRID Coverage Format<br>    GeoPackage (mosaic) - GeoPackage mosaic plugin<br>    GeoTIFF - Tagged Image File Format with Geographic information<br>    ImageMosaic - Image mosaicking plugin<br>    WorldImage - A raster file accompanied by a spatial data file</p>
+<p>Other Data Sources<br>    WMS - Cascades a remote Web Map Service<br>    WMTS - Cascades a remote Web Map Tile Service</p>
+<h3 id="Layers"><a href="#Layers" class="headerlink" title="Layers"></a>Layers</h3><p><code>Layers</code> =&gt; <code>Add a new layer</code> =&gt; <code>Dimensions</code> =&gt; <code>Time</code> =&gt; <code>Enabled</code> =&gt; <code>Presentation</code> =&gt; <code>List</code> =&gt; <code>Default value</code> =&gt; <code>Use the smallest domain value</code> =&gt; <code>Save</code></p>
+<p>也可以參考 <a href="https://docs.geoserver.geo-solutions.it/edu/en/multidim/netcdf/index.html" target="_blank" rel="noopener">這裡</a></p>
+<h3 id="安裝-netcdf-extension"><a href="#安裝-netcdf-extension" class="headerlink" title="安裝 netcdf extension"></a>安裝 netcdf extension</h3><p><a href="https://build.geoserver.org/geoserver/2.21.x/ext-latest/geoserver-2.21-SNAPSHOT-netcdf-plugin.zip" target="_blank" rel="noopener">載點</a><br>下載後解壓縮會看到一坨檔案 , 要把這些通通都丟到 <code>webapps\geoserver\WEB-INF\lib</code> 裡面 , 然後 restart geoserver 才 ok<br>安裝好後點選 <code>Stores</code> =&gt; <code>Add new Store</code> =&gt; <code>Raster Data Sources</code> 就可以看到 <code>NetCDF</code> 了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">cdm-4.6.15.jar</span><br><span class="line">commons-cli-1.4.jar</span><br><span class="line">ehcache-core-2.4.3.jar</span><br><span class="line">geodb-0.9.jar</span><br><span class="line">GEOTOOLS_NOTICE.html</span><br><span class="line">GPL.html</span><br><span class="line">gs-netcdf-2.21-SNAPSHOT.jar</span><br><span class="line">gt-coverage-api-27-SNAPSHOT.jar</span><br><span class="line">gt-jdbc-h2-27-SNAPSHOT.jar</span><br><span class="line">gt-netcdf-27-SNAPSHOT.jar</span><br><span class="line">hatbox-1.0.b10.jar</span><br><span class="line">httpclient-4.5.13.jar</span><br><span class="line">httpclient-cache-4.5.13.jar</span><br><span class="line">httpcore-4.4.10.jar</span><br><span class="line">httpmime-4.5.1.jar</span><br><span class="line">httpservices-4.6.15.jar</span><br><span class="line">jaxen-1.1.6.jar</span><br><span class="line">jcip-annotations-1.0.jar</span><br><span class="line">jcommander-1.35.jar</span><br><span class="line">jdom2-2.0.6.1.jar</span><br><span class="line">jna-5.12.1.jar</span><br><span class="line">jna-platform-5.12.1.jar</span><br><span class="line">joda-time-2.8.1.jar</span><br><span class="line">LGPL.html</span><br><span class="line">netCDF.html</span><br><span class="line">netcdf4-4.6.15.jar</span><br><span class="line">NOTICE.html</span><br><span class="line">opendap-2.1.jar</span><br><span class="line">udunits-4.6.15.jar</span><br></pre></td></tr></table></figure>
+
+<h3 id="發佈-netcdf"><a href="#發佈-netcdf" class="headerlink" title="發佈 netcdf"></a>發佈 netcdf</h3><p>發佈的話檔名要稍微規劃下 , 免得找不到自己需要的 wms 服務<br>接著在自己的 <code>geoserver-2.21.x-latest-bin\data_dir\data</code> 底下新增 <code>netcdf</code> 資料夾然後把 netcdf 檔案丟進去<br><code>Stores</code> =&gt; <code>Add new Store</code> =&gt; <code>Raster Data Sources</code> =&gt; <code>NetCDF</code> =&gt; <code>Workspace</code> =&gt; <code>test</code><br><code>Data Source Name *</code> =&gt; <code>ssh</code></p>
+<p>發 netcdf 很容易遇到檔案格式有問題 , 就會噴以下 error , 這時候就用 <a href="https://www.giss.nasa.gov/tools/panoply/" target="_blank" rel="noopener">panoply</a> or 其他 viewer 看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Could not list layers for this store, an error occurred retrieving them: Failed to create reader from file:data&#x2F;xxx&#x2F;xxx.nc and hints </span><br><span class="line">Hints: EXECUTOR_SERVICE &#x3D; java.util.concurrent.ThreadPoolExecutor@78afb95d[Running, pool size &#x3D; 0, active threads &#x3D; 0, queued tasks &#x3D; 0, completed tasks &#x3D; 0] </span><br><span class="line">REPOSITORY &#x3D; org.geoserver.catalog.CatalogRepository@3d25c3e7 </span><br><span class="line">System defaults: </span><br><span class="line">FORCE_LONGITUDE_FIRST_AXIS_ORDER &#x3D; true </span><br><span class="line">LENIENT_DATUM_SHIFT &#x3D; true </span><br><span class="line">STYLE_FACTORY &#x3D; StyleFactoryImpl </span><br><span class="line">GRID_COVERAGE_FACTORY &#x3D; GridCoverageFactory </span><br><span class="line">TILE_ENCODING &#x3D; null </span><br><span class="line">COMPARISON_TOLERANCE &#x3D; 1.0E-8 </span><br><span class="line">FEATURE_FACTORY &#x3D; org.geotools.feature.LenientFeatureFactoryImpl@1f43cab7 </span><br><span class="line">FORCE_AXIS_ORDER_HONORING &#x3D; http </span><br><span class="line">FILTER_FACTORY &#x3D; FilterFactoryImpl</span><br></pre></td></tr></table></figure>
+
+<p>例如下面這個例子 , 他的日期 format <code>yymmddHH</code> 就不是標準的日期格式 , 所以需要針對資料源進行日期修正</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import xarray as xr</span><br><span class="line">import numpy as np</span><br><span class="line"></span><br><span class="line">nc &#x3D; xr.open_dataset(&#39;XXX.nc&#39;)</span><br><span class="line">nc[&#39;Time&#39;]</span><br><span class="line"></span><br><span class="line">#array([22010100., 22010106., 22010112., 22010118.])</span><br><span class="line">#Coordinates: (0)</span><br><span class="line">#Attributes:</span><br><span class="line">#Format :</span><br><span class="line">#yymmddHH</span><br></pre></td></tr></table></figure>
+
+<h3 id="設定-netcdf-樣式"><a href="#設定-netcdf-樣式" class="headerlink" title="設定 netcdf 樣式"></a>設定 netcdf 樣式</h3><p>通常 netcdf 發佈以後預設的樣式可以說是無 , 醜到爆! 以前研究很久最後發現效果最好就是用 <a href="https://docs.geoserver.org/latest/en/user/community/ncwms/index.html" target="_blank" rel="noopener">這篇</a> 介紹的 extension , 這個 extension 會動態去生出 SLD 免於編輯之苦<br>不過以前用起來也是有點 bug , 印象中設定到 32 or 64 色就差不多了 , 好像因為 <code>NUMCOLORBANDS</code> 這個參數設定到 255 可能會噴 bug<br>colorbar 的部分可以參考我以前 <a href="https://www.blog.lasai.com.tw/2020/07/15/NCL-Color-Bar-%E8%BD%89%E6%8F%9B/">這篇設定</a> , 沒想到又晃過兩年了 , 記憶越來越薄弱</p>
+<p>下載解壓後會看到以下檔案 , 一樣丟進去 <code>webapps\geoserver\WEB-INF\lib</code> 目錄裡</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gs-colormap-2.21-SNAPSHOT.jar</span><br><span class="line">gs-ncwms-2.21-SNAPSHOT.jar</span><br><span class="line">gt-brewer-27-SNAPSHOT.jar</span><br><span class="line">jcommon-1.0.13.jar</span><br><span class="line">jfreechart-1.0.10.jar</span><br></pre></td></tr></table></figure>
+
+<p>接著點選 <code>Styles</code> =&gt; <code>Add a new style</code> =&gt; <code>Name</code> =&gt; <code>x-Rainbow</code> =&gt; <code>Workspace</code> =&gt; <code>test</code> =&gt; <code>format</code> =&gt; <code>Dynamic palette</code> 然後編輯內容<br>這裡先拿 ncwms 的 x-Rainbow 顏色來用 , 可以在這裡抓到所有 <a href="https://github.com/Reading-eScience-Centre/edal-java/tree/master/graphics/src/main/resources/palettes" target="_blank" rel="noopener">顏色</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br></pre></td><td class="code"><pre><span class="line">% rainbow</span><br><span class="line">#FF00008F</span><br><span class="line">#FF00009F</span><br><span class="line">#FF0000AF</span><br><span class="line">#FF0000BF</span><br><span class="line">#FF0000CF</span><br><span class="line">#FF0000DF</span><br><span class="line">#FF0000EF</span><br><span class="line">#FF0000FF</span><br><span class="line">#FF000BFF</span><br><span class="line">#FF001BFF</span><br><span class="line">#FF002BFF</span><br><span class="line">#FF003BFF</span><br><span class="line">#FF004BFF</span><br><span class="line">#FF005BFF</span><br><span class="line">#FF006BFF</span><br><span class="line">#FF007BFF</span><br><span class="line">#FF008BFF</span><br><span class="line">#FF009BFF</span><br><span class="line">#FF00ABFF</span><br><span class="line">#FF00BBFF</span><br><span class="line">#FF00CBFF</span><br><span class="line">#FF00DBFF</span><br><span class="line">#FF00EBFF</span><br><span class="line">#FF00FBFF</span><br><span class="line">#FF07FFF7</span><br><span class="line">#FF17FFE7</span><br><span class="line">#FF27FFD7</span><br><span class="line">#FF37FFC7</span><br><span class="line">#FF47FFB7</span><br><span class="line">#FF57FFA7</span><br><span class="line">#FF67FF97</span><br><span class="line">#FF77FF87</span><br><span class="line">#FF87FF77</span><br><span class="line">#FF97FF67</span><br><span class="line">#FFA7FF57</span><br><span class="line">#FFB7FF47</span><br><span class="line">#FFC7FF37</span><br><span class="line">#FFD7FF27</span><br><span class="line">#FFE7FF17</span><br><span class="line">#FFF7FF07</span><br><span class="line">#FFFFF700</span><br><span class="line">#FFFFE700</span><br><span class="line">#FFFFD700</span><br><span class="line">#FFFFC700</span><br><span class="line">#FFFFB700</span><br><span class="line">#FFFFA700</span><br><span class="line">#FFFF9700</span><br><span class="line">#FFFF8700</span><br><span class="line">#FFFF7700</span><br><span class="line">#FFFF6700</span><br><span class="line">#FFFF5700</span><br><span class="line">#FFFF4700</span><br><span class="line">#FFFF3700</span><br><span class="line">#FFFF2700</span><br><span class="line">#FFFF1700</span><br><span class="line">#FFFF0700</span><br><span class="line">#FFF60000</span><br><span class="line">#FFE40000</span><br><span class="line">#FFD30000</span><br><span class="line">#FFC10000</span><br><span class="line">#FFAF0000</span><br><span class="line">#FF9E0000</span><br><span class="line">#FF8C0000</span><br></pre></td></tr></table></figure>
+
+<p>接著就是痛苦的地方啦 , 可以到這個 <a href="https://www.url-encode-decode.com/" target="_blank" rel="noopener">網站</a> 去解你的 url 看看參數長怎樣<br>接著開 jupyter 用這樣去查自己資料源的 max &amp; min value 不過這都是理想狀況資料分佈平均 , 如果往極端值偏的話畫出來很醜<br>所以搞這些的人多半都有自己的 domain 跟自己的 colorbar</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import xarray as xr</span><br><span class="line">import numpy as np</span><br><span class="line">nc &#x3D; xr.open_dataset(&#39;chlorophyll.nc&#39;)</span><br><span class="line">nc</span><br><span class="line">chlorophyll &#x3D; nc[&#39;chlorophyll&#39;]</span><br><span class="line">chlorophyll.max()</span><br><span class="line">chlorophyll.min()</span><br><span class="line"></span><br><span class="line">#COLORSCALERANGE_MIN&#x3D;0.026708</span><br><span class="line">#COLORSCALERANGE_MAX&#x3D;98.69599152</span><br></pre></td></tr></table></figure>
+
+<p>所以可以這樣拿某個時間段裡面最大最小值讓整體畫出來比較好看 , 雖然遇到極端值還是會很醜就是 , 參考 <a href="https://xarray-test.readthedocs.io/en/latest/generated/xarray.DataArray.html" target="_blank" rel="noopener">這裡</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import xarray as xr</span><br><span class="line">import numpy as np</span><br><span class="line">nc &#x3D; xr.open_dataset(&#39;chlorophyll.nc&#39;)</span><br><span class="line">nc</span><br><span class="line">time &#x3D; nc[&#39;time&#39;]</span><br><span class="line"># print(time)</span><br><span class="line"></span><br><span class="line">chlorophyll &#x3D; nc[&#39;chlorophyll&#39;]</span><br><span class="line"></span><br><span class="line"># 2003-01-01T12:00:00.000000000</span><br><span class="line">first &#x3D; chlorophyll.sel(time&#x3D;&#39;2003-01-01T12:00:00&#39;)</span><br><span class="line">print(&quot;max&quot; + f&quot;&#123;first.max()&#125;&quot;)</span><br><span class="line">print(&quot;min&quot; + f&quot;&#123;first.min()&#125;&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">second &#x3D; chlorophyll.loc[&#39;2003-01-02T12:00:00&#39;]</span><br><span class="line">print(&quot;max&quot; + f&quot;&#123;second.max()&#125;&quot;)</span><br><span class="line">print(&quot;min&quot; + f&quot;&#123;second.min()&#125;&quot;)</span><br><span class="line"></span><br><span class="line">third &#x3D; chlorophyll[:3]</span><br><span class="line">print(&quot;max&quot; + f&quot;&#123;third.max()&#125;&quot;)</span><br><span class="line">print(&quot;min&quot; + f&quot;&#123;third.min()&#125;&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>這裡有幾個細節如果要調整顏色 <code>最小</code> =&gt; <code>最大</code> 可以加 <code>COLORSCALERANGE</code> 參數<br>會長這樣 <code>COLORSCALERANGE=0.026708,0.28909132&amp;</code> 注意用逗號分割 , 最大最小順序不能錯 , 並且記得給樣式 <code>styles=x-Rainbow&amp;</code><br>最後是時間 <code>time=2003-01-01T12:00:00.000Z</code> 從 jupyter 看到的 format 跟 geoserver 上面的不太一樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">array([&#39;2003-01-01T12:00:00.000000000&#39;, &#39;2003-01-02T12:00:00.000000000&#39;,</span><br><span class="line">       ...</span><br><span class="line">       &#39;2003-01-31T12:00:00.000000000&#39;], dtype&#x3D;&#39;datetime64[ns]&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>最後串一起<br><code>http://localhost:8080/geoserver/test/wms?service=WMS&amp;version=1.1.0&amp;request=GetMap&amp;layers=test%3Achlorophyll&amp;bbox=112.95833840736977%2C9.999997773591211%2C126.00001272788415%2C27.04166539626963&amp;width=587&amp;height=768&amp;srs=EPSG%3A4326&amp;format=application/openlayers&amp;COLORSCALERANGE=0.026708,0.28909132&amp;styles=x-Rainbow&amp;time=2003-01-01T12:00:00.000Z</code></p>
+<p><code>http://localhost:8080/geoserver/test/wms?service=WMS&amp;version=1.1.0&amp;request=GetMap&amp;layers=test%3Achlorophyll&amp;bbox=112.95833840736977%2C9.999997773591211%2C126.00001272788415%2C27.04166539626963&amp;width=587&amp;height=768&amp;srs=EPSG%3A4326&amp;format=application/openlayers&amp;COLORSCALERANGE=0.026795,0.25226599&amp;styles=x-Rainbow&amp;time=2003-01-01T12:00:00.000Z</code></p>
+<p>如果有 openlayers 可以這樣加圖層 , extent 的部分可以直接複製 geoserver 來用 , 順序都一樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Bounding Boxes</span><br><span class="line">Min X</span><br><span class="line">112.95833840736977</span><br><span class="line">Min Y</span><br><span class="line">9.999997773591211</span><br><span class="line">Max X</span><br><span class="line">126.00001272788415</span><br><span class="line">Max Y</span><br><span class="line">27.04166539626963</span><br></pre></td></tr></table></figure>
+
+<p>openlayers example</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">new ImageLayer(&#123;</span><br><span class="line">	extent: [</span><br><span class="line">		112.95833840736977,</span><br><span class="line">		9.999997773591211,</span><br><span class="line">		126.00001272788415,</span><br><span class="line">		27.04166539626963</span><br><span class="line">	],</span><br><span class="line">	source: new ImageWMS(&#123;</span><br><span class="line">		url: &#39;http:&#x2F;&#x2F;localhost:8080&#x2F;geoserver&#x2F;wms&#39;,</span><br><span class="line">		params: &#123;</span><br><span class="line">			&#39;LAYERS&#39;: &#39;test:chlorophyll&#39;,</span><br><span class="line">			&#39;COLORSCALERANGE&#39; : &#39;0.026708,0.28909132&#39; ,</span><br><span class="line">			&#39;NUMCOLORBANDS&#39; : &#39;254&#39;,</span><br><span class="line">			&#39;STYLES&#39; : &#39;x-Rainbow&#39; ,</span><br><span class="line">			&#39;time&#39; : &#39;2003-01-01T12:00:00.000Z&#39;,</span><br><span class="line">			&#x2F;&#x2F;&#39;time&#39; : &#39;2003-01-31T12:00:00.000Z&#39;</span><br><span class="line">		&#125;,</span><br><span class="line">		ratio: 1,</span><br><span class="line">		serverType: &#39;geoserver&#39;,</span><br><span class="line">	&#125;),</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+
+<p>最後如果發起來的圖資料品質沒那麼優很有馬賽克感的話 , 可以看下<a href="https://docs.geoserver.org/maintain/en/user/services/wms/webadmin.html" target="_blank" rel="noopener">這裡的說明</a><br>設定 <code>Raster Rendering Options</code> 內插演算法 <code>Nearest neighbor</code> <code>Bilinear</code> <code>Bicubic</code> , 一般用到 <code>Bilinear</code> 即可</p>
+<p>後來發現 Null Values 設定 NaN NaN (非數值 非數值) 好像會噴下面這樣 , 如果手動設定 -9999 好像就正常 , 以前沒遇過就是了 , 可能資料上需要去修正調整這個部分吧</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Error rendering coverage on the fast path</span><br><span class="line">java.lang.RuntimeException: Failed to evaluate the process function, error is: org.geotools.coverage.processing.CoverageProcessingException: org.geotools.coverage.processing.CoverageProcessingException: org.geotools.coverage.processing.CoverageProcessingException: java.lang.IllegalArgumentException: Provided ranges are overlapping:NaN(7ff8000000000000) : NaN(7ff8000000000000) &#x2F; NaN(7ff8000000000000) : NaN(7ff8000000000000)</span><br><span class="line">Failed to evaluate the process function, error is: org.geotools.coverage.processing.CoverageProcessingException: org.geotools.coverage.processing.CoverageProcessingException: org.geotools.coverage.processing.CoverageProcessingException: java.lang.IllegalArgumentException: Provided ranges are overlapping:NaN(7ff8000000000000) : NaN(7ff8000000000000) &#x2F; NaN(7ff8000000000000) : NaN(7ff8000000000000)</span><br><span class="line">org.geotools.coverage.processing.CoverageProcessingException: org.geotools.coverage.processing.CoverageProcessingException: org.geotools.coverage.processing.CoverageProcessingException: java.lang.IllegalArgumentException: Provided ranges are overlapping:NaN(7ff8000000000000) : NaN(7ff8000000000000) &#x2F; NaN(7ff8000000000000) : NaN(7ff8000000000000)</span><br><span class="line">org.geotools.coverage.processing.CoverageProcessingException: org.geotools.coverage.processing.CoverageProcessingException: java.lang.IllegalArgumentException: Provided ranges are overlapping:NaN(7ff8000000000000) : NaN(7ff8000000000000) &#x2F; NaN(7ff8000000000000) : NaN(7ff8000000000000)</span><br><span class="line">org.geotools.coverage.processing.CoverageProcessingException: java.lang.IllegalArgumentException: Provided ranges are overlapping:NaN(7ff8000000000000) : NaN(7ff8000000000000) &#x2F; NaN(7ff8000000000000) : NaN(7ff8000000000000)</span><br><span class="line">java.lang.IllegalArgumentException: Provided ranges are overlapping:NaN(7ff8000000000000) : NaN(7ff8000000000000) &#x2F; NaN(7ff8000000000000) : NaN(7ff8000000000000)</span><br><span class="line">Provided ranges are overlapping:NaN(7ff8000000000000) : NaN(7ff8000000000000) &#x2F; NaN(7ff8000000000000) : NaN(7ff8000000000000)</span><br></pre></td></tr></table></figure>
+
+<p>時間如果寫錯會噴這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot; standalone&#x3D;&quot;no&quot;?&gt;&lt;!DOCTYPE ServiceExceptionReport SYSTEM &quot;http:&#x2F;&#x2F;localhost:8080&#x2F;geoserver&#x2F;schemas&#x2F;wms&#x2F;1.1.1&#x2F;WMS_exception_1_1_1.dtd&quot;&gt; &lt;ServiceExceptionReport version&#x3D;&quot;1.1.1&quot; &gt;   &lt;ServiceException&gt;</span><br><span class="line">	java.text.ParseException: Invalid date: 2003-01-01T12:00:00</span><br><span class="line">	Invalid date: 2003-01-01T12:00:00</span><br><span class="line">&lt;&#x2F;ServiceException&gt;&lt;&#x2F;ServiceExceptionReport&gt;</span><br></pre></td></tr></table></figure>
+
+<p>如果不想設定 <code>global</code> 的話也可以直接在 <code>GetMap</code> 帶進去用 , <a href="https://docs.geoserver.org/maintain/en/user/services/wms/vendor.html#interpolations" target="_blank" rel="noopener">參考這裡</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">source: new ImageWMS(&#123;</span><br><span class="line">	url: &#39;http:&#x2F;&#x2F;localhost:8080&#x2F;geoserver&#x2F;wms&#39;,</span><br><span class="line">	params: &#123;</span><br><span class="line">		&#39;LAYERS&#39;: &#39;test:chlorophyll&#39;,</span><br><span class="line">		&#39;COLORSCALERANGE&#39;: &#39;0.026708,0.28909132&#39;,</span><br><span class="line">		&#39;NUMCOLORBANDS&#39;: &#39;254&#39;,</span><br><span class="line">		&#39;STYLES&#39;: &#39;x-Rainbow&#39;,</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; &#39;interpolations&#39;: &#39;bilinear&#39;,</span><br><span class="line">		&#x2F;&#x2F; &#39;interpolations&#39;: &#39;bicubic&#39;,</span><br><span class="line">		&#x2F;&#x2F; &#39;interpolations&#39; : Interpolations.Bicubic,</span><br><span class="line">		&#39;interpolations&#39;: &#39;nearest neighbor&#39;,</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; &#39;time&#39; : &#39;2003-01-01T12:00:00.000Z&#39;</span><br><span class="line">		&#39;time&#39;: &#39;2003-01-31T12:00:00.000Z&#39;</span><br><span class="line">	&#125;,</span><br><span class="line">	ratio: 1,</span><br><span class="line">	serverType: &#39;geoserver&#39;,</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+
+<p>另外 <code>interpolations</code> 也可以用 Enum 封裝 , 寫起來會輕鬆點</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">export enum Interpolations &#123;</span><br><span class="line">    &#39;NearestNeighbor&#39; &#x3D; &#39;nearest neighbor&#39;,</span><br><span class="line">    &#39;Bilinear&#39; &#x3D; &#39;bilinear&#39;,</span><br><span class="line">    &#39;Bicubic&#39; &#x3D; &#39;bicubic&#39;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="自訂-contour-line-等深線-等高線"><a href="#自訂-contour-line-等深線-等高線" class="headerlink" title="自訂 contour line 等深線/等高線"></a>自訂 contour line 等深線/等高線</h3><p>參考自<a href="https://docs.geoserver.org/stable/en/user/styling/sld/extensions/rendering-transform.html" target="_blank" rel="noopener">這篇</a><br>基本上寫下面這樣就會成功啦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">source: new ImageWMS(&#123;</span><br><span class="line">	url: &#39;http:&#x2F;&#x2F;localhost:8080&#x2F;geoserver&#x2F;wms&#39;,</span><br><span class="line">	params: &#123;</span><br><span class="line">		&#39;LAYERS&#39;: &#39;test:chlorophyll&#39;,</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; &#39;COLORSCALERANGE&#39;: &#39;0.026708,0.28909132&#39;,</span><br><span class="line">		&#x2F;&#x2F; &#39;NUMCOLORBANDS&#39;: &#39;254&#39;,</span><br><span class="line">		&#x2F;&#x2F; &#39;STYLES&#39;: &#39;x-Rainbow&#39;,</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; &#39;interpolations&#39;: &#39;bilinear&#39;,</span><br><span class="line">		&#x2F;&#x2F; &#39;interpolations&#39;: &#39;bicubic&#39;,</span><br><span class="line">		&#x2F;&#x2F; &#39;interpolations&#39;: &#39;nearest neighbor&#39;,</span><br><span class="line"></span><br><span class="line">		&#39;SLD_BODY&#39;: sld,</span><br><span class="line">		&#39;STYLES&#39; : &#39;&#39;,</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F; &#39;time&#39; : &#39;2003-01-01T12:00:00.000Z&#39;</span><br><span class="line">		&#39;time&#39;: &#39;2003-01-31T12:00:00.000Z&#39;,</span><br><span class="line">		&#39;tiled&#39;: true</span><br><span class="line">	&#125;,</span><br><span class="line">	ratio: 1,</span><br><span class="line">	serverType: &#39;geoserver&#39;,</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+
+<p>這裡用個常數 export 出來 , 特別注意到 <code>&lt;Name&gt;test:chlorophyll&lt;/Name&gt;</code> 要設定你自己的圖層名稱</p>
+<p><code>sld.ts</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">export let sld &#x3D; &#96;</span><br><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;ISO-8859-1&quot;?&gt;</span><br><span class="line">&lt;StyledLayerDescriptor version&#x3D;&quot;1.0.0&quot;</span><br><span class="line">    xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.opengis.net&#x2F;sld StyledLayerDescriptor.xsd&quot;</span><br><span class="line">    xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.opengis.net&#x2F;sld&quot;</span><br><span class="line">    xmlns:ogc&#x3D;&quot;http:&#x2F;&#x2F;www.opengis.net&#x2F;ogc&quot;</span><br><span class="line">    xmlns:xlink&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;1999&#x2F;xlink&quot;</span><br><span class="line">    xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;&gt;</span><br><span class="line">    &lt;NamedLayer&gt;</span><br><span class="line">        &lt;Name&gt;test:chlorophyll&lt;&#x2F;Name&gt;</span><br><span class="line">        &lt;UserStyle&gt;</span><br><span class="line">            &lt;Title&gt;Contour DEM&lt;&#x2F;Title&gt;</span><br><span class="line">            &lt;Abstract&gt;Extracts contours from DEM&lt;&#x2F;Abstract&gt;</span><br><span class="line">            &lt;FeatureTypeStyle&gt;</span><br><span class="line">                &lt;Transformation&gt;</span><br><span class="line">                    &lt;ogc:Function name&#x3D;&quot;ras:Contour&quot;&gt;</span><br><span class="line">                        &lt;ogc:Function name&#x3D;&quot;parameter&quot;&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;data&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                        &lt;&#x2F;ogc:Function&gt;</span><br><span class="line">                        &lt;ogc:Function name&#x3D;&quot;parameter&quot;&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;levels&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;0.001&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;0.005&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;0.01&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;0.05&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;0.1&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;0.5&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;1&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                        &lt;&#x2F;ogc:Function&gt;</span><br><span class="line">                    &lt;&#x2F;ogc:Function&gt;</span><br><span class="line">                &lt;&#x2F;Transformation&gt;</span><br><span class="line">                &lt;Rule&gt;</span><br><span class="line">                    &lt;Name&gt;rule1&lt;&#x2F;Name&gt;</span><br><span class="line">                    &lt;Title&gt;Contour Line&lt;&#x2F;Title&gt;</span><br><span class="line">                    &lt;LineSymbolizer&gt;</span><br><span class="line">                        &lt;Stroke&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;stroke&quot;&gt;#000000&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;stroke-width&quot;&gt;1&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                        &lt;&#x2F;Stroke&gt;</span><br><span class="line">                    &lt;&#x2F;LineSymbolizer&gt;</span><br><span class="line">                    &lt;TextSymbolizer&gt;</span><br><span class="line">                        &lt;Label&gt;</span><br><span class="line">                            &lt;ogc:PropertyName&gt;value&lt;&#x2F;ogc:PropertyName&gt;</span><br><span class="line">                        &lt;&#x2F;Label&gt;</span><br><span class="line">                        &lt;Font&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;font-family&quot;&gt;Arial&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;font-style&quot;&gt;Normal&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;font-size&quot;&gt;10&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                        &lt;&#x2F;Font&gt;</span><br><span class="line">                        &lt;LabelPlacement&gt;</span><br><span class="line">                            &lt;LinePlacement &#x2F;&gt;</span><br><span class="line">                        &lt;&#x2F;LabelPlacement&gt;</span><br><span class="line">                        &lt;Halo&gt;</span><br><span class="line">                            &lt;Radius&gt;</span><br><span class="line">                                &lt;ogc:Literal&gt;2&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;&#x2F;Radius&gt;</span><br><span class="line">                            &lt;Fill&gt;</span><br><span class="line">                                &lt;CssParameter name&#x3D;&quot;fill&quot;&gt;#FFFFFF&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                                &lt;CssParameter name&#x3D;&quot;fill-opacity&quot;&gt;0.6&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;&#x2F;Fill&gt;</span><br><span class="line">                        &lt;&#x2F;Halo&gt;</span><br><span class="line">                        &lt;Fill&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;fill&quot;&gt;#000000&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                        &lt;&#x2F;Fill&gt;</span><br><span class="line">                        &lt;Priority&gt;2000&lt;&#x2F;Priority&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;followLine&quot;&gt;true&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;repeat&quot;&gt;100&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;maxDisplacement&quot;&gt;50&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;maxAngleDelta&quot;&gt;30&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                    &lt;&#x2F;TextSymbolizer&gt;</span><br><span class="line">                &lt;&#x2F;Rule&gt;</span><br><span class="line">            &lt;&#x2F;FeatureTypeStyle&gt;</span><br><span class="line">        &lt;&#x2F;UserStyle&gt;</span><br><span class="line">    &lt;&#x2F;NamedLayer&gt;</span><br><span class="line">&lt;&#x2F;StyledLayerDescriptor&gt;</span><br><span class="line">&#96;</span><br></pre></td></tr></table></figure>
+
+<p>接著自訂 function 玩看看 , 線太密的話看起來很噁心 , tickSize 用個 5 , 10 , 20 就差不多了<br>在 typescript 裡面可以這樣寫來限定 <code>tickSize:  5 | 10 | 20 = 10</code> 整個噁心</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br></pre></td><td class="code"><pre><span class="line">export function contourLine(</span><br><span class="line">    layerName: string,</span><br><span class="line">    tickMin: number,</span><br><span class="line">    tickMax: number,</span><br><span class="line">    &#x2F;&#x2F;tickSize: number &#x3D; 10,</span><br><span class="line">	tickSize:  5 | 10 | 20 &#x3D; 10</span><br><span class="line">    lineColor: string &#x3D; &#39;#000000&#39;,</span><br><span class="line">    lineWidth: number &#x3D; 1,</span><br><span class="line">) &#123;</span><br><span class="line"></span><br><span class="line">    let tick &#x3D; Math.abs(tickMax - tickMin) &#x2F; tickSize;</span><br><span class="line">    console.log(tick)</span><br><span class="line">    let literal &#x3D; &#39;&#39;;</span><br><span class="line">    let levels: number[] &#x3D; []</span><br><span class="line">    for (let current &#x3D; tickMin; current &lt;&#x3D; tickMax; current +&#x3D; tick) &#123;</span><br><span class="line">        levels.push(current)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    let strLevels &#x3D; &#39;&#39;</span><br><span class="line">    for (let level of levels) &#123;</span><br><span class="line"></span><br><span class="line">        let template &#x3D; &#96;&lt;ogc:Literal&gt;$&#123;level&#125;&lt;&#x2F;ogc:Literal&gt;&#96;</span><br><span class="line">        strLevels +&#x3D; template</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    console.log(&#39;levels&#39;, levels)</span><br><span class="line">    let sld &#x3D; &#96;</span><br><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;ISO-8859-1&quot;?&gt;</span><br><span class="line">&lt;StyledLayerDescriptor version&#x3D;&quot;1.0.0&quot;</span><br><span class="line">    xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.opengis.net&#x2F;sld StyledLayerDescriptor.xsd&quot;</span><br><span class="line">    xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.opengis.net&#x2F;sld&quot;</span><br><span class="line">    xmlns:ogc&#x3D;&quot;http:&#x2F;&#x2F;www.opengis.net&#x2F;ogc&quot;</span><br><span class="line">    xmlns:xlink&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;1999&#x2F;xlink&quot;</span><br><span class="line">    xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;&gt;</span><br><span class="line">    &lt;NamedLayer&gt;</span><br><span class="line">        &lt;Name&gt;$&#123;layerName&#125;&lt;&#x2F;Name&gt;</span><br><span class="line">        &lt;UserStyle&gt;</span><br><span class="line">            &lt;Title&gt;Contour DEM&lt;&#x2F;Title&gt;</span><br><span class="line">            &lt;Abstract&gt;Extracts contours from DEM&lt;&#x2F;Abstract&gt;</span><br><span class="line">            &lt;FeatureTypeStyle&gt;</span><br><span class="line">                &lt;Transformation&gt;</span><br><span class="line">                    &lt;ogc:Function name&#x3D;&quot;ras:Contour&quot;&gt;</span><br><span class="line">                        &lt;ogc:Function name&#x3D;&quot;parameter&quot;&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;data&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                        &lt;&#x2F;ogc:Function&gt;</span><br><span class="line">                        &lt;ogc:Function name&#x3D;&quot;parameter&quot;&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;levels&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            $&#123;strLevels&#125;</span><br><span class="line">                        &lt;&#x2F;ogc:Function&gt;</span><br><span class="line">                    &lt;&#x2F;ogc:Function&gt;</span><br><span class="line">                &lt;&#x2F;Transformation&gt;</span><br><span class="line">                &lt;Rule&gt;</span><br><span class="line">                    &lt;Name&gt;rule1&lt;&#x2F;Name&gt;</span><br><span class="line">                    &lt;Title&gt;Contour Line&lt;&#x2F;Title&gt;</span><br><span class="line">                    &lt;LineSymbolizer&gt;</span><br><span class="line">                        &lt;Stroke&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;stroke&quot;&gt;$&#123;lineColor&#125;&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;stroke-width&quot;&gt;$&#123;lineWidth&#125;&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                        &lt;&#x2F;Stroke&gt;</span><br><span class="line">                    &lt;&#x2F;LineSymbolizer&gt;</span><br><span class="line">                    &lt;TextSymbolizer&gt;</span><br><span class="line">                        &lt;Label&gt;</span><br><span class="line">                            &lt;ogc:PropertyName&gt;value&lt;&#x2F;ogc:PropertyName&gt;</span><br><span class="line">                        &lt;&#x2F;Label&gt;</span><br><span class="line">                        &lt;Font&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;font-family&quot;&gt;Arial&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;font-style&quot;&gt;Normal&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;font-size&quot;&gt;10&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                        &lt;&#x2F;Font&gt;</span><br><span class="line">                        &lt;LabelPlacement&gt;</span><br><span class="line">                            &lt;LinePlacement &#x2F;&gt;</span><br><span class="line">                        &lt;&#x2F;LabelPlacement&gt;</span><br><span class="line">                        &lt;Halo&gt;</span><br><span class="line">                            &lt;Radius&gt;</span><br><span class="line">                                &lt;ogc:Literal&gt;2&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;&#x2F;Radius&gt;</span><br><span class="line">                            &lt;Fill&gt;</span><br><span class="line">                                &lt;CssParameter name&#x3D;&quot;fill&quot;&gt;#FFFFFF&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                                &lt;CssParameter name&#x3D;&quot;fill-opacity&quot;&gt;0.6&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;&#x2F;Fill&gt;</span><br><span class="line">                        &lt;&#x2F;Halo&gt;</span><br><span class="line">                        &lt;Fill&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;fill&quot;&gt;#000000&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                        &lt;&#x2F;Fill&gt;</span><br><span class="line">                        &lt;Priority&gt;2000&lt;&#x2F;Priority&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;followLine&quot;&gt;true&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;repeat&quot;&gt;100&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;maxDisplacement&quot;&gt;50&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;maxAngleDelta&quot;&gt;30&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                    &lt;&#x2F;TextSymbolizer&gt;</span><br><span class="line">                &lt;&#x2F;Rule&gt;</span><br><span class="line">            &lt;&#x2F;FeatureTypeStyle&gt;</span><br><span class="line">        &lt;&#x2F;UserStyle&gt;</span><br><span class="line">    &lt;&#x2F;NamedLayer&gt;</span><br><span class="line">&lt;&#x2F;StyledLayerDescriptor&gt;</span><br><span class="line">&#96;</span><br><span class="line"></span><br><span class="line">    return sld;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><code>ol</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">new ImageLayer(&#123;</span><br><span class="line">	extent: [</span><br><span class="line">		112.95833840736977,</span><br><span class="line">		9.999997773591211,</span><br><span class="line">		126.00001272788415,</span><br><span class="line">		27.04166539626963</span><br><span class="line">	],</span><br><span class="line">	source: new ImageWMS(&#123;</span><br><span class="line">		url: &#39;http:&#x2F;&#x2F;localhost:8080&#x2F;geoserver&#x2F;wms&#39;,</span><br><span class="line">		params: &#123;</span><br><span class="line">			&#39;LAYERS&#39;: &#39;test:chlorophyll&#39;,</span><br><span class="line"></span><br><span class="line">			&#x2F;&#x2F; &#39;COLORSCALERANGE&#39;: &#39;0.026708,0.28909132&#39;,</span><br><span class="line">			&#x2F;&#x2F; &#39;NUMCOLORBANDS&#39;: &#39;254&#39;,</span><br><span class="line">			&#x2F;&#x2F; &#39;STYLES&#39;: &#39;x-Rainbow&#39;,</span><br><span class="line"></span><br><span class="line">			&#x2F;&#x2F; &#39;interpolations&#39;: &#39;nearest neighbor&#39;,</span><br><span class="line">			&#x2F;&#x2F; &#39;interpolations&#39;: &#39;bilinear&#39;,</span><br><span class="line">			&#x2F;&#x2F; &#39;interpolations&#39;: &#39;bicubic&#39;,</span><br><span class="line"></span><br><span class="line">			&#39;SLD_BODY&#39;: contourLine(</span><br><span class="line">				&#39;test:chlorophyll&#39;, </span><br><span class="line">				0,</span><br><span class="line">				1 , </span><br><span class="line">				10  ,</span><br><span class="line">				&#39;#ff00aa&#39;, </span><br><span class="line">				1,</span><br><span class="line">				),</span><br><span class="line"></span><br><span class="line">			&#x2F;&#x2F; &#39;time&#39; : &#39;2003-01-01T12:00:00.000Z&#39;</span><br><span class="line">			&#39;time&#39;: &#39;2003-01-31T12:00:00.000Z&#39;,</span><br><span class="line">			&#39;tiled&#39;: true</span><br><span class="line">		&#125;,</span><br><span class="line">		ratio: 1,</span><br><span class="line">		serverType: &#39;geoserver&#39;,</span><br><span class="line">	&#125;),</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+
+<p>萬一 sld 太大的話會超過預設的 <code>requestHeaderSize</code> 噴 <code>414 URI Too Long</code> , 要調下 jetty or tomcat</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WARN:oejh.HttpParser:qtp1822971466-634: URI is too large &gt;8192</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://blog.csdn.net/ShyLoneGirl/article/details/125865827" target="_blank" rel="noopener">參考這篇修改</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~\geoserver-2.21.2-bin\</span><br><span class="line">nvim start.ini</span><br><span class="line">jetty.httpConfig.requestHeaderSize&#x3D;8192000</span><br></pre></td></tr></table></figure>
+
+
+<p>最後有人發 request 的話可以在 jetty 上面看到 log , 也可以藉由這樣來把覺得順眼的樣式保存起來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">STYLES&#x3D;, TIME&#x3D;2003-01-31T12:00:00.000Z, WIDTH&#x3D;1366, HEIGHT&#x3D;625, LAYERS&#x3D;test:chlorophyll, TILED&#x3D;true, REQUEST&#x3D;GetMap, BBOX&#x3D;22.05223368739925,119.50890651219332,22.95031552299737,121.47175417207659, VERSION&#x3D;1.3.0, SERVICE&#x3D;WMS, TRANSPARENT&#x3D;true&#125;</span><br><span class="line">        RemoteOwsType &#x3D; null</span><br><span class="line">        RemoteOwsURL &#x3D; null</span><br><span class="line">        Request &#x3D; GetMap</span><br><span class="line">        RequestCharset &#x3D; UTF-8</span><br><span class="line">        ScaleMethod &#x3D; null</span><br><span class="line">        Sld &#x3D; null</span><br><span class="line">        SldBody &#x3D; </span><br><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;ISO-8859-1&quot;?&gt;</span><br><span class="line">&lt;StyledLayerDescriptor version&#x3D;&quot;1.0.0&quot;</span><br><span class="line">    xsi:schemaLocation&#x3D;&quot;http:&#x2F;&#x2F;www.opengis.net&#x2F;sld StyledLayerDescriptor.xsd&quot;</span><br><span class="line">    xmlns&#x3D;&quot;http:&#x2F;&#x2F;www.opengis.net&#x2F;sld&quot;</span><br><span class="line">    xmlns:ogc&#x3D;&quot;http:&#x2F;&#x2F;www.opengis.net&#x2F;ogc&quot;</span><br><span class="line">    xmlns:xlink&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;1999&#x2F;xlink&quot;</span><br><span class="line">    xmlns:xsi&#x3D;&quot;http:&#x2F;&#x2F;www.w3.org&#x2F;2001&#x2F;XMLSchema-instance&quot;&gt;</span><br><span class="line">    &lt;NamedLayer&gt;</span><br><span class="line">        &lt;Name&gt;test:chlorophyll&lt;&#x2F;Name&gt;</span><br><span class="line">        &lt;UserStyle&gt;</span><br><span class="line">            &lt;Title&gt;Contour DEM&lt;&#x2F;Title&gt;</span><br><span class="line">            &lt;Abstract&gt;Extracts contours from DEM&lt;&#x2F;Abstract&gt;</span><br><span class="line">            &lt;FeatureTypeStyle&gt;</span><br><span class="line">                &lt;Transformation&gt;</span><br><span class="line">                    &lt;ogc:Function name&#x3D;&quot;ras:Contour&quot;&gt;</span><br><span class="line">                        &lt;ogc:Function name&#x3D;&quot;parameter&quot;&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;data&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                        &lt;&#x2F;ogc:Function&gt;</span><br><span class="line">                        &lt;ogc:Function name&#x3D;&quot;parameter&quot;&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;levels&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;ogc:Literal&gt;0.025&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.0525&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.07999999999999999&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.10749999999999998&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.13499999999999998&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.16249999999999998&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.18999999999999997&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.21749999999999997&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.24499999999999997&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.27249999999999996&lt;&#x2F;ogc:Literal&gt;&lt;ogc:Literal&gt;0.29999999999999993&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                        &lt;&#x2F;ogc:Function&gt;</span><br><span class="line">                    &lt;&#x2F;ogc:Function&gt;</span><br><span class="line">                &lt;&#x2F;Transformation&gt;</span><br><span class="line">                &lt;Rule&gt;</span><br><span class="line">                    &lt;Name&gt;rule1&lt;&#x2F;Name&gt;</span><br><span class="line">                    &lt;Title&gt;Contour Line&lt;&#x2F;Title&gt;</span><br><span class="line">                    &lt;LineSymbolizer&gt;</span><br><span class="line">                        &lt;Stroke&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;stroke&quot;&gt;#ff00aa&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;stroke-width&quot;&gt;1&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                        &lt;&#x2F;Stroke&gt;</span><br><span class="line">                    &lt;&#x2F;LineSymbolizer&gt;</span><br><span class="line">                    &lt;TextSymbolizer&gt;</span><br><span class="line">                        &lt;Label&gt;</span><br><span class="line">                            &lt;ogc:PropertyName&gt;value&lt;&#x2F;ogc:PropertyName&gt;</span><br><span class="line">                        &lt;&#x2F;Label&gt;</span><br><span class="line">                        &lt;Font&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;font-family&quot;&gt;Arial&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;font-style&quot;&gt;Normal&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;font-size&quot;&gt;10&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                        &lt;&#x2F;Font&gt;</span><br><span class="line">                        &lt;LabelPlacement&gt;</span><br><span class="line">                            &lt;LinePlacement &#x2F;&gt;</span><br><span class="line">                        &lt;&#x2F;LabelPlacement&gt;</span><br><span class="line">                        &lt;Halo&gt;</span><br><span class="line">                            &lt;Radius&gt;</span><br><span class="line">                                &lt;ogc:Literal&gt;2&lt;&#x2F;ogc:Literal&gt;</span><br><span class="line">                            &lt;&#x2F;Radius&gt;</span><br><span class="line">                            &lt;Fill&gt;</span><br><span class="line">                                &lt;CssParameter name&#x3D;&quot;fill&quot;&gt;#FFFFFF&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                                &lt;CssParameter name&#x3D;&quot;fill-opacity&quot;&gt;0.6&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                            &lt;&#x2F;Fill&gt;</span><br><span class="line">                        &lt;&#x2F;Halo&gt;</span><br><span class="line">                        &lt;Fill&gt;</span><br><span class="line">                            &lt;CssParameter name&#x3D;&quot;fill&quot;&gt;#000000&lt;&#x2F;CssParameter&gt;</span><br><span class="line">                        &lt;&#x2F;Fill&gt;</span><br><span class="line">                        &lt;Priority&gt;2000&lt;&#x2F;PrPriority&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;followLine&quot;&gt;true&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;repeat&quot;&gt;100&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;maxDisplacement&quot;&gt;50&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                        &lt;VendorOption name&#x3D;&quot;maxAngleDelta&quot;&gt;30&lt;&#x2F;VendorOption&gt;</span><br><span class="line">                    &lt;&#x2F;TextSymbolizer&gt;</span><br><span class="line">                &lt;&#x2F;Rule&gt;</span><br><span class="line">            &lt;&#x2F;FeatureTypeStyle&gt;</span><br><span class="line">        &lt;&#x2F;UserStyle&gt;</span><br><span class="line">    &lt;&#x2F;NamedLayer&gt;</span><br><span class="line">&lt;&#x2F;StyledLayerDescriptor&gt;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/GIS/" rel="tag"># GIS</a>
+              <a href="/tags/geoserver/" rel="tag"># geoserver</a>
+              <a href="/tags/netcdf/" rel="tag"># netcdf</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/07/openlayers-7-helloworld/" rel="prev" title="openlayers 7 helloworld">
+      <i class="fa fa-chevron-left"></i> openlayers 7 helloworld
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/08/typescript-%E7%AD%86%E8%A8%98/" rel="next" title="typescript 筆記">
+      typescript 筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Workspace"><span class="nav-number">2.</span> <span class="nav-text">Workspace</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Store"><span class="nav-number">3.</span> <span class="nav-text">Store</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Layers"><span class="nav-number">4.</span> <span class="nav-text">Layers</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝-netcdf-extension"><span class="nav-number">5.</span> <span class="nav-text">安裝 netcdf extension</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#發佈-netcdf"><span class="nav-number">6.</span> <span class="nav-text">發佈 netcdf</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-netcdf-樣式"><span class="nav-number">7.</span> <span class="nav-text">設定 netcdf 樣式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂-contour-line-等深線-等高線"><span class="nav-number">8.</span> <span class="nav-text">自訂 contour line 等深線&#x2F;等高線</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/11/08/geoserver-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2022/11/08/geoserver-筆記/";
+    this.page.title = "geoserver 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

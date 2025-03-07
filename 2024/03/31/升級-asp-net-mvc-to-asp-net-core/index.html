@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="升級 asp.net mvc to asp.net core">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2024/03/31/%E5%8D%87%E7%B4%9A-asp-net-mvc-to-asp-net-core/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-03-30T16:04:05.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="csharp">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2024/03/31/%E5%8D%87%E7%B4%9A-asp-net-mvc-to-asp-net-core/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>升級 asp.net mvc to asp.net core | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2024/03/31/%E5%8D%87%E7%B4%9A-asp-net-mvc-to-asp-net-core/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          升級 asp.net mvc to asp.net core
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2024-03-31 00:04:05" itemprop="dateCreated datePublished" datetime="2024-03-31T00:04:05+08:00">2024-03-31</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2024/03/31/%E5%8D%87%E7%B4%9A-asp-net-mvc-to-asp-net-core/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/03/31/升級-asp-net-mvc-to-asp-net-core/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>10 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="YARP-amp-SystemWebAdapter"><a href="#YARP-amp-SystemWebAdapter" class="headerlink" title="YARP &amp; SystemWebAdapter"></a>YARP &amp; SystemWebAdapter</h3><p>我之前都是升級 <code>web api</code> <code>定時排程</code> <code>entity framework</code> 還有些 <code>底層類別</code> 不過也都一一克服逐步上線 , 可以看這篇<a href="https://www.blog.lasai.com.tw/2023/12/28/net-framework-4-8-to-net-core-%E7%AD%86%E8%A8%98/">筆記</a><br>現在也研究看看要如何將整個 asp.net mvc 網站升級上去到 .net core</p>
+<p>找了些資源後發現有 <a href="https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.upgradeassistant" target="_blank" rel="noopener">.NET Upgrade Assistant</a> 這個 extension<br>開來玩看看 , 礙於專案實在太大又亂馬上陣亡</p>
+<p>不過倒是發現兩個關鍵 <a href="https://microsoft.github.io/reverse-proxy/" target="_blank" rel="noopener">YARP</a> 跟 <a href="https://github.com/dotnet/systemweb-adapters" target="_blank" rel="noopener">systemweb-adapters</a><br><code>YARP</code> 是用 c# 寫的 Reverse Proxy 類似 <code>nginx</code> <code>envoy</code> 的作用 , 不過他可以很好的在 .net core 專案裡面直接用程式碼的方式來設定代理<br><code>systemweb-adapters</code> 這個東西也滿猛的 , 他可以讓 asp.net mvc 的 HttpContext Session Identity 等讓 .net core 吃到<br>這兩者搭起來如果有實作了 asp.net mvc 的路由的話 , 會被轉到 .net core 的 controller , 反之會沿用 asp.net mvc 原本的 controller<br>不過他的文件還是滿難啃的一個閃神就設定失敗 XD<br>可以看看以下這幾個關鍵連結</p>
+<p><a href="https://learn.microsoft.com/zh-tw/aspnet/core/migration/inc/overview?view=aspnetcore-8.0" target="_blank" rel="noopener">https://learn.microsoft.com/zh-tw/aspnet/core/migration/inc/overview?view=aspnetcore-8.0</a><br><a href="https://www.youtube.com/watch?v=zHgYDZK3MrA&amp;list=PLdo4fOcmZ0oWiK8r9OkJM3MUUL7_bOT9z" target="_blank" rel="noopener">https://www.youtube.com/watch?v=zHgYDZK3MrA&amp;list=PLdo4fOcmZ0oWiK8r9OkJM3MUUL7_bOT9z</a><br><a href="https://github.com/mjrousos/UpgradeSample" target="_blank" rel="noopener">https://github.com/mjrousos/UpgradeSample</a><br><a href="https://github.com/dotnet/systemweb-adapters/tree/main/samples" target="_blank" rel="noopener">https://github.com/dotnet/systemweb-adapters/tree/main/samples</a></p>
+<p>記錄下我測試 Identity 的過程<br>先開個 asp.net mvc 的站台 , 然後啟用身分認證 , 接著安裝 <code>Microsoft.AspNetCore.SystemWebAdapters</code> <code>Microsoft.AspNetCore.SystemWebAdapters.FrameworkServices</code></p>
+<p>關鍵要在 <code>web.config</code> 上面設定這段 , 如果要開 Session 好像還要設定別的模組 , 正常這段他會幫你自動加<br>可是我公司專案好像是使用新版的設定 , 所以不會自動加上去 , 整個暴雷</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;system.webServer&gt;</span><br><span class="line">    &lt;modules&gt;</span><br><span class="line">		&lt;remove name&#x3D;&quot;SystemWebAdapterModule&quot; &#x2F;&gt;</span><br><span class="line">		&lt;add name&#x3D;&quot;SystemWebAdapterModule&quot; type&#x3D;&quot;Microsoft.AspNetCore.SystemWebAdapters.SystemWebAdapterModule, Microsoft.AspNetCore.SystemWebAdapters.FrameworkServices&quot; preCondition&#x3D;&quot;managedHandler&quot; &#x2F;&gt;</span><br><span class="line">    &lt;&#x2F;modules&gt;</span><br><span class="line">&lt;&#x2F;system.webServer&gt;</span><br></pre></td></tr></table></figure>
+
+<p>然後在 <code>Global.asax.cs</code> 加上這串 , 他這裡還可以設定 Session 等其他進階用法 , 暫時沒玩到<br>ApiKey 需要是 guid , 稍後在 .net core 專案也要用一樣的 key 這樣才會正常連線</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class MvcApplication : System.Web.HttpApplication</span><br><span class="line">&#123;</span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">Application_Start</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>    &#123;</span><br><span class="line">        AreaRegistration.RegisterAllAreas();</span><br><span class="line">        FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);</span><br><span class="line">        RouteConfig.RegisterRoutes(RouteTable.Routes);</span><br><span class="line">        BundleConfig.RegisterBundles(BundleTable.Bundles);</span><br><span class="line"></span><br><span class="line">        SystemWebAdapterConfiguration.AddSystemWebAdapters(<span class="keyword">this</span>)</span><br><span class="line">            .AddProxySupport(options =&gt; options.UseForwardedHeaders = <span class="literal">true</span>)</span><br><span class="line">            .AddRemoteAppServer(options =&gt; options.ApiKey = <span class="string">"25E65A2D-AFD2-4024-8C24-A81F8E9C5465"</span>)</span><br><span class="line">            .AddAuthenticationServer();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著開個 .net core mvc 新專案 , 安裝 <code>YARP</code> <code>Microsoft.AspNetCore.SystemWebAdapters</code> <code>Microsoft.AspNetCore.SystemWebAdapters.CoreServices</code> 這三個套件</p>
+<p>這裡有一點要注意 , 如果你的 asp.net mvc 網站是放在 <code>subsite</code> 底下的話 網址應該會長這樣 <code>http://localhost:58588/ladisai</code><br>這時候要設定 <code>RemoteAppUrl</code> 為 <code>http://localhost:58588/ladisai</code> 才能吃到 HttpContext , 如果你設定 <code>http://localhost:58588</code> 這樣的話會直接 GG 他會得到 null 被這個雷搞超久</p>
+<p>Program 設定如下</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(args);</span><br><span class="line">builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection(<span class="string">"ReverseProxy"</span>));</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add services to the container.</span></span><br><span class="line">builder.Services.AddControllersWithViews();</span><br><span class="line">builder.Services</span><br><span class="line">    .AddSystemWebAdapters()</span><br><span class="line">    .AddRemoteAppClient(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">//options.RemoteAppUrl = new(builder.Configuration["ReverseProxy:Clusters:fallbackCluster:Destinations:fallbackApp:Address"]);</span></span><br><span class="line"></span><br><span class="line">        <span class="comment">//注意這句要寫你的 asp.net mvc 站台 HttpContext 位置他跟 YARP Proxy 無關</span></span><br><span class="line">        <span class="comment">//建議不要用 YARP Proxy 裡面的設定</span></span><br><span class="line">        options.RemoteAppUrl = <span class="keyword">new</span>(<span class="string">"http://localhost:58588/ladisai"</span>);</span><br><span class="line">        options.ApiKey = builder.Configuration[<span class="string">"RemoteAppApiKey"</span>];</span><br><span class="line">    &#125;)</span><br><span class="line">    .AddAuthenticationClient(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = builder.Build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Configure the HTTP request pipeline.</span></span><br><span class="line"><span class="keyword">if</span> (!app.Environment.IsDevelopment())</span><br><span class="line">&#123;</span><br><span class="line">    app.UseExceptionHandler(<span class="string">"/Home/Error"</span>);</span><br><span class="line">&#125;</span><br><span class="line">app.UseStaticFiles();</span><br><span class="line"></span><br><span class="line">app.UseRouting();</span><br><span class="line"></span><br><span class="line">app.UseAuthentication();</span><br><span class="line">app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">app.UseSystemWebAdapters();</span><br><span class="line"></span><br><span class="line">app.MapControllerRoute(</span><br><span class="line">    name: <span class="string">"default"</span>,</span><br><span class="line">    pattern: <span class="string">"&#123;controller=Home&#125;/&#123;action=Index&#125;/&#123;id?&#125;"</span>);</span><br><span class="line"></span><br><span class="line">app.MapReverseProxy();</span><br><span class="line"></span><br><span class="line">app.Run();</span><br></pre></td></tr></table></figure>
+
+<p><code>RemoteAppApiKey</code> 稍早我們在 asp.net mvc 上面設定的 key</p>
+<p><code>appsetting.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"RemoteAppApiKey"</span>: <span class="string">"25E65A2D-AFD2-4024-8C24-A81F8E9C5465"</span>,</span><br><span class="line">  <span class="attr">"Logging"</span>: &#123;</span><br><span class="line">    <span class="attr">"LogLevel"</span>: &#123;</span><br><span class="line">      <span class="attr">"Default"</span>: <span class="string">"Information"</span>,</span><br><span class="line">      <span class="attr">"Microsoft.AspNetCore"</span>: <span class="string">"Warning"</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"AllowedHosts"</span>: <span class="string">"*"</span>,</span><br><span class="line">  <span class="attr">"ReverseProxy"</span>: &#123;</span><br><span class="line">    <span class="attr">"Routes"</span>: &#123;</span><br><span class="line">      <span class="attr">"fallbackRoute"</span>: &#123;</span><br><span class="line">        <span class="attr">"ClusterId"</span>: <span class="string">"fallbackCluster"</span>,</span><br><span class="line">        <span class="attr">"Order"</span>: <span class="string">"1"</span>,</span><br><span class="line">        <span class="attr">"Match"</span>: &#123;</span><br><span class="line">          <span class="attr">"Path"</span>: <span class="string">"&#123;**catch-all&#125;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"Clusters"</span>: &#123;</span><br><span class="line">      <span class="attr">"fallbackCluster"</span>: &#123;</span><br><span class="line">        <span class="attr">"Destinations"</span>: &#123;</span><br><span class="line">          <span class="attr">"fallbackApp"</span>: &#123;</span><br><span class="line">            <span class="attr">"Address"</span>: <span class="string">""</span></span><br><span class="line">          &#125;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>這個裡面的 <code>ReverseProxy__Clusters__fallbackCluster__Destinations__fallbackApp__Address</code> 表示舊專案 asp.net mvc 的網址</p>
+<p><code>launchSettings.json</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"$schema"</span>: <span class="string">"http://json.schemastore.org/launchsettings.json"</span>,</span><br><span class="line">  <span class="attr">"iisSettings"</span>: &#123;</span><br><span class="line">    <span class="attr">"windowsAuthentication"</span>: <span class="literal">false</span>,</span><br><span class="line">    <span class="attr">"anonymousAuthentication"</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">"iisExpress"</span>: &#123;</span><br><span class="line">      <span class="attr">"applicationUrl"</span>: <span class="string">"http://localhost:2762"</span>,</span><br><span class="line">      <span class="attr">"sslPort"</span>: <span class="number">0</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"profiles"</span>: &#123;</span><br><span class="line">    <span class="attr">"http"</span>: &#123;</span><br><span class="line">      <span class="attr">"commandName"</span>: <span class="string">"Project"</span>,</span><br><span class="line">      <span class="attr">"dotnetRunMessages"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"launchBrowser"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"applicationUrl"</span>: <span class="string">"http://localhost:5180"</span>,</span><br><span class="line">      <span class="attr">"environmentVariables"</span>: &#123;</span><br><span class="line">        <span class="attr">"ASPNETCORE_ENVIRONMENT"</span>: <span class="string">"Development"</span>,</span><br><span class="line">        <span class="attr">"ReverseProxy__Clusters__fallbackCluster__Destinations__fallbackApp__Address"</span>: <span class="string">"https://localhost:44350"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"IIS Express"</span>: &#123;</span><br><span class="line">      <span class="attr">"commandName"</span>: <span class="string">"IISExpress"</span>,</span><br><span class="line">      <span class="attr">"launchBrowser"</span>: <span class="literal">true</span>,</span><br><span class="line">      <span class="attr">"environmentVariables"</span>: &#123;</span><br><span class="line">        <span class="attr">"ASPNETCORE_ENVIRONMENT"</span>: <span class="string">"Development"</span>,</span><br><span class="line">        <span class="attr">"ReverseProxy__Clusters__fallbackCluster__Destinations__fallbackApp__Address"</span>: <span class="string">"https://localhost:44350"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後隨便蓋一個 controller 然後先登入到 asp.net mvc 的網站 , 接著呼叫這隻 .net core 的 controller 看看是否正常拿到值即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public  class Test : Controller</span><br><span class="line">&#123;</span><br><span class="line">    [Route(&quot;&#x2F;Test&quot;)]</span><br><span class="line">    public IActionResult Test()</span><br><span class="line">    &#123;</span><br><span class="line">        var name &#x3D; this.User.Identity.Name;</span><br><span class="line">        return Ok();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>今天實驗一個之前很困惑的問題 , 如果登入走 OIDC/OAuth2 的話最後不還是會 redirect 回去本來的舊站台嗎 , 經過實驗測試只要在 identityserver 把 redirect 的地方換成 yarp 的路徑就成功了 @@!</p>
+<h3 id="WebOptimizer"><a href="#WebOptimizer" class="headerlink" title="WebOptimizer"></a>WebOptimizer</h3><p>如果以前專案使用如 jquery angularjs vue1 vue2 等等 , 很有可能前後端會混合使用 , 這時候就需要 <a href="https://github.com/ligershark/WebOptimizer" target="_blank" rel="noopener">WebOptimizer</a><br>可以<a href="https://www.youtube.com/watch?v=SmP38AW4KkY" target="_blank" rel="noopener">參考這影片</a><br>這裡可以把本來的 <code>Content</code> <code>Scripts</code> <code>Images</code> 等靜態資源搬進專案<br>注意不是放在 <code>wwwroot</code> 而是跟原本一樣階層原封不動搬過來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">builder.Services.AddWebOptimizer(pipeline &#x3D;&gt; &#123;</span><br><span class="line"></span><br><span class="line">    pipeline.AddJavaScriptBundle(&quot;&#x2F;js&#x2F;bundle&quot;,</span><br><span class="line">        &quot;Scripts&#x2F;&quot; + &quot;jquery-3.7.0.min.js&quot;,</span><br><span class="line">        &quot;Scripts&#x2F;&quot; + &quot;jquery-ui-1.12.1.js&quot;</span><br><span class="line">        ).UseContentRoot();</span><br><span class="line"></span><br><span class="line">    pipeline.AddCssBundle(&quot;&#x2F;css&#x2F;bundle&quot;,</span><br><span class="line">        &quot;Content&#x2F;&quot; + &quot;jquery-ui-1.12.1&#x2F;jquery-ui.min.css&quot;,</span><br><span class="line">        &quot;Content&#x2F;&quot; + &quot;jquery-ui-1.12.1&#x2F;theme.css&quot;</span><br><span class="line">        ).UseContentRoot();</span><br><span class="line"></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>注意到 <code>UseWebOptimizer</code> 要在 <code>UseStaticFiles</code> 之前</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;UseWebOptimizer 要在 StaticFiles 之前</span><br><span class="line">app.UseWebOptimizer();</span><br><span class="line">app.UseStaticFiles();</span><br></pre></td></tr></table></figure>
+
+<p>另外因為 legacy 難免有些髒髒的 code , 為了防止 bundle 以外的資源被引用的話 , 可以設定這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">app.UseStaticFiles(new StaticFileOptions</span><br><span class="line">&#123;</span><br><span class="line">    FileProvider &#x3D; new PhysicalFileProvider(</span><br><span class="line">        Path.Combine(Directory.GetCurrentDirectory(), &quot;Content&quot;)),</span><br><span class="line">    RequestPath &#x3D; &quot;&#x2F;Content&quot;</span><br><span class="line">&#125;);</span><br><span class="line">app.UseStaticFiles(new StaticFileOptions</span><br><span class="line">&#123;</span><br><span class="line">    FileProvider &#x3D; new PhysicalFileProvider(</span><br><span class="line">        Path.Combine(Directory.GetCurrentDirectory(), &quot;Scripts&quot;)),</span><br><span class="line">    RequestPath &#x3D; &quot;&#x2F;Scripts&quot;</span><br><span class="line">&#125;);</span><br><span class="line">app.UseStaticFiles(new StaticFileOptions</span><br><span class="line">&#123;</span><br><span class="line">    FileProvider &#x3D; new PhysicalFileProvider(</span><br><span class="line">        Path.Combine(Directory.GetCurrentDirectory(), &quot;Images&quot;)),</span><br><span class="line">    RequestPath &#x3D; &quot;&#x2F;Images&quot;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>接著引用的部分舊版有 <code>Scripts.Render</code> <code>Styles.Render</code> 但是 .net core 已經沒了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@Scripts.Render(&quot;~&#x2F;js&#x2F;xxx&quot;)</span><br><span class="line">@Styles.Render(&quot;~&#x2F;css&#x2F;xxx&quot;)</span><br></pre></td></tr></table></figure>
+
+<p>.net core 返璞歸真</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;script src&#x3D;&quot;~&#x2F;js&#x2F;xxx&quot;&gt;&lt;&#x2F;script&gt;</span><br><span class="line">&lt;link rel&#x3D;&quot;stylesheet&quot; href&#x3D;&quot;~&#x2F;css&#x2F;xxx&quot; &#x2F;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="subsite-問題"><a href="#subsite-問題" class="headerlink" title="subsite 問題"></a>subsite 問題</h3><p>如果你的 asp.net mvc 5 站台跑在 subsite 的話應該還需要以下設定 , 參考<a href="https://microsoft.github.io/reverse-proxy/articles/transforms.html" target="_blank" rel="noopener">這裡</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection(&quot;ReverseProxy&quot;))</span><br><span class="line">    .AddTransforms(builderContext &#x3D;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;這裡與 basepath 好像都要設定</span><br><span class="line">        &#x2F;&#x2F;這裡應該要設定才不會多一層 YOURSUBSITENAME 變為 YOURSUBSITENAME&#x2F;YOURSUBSITENAME</span><br><span class="line">        &#x2F;&#x2F;等價於設定 appsettings.json 裡面的 PathRemovePrefix</span><br><span class="line">        builderContext.AddPathRemovePrefix(&quot;&#x2F;YOURSUBSITENAME&quot;);</span><br><span class="line">    &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>這個設定還需要搭配 <code>UsePathBase</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">app.UsePathBase(&quot;&#x2F;YOURSUBSITENAME&quot;);</span><br></pre></td></tr></table></figure>
+
+
+<p>如果要在 <code>appsettings.json</code> 設定也可以</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">&quot;ReverseProxy&quot;: &#123;</span><br><span class="line">  &quot;Routes&quot;: &#123;</span><br><span class="line">    &quot;fallbackRoute&quot;: &#123;</span><br><span class="line">      &quot;ClusterId&quot;: &quot;fallbackCluster&quot;,</span><br><span class="line">      &quot;Order&quot;: &quot;1&quot;,</span><br><span class="line">      &quot;Match&quot;: &#123;</span><br><span class="line">        &quot;Path&quot;: &quot;&#123;**catch-all&#125;&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;MvcWebNetFramework&quot;: &#123;</span><br><span class="line">      &quot;ClusterId&quot;: &quot;MvcWebNetFramework&quot;,</span><br><span class="line">      &quot;Match&quot;: &#123;</span><br><span class="line">        &quot;Path&quot;: &quot;&#123;**catch-all&#125;&quot;</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;Transforms&quot;: [</span><br><span class="line">        &#123; &quot;PathRemovePrefix&quot;: &quot;&#x2F;assemblyline&quot; &#125;</span><br><span class="line">      ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;Clusters&quot;: &#123;</span><br><span class="line">    &quot;MvcWebNetFramework&quot;: &#123;</span><br><span class="line">      &quot;Destinations&quot;: &#123;</span><br><span class="line">        &quot;MvcWebNetFramework&#x2F;destination1&quot;: &#123;</span><br><span class="line">          &quot;Address&quot;: &quot;http:&#x2F;&#x2F;localhost:5987&#x2F;YOURSUBSITENAME&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;fallbackCluster&quot;: &#123;</span><br><span class="line">      &quot;Destinations&quot;: &#123;</span><br><span class="line">        &quot;fallbackApp&quot;: &#123;</span><br><span class="line">          &quot;Address&quot;: &quot;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>後來發現只要在 <code>environmentVariables</code> 底下設定 <code>ASPNETCORE_URLS</code> 就可以不用額外設定 <code>UsePathBase</code><br>可以參考<a href="https://github.com/dotnet/aspnetcore/issues/1682" target="_blank" rel="noopener">這篇</a></p>
+<h3 id="Json-Encode-解法"><a href="#Json-Encode-解法" class="headerlink" title="Json.Encode 解法"></a>Json.Encode 解法</h3><p>舊版</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var currentLang &#x3D; @Html.Raw(Json.Encode((string)ViewData[&quot;CurrentLang&quot;]));</span><br></pre></td></tr></table></figure>
+
+<p>.net core</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var currentLang &#x3D; @Html.Raw(JsonConvert.SerializeObject((string)ViewData[&quot;CurrentLang&quot;]));</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="多語系切換"><a href="#多語系切換" class="headerlink" title="多語系切換"></a>多語系切換</h3><p>可以參考<a href="https://learn.microsoft.com/zh-tw/aspnet/core/fundamentals/localization/select-language-culture?view=aspnetcore-8.0" target="_blank" rel="noopener">這裡</a><br>這個新舊寫法好像不太一樣  <code>CookieRequestCultureProvider.DefaultCookieName</code> 這個值為 <code>.AspNetCore.Culture</code><br>然後要用 <code>CookieRequestCultureProvider.MakeCookieValue</code> 來建立才會正常</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[AllowAnonymous]</span><br><span class="line">[Route(&quot;switch-lang-core&#x2F;&#123;lang?&#125;&quot;)]</span><br><span class="line">[HttpGet]</span><br><span class="line">public IActionResult SwitchLang(string lang &#x3D; null)</span><br><span class="line">&#123;</span><br><span class="line">	Response.Cookies.Append(&quot;MyLang&quot;, lang);</span><br><span class="line">	Response.Cookies.Append(</span><br><span class="line">		CookieRequestCultureProvider.DefaultCookieName,</span><br><span class="line">		CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(lang))</span><br><span class="line">	);</span><br><span class="line">	string referrerUrl &#x3D; Request.Headers[&quot;Referer&quot;].ToString();</span><br><span class="line">	return Redirect(referrerUrl);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ControllerBase-沒辦法接收到-Model-參數的問題"><a href="#ControllerBase-沒辦法接收到-Model-參數的問題" class="headerlink" title="ControllerBase 沒辦法接收到 Model 參數的問題"></a>ControllerBase 沒辦法接收到 Model 參數的問題</h3><p>無意中發現 , 如果只用 ControllerBase 好像沒辦法收到 view 傳進來的參數<br>但加上 [ApiController] 這個 Attribute 就能動了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[ApiController]</span><br><span class="line">public QQController : ControllerBase &#123;</span><br><span class="line">	public void Save(QQ model)&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="net-framework-AddSystemWebAdapters-沒辦法取得-identity"><a href="#net-framework-AddSystemWebAdapters-沒辦法取得-identity" class="headerlink" title=".net framework AddSystemWebAdapters 沒辦法取得 identity"></a>.net framework AddSystemWebAdapters 沒辦法取得 identity</h3><p>這個問題滿雷的 , 花了不少時間才發現<br>使用 SystemWebAdapters 要特別注意到套件是否有 conflicts 這裡如果發生 conflicts 會造成 null 完全讀不出來 identity 的狀況</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">Warning		Found conflicts between different versions of the same dependent assembly. </span><br><span class="line">In Visual Studio, double-click this warning (or select it and press Enter) to fix the conflicts; </span><br><span class="line">otherwise, add the following binding redirects to the &quot;runtime&quot; node in the application configuration file: </span><br><span class="line">&lt;assemblyBinding xmlns&#x3D;&quot;urn:schemas-microsoft-com:asm.v1&quot;&gt;</span><br><span class="line">	&lt;dependentAssembly&gt;</span><br><span class="line">		&lt;assemblyIdentity name&#x3D;&quot;Microsoft.Extensions.Logging&quot; culture&#x3D;&quot;neutral&quot; publicKeyToken&#x3D;&quot;adb9793829ddae60&quot; &#x2F;&gt;</span><br><span class="line">		&lt;bindingRedirect oldVersion&#x3D;&quot;0.0.0.0-8.0.0.0&quot; newVersion&#x3D;&quot;8.0.0.0&quot; &#x2F;&gt;</span><br><span class="line">	&lt;&#x2F;dependentAssembly&gt;</span><br><span class="line">&lt;&#x2F;assemblyBinding&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="wwwroot-amp-UsePathBase-資源讀不到的問題"><a href="#wwwroot-amp-UsePathBase-資源讀不到的問題" class="headerlink" title="wwwroot &amp; UsePathBase 資源讀不到的問題"></a>wwwroot &amp; UsePathBase 資源讀不到的問題</h3><p>今天測的時候發現如果把本來的 <code>Scripts</code> <code>Content</code> 移動到 <code>wwwroot</code> 裡面的話搭配  <code>UsePathBase</code> 會出問題<br>好像要調整 <code>UseStaticFiles</code> 如下才會正常</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#if DEBUG</span><br><span class="line">    &#x2F;&#x2F;這裡要設定 RequestPath 不然有設定 UsePathBase 會吃不到</span><br><span class="line">    &#x2F;&#x2F;https:&#x2F;&#x2F;learn.microsoft.com&#x2F;en-us&#x2F;answers&#x2F;questions&#x2F;800998&#x2F;why-js-css-lib-didnt-load-from-wwwroot</span><br><span class="line">    app.UseStaticFiles(new StaticFileOptions</span><br><span class="line">    &#123;</span><br><span class="line">        RequestPath &#x3D; &quot;&#x2F;lasai&quot;</span><br><span class="line">    &#125;);</span><br><span class="line">    app.UsePathBase(&quot;&#x2F;lasai&quot;);</span><br><span class="line">#else</span><br><span class="line">    app.UseStaticFiles();</span><br><span class="line">#endif</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/csharp/" rel="tag"># csharp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/03/20/putty-%E6%93%8D%E4%BD%9C%E7%AD%86%E8%A8%98/" rel="prev" title="putty 操作筆記">
+      <i class="fa fa-chevron-left"></i> putty 操作筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/04/06/asp-net-core-identity-postgre-%E7%AD%86%E8%A8%98/" rel="next" title="asp.net core identity postgre 筆記">
+      asp.net core identity postgre 筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#YARP-amp-SystemWebAdapter"><span class="nav-number">1.</span> <span class="nav-text">YARP &amp; SystemWebAdapter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WebOptimizer"><span class="nav-number">2.</span> <span class="nav-text">WebOptimizer</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#subsite-問題"><span class="nav-number">3.</span> <span class="nav-text">subsite 問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Json-Encode-解法"><span class="nav-number">4.</span> <span class="nav-text">Json.Encode 解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多語系切換"><span class="nav-number">5.</span> <span class="nav-text">多語系切換</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ControllerBase-沒辦法接收到-Model-參數的問題"><span class="nav-number">6.</span> <span class="nav-text">ControllerBase 沒辦法接收到 Model 參數的問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#net-framework-AddSystemWebAdapters-沒辦法取得-identity"><span class="nav-number">7.</span> <span class="nav-text">.net framework AddSystemWebAdapters 沒辦法取得 identity</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wwwroot-amp-UsePathBase-資源讀不到的問題"><span class="nav-number">8.</span> <span class="nav-text">wwwroot &amp; UsePathBase 資源讀不到的問題</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2024/03/31/%E5%8D%87%E7%B4%9A-asp-net-mvc-to-asp-net-core/";
+    this.page.identifier = "2024/03/31/升級-asp-net-mvc-to-asp-net-core/";
+    this.page.title = "升級 asp.net mvc to asp.net core";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

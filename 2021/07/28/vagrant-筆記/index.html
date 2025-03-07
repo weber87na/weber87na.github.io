@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vagrant 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/07/28/vagrant-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-07-27T16:53:29.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="vagrant">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/07/28/vagrant-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>vagrant 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/07/28/vagrant-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vagrant 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-07-28 00:53:29" itemprop="dateCreated datePublished" datetime="2021-07-28T00:53:29+08:00">2021-07-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/07/28/vagrant-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/07/28/vagrant-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>5.1k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>5 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="日常操作"><a href="#日常操作" class="headerlink" title="日常操作"></a>日常操作</h3><p>vagrant <a href="https://www.vagrantup.com/downloads" target="_blank" rel="noopener">下載位置</a><br>windows 最好裝一下 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">gsudo</a></p>
+<p>搜尋 <a href="https://app.vagrantup.com/boxes/search" target="_blank" rel="noopener">box</a><br>比較重要的參數 , 特別注意要看看 provider 要符合你自己的環境 , 像是這個 <code>bento/ubuntu-20.04</code> 他所提供有 hyperv provider 的 version 就比較舊</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">config.vm.box &#x3D; &quot;bento&#x2F;ubuntu-20.04&quot;</span><br><span class="line">config.vm.box_version &#x3D;&#39;202005.21.0&#39;</span><br></pre></td></tr></table></figure>
+
+<p>另外一個讓人很火大的是 smb 這個鬼設定 , 如果不加下面這串他會一直要你敲 username and password , 後來發現是你 windows 的帳號密碼</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.vm.synced_folder &quot;.&quot;, &quot;&#x2F;vagrant&quot;, :disabled &#x3D;&gt; true</span><br></pre></td></tr></table></figure>
+
+<p>啟動並且看目前狀態 , 注意自己用啥虛擬機要選對</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo vagrant up --provider&#x3D;hyperv</span><br><span class="line">sudo vagrant status</span><br></pre></td></tr></table></figure>
+
+<p>連線進去 vm</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vagrant ssh</span><br></pre></td></tr></table></figure>
+
+<p>ssh 連線 , 先看使用的 key 在哪 , 接著用普通的 ssh 連線就搞定啦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vagrant shh-config</span><br><span class="line">ssh -i &quot;C:\Users\yourname\test\.vagrant\machines\test\hyperv\private_key&quot; -p 22 vagrant@192.168.22.123</span><br></pre></td></tr></table></figure>
+
+<h3 id="Vagrant-常見錯誤"><a href="#Vagrant-常見錯誤" class="headerlink" title="Vagrant 常見錯誤"></a>Vagrant 常見錯誤</h3><h4 id="執行-destroy-關不掉或是啟動不了"><a href="#執行-destroy-關不掉或是啟動不了" class="headerlink" title="執行 destroy 關不掉或是啟動不了"></a>執行 destroy 關不掉或是啟動不了</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">An action &#39;read_state&#39; was attempted on the machine &#39;net&#39;,</span><br><span class="line">but another process is already executing an action on the machine.</span><br><span class="line">Vagrant locks each machine for access by only one process at a time.</span><br><span class="line">Please wait until the other Vagrant process finishes modifying this</span><br><span class="line">machine, then try again.</span><br><span class="line"></span><br><span class="line">If you believe this message is in error, please check the process</span><br><span class="line">listing for any &quot;ruby&quot; or &quot;vagrant&quot; processes and kill them. Then</span><br></pre></td></tr></table></figure>
+
+<p>執行以下命令即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ps | select-string ruby</span><br><span class="line">ps | select-string vagrant</span><br><span class="line"></span><br><span class="line">sudo Stop-Process -name ruby</span><br><span class="line">sudo Stop-Process -name vagrant</span><br></pre></td></tr></table></figure>
+
+<h4 id="權限不足"><a href="#權限不足" class="headerlink" title="權限不足"></a>權限不足</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">The provider &#39;hyperv&#39; that was requested to back the machine</span><br><span class="line">&#39;net&#39; is reporting that it isn&#39;t usable on this system. The</span><br><span class="line">reason is shown below:</span><br><span class="line"></span><br><span class="line">The Hyper-V provider requires that Vagrant be run with</span><br><span class="line">administrative privileges. This is a limitation of Hyper-V itself.</span><br><span class="line">Hyper-V requires administrative privileges for management</span><br><span class="line">commands. Please restart your console with administrative</span><br><span class="line">privileges and try again.</span><br></pre></td></tr></table></figure>
+
+<p>執行以下命令或直接開 admin 起來跑</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vagrannt ssh</span><br></pre></td></tr></table></figure>
+
+<h3 id="Hyper-v-地雷"><a href="#Hyper-v-地雷" class="headerlink" title="Hyper-v 地雷"></a>Hyper-v 地雷</h3><p>1.針對 Hyper-v Vagrant 目前版本好像沒辦法使用固定 ip <a href="https://jasonlee.xyz/vagrant-zai-windows-10-yong-hypervshe-ding-gu-ding-ip/" target="_blank" rel="noopener">參考自此</a><br>2.設定 Hyper-v 的網際網路連線共用 NAT 在 GUI 設定完後 , 重新開機後就沒用了 , 但是 GUI 還會打勾 <a href="https://kheresy.wordpress.com/2019/03/12/fix-windows-ics-not-work-after-reboot/" target="_blank" rel="noopener">參考自此</a></p>
+<h4 id="手動設定-Hyper-v-網路為-NAT"><a href="#手動設定-Hyper-v-網路為-NAT" class="headerlink" title="手動設定 Hyper-v 網路為 NAT"></a>手動設定 Hyper-v 網路為 NAT</h4><p>開啟 Hyper-v 管理員 <code>虛擬交換器管理員</code> =&gt; <code>新虛擬網路交換器</code> =&gt; <code>內部</code> =&gt; <code>建立虛擬交換器</code> =&gt; <code>名稱設定 ubuntu</code> =&gt; <code>內部網路</code></p>
+<p><code>開啟網路和網際網路設定</code> =&gt; <code>乙太網路</code> =&gt; <code>變更介面卡選項</code> =&gt; <code>vEthernet (ubuntu)</code> =&gt; <code>網際網路通訊協定第 4 版(TCP/IP)</code> =&gt; <code>使用下列的 ip 位置</code> =&gt; <code>ip 位置 192.168.137.1</code> =&gt; <code>子網路遮罩 255.255.255.0</code></p>
+<p><code>乙太網路</code> =&gt; <code>共用</code> =&gt; <code>網際網路連線共用</code> =&gt; <code>允許其他網路使用者透過這台電腦的網際網路來連線</code> =&gt; <code>家用網路連線</code> =&gt; <code>vEthernet (ubuntu)</code></p>
+<h4 id="啟動-vagrant"><a href="#啟動-vagrant" class="headerlink" title="啟動 vagrant"></a>啟動 vagrant</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir lab</span><br><span class="line">cd lab</span><br><span class="line">sudo vagrant up --provider&#x3D;hyperv</span><br><span class="line">sudo vagrant ssh</span><br></pre></td></tr></table></figure>
+
+<p>vagrantfile</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"># -*- mode: ruby -*-</span><br><span class="line"># vi: set ft&#x3D;ruby :</span><br><span class="line"></span><br><span class="line">Vagrant.configure(&quot;2&quot;) do |config|</span><br><span class="line">  config.vm.box &#x3D; &quot;bento&#x2F;ubuntu-20.04&quot;</span><br><span class="line">  config.vm.box_version &#x3D;&#39;202005.21.0&#39;</span><br><span class="line">  config.vm.hostname &#x3D; &#39;docker-lab&#39;</span><br><span class="line">  config.vm.define vm_name &#x3D; &#39;docker-lab&#39;</span><br><span class="line">  config.vm.provider &quot;hyperv&quot;</span><br><span class="line"></span><br><span class="line">  #注意預設他會用 Default Switch</span><br><span class="line">  #需要新增一個 ubuntu 的 bridge</span><br><span class="line">  #如果用 hyperv 其實沒辦法固定 ip 需要登入到 ssh 以後修正 netplan</span><br><span class="line">  config.vm.network &quot;private_network&quot;, ip: &quot;192.168.137.123&quot;, auto_config: false , bridge: &quot;ubuntu&quot;</span><br><span class="line"></span><br><span class="line">  #停止分享資料夾</span><br><span class="line">  config.vm.synced_folder &quot;.&quot;, &quot;&#x2F;vagrant&quot;, :disabled &#x3D;&gt; true</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  config.vm.provision &quot;shell&quot;, privileged: false, inline: &lt;&lt;-SHELL</span><br><span class="line">    set -e -x -u</span><br><span class="line">    export DEBIAN_FRONTEND&#x3D;noninteractive</span><br><span class="line"></span><br><span class="line">    #安裝可能需要的咚咚</span><br><span class="line">    sudo apt-get update</span><br><span class="line">    sudo apt-get install -y vim git cmake build-essential tcpdump tig socat bash-completion golang libpcap-dev bridge-utils ipcalc conntrack jq bat</span><br><span class="line"></span><br><span class="line">    #安裝 docker</span><br><span class="line">	sudo apt update</span><br><span class="line">	sudo apt install -y apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line">	curl -fsSL https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu&#x2F;gpg | sudo apt-key add -</span><br><span class="line">	sudo add-apt-repository &quot;deb [arch&#x3D;amd64] https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu focal stable&quot;</span><br><span class="line">	sudo apt update</span><br><span class="line">	apt-cache policy docker-ce</span><br><span class="line">	sudo apt install -y docker-ce</span><br><span class="line">	sudo usermod -aG docker $USER</span><br><span class="line"></span><br><span class="line">	#安裝 bash-it , 也可以用 zsh or 其他代替</span><br><span class="line">    git clone --depth&#x3D;1 https:&#x2F;&#x2F;github.com&#x2F;Bash-it&#x2F;bash-it.git ~&#x2F;.bash_it</span><br><span class="line">    bash ~&#x2F;.bash_it&#x2F;install.sh -s</span><br><span class="line"></span><br><span class="line">  SHELL</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  config.vm.provider :virtualbox do |v|</span><br><span class="line">      v.customize [&quot;modifyvm&quot;, :id, &quot;--cpus&quot;, 2]</span><br><span class="line">      v.customize [&quot;modifyvm&quot;, :id, &quot;--memory&quot;, 2048]</span><br><span class="line">      v.customize [&#39;modifyvm&#39;, :id, &#39;--nicpromisc1&#39;, &#39;allow-all&#39;]</span><br><span class="line">  end</span><br><span class="line">end</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="登入-ssh-設定-ubuntu"><a href="#登入-ssh-設定-ubuntu" class="headerlink" title="登入 ssh 設定 ubuntu"></a>登入 ssh 設定 ubuntu</h4><p>這串註解不能在 vagrantfile 內執行 , 需要用 vagrant 登入 ssh 以後才執行 , 這無解 , 用 hyperv 原罪<br>如果 dhcp4 設定為 true 的話會多一個動態 ip<br>另外這個選項好像每台又不太一樣? <code>renderer: NetworkManager</code> , 我最後不加才 try 成功<br>可以用 vim 來編輯或是下面這個技巧直接修改</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">sudo bash -c &quot;cat &gt; &#x2F;etc&#x2F;netplan&#x2F;01-netcfg.yaml &lt;&lt; EOF</span><br><span class="line">network:</span><br><span class="line">  version: 2</span><br><span class="line">  ethernets:</span><br><span class="line">    eth0:</span><br><span class="line">      addresses: [192.168.137.123&#x2F;24]</span><br><span class="line">      gateway4: 192.168.137.1</span><br><span class="line">      dhcp4: no</span><br><span class="line">      nameservers:</span><br><span class="line">        addresses: [8.8.8.8]</span><br><span class="line">EOF</span><br><span class="line">&quot;</span><br><span class="line"></span><br><span class="line">#需要驗證看看格式對不對的話可以用以下指令</span><br><span class="line">sudo netplan generate</span><br><span class="line"></span><br><span class="line">#讓網路生效</span><br><span class="line">sudo netplan apply</span><br></pre></td></tr></table></figure>
+
+<h4 id="設定-GUI-勾了-NAT-重開就失效的問題"><a href="#設定-GUI-勾了-NAT-重開就失效的問題" class="headerlink" title="設定 GUI 勾了 NAT 重開就失效的問題"></a>設定 GUI 勾了 NAT 重開就失效的問題</h4><p><code>regedit</code> =&gt; <code>HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\SharedAccess</code> =&gt; 新增 <code>EnableRebootPersistConnection</code> =&gt; <code>DWORD 32bit</code> =&gt; <code>設定值 1</code><br><code>services.msc</code> =&gt; 找到他 <code>Internet Connection Sharing (ICS)</code> =&gt; 啟動類型由 <code>手動</code> 改 <code>自動</code></p>
+<h4 id="參考資料"><a href="#參考資料" class="headerlink" title="參考資料"></a>參考資料</h4><p>多網卡 bridge 的參考<br><a href="https://www.vagrantup.com/docs/networking/public_network" target="_blank" rel="noopener">https://www.vagrantup.com/docs/networking/public_network</a></p>
+<p>powershell 建立網卡<br><a href="https://quotidian-ennui.github.io/blog/2016/08/17/vagrant-windows10-hyperv/" target="_blank" rel="noopener">https://quotidian-ennui.github.io/blog/2016/08/17/vagrant-windows10-hyperv/</a></p>
+<p>老外講怎麼設定 internal<br><a href="https://gist.github.com/savishy/8ed40cd8692e295d64f45e299c2b83c9" target="_blank" rel="noopener">https://gist.github.com/savishy/8ed40cd8692e295d64f45e299c2b83c9</a></p>
+<p>大陸人講怎麼設定 internal<br><a href="https://www.twblogs.net/a/5d650631bd9eee5327fe66cf" target="_blank" rel="noopener">https://www.twblogs.net/a/5d650631bd9eee5327fe66cf</a></p>
+<p>重點很白痴 1 問題 , 微軟 bug?<br>解決設定 NAT 以後重新開機就失效的問題<br><a href="https://kheresy.wordpress.com/2019/03/12/fix-windows-ics-not-work-after-reboot/" target="_blank" rel="noopener">https://kheresy.wordpress.com/2019/03/12/fix-windows-ics-not-work-after-reboot/</a></p>
+<p>重點很白痴 2 問題 , 到底 vagrant 問題還是 hyperv 問題不曉得<br>其實沒辦法設定固定 ip<br><a href="https://jasonlee.xyz/vagrant-zai-windows-10-yong-hypervshe-ding-gu-ding-ip/" target="_blank" rel="noopener">https://jasonlee.xyz/vagrant-zai-windows-10-yong-hypervshe-ding-gu-ding-ip/</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vagrant/" rel="tag"># vagrant</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/06/29/k8s-%E5%AE%89%E8%A3%9D%E7%AD%86%E8%A8%98/" rel="prev" title="k8s 安裝筆記">
+      <i class="fa fa-chevron-left"></i> k8s 安裝筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/07/centos-%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/" rel="next" title="centos 低能兒筆記">
+      centos 低能兒筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#日常操作"><span class="nav-number">1.</span> <span class="nav-text">日常操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Vagrant-常見錯誤"><span class="nav-number">2.</span> <span class="nav-text">Vagrant 常見錯誤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#執行-destroy-關不掉或是啟動不了"><span class="nav-number">2.1.</span> <span class="nav-text">執行 destroy 關不掉或是啟動不了</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#權限不足"><span class="nav-number">2.2.</span> <span class="nav-text">權限不足</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hyper-v-地雷"><span class="nav-number">3.</span> <span class="nav-text">Hyper-v 地雷</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#手動設定-Hyper-v-網路為-NAT"><span class="nav-number">3.1.</span> <span class="nav-text">手動設定 Hyper-v 網路為 NAT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#啟動-vagrant"><span class="nav-number">3.2.</span> <span class="nav-text">啟動 vagrant</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#登入-ssh-設定-ubuntu"><span class="nav-number">3.3.</span> <span class="nav-text">登入 ssh 設定 ubuntu</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定-GUI-勾了-NAT-重開就失效的問題"><span class="nav-number">3.4.</span> <span class="nav-text">設定 GUI 勾了 NAT 重開就失效的問題</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#參考資料"><span class="nav-number">3.5.</span> <span class="nav-text">參考資料</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/07/28/vagrant-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2021/07/28/vagrant-筆記/";
+    this.page.title = "vagrant 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

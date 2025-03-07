@@ -1,0 +1,157 @@
+<!doctype html>
+<html lang="zh-Hant">
+
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css"
+        type="text/css">
+    <style>
+        body{
+            margin: 0;
+            padding: 0;
+        }
+
+        .map {
+            font-size: calc(2em + 1vmin);
+            height: 100vh;
+            width: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        #bottom-panel{
+            position: absolute;
+            bottom: 15px;
+            z-index: 1;
+            margin: 5px;
+			font-size: 5vmin;
+        }
+
+        #start {
+            display: inline-block;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5%;
+            cursor: pointer;
+        }
+
+        #stop {
+            display: inline-block;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            border-radius: 5%;
+            cursor: pointer;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/build/ol.js"></script>
+    <title>軌跡測試</title>
+</head>
+
+<body>
+    <div id="bottom-panel">
+        <div id="start">Start</div>
+        <div id="stop">Stop</div>
+    </div>
+    <div id="map"
+        class="map"></div>
+    <script type="text/javascript">
+        const start = document.querySelector('#start')
+        const stop = document.querySelector('#stop')
+        const coordinates = [];
+
+        var id;
+
+        //注意正式上線網站需要有 https
+        var isSetCenter = false;
+        start.addEventListener('click', () => {
+            id = navigator.geolocation.watchPosition(
+                data => {
+                    //設定目前的使用者位置
+                    if (isSetCenter == false) {
+                        map.getView().setCenter([data.coords.longitude, data.coords.latitude])
+                        isSetCenter = true;
+                    }
+                    //蒐集資料
+                    console.log(data);
+                    coordinates.push([data.coords.longitude, data.coords.latitude])
+
+                    //這邊應該丟到資料庫裏面
+                    window.localStorage.setItem('coordinates', JSON.stringify(coordinates))
+
+                    //更新
+                    featureLine.getGeometry().setCoordinates(coordinates);
+                },
+                error => console.log(error),
+                {
+                    enableHighAccuracy: true
+                }
+            )
+        });
+
+        stop.addEventListener('click', () => {
+            if (id !== undefined) navigator.geolocation.clearWatch(id);
+
+            sourceLine.clear()
+            isSetCenter = false;
+        });
+
+        var map = new ol.Map({
+            controls: [],
+            target: 'map',
+            layers: [
+                new ol.layer.Tile({
+                    source: new ol.source.OSM()
+                })
+            ],
+            view: new ol.View({
+                projection: 'EPSG:4326',
+                center: [120.3306953, 22.6419944],
+                zoom: 18
+            })
+        });
+
+        //測試用
+        // var points = [
+        //     [120.3306953, 22.6419944],
+        //     [120.3306963, 22.6419964],
+        //     [120.3306973, 22.6419924],
+        //     [120.3307953, 22.6419844],
+        //     [120.3306953, 22.6419944],
+        //     [120.3306923, 22.6419914],
+        //     [120.3306853, 22.6419934],
+        //     [120.3306923, 22.6419804]
+        // ]
+
+        var featureLine = new ol.Feature({
+            //測試用
+            // geometry: new ol.geom.LineString(points)
+            geometry: new ol.geom.LineString(coordinates)
+        });
+
+        var sourceLine = new ol.source.Vector({
+            features: [featureLine]
+        });
+
+        var vectorLine = new ol.layer.Vector({
+            source: sourceLine,
+            style: new ol.style.Style({
+                stroke: new ol.style.Stroke({
+                    color: '#0000ff',
+                    width: 5
+                })
+            })
+        })
+        map.addLayer(vectorLine);
+
+        //更新軌跡
+        // points.push( [120.3232932, 22.641891]);
+        // featureLine.getGeometry().setCoordinates(points);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="codesoft 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/10/30/codesoft-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-10-30T10:55:04.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="codesoft">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/10/30/codesoft-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>codesoft 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/10/30/codesoft-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          codesoft 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-10-30 18:55:04" itemprop="dateCreated datePublished" datetime="2022-10-30T18:55:04+08:00">2022-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/10/30/codesoft-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/30/codesoft-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>15k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>13 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h3><p><a href="https://www.teklynx.com/tw-APAC/products/label-design-solutions/codesoft" target="_blank" rel="noopener">codesoft 載點</a><br>下載完後點試用 , 可以用 30 天來 try<br>有買 license 的話 , 也是直接點選 <code>試用</code> =&gt; <code>接著點工具</code> =&gt; <code>網路管理</code><br>最後注意 ip 要打這樣 <code>\\123.45.67.89</code> , 不然沒法按下確定 </p>
+<p>後來發現如果試用期過了的話 , 好像會直接跳出 license manager , codesoft 的主應用程式並不會出現<br>這時候請到以下位置 <code>C:\ProgramData\Microsoft\Windows\Start Menu\Programs\TEKLYNX CODESOFT 2019</code><br>接著找到 <code>網路管理</code> 點開就可以設定了<br>右鍵看下他執行啥 , 原來是在 codesoft 後面加上參數 , 還真是機車的設計 <code>&quot;C:\Program Files (x86)\Teklynx\CODESOFT 2019\CS.exe&quot; /NetSetDlg</code></p>
+<h3 id="example"><a href="#example" class="headerlink" title="example"></a>example</h3><p><a href="https://www.teklynx.com/tw-APAC/products/label-design-solutions/codesoft/development-tool-samples" target="_blank" rel="noopener">c# example</a><br>開啟他的 example 以後 , 這個路徑 <code>C:\Users\Public\Documents\Teklynx\CODESOFT\Samples\Labels</code> 裡面有 <code>.Lab</code> 的 codesoft 標籤格式編輯範例可以參考<br>這個目錄裡面也有幾隻程式可以參考 <code>C:\Users\Public\Documents\Teklynx\CODESOFT\Samples\Integration</code></p>
+<h3 id="自訂變數"><a href="#自訂變數" class="headerlink" title="自訂變數"></a>自訂變數</h3><p>選擇 <code>表單</code> =&gt; <code>新增變數</code> 然後就可以編輯啦 , 特別注意命名</p>
+<h3 id="列印時的坑"><a href="#列印時的坑" class="headerlink" title="列印時的坑"></a>列印時的坑</h3><p>因為標籤大小通常都不是 A4 紙 , 所以測試時萬一使用 <code>輸出紙張規格</code> =&gt; <code>A4</code> 印出來會有問題 , 他整個比例會跑走<br>所以直接點選列印 , 接著到印表機上面去看 , 印表機會跳沒有紙 , 這時候應該有進階選項可以選擇 , 在印表機上面重新選擇 <code>A4</code> 即可正常列印</p>
+<p>順手記下 powershell 撈目前所有的 <a href="https://serverfault.com/questions/419866/list-all-printers-using-powershell" target="_blank" rel="noopener">Printer</a></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Get-WMIObject</span> Win32_Printer <span class="literal">-ComputerName</span> <span class="variable">$env:COMPUTERNAME</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ZPL"><a href="#ZPL" class="headerlink" title="ZPL"></a>ZPL</h3><p>原來條碼有自己的語言 <code>ZPL</code> , 又多認識一個該死的動物 <code>斑馬</code> , 看起來就是噁爛 , 順便記錄下有用的資訊</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">^XA</span><br><span class="line"></span><br><span class="line">^FX Top section with logo, name and address.</span><br><span class="line">^CF0,60</span><br><span class="line">^FO50,50^GB100,100,100^FS</span><br><span class="line">^FO75,75^FR^GB100,100,100^FS</span><br><span class="line">^FO93,93^GB40,40,40^FS</span><br><span class="line">^FO220,50^FDIntershipping, Inc.^FS</span><br><span class="line">^CF0,30</span><br><span class="line">^FO220,115^FD1000 Shipping Lane^FS</span><br><span class="line">^FO220,155^FDShelbyville TN 38102^FS</span><br><span class="line">^FO220,195^FDUnited States (USA)^FS</span><br><span class="line">^FO50,250^GB700,3,3^FS</span><br><span class="line"></span><br><span class="line">^FX Second section with recipient address and permit information.</span><br><span class="line">^CFA,30</span><br><span class="line">^FO50,300^FDJohn Doe^FS</span><br><span class="line">^FO50,340^FD100 Main Street^FS</span><br><span class="line">^FO50,380^FDSpringfield TN 39021^FS</span><br><span class="line">^FO50,420^FDUnited States (USA)^FS</span><br><span class="line">^CFA,15</span><br><span class="line">^FO600,300^GB150,150,3^FS</span><br><span class="line">^FO638,340^FDPermit^FS</span><br><span class="line">^FO638,390^FD123456^FS</span><br><span class="line">^FO50,500^GB700,3,3^FS</span><br><span class="line"></span><br><span class="line">^FX Third section with bar code.</span><br><span class="line">^BY5,2,270</span><br><span class="line">^FO100,550^BC^FD12345678^FS</span><br><span class="line"></span><br><span class="line">^FX Fourth section (the two boxes on the bottom).</span><br><span class="line">^FO50,900^GB700,250,3^FS</span><br><span class="line">^FO400,900^GB3,250,3^FS</span><br><span class="line">^CF0,40</span><br><span class="line">^FO100,960^FDCtr. X34B-1^FS</span><br><span class="line">^FO100,1010^FDREF1 F00B47^FS</span><br><span class="line">^FO100,1060^FDREF2 BL4H8^FS</span><br><span class="line">^CF0,190</span><br><span class="line">^FO470,955^FDCA^FS</span><br><span class="line"></span><br><span class="line">^XZ</span><br></pre></td></tr></table></figure>
+
+<p><a href="http://labelary.com/zpl.html" target="_blank" rel="noopener">labelary</a><br><a href="https://www.zebra.com/content/dam/zebra_new_ia/en-us/manuals/printers/common/programming/zpl-zbi2-pm-en.pdf" target="_blank" rel="noopener">ZPL 手冊</a><br><a href="https://github.com/BinaryKits/BinaryKits.Zpl" target="_blank" rel="noopener">c# lib BinaryKits.Zpl</a></p>
+<h3 id="csv-設定"><a href="#csv-設定" class="headerlink" title="csv 設定"></a>csv 設定</h3><p><a href="https://teklynx.microsoftcrmportals.com/knowledgebase/article/KA-02412/en-us" target="_blank" rel="noopener">官方說明</a><br>如果要用 csv 他的路徑在這個底下<br>C:\Users\Public\Documents\Teklynx\CODESOFT\DATA\MAILING.TXT<br>C:\Users\Public\Documents\Teklynx\CODESOFT\DSC\MAILING.DSC</p>
+<p>注意到他需要認得 csv 的 header 吃 DSC , Field 應該就是 <code>表單變數</code><br><code>Field1=Code</code> <code>Code</code> 即為你的表單變數</p>
+<p><code>MAILING.DSC</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">[CS_DataFileDesc]</span><br><span class="line">Version&#x3D;320</span><br><span class="line">FileType&#x3D;ASCII_DELIMITED</span><br><span class="line">RecordDelimiter&#x3D;\013</span><br><span class="line">FieldDelimiter&#x3D;,</span><br><span class="line">CharSet&#x3D;255</span><br><span class="line">Fields&#x3D;7</span><br><span class="line">Field1&#x3D;Code</span><br><span class="line">Field2&#x3D;Name</span><br><span class="line">Field3&#x3D;FirstName</span><br><span class="line">Field4&#x3D;Address</span><br><span class="line">Field5&#x3D;City</span><br><span class="line">Field6&#x3D;State</span><br><span class="line">Field7&#x3D;Zip</span><br></pre></td></tr></table></figure>
+
+<p>選擇 <code>資料庫</code> =&gt; <code>開啟 ASCII 表格</code> =&gt; <code>資料檔案 (CSV)</code> =&gt; <code>說明檔案 (DSC)</code><br>都設定好以後點 <code>列印</code> =&gt; <code>資料庫</code> =&gt; <code>所有紀錄</code> =&gt; 看你有幾筆資料他就會讓你去挑選 , 也可以選 <code>目前記錄</code> 就只會印一筆</p>
+<h3 id="版本問題"><a href="#版本問題" class="headerlink" title="版本問題"></a>版本問題</h3><p>後續遇到在本機 2019 寫得好好的 , 一上線就噴 null , 搞了半天是版本的問題<br>所以它是沒辦法用低版本的 instance 去讀高版本的檔案 , 這點要特別注意</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">this file has been created with a more recent designer 2019.02.00</span><br></pre></td></tr></table></figure>
+
+<h3 id="COM-元件引用問題"><a href="#COM-元件引用問題" class="headerlink" title="COM 元件引用問題"></a>COM 元件引用問題</h3><p>今天自己 try 發現會噴噴 <code>CS1752</code> 以下 error , <a href="https://stackoverflow.com/questions/2483659/interop-type-cannot-be-embedded" target="_blank" rel="noopener">爬文</a>發現只要這樣設定就好了在 <code>References</code> =&gt; <code>LabelManager2</code> =&gt; <code>右鍵</code> =&gt;  <code>Properties</code> =&gt; <code>Embed Interop Types</code> =&gt; <code>False</code><br>順帶一提如果是用 .net 6 的話也已經支援 com object 可以安心用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error	CS1752	Interop type &#39;ApplicationClass&#39; cannot be embedded. Use the applicable interface instead.</span><br></pre></td></tr></table></figure>
+
+<p>元件引用位置如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">C:\Windows\Microsoft.NET\assembly\GAC_MSIL\Interop.LabelManager2\v4.0_19.0.0.0__1904804c83c4f22a\Interop.LabelManager2.dll</span><br></pre></td></tr></table></figure>
+
+<h3 id="防止-2015-讀取-2019-lab-檔的錯誤處理-csharp-lab"><a href="#防止-2015-讀取-2019-lab-檔的錯誤處理-csharp-lab" class="headerlink" title="防止 2015 讀取 2019 lab 檔的錯誤處理 csharp lab"></a>防止 2015 讀取 2019 lab 檔的錯誤處理 csharp lab</h3><p>設定 <code>UseUserInterface</code> 為 <code>true</code> 會在工作管理員的 <code>應用程式</code> 看到 , 預設為 <code>false</code> 會在 <code>背景處理程序</code> 看到<br>本來以為設定這個才會出現 <code>MsgBox</code> 後來發現不用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var app &#x3D; new Tkx.Lppa.Application();</span><br><span class="line">&#x2F;&#x2F;設定這個會在應用程式出現正常用不到</span><br><span class="line">&#x2F;&#x2F;app.UseUserInterface &#x3D; true;</span><br></pre></td></tr></table></figure>
+
+<p><code>Version</code> 屬性提供你的 codesoft 版本號 , 這個 debug 萬一有出現各個 server 安裝不同版應該很有幫助 , 他會印這樣 <code>2015.01.00</code> 注意結尾有空白!<br><code>SerializationVersion</code> 屬性應該在 debug 也可以有些用處 , 會顯示該版本存檔的版號</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Console.WriteLine(app.Version);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;顯示 codesoft 保存檔案的版本 2015 為 1004</span><br><span class="line">Console.WriteLine(app.SerializationVersion);</span><br></pre></td></tr></table></figure>
+
+<p>使用 C# with .NET Wrapper 內的 dll 檔 <code>Lppanet</code> 寫起來會相對容易 , 因為有實作 <code>IEnumerable</code> 讓一些常用的物件可以 <code>foreach</code><br>像是下面最常見的操作表單變數功能 , 這個如果寫沒包 .net 版本的會想哭</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">foreach</span> (<span class="keyword">var</span> variable <span class="keyword">in</span> doc.Variables.FormVariables)</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(variable.Name);</span><br><span class="line">	Console.WriteLine(variable.Value);</span><br><span class="line">	Console.WriteLine(variable.DisplayValue);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先前有提到版本問題 , 後來我發現其實有這個 Event 可以使用 <code>MsgBoxInvoked</code><br>像我用 2015 開啟 2019 檔案 , 會直接在 codesoft 軟體上面跳個 dialog 然後顯示這句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">This file has been created with a more recent designer (2019.02.00 ).</span><br><span class="line">Please upgrade your designer.</span><br></pre></td></tr></table></figure>
+
+<p>這個 Event 就算是低版本讀高版本的檔案也是可以觸發出來 , 所以很有用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">private void NetApp_MsgBoxInvoked(object sender, Tkx.Lppa.MsgBoxInvokedEventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;1</span><br><span class="line">	Console.WriteLine(&quot;result:&quot; + e.Result);</span><br><span class="line">	Console.WriteLine(&quot;message:&quot; + e.Message);</span><br><span class="line">	&#x2F;&#x2F;code 14</span><br><span class="line">	Console.WriteLine(&quot;code:&quot; + e.Code);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外還有兩個事件可以搭配使用 <code>DocumentOpened</code> <code>DocumentClosed</code><br>先說 <code>DocumentOpened</code> , 這個事件只有成功讀取了檔案之後才會觸發 , 所以如果低版本讀高版本檔案實際上目前的 <code>Document</code> 為 <code>null</code><br>接著是 <code>DocumentClosed</code> 他可以與先前的 <code>MsgBoxInvoked</code> 搭配 , 就算低版本的讀取高版本檔案 , 依然會觸發他<br>不過它們兩帶的有用訊息只有 <code>Name</code> 有點可惜</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">private void NetApp_DocumentClosed(object sender, Tkx.Lppa.DocumentEventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(&quot;Close&quot;);</span><br><span class="line">	Console.WriteLine(e.Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著講 <code>GetLastError</code> <code>ErrorMessage</code> 這兩個函數 , 他們倆要搭配使用<br>我測 2015 讀 2019 會噴這樣的 <code>Can&#39;t open LAB file</code> 訊息<br>正常是給 <code>0</code> 及 <code>No error</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var errCode &#x3D; app.GetLastError();</span><br><span class="line">var errMsg &#x3D; app.ErrorMessage((short)errCode);</span><br><span class="line">&#x2F;&#x2F;Can&#39;t open LAB file</span><br><span class="line">Console.WriteLine(errMsg);</span><br></pre></td></tr></table></figure>
+
+<p>我的情境是 2015 讀 2019 <code>Lab</code> 檔案 , 本來我想說直接把 <code>GetLastError</code> 寫在 <code>MsgBoxInvoked</code> 裡面 , 可是發現好像沒用 , 這點要特別注意</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">private void NetApp_MsgBoxInvoked(object sender, Tkx.Lppa.MsgBoxInvokedEventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;No error</span><br><span class="line">	var errCode &#x3D; app.GetLastError();</span><br><span class="line">	var errMsg &#x3D; app.ErrorMessage((short)errCode);</span><br><span class="line">	Console.WriteLine(errMsg);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;1</span><br><span class="line">	Console.WriteLine(&quot;result:&quot; + e.Result);</span><br><span class="line">	Console.WriteLine(&quot;message:&quot; + e.Message);</span><br><span class="line">	&#x2F;&#x2F;code 14</span><br><span class="line">	Console.WriteLine(&quot;code:&quot; + e.Code);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;No error</span><br><span class="line">	errCode &#x3D; app.GetLastError();</span><br><span class="line">	errMsg &#x3D; app.ErrorMessage((short)errCode);</span><br><span class="line">	Console.WriteLine(errMsg);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>後來我又實驗 <code>DocumentClosed</code> 這次有 <code>error code 14</code> 但是沒訊息</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private void NetApp_DocumentClosed(object sender, Tkx.Lppa.DocumentEventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">	Console.WriteLine(&quot;Close&quot;);</span><br><span class="line">	Console.WriteLine(e.Name);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;code &#x3D; 14 疑似版本問題</span><br><span class="line">	var errCode &#x3D; app.GetLastError();</span><br><span class="line">	var errMsg &#x3D; app.ErrorMessage((short)errCode);</span><br><span class="line">	Console.WriteLine(errMsg);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後附上一個測試讀取的 example</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br></pre></td><td class="code"><pre><span class="line">Tkx.Lppa.Application app = <span class="keyword">new</span> Tkx.Lppa.Application();</span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Run3</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	app.MsgBoxInvoked += NetApp_MsgBoxInvoked;</span><br><span class="line">	app.DocumentOpened += NetApp_DocumentOpened;</span><br><span class="line">	app.DocumentClosed += NetApp_DocumentClosed;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//這個可以讓他的 event 生效</span></span><br><span class="line">	app.EnableEvents = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//設定這個會在應用程式出現正常用不到</span></span><br><span class="line">	<span class="comment">//NetApp.UseUserInterface = true;</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//2015 =&gt; 1004</span></span><br><span class="line">	Console.WriteLine(app.SerializationVersion);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//顯示版本</span></span><br><span class="line">	Console.WriteLine(app.Version);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> dir = System.Environment.CurrentDirectory;</span><br><span class="line">	<span class="comment">//var docPath = Path.Combine(dir, "App_Data", "Test2015.lab");</span></span><br><span class="line">	<span class="keyword">var</span> docPath = Path.Combine(dir, <span class="string">"App_Data"</span>, <span class="string">"Test2019.lab"</span>);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> doc = app.Documents.Open(docPath, <span class="literal">true</span>);</span><br><span class="line">	<span class="keyword">if</span> (doc <span class="keyword">is</span> <span class="literal">null</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">var</span> errCode = app.GetLastError();</span><br><span class="line">		<span class="keyword">var</span> errMsg = app.ErrorMessage((<span class="keyword">short</span>)errCode);</span><br><span class="line">		Console.WriteLine(errMsg);</span><br><span class="line">		<span class="keyword">throw</span> <span class="keyword">new</span> Exception(errMsg);</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">else</span></span><br><span class="line">	&#123;</span><br><span class="line">		Console.WriteLine(app.ActiveDocument.FullName);</span><br><span class="line">		Console.WriteLine(doc.FullName);</span><br><span class="line">		Console.WriteLine(doc.Name);</span><br><span class="line">		Console.WriteLine(doc.Version);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//讀表單變數</span></span><br><span class="line">	<span class="keyword">foreach</span> (<span class="keyword">var</span> variable <span class="keyword">in</span> doc.Variables.FormVariables)</span><br><span class="line">	&#123;</span><br><span class="line">		Console.WriteLine(<span class="string">"Name:"</span> + variable.Name);</span><br><span class="line">		Console.WriteLine(<span class="string">"Value:"</span> + variable.Value);</span><br><span class="line">		Console.WriteLine(<span class="string">"DisplayValue:"</span> + variable.DisplayValue);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	doc?.Close();</span><br><span class="line">	app?.Quit();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">NetApp_DocumentClosed</span>(<span class="params"><span class="keyword">object</span> sender, Tkx.Lppa.DocumentEventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Console.WriteLine(<span class="string">"Close"</span>);</span><br><span class="line">	Console.WriteLine(e.Name);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//code = 14 疑似版本問題</span></span><br><span class="line">	<span class="keyword">var</span> errCode = app.GetLastError();</span><br><span class="line">	<span class="keyword">var</span> errMsg = app.ErrorMessage((<span class="keyword">short</span>)errCode);</span><br><span class="line">	Console.WriteLine(errMsg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">NetApp_MsgBoxInvoked</span>(<span class="params"><span class="keyword">object</span> sender, Tkx.Lppa.MsgBoxInvokedEventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//No error</span></span><br><span class="line">	<span class="keyword">var</span> errCode = app.GetLastError();</span><br><span class="line">	<span class="keyword">var</span> errMsg = app.ErrorMessage((<span class="keyword">short</span>)errCode);</span><br><span class="line">	Console.WriteLine(errMsg);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//1</span></span><br><span class="line">	Console.WriteLine(<span class="string">"result:"</span> + e.Result);</span><br><span class="line">	Console.WriteLine(<span class="string">"message:"</span> + e.Message);</span><br><span class="line">	<span class="comment">//code 14</span></span><br><span class="line">	Console.WriteLine(<span class="string">"code:"</span> + e.Code);</span><br><span class="line"></span><br><span class="line">	<span class="comment">//No error</span></span><br><span class="line">	errCode = app.GetLastError();</span><br><span class="line">	errMsg = app.ErrorMessage((<span class="keyword">short</span>)errCode);</span><br><span class="line">	Console.WriteLine(errMsg);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">NetApp_DocumentOpened</span>(<span class="params"><span class="keyword">object</span> sender, Tkx.Lppa.DocumentEventArgs e</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	Console.WriteLine(<span class="string">"Opened"</span>);</span><br><span class="line">	Console.WriteLine(e.Name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="MsgBoxInvoked-補充"><a href="#MsgBoxInvoked-補充" class="headerlink" title="MsgBoxInvoked 補充"></a>MsgBoxInvoked 補充</h3><p>這是後來翻為 .net 6 發現的問題 , 所以這裡沒用包成 .net 的 wrapper 而是呼叫 com object<br>實務上每台機器的顯示語言不同 有 <code>簡體</code> <code>繁體</code> <code>英文</code> , 所以導致我之前埋的 log 沒生效 , 所以需要依照語言來判斷<br>另外發現他的 <code>license</code> 如果滿的話在 <code>new Application</code> 就會直接掛掉 , 好像在這個 <code>MsgBoxInvoked</code> 埋 log 也沒用<br>我自己測起來他的 license server 滿的時候會踢人 , 不過踢誰不一定 , 這裡還是嘗試一手<br>此外這裡會有很多訊息 , 不是只有錯誤訊息 , 像是列印完成也會有訊息跑到這裡</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">ApplicationClass_MsgBoxInvoked</span>(<span class="params"><span class="keyword">int</span> nResult, <span class="keyword">int</span> nCode, <span class="keyword">string</span> strMessage</span>)</span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">//這句在 license 滿了的話應該也不會觸發 , 因為 new Application 的時候就直接噴 com error 了</span></span><br><span class="line">	<span class="comment">//但是他 license server 踢人是不一定的 , 所以如果有觸發到的話就會記錄下來(不確定)</span></span><br><span class="line">	<span class="comment">//這裡的 strMessage 不只會記錄錯誤的訊息 , 印東西完他也會記錄</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">string</span>.IsNullOrEmpty(strMessage) == <span class="literal">false</span>)</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">var</span> lang = applicationClass.Options.Language;</span><br><span class="line">		<span class="keyword">switch</span> (lang)</span><br><span class="line">		&#123;</span><br><span class="line">			<span class="comment">//這句可以得到是否使用正確版本開啟 codesoft , 萬一有開錯先 log 處理</span></span><br><span class="line">			<span class="keyword">case</span> enumLanguage.lppxEnglish:</span><br><span class="line">				<span class="keyword">if</span> (strMessage.Contains(<span class="string">"This file has been created with a more recent designer"</span>) || </span><br><span class="line">					strMessage.Contains(<span class="string">"The maximum number of authorized users has been reached"</span>) || </span><br><span class="line">					strMessage.Contains(<span class="string">"No license has been found"</span>)</span><br><span class="line">					)</span><br><span class="line"></span><br><span class="line">				&#123;</span><br><span class="line">					SfcPrintApiSrv.InfoBag = strMessage;</span><br><span class="line">					Logger.Fatal(strMessage);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> enumLanguage.lppxSimplifiedChinese:</span><br><span class="line">				<span class="comment">//此文件由最新版本的设计软件 (2019.02.00 ) 所生成。\n请升级您的设计软件。</span></span><br><span class="line">				<span class="keyword">if</span> (strMessage.Contains(<span class="string">"此文件由最新版本的设计软件"</span>) || </span><br><span class="line">					strMessage.Contains(<span class="string">"已达到授权用户最大数"</span>) ||</span><br><span class="line">					strMessage.Contains(<span class="string">"未找到许可证"</span>) )</span><br><span class="line">				&#123;</span><br><span class="line">					SfcPrintApiSrv.InfoBag = strMessage;</span><br><span class="line">					Logger.Fatal(strMessage);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">case</span> enumLanguage.lppxTraditionalChinese:</span><br><span class="line">				<span class="comment">//此文件由最新版本的軟件 (2019.02.00 )所生成.\n請升級您的軟件.</span></span><br><span class="line">				<span class="keyword">if</span> (strMessage.Contains(<span class="string">"此文件由最新版本的軟件"</span>) || </span><br><span class="line">					strMessage.Contains(<span class="string">"已經達到最大的授權使用者數目"</span>) ||</span><br><span class="line">					strMessage.Contains(<span class="string">"找不到授權"</span>))</span><br><span class="line">				&#123;</span><br><span class="line">					SfcPrintApiSrv.InfoBag = strMessage;</span><br><span class="line">					Logger.Fatal(strMessage);</span><br><span class="line">				&#125;</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">			<span class="keyword">default</span>:</span><br><span class="line">				<span class="keyword">break</span>;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="圖片問題"><a href="#圖片問題" class="headerlink" title="圖片問題"></a>圖片問題</h3><p>特別注意轉圖片的部分需要一同將圖片複製到 2015 的機器上 , ex 假設有兩張圖片 <code>tmp0.jpg</code> <code>tmp1.jpg</code> 需要將他們從 2019 的機器上面複製到 2015 的機器底下</p>
+<p>另外不要直接用 <code>base64 string</code> , 不明原因造成部分圖片會錯誤 , 應該呼叫 <code>WriteOriginalFile</code> 把圖挖出來</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">image.WriteOriginalFile(<span class="string">$@"D:\jaguar\tmp<span class="subst">&#123;i&#125;</span>.jpg"</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="位置偏移問題"><a href="#位置偏移問題" class="headerlink" title="位置偏移問題"></a>位置偏移問題</h3><p>每個物件都會有以下片段 , 這個 Move 一定要呼叫 , 否則你就算設定了 Left Top 也不見得有用</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">saveImage.Move(image.Left, image.Top);</span><br></pre></td></tr></table></figure>
+
+<h3 id="條碼字體大小問題"><a href="#條碼字體大小問題" class="headerlink" title="條碼字體大小問題"></a>條碼字體大小問題</h3><p>在 Barcode 裡面字體會有不正常的 bug , 不明原因讓 codesoft 讀出來的字體大小會是小數點 0.0008 , 所以要乘 10000f</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">saveBarcode.HRFont = <span class="keyword">new</span> Font(barcode.FontName, barcode.FontSize * <span class="number">10000f</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="條碼長度問題"><a href="#條碼長度問題" class="headerlink" title="條碼長度問題"></a>條碼長度問題</h3><p>2015 條碼的 <code>NarrowBarWidthDot</code> 屬性 <code>必須乘 2</code> , 不然會縮水只有一半長度</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">saveBarcode.NarrowBarWidthDot = barcode.NarrowBarWidthDot * <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="讀取及建立-Text"><a href="#讀取及建立-Text" class="headerlink" title="讀取及建立 Text"></a>讀取及建立 Text</h3><p>我觀察他的封裝好像沒很完整 , 就算你用 foreach 也是會噴 null 之類的錯誤 , 所以要像下面這樣建立物件才對<br>另外你設定 Left &amp; Top 實際上不見得有用 , 我後來發現呼叫 Move 函數才能正常<br>最後就是他字體大小好像也有 bug , 字體要乘 10000f , 其他物件建立方法也類似 , 就不一一列舉了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">public void CreateTexts(DocDto doc, Document save)</span><br><span class="line">&#123;</span><br><span class="line">	var count &#x3D; doc.TextDtos.Count;</span><br><span class="line">	for (int i &#x3D; 0; i &lt; count; i++)</span><br><span class="line">	&#123;</span><br><span class="line">		var text &#x3D; doc.TextDtos[i];</span><br><span class="line">		var saveText &#x3D; save.DocObjects.Texts.Add(text.Name);</span><br><span class="line">		saveText.Name &#x3D; text.Name;</span><br><span class="line"></span><br><span class="line">		var rotation &#x3D; (RotationAngle)Enum.Parse(typeof(RotationAngle), text.Rotation);</span><br><span class="line">		saveText.Rotation &#x3D; rotation;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;datasource</span><br><span class="line">		saveText.DataSourceNames &#x3D; text.DataSourceNames;</span><br><span class="line">		saveText.VariableName &#x3D; text.VariableName;</span><br><span class="line"></span><br><span class="line">		if (string.IsNullOrEmpty(text.DataSourceNames))</span><br><span class="line">		&#123;</span><br><span class="line">			&#x2F;&#x2F;字的內容設定</span><br><span class="line">			saveText.Value &#x3D; text.Value;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;font</span><br><span class="line">		saveText.FontName &#x3D; text.FontName;</span><br><span class="line">		saveText.FontHeight &#x3D; text.FontHeight;</span><br><span class="line">		saveText.FontWidth &#x3D; text.FontWidth;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;todo 這句正常 FontSize 應該會顯示 12 , 可是 codesoft 這裡面疑似有 bug , 所以這裡要乘 10000f , 另外設定完也不見得 100% 準確</span><br><span class="line">		saveText.Font &#x3D; new Font(text.FontFamilyName, text.FontSize * 10000f);</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;位置</span><br><span class="line">		saveText.Left &#x3D; text.Left;</span><br><span class="line">		saveText.Top &#x3D; text.Top;</span><br><span class="line">		saveText.Width &#x3D; text.Width;</span><br><span class="line">		saveText.Height &#x3D; text.Height;</span><br><span class="line"></span><br><span class="line">		saveText.MarginLeft &#x3D; text.MarginLeft;</span><br><span class="line">		saveText.MarginRight &#x3D; text.MarginRight;</span><br><span class="line">		saveText.MarginTop &#x3D; text.MarginTop;</span><br><span class="line">		saveText.MarginBottom &#x3D; text.MarginBottom;</span><br><span class="line"></span><br><span class="line">		var alignment &#x3D; (Alignment)Enum.Parse(typeof(Alignment), text.Alignment);</span><br><span class="line">		saveText.Alignment &#x3D; alignment;</span><br><span class="line">		var verticalAlignment &#x3D; (VerticalAlignment)Enum.Parse(typeof(VerticalAlignment), text.VerticalAlignment);</span><br><span class="line">		saveText.VerticalAlignment &#x3D; verticalAlignment;</span><br><span class="line"></span><br><span class="line">		saveText.Bold &#x3D; text.Bold;</span><br><span class="line">		saveText.Italic &#x3D; text.Italic;</span><br><span class="line"></span><br><span class="line">		var anchorPoint &#x3D; (AnchorPointPosition)Enum.Parse(typeof(AnchorPointPosition), text.AnchorPoint);</span><br><span class="line">		saveText.AnchorPoint &#x3D; anchorPoint;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;todo: 這句一定要呼叫不然會偏移</span><br><span class="line">		saveText.Move(text.Left, text.Top);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Error-code-table"><a href="#Error-code-table" class="headerlink" title="Error code table"></a>Error code table</h3><p>說明文件路徑在此 <code>C:\Program Files (x86)\Teklynx\CODESOFT 2019\Help\ActiveXa.chm</code></p>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>No error</td>
+</tr>
+<tr>
+<td>1100</td>
+<td>Can’t open TXT file</td>
+</tr>
+<tr>
+<td>1101</td>
+<td>Can’t open QRY file</td>
+</tr>
+<tr>
+<td>1102</td>
+<td>Can’t open DSC file</td>
+</tr>
+<tr>
+<td>1103</td>
+<td>Can’t open LAB file</td>
+</tr>
+<tr>
+<td>1104</td>
+<td>Can’t open POC file</td>
+</tr>
+<tr>
+<td>1105</td>
+<td>Can’t open LOG file</td>
+</tr>
+<tr>
+<td>1200</td>
+<td>Can’t open data file</td>
+</tr>
+<tr>
+<td>1201</td>
+<td>Can’t open query file</td>
+</tr>
+<tr>
+<td>1202</td>
+<td>Can’t open descriptor file</td>
+</tr>
+<tr>
+<td>1203</td>
+<td>Can’t open label file</td>
+</tr>
+<tr>
+<td>1204</td>
+<td>Can’t open POC file</td>
+</tr>
+<tr>
+<td>1205</td>
+<td>Can’t open log file</td>
+</tr>
+<tr>
+<td>1208</td>
+<td>Can’t open BACKGROUND file</td>
+</tr>
+<tr>
+<td>1300</td>
+<td>Printer not found</td>
+</tr>
+<tr>
+<td>1301</td>
+<td>Driver not found</td>
+</tr>
+<tr>
+<td>1302</td>
+<td>Printlabel not supported with several document.</td>
+</tr>
+<tr>
+<td>1400</td>
+<td>Incorrect Datasource enum value</td>
+</tr>
+<tr>
+<td>1401</td>
+<td>Incorrect Rotation enum value</td>
+</tr>
+<tr>
+<td>1402</td>
+<td>Incorrect HRAlign enum value</td>
+</tr>
+<tr>
+<td>1403</td>
+<td>Incorrect HRPosition enum value</td>
+</tr>
+<tr>
+<td>1404</td>
+<td>Incorrect HR check digit enum value</td>
+</tr>
+<tr>
+<td>1405</td>
+<td>Incorrect Anchor point enum value</td>
+</tr>
+<tr>
+<td>1406</td>
+<td>Incorrect counter base enum value</td>
+</tr>
+<tr>
+<td>1407</td>
+<td>Incorrect Label object enum value</td>
+</tr>
+<tr>
+<td>1408</td>
+<td>Incorrect view size enum value</td>
+</tr>
+<tr>
+<td>1409</td>
+<td>Incorrect view mode enum value</td>
+</tr>
+<tr>
+<td>1410</td>
+<td>Incorrect MeasureSystem enum value</td>
+</tr>
+<tr>
+<td>1411</td>
+<td>Incorrect dialog type enum value</td>
+</tr>
+<tr>
+<td>1412</td>
+<td>Incorrect language enum value</td>
+</tr>
+<tr>
+<td>1413</td>
+<td>Incorrect symbology enum value</td>
+</tr>
+<tr>
+<td>1414</td>
+<td>Incorrect built in document property enum value</td>
+</tr>
+<tr>
+<td>1415</td>
+<td>Incorrect view orientation enum value</td>
+</tr>
+<tr>
+<td>1416</td>
+<td>Incorrect form prompt mode enum value</td>
+</tr>
+<tr>
+<td>1500</td>
+<td>Object not found</td>
+</tr>
+<tr>
+<td>1501</td>
+<td>Can’t create object</td>
+</tr>
+<tr>
+<td>1502</td>
+<td>Variable not found</td>
+</tr>
+<tr>
+<td>1503</td>
+<td>Can’t create variable</td>
+</tr>
+<tr>
+<td>1504</td>
+<td>Invalid font object</td>
+</tr>
+<tr>
+<td>1505</td>
+<td>Invalid variable object</td>
+</tr>
+<tr>
+<td>1506</td>
+<td>Name of item already used</td>
+</tr>
+<tr>
+<td>1507</td>
+<td>Property dependency failed</td>
+</tr>
+<tr>
+<td>1600</td>
+<td>Database not connected</td>
+</tr>
+<tr>
+<td>1601</td>
+<td>Database connection failed</td>
+</tr>
+<tr>
+<td>1602</td>
+<td>TableLookup DSN not found</td>
+</tr>
+<tr>
+<td>1700</td>
+<td>Input mask not empty</td>
+</tr>
+<tr>
+<td>1701</td>
+<td>Invalid data</td>
+</tr>
+<tr>
+<td>1702</td>
+<td>Your counter value is outside of the allowed value range</td>
+</tr>
+<tr>
+<td>1703</td>
+<td>Superimposing is not allowed for some objects.</td>
+</tr>
+<tr>
+<td>1704</td>
+<td>Error during the change of base.</td>
+</tr>
+<tr>
+<td>1800</td>
+<td>Shared variable violation</td>
+</tr>
+<tr>
+<td>1900</td>
+<td>Can’t generate POC file</td>
+</tr>
+<tr>
+<td>2000</td>
+<td>Number must be positive</td>
+</tr>
+<tr>
+<td>2001</td>
+<td>Data type must be a boolean</td>
+</tr>
+<tr>
+<td>2002</td>
+<td>Invalid path</td>
+</tr>
+<tr>
+<td>2003</td>
+<td>File already exists</td>
+</tr>
+<tr>
+<td>2100</td>
+<td>Can’t prompt dialog box (no active document)</td>
+</tr>
+<tr>
+<td>3000</td>
+<td>Not sufficient access rights to perform this operation</td>
+</tr>
+<tr>
+<td>3001</td>
+<td>No license found</td>
+</tr>
+</tbody></table>
+<h3 id="列印偏移-撕線"><a href="#列印偏移-撕線" class="headerlink" title="列印偏移 撕線"></a>列印偏移 撕線</h3><p>如果有遇到列印偏移的問題 , 當程式與樣板都確認過沒問題 , 八成會是買標籤貼紙時沒有 <code>撕線</code> 搞得鬼<br>如果不是搞這個 case 我也是第一次知道這鬼東西<br>他的術語大概是以下幾種說法 , 我也不是很確定</p>
+<ul>
+<li><code>虛線刀</code></li>
+<li><code>撕線</code></li>
+<li><code>騎縫線</code></li>
+<li><code>米線</code></li>
+<li><code>dotted line knife</code></li>
+<li><code>Dotted line Cutting knife</code></li>
+</ul>
+<p>可以看這個 <a href="https://www.aliexpress.com/i/1005003275044420.html" target="_blank" rel="noopener">影片</a> 認識看看<br>如果沒有這個虛線刀的痕跡 , 非常容易發生偏移狀況 , 然後互推責任開始吵架弄到都煩<br>長官最後想的解法竟然是在 <code>標籤</code> 跟 <code>標籤</code> 中間拿黑筆畫線 , 讓標籤機感應到 , 這標籤機也通靈 , 先畫個幾張定位就準了 , 真是暴雷的經驗…</p>
+<h3 id="暴雷的-Margin-單位問題"><a href="#暴雷的-Margin-單位問題" class="headerlink" title="暴雷的 Margin 單位問題"></a>暴雷的 Margin 單位問題</h3><p>他這裡邊界 <code>MarginTop</code> <code>MarginLeft</code> <code>PageHeight</code> <code>PageWidth</code> 有個很雷的點 , 例如你設定邊界是 <code>3mm</code><br>然而實際上他都要 <code>乘 100</code> , 所以變成 <code>3 * 100 = 300</code> , 超無言 XD<br>而且我翻文件好像都沒發現這個說明 , 我自己在 2015 2019 驗證過<br>可以用下面段 code 來驗證</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Diagnostics;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> LabelManager2;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">ConsoleAppPrint</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">class</span> <span class="title">Program</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"><span class="keyword">string</span>[] args</span>)</span></span><br><span class="line"><span class="function"></span>        &#123;</span><br><span class="line">            <span class="keyword">var</span> app = <span class="keyword">new</span> ApplicationClass();</span><br><span class="line">            <span class="keyword">string</span> path = <span class="string">"D:\\Test.lab"</span>;</span><br><span class="line">            _ = app.Documents.Open(path, <span class="literal">false</span>);</span><br><span class="line">            <span class="keyword">var</span> doc = app.ActiveDocument;</span><br><span class="line"></span><br><span class="line">            Debug.WriteLine(<span class="string">"MarginTop"</span> + doc.Format.MarginTop);</span><br><span class="line">            Debug.WriteLine(<span class="string">"MarginLeft"</span> + doc.Format.MarginLeft);</span><br><span class="line">            Debug.WriteLine(<span class="string">"PageHeight"</span> + doc.Format.PageHeight);</span><br><span class="line">            Debug.WriteLine(<span class="string">"PageWidth"</span> + doc.Format.PageWidth);</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/codesoft/" rel="tag"># codesoft</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/27/excel-to-sql/" rel="prev" title="excel to sql">
+      <i class="fa fa-chevron-left"></i> excel to sql
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/30/png-to-svg-%E7%AD%86%E8%A8%98/" rel="next" title="png to svg 筆記">
+      png to svg 筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#安裝"><span class="nav-number">1.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#example"><span class="nav-number">2.</span> <span class="nav-text">example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自訂變數"><span class="nav-number">3.</span> <span class="nav-text">自訂變數</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印時的坑"><span class="nav-number">4.</span> <span class="nav-text">列印時的坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ZPL"><span class="nav-number">5.</span> <span class="nav-text">ZPL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#csv-設定"><span class="nav-number">6.</span> <span class="nav-text">csv 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#版本問題"><span class="nav-number">7.</span> <span class="nav-text">版本問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#COM-元件引用問題"><span class="nav-number">8.</span> <span class="nav-text">COM 元件引用問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#防止-2015-讀取-2019-lab-檔的錯誤處理-csharp-lab"><span class="nav-number">9.</span> <span class="nav-text">防止 2015 讀取 2019 lab 檔的錯誤處理 csharp lab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MsgBoxInvoked-補充"><span class="nav-number">10.</span> <span class="nav-text">MsgBoxInvoked 補充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#圖片問題"><span class="nav-number">11.</span> <span class="nav-text">圖片問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位置偏移問題"><span class="nav-number">12.</span> <span class="nav-text">位置偏移問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼字體大小問題"><span class="nav-number">13.</span> <span class="nav-text">條碼字體大小問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#條碼長度問題"><span class="nav-number">14.</span> <span class="nav-text">條碼長度問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#讀取及建立-Text"><span class="nav-number">15.</span> <span class="nav-text">讀取及建立 Text</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Error-code-table"><span class="nav-number">16.</span> <span class="nav-text">Error code table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#列印偏移-撕線"><span class="nav-number">17.</span> <span class="nav-text">列印偏移 撕線</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#暴雷的-Margin-單位問題"><span class="nav-number">18.</span> <span class="nav-text">暴雷的 Margin 單位問題</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/10/30/codesoft-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2022/10/30/codesoft-筆記/";
+    this.page.title = "codesoft 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

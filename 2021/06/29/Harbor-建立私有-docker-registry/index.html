@@ -1,0 +1,1253 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Harbor 建立私有 docker registry">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/06/29/Harbor-%E5%BB%BA%E7%AB%8B%E7%A7%81%E6%9C%89-docker-registry/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-06-28T18:49:47.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="k8s">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/06/29/Harbor-%E5%BB%BA%E7%AB%8B%E7%A7%81%E6%9C%89-docker-registry/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Harbor 建立私有 docker registry | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/06/29/Harbor-%E5%BB%BA%E7%AB%8B%E7%A7%81%E6%9C%89-docker-registry/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Harbor 建立私有 docker registry
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-06-29 02:49:47" itemprop="dateCreated datePublished" datetime="2021-06-29T02:49:47+08:00">2021-06-29</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/06/29/Harbor-%E5%BB%BA%E7%AB%8B%E7%A7%81%E6%9C%89-docker-registry/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/06/29/Harbor-建立私有-docker-registry/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>28k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>25 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="Harbor-安裝"><a href="#Harbor-安裝" class="headerlink" title="Harbor 安裝"></a>Harbor 安裝</h3><p><a href="https://ivanzz1001.github.io/records/post/docker/2018/04/09/docker-harbor-https" target="_blank" rel="noopener">參考強國人</a><br>或是另一個強國人(<a href="https://www.cnblogs.com/ExMan/p/11996944.html" target="_blank" rel="noopener">https://www.cnblogs.com/ExMan/p/11996944.html</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;github.com&#x2F;goharbor&#x2F;harbor&#x2F;releases&#x2F;download&#x2F;v2.3.0&#x2F;harbor-offline-installer-v2.3.0.tgz</span><br><span class="line">tar -xvf harbor-offline-installer-v2.3.0.tgz</span><br><span class="line">cd harbor</span><br><span class="line">cp harbor.yml.tmpl harbor.yml</span><br><span class="line">vim harbor.yml</span><br><span class="line"></span><br><span class="line">#把 https 註解掉</span><br><span class="line">#並且把 hostname 直接換成機器的 ip</span><br><span class="line">hostname: 10.1.25.123</span><br><span class="line"></span><br><span class="line"> # https related config</span><br><span class="line"> #https:</span><br><span class="line">   # https port for harbor, default is 443</span><br><span class="line">   #port: 443</span><br><span class="line">   # The path of cert and key files for nginx</span><br><span class="line">   #certificate: &#x2F;your&#x2F;certificate&#x2F;path</span><br><span class="line">   #private_key: &#x2F;your&#x2F;private&#x2F;key&#x2F;path</span><br><span class="line"></span><br><span class="line">.&#x2F;prepare --with-trivy --with-chartmuseum</span><br><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>注意! 萬一之前有安裝 registry 先把他停掉或是移除 , 不然會起不來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker container ls -a</span><br><span class="line">docker container rm ec1fadeecc80 5b5dfc3e0a31</span><br></pre></td></tr></table></figure>
+
+<p>到此可以先看一下結果在 chrome 輸入 <code>10.1.25.123</code> 即可進入 Harbor 畫面<br>預設登入的帳號密碼為 <code>admin</code> <code>Harbor12345</code> 注意 H 是大寫<br>建立一個名稱為 test 私有的專案</p>
+<p>接著確保 server 上 docker 的 <code>daemon.json</code> 屬性 <code>insecure-registries</code> 有正確 ip 加入 , 因為先前設定 harbor.yml 使用的是 80 , 此處要設定 80<br>另外 client 的 docker insecure-registries 也要加入正確的 ip 地址<br>詳細說明可以看<a href="https://docs.docker.com/registry/insecure/" target="_blank" rel="noopener">官網</a></p>
+<p>windows <code>C:\ProgramData\docker\config\daemon.json</code><br>linux <code>/etc/docker/daemon.json</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;etc&#x2F;docker&#x2F;daemon.json</span><br><span class="line">&#123;</span><br><span class="line">        &quot;exec-opts&quot;: [&quot;native.cgroupdriver&#x3D;systemd&quot;],</span><br><span class="line">        &quot;log-driver&quot;: &quot;json-file&quot;,</span><br><span class="line">        &quot;log-opts&quot;:&#123;</span><br><span class="line">                &quot;max-size&quot;: &quot;100m&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;storage-driver&quot;: &quot;overlay2&quot;,</span><br><span class="line">        &quot;insecure-registries&quot;:[</span><br><span class="line">                &quot;10.1.25.123&quot;</span><br><span class="line">        ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意 修改後需要 restart docker , 並且要再次開啟 harbor</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo service docker restart</span><br><span class="line">sudo docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>最後開一個新的 powershell or bash 測試用 client 登入私有的 registry 應該可以看到 <code>Login Succeeded</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker login http:&#x2F;&#x2F;10.1.25.123 --username admin --password Harbor12345</span><br></pre></td></tr></table></figure>
+<p>若失敗則會看到記得檢查看看是否為 <code>insecure-registries</code> 設定錯誤 , <code>注意! 如果是在 k8s 整合上的話每個 node 都需要設定</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Error response from daemon: Get https:&#x2F;&#x2F;10.1.25.123&#x2F;v2&#x2F;: dial tcp 10.1.25.123:443: connect: connection refused</span><br></pre></td></tr></table></figure>
+
+<p>打標籤在這個 image 上 , 並且 push</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker tag nginx:latest 10.1.25.123&#x2F;test&#x2F;nginx:latest</span><br><span class="line">docker push 10.1.25.123&#x2F;test&#x2F;nginx:latest</span><br></pre></td></tr></table></figure>
+
+<h3 id="k8s-整合"><a href="#k8s-整合" class="headerlink" title="k8s 整合"></a>k8s 整合</h3><p>詳細說明可參考<a href="https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/" target="_blank" rel="noopener">官網</a><br>看網路上指定檔案都用這樣 <code>~/.docker/config.json</code> , 但是會炸 Error , 不曉得為啥 , 所以改成 $HOME 騙看看才過</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret generic regcred --from-file&#x3D;.dockerconfigjson&#x3D;$HOME&#x2F;.docker&#x2F;config.json --type&#x3D;kubernetes.io&#x2F;dockerconfigjson</span><br></pre></td></tr></table></figure>
+
+<p>或是直接用這樣應該都會建立出一樣的結果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl create secret docker-registry regcred --docker-server&#x3D;10.1.25.123  \</span><br><span class="line">--docker-username&#x3D;admin \</span><br><span class="line">--docker-password&#x3D;Harbor12345</span><br></pre></td></tr></table></figure>
+
+<p>接著印出 secret regcred 看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl get secret regcred --output&#x3D;yaml</span><br></pre></td></tr></table></figure>
+
+<p>會長這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">data:</span><br><span class="line">  .dockerconfigjson: ewoJImF1dGhzIjogewoJCSIxMC4xLjMxxx...</span><br><span class="line">kind: Secret</span><br><span class="line">metadata:</span><br><span class="line">  creationTimestamp: &quot;2021-06-20T07:23:34Z&quot;</span><br><span class="line">  name: regcred</span><br><span class="line">  namespace: default</span><br><span class="line">  resourceVersion: &quot;3050890&quot;</span><br><span class="line">  uid: 9b48e55e-89dc-4b61-b9ee-749cc47d9ae9</span><br><span class="line">type: kubernetes.io&#x2F;dockerconfigjson</span><br></pre></td></tr></table></figure>
+
+<p>最後建立 <code>Pod</code> 看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: private-reg</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: private-reg-container</span><br><span class="line">    image: 10.1.25.123&#x2F;test&#x2F;nginx:latest</span><br><span class="line">  imagePullSecrets:</span><br><span class="line">  - name: regcred</span><br></pre></td></tr></table></figure>
+
+<h3 id="k8s-整合-net-core"><a href="#k8s-整合-net-core" class="headerlink" title="k8s 整合 .net core"></a>k8s 整合 .net core</h3><p>可以參考<a href="https://www.cnblogs.com/sheng-jie/p/10591794.html" target="_blank" rel="noopener">這篇強國人</a></p>
+<h4 id="Pod-起手式"><a href="#Pod-起手式" class="headerlink" title="Pod 起手式"></a>Pod 起手式</h4><p>新增 <code>HelloWorldController</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">[Route( &quot;api&#x2F;[controller]&quot; )]</span><br><span class="line">[ApiController]</span><br><span class="line">public class HelloWorldController : ControllerBase</span><br><span class="line">&#123;</span><br><span class="line">    [HttpGet]</span><br><span class="line">    public string Get()</span><br><span class="line">    &#123;</span><br><span class="line">        string result &#x3D; &quot;&quot;;</span><br><span class="line">        string HostName &#x3D; Dns.GetHostName();</span><br><span class="line">        Console.WriteLine( &quot;Host Name of machine &#x3D;&quot; + HostName );</span><br><span class="line">        result +&#x3D; &quot;Host Name of machine &#x3D;&quot; + HostName + Environment.NewLine;</span><br><span class="line">        IPAddress[] ipaddress &#x3D; Dns.GetHostAddresses( HostName );</span><br><span class="line">        Console.Write( &quot;IPv4 of Machine is &quot; );</span><br><span class="line">        result +&#x3D; &quot;IPv4 of Machine is &quot; + Environment.NewLine;</span><br><span class="line">        foreach (IPAddress ip4 in ipaddress.Where( ip &#x3D;&gt; ip.AddressFamily &#x3D;&#x3D; System.Net.Sockets.AddressFamily.InterNetwork ))</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine( ip4.ToString() );</span><br><span class="line">            result +&#x3D; ip4.ToString() + Environment.NewLine;</span><br><span class="line">        &#125;</span><br><span class="line">        Console.Write( &quot;IPv6 of Machine is &quot; );</span><br><span class="line">        result +&#x3D; &quot;IPv6 of Machine is &quot; + Environment.NewLine;</span><br><span class="line">        foreach (IPAddress ip6 in ipaddress.Where( ip &#x3D;&gt; ip.AddressFamily &#x3D;&#x3D; System.Net.Sockets.AddressFamily.InterNetworkV6 ))</span><br><span class="line">        &#123;</span><br><span class="line">            Console.WriteLine( ip6.ToString() );</span><br><span class="line">            result +&#x3D; ip6.ToString() + Environment.NewLine;</span><br><span class="line">        &#125;</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>特別注意 <code>Startup</code> 內的 <code>Configure</code> 方法 , 需要把 UseHttpsRedirection 註解掉 , 不然會導向錯誤的網址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;app.UseHttpsRedirection();</span><br></pre></td></tr></table></figure>
+
+
+<p>新增 <code>DockerFile</code> 並且把檔案設定為 <code>Always Copy</code><br>設定暴露的 PORT , 注意這個 <code>ENV ASPNETCORE_URLS=http://+:80;https://+:443</code> 一定要設定 , 不然會找不到位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">FROM mcr.microsoft.com&#x2F;dotnet&#x2F;sdk:5.0 AS build</span><br><span class="line">WORKDIR &#x2F;app</span><br><span class="line">COPY . .</span><br><span class="line">ENV ASPNETCORE_URLS&#x3D;http:&#x2F;&#x2F;+:80;https:&#x2F;&#x2F;+:443</span><br><span class="line">EXPOSE 80</span><br><span class="line"></span><br><span class="line">EXPOSE 443</span><br><span class="line">ENTRYPOINT [&quot;dotnet&quot;, &quot;HelloWorldKubernetes.dll&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>切換到 bin\Debug 目錄底下進行編譯 , 用 docker 跑看看結果是否正確</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker build -t helloworldk8s .</span><br><span class="line">docker run --name helloworldk8s -d -p 5000:80 -p 5001:443  helloworldk8s:latest</span><br></pre></td></tr></table></figure>
+
+<p>先用以下命令查看看有無正確啟動 container 萬一沒啟動加上 <code>-a</code> 參數看看發生啥錯誤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker container ls</span><br><span class="line"></span><br><span class="line">docker container ls -a</span><br></pre></td></tr></table></figure>
+
+<p>開啟 chrome 測試<br><code>https://localhost:5001/api/helloworld</code><br><code>http://localhost:5000/api/helloworld</code></p>
+<p>打標籤到自己私有的 Harbor Registry 並且推送上去</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker tag helloworldk8s:latest 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br><span class="line">docker push 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br></pre></td></tr></table></figure>
+
+<p>在 master 節點 pull image</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker pull 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br><span class="line">docker images</span><br><span class="line">#REPOSITORY                           TAG            IMAGE ID       CREATED          SIZE</span><br><span class="line">#10.1.25.123&#x2F;test&#x2F;helloworldk8s       latest         8d030c225a2a   18 minutes ago   635MB</span><br></pre></td></tr></table></figure>
+
+<p>建立 yaml 檔 , 可以參考[微軟這篇]來編(<a href="https://docs.microsoft.com/en-us/dotnet/architecture/containerized-lifecycle/design-develop-containerized-apps/build-aspnet-core-applications-linux-containers-aks-kubernetes" target="_blank" rel="noopener">https://docs.microsoft.com/en-us/dotnet/architecture/containerized-lifecycle/design-develop-containerized-apps/build-aspnet-core-applications-linux-containers-aks-kubernetes</a>)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim private-reg-pod.yaml</span><br><span class="line">kubectl apply -f private-reg-pod.yaml</span><br></pre></td></tr></table></figure>
+
+<p><code>private-reg-pod.yaml</code> 內容如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: private-reg</span><br><span class="line">  labels:</span><br><span class="line">	app: private-reg</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: private-reg-container</span><br><span class="line">    image: 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br><span class="line">    ports:</span><br><span class="line">      - containerPort: 80</span><br><span class="line">        protocol: TCP</span><br><span class="line">    env:</span><br><span class="line">      - name: ASPNETCORE_URLS</span><br><span class="line">        value: http:&#x2F;&#x2F;+:80</span><br><span class="line">  imagePullSecrets:</span><br><span class="line">  - name: regcred</span><br></pre></td></tr></table></figure>
+
+
+<p>查詢目前 pod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kubectl get po</span><br><span class="line">#NAME          READY   STATUS    RESTARTS   AGE     IP            NODE</span><br><span class="line">#private-reg   1&#x2F;1     Running   0          5m45s   10.244.1.87   node02</span><br></pre></td></tr></table></figure>
+
+<p>萬一有問題 可以用 <code>describe</code> 除錯</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">kubectl describe po private-reg</span><br><span class="line"></span><br><span class="line">#正常的話會像是下面這樣</span><br><span class="line">#Events:</span><br><span class="line">#  Type    Reason     Age   From               Message</span><br><span class="line">#  ----    ------     ----  ----               -------</span><br><span class="line">#  Normal  Scheduled  20s   default-scheduler  Successfully assigned default&#x2F;private-reg to node02</span><br><span class="line">#  Normal  Pulling    19s   kubelet            Pulling image &quot;10.1.25.123&#x2F;test&#x2F;helloworldk8s:latet&quot;</span><br><span class="line">#  Normal  Pulled     2s    kubelet            Successfully pulled image &quot;10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest&quot; in 17.048779767s</span><br><span class="line">#  Normal  Created    1s    kubelet            Created container private-reg-container</span><br><span class="line">#  Normal  Started    1s    kubelet            Started container private-reg-container</span><br></pre></td></tr></table></figure>
+
+<p>也可以跳進去 node 裡面看看 docker 狀況</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker container ls</span><br><span class="line">#CONTAINER ID   IMAGE                            COMMAND                  CREATED          STATUS          PORTS     NAMES</span><br><span class="line">#ae35c6069640   10.1.25.123&#x2F;test&#x2F;helloworldk8s   &quot;dotnet HelloWorldKu…&quot;   23 minutes ago   Up 23 minutes             k8s_private...</span><br></pre></td></tr></table></figure>
+
+
+<p>接著可以在 master 用 curl 測試</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl 10.244.1.87&#x2F;api&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>或是跳入 node 測試 , 這個兩槓符號 <code>--</code> 表示結尾 , 後面接 linux 命令 , 因為 dotnet core 的預設 shell 是用 bash , 所以寫 /bin/bash , 其他容器有可能只有 sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">kubectl exec -it private-reg -- &#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">#跳進去後會長這樣 , 接著執行 curl 測看看</span><br><span class="line">root@private-reg:&#x2F;app# curl localhost&#x2F;api&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>還可以用簡單粗暴的 k8s port-forward 在 master 來測看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl localhost:8087&#x2F;api&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>或是直接用 NodePort</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">kubectl expose pod private-reg --name private-reg --type&#x3D;NodePort</span><br></pre></td></tr></table></figure>
+
+<h4 id="Deployment-Lab"><a href="#Deployment-Lab" class="headerlink" title="Deployment Lab"></a>Deployment Lab</h4><p>將 <code>Pod</code> 改成佈署 <code>Deployment</code> , 有的書上或是資料會寫用 <code>ReplicaSet</code> , 實際運用上會直接使用 <code>Deployment</code> 讓他進行自動調度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  replicas: 4</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: asp-net-core-helloworld-k8s</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: asp-net-core-helloworld-k8s</span><br><span class="line">        image: 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 80</span><br><span class="line">        - containerPort: 443</span><br><span class="line">        env:</span><br><span class="line">        - name: ASPNETCORE_URLS</span><br><span class="line">          value: http:&#x2F;&#x2F;+:80;https:&#x2F;&#x2F;+:443</span><br><span class="line">        - name: ASPNETCORE_ENVIRONMENT</span><br><span class="line">          value: Development</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br></pre></td></tr></table></figure>
+
+<p>本來沒睡飽少設定 <code>ASPNETCORE_ENVIRONMENT</code> , 測試的時候發現 swagger 一直打不開 , 超無言<br>特別注意到 , 因為 asp.net core 預設是只有 <code>IsDevelopment</code> 才會開啟 , 所以需要加入 <code>ASPNETCORE_ENVIRONMENT</code> 區塊<br>可以看<a href="https://andrewlock.net/deploying-asp-net-core-applications-to-kubernetes-part-5-setting-environment-variables-in-a-helm-chart/" target="_blank" rel="noopener">ASP.NET CORE in Action 作者的文章有說明</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public void Configure( IApplicationBuilder app, IWebHostEnvironment env )</span><br><span class="line">&#123;</span><br><span class="line">	if (env.IsDevelopment())</span><br><span class="line">	&#123;</span><br><span class="line">		app.UseDeveloperExceptionPage();</span><br><span class="line">		app.UseSwagger();</span><br><span class="line">		app.UseSwaggerUI( c &#x3D;&gt; c.SwaggerEndpoint( &quot;&#x2F;swagger&#x2F;v1&#x2F;swagger.json&quot;, &quot;HelloWorldKubernetes v1&quot; ) );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;.....</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>執行佈署 <code>asp-net-core-helloworld-k8s.yaml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k apply -f asp-net-core-helloworld-k8s.yaml</span><br></pre></td></tr></table></figure>
+
+<p>用之前安裝的 <code>tree</code> 查看看 <code>Deployment</code> 的階層關係 , 可以發現其實後面有 <code>ReplicaSet</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">k tree deployment asp-net-core-helloworld-k8s</span><br><span class="line">NAMESPACE  NAME                                                    READY  REASON  AGE</span><br><span class="line">default    Deployment&#x2F;asp-net-core-helloworld-k8s                  -              3h42m</span><br><span class="line">default    ├─ReplicaSet&#x2F;asp-net-core-helloworld-k8s-66f969cb87   -              3h42m</span><br><span class="line">default    └─ReplicaSet&#x2F;asp-net-core-helloworld-k8s-7ff974f489   -              46m</span><br><span class="line">default      ├─Pod&#x2F;asp-net-core-helloworld-k8s-7ff974f489-bcj86  True           46m</span><br><span class="line">default      ├─Pod&#x2F;asp-net-core-helloworld-k8s-7ff974f489-fnntp  True           46m</span><br><span class="line">default      ├─Pod&#x2F;asp-net-core-helloworld-k8s-7ff974f489-j9s6s  True           46m</span><br><span class="line">default      └─Pod&#x2F;asp-net-core-helloworld-k8s-7ff974f489-l9j5f  True           46m</span><br></pre></td></tr></table></figure>
+
+<p>查看看 ReplicaSet 縮寫為 rs , 可以用 <code>k api-resources</code> 來查詢縮寫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k get rs</span><br><span class="line">#NAME                                     DESIRED   CURRENT   READY   AGE</span><br><span class="line">#asp-net-core-helloworld-k8s-66f969cb87   0         0         0       3h52m</span><br><span class="line">#asp-net-core-helloworld-k8s-7ff974f489   4         4         4       56m</span><br></pre></td></tr></table></figure>
+
+<p>查目前 pods</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">k get po -o wide</span><br><span class="line"></span><br><span class="line">#NAME                                           READY   STATUS    RESTARTS   AGE     IP             NODE</span><br><span class="line">#asp-net-core-helloworld-k8s-67cb6f48cd-6xxd7   1&#x2F;1     Running   0          101s    10.244.1.99    node02</span><br><span class="line">#asp-net-core-helloworld-k8s-67cb6f48cd-nlhlw   1&#x2F;1     Running   0          101s    10.244.1.100   node02</span><br></pre></td></tr></table></figure>
+
+<p>在 cluster 內用 curl 呼叫看看是否成功 , 這邊還有個 debug 的好法子就是加上 <code>--dump-header -</code> 這樣可以看到 header 更好 debug</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">curl 10.244.1.99:80&#x2F;api&#x2F;helloworld</span><br><span class="line">curl 10.244.1.100:80&#x2F;api&#x2F;helloworld</span><br><span class="line"></span><br><span class="line">#測個沒結果的</span><br><span class="line">curl --dump-header - http:&#x2F;&#x2F;10.244.1.112:80</span><br><span class="line">HTTP&#x2F;1.1 404 Not Found</span><br><span class="line">Date: Wed, 30 Jun 2021 07:35:31 GMT</span><br><span class="line">Server: Kestrel</span><br><span class="line">Content-Length: 0</span><br></pre></td></tr></table></figure>
+
+<p>查 deployment 也可以用 deploy 等價縮寫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k get deployments</span><br><span class="line">k get deploy</span><br><span class="line">#NAME                          READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">#asp-net-core-helloworld-k8s   2&#x2F;2     2            2           3m49s</span><br></pre></td></tr></table></figure>
+
+<p>暴露成 service <code>NodePort</code><br>在 k8s 內 <code>ClusterIP</code> 為內部通信而 <code>NodePort</code> 為暴露給外部可以進行訪問</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k expose deployment asp-net-core-helloworld-k8s --name asp-net-core-helloworld-k8s --type&#x3D;NodePort</span><br></pre></td></tr></table></figure>
+
+<p>最後查看看結果 , 可以看到 cluster 內部訪問是 10.96.165.130 , 而外部則使用 master 機器的 ip 加上 31956</p>
+<p>http <code>http://10.1.25.123:31956</code><br>https <code>https://10.1.25.123:32418</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">k get svc</span><br><span class="line">#NAME                          TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE</span><br><span class="line">#asp-net-core-helloworld-k8s   NodePort       10.96.165.130    &lt;none&gt;        80:31956&#x2F;TCP,443:32418&#x2F;TCP   3h4m</span><br></pre></td></tr></table></figure>
+
+<p>萬一想刪除則使用以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">k delete deployments asp-net-core-helloworld-k8s</span><br><span class="line">k delete service asp-net-core-helloworld-k8s</span><br></pre></td></tr></table></figure>
+
+<h4 id="HPA-Lab"><a href="#HPA-Lab" class="headerlink" title="HPA Lab"></a>HPA Lab</h4><p>嘗試做做 HPA 的 lab , 看書上寫的含糊 , 東西一直沒起來 , 查了下才發現要安裝 <code>Metric-Server</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">k describe hpa asp-net-core-helloworld-k8s</span><br><span class="line">#</span><br><span class="line">#Type     Reason                        Age                From                       Message</span><br><span class="line">#----     ------                        ----               ----                       -------</span><br><span class="line">#Warning  FailedGetResourceMetric       1s (x8 over 107s)  horizontal-pod-autoscaler  failed to get cpu utilization: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)</span><br><span class="line">#Warning  FailedComputeMetricsReplicas  1s (x8 over 107s)  horizontal-pod-autoscaler  invalid metrics (1 invalid out of 1), first error is: failed to get cpu utilization: unable to get metrics for resource cpu: unable to fetch metrics from resource metrics API: the server could not find the requested resource (get pods.metrics.k8s.io)</span><br></pre></td></tr></table></figure>
+
+<p>安裝可以參考這個<a href="https://github.com/kubernetes-sigs/metrics-server" target="_blank" rel="noopener">官方文件</a><br>直接照著文件做還是會陣亡 , 要特別注意 <code>Requirements</code> 這段寫的內容 , 我的問題是要加上 <code>kubelet-insecure-tls</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">#Requirements 完全沒問題的話官方作法</span><br><span class="line">#kubectl apply -f https:&#x2F;&#x2F;github.com&#x2F;kubernetes-sigs&#x2F;metrics-server&#x2F;releases&#x2F;latest&#x2F;download&#x2F;components.yaml</span><br><span class="line"></span><br><span class="line">#我的作法</span><br><span class="line">wget https:&#x2F;&#x2F;github.com&#x2F;kubernetes-sigs&#x2F;metrics-server&#x2F;releases&#x2F;download&#x2F;v0.5.0&#x2F;components.yaml</span><br><span class="line">vim components.yaml</span><br><span class="line">#找到 Deployment 加入 kubelet-insecure-tls 參數</span><br><span class="line">#spec:</span><br><span class="line">#  containers:</span><br><span class="line">#  - args:</span><br><span class="line">#	- --cert-dir&#x3D;&#x2F;tmp</span><br><span class="line">#	- --secure-port&#x3D;443</span><br><span class="line">#	- --kubelet-preferred-address-types&#x3D;InternalIP,ExternalIP,Hostname</span><br><span class="line">#	- --kubelet-use-node-status-port</span><br><span class="line">#	- --metric-resolution&#x3D;15s</span><br><span class="line">#	- --kubelet-insecure-tls</span><br><span class="line">#	image: k8s.gcr.io&#x2F;metrics-server&#x2F;metrics-server:v0.5.0</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#驗證是否成功</span><br><span class="line">k get po,deployment -n kube-system</span><br></pre></td></tr></table></figure>
+
+<p>安裝好以後可以調整 <code>Deployment</code> 的 <code>resources</code> 區塊來限定資源使用 , 注意使用 <code>HorizontalPodAutoscaler</code> 前需要先定義 <code>Deployment</code><br>詳細說明可以看這個<a href="https://kubernetes.io/zh/docs/tasks/run-application/horizontal-pod-autoscale/" target="_blank" rel="noopener">官網文件</a></p>
+<p>asp-net-core-helloworld-k8s.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: asp-net-core-helloworld-k8s</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: asp-net-core-helloworld-k8s</span><br><span class="line">        image: 10.1.25.123&#x2F;test&#x2F;helloworldk8s:latest</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 80</span><br><span class="line">        - containerPort: 443</span><br><span class="line">        env:</span><br><span class="line">        - name: ASPNETCORE_URLS</span><br><span class="line">          value: http:&#x2F;&#x2F;+:80;https:&#x2F;&#x2F;+:443</span><br><span class="line">        - name: ASPNETCORE_ENVIRONMENT</span><br><span class="line">          value: Development</span><br><span class="line">        resources:</span><br><span class="line">          limits:</span><br><span class="line">            cpu: 500m</span><br><span class="line">          requests:</span><br><span class="line">            cpu: 200m</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br></pre></td></tr></table></figure>
+
+<p>asp-net-core-helloworld-k8s-hpa.yaml<br>限制 50% cpu 使用率</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: autoscaling&#x2F;v1</span><br><span class="line">kind: HorizontalPodAutoscaler</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  scaleTargetRef:</span><br><span class="line">    apiVersion: apps&#x2F;v1</span><br><span class="line">    kind: Deployment</span><br><span class="line">    name: asp-net-core-helloworld-k8s</span><br><span class="line">  minReplicas: 1</span><br><span class="line">  maxReplicas: 10</span><br><span class="line">  targetCPUUtilizationPercentage: 50</span><br></pre></td></tr></table></figure>
+
+<p>最後是佈署 HPA</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">k apply -f asp-net-core-helloworld-k8s.yaml</span><br><span class="line">k apply -f asp-net-core-helloworld-k8s-hpa.yaml</span><br></pre></td></tr></table></figure>
+
+<p>安裝 apache ab , 因為預設會有限制 , 這邊把限制解開 , 接著模擬多人 request 我們的 api</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#萬一是被拔光的 ubuntu 才安裝以下命令</span><br><span class="line">#apt upgrade</span><br><span class="line">#apt update</span><br><span class="line">#apt list --upgradable</span><br><span class="line">#apt-get install iputils-ping</span><br><span class="line">#apt-get install -y net-tools</span><br><span class="line"></span><br><span class="line">#普通 ubuntu 應該直接可以安裝 ab</span><br><span class="line">sudo apt-get install apache2-utils</span><br><span class="line">ulimit -a</span><br><span class="line">ulimit -n 204800</span><br><span class="line"></span><br><span class="line">#查目前 ClusterIP</span><br><span class="line">k get svc</span><br><span class="line">#NAME                          TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE</span><br><span class="line">#asp-net-core-helloworld-k8s   NodePort       10.96.165.130    &lt;none&gt;        80:31956&#x2F;TCP,443:32418&#x2F;TCP   7d2h</span><br><span class="line"></span><br><span class="line">#測試模擬多人同時 request  , 注意這邊不管是打 cluster-id 或是用對外的 port 都可以達到同樣效果</span><br><span class="line">ab -r -c 2000 -n 204800 http:&#x2F;&#x2F;10.96.165.130&#x2F;api&#x2F;helloworld</span><br><span class="line"></span><br><span class="line">#懶得安裝 ab 的話直接用 curl + while 也可以測</span><br><span class="line">while true; do curl http:&#x2F;&#x2F;10.96.165.130&#x2F;api&#x2F;helloworld; done</span><br></pre></td></tr></table></figure>
+
+
+<p>查看 HPA 是否有生效 , 注意這邊 TARGETS 超過了總使用量 50% , REPLICAS 也擴充到 10 個 , 至此就完成了整個自動擴容<br>最後等到 ab 把 request 打完以後 , 會自動縮容預設時間是 5 分鐘 , 要調整的話參數為 <code>--horizontal-pod-autoscaler-downscale-stabilization</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">#查 hpa</span><br><span class="line">k get hpa</span><br><span class="line">#NAME                          REFERENCE                                TARGETS    MINPODS   MAXPODS   REPLICAS   AGE</span><br><span class="line">#asp-net-core-helloworld-k8s   Deployment&#x2F;asp-net-core-helloworld-k8s   146%&#x2F;50%   1         10        10         78m</span><br><span class="line"></span><br><span class="line">#查 pod</span><br><span class="line">k get po</span><br><span class="line"></span><br><span class="line">#也可以用 sql plugin 的方式撈</span><br><span class="line">#k sql get po where &quot;name like &#39;%asp%&#39;&quot;</span><br><span class="line"></span><br><span class="line">#NAME                                           READY   STATUS             RESTARTS   AGE</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-4x452   1&#x2F;1     Running            0          92s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-8kxw6   1&#x2F;1     Running            0          107s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-gtcn9   1&#x2F;1     Running            0          62s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-js4sj   1&#x2F;1     Running            0          79m</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-lw4b2   1&#x2F;1     Running            0          62s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-m4stc   1&#x2F;1     Running            0          62s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-mpblz   1&#x2F;1     Running            0          107s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-rlnhs   1&#x2F;1     Running            0          107s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-v6m2x   1&#x2F;1     Running            0          62s</span><br><span class="line">#asp-net-core-helloworld-k8s-5766cd7cc5-zcptc   1&#x2F;1     Running            0          62s</span><br></pre></td></tr></table></figure>
+
+<h4 id="設定-dns"><a href="#設定-dns" class="headerlink" title="設定 dns"></a>設定 dns</h4><p>網路部分除了設定 hosts 之外還有 dnsPolicy 可以設定 , 分別為 <code>Default</code> , <code>ClusterFirst</code> , <code>ClusterFirstWithHostNet</code> , <code>None</code><br>因為在內網裡有自己的 dns server 以我環境使用 ubuntu 為例 , 查詢看看目前用啥 dns ip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#應以 netplan 內的為準</span><br><span class="line">cat &#x2F;etc&#x2F;netplan&#x2F;00-network-manager-all.yaml</span><br><span class="line">cat &#x2F;run&#x2F;systemd&#x2F;resolve&#x2F;resolv.conf</span><br><span class="line">cat &#x2F;etc&#x2F;resolv.conf</span><br></pre></td></tr></table></figure>
+
+<p>接著設定正確的 dns</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: asp-net-core-helloworld-k8s</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: asp-net-core-helloworld-k8s</span><br><span class="line">        image: 10.1.25.123&#x2F;test&#x2F;asp-net-core-helloworld-k8s:latest</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 80</span><br><span class="line">      dnsPolicy: ClusterFirstWithHostNet</span><br><span class="line">      dnsConfig:</span><br><span class="line">        nameservers:</span><br><span class="line">          - 10.1.25.7</span><br><span class="line">        searches:</span><br><span class="line">          - xxx.com.tw</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br></pre></td></tr></table></figure>
+
+<p>最後跳進去看看 , 可以看到 k8s 多把 dns 補進去了 , 原本只有 10.96.0.10 這個 nameserver , 跟這串 search default.svc.cluster.local svc.cluster.local cluster.local<br>現在多補進了之前我們在 deployment 內設定的區塊 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">k exec -it asp-net-core-helloworld-k8s-7cfc8db5f6-bk2j8 -- sh</span><br><span class="line">cat &#x2F;etc&#x2F;resolv.conf</span><br><span class="line"></span><br><span class="line">#nameserver 10.96.0.10</span><br><span class="line">#nameserver 10.1.25.7</span><br><span class="line">#search default.svc.cluster.local svc.cluster.local cluster.local xxx.com.tw</span><br><span class="line">#options ndots:5</span><br></pre></td></tr></table></figure>
+<p>最後可以參考<a href="https://gist.github.com/superseb/f6894ddbf23af8e804ed3fe44dd48457" target="_blank" rel="noopener">這篇佛心老外</a>有其他解法</p>
+<h4 id="hosts-設定"><a href="#hosts-設定" class="headerlink" title="hosts 設定"></a>hosts 設定</h4><p>除了 dns 以外可能會想要在自己的 container 內使用 hosts , k8s 有 hostalias 這個東東可以使用<br>先查自己有啥 hosts 需要補<br>linux <code>/etc/hosts</code><br>windows <code>C:\Windows\System32\drivers\etc\hosts</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: asp-net-core-helloworld-k8s</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: asp-net-core-helloworld-k8s</span><br><span class="line">        image: 10.1.25.123&#x2F;test&#x2F;asp-net-core-helloworld:latest</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 8080</span><br><span class="line">      hostAliases:</span><br><span class="line">      - ip: &quot;10.1.17.46&quot;</span><br><span class="line">        hostnames:</span><br><span class="line">        - &quot;ggyy.com.tw&quot;</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br></pre></td></tr></table></figure>
+
+<h4 id="liveness-探針"><a href="#liveness-探針" class="headerlink" title="liveness 探針"></a>liveness 探針</h4><p>接著來設定 liveness 探針 , 修改 Deployment , 固定每 10 秒戳一次看看有沒有活 , 啟動時給他個緩衝時間 5 秒 , 若回應不是 200 liveness 會重新啟動 Pod</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: asp-net-core-helloworld-k8s</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: asp-net-core-helloworld-k8s</span><br><span class="line">        image: 10.1.25.123&#x2F;test&#x2F;asp-net-core-helloworld-k8s:latest</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        livenessProbe:</span><br><span class="line">          httpGet:</span><br><span class="line">            path: &#39;&#x2F;health&#39;</span><br><span class="line">            port: 5000</span><br><span class="line">            scheme: HTTP</span><br><span class="line">          initialDelaySeconds: 5</span><br><span class="line">          periodSeconds: 10</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 5000</span><br><span class="line">        resources:</span><br><span class="line">          limits:</span><br><span class="line">            cpu: 500m</span><br><span class="line">          requests:</span><br><span class="line">            cpu: 200m</span><br><span class="line">      hostAliases:</span><br><span class="line">      - ip: &quot;10.1.3.5&quot;</span><br><span class="line">        hostnames:</span><br><span class="line">        - &quot;xxooxx&quot;</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br></pre></td></tr></table></figure>
+
+<p>先在程式碼裡面有插上這段 , 測試可以用 <code>curl 10.244.1.29:5000/health</code> 去戳他 , 現在每 10 秒 k8s 會自己去戳 , 正常狀況會給 <code>Healthy</code> 細部可以在自己依情境調整</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public void Configure(IApplicationBuilder app,</span><br><span class="line">	IWebHostEnvironment env)</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;... 略</span><br><span class="line">	app.UseEndpoints( endpoints &#x3D;&gt;</span><br><span class="line">	 &#123;</span><br><span class="line">		 endpoints.MapControllers();</span><br><span class="line">		 endpoints.MapHealthChecks( &quot;&#x2F;health&quot; );</span><br><span class="line">	 &#125; );</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>為了驗證是否有生效可以故意把路徑寫錯 , 改成 gg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">livenessProbe:</span><br><span class="line">  httpGet:</span><br><span class="line">	path: &#39;&#x2F;gg&#39;</span><br><span class="line">	port: 5000</span><br><span class="line">	scheme: HTTP</span><br><span class="line">  initialDelaySeconds: 5</span><br><span class="line">  periodSeconds: 10</span><br></pre></td></tr></table></figure>
+
+<p>接著 get po 看看會不會 restart</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">k get po -o wide</span><br><span class="line">NAME                                           READY   STATUS         RESTARTS   AGE     IP             NODE              NOMINATED NODE   READINESS GATES</span><br><span class="line">asp-net-core-helloworld-k8s-5d44fff86-4pbbw                    1&#x2F;1     Running        0          24s     10.244.1.221   node02   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">asp-net-core-helloworld-k8s-5d44fff86-kwd6w                    1&#x2F;1     Running        0          24s     10.244.1.222   node02   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">asp-net-core-helloworld-k8s-5d44fff86-lkr6b                    1&#x2F;1     Running        4          2m26s   10.244.1.220   node02   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<p>nlog 設定要注意的問題事項 , 先跳進去 pod 內看看 , 發現居然有 D: 這個資料夾<br>原來之前有設定 nlog 寫入 log 會放在 D:/Log/${shortdate}_Now.log , 在 k8s 設定時需要特別注意一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">k exec -it asp-net-core-helloworld-k8s-7c9b78d948-j7mq9 -- &#x2F;bin&#x2F;bash</span><br><span class="line">ls</span><br><span class="line">#BouncyCastle.Crypto.dll                         Microsoft.EntityFrameworkCore.dll                    NLog.MailKit.dll                                 System.IdentityModel.Tokens.Jwt.dll</span><br><span class="line">#D:                                              Microsoft.Extensions.DependencyInjection.dll         NLog.Web.AspNetCore.dll                          System.Runtime.Caching.dll</span><br><span class="line">#...略</span><br></pre></td></tr></table></figure>
+
+<h4 id="Cronjob-Lab"><a href="#Cronjob-Lab" class="headerlink" title="Cronjob Lab"></a>Cronjob Lab</h4><p>有時候我們可能希望定時做些任務接著回報給自己 , 可能用 line or mail , 這邊用 curl 去定時打一個 api 接著串 mail 來進行測試 cronjob , 這裡有好用的 <a href="https://crontab.guru/" target="_blank" rel="noopener">crontab</a>工具方便 debug<br>另外要注意自己的檔案是什麼權限 , 可以加上 <code>securityContext</code> 區塊來設定使用權限<br>查詢權限指令可以用這個指令 <code>cat /etc/passwd</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#x:使用者:群組</span><br><span class="line">root:x:0:0:root:&#x2F;root:&#x2F;bin&#x2F;bash</span><br><span class="line">bin:x:2:2:bin:&#x2F;bin:&#x2F;usr&#x2F;sbin&#x2F;nologin</span><br></pre></td></tr></table></figure>
+
+<p>所以想用 root 的話就要設定這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">securityContext:</span><br><span class="line">	runAsUser: 0</span><br><span class="line">	runAsGroup: 0</span><br></pre></td></tr></table></figure>
+
+<p>此外我們有用 <code>hostPath</code> 把資料夾 <code>/home/ladisai/curl_example</code> mount 上去 , 注意使用 hostPath 是指在 node 節點上的資料夾位置 , 實際用的話應該會 mount nfs , 這裡就偷懶<br>還有一點要特別小心 , 在 command 這個地方要執行多條的話需要在 args 內一直接下去 , 可以參考<a href="https://stackoverflow.com/questions/33887194/how-to-set-multiple-commands-in-one-yaml-file-with-kubernetes" target="_blank" rel="noopener">這篇</a></p>
+<p>cronjob.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: batch&#x2F;v1</span><br><span class="line">kind: CronJob</span><br><span class="line">metadata:</span><br><span class="line">  name: sendmail</span><br><span class="line">spec:</span><br><span class="line">  schedule: &quot;*&#x2F;1 * * * *&quot;</span><br><span class="line">  jobTemplate:</span><br><span class="line">    spec:</span><br><span class="line">      template:</span><br><span class="line">        spec:</span><br><span class="line">          containers:</span><br><span class="line">          - name: sendmail</span><br><span class="line">            image: curlimages&#x2F;curl</span><br><span class="line">            volumeMounts:</span><br><span class="line">            - mountPath: &#x2F;test</span><br><span class="line">              name: test-volume</span><br><span class="line">            command: [&quot;&#x2F;bin&#x2F;sh&quot;]</span><br><span class="line">            args: [</span><br><span class="line">              &quot;-c&quot; ,</span><br><span class="line">              &quot;timestamp&#x3D;$(date +%s);</span><br><span class="line">              cp &#x2F;test&#x2F;mail_template.txt &#x2F;test&#x2F;mail_template_$timestamp.txt;</span><br><span class="line">              curl http:&#x2F;&#x2F;10.1.25.123:30612&#x2F;api&#x2F;helloworld &gt;&gt; &#x2F;test&#x2F;mail_template_$timestamp.txt;</span><br><span class="line">              echo $timestamp &gt;&gt; &#x2F;test&#x2F;mail_template_$timestamp.txt;</span><br><span class="line">              curl smtp:&#x2F;&#x2F;email.xxx.com.tw:25 \ --user &#39;yourname@xxx.com:yourpassword&#39; \ --mail-from &#39;yourname@xxx.com&#39; \ --mail-rcpt &#39;yourname@xxx.com&#39; \ --upload-file &#x2F;test&#x2F;mail_template_$timestamp.txt&quot;</span><br><span class="line">			]</span><br><span class="line">            #args: [&quot;-c&quot; , &quot;cd &#x2F;test;pwd &gt;&gt; pwd.txt; cat &#x2F;test&#x2F;send_mail_command.sh &gt;&gt; qq.txt&quot;]</span><br><span class="line">            #args: [&quot;-c&quot; , &quot;curl -L www.google.com &gt;&gt; &#x2F;test&#x2F;google.txt&quot;]</span><br><span class="line">          securityContext:</span><br><span class="line">            runAsUser: 0</span><br><span class="line">            runAsGroup: 0</span><br><span class="line">          dnsPolicy: ClusterFirstWithHostNet</span><br><span class="line">          dnsConfig:</span><br><span class="line">            nameservers:</span><br><span class="line">              - 10.1.30.5</span><br><span class="line">          volumes:</span><br><span class="line">          - name: test-volume</span><br><span class="line">            hostPath:</span><br><span class="line">              path: &#x2F;home&#x2F;yourname&#x2F;curl_example</span><br><span class="line">          restartPolicy: Never</span><br></pre></td></tr></table></figure>
+
+<p>mail_template.txt</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">From: &quot;yourname&quot; &lt;yourname@xxx.com&gt;</span><br><span class="line">To: &quot;yourname&quot; &lt;yourname@xxx.com&gt;</span><br><span class="line">Subject: This is a test</span><br><span class="line"></span><br><span class="line"> _____</span><br><span class="line">&lt; Log &gt;</span><br><span class="line"> -----</span><br><span class="line">        \   ^__^</span><br><span class="line">         \  (oo)\_______</span><br><span class="line">            (__)\       )\&#x2F;\</span><br><span class="line">                ||----w |</span><br><span class="line">                ||     ||</span><br></pre></td></tr></table></figure>
+
+<p>最後看看執行結果 , 如果是 completed 才 ok</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">k get cronjob</span><br><span class="line">k get po</span><br></pre></td></tr></table></figure>
+
+<p>遇到 dns 問題或是權限問題 , 可以先建立一個 Pod 用這樣的方法測試看看 , 逐步偵錯 , 看是權限不足或是 dns 設定有問題</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Pod</span><br><span class="line">metadata:</span><br><span class="line">  name: google-curl</span><br><span class="line">spec:</span><br><span class="line">  containers:</span><br><span class="line">  - name: google-curl</span><br><span class="line">    image: curlimages&#x2F;curl</span><br><span class="line">    command: [&quot;&#x2F;bin&#x2F;sh&quot;]</span><br><span class="line">    args: [&quot;-c&quot; , &quot;echo nameserver 10.1.2.87 &gt;&gt; &#x2F;etc&#x2F;resolv.conf; curl -L www.google.com&quot;]</span><br><span class="line">    securityContext:</span><br><span class="line">      runAsUser: 0</span><br><span class="line">      runAsGroup: 0</span><br><span class="line"></span><br><span class="line">#k apply -f google-curl.yaml</span><br><span class="line">#k logs google-curl</span><br></pre></td></tr></table></figure>
+
+<h4 id="nfs-server"><a href="#nfs-server" class="headerlink" title="nfs server"></a>nfs server</h4><p><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-ubuntu-20-04" target="_blank" rel="noopener">參考老外</a><br>跟這個<a href="https://magiclen.org/ubuntu-server-nfs/" target="_blank" rel="noopener">大神</a><br>這邊直接裝在 master node 上</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">#nfs server</span><br><span class="line">sudo apt-get install nfs-kernel-server</span><br><span class="line"></span><br><span class="line">#nfs client</span><br><span class="line">sudo apt-get install nfs-common</span><br><span class="line"></span><br><span class="line">sudo mkdir &#x2F;var&#x2F;nfs&#x2F;general -p</span><br><span class="line">sudo chown nobody:nogroup &#x2F;var&#x2F;nfs&#x2F;general</span><br><span class="line">ls -la &#x2F;var&#x2F;nfs&#x2F;general</span><br><span class="line">sudo chmod -R 777 &#x2F;var&#x2F;nfs&#x2F;general</span><br><span class="line"></span><br><span class="line">#設定可以連線的 client</span><br><span class="line">sudo vim &#x2F;etc&#x2F;exports</span><br><span class="line">&#x2F;var&#x2F;nfs&#x2F;general 10.1.25.124(rw,sync,no_subtree_check)</span><br><span class="line"></span><br><span class="line">#restart nfs</span><br><span class="line">sudo systemctl restart nfs-kernel-server</span><br></pre></td></tr></table></figure>
+
+<p>跳到其他 node 執行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nfs-common</span><br><span class="line">sudo mkdir -p &#x2F;nfs&#x2F;general</span><br><span class="line"></span><br><span class="line">#注意非常重要 , 這邊要 mount master 那台 nfs server 不要寫錯了</span><br><span class="line">sudo mount 10.1.25.123:&#x2F;var&#x2F;nfs&#x2F;general &#x2F;nfs&#x2F;general</span><br><span class="line">cd &#x2F;nfs&#x2F;general</span><br><span class="line"></span><br><span class="line">#測試看看是否可以正常建立檔案 , ok 的話 master &amp; node 都可以看到</span><br><span class="line">echo &quot;qq&quot; &gt; qq</span><br><span class="line">cat qq</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="安裝-Nginx-Ingress-Controller"><a href="#安裝-Nginx-Ingress-Controller" class="headerlink" title="安裝 Nginx Ingress Controller"></a>安裝 Nginx Ingress Controller</h4><p>預設情況下 k8s 不會幫你安裝 ingress controller , 需一自己安裝<br><a href="https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/" target="_blank" rel="noopener">官網有多種選擇</a><br>因為有選擇障礙這邊用 nginx ingress controller 參考<a href="https://kubernetes.github.io/ingress-nginx/deploy/#docker-desktop" target="_blank" rel="noopener">官網</a><br>此外由於預設為 <code>LoadBalancer</code> , 內部環境最好改為 <code>NodePort</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;kubernetes&#x2F;ingress-nginx&#x2F;controller-v0.47.0&#x2F;deploy&#x2F;static&#x2F;provider&#x2F;cloud&#x2F;deploy.yaml</span><br><span class="line"></span><br><span class="line">vim deploy.yaml</span><br><span class="line">#搜尋 LoadBalancer</span><br><span class="line">#&#x2F;LoadBalancer</span><br><span class="line"></span><br><span class="line">#修改為 NodePort</span><br><span class="line">#spec:</span><br><span class="line">#  type: NodePort</span><br><span class="line">#  externalTrafficPolicy: Local</span><br><span class="line"></span><br><span class="line">k apply -f deploy.yaml</span><br></pre></td></tr></table></figure>
+
+<p>安裝會多加上一個 namespace</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">k get ns</span><br><span class="line">#NAME              STATUS   AGE</span><br><span class="line">#default           Active   35d</span><br><span class="line">#development       Active   14d</span><br><span class="line">#foo               Active   22d</span><br><span class="line">#ingress-nginx     Active   7m43s</span><br></pre></td></tr></table></figure>
+
+<p>所以要撈的話記得多加參數 <code>-n ingress-nginx</code> , 或是直接用 <code>-A</code> 撈全部</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k get svc -n ingress-nginx</span><br><span class="line">k get po -n ingress-nginx</span><br><span class="line">k get svc -A</span><br><span class="line">k get po -A</span><br></pre></td></tr></table></figure>
+
+<p>安裝好 nginx ingress controller 後會多加上一個 <code>NodePort</code> 來服務對外 , 剛好分配到好難聽的 port 名稱</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">k get svc -n ingress-nginx</span><br><span class="line">#NAME                                 TYPE           CLUSTER-IP       EXTERNAL-IP   PORT(S)                      AGE</span><br><span class="line">#ingress-nginx-controller             LoadBalancer   10.106.114.179   &lt;pending&gt;     80:30678&#x2F;TCP,443:31326&#x2F;TCP   13m</span><br><span class="line">#ingress-nginx-controller-admission   ClusterIP      10.104.100.19    &lt;none&gt;        443&#x2F;TCP                      13m</span><br></pre></td></tr></table></figure>
+
+<p>補充 , 如果不想要對外多加上 <code>port 30678</code> 這麼醜的話可以考慮把 <code>hostPort</code> 設定起來這樣就可以直接打 80 , 443</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">vim deploy.yaml</span><br><span class="line">#&#x2F;Deployment</span><br><span class="line"></span><br><span class="line">#搜尋 Deployment 找到以下片段</span><br><span class="line">#</span><br><span class="line">#ports:</span><br><span class="line">#  - name: http</span><br><span class="line">#    containerPort: 80</span><br><span class="line">#    hostPort: 80</span><br><span class="line">#    protocol: TCP</span><br><span class="line">#  - name: https</span><br><span class="line">#    containerPort: 443</span><br><span class="line">#    hostPort: 443</span><br></pre></td></tr></table></figure>
+
+<p>接著看 nginx-controller 被分配到哪個 node</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">k get po -o wide -n ingress-nginx</span><br><span class="line">#</span><br><span class="line">NAME                                        READY   STATUS      RESTARTS   AGE   IP             NODE              NOMINATED NODE   READINESS GATES</span><br><span class="line">ingress-nginx-admission-create-sx9f4        0&#x2F;1     Completed   0          16m   10.244.1.172   node02   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">ingress-nginx-admission-patch-jxfx4         0&#x2F;1     Completed   1          16m   10.244.1.171   node02   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">ingress-nginx-controller-5b74xc9xx8-dg6k5   1&#x2F;1     Running     0          16m   10.244.1.173   node02   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<p>假設我 node02 的 vm ip 是 <code>10.1.25.124</code> , 所以等等就要打 <code>curl 10.1.25.124:30678/網址</code> , 試打看看會跳 nginx 頁面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">curl 10.1.25.124:30678</span><br><span class="line">#&lt;html&gt;</span><br><span class="line">#&lt;head&gt;&lt;title&gt;404 Not Found&lt;&#x2F;title&gt;&lt;&#x2F;head&gt;</span><br><span class="line">#&lt;body&gt;</span><br><span class="line">#&lt;center&gt;&lt;h1&gt;404 Not Found&lt;&#x2F;h1&gt;&lt;&#x2F;center&gt;</span><br><span class="line">#&lt;hr&gt;&lt;center&gt;nginx&lt;&#x2F;center&gt;</span><br><span class="line">#&lt;&#x2F;body&gt;</span><br><span class="line">#&lt;&#x2F;html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接著把之前的 nodeport 修改一下讓他固定在 port 30345<br>asp-net-core-helloworld-k8s-service.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: Service</span><br><span class="line">metadata:</span><br><span class="line">    name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">    type: NodePort</span><br><span class="line">    ports:</span><br><span class="line">    - port: 80 #service 的 port</span><br><span class="line">      targetPort: 80 # .net core app 的 port</span><br><span class="line">      nodePort: 30345 #外部的 port</span><br><span class="line">    selector:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br></pre></td></tr></table></figure>
+
+<p>先用 curl 測看看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl 10.96.165.130&#x2F;api&#x2F;helloworld</span><br><span class="line">#Host Name of machine &#x3D;asp-net-core-helloworld-k8s-5766cd7cc5-js4sj</span><br><span class="line">#IPv4 of Machine is</span><br><span class="line">#10.244.1.119</span><br><span class="line">#IPv6 of Machine is</span><br></pre></td></tr></table></figure>
+
+<p>確定都 ok 以後 , 可以加入 ingress 的資源 (舊版 extensions/v1beta1) , 特別注意這種定義方式需要 path 完全 match 否則會找不到<br>asp-net-core-helloworld-k8s-ingress.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: extensions&#x2F;v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  rules:</span><br><span class="line">  - host: asp-net-core-helloworld-k8s.com</span><br><span class="line">    http:</span><br><span class="line">      paths:</span><br><span class="line">      - path: &#x2F;api&#x2F;helloworld #注意這邊要跟 app 內的路徑完全一樣</span><br><span class="line">        backend:</span><br><span class="line">          serviceName: asp-net-core-helloworld-k8s</span><br><span class="line">          servicePort: 80</span><br></pre></td></tr></table></figure>
+
+<p>修改 /etc/hosts , 若是想在 windows 上看的話位置在 <code>C:\Windows\System32\drivers\etc\hosts</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim &#x2F;etc&#x2F;hosts</span><br><span class="line">#10.1.25.124 asp-net-core-helloworld-k8s.com</span><br><span class="line"></span><br><span class="line">#下面 example 會用到</span><br><span class="line">#10.1.25.124 helloworld-k8s.com</span><br><span class="line">#10.1.25.124 helloworld-contour-k8s.com</span><br></pre></td></tr></table></figure>
+
+<p>最後用 curl 測試一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl asp-net-core-helloworld-k8s.com:30678&#x2F;api&#x2F;helloworld</span><br></pre></td></tr></table></figure>
+
+<p>最後用新版的 api 測試看看 (新版 networking.k8s.io/v1) , 這樣定義的話即可讓全部的路徑 mapping 到你的 url<br>詳細可以參考<a href="https://kubernetes.io/docs/concepts/services-networking/ingress/" target="_blank" rel="noopener">官網</a><br>asp-net-core-helloworld-k8s-ingress-new.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: networking.k8s.io&#x2F;v1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s-new</span><br><span class="line">  annotations:</span><br><span class="line">    kubernetes.io&#x2F;ingress.class: &quot;nginx&quot;</span><br><span class="line">    nginx.ingress.kubernetes.io&#x2F;rewrite-target: &#x2F;</span><br><span class="line">spec:</span><br><span class="line">  rules:</span><br><span class="line">  - host: helloworld-k8s.com</span><br><span class="line">    http:</span><br><span class="line">      paths:</span><br><span class="line">      - path: &#x2F;</span><br><span class="line">        pathType: Prefix</span><br><span class="line">        backend:</span><br><span class="line">          service:</span><br><span class="line">            name: asp-net-core-helloworld-k8s</span><br><span class="line">            port:</span><br><span class="line">              number: 80</span><br></pre></td></tr></table></figure>
+
+<p>可以用這兩個頁面測試<br><a href="http://helloworld-k8s.com:30678/swagger/index.html" target="_blank" rel="noopener">http://helloworld-k8s.com:30678/swagger/index.html</a><br><a href="http://helloworld-k8s.com:30678/api/helloworld" target="_blank" rel="noopener">http://helloworld-k8s.com:30678/api/helloworld</a></p>
+<p>最後補充 nginx ingress controller 會在 <code>/etc/nginx/nginx.conf</code> 補上與剛剛設定的 helloworld-k8s.com , 可以跳進去看</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">k exec -it ingress-nginx-controller-5b74bxx868-lg47d -n ingress-nginx -- bash</span><br><span class="line">#cat &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br><span class="line">#vi &#x2F;etc&#x2F;nginx&#x2F;nginx.conf</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="Helm-安裝-參考官網"><a href="#Helm-安裝-參考官網" class="headerlink" title="Helm 安裝 , 參考官網"></a>Helm 安裝 , 參考<a href="https://helm.sh/docs/intro/install/" target="_blank" rel="noopener">官網</a></h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl https:&#x2F;&#x2F;baltocdn.com&#x2F;helm&#x2F;signing.asc | sudo apt-key add -</span><br><span class="line">sudo apt-get install apt-transport-https --yes</span><br><span class="line">echo &quot;deb https:&#x2F;&#x2F;baltocdn.com&#x2F;helm&#x2F;stable&#x2F;debian&#x2F; all main&quot; | sudo tee &#x2F;etc&#x2F;apt&#x2F;sources.list.d&#x2F;helm-stable-debian.list</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install helm</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他操作上的小技巧"><a href="#其他操作上的小技巧" class="headerlink" title="其他操作上的小技巧"></a>其他操作上的小技巧</h3><p>這裡定義 <code>${VERSION}</code> 當作變數 , 並且定義 template.yaml , 可以接上 <code>envsubst</code> 快速替換內容來進行更版<br>另外注意到 <code>--record</code> 參數 , 可以更詳細記錄當時的指令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VERSION&#x3D;&#39;v1.0&#39; envsubst &lt; template.yaml | k apply --record -f -</span><br></pre></td></tr></table></figure>
+
+<p>template.yaml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: apps&#x2F;v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: asp-net-core-helloworld-k8s</span><br><span class="line">spec:</span><br><span class="line">  replicas: 4</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: asp-net-core-helloworld-k8s</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: asp-net-core-helloworld-k8s</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - name: asp-net-core-helloworld-k8s</span><br><span class="line">        image: 10.1.25.123&#x2F;test&#x2F;helloworldk8s:$&#123;VERSION&#125;</span><br><span class="line">        imagePullPolicy: Always</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 80</span><br><span class="line">        - containerPort: 443</span><br><span class="line">        env:</span><br><span class="line">        - name: ASPNETCORE_URLS</span><br><span class="line">          value: http:&#x2F;&#x2F;+:80;https:&#x2F;&#x2F;+:443</span><br><span class="line">        - name: ASPNETCORE_ENVIRONMENT</span><br><span class="line">          value: Development</span><br><span class="line">      imagePullSecrets:</span><br><span class="line">      - name: regcred</span><br></pre></td></tr></table></figure>
+
+<p>apply 以後可以用以下指令去查目前更新狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k rollout status deployment asp-net-core-helloworld-k8s</span><br></pre></td></tr></table></figure>
+
+<p>列印出修改歷史</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">k rollout history deployment asp-net-core-helloworld-k8s</span><br></pre></td></tr></table></figure>
+
+<p>滾回之前的版本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#滾回上個版本</span><br><span class="line">k rollout undo deployment asp-net-core-helloworld-k8s</span><br><span class="line"></span><br><span class="line">#滾回特定的版本</span><br><span class="line">k rollout undo deployment asp-net-core-helloworld-k8s --to-revision 5</span><br></pre></td></tr></table></figure>
+
+<p>金絲雀佈署因為只多加一個新版的 pod , 所以可以用暫停命令來串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">VERSION&#x3D;&#39;v1.1&#39; envsubst &lt; template.yaml | k apply --record -f - &amp;&amp; \</span><br><span class="line">k rollout pause deployment asp-net-core-helloworld-k8s</span><br></pre></td></tr></table></figure>
+
+
+<p>Here Document 這個技巧可以直接在 command 內快速加上想補的內容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#39;cat &lt;&lt;EOF &gt; &#x2F;etc&#x2F;resolv.conf</span><br><span class="line">nameserver 8.8.8.8</span><br><span class="line">EOF&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他補充"><a href="#其他補充" class="headerlink" title="其他補充"></a>其他補充</h3><p>編輯東西前務必知道的<a href="https://kubernetes.io/docs/reference/kubernetes-api/workload-resources/pod-v1/" target="_blank" rel="noopener">官網說明</a></p>
+<p>跳進去看看環境變數</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">exec -it asp-net-core-helloworld-k8s-5766cd7cc5-js4sj -- &#x2F;bin&#x2F;bash</span><br><span class="line">env | grep ASPNETCORE_URLS</span><br></pre></td></tr></table></figure>
+
+<p>開啟 chrome 測試這邊要改成用 curl 測試 , 因為 chrome 會用 keep-alive 連線 , 而 curl 每次都會開一個新的連線</p>
+<p>如果想讓每個相同 client ip 都轉到同個 pod 上的話可以開啟這個選項</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">kind: Service</span><br><span class="line">spec:</span><br><span class="line">	sessionAffinity: ClientIP</span><br></pre></td></tr></table></figure>
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/k8s/" rel="tag"># k8s</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/06/16/jquery-%E5%B8%B8%E8%A6%8B%E7%9A%84%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/" rel="prev" title="jquery 常見的低能問題">
+      <i class="fa fa-chevron-left"></i> jquery 常見的低能問題
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/06/29/k8s-%E5%AE%89%E8%A3%9D%E7%AD%86%E8%A8%98/" rel="next" title="k8s 安裝筆記">
+      k8s 安裝筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Harbor-安裝"><span class="nav-number">1.</span> <span class="nav-text">Harbor 安裝</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合"><span class="nav-number">2.</span> <span class="nav-text">k8s 整合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k8s-整合-net-core"><span class="nav-number">3.</span> <span class="nav-text">k8s 整合 .net core</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pod-起手式"><span class="nav-number">3.1.</span> <span class="nav-text">Pod 起手式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Deployment-Lab"><span class="nav-number">3.2.</span> <span class="nav-text">Deployment Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HPA-Lab"><span class="nav-number">3.3.</span> <span class="nav-text">HPA Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#設定-dns"><span class="nav-number">3.4.</span> <span class="nav-text">設定 dns</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hosts-設定"><span class="nav-number">3.5.</span> <span class="nav-text">hosts 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#liveness-探針"><span class="nav-number">3.6.</span> <span class="nav-text">liveness 探針</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cronjob-Lab"><span class="nav-number">3.7.</span> <span class="nav-text">Cronjob Lab</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nfs-server"><span class="nav-number">3.8.</span> <span class="nav-text">nfs server</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#安裝-Nginx-Ingress-Controller"><span class="nav-number">3.9.</span> <span class="nav-text">安裝 Nginx Ingress Controller</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Helm-安裝-參考官網"><span class="nav-number">4.</span> <span class="nav-text">Helm 安裝 , 參考官網</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他操作上的小技巧"><span class="nav-number">5.</span> <span class="nav-text">其他操作上的小技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他補充"><span class="nav-number">6.</span> <span class="nav-text">其他補充</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/06/29/Harbor-%E5%BB%BA%E7%AB%8B%E7%A7%81%E6%9C%89-docker-registry/";
+    this.page.identifier = "2021/06/29/Harbor-建立私有-docker-registry/";
+    this.page.title = "Harbor 建立私有 docker registry";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

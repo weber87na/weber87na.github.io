@@ -1,0 +1,1093 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="See the Pen    LaSai Image Processing by 喇賽人 (@weber87na)   on CodePen.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c# 影像處理筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2024/11/01/c-%E5%BD%B1%E5%83%8F%E8%99%95%E7%90%86%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="See the Pen    LaSai Image Processing by 喇賽人 (@weber87na)   on CodePen.">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-11-01T04:10:34.000Z">
+<meta property="article:modified_time" content="2025-03-07T20:17:32.309Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="c#">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2024/11/01/c-%E5%BD%B1%E5%83%8F%E8%99%95%E7%90%86%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>c# 影像處理筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2024/11/01/c-%E5%BD%B1%E5%83%8F%E8%99%95%E7%90%86%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          c# 影像處理筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2024-11-01 12:10:34" itemprop="dateCreated datePublished" datetime="2024-11-01T12:10:34+08:00">2024-11-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-03-08 04:17:32" itemprop="dateModified" datetime="2025-03-08T04:17:32+08:00">2025-03-08</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2024/11/01/c-%E5%BD%B1%E5%83%8F%E8%99%95%E7%90%86%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/11/01/c-影像處理筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>41k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>38 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p class="codepen" data-height="600" data-default-tab="result" data-slug-hash="OJKqXXL" data-pen-title="LaSai Image Processing" data-user="weber87na" style="height: 600px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/weber87na/pen/OJKqXXL" target="_blank" rel="noopener">
+  LaSai Image Processing</a> by 喇賽人 (<a href="https://codepen.io/weber87na" target="_blank" rel="noopener">@weber87na</a>)
+  on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+
+<a id="more"></a>
+
+<p>最近練習 c 語言, 剛好拿個影像處理的 code 轉為 c# 玩看看, 順手筆記下</p>
+<h2 id="灰階"><a href="#灰階" class="headerlink" title="灰階"></a>灰階</h2><p>他原始 c 的 code 如下</p>
+<p>這裡要注意 <code>bitDepth</code> 若為 24 則表示有 RGB 三色, 大小則為 <code>height * width * 3</code><br><code>bitDepth</code> 小於等於 8 則吃 <code>colorTable</code> 開闢的大小為 <code>height * width</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    FILE *fIn &#x3D; fopen(&quot;images&#x2F;lena_color.bmp&quot;, &quot;rb&quot;);</span><br><span class="line">    FILE *fOut &#x3D; fopen(&quot;images&#x2F;lena_gray.bmp&quot;, &quot;wb&quot;);</span><br><span class="line"></span><br><span class="line">    unsigned char imgHeader[54];</span><br><span class="line">    unsigned char colorTable[1024];</span><br><span class="line"></span><br><span class="line">    if (fIn &#x3D;&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;Unable to open image\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (int i &#x3D; 0; i &lt; 54; i++)</span><br><span class="line">        imgHeader[i] &#x3D; getc(fIn);</span><br><span class="line"></span><br><span class="line">    fwrite(imgHeader, sizeof(unsigned char), 54, fOut);</span><br><span class="line"></span><br><span class="line">    int height &#x3D; *(int *)&amp;imgHeader[22];</span><br><span class="line">    int width &#x3D; *(int *)&amp;imgHeader[18];</span><br><span class="line">    int bitDepth &#x3D; *(int *)&amp;imgHeader[28];</span><br><span class="line"></span><br><span class="line">    if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">    &#123;</span><br><span class="line">        fread(colorTable, sizeof(unsigned char), 1024, fIn);</span><br><span class="line">        fwrite(colorTable, sizeof(unsigned char), 1024, fOut);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int imgSize &#x3D; height * width;</span><br><span class="line">    unsigned char buffer[imgSize][3];</span><br><span class="line"></span><br><span class="line">    for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        buffer[i][0] &#x3D; getc(fIn);</span><br><span class="line">        buffer[i][1] &#x3D; getc(fIn);</span><br><span class="line">        buffer[i][2] &#x3D; getc(fIn);</span><br><span class="line"></span><br><span class="line">        int temp &#x3D; 0;</span><br><span class="line">        temp &#x3D; (buffer[i][0] * 0.3) + (buffer[i][1] * 0.59) + (buffer[i][2] * 0.11);</span><br><span class="line"></span><br><span class="line">        putc(temp, fOut);</span><br><span class="line">        putc(temp, fOut);</span><br><span class="line">        putc(temp, fOut);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    printf(&quot;Success!\n&quot;);</span><br><span class="line">    fclose(fIn);</span><br><span class="line">    fclose(fOut);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>轉為 c# 如下, 有 chatgpt 真速度 XD</p>
+<p>自己覺得比較難的點應該是這句 <code>int width = *(int *)&amp;imgHeader[18];</code> 他會撈 <code>18 19 20 21</code> 這塊 data<br>在 c# 則是用 <code>int width = BitConverter.ToInt32(imgHeader, 18)</code> 讓他去撈這塊<br>這邊如果直接寫成 <code>int width = imgHeader[18];</code> 的話就取錯數值了</p>
+<p>此外 c# 的 <code>2d array</code> 是用 <code>[,]</code> 表示<br>如果寫成 <code>[][]</code> 則表示 <code>jagged array</code> 這點跟 c 不太一樣</p>
+<p>還有 c 的 <code>unsigned char</code> 在 c# 是用 <code>byte</code></p>
+<p>讀取的部分 c# 則是用函數 Read 就可以一口氣讀取 <code>int bytesRead = fIn.Read(imgHeader, 0, imgHeader.Length)</code>, 不用搞個 loop</p>
+<p>還有他的範例 code 顏色順序是 <code>RGB</code>, 懷疑可能是錯的 XD?<br>我記憶中應該是 <code>BGR</code> 才正確, 所以修正下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br></pre></td><td class="code"><pre><span class="line">string inputFilePath &#x3D; &quot;images&#x2F;lena_color.bmp&quot;;</span><br><span class="line">string outputFilePath &#x3D; &quot;images&#x2F;lena_gray.bmp&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 打開輸入和輸出文件</span><br><span class="line">using FileStream fIn &#x3D; new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);</span><br><span class="line">using FileStream fOut &#x3D; new FileStream(outputFilePath, FileMode.Create, FileAccess.Write);</span><br><span class="line"></span><br><span class="line">byte[] imgHeader &#x3D; new byte[54];</span><br><span class="line">byte[] colorTable &#x3D; new byte[1024];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 讀取 BMP 標頭</span><br><span class="line">int bytesRead &#x3D; fIn.Read(imgHeader, 0, imgHeader.Length);</span><br><span class="line">if (bytesRead !&#x3D; imgHeader.Length)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;Unable to read image header&quot;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 寫入標頭到輸出文件</span><br><span class="line">fOut.Write(imgHeader, 0, imgHeader.Length);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 獲取圖像的寬度、高度和位深度</span><br><span class="line">int height &#x3D; BitConverter.ToInt32(imgHeader, 22);</span><br><span class="line">int width &#x3D; BitConverter.ToInt32(imgHeader, 18);</span><br><span class="line">int bitDepth &#x3D; BitConverter.ToInt16(imgHeader, 28);</span><br><span class="line"></span><br><span class="line">Console.WriteLine($&quot;height: &#123;height&#125;&quot;);</span><br><span class="line">Console.WriteLine($&quot;width: &#123;width&#125;&quot;);</span><br><span class="line">Console.WriteLine($&quot;bitDepth: &#123;bitDepth&#125;&quot;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 如果位深度小於等於 8，讀取顏色表</span><br><span class="line">if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">&#123;</span><br><span class="line">    fIn.Read(colorTable, 0, colorTable.Length);</span><br><span class="line">    fOut.Write(colorTable, 0, colorTable.Length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 計算圖像大小</span><br><span class="line">int imgSize &#x3D; height * width;</span><br><span class="line">byte[,] buffer &#x3D; new byte[imgSize, 3];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 讀取圖像數據並轉換為灰階</span><br><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; fIn.ReadByte();</span><br><span class="line">    var green &#x3D; fIn.ReadByte();</span><br><span class="line">    var red &#x3D; fIn.ReadByte();</span><br><span class="line"></span><br><span class="line">    buffer[i, 0] &#x3D; (byte)blue;</span><br><span class="line">    buffer[i, 1] &#x3D; (byte)green;</span><br><span class="line">    buffer[i, 2] &#x3D; (byte)red;</span><br><span class="line"></span><br><span class="line">    int temp &#x3D; 0;</span><br><span class="line">    &#x2F;&#x2F;轉換灰階公式 </span><br><span class="line">    &#x2F;&#x2F;R * 0.299 + G * 0.587 + B * 0.114</span><br><span class="line">    temp &#x3D; (int)(red * 0.299) + (int)(green * 0.587) + (int)(blue * 0.114);</span><br><span class="line">    fOut.WriteByte((byte)temp);</span><br><span class="line">    fOut.WriteByte((byte)temp);</span><br><span class="line">    fOut.WriteByte((byte)temp);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Console.WriteLine(&quot;Success!&quot;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="二值化"><a href="#二值化" class="headerlink" title="二值化"></a>二值化</h2><p>二值化只需要給個 threshold 當小於 threshold 則給黑色 0, 大於則給白色 255</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">gray &#x3D; (int)(red * 0.299) + (int)(green * 0.587) + (int)(blue * 0.114);</span><br><span class="line">binValue &#x3D; 0;</span><br><span class="line">if(gray &lt; threshold) binValue &#x3D; 0;</span><br><span class="line">else binValue &#x3D; 255;</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br><span class="line">fOut.WriteByte((byte)binValue);</span><br></pre></td></tr></table></figure>
+
+<h2 id="亮度"><a href="#亮度" class="headerlink" title="亮度"></a>亮度</h2><p>亮度調整則是看要變亮還是變暗, 變亮的話就讓數值往 255 靠攏, 反之則往 0 靠攏即可<br>這裡往暗部調整練下指標, 他直接用 void, 參數要用 <code>unsigned char *value</code>, 呼叫時記得加上 <code>&amp;</code> 符號即可, 像這樣 <code>to_darkness(&amp;buffer[i][0])</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#define BRIGHTNESS 50</span><br><span class="line">#define DARKNESS 50</span><br><span class="line"></span><br><span class="line">int to_brightness(int value)</span><br><span class="line">&#123;</span><br><span class="line">    if (value + BRIGHTNESS &gt;&#x3D; 255)</span><br><span class="line">        return 255;</span><br><span class="line">    else</span><br><span class="line">        return value + BRIGHTNESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;用法</span><br><span class="line">&#x2F;&#x2F;to_darkness(&amp;buffer[i][0]);</span><br><span class="line">void to_darkness(unsigned char *value)</span><br><span class="line">&#123;</span><br><span class="line">    if (*value - DARKNESS &lt;&#x3D; 0)</span><br><span class="line">        *value &#x3D; 0;</span><br><span class="line">    else</span><br><span class="line">        *value &#x3D; *value - DARKNESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">	&#x2F;&#x2F;略</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>這裡 c# 的寫法如下, 首先需要在 <code>csproj</code> 裡面設定打開 <code>unsafe</code> 功能</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"> &lt;PropertyGroup&gt;</span><br><span class="line">   &lt;OutputType&gt;Exe&lt;&#x2F;OutputType&gt;</span><br><span class="line">   &lt;TargetFramework&gt;net8.0&lt;&#x2F;TargetFramework&gt;</span><br><span class="line">   &lt;ImplicitUsings&gt;enable&lt;&#x2F;ImplicitUsings&gt;</span><br><span class="line">   &lt;Nullable&gt;enable&lt;&#x2F;Nullable&gt;</span><br><span class="line">&lt;!-- 加入這行打開 unsafe 功能 --&gt;</span><br><span class="line">   &lt;AllowUnsafeBlocks&gt;True&lt;&#x2F;AllowUnsafeBlocks&gt;</span><br><span class="line"> &lt;&#x2F;PropertyGroup&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接著寫亮度調整的函數, 比較特別的是需要在函數開頭加上 <code>unsafe</code> 關鍵字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">unsafe void ToBrightness(byte* value)</span><br><span class="line">&#123;</span><br><span class="line">    const int BRIGHTNESS &#x3D; 100;</span><br><span class="line">    if (*value + BRIGHTNESS &gt;&#x3D; 255) *value &#x3D; 255;</span><br><span class="line">    else *value +&#x3D; BRIGHTNESS;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">unsafe void ToDarkness(byte* value)</span><br><span class="line">&#123;</span><br><span class="line">    const int DARKNESS &#x3D; 100;</span><br><span class="line">    if (*value - DARKNESS &lt;&#x3D; 0) *value &#x3D; 0;</span><br><span class="line">    else *value -&#x3D; DARKNESS;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>呼叫時要先開一個 <code>unsafe</code> 區塊, 用 <code>fixed</code> 撈指標, 最後跟 c 一樣呼叫就可以惹, 整個炫炮 ~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">unsafe</span><br><span class="line">&#123;</span><br><span class="line">	for (int j &#x3D; 0; j &lt; 3; j++)</span><br><span class="line">	&#123;</span><br><span class="line">		fixed (byte* ptr &#x3D; &amp;buffer[i, j])</span><br><span class="line">		&#123;</span><br><span class="line">			ToBrightness(ptr);</span><br><span class="line">			fOut.WriteByte(*ptr);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="直方圖-Histogram"><a href="#直方圖-Histogram" class="headerlink" title="直方圖 Histogram"></a>直方圖 Histogram</h2><p>這裡的 c# code 如下<br>首先開闢 <code>int[,] ihist = new int[3, 256]</code> 來放 bgr 每個 pixel 的色彩索引<br>因為色彩會由 <code>0 ~ 255</code> 共 <code>256</code> 個值, 開闢空間要注意下 <code>不要寫成 255</code>, 這裡一樣用 <code>bgr</code> 的順序來記錄</p>
+<p>接著開一個 sum array 來存目前 pixel 數量</p>
+<p>然後用 for loop 把目前 pixel 的 index 與 sum 保存起來</p>
+<p>接著宣告 <code>float[,] hist = new float[3, 256]</code> 來保存結果<br>用 loop 將 <code>保存色彩數值 / sum</code> 來取得每個點位直方圖的數值即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">string inputFilePath &#x3D; &quot;images&#x2F;lena_color.bmp&quot;;</span><br><span class="line">string outputFilePath &#x3D; &quot;images&#x2F;histogram_rgb.txt&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 打開輸入和輸出文件</span><br><span class="line">using FileStream fIn &#x3D; new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);</span><br><span class="line">using StreamWriter fOut &#x3D; new StreamWriter(outputFilePath);</span><br><span class="line"></span><br><span class="line">byte[] imgHeader &#x3D; new byte[54];</span><br><span class="line"></span><br><span class="line">int bytesRead &#x3D; fIn.Read(imgHeader, 0, imgHeader.Length);</span><br><span class="line">if (bytesRead !&#x3D; imgHeader.Length)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;Unable to read image header&quot;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int height &#x3D; BitConverter.ToInt32(imgHeader, 22);</span><br><span class="line">int width &#x3D; BitConverter.ToInt32(imgHeader, 18);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;影像大小 (高 * 寬)</span><br><span class="line">int imgSize &#x3D; height * width;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;記錄 rgb 的 0 - 255 色彩索引</span><br><span class="line">int[,] ihist &#x3D; new int[3, 256];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;記錄 rgb 目前加總數量</span><br><span class="line">int[] sum &#x3D; new int[3];</span><br><span class="line"></span><br><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; fIn.ReadByte();</span><br><span class="line">    var green &#x3D; fIn.ReadByte();</span><br><span class="line">    var red &#x3D; fIn.ReadByte();</span><br><span class="line"></span><br><span class="line">    ihist[0, blue] &#x3D; ihist[0, blue] + 1;</span><br><span class="line">    ihist[1, green] &#x3D; ihist[1, green] + 1;</span><br><span class="line">    ihist[2, red] &#x3D; ihist[2, red] + 1;</span><br><span class="line">	</span><br><span class="line">    sum[0]++;</span><br><span class="line">    sum[1]++;</span><br><span class="line">    sum[2]++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;最終結果</span><br><span class="line">float[,] hist &#x3D; new float[3, 256];</span><br><span class="line"></span><br><span class="line">for (int i &#x3D; 0; i &lt; 256; i++)</span><br><span class="line">&#123;</span><br><span class="line">    hist[0, i] &#x3D; (float)ihist[0, i] &#x2F; (float)sum[0];</span><br><span class="line">    hist[1, i] &#x3D; (float)ihist[1, i] &#x2F; (float)sum[1];</span><br><span class="line">    hist[2, i] &#x3D; (float)ihist[2, i] &#x2F; (float)sum[2];</span><br><span class="line">    fOut.Write(&quot;&#123;0&#125; &#123;1&#125; &#123;2&#125;&quot; , hist[0 , i].ToString(&quot;F6&quot;), hist[1 , i].ToString(&quot;F6&quot;), hist[2 , i].ToString(&quot;F6&quot;));</span><br><span class="line">    if (i &lt; 255) fOut.WriteLine();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>看他的課程用 gnuplot 懶得安裝的話可以直接用這個線上版本 <a href="https://gnuplot.io/" target="_blank" rel="noopener">https://gnuplot.io/</a><br>可以跟這個網站 <a href="https://sisik.eu/histo" target="_blank" rel="noopener">https://sisik.eu/histo</a> 畫出來的對照, 不過身材會有點走鐘走鐘 XD<br>然後敲入以下 code 來執行, 就可以畫出來三個 band 的直方圖惹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"># 設定標題</span><br><span class="line">set title &quot;RGB Histogram&quot;</span><br><span class="line"></span><br><span class="line"># 設定x軸範圍</span><br><span class="line">set xlabel &quot;Pixel Value&quot;</span><br><span class="line">set xrange [0:255]</span><br><span class="line"></span><br><span class="line"># 設定y軸範圍</span><br><span class="line">set ylabel &quot;Frequency&quot;</span><br><span class="line"></span><br><span class="line"># 設定顏色，這裡是紅色、綠色和藍色通道的顏色</span><br><span class="line">set style line 1 linecolor rgb &quot;blue&quot;  linetype 1 linewidth 2</span><br><span class="line">set style line 2 linecolor rgb &quot;green&quot; linetype 1 linewidth 2</span><br><span class="line">set style line 3 linecolor rgb &quot;red&quot; linetype 1 linewidth 2</span><br><span class="line"></span><br><span class="line"># 繪製直方圖，使用三列資料，並設定不同顏色</span><br><span class="line">plot &quot;data3.txt&quot; using 1 with lines linestyle 1 title &quot;Blue&quot;, \</span><br><span class="line">     &quot;data3.txt&quot; using 2 with lines linestyle 2 title &quot;Green&quot;, \</span><br><span class="line">     &quot;data3.txt&quot; using 3 with lines linestyle 3 title &quot;Red&quot;</span><br></pre></td></tr></table></figure>
+
+<p>或是用 python 來畫也可以, 這裡要注意 rgb 順序, js 是 rgb , c or c# 是 bgr</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">#jupyter notebook</span><br><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line"></span><br><span class="line">data &#x3D; np.loadtxt(&quot;histogram_rgb.txt&quot;)</span><br><span class="line"></span><br><span class="line"># 假設資料是三列，分別代表紅色、綠色和藍色的像素值</span><br><span class="line">blue &#x3D; data[:, 0]</span><br><span class="line">green &#x3D; data[:, 1]</span><br><span class="line">red &#x3D; data[:, 2]</span><br><span class="line"></span><br><span class="line">plt.plot(blue,&#39;b&#39;)</span><br><span class="line">plt.plot(green,&#39;g&#39;)</span><br><span class="line">plt.plot(red,&#39;r&#39;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 設定標題和軸標籤</span><br><span class="line">plt.title(&#39;RGB Histogram&#39;)</span><br><span class="line">plt.xlabel(&#39;Pixel Value&#39;)</span><br><span class="line">plt.ylabel(&#39;Frequency&#39;)</span><br><span class="line"></span><br><span class="line"># 顯示圖例</span><br><span class="line">plt.legend([&#39;blue&#39;,&#39;green&#39;,&#39;red&#39;])</span><br><span class="line"></span><br><span class="line"># 顯示圖表</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>這裡 js 比較特別<br>開闢 2d array 需要用 Array(256).fill(0) 才會塞 0 在裡面, 其他就差不多</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">histogram(canvas) &#123;</span><br><span class="line">  let ctx &#x3D; canvas.getContext(&quot;2d&quot;);</span><br><span class="line">  const imageData &#x3D; ctx.getImageData(0, 0, canvas.width, canvas.height);</span><br><span class="line">  const pixels &#x3D; imageData.data;</span><br><span class="line"></span><br><span class="line">  let ihist &#x3D; [</span><br><span class="line">    new Array(256).fill(0),</span><br><span class="line">    new Array(256).fill(0),</span><br><span class="line">    new Array(256).fill(0),</span><br><span class="line">  ];</span><br><span class="line"></span><br><span class="line">  let sum &#x3D; [0, 0, 0];</span><br><span class="line"></span><br><span class="line">  for (let i &#x3D; 0; i &lt; pixels.length; i +&#x3D; 4) &#123;</span><br><span class="line">    const r &#x3D; pixels[i]; &#x2F;&#x2F; 紅色</span><br><span class="line">    const g &#x3D; pixels[i + 1]; &#x2F;&#x2F; 綠色</span><br><span class="line">    const b &#x3D; pixels[i + 2]; &#x2F;&#x2F; 藍色</span><br><span class="line">    const a &#x3D; pixels[i + 3]; &#x2F;&#x2F; 透明度</span><br><span class="line"></span><br><span class="line">    ihist[0][r] &#x3D; ihist[0][r] + 1;</span><br><span class="line">    ihist[1][g] &#x3D; ihist[1][g] + 1;</span><br><span class="line">    ihist[2][b] &#x3D; ihist[2][b] + 1;</span><br><span class="line"></span><br><span class="line">    sum[0]++;</span><br><span class="line">    sum[1]++;</span><br><span class="line">    sum[2]++;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  let hist &#x3D; [</span><br><span class="line">    new Array(256).fill(0),</span><br><span class="line">    new Array(256).fill(0),</span><br><span class="line">    new Array(256).fill(0),</span><br><span class="line">  ];</span><br><span class="line"></span><br><span class="line">  let str &#x3D; &quot;&quot;;</span><br><span class="line"></span><br><span class="line">  for (let i &#x3D; 0; i &lt; 256; i++) &#123;</span><br><span class="line">    hist[0][i] &#x3D; ihist[0][i] &#x2F; sum[0];</span><br><span class="line">    hist[1][i] &#x3D; ihist[1][i] &#x2F; sum[1];</span><br><span class="line">    hist[2][i] &#x3D; ihist[2][i] &#x2F; sum[2];</span><br><span class="line"></span><br><span class="line">    let r &#x3D; hist[0][i].toFixed(6);</span><br><span class="line">    let g &#x3D; hist[1][i].toFixed(6);</span><br><span class="line">    let b &#x3D; hist[2][i].toFixed(6);</span><br><span class="line">    str +&#x3D; &#96;$&#123;r&#125; $&#123;g&#125; $&#123;b&#125;&#96;;</span><br><span class="line">    if (i &lt; 255) str +&#x3D; &quot;\n&quot;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return str;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Histogram-Equalization"><a href="#Histogram-Equalization" class="headerlink" title="Histogram Equalization"></a>Histogram Equalization</h2><p>延續讀取出 Histogram 的數值以後, 可以用 Histogram Equalization 來讓色彩平均分布</p>
+<p>這邊先宣告一個用來存結果的 array <code>int[,] histEq = new int[3, 256]</code></p>
+<p>接著雙重 loop 跑 <code>累積分布函數 CDF cumulative distribution function</code>, 問 gpt 說加 0.5 效果會比較好</p>
+<p>再來把 Position 歸位, 因為一開始檔案有先讀過一次了, 此時位置為 -1, 將他調整到 54<br>依序把 bgr 數值拿出來, 並且丟入 histEq 這個 array 對應的索引取得新的數值, 最後寫入檔案便可</p>
+<p>驗證可以到這個網站 <a href="https://www7.lunapic.com/editor/?action=adaptive-equalize" target="_blank" rel="noopener">https://www7.lunapic.com/editor/?action=adaptive-equalize</a> 來看看結果是否一樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br></pre></td><td class="code"><pre><span class="line">string inputFilePath &#x3D; &quot;images&#x2F;lena_color.bmp&quot;;</span><br><span class="line">string outputFilePath &#x3D; &quot;images&#x2F;lenaeq.bmp&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 打開輸入和輸出文件</span><br><span class="line">using FileStream fIn &#x3D; new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);</span><br><span class="line">using FileStream fOut &#x3D; new FileStream(outputFilePath, FileMode.Create, FileAccess.Write);</span><br><span class="line">&#x2F;&#x2F;using StreamWriter fOut &#x3D; new StreamWriter(outputFilePath);</span><br><span class="line"></span><br><span class="line">byte[] imgHeader &#x3D; new byte[54];</span><br><span class="line">byte[] colorTable &#x3D; new byte[1024];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 讀取 BMP 標頭</span><br><span class="line">int bytesRead &#x3D; fIn.Read(imgHeader, 0, imgHeader.Length);</span><br><span class="line">if (bytesRead !&#x3D; imgHeader.Length)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;Unable to read image header&quot;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 寫入標頭到輸出文件</span><br><span class="line">fOut.Write(imgHeader, 0, imgHeader.Length);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 獲取圖像的寬度、高度和位深度</span><br><span class="line">int height &#x3D; BitConverter.ToInt32(imgHeader, 22);</span><br><span class="line">int width &#x3D; BitConverter.ToInt32(imgHeader, 18);</span><br><span class="line">int bitDepth &#x3D; BitConverter.ToInt16(imgHeader, 28);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;Console.WriteLine($&quot;height: &#123;height&#125;&quot;);</span><br><span class="line">&#x2F;&#x2F;Console.WriteLine($&quot;width: &#123;width&#125;&quot;);</span><br><span class="line">&#x2F;&#x2F;Console.WriteLine($&quot;bitDepth: &#123;bitDepth&#125;&quot;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 如果位深度小於等於 8，讀取顏色表</span><br><span class="line">if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">&#123;</span><br><span class="line">    fIn.Read(colorTable, 0, colorTable.Length);</span><br><span class="line">    &#x2F;&#x2F;fOut.Write(colorTable, 0, colorTable.Length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 計算圖像大小</span><br><span class="line">int imgSize &#x3D; height * width;</span><br><span class="line"></span><br><span class="line">int[,] ihist &#x3D; new int[3, 256];</span><br><span class="line">int[] sum &#x3D; new int[3];</span><br><span class="line"></span><br><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; fIn.ReadByte();</span><br><span class="line">    var green &#x3D; fIn.ReadByte();</span><br><span class="line">    var red &#x3D; fIn.ReadByte();</span><br><span class="line"></span><br><span class="line">    ihist[0, blue] &#x3D; ihist[0, blue] + 1;</span><br><span class="line">    ihist[1, green] &#x3D; ihist[1, green] + 1;</span><br><span class="line">    ihist[2, red] &#x3D; ihist[2, red] + 1;</span><br><span class="line">    sum[0]++;</span><br><span class="line">    sum[1]++;</span><br><span class="line">    sum[2]++;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">float[,] hist &#x3D; new float[3, 256];</span><br><span class="line"></span><br><span class="line">for (int i &#x3D; 0; i &lt; 256; i++)</span><br><span class="line">&#123;</span><br><span class="line">    hist[0, i] &#x3D; (float)ihist[0, i] &#x2F; (float)sum[0];</span><br><span class="line">    hist[1, i] &#x3D; (float)ihist[1, i] &#x2F; (float)sum[1];</span><br><span class="line">    hist[2, i] &#x3D; (float)ihist[2, i] &#x2F; (float)sum[2];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;累積分布函數 CDF cumulative distribution function</span><br><span class="line">int[,] histEq &#x3D; new int[3, 256];</span><br><span class="line">for (int i &#x3D; 0; i &lt; 256; i++)</span><br><span class="line">&#123;</span><br><span class="line">    float cdfBlueSum &#x3D; 0.0f;</span><br><span class="line">    float cdfGreenSum &#x3D; 0.0f;</span><br><span class="line">    float cdfRedSum &#x3D; 0.0f;</span><br><span class="line">    for (int j &#x3D; 0; j &lt;&#x3D; i; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        cdfBlueSum +&#x3D; hist[0, j];</span><br><span class="line">        cdfGreenSum +&#x3D; hist[1, j];</span><br><span class="line">        cdfRedSum +&#x3D; hist[2, j];</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;加 0.5 的話會得到比較優的效果</span><br><span class="line">    histEq[0, i] &#x3D; (int)(255 * cdfBlueSum + 0.5);</span><br><span class="line">    histEq[1, i] &#x3D; (int)(255 * cdfGreenSum + 0.5);</span><br><span class="line">    histEq[2, i] &#x3D; (int)(255 * cdfRedSum + 0.5);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;因為已經讀過一次, 所以需要移動位置跳過 header 也可以用 Seek 函數</span><br><span class="line">fIn.Position &#x3D; 54;</span><br><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; fIn.ReadByte();</span><br><span class="line">    var green &#x3D; fIn.ReadByte();</span><br><span class="line">    var red &#x3D; fIn.ReadByte();</span><br><span class="line"></span><br><span class="line">    var blueEq &#x3D; histEq[0, blue];</span><br><span class="line">    var greenEq &#x3D; histEq[1, green];</span><br><span class="line">    var redEq &#x3D; histEq[2, red];</span><br><span class="line"></span><br><span class="line">    fOut.WriteByte((byte)blueEq);</span><br><span class="line">    fOut.WriteByte((byte)greenEq);</span><br><span class="line">    fOut.WriteByte((byte)redEq);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Console.WriteLine(&quot;Success!&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>他原始的 c 程式碼如下, 不過他是只做灰階, 我是做 RGB</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#define BMP_HEADER_SIZE         54</span><br><span class="line">#define BMP_COLOR_TABLE_SIZE    1024</span><br><span class="line">#define CUSTOM_IMG_SIZE         512*512</span><br><span class="line"></span><br><span class="line">float IMG_HIST[255];</span><br><span class="line"></span><br><span class="line">void  imageReader(const char *imgName,</span><br><span class="line">                  int *_height,</span><br><span class="line">                  int *_width,</span><br><span class="line">                  int *_bitDepth,</span><br><span class="line">                  unsigned char *_header,</span><br><span class="line">                  unsigned char *_colorTable,</span><br><span class="line">                  unsigned char *_buf</span><br><span class="line">                  );</span><br><span class="line"> void imageWriter(const char *imgName,</span><br><span class="line">                 unsigned char *header,</span><br><span class="line">                 unsigned char *colorTable,</span><br><span class="line">                 unsigned char *buf,</span><br><span class="line">                 int bitDepth) ;</span><br><span class="line"></span><br><span class="line">void ImgHistogram(unsigned char * _imgData, int imgRows, int imgCols, float hist[]);</span><br><span class="line">void ImgHistogramEqualization(unsigned char *_inputImgData, unsigned char *_outputImgData,int imgRows,int imgCols);</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    int imgWidth, imgHeight,imgBitDepth;</span><br><span class="line">    unsigned char imgHeader[BMP_HEADER_SIZE];</span><br><span class="line">    unsigned char imgColorTable[BMP_COLOR_TABLE_SIZE];</span><br><span class="line">    unsigned char imgBuffer[CUSTOM_IMG_SIZE];</span><br><span class="line">    unsigned char imgBuffer2[CUSTOM_IMG_SIZE];</span><br><span class="line"></span><br><span class="line">    const char imgName[] &#x3D; &quot;lena512.bmp&quot;;</span><br><span class="line">    const char newImgName[] &#x3D;&quot;lena_eqz.bmp&quot;;</span><br><span class="line"></span><br><span class="line">    imageReader(imgName,&amp;imgHeight,&amp;imgWidth,&amp;imgBitDepth,&amp;imgHeader[0],&amp;imgColorTable[0],&amp;imgBuffer[0]);</span><br><span class="line">    ImgHistogramEqualization(&amp;imgBuffer[0],&amp;imgBuffer2[0],imgHeight,imgWidth);</span><br><span class="line">    imageWriter(newImgName,imgHeader,imgColorTable,imgBuffer2,imgBitDepth);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void imageWriter(const char *imgName,</span><br><span class="line">                 unsigned char *header,</span><br><span class="line">                 unsigned char *colorTable,</span><br><span class="line">                 unsigned char *buf,</span><br><span class="line">                 int bitDepth)</span><br><span class="line">   &#123;</span><br><span class="line">     FILE *fo &#x3D; fopen(imgName,&quot;wb&quot;);</span><br><span class="line">     fwrite(header,sizeof(unsigned char),54,fo);</span><br><span class="line">     if(bitDepth &lt;&#x3D;8)</span><br><span class="line">     &#123;</span><br><span class="line">         fwrite(colorTable,sizeof(unsigned char),1024,fo);</span><br><span class="line">     &#125;</span><br><span class="line">     fwrite(buf,sizeof(unsigned char),CUSTOM_IMG_SIZE, fo);</span><br><span class="line">     fclose(fo);</span><br><span class="line"></span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   void  imageReader(const char *imgName,</span><br><span class="line">                  int *_height,</span><br><span class="line">                  int *_width,</span><br><span class="line">                  int *_bitDepth,</span><br><span class="line">                  unsigned char *_header,</span><br><span class="line">                  unsigned char *_colorTable,</span><br><span class="line">                  unsigned char *_buf</span><br><span class="line">                  )</span><br><span class="line">&#123;</span><br><span class="line">    int i;</span><br><span class="line">    FILE *streamIn;</span><br><span class="line">    streamIn &#x3D; fopen(imgName,&quot;rb&quot;);</span><br><span class="line"></span><br><span class="line">    if(streamIn &#x3D;&#x3D;(FILE *)0)</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        printf(&quot;Unable to read image \n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for(i &#x3D;0;i&lt;54;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        _header[i] &#x3D; getc(streamIn);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    *_width &#x3D; *(int *)&amp;_header[18];</span><br><span class="line">    *_height &#x3D; *(int *)&amp;_header[22];</span><br><span class="line">    *_bitDepth &#x3D; *(int *)&amp;_header[28];</span><br><span class="line"></span><br><span class="line">    if(*_bitDepth &lt;&#x3D;8)</span><br><span class="line">    &#123;</span><br><span class="line">        fread(_colorTable,sizeof(unsigned char),1024,streamIn);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    fread(_buf,sizeof(unsigned char),CUSTOM_IMG_SIZE,streamIn);</span><br><span class="line"></span><br><span class="line">    fclose(streamIn);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">void ImgHistogram(unsigned char * _imgData, int imgRows, int imgCols, float hist[])</span><br><span class="line">&#123;</span><br><span class="line">  FILE *fptr;</span><br><span class="line">  fptr &#x3D; fopen(&quot;image_hist.txt&quot;,&quot;w&quot;);</span><br><span class="line">  int x,y,i,j;</span><br><span class="line">  long int ihist[255];</span><br><span class="line">  long int sum;</span><br><span class="line"></span><br><span class="line">  for(i&#x3D;0;i&lt;&#x3D;255;i++)</span><br><span class="line">  &#123;</span><br><span class="line">      ihist[i] &#x3D; 0;</span><br><span class="line">  &#125;</span><br><span class="line">  sum &#x3D;0;</span><br><span class="line">  for(y &#x3D;0;y&lt;imgRows;y++)</span><br><span class="line">  &#123;</span><br><span class="line">      for(x&#x3D;0;x&lt;imgCols;x++)</span><br><span class="line">      &#123;</span><br><span class="line">          j &#x3D; *(_imgData+x+y*imgCols);</span><br><span class="line">          ihist[j] &#x3D; ihist[j] +1;</span><br><span class="line">          sum &#x3D; sum +1;</span><br><span class="line"></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">    for( i &#x3D;0;i&lt;255;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        hist[i] &#x3D; (float)ihist[i]&#x2F;(float)sum;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">     for(int i&#x3D;0;i&lt;255;i++)</span><br><span class="line">     &#123;</span><br><span class="line">         fprintf(fptr,&quot;\n%f&quot;,hist[i]);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">    fclose(fptr);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void ImgHistogramEqualization(unsigned char *_inputImgData, unsigned char *_outputImgData,int imgRows,int imgCols)</span><br><span class="line">&#123;</span><br><span class="line">    int x,y,i,j;</span><br><span class="line">    int histeq[256];</span><br><span class="line">    float hist[256];</span><br><span class="line">    float sum;</span><br><span class="line"></span><br><span class="line">    ImgHistogram(&amp;_inputImgData[0], imgRows,imgCols,&amp;hist[0]);</span><br><span class="line"></span><br><span class="line">    for(i&#x3D;0;i&lt;255;i++)</span><br><span class="line">    &#123;</span><br><span class="line">        sum &#x3D;0.0;</span><br><span class="line">        for(j&#x3D;0;j&lt;&#x3D;i;j++)</span><br><span class="line">        &#123;</span><br><span class="line">            sum &#x3D; sum+hist[j];</span><br><span class="line">        &#125;</span><br><span class="line">        histeq[i] &#x3D; (int)(255*sum+0.5);</span><br><span class="line">    &#125;</span><br><span class="line">    for(y &#x3D;0;y&lt;imgRows;y++)</span><br><span class="line">    &#123;</span><br><span class="line">        for(x&#x3D;0;x&lt;imgCols;x++)</span><br><span class="line">        &#123;</span><br><span class="line">            *(_outputImgData+x+y*imgCols) &#x3D;  histeq[*(_inputImgData+x+y*imgCols)];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="負片效果-aka-靈異效果-filter"><a href="#負片效果-aka-靈異效果-filter" class="headerlink" title="負片效果 aka 靈異效果 filter"></a>負片效果 aka 靈異效果 filter</h2><p>負片效果比較簡單, 不管灰階或彩色只要用 <code>255 - 目前色彩</code> 就可以了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; fIn.ReadByte();</span><br><span class="line">    var green &#x3D; fIn.ReadByte();</span><br><span class="line">    var red &#x3D; fIn.ReadByte();</span><br><span class="line"></span><br><span class="line">    fOut.WriteByte((byte)(255 - blue));</span><br><span class="line">    fOut.WriteByte((byte)(255 - green));</span><br><span class="line">    fOut.WriteByte((byte)(255 - red));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="影像模糊-aka-迷片效果-filter"><a href="#影像模糊-aka-迷片效果-filter" class="headerlink" title="影像模糊 aka 迷片效果 filter"></a>影像模糊 aka 迷片效果 filter</h2><p>首先要準備一個 3x3 的 array filter<br>這個 filter 會計算每個 pixel 周圍 3x3 區域內的平均值來進行模糊處理</p>
+<p>平常在讀影像時都會由 <code>寬高起始值 0</code> ~ <code>寬高結束值</code><br>這裡的迴圈因為要放 3x3 filter 所以由 <code>寬高起始值 + 1</code> ~ <code>寬高結束值 - 1</code></p>
+<p>不過這樣做會有黑邊, 最後還要再補下讓黑邊的 pixel 是上下或是左右的 pixel</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br></pre></td><td class="code"><pre><span class="line">string inputFilePath &#x3D; &quot;images&#x2F;lena_color.bmp&quot;;</span><br><span class="line">string outputFilePath &#x3D; &quot;images&#x2F;lena_blur.bmp&quot;;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 打開輸入和輸出文件</span><br><span class="line">using FileStream fIn &#x3D; new FileStream(inputFilePath, FileMode.Open, FileAccess.Read);</span><br><span class="line">using FileStream fOut &#x3D; new FileStream(outputFilePath, FileMode.Create, FileAccess.Write);</span><br><span class="line"></span><br><span class="line">byte[] imgHeader &#x3D; new byte[54];</span><br><span class="line">byte[] colorTable &#x3D; new byte[1024];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 讀取 BMP 標頭</span><br><span class="line">int bytesRead &#x3D; fIn.Read(imgHeader, 0, imgHeader.Length);</span><br><span class="line">if (bytesRead !&#x3D; imgHeader.Length)</span><br><span class="line">&#123;</span><br><span class="line">    Console.WriteLine(&quot;Unable to read image header&quot;);</span><br><span class="line">    return;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 寫入標頭到輸出文件</span><br><span class="line">fOut.Write(imgHeader, 0, imgHeader.Length);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 獲取圖像的寬度、高度和位深度</span><br><span class="line">int height &#x3D; BitConverter.ToInt32(imgHeader, 22);</span><br><span class="line">int width &#x3D; BitConverter.ToInt32(imgHeader, 18);</span><br><span class="line">int bitDepth &#x3D; BitConverter.ToInt16(imgHeader, 28);</span><br><span class="line"></span><br><span class="line">Console.WriteLine($&quot;height: &#123;height&#125;&quot;);</span><br><span class="line">Console.WriteLine($&quot;width: &#123;width&#125;&quot;);</span><br><span class="line">Console.WriteLine($&quot;bitDepth: &#123;bitDepth&#125;&quot;);</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 如果位深度小於等於 8，讀取顏色表</span><br><span class="line">if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">&#123;</span><br><span class="line">    fIn.Read(colorTable, 0, colorTable.Length);</span><br><span class="line">    fOut.Write(colorTable, 0, colorTable.Length);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; 計算圖像大小</span><br><span class="line">int imgSize &#x3D; height * width;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;目前影像</span><br><span class="line">byte[,] buffer &#x3D; new byte[imgSize, 3];</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;輸出影像</span><br><span class="line">byte[,] outBuffer &#x3D; new byte[imgSize, 3];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;讀取目前影像的 pixel</span><br><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; fIn.ReadByte();</span><br><span class="line">    var green &#x3D; fIn.ReadByte();</span><br><span class="line">    var red &#x3D; fIn.ReadByte();</span><br><span class="line"></span><br><span class="line">    buffer[i, 0] &#x3D; (byte)blue;</span><br><span class="line">    buffer[i, 1] &#x3D; (byte)green;</span><br><span class="line">    buffer[i, 2] &#x3D; (byte)red;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;因為是 3*3 所以數值要用 9</span><br><span class="line">float blur &#x3D; 1.0f &#x2F; 9.0f;</span><br><span class="line">float[,] filter &#x3D; &#123;</span><br><span class="line">    &#123;blur , blur , blur&#125;,</span><br><span class="line">    &#123;blur , blur , blur&#125;,</span><br><span class="line">    &#123;blur , blur , blur&#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">for (int y &#x3D; 1; y &lt; height - 1; y++)</span><br><span class="line">&#123;</span><br><span class="line">    for (int x &#x3D; 1; x &lt; width - 1; x++)</span><br><span class="line">    &#123;</span><br><span class="line">        float sum0 &#x3D; 0.0f;</span><br><span class="line">        float sum1 &#x3D; 0.0f;</span><br><span class="line">        float sum2 &#x3D; 0.0f;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;對 3x3 的 filter loop 算出加權平均結果</span><br><span class="line">        for (int fy &#x3D; -1; fy &lt;&#x3D; 1; fy++)</span><br><span class="line">        &#123;</span><br><span class="line">            for (int fx &#x3D; -1; fx &lt;&#x3D; 1; fx++)</span><br><span class="line">            &#123;</span><br><span class="line">                &#x2F;&#x2F;原始值</span><br><span class="line">                &#x2F;&#x2F;var blue &#x3D; buffer[y * width + x, 0];</span><br><span class="line">                &#x2F;&#x2F;var red &#x3D; buffer[y * width + x, 1];</span><br><span class="line">                &#x2F;&#x2F;var green &#x3D; buffer[y * width + x, 1];</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;blur 模糊值</span><br><span class="line">                var blue &#x3D; filter[fy + 1, fx + 1] * buffer[(y + fy) * width + (x + fx), 0];</span><br><span class="line">                var green &#x3D; filter[fy + 1, fx + 1] * buffer[(y + fy) * width + (x + fx), 1];</span><br><span class="line">                var red &#x3D; filter[fy + 1, fx + 1] * buffer[(y + fy) * width + (x + fx), 2];</span><br><span class="line"></span><br><span class="line">                sum0 +&#x3D; blue;</span><br><span class="line">                sum1 +&#x3D; green;</span><br><span class="line">                sum2 +&#x3D; red;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;把加權值丟到目前這個 pixel</span><br><span class="line">        outBuffer[y * width + x, 0] &#x3D; (byte)sum0;</span><br><span class="line">        outBuffer[y * width + x, 1] &#x3D; (byte)sum1;</span><br><span class="line">        outBuffer[y * width + x, 2] &#x3D; (byte)sum2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;黑邊處理</span><br><span class="line">for (int y &#x3D; 0; y &lt; height; y++)</span><br><span class="line">&#123;</span><br><span class="line">    for (int x &#x3D; 0; x &lt; width; x++)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; 對於最上面一行，設置與下一行相同</span><br><span class="line">        if (y &#x3D;&#x3D; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            outBuffer[y * width + x , 0 ] &#x3D; buffer[(y + 1) * width + x , 0];</span><br><span class="line">            outBuffer[y * width + x , 1 ] &#x3D; buffer[(y + 1) * width + x , 1];</span><br><span class="line">            outBuffer[y * width + x , 2 ] &#x3D; buffer[(y + 1) * width + x , 2];</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 對於最下面一行，設置與上一行相同</span><br><span class="line">        else if (y &#x3D;&#x3D; height - 1)</span><br><span class="line">        &#123;</span><br><span class="line">            outBuffer[y * width + x, 0 ] &#x3D; buffer[(y - 1) * width + x, 0 ];</span><br><span class="line">            outBuffer[y * width + x, 1 ] &#x3D; buffer[(y - 1) * width + x, 1 ];</span><br><span class="line">            outBuffer[y * width + x, 2 ] &#x3D; buffer[(y - 1) * width + x, 2 ];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 對於最左邊一列，設置與右邊相同</span><br><span class="line">        if (x &#x3D;&#x3D; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            outBuffer[y * width + x, 0 ] &#x3D; buffer[y * width + (x + 1), 0];</span><br><span class="line">            outBuffer[y * width + x, 1 ] &#x3D; buffer[y * width + (x + 1), 1];</span><br><span class="line">            outBuffer[y * width + x, 2 ] &#x3D; buffer[y * width + (x + 1), 2];</span><br><span class="line">        &#125;</span><br><span class="line">        &#x2F;&#x2F; 對於最右邊一列，設置與左邊相同</span><br><span class="line">        else if (x &#x3D;&#x3D; width - 1)</span><br><span class="line">        &#123;</span><br><span class="line">            outBuffer[y * width + x , 0] &#x3D; buffer[y * width + (x - 1), 0];</span><br><span class="line">            outBuffer[y * width + x , 1] &#x3D; buffer[y * width + (x - 1), 1];</span><br><span class="line">            outBuffer[y * width + x , 2] &#x3D; buffer[y * width + (x - 1), 2];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; outBuffer[i, 0];</span><br><span class="line">    var green &#x3D; outBuffer[i, 1];</span><br><span class="line">    var red &#x3D; outBuffer[i, 2];</span><br><span class="line"></span><br><span class="line">    fOut.WriteByte(blue);</span><br><span class="line">    fOut.WriteByte(green);</span><br><span class="line">    fOut.WriteByte(red);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Console.WriteLine(&quot;Success!&quot;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Sepia-Filter-老照片效果"><a href="#Sepia-Filter-老照片效果" class="headerlink" title="Sepia Filter 老照片效果"></a>Sepia Filter 老照片效果</h2><p>這個真的超神奇的, 不要問為什麼會這樣 XD</p>
+<p>看他課程也跟這裡的算法一樣 <a href="https://stackoverflow.com/questions/1061093/how-is-a-sepia-tone-created" target="_blank" rel="noopener">https://stackoverflow.com/questions/1061093/how-is-a-sepia-tone-created</a><br>不曉得到底是啥妖術 ~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">&#123;</span><br><span class="line">    var blue &#x3D; fIn.ReadByte();</span><br><span class="line">    var green &#x3D; fIn.ReadByte();</span><br><span class="line">    var red &#x3D; fIn.ReadByte();</span><br><span class="line"></span><br><span class="line">    var sepiaRed &#x3D; (red * .393) + (green * .769) + (blue * .189);</span><br><span class="line">    var sepiaGreen &#x3D; (red * .349) + (green * .686) + (blue * .168);</span><br><span class="line">    var sepiaBlue &#x3D; (red * .272) + (green * .534) + (blue * .131);</span><br><span class="line">    if (sepiaRed &gt;&#x3D; 255) sepiaRed &#x3D; 255;</span><br><span class="line">    if (sepiaGreen &gt;&#x3D; 255) sepiaGreen &#x3D; 255;</span><br><span class="line">    if (sepiaBlue &gt;&#x3D; 255) sepiaBlue &#x3D; 255;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    fOut.WriteByte((byte)sepiaBlue);</span><br><span class="line">    fOut.WriteByte((byte)sepiaGreen);</span><br><span class="line">    fOut.WriteByte((byte)sepiaRed);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Discrete-Convolution"><a href="#Discrete-Convolution" class="headerlink" title="Discrete Convolution"></a>Discrete Convolution</h2><p>這個 example 實在有點困難, 就算依靠 ChatGPT 幫忙翻不過也是沒辦法 100% 正確, 後來修了下</p>
+<p>這裡要注意到的在 c 裡面 <code>signed char</code> 對應到 c# 應該是 <code>sbyte</code></p>
+<p><code>(byte*)System.Runtime.InteropServices.Marshal.AllocHGlobal(size);</code> 則可以用來代替 <code>malloc</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br></pre></td><td class="code"><pre><span class="line">unsafe</span><br><span class="line">&#123;</span><br><span class="line">    &#x2F;&#x2F;2D Discrete convolution</span><br><span class="line">    void Convolve(int imgRows, int imgCols, Mask myMask, byte* input_buf, byte* output_buf)</span><br><span class="line">    &#123;</span><br><span class="line">        long y, x, fy, fx, yIndex, xIndex;</span><br><span class="line">        int ms, im &#x3D; 0, val;</span><br><span class="line">        byte* tmp;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;the outer summation loop</span><br><span class="line">        for (y &#x3D; 0; y &lt; imgRows; ++y)</span><br><span class="line">            for (x &#x3D; 0; x &lt; imgCols; ++x)</span><br><span class="line">            &#123;</span><br><span class="line">                val &#x3D; 0;</span><br><span class="line">                for (fy &#x3D; 0; fy &lt; myMask.Rows; ++fy)</span><br><span class="line">                    for (fx &#x3D; 0; fx &lt; myMask.Cols; ++fx)</span><br><span class="line">                    &#123;</span><br><span class="line">                        ms &#x3D; *(myMask.Data + fy * myMask.Rows + fx);</span><br><span class="line">                        yIndex &#x3D; y - fy;</span><br><span class="line">                        xIndex &#x3D; x - fx;</span><br><span class="line">                        if (yIndex &gt;&#x3D; 0 &amp;&amp; xIndex &gt;&#x3D; 0)</span><br><span class="line">                            im &#x3D; *(input_buf + yIndex * imgRows + xIndex);</span><br><span class="line">                        val +&#x3D; ms * im;</span><br><span class="line">                    &#125;</span><br><span class="line">                if (val &gt; 255) val &#x3D; 255;</span><br><span class="line">                if (val &lt; 0) val &#x3D; 0;</span><br><span class="line">                tmp &#x3D; output_buf + y * imgRows + x;</span><br><span class="line">                *tmp &#x3D; (byte)val;</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">    void Convolve2(int imgRows, int imgCols, Mask myMask, byte[] inputBuf, byte[] outputBuf)</span><br><span class="line">    &#123;</span><br><span class="line">        int val;</span><br><span class="line">        int ms, im &#x3D; 0;</span><br><span class="line">        int yIndex, xIndex;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; the outer summation loop</span><br><span class="line">        for (int y &#x3D; 0; y &lt; imgRows; ++y)</span><br><span class="line">        &#123;</span><br><span class="line">            for (int x &#x3D; 0; x &lt; imgCols; ++x)</span><br><span class="line">            &#123;</span><br><span class="line">                val &#x3D; 0;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F; Iterate through the mask</span><br><span class="line">                for (int fy &#x3D; 0; fy &lt; myMask.Rows; ++fy)</span><br><span class="line">                &#123;</span><br><span class="line">                    for (int fx &#x3D; 0; fx &lt; myMask.Cols; ++fx)</span><br><span class="line">                    &#123;</span><br><span class="line">                        ms &#x3D; *(myMask.Data + fy * myMask.Rows + fx);</span><br><span class="line"></span><br><span class="line">                        yIndex &#x3D; y - fy;</span><br><span class="line">                        xIndex &#x3D; x - fx;</span><br><span class="line"></span><br><span class="line">                        &#x2F;&#x2F; Check if the indices are within bounds</span><br><span class="line">                        if (yIndex &gt;&#x3D; 0 &amp;&amp; xIndex &gt;&#x3D; 0)</span><br><span class="line">                        &#123;</span><br><span class="line">                            &#x2F;&#x2F; Get the grayscale pixel value from the input buffer</span><br><span class="line">                            im &#x3D; inputBuf[(yIndex * imgCols + xIndex)]; &#x2F;&#x2F; For grayscale, it&#39;s just one value</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        val +&#x3D; ms * im; &#x2F;&#x2F; Apply the convolution operation</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F; Clamp the result to be between 0 and 255</span><br><span class="line">                if (val &gt; 255) val &#x3D; 255;</span><br><span class="line">                if (val &lt; 0) val &#x3D; 0;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F; Store the result back into the output buffer</span><br><span class="line">                outputBuf[y * imgCols + x] &#x3D; (byte)val;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line">	</span><br><span class="line"></span><br><span class="line">    void ImageWriter(string imgName, byte[] header, byte[] colorTable, byte[] buf, int bitDepth)</span><br><span class="line">    &#123;</span><br><span class="line">        using (FileStream fs &#x3D; new FileStream(imgName, FileMode.Create, FileAccess.Write))</span><br><span class="line">        using (BinaryWriter writer &#x3D; new BinaryWriter(fs))</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F; Write the header</span><br><span class="line">            writer.Write(header, 0, 54);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Write the color table if bit depth is &lt;&#x3D; 8</span><br><span class="line">            if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">            &#123;</span><br><span class="line">                writer.Write(colorTable, 0, 1024);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Write the image buffer</span><br><span class="line">            writer.Write(buf, 0, buf.Length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void ImageReader(string imgName, out int height, out int width, out int bitDepth,</span><br><span class="line">                     byte[] header, byte[] colorTable, byte[] buf)</span><br><span class="line">    &#123;</span><br><span class="line">        using (FileStream fs &#x3D; new FileStream(imgName, FileMode.Open, FileAccess.Read))</span><br><span class="line">        using (BinaryReader reader &#x3D; new BinaryReader(fs))</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F; Read the header (54 bytes)</span><br><span class="line">            reader.Read(header, 0, 54);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Read the width, height, and bit depth</span><br><span class="line">            width &#x3D; BitConverter.ToInt32(header, 18);</span><br><span class="line">            height &#x3D; BitConverter.ToInt32(header, 22);</span><br><span class="line">            bitDepth &#x3D; BitConverter.ToInt16(header, 28);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; If the bit depth is &lt;&#x3D; 8, read the color table</span><br><span class="line">            if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">            &#123;</span><br><span class="line">                reader.Read(colorTable, 0, 1024);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Read the image data</span><br><span class="line">            reader.Read(buf, 0, buf.Length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    byte* malloc(int size)</span><br><span class="line">    &#123;</span><br><span class="line">        return (byte*)System.Runtime.InteropServices.Marshal.AllocHGlobal(size);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    const int BMP_HEADER_SIZE &#x3D; 54;</span><br><span class="line">    const int BMP_COLOR_TABLE_SIZE &#x3D; 1024;</span><br><span class="line">    const int CUSTOM_IMG_SIZE &#x3D; 256 * 256;</span><br><span class="line"></span><br><span class="line">    int imgWidth, imgHeight, imgBitDepth;</span><br><span class="line">    byte[] imgHeader &#x3D; new byte[BMP_HEADER_SIZE];</span><br><span class="line">    byte[] imgColorTable &#x3D; new byte[BMP_COLOR_TABLE_SIZE];</span><br><span class="line">    byte[] imgBuffer &#x3D; new byte[CUSTOM_IMG_SIZE];</span><br><span class="line">    byte[] imgBuffer2 &#x3D; new byte[CUSTOM_IMG_SIZE];</span><br><span class="line"></span><br><span class="line">    string imgName &#x3D; &quot;cameraman.bmp&quot;;</span><br><span class="line">    string newImgName &#x3D; &quot;cameraman_new.bmp&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Mask lpMask;</span><br><span class="line">    lpMask.Rows &#x3D; lpMask.Cols &#x3D; 5;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 使用 unsafe 操作分配內存</span><br><span class="line">    lpMask.Data &#x3D; (sbyte*)malloc(25);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 設置所有 mask 的值為 -1</span><br><span class="line">    sbyte* tmp &#x3D; lpMask.Data;</span><br><span class="line">    for (int i &#x3D; 0; i &lt; 25; ++i)</span><br><span class="line">    &#123;</span><br><span class="line">        *tmp &#x3D; (sbyte)-1; &#x2F;&#x2F; 將每個值設置為 -1</span><br><span class="line">        ++tmp;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 設置中間的值為 24</span><br><span class="line">    tmp &#x3D; lpMask.Data + 13;</span><br><span class="line">    *tmp &#x3D; 24;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 讀取圖像</span><br><span class="line">    ImageReader(imgName, out imgHeight, out imgWidth, out imgBitDepth, imgHeader, imgColorTable, imgBuffer);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 進行卷積操作</span><br><span class="line">    fixed (byte* ptrImgBuffer &#x3D; imgBuffer,  ptrImgBuffer2 &#x3D; imgBuffer2)</span><br><span class="line">        Convolve(imgHeight, imgWidth, lpMask, ptrImgBuffer, ptrImgBuffer2);</span><br><span class="line"></span><br><span class="line">	&#x2F;&#x2F;或用這個函數</span><br><span class="line">	&#x2F;&#x2F;Convolve2(imgHeight, imgWidth, lpMask, imgBuffer, imgBuffer2);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 輸出圖像</span><br><span class="line">    ImageWriter(newImgName, imgHeader, imgColorTable, imgBuffer2, imgBitDepth);</span><br><span class="line"></span><br><span class="line">    Console.WriteLine(&quot;Success!&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">public unsafe struct Mask</span><br><span class="line">&#123;</span><br><span class="line">    public int Rows;</span><br><span class="line">    public int Cols;</span><br><span class="line">    public sbyte* Data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="邊緣人檢測-Detecting-Lines-with-a-Line-Detector"><a href="#邊緣人檢測-Detecting-Lines-with-a-Line-Detector" class="headerlink" title="邊緣人檢測 Detecting Lines with a Line Detector"></a>邊緣人檢測 Detecting Lines with a Line Detector</h2><p>他這裡原版用 <code>LineDetector</code> 寫起來比較噁心, 要將 1d 指標算成 2d<br>我自己則是寫個 <code>byteArrayTo2D</code> 先把 <code>byte*</code> 轉為 <code>byte[,]</code><br>然後用 <code>LineDetector2D</code> 去檢測邊緣比較輕鬆<br>不過這裡有個詭異的點, 他的條件要用 <code>y &lt; imgRows - 1 x &lt; imgCols</code> 才會正確, 不然 array 會越界<br>不太曉得為啥跟指標的條件不太一樣, 這種太細的邏輯最難 debug<br>最後意外發現原來 <code>byte[,]</code> 好像可以直接轉為 <code>pointer</code> 不用多處理一手</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br></pre></td><td class="code"><pre><span class="line">using System.Runtime.InteropServices;</span><br><span class="line">int BMP_HEADER_SIZE &#x3D; 54;</span><br><span class="line">int BMP_COLOR_TABLE_SIZE &#x3D; 1024;</span><br><span class="line">int CUSTOM_IMG_SIZE &#x3D; 512 * 512;</span><br><span class="line"></span><br><span class="line">unsafe</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    void ImageWriter(string imgName, byte* header, byte* colorTable, byte* buf, int bitDepth)</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; 打開文件以寫入</span><br><span class="line">        using (FileStream fs &#x3D; new FileStream(imgName, FileMode.Create, FileAccess.Write))</span><br><span class="line">        &#123;</span><br><span class="line">            using (BinaryWriter writer &#x3D; new BinaryWriter(fs))</span><br><span class="line">            &#123;</span><br><span class="line">                &#x2F;&#x2F; 寫入 header</span><br><span class="line">                for (int i &#x3D; 0; i &lt; BMP_HEADER_SIZE; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    writer.Write(*(header + i));</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F; 如果位深度 &lt;&#x3D; 8，則寫入顏色表</span><br><span class="line">                if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">                &#123;</span><br><span class="line">                    for (int i &#x3D; 0; i &lt; BMP_COLOR_TABLE_SIZE; i++)</span><br><span class="line">                    &#123;</span><br><span class="line">                        writer.Write(*(colorTable + i));</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F; 寫入圖像數據</span><br><span class="line">                for (int i &#x3D; 0; i &lt; CUSTOM_IMG_SIZE; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    writer.Write(*(buf + i));</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void ImageReader(string imgName, int* height, int* width, int* bitDepth,</span><br><span class="line">                     byte[] header, byte[] colorTable, byte[] buf)</span><br><span class="line">    &#123;</span><br><span class="line">        using (FileStream fs &#x3D; new FileStream(imgName, FileMode.Open, FileAccess.Read))</span><br><span class="line">        using (BinaryReader reader &#x3D; new BinaryReader(fs))</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F; Read the header (54 bytes)</span><br><span class="line">            reader.Read(header, 0, 54);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Read the width, height, and bit depth</span><br><span class="line">            *width &#x3D; BitConverter.ToInt32(header, 18);</span><br><span class="line">            *height &#x3D; BitConverter.ToInt32(header, 22);</span><br><span class="line">            *bitDepth &#x3D; BitConverter.ToInt16(header, 28);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; If the bit depth is &lt;&#x3D; 8, read the color table</span><br><span class="line">            if (*bitDepth &lt;&#x3D; 8)</span><br><span class="line">            &#123;</span><br><span class="line">                reader.Read(colorTable, 0, 1024);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; Read the image data</span><br><span class="line">            reader.Read(buf, 0, buf.Length);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    void LineDetector(byte* _inputImgData, byte* _outputImgData,</span><br><span class="line">                          int imgCols, int imgRows, int[,] MASK)</span><br><span class="line">    &#123;</span><br><span class="line">        int x, y, i, j, sum;</span><br><span class="line"></span><br><span class="line">        for (y &#x3D; 1; y &lt;&#x3D; imgRows - 1; y++)</span><br><span class="line">        &#123;</span><br><span class="line">            for (x &#x3D; 1; x &lt;&#x3D; imgCols - 1; x++)</span><br><span class="line">            &#123;</span><br><span class="line">                sum &#x3D; 0;</span><br><span class="line">                for (i &#x3D; -1; i &lt;&#x3D; 1; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    for (j &#x3D; -1; j &lt;&#x3D; 1; j++)</span><br><span class="line">                    &#123;</span><br><span class="line">                        &#x2F;&#x2F;這表示圖片目前的 pixel</span><br><span class="line">                        &#x2F;&#x2F;*(_inputImgData + x + i + (long)(y + j) * imgCols)</span><br><span class="line"></span><br><span class="line">                        &#x2F;&#x2F;目前移動到 mask 的格子</span><br><span class="line">                        &#x2F;&#x2F;MASK[i + 1, j + 1]</span><br><span class="line">                        sum &#x3D; sum + *(_inputImgData + x + i + (long)(y + j) * imgCols) * MASK[i + 1, j + 1];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                if (sum &gt; 255)</span><br><span class="line">                    sum &#x3D; 255;</span><br><span class="line">                if (sum &lt; 0)</span><br><span class="line">                    sum &#x3D; 0;</span><br><span class="line">                *(_outputImgData + x + (long)y * imgCols) &#x3D; (byte)sum;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void LineDetector2D(byte[,] _inputImgData, byte[,] _outputImgData,</span><br><span class="line">                      int imgCols, int imgRows, int[,] MASK)</span><br><span class="line">    &#123;</span><br><span class="line">        int x, y, i, j, sum;</span><br><span class="line"></span><br><span class="line">        for (y &#x3D; 1; y &lt; imgRows - 1; y++)</span><br><span class="line">        &#123;</span><br><span class="line">            for (x &#x3D; 1; x &lt; imgCols - 1; x++)</span><br><span class="line">            &#123;</span><br><span class="line">                sum &#x3D; 0;</span><br><span class="line">                for (i &#x3D; -1; i &lt;&#x3D; 1; i++)</span><br><span class="line">                &#123;</span><br><span class="line">                    for (j &#x3D; -1; j &lt;&#x3D; 1; j++)</span><br><span class="line">                    &#123;</span><br><span class="line">                        &#x2F;&#x2F; 這是圖像目前的像素，改為直接使用二維陣列</span><br><span class="line">                        sum &#x3D; sum + _inputImgData[y + i, x + j] * MASK[i + 1, j + 1];</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F; 確保像素值在 [0, 255] 範圍內</span><br><span class="line">                if (sum &gt; 255)</span><br><span class="line">                    sum &#x3D; 255;</span><br><span class="line">                if (sum &lt; 0)</span><br><span class="line">                    sum &#x3D; 0;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F; 將結果儲存回輸出圖像</span><br><span class="line">                _outputImgData[y, x] &#x3D; (byte)sum;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    void byteArrayTo2D(byte* buffer, byte[,] outBuffer)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int y &#x3D; 0; y &lt; 512; y++)</span><br><span class="line">        &#123;</span><br><span class="line">            for (int x &#x3D; 0; x &lt; 512; x++)</span><br><span class="line">            &#123;</span><br><span class="line">                outBuffer[y, x] &#x3D; buffer[y * 512 + x];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    int imgWidth;</span><br><span class="line">    int imgHeight;</span><br><span class="line">    int imgBitDepth;</span><br><span class="line">    byte[] imgHeader &#x3D; new byte[BMP_HEADER_SIZE];</span><br><span class="line">    byte[] imgColorTable &#x3D; new byte[BMP_COLOR_TABLE_SIZE];</span><br><span class="line">    byte[] imgBuffer &#x3D; new byte[CUSTOM_IMG_SIZE];</span><br><span class="line">    byte[] imgBuffer2 &#x3D; new byte[CUSTOM_IMG_SIZE];</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    byte[,] imgBufferTwoD &#x3D; new byte[512, 512];</span><br><span class="line">    byte[,] imgBuffer2TwoD &#x3D; new byte[512, 512];</span><br><span class="line"></span><br><span class="line">    string imgName &#x3D; &quot;lena512.bmp&quot;;</span><br><span class="line">    string newImgName &#x3D; &quot;lena_rdia_2d.bmp&quot;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    int[,] VER &#x3D; &#123;</span><br><span class="line">        &#123; -1,2,-1&#125;,</span><br><span class="line">        &#123; -1,2,-1&#125;,</span><br><span class="line">        &#123; -1,2,-1&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    int[,] HOR &#x3D; &#123;</span><br><span class="line">        &#123; -1,-1,-1&#125;,</span><br><span class="line">        &#123; 2,2,2&#125;,</span><br><span class="line">        &#123; -1,-1,-1&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    int[,] LDIA &#x3D; &#123;</span><br><span class="line">        &#123; 2,-1,-1&#125;,</span><br><span class="line">        &#123; -1,2,-1&#125;,</span><br><span class="line">        &#123; -1,-1,2&#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    int[,] RDIA &#x3D; &#123;</span><br><span class="line">        &#123; -1,-1,2&#125;,</span><br><span class="line">        &#123; -1,2,-1&#125;,</span><br><span class="line">        &#123; 2,-1,-1&#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    ImageReader(imgName, &amp;imgHeight, &amp;imgWidth, &amp;imgBitDepth, imgHeader, imgColorTable, imgBuffer);</span><br><span class="line">    fixed (byte* ptrImgBuffer &#x3D; &amp;imgBuffer[0])</span><br><span class="line">        byteArrayTo2D(ptrImgBuffer, imgBufferTwoD);</span><br><span class="line"></span><br><span class="line">    LineDetector2D(imgBufferTwoD, imgBuffer2TwoD, imgWidth, imgHeight, RDIA);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;fixed (byte* ptrImgBuffer &#x3D; &amp;imgBuffer[0], ptrImgBuffer2 &#x3D; &amp;imgBuffer2[0])</span><br><span class="line">    &#x2F;&#x2F;    LineDetector(ptrImgBuffer, ptrImgBuffer2, imgWidth, imgHeight, RDIA);</span><br><span class="line"></span><br><span class="line">    fixed (byte* ptrImgHeader &#x3D; imgHeader, ptrImgColorTable &#x3D; imgColorTable, ptrImgBuffer2 &#x3D; imgBuffer2TwoD)</span><br><span class="line">        ImageWriter(newImgName, ptrImgHeader, ptrImgColorTable, ptrImgBuffer2, imgBitDepth);</span><br><span class="line"></span><br><span class="line">    Console.WriteLine(&quot;Success!\n&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="加鹽"><a href="#加鹽" class="headerlink" title="加鹽"></a>加鹽</h2><p>這裡可以用以下方法來加料<br>這裡他一樣用 <code>*(inputImgData + x + (long)y * imgCols)</code> 讀起來比較噁心</p>
+<p>假如 width = 5, height = 2</p>
+<p>0 1 2 3 4<br>5 6* 7 8 9</p>
+<p>如果 6 是目前選到的格子就看得很清楚, 因為他最後要被拆成 1d</p>
+<p>0 1 2 3 4 5 6* 7 8 9</p>
+<p>5 + 2 = 7</p>
+<p>索引由 0 開始, 必須減一所以得到 6 這個索引位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">void SaltPepper(byte* inputImgData, int imgCols, int imgRows, float prob)</span><br><span class="line">&#123;</span><br><span class="line">	int x, y, data, data1, data2;</span><br><span class="line">	data &#x3D; (int)(prob * 32768 &#x2F; 2);</span><br><span class="line">	data1 &#x3D; data + 16384;</span><br><span class="line">	data2 &#x3D; 16384 - data;</span><br><span class="line"></span><br><span class="line">	Random rnd &#x3D; new Random();</span><br><span class="line"></span><br><span class="line">	for (y &#x3D; 0; y &lt; imgRows; y++)</span><br><span class="line">	&#123;</span><br><span class="line">		for (x &#x3D; 0; x &lt; imgCols; x++)</span><br><span class="line">		&#123;</span><br><span class="line">			data &#x3D; rnd.Next(0, 32768);</span><br><span class="line">			if (data &gt;&#x3D; 16384 &amp;&amp; data &lt; data1)</span><br><span class="line">				*(inputImgData + x + (long)y * imgCols) &#x3D; 0;</span><br><span class="line">			if (data &gt;&#x3D; data2 &amp;&amp; data &lt; 16384)</span><br><span class="line">				*(inputImgData + x + (long)y * imgCols) &#x3D; 255;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">void SaltPepper2D(byte[,] inputImgData, int imgCols, int imgRows, float prob)</span><br><span class="line">&#123;</span><br><span class="line">	int x, y, data, data1, data2;</span><br><span class="line">	data &#x3D; (int)(prob * 32768 &#x2F; 2);</span><br><span class="line">	data1 &#x3D; data + 16384;</span><br><span class="line">	data2 &#x3D; 16384 - data;</span><br><span class="line"></span><br><span class="line">	Random rnd &#x3D; new Random();</span><br><span class="line"></span><br><span class="line">	for (y &#x3D; 0; y &lt; imgRows; y++)</span><br><span class="line">	&#123;</span><br><span class="line">		for (x &#x3D; 0; x &lt; imgCols; x++)</span><br><span class="line">		&#123;</span><br><span class="line">			data &#x3D; rnd.Next(0, 32768);</span><br><span class="line">			if (data &gt;&#x3D; 16384 &amp;&amp; data &lt; data1)</span><br><span class="line">				inputImgData[y, x] &#x3D; 0;</span><br><span class="line">				&#x2F;&#x2F;*(inputImgData + x + (long)y * imgCols) &#x3D; 0;</span><br><span class="line"></span><br><span class="line">			if (data &gt;&#x3D; data2 &amp;&amp; data &lt; 16384) </span><br><span class="line">				inputImgData[y, x] &#x3D; 255;</span><br><span class="line">				&#x2F;&#x2F;*(inputImgData + x + (long)y * imgCols) &#x3D; 255;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="High-Pass-Filter"><a href="#High-Pass-Filter" class="headerlink" title="High Pass Filter"></a>High Pass Filter</h2><p>這裡比較簡單, 一樣就是跑個卷積就搞定了, code 就不列惹</p>
+<p>-1 -1 -1<br>-1 9 -1<br>-1 -1 -1</p>
+<h2 id="高斯雜訊"><a href="#高斯雜訊" class="headerlink" title="高斯雜訊"></a>高斯雜訊</h2><p>希望沒寫錯 LOL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">void Gussian(byte* _inputImgData, int imgCols, int imgRows, float var, float mean)</span><br><span class="line">&#123;</span><br><span class="line">	int x, y;</span><br><span class="line">	double noise, theta;</span><br><span class="line">	Random rnd &#x3D; new Random();</span><br><span class="line">	for (y &#x3D; 0; y &lt; imgRows; y++)</span><br><span class="line">	&#123;</span><br><span class="line">		for (x &#x3D; 0; x &lt; imgCols; x++)</span><br><span class="line">		&#123;</span><br><span class="line">			noise &#x3D; Math.Sqrt(-2 * var * Math.Log(1.0 - rnd.Next(0, 32767) &#x2F; 32767.1));</span><br><span class="line">			theta &#x3D; rnd.Next(0, 32767) * 1.9175345e-4 - Math.PI;</span><br><span class="line">			noise &#x3D; noise * Math.Cos(theta);</span><br><span class="line">			noise &#x3D; noise + mean;</span><br><span class="line">			if (noise &gt; 255) noise &#x3D; 255;</span><br><span class="line">			if (noise &lt; 0) noise &#x3D; 0;</span><br><span class="line">			*(_inputImgData + x + (long)y * imgCols) &#x3D; (byte)(noise + 0.5);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="js-版本"><a href="#js-版本" class="headerlink" title="js 版本"></a>js 版本</h2><p>js 的話要注意影像是由 rgb 為順序, 另外他好像都會有 alpha 透明度通道</p>
+<p>搞這個還要記順序整個詭異 LOL</p>
+<p>還有他 img canva 等比例縮放也比較難寫</p>
+<p>以下是我實作部分的網址 <a href="https://codepen.io/weber87na/pen/OJKqXXL" target="_blank" rel="noopener">https://codepen.io/weber87na/pen/OJKqXXL</a></p>
+<h2 id="RIP-風格的-asp-net-core-middleware"><a href="#RIP-風格的-asp-net-core-middleware" class="headerlink" title="RIP 風格的 asp.net core middleware"></a>RIP 風格的 asp.net core middleware</h2><p>搞這也是搞滿久的, 本來以為直接修改 Response 就好了, 沒想到還要先 <code>new MemoryStream</code><br>這裡如果要禁止 Cache 可以加上</p>
+<p><code>context.Context.Response.Headers.Add(&quot;Cache-Control&quot;, &quot;no-cache, no-store&quot;);</code></p>
+<p><code>context.Context.Response.Headers.Add(&quot;Expires&quot;, &quot;-1&quot;);</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">app.UseStaticFiles(new StaticFileOptions</span><br><span class="line">&#123;</span><br><span class="line">    OnPrepareResponseAsync &#x3D; async context &#x3D;&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        context.Context.Response.Headers.Add(&quot;Cache-Control&quot;, &quot;no-cache, no-store&quot;);</span><br><span class="line">        context.Context.Response.Headers.Add(&quot;Expires&quot;, &quot;-1&quot;);</span><br><span class="line">	</span><br><span class="line">        if (context.File.Name.EndsWith(&quot;.bmp&quot;, StringComparison.OrdinalIgnoreCase))</span><br><span class="line">            await BmpToGrayAsync(context);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">async Task BmpToGrayAsync(StaticFileResponseContext context)</span><br><span class="line">&#123;</span><br><span class="line">    var filePath &#x3D; context.File.PhysicalPath;</span><br><span class="line">    byte[] imgData &#x3D; await File.ReadAllBytesAsync(filePath);</span><br><span class="line"></span><br><span class="line">    using (var bmpStream &#x3D; new MemoryStream(imgData))</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;read header</span><br><span class="line">        byte[] imgHeader &#x3D; new byte[54];</span><br><span class="line">        await bmpStream.ReadAsync(imgHeader, 0, imgHeader.Length);</span><br><span class="line"></span><br><span class="line">        int height &#x3D; BitConverter.ToInt32(imgHeader, 22);</span><br><span class="line">        int width &#x3D; BitConverter.ToInt32(imgHeader, 18);</span><br><span class="line">        int bitDepth &#x3D; BitConverter.ToInt16(imgHeader, 28);</span><br><span class="line"></span><br><span class="line">        Console.WriteLine($&quot;height: &#123;height&#125;&quot;);</span><br><span class="line">        Console.WriteLine($&quot;width: &#123;width&#125;&quot;);</span><br><span class="line">        Console.WriteLine($&quot;bitDepth: &#123;bitDepth&#125;&quot;);</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;read color table</span><br><span class="line">        byte[] colorTable &#x3D; new byte[1024];</span><br><span class="line">        if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">        &#123;</span><br><span class="line">            await bmpStream.ReadAsync(colorTable, 0, colorTable.Length);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;圖片大小</span><br><span class="line">        int imgSize &#x3D; height * width;</span><br><span class="line">        using (var output &#x3D; new MemoryStream())</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F;write header</span><br><span class="line">            await output.WriteAsync(imgHeader, 0, imgHeader.Length);</span><br><span class="line">            if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">            &#123;</span><br><span class="line">                await output.WriteAsync(colorTable, 0, colorTable.Length);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">            &#123;</span><br><span class="line">                var blue &#x3D; (byte)bmpStream.ReadByte(); </span><br><span class="line">                var green &#x3D; (byte)bmpStream.ReadByte();</span><br><span class="line">                var red &#x3D; (byte)bmpStream.ReadByte();</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F; 使用灰階公式：R * 0.299 + G * 0.587 + B * 0.114</span><br><span class="line">                int gray &#x3D; (int)(red * 0.299 + green * 0.587 + blue * 0.114);</span><br><span class="line">                output.WriteByte((byte)gray);</span><br><span class="line">                output.WriteByte((byte)gray);</span><br><span class="line">                output.WriteByte((byte)gray);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;設定</span><br><span class="line">            context.Context.Response.ContentType &#x3D; &quot;image&#x2F;bmp&quot;;</span><br><span class="line">            output.Seek(0, SeekOrigin.Begin);</span><br><span class="line">            await output.CopyToAsync(context.Context.Response.Body);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="粗糙的馬賽克"><a href="#粗糙的馬賽克" class="headerlink" title="粗糙的馬賽克"></a>粗糙的馬賽克</h2><p>這裡 c# 就懶得寫了, 不過有 js<br>假設馬賽克範圍是 3 * 3<br>他原理就是拿 3 * 3 的左上角當點位<br>除了 loop 圖片的迴圈, 再跑一個巢狀迴圈, 並且讓這 9 格內設定為左上角的點即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    FILE *fIn &#x3D; fopen(&quot;images&#x2F;lena_color.bmp&quot;, &quot;rb&quot;);</span><br><span class="line">    FILE *fOut &#x3D; fopen(&quot;images&#x2F;lena_mosaic.bmp&quot;, &quot;wb&quot;);</span><br><span class="line"></span><br><span class="line">    unsigned char imgHeader[54];</span><br><span class="line">    unsigned char colorTable[1024];</span><br><span class="line"></span><br><span class="line">    if (fIn &#x3D;&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;Unable to open image\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (int i &#x3D; 0; i &lt; 54; i++)</span><br><span class="line">        imgHeader[i] &#x3D; getc(fIn);</span><br><span class="line"></span><br><span class="line">    fwrite(imgHeader, sizeof(unsigned char), 54, fOut);</span><br><span class="line"></span><br><span class="line">    int height &#x3D; *(int *)&amp;imgHeader[22];</span><br><span class="line">    int width &#x3D; *(int *)&amp;imgHeader[18];</span><br><span class="line">    int bitDepth &#x3D; *(int *)&amp;imgHeader[28];</span><br><span class="line"></span><br><span class="line">    if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">    &#123;</span><br><span class="line">        fread(colorTable, sizeof(unsigned char), 1024, fIn);</span><br><span class="line">        fwrite(colorTable, sizeof(unsigned char), 1024, fOut);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int imgSize &#x3D; height * width;</span><br><span class="line">    unsigned char buffer[imgSize][3];</span><br><span class="line">    int mosaicSize &#x3D; 5;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 複製圖片 pixel 到最後要 out 的 buffer</span><br><span class="line">    for (int y &#x3D; 0; y &lt; height; y++)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int x &#x3D; 0; x &lt; width; x++)</span><br><span class="line">        &#123;</span><br><span class="line">            int current &#x3D; x + y * width;</span><br><span class="line">            buffer[current][0] &#x3D; getc(fIn);</span><br><span class="line">            buffer[current][1] &#x3D; getc(fIn);</span><br><span class="line">            buffer[current][2] &#x3D; getc(fIn);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;loop pixel 步進值用 3 * 3 大小</span><br><span class="line">    for (int y &#x3D; 0; y &lt; height; y +&#x3D; mosaicSize)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int x &#x3D; 0; x &lt; width; x +&#x3D; mosaicSize)</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F;取得目前 pixel</span><br><span class="line">            int current &#x3D; x + y * width;</span><br><span class="line">            int blue &#x3D; buffer[current][0];</span><br><span class="line">            int green &#x3D; buffer[current][1];</span><br><span class="line">            int red &#x3D; buffer[current][2];</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;跑一個 3 * 3 大小的馬賽克</span><br><span class="line">            &#x2F;&#x2F;把目前的設定這 3 * 3 都是用目前這個 pixel</span><br><span class="line">            for (int my &#x3D; 0; my &lt; mosaicSize &amp;&amp; (y + my) &lt; height; my++)</span><br><span class="line">            &#123;</span><br><span class="line">                for (int mx &#x3D; 0; mx &lt; mosaicSize &amp;&amp; (x + mx) &lt; width; mx++)</span><br><span class="line">                &#123;</span><br><span class="line">                    int current &#x3D; (y + my) * width + (x + mx);</span><br><span class="line">                    buffer[current][0] &#x3D; blue;</span><br><span class="line">                    buffer[current][1] &#x3D; green;</span><br><span class="line">                    buffer[current][2] &#x3D; red;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;輸出最終 buffer</span><br><span class="line">    for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        putc(buffer[i][0], fOut);</span><br><span class="line">        putc(buffer[i][1], fOut);</span><br><span class="line">        putc(buffer[i][2], fOut);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    printf(&quot;Success!\n&quot;);</span><br><span class="line">    fclose(fIn);</span><br><span class="line">    fclose(fOut);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="平滑馬賽克"><a href="#平滑馬賽克" class="headerlink" title="平滑馬賽克"></a>平滑馬賽克</h2><p>平滑的話需要先對 3 * 3 的馬賽克色格子彩計算平均值<br>接著跟粗暴版本的一樣, 把平均值給 3 * 3 內的每個 pixel 即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line"></span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    FILE *fIn &#x3D; fopen(&quot;images&#x2F;lena_color.bmp&quot;, &quot;rb&quot;);</span><br><span class="line">    FILE *fOut &#x3D; fopen(&quot;images&#x2F;lena_mosaic_smooth.bmp&quot;, &quot;wb&quot;);</span><br><span class="line"></span><br><span class="line">    unsigned char imgHeader[54];</span><br><span class="line">    unsigned char colorTable[1024];</span><br><span class="line"></span><br><span class="line">    if (fIn &#x3D;&#x3D; NULL)</span><br><span class="line">    &#123;</span><br><span class="line">        printf(&quot;Unable to open image\n&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    for (int i &#x3D; 0; i &lt; 54; i++)</span><br><span class="line">        imgHeader[i] &#x3D; getc(fIn);</span><br><span class="line"></span><br><span class="line">    fwrite(imgHeader, sizeof(unsigned char), 54, fOut);</span><br><span class="line"></span><br><span class="line">    int height &#x3D; *(int *)&amp;imgHeader[22];</span><br><span class="line">    int width &#x3D; *(int *)&amp;imgHeader[18];</span><br><span class="line">    int bitDepth &#x3D; *(int *)&amp;imgHeader[28];</span><br><span class="line"></span><br><span class="line">    if (bitDepth &lt;&#x3D; 8)</span><br><span class="line">    &#123;</span><br><span class="line">        fread(colorTable, sizeof(unsigned char), 1024, fIn);</span><br><span class="line">        fwrite(colorTable, sizeof(unsigned char), 1024, fOut);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    int imgSize &#x3D; height * width;</span><br><span class="line">    unsigned char buffer[imgSize][3];</span><br><span class="line">    int mosaicSize &#x3D; 10;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 複製圖片 pixel 到最後要 out 的 buffer</span><br><span class="line">    for (int y &#x3D; 0; y &lt; height; y++)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int x &#x3D; 0; x &lt; width; x++)</span><br><span class="line">        &#123;</span><br><span class="line">            int current &#x3D; x + y * width;</span><br><span class="line">            buffer[current][0] &#x3D; getc(fIn);</span><br><span class="line">            buffer[current][1] &#x3D; getc(fIn);</span><br><span class="line">            buffer[current][2] &#x3D; getc(fIn);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; loop pixel 步進值用 3 * 3 大小</span><br><span class="line">    for (int y &#x3D; 0; y &lt; height; y +&#x3D; mosaicSize)</span><br><span class="line">    &#123;</span><br><span class="line">        for (int x &#x3D; 0; x &lt; width; x +&#x3D; mosaicSize)</span><br><span class="line">        &#123;</span><br><span class="line">            int sumBlue &#x3D; 0;</span><br><span class="line">            int sumGreen &#x3D; 0;</span><br><span class="line">            int sumRed &#x3D; 0;</span><br><span class="line">            int count &#x3D; 0;</span><br><span class="line"></span><br><span class="line">            for (int my &#x3D; 0; my &lt; mosaicSize &amp;&amp; (y + my) &lt; height; my++)</span><br><span class="line">            &#123;</span><br><span class="line">                for (int mx &#x3D; 0; mx &lt; mosaicSize &amp;&amp; (x + mx) &lt; width; mx++)</span><br><span class="line">                &#123;</span><br><span class="line">                    int current &#x3D; (y + my) * width + (x + mx);</span><br><span class="line">                    sumBlue +&#x3D; buffer[current][0];</span><br><span class="line">                    sumGreen +&#x3D; buffer[current][1];</span><br><span class="line">                    sumRed +&#x3D; buffer[current][2];</span><br><span class="line">                    count++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            int avgBlue &#x3D; sumBlue &#x2F; count;</span><br><span class="line">            int avgGreen &#x3D; sumGreen &#x2F; count;</span><br><span class="line">            int avgRed &#x3D; sumRed &#x2F; count;</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F; 跑一個 3 * 3 大小的馬賽克</span><br><span class="line">            &#x2F;&#x2F; 把目前的設定這 3 * 3 都是用目前這個 pixel</span><br><span class="line">            for (int my &#x3D; 0; my &lt; mosaicSize &amp;&amp; (y + my) &lt; height; my++)</span><br><span class="line">            &#123;</span><br><span class="line">                for (int mx &#x3D; 0; mx &lt; mosaicSize &amp;&amp; (x + mx) &lt; width; mx++)</span><br><span class="line">                &#123;</span><br><span class="line">                    int current &#x3D; (y + my) * width + (x + mx);</span><br><span class="line">                    buffer[current][0] &#x3D; avgBlue;</span><br><span class="line">                    buffer[current][1] &#x3D; avgGreen;</span><br><span class="line">                    buffer[current][2] &#x3D; avgRed;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; 輸出最終 buffer</span><br><span class="line">    for (int i &#x3D; 0; i &lt; imgSize; i++)</span><br><span class="line">    &#123;</span><br><span class="line">        putc(buffer[i][0], fOut);</span><br><span class="line">        putc(buffer[i][1], fOut);</span><br><span class="line">        putc(buffer[i][2], fOut);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    printf(&quot;Success!\n&quot;);</span><br><span class="line">    fclose(fIn);</span><br><span class="line">    fclose(fOut);</span><br><span class="line"></span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Ascii-Art-js"><a href="#Ascii-Art-js" class="headerlink" title="Ascii Art js"></a>Ascii Art js</h2><p>記得很多年前稍微玩過線上 AsciiArt 產生器覺得很有意思, 不過也不曉得怎麼做的, 今天就順便寫看看<br>參考這篇</p>
+<p>他原理就是把圖片灰階化, 然後用一個 array 定義若干數量的字符<br>他這邊用這樣, 我自己定義其他符號, 不過效果不太好<br>$@B%8&amp;WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~&lt;&gt;i!lI;:,&quot;^‘. `</p>
+<p>因為灰階是 <code>0 ~ 255</code> 所以這裡用 <code>ceil(灰色 / 10)</code> 算出字符索引位置即可<br>然後讓取得的字符瘋狂相加, 最後就得到結果</p>
+<p>這裡 css 的字要設定 <code>1px</code> 不然畫面會走鐘</p>
+<p>如果想要彩色的話跟灰階的寫法差不多, 不過要把 return 的字變成 span 並設定顏色, 詳細可以看 code<br>取得結果以後, 則是要設定元素的 <code>innerHtml</code> 而非灰階的 <code>innerText</code></p>
+<p><a href="https://codepen.io/weber87na/full/OJKqXXL" target="_blank" rel="noopener">https://codepen.io/weber87na/full/OJKqXXL</a></p>
+<h2 id="水平-垂直翻轉-js"><a href="#水平-垂直翻轉-js" class="headerlink" title="水平 垂直翻轉 js"></a>水平 垂直翻轉 js</h2><p>這裡也是懶得搞 c# 了, 在 js 上水平翻轉的話需要先得到 beginIndex 及 endIndex<br>然後把 copiedPixels[beginIndex] 的 RGB 設定為 pixels[endIndex] 的 RGB 就搞定了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;起始</span><br><span class="line">let beginIndex &#x3D; (y * imageData.width + x) * 4;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;結束</span><br><span class="line">let endIndex &#x3D; (y * imageData.width + imageData.width - x) * 4;</span><br></pre></td></tr></table></figure>
+
+<p>垂直翻轉的話也差不多, 只是 <code>endIndex</code> 算法不同, 關鍵為 <code>imageData.height - y</code> 取得結束位置的垂直高度</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;起始</span><br><span class="line">let beginIndex &#x3D; (y * imageData.width + x) * 4;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;結束</span><br><span class="line">let endIndex &#x3D; ((imageData.height - y) * imageData.width + x) * 4;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/10/22/asp-net-core-%E5%8F%96%E5%BE%97-IIS-ApplicationPoolName-SiteName/" rel="prev" title="asp.net core 取得 IIS ApplicationPoolName SiteName">
+      <i class="fa fa-chevron-left"></i> asp.net core 取得 IIS ApplicationPoolName SiteName
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/11/01/npm-registry-%E8%A8%AD%E5%AE%9A/" rel="next" title="npm registry 設定">
+      npm registry 設定 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#灰階"><span class="nav-number">1.</span> <span class="nav-text">灰階</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二值化"><span class="nav-number">2.</span> <span class="nav-text">二值化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#亮度"><span class="nav-number">3.</span> <span class="nav-text">亮度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#直方圖-Histogram"><span class="nav-number">4.</span> <span class="nav-text">直方圖 Histogram</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Histogram-Equalization"><span class="nav-number">5.</span> <span class="nav-text">Histogram Equalization</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#負片效果-aka-靈異效果-filter"><span class="nav-number">6.</span> <span class="nav-text">負片效果 aka 靈異效果 filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#影像模糊-aka-迷片效果-filter"><span class="nav-number">7.</span> <span class="nav-text">影像模糊 aka 迷片效果 filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Sepia-Filter-老照片效果"><span class="nav-number">8.</span> <span class="nav-text">Sepia Filter 老照片效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Discrete-Convolution"><span class="nav-number">9.</span> <span class="nav-text">Discrete Convolution</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#邊緣人檢測-Detecting-Lines-with-a-Line-Detector"><span class="nav-number">10.</span> <span class="nav-text">邊緣人檢測 Detecting Lines with a Line Detector</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#加鹽"><span class="nav-number">11.</span> <span class="nav-text">加鹽</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#High-Pass-Filter"><span class="nav-number">12.</span> <span class="nav-text">High Pass Filter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#高斯雜訊"><span class="nav-number">13.</span> <span class="nav-text">高斯雜訊</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js-版本"><span class="nav-number">14.</span> <span class="nav-text">js 版本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RIP-風格的-asp-net-core-middleware"><span class="nav-number">15.</span> <span class="nav-text">RIP 風格的 asp.net core middleware</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#粗糙的馬賽克"><span class="nav-number">16.</span> <span class="nav-text">粗糙的馬賽克</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平滑馬賽克"><span class="nav-number">17.</span> <span class="nav-text">平滑馬賽克</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ascii-Art-js"><span class="nav-number">18.</span> <span class="nav-text">Ascii Art js</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#水平-垂直翻轉-js"><span class="nav-number">19.</span> <span class="nav-text">水平 垂直翻轉 js</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2024/11/01/c-%E5%BD%B1%E5%83%8F%E8%99%95%E7%90%86%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2024/11/01/c-影像處理筆記/";
+    this.page.title = "c# 影像處理筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

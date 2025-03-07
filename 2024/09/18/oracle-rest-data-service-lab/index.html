@@ -1,0 +1,1185 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="oracle rest data service lab">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2024/09/18/oracle-rest-data-service-lab/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-09-18T03:17:58.000Z">
+<meta property="article:modified_time" content="2025-03-06T03:47:16.451Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="oracle">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2024/09/18/oracle-rest-data-service-lab/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>oracle rest data service lab | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2024/09/18/oracle-rest-data-service-lab/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          oracle rest data service lab
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2024-09-18 11:17:58" itemprop="dateCreated datePublished" datetime="2024-09-18T11:17:58+08:00">2024-09-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-03-06 11:47:16" itemprop="dateModified" datetime="2025-03-06T11:47:16+08:00">2025-03-06</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2024/09/18/oracle-rest-data-service-lab/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/09/18/oracle-rest-data-service-lab/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>37k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>33 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<p>工作上遇到的問題, 雖然有 oracle 證照但是躺在那邊 10 年有了, 也早就忘光光, 工作以來也沒真的用到 oracle, 這次莫名其妙掃被到就玩看看 XD</p>
+<p>老實說跟證照考的內容完全沒有任何關係 lol ~</p>
+<h2 id="wsl-安裝-docker"><a href="#wsl-安裝-docker" class="headerlink" title="wsl 安裝 docker"></a>wsl 安裝 docker</h2><p>因為沒有 systemctl 所以順便記下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"># 看目前 ubunt 版本</span><br><span class="line">lsb_release -a</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo apt update</span><br><span class="line">lsb_release -a</span><br><span class="line">sudo apt install apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line">curl -fsSL https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu&#x2F;gpg | sudo apt-key add -</span><br><span class="line">sudo add-apt-repository &quot;deb [arch&#x3D;amd64] https:&#x2F;&#x2F;download.docker.com&#x2F;linux&#x2F;ubuntu focal stable&quot;</span><br><span class="line">sudo apt update</span><br><span class="line">apt-cache policy docker-ce</span><br><span class="line">sudo apt install docker-ce</span><br><span class="line">sudo service docker start</span><br><span class="line"></span><br><span class="line"># 權限設定</span><br><span class="line">sudo usermod -aG docker $&#123;USER&#125;</span><br><span class="line">su - $&#123;USER&#125;</span><br><span class="line">id -nG</span><br></pre></td></tr></table></figure>
+
+<h2 id="Lab-環境架構"><a href="#Lab-環境架構" class="headerlink" title="Lab 環境架構"></a>Lab 環境架構</h2><p><code>10.1.23.45</code> =&gt; 我的電腦</p>
+<p><code>172.1.23.45</code> =&gt; <code>wsl ubuntu 20</code> (Windows Subsystem for Linux)</p>
+<p><code>docker</code> 上面跑 <code>oracle xe</code> (nguoianphu/docker-oracle-xe-11g)</p>
+<p>wsl ubuntu 20 port 49161 mapping 到 docker port 1521</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -dit --name oracle11g -p 49160:22 -p 49161:1521 nguoianphu&#x2F;docker-oracle-xe-11g</span><br><span class="line">docker ps -a</span><br><span class="line">CONTAINER ID   IMAGE                             COMMAND                  CREATED      STATUS                  PORTS</span><br><span class="line">                        NAMES</span><br><span class="line">bb3ea8c4c45d   nguoianphu&#x2F;docker-oracle-xe-11g   &quot;&#x2F;bin&#x2F;sh -c &#39;&#x2F;usr&#x2F;sb…&quot;   6 days ago   Up 2 hours              8080&#x2F;tcp, 0.0.0.0:49160-&gt;22&#x2F;tcp, [::]:49160-&gt;22&#x2F;tcp, 0.0.0.0:49161-&gt;1521&#x2F;tcp, [::]:49161-&gt;1521&#x2F;tcp   oracle11g</span><br></pre></td></tr></table></figure>
+
+<p>wsl 又 mapping 到我機器的 port, 所以可以在內網連到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">🌹 netsh interface portproxy show all</span><br><span class="line"></span><br><span class="line">接聽 ipv4:             連線到 ipv4:</span><br><span class="line"></span><br><span class="line">位址            連接埠      位址            連接埠</span><br><span class="line">--------------- ----------  --------------- ----------</span><br><span class="line">10.1.23.45     8080        172.1.23.45  8080</span><br><span class="line">10.1.23.45     49161       172.1.23.45  49161</span><br><span class="line">10.1.23.45     8443        172.1.23.45  8443</span><br></pre></td></tr></table></figure>
+
+<p>連到 oracle xe</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlplus testuser1&#x2F;testuser1@&#x2F;&#x2F;localhost:49161&#x2F;xe</span><br></pre></td></tr></table></figure>
+
+<p>跳到 oracle 的 docker container 裡面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it oracle11g &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+
+<h2 id="安裝"><a href="#安裝" class="headerlink" title="安裝"></a>安裝</h2><p>安裝參考<a href="https://oracle-base.com/articles/misc/oracle-rest-data-services-ords-installation-on-tomcat" target="_blank" rel="noopener">這篇</a> 不過我沒用 tomcat<br>官網好像寫說不能用 <code>tomcat9</code> 反正沒我的事, 放生 ~</p>
+<p><a href="https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/19.2/aelig/installing-REST-data-services.html#GUID-F6A4F94A-D62F-4A35-A471-6306332DF522" target="_blank" rel="noopener">系統需求</a></p>
+<p>Oracle Database (Enterprise Edition, Standard Edition or Standard Edition One) release 11.1 or later,<br>or Oracle Database 11g Release 2 Express Edition. =&gt; <code>以 xe 實測 ok</code></p>
+<p>Java JDK 8 or later. =&gt; 他這裡應該是指 oracle database 那台</p>
+<p>如果跑 ords 則需要 Java 11</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">SELECT * FROM v$version;</span><br><span class="line"></span><br><span class="line">Oracle Database 11g Express Edition Release 11.2.0.2.0 - 64bit Production</span><br></pre></td></tr></table></figure>
+
+<p><a href="https://www.oracle.com/database/sqldeveloper/technologies/db-actions/download/" target="_blank" rel="noopener">ORDS 下載位置</a></p>
+<p>先下載回來然後解壓, 會長以下這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">gg@HQ-XOAH-P05:~$ mkdir ords</span><br><span class="line">gg@HQ-XOAH-P05:~$ cd ords</span><br><span class="line">gg@HQ-XOAH-P05:~&#x2F;ords$ unzip ords-24.2.3.201.1847.zip</span><br><span class="line">gg@HQ-XOAH-P05:~&#x2F;ords$ ls</span><br><span class="line">LICENSE.txt  NOTICE.txt  THIRD-PARTY-LICENSES.txt  bin  databases  docs  examples  global  icons  lib  linux-support  logs  ords.war  scripts</span><br></pre></td></tr></table></figure>
+
+<p>現在執行安裝指令, 執行下去他會跳出問你想要設定的選項, 這裡的帳號要用 sys 不然會陣亡, 可以看<a href="https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/24.2/ordig/installing-REST-data-services.html#GUID-6F65915E-0030-4E69-9380-C93150FC107A" target="_blank" rel="noopener">官網說明</a><br>他還有個快速<a href="https://www.youtube.com/watch?v=prkcgJLsfw4" target="_blank" rel="noopener">教學</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">java -jar ords.war install</span><br><span class="line"></span><br><span class="line">  Enter a number to select the database connection type to use</span><br><span class="line">    [1] Basic (host name, port, service name)</span><br><span class="line">    [2] TNS (TNS alias, TNS directory)</span><br><span class="line">    [3] Custom database URL</span><br><span class="line">  Choose [1]:</span><br><span class="line">  Enter the database host name [localhost]:</span><br><span class="line">  Enter the database listen port [1521]: 49161</span><br><span class="line">  Enter the database service name [orcl]: xe</span><br><span class="line">  Provide database user name with administrator privileges.</span><br><span class="line">    Enter the administrator username: sys</span><br><span class="line">  Enter the database password for SYS AS SYSDBA:</span><br><span class="line">  </span><br><span class="line">Retrieving information.</span><br><span class="line">ORDS is not installed in the database. ORDS installation is required.</span><br></pre></td></tr></table></figure>
+
+<p>接著會跳其他設定, 這裡就直接預設, 安裝完後他就直接啟動, 有點瞎 XD</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">  Enter a number to update the value or select option A to Accept and Continue</span><br><span class="line">    [1] Connection Type: Basic</span><br><span class="line">    [2] Basic Connection: HOST&#x3D;localhost PORT&#x3D;49161 SERVICE_NAME&#x3D;xe</span><br><span class="line">           Administrator User: SYS AS SYSDBA</span><br><span class="line">    [3] Database password for ORDS runtime user (ORDS_PUBLIC_USER): &lt;generate&gt;</span><br><span class="line">    [4] ORDS runtime user and schema tablespaces:  Default: SYSAUX Temporary TEMP</span><br><span class="line">    [5] Additional Feature: Database Actions</span><br><span class="line">    [6] Configure and start ORDS in Standalone Mode: Yes</span><br><span class="line">    [7]    Protocol: HTTP</span><br><span class="line">    [8]       HTTP Port: 8080</span><br><span class="line">    [9]   APEX static resources location:</span><br><span class="line">    [A] Accept and Continue - Create configuration and Install ORDS in the database</span><br><span class="line">    [Q] Quit - Do not proceed. No changes</span><br><span class="line">  Choose [A]:</span><br><span class="line">The setting named: db.connectionType was set to: basic in configuration: default</span><br><span class="line">The setting named: db.hostname was set to: localhost in configuration: default</span><br><span class="line">The setting named: db.port was set to: 49161 in configuration: default</span><br><span class="line">The setting named: db.servicename was set to: xe in configuration: default</span><br><span class="line">The setting named: plsql.gateway.mode was set to: proxied in configuration: default</span><br><span class="line">The setting named: db.username was set to: ORDS_PUBLIC_USER in configuration: default</span><br><span class="line">The setting named: db.password was set to: ****** in configuration: default</span><br><span class="line">The setting named: feature.sdw was set to: true in configuration: default</span><br><span class="line">The global setting named: database.api.enabled was set to: true</span><br><span class="line">The setting named: restEnabledSql.active was set to: true in configuration: default</span><br><span class="line">The global setting named: standalone.http.port was set to: 8080</span><br><span class="line">The global setting named: standalone.static.context.path was set to: &#x2F;ords</span><br><span class="line">The global setting named: standalone.doc.root was set to: &#x2F;home&#x2F;gg&#x2F;ords&#x2F;global&#x2F;doc_root</span><br><span class="line">The setting named: security.requestValidationFunction was set to: wwv_flow_epg_include_modules.authorize in configuration: default</span><br><span class="line">2024-09-20T02:51:09.781Z INFO        Created folder &#x2F;home&#x2F;gg&#x2F;ords&#x2F;logs</span><br><span class="line">2024-09-20T02:51:09.781Z INFO        The log file is defaulted to the current working directory located at &#x2F;home&#x2F;gg&#x2F;ords&#x2F;logs</span><br><span class="line">2024-09-20T02:51:09.803Z INFO        Installing Oracle REST Data Services version 24.2.3.r2011847 in NON_CDB</span><br><span class="line">2024-09-20T02:51:10.923Z INFO        ... Verified database prerequisites</span><br><span class="line">2024-09-20T02:51:11.261Z INFO        ... Created Oracle REST Data Services proxy user</span><br><span class="line">2024-09-20T02:51:11.766Z INFO        ... Created Oracle REST Data Services schema</span><br><span class="line">2024-09-20T02:51:12.276Z INFO        ... Granted privileges to Oracle REST Data Services</span><br><span class="line">2024-09-20T02:51:44.205Z INFO        ... Created Oracle REST Data Services database objects</span><br><span class="line">2024-09-20T02:52:06.180Z INFO        Completed installation for Oracle REST Data Services version 24.2.3.r2011847. Elapsed time: 00:00:56.350</span><br><span class="line"></span><br><span class="line">2024-09-20T02:52:07.197Z INFO        Completed configuring PL&#x2F;SQL gateway user for Oracle REST Data Services version 24.2.3.r2011847. Elapsed time: 00:00:01.14</span><br><span class="line"></span><br><span class="line">2024-09-20T02:52:07.199Z INFO        Log file written to &#x2F;home&#x2F;gg&#x2F;ords&#x2F;logs&#x2F;ords_install_2024-09-20_105109_78151.log</span><br><span class="line">2024-09-20T02:52:07.322Z INFO        HTTP and HTTP&#x2F;2 cleartext listening on host: 0.0.0.0 port: 8080</span><br><span class="line">2024-09-20T02:52:07.337Z INFO        Disabling document root because the specified folder does not exist: &#x2F;home&#x2F;gg&#x2F;ords&#x2F;global&#x2F;doc_root</span><br><span class="line">2024-09-20T02:52:07.337Z INFO        Default forwarding from &#x2F; to contextRoot configured.</span><br><span class="line">2024-09-20T02:52:09.235Z INFO        Configuration properties for: |default|lo|</span><br><span class="line">db.servicename&#x3D;xe</span><br><span class="line">db.hostname&#x3D;localhost</span><br><span class="line">db.password&#x3D;******</span><br><span class="line">conf.use.wallet&#x3D;true</span><br><span class="line">security.requestValidationFunction&#x3D;wwv_flow_epg_include_modules.authorize</span><br><span class="line">standalone.static.context.path&#x3D;&#x2F;ords</span><br><span class="line">database.api.enabled&#x3D;true</span><br><span class="line">db.username&#x3D;ORDS_PUBLIC_USER</span><br><span class="line">standalone.http.port&#x3D;8080</span><br><span class="line">restEnabledSql.active&#x3D;true</span><br><span class="line">resource.templates.enabled&#x3D;false</span><br><span class="line">plsql.gateway.mode&#x3D;proxied</span><br><span class="line">db.port&#x3D;49161</span><br><span class="line">feature.sdw&#x3D;true</span><br><span class="line">config.required&#x3D;true</span><br><span class="line">db.connectionType&#x3D;basic</span><br><span class="line">standalone.doc.root&#x3D;&#x2F;home&#x2F;gg&#x2F;ords&#x2F;global&#x2F;doc_root</span><br><span class="line"></span><br><span class="line">2024-09-20T02:52:09.235Z WARNING     *** jdbc.MaxLimit in configuration |default|lo| is using a value of 10, this setting may not be sized adequately for a production environment ***</span><br><span class="line">2024-09-20T02:52:09.236Z WARNING     *** jdbc.InitialLimit in configuration |default|lo| is using a value of 10, this setting may not be sized adequately for a production environment ***</span><br><span class="line">2024-09-20T02:52:15.842Z INFO</span><br><span class="line"></span><br><span class="line">Mapped local pools from &#x2F;home&#x2F;gg&#x2F;ords&#x2F;databases:</span><br><span class="line">  &#x2F;ords&#x2F;                              &#x3D;&gt; default                        &#x3D;&gt; VALID</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">2024-09-20T02:52:15.923Z INFO        Oracle REST Data Services initialized</span><br><span class="line">Oracle REST Data Services version : 24.2.3.r2011847</span><br><span class="line">Oracle REST Data Services server info: jetty&#x2F;10.0.21</span><br><span class="line">Oracle REST Data Services java info: OpenJDK 64-Bit Server VM 11.0.24+8-post-Ubuntu-1ubuntu320.04</span><br></pre></td></tr></table></figure>
+
+<p>正常執行 ords 要這樣下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ords.war serve</span><br></pre></td></tr></table></figure>
+
+<p>他有提供一個 web 後台, 可以看<a href="https://oracle-base.com/articles/misc/oracle-rest-data-services-ords-sql-developer-web" target="_blank" rel="noopener">這篇</a><br>比較雷的是以為他中文的綱要是 schema, 實際上則是你開啟 ords mapping 的路徑, 這裡用 <code>qq</code> 的話在 <code>web sql developer</code> 就要先填 <code>qq</code><br>同理 <code>OAuth2 Administration</code> 會直接要你敲 <code>Schema</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">  ORDS.enable_schema(</span><br><span class="line">    p_enabled             &#x3D;&gt; TRUE,</span><br><span class="line">    p_schema              &#x3D;&gt; &#39;TESTUSER1&#39;,</span><br><span class="line">    p_url_mapping_type    &#x3D;&gt; &#39;BASE_PATH&#39;,</span><br><span class="line">    p_url_mapping_pattern &#x3D;&gt; &#39;qq&#39;,</span><br><span class="line">    p_auto_rest_auth      &#x3D;&gt; FALSE</span><br><span class="line">  );</span><br><span class="line">    </span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>萬一前面安裝時忘了解鎖這兩個帳號 <code>APEX_PUBLIC_USER</code> <code>ORDS_PUBLIC_USER</code> 會噴類似的錯誤, 記得使用 sys 登入然後解鎖</p>
+<p><code>ORDS was unable to make a connection to the database. The database user specified by db.username configuration setting is locked. The connection pool named: |default|lo| had the following error(s): ORA-28000: the account is locked</code></p>
+<p><code>Caused by: java.sql.SQLException: ORA-28000: the account is locked</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sqlplus sys@localhost:49161 as sysdba</span><br><span class="line"></span><br><span class="line">ALTER USER APEX_PUBLIC_USER ACCOUNT UNLOCK;</span><br><span class="line">ALTER USER ORDS_PUBLIC_USER ACCOUNT UNLOCK;</span><br></pre></td></tr></table></figure>
+
+<h2 id="以-Oracle-預存程序實作-api"><a href="#以-Oracle-預存程序實作-api" class="headerlink" title="以 Oracle 預存程序實作 api"></a>以 Oracle 預存程序實作 api</h2><p>主要參考這篇<a href="https://oracle-base.com/articles/misc/oracle-rest-data-services-ords-create-basic-rest-web-services-using-plsql" target="_blank" rel="noopener">文章</a></p>
+<p>礙於篇幅因素, 這裡以 <code>rest-v9</code> 為範例示範 CRUD, 其他篇幅請參照他的系列文章及 Oracle 官方文件</p>
+<p>請先安裝 postman 進行以下 lab</p>
+<p>這裡可以連到以下我 wsl 底下 docker 的 oracle xe 或是自己 pull oracle xe 的 docker image 來裝看看</p>
+<p><code>username</code> =&gt; <code>system</code></p>
+<p><code>password</code> =&gt; <code>oracle</code></p>
+<p><code>ip</code> =&gt; <code>10.1.23.45</code></p>
+<p><code>port</code> =&gt; <code>49161</code></p>
+<p><code>sid</code> =&gt; <code>xe</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 讓自己的 wsl 內的 oracle xe 可以讓內網其他人連到</span><br><span class="line"># powershell</span><br><span class="line"># mapping to docker oracle xe</span><br><span class="line"># netsh interface portproxy add v4tov4 listenaddress&#x3D;10.1.23.45 listenport&#x3D;49161 connectaddress&#x3D;172.1.23.45 connectport&#x3D;49161</span><br></pre></td></tr></table></figure>
+
+<h3 id="建立測試用帳號"><a href="#建立測試用帳號" class="headerlink" title="建立測試用帳號"></a>建立測試用帳號</h3><p>登入 system</p>
+<p><code>sqlplus system/oracle@//localhost:49161/xe</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">CONN &#x2F; AS SYSDBA</span><br><span class="line">--ALTER SESSION SET CONTAINER&#x3D;pdb1;</span><br><span class="line"></span><br><span class="line">--DROP USER testuser1 CASCADE;</span><br><span class="line">CREATE USER testuser1 IDENTIFIED BY testuser1</span><br><span class="line">  DEFAULT TABLESPACE users QUOTA UNLIMITED ON users;</span><br><span class="line"></span><br><span class="line">GRANT CREATE SESSION, CREATE TABLE, CREATE TYPE TO testuser1;</span><br><span class="line">GRANT CREATE PROCEDURE TO testuser1;</span><br></pre></td></tr></table></figure>
+
+<p>以 <code>testuser1</code> 登入建立測試資料 <code>sqlplus testuser1/testuser1@//localhost:49161/xe</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE EMP (</span><br><span class="line">  EMPNO NUMBER(4,0),</span><br><span class="line">  ENAME VARCHAR2(10 BYTE),</span><br><span class="line">  JOB VARCHAR2(9 BYTE),</span><br><span class="line">  MGR NUMBER(4,0),</span><br><span class="line">  HIREDATE DATE,</span><br><span class="line">  SAL NUMBER(7,2),</span><br><span class="line">  COMM NUMBER(7,2),</span><br><span class="line">  DEPTNO NUMBER(2,0),</span><br><span class="line">  CONSTRAINT PK_EMP PRIMARY KEY (EMPNO)</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7369,&#39;SMITH&#39;,&#39;CLERK&#39;,7902,to_date(&#39;17-DEC-80&#39;,&#39;DD-MON-RR&#39;),800,null,20);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7499,&#39;ALLEN&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;20-FEB-81&#39;,&#39;DD-MON-RR&#39;),1600,300,30);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7521,&#39;WARD&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;22-FEB-81&#39;,&#39;DD-MON-RR&#39;),1250,500,30);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7566,&#39;JONES&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;02-APR-81&#39;,&#39;DD-MON-RR&#39;),2975,null,20);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7654,&#39;MARTIN&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;28-SEP-81&#39;,&#39;DD-MON-RR&#39;),1250,1400,30);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7698,&#39;BLAKE&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;01-MAY-81&#39;,&#39;DD-MON-RR&#39;),2850,null,30);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7782,&#39;CLARK&#39;,&#39;MANAGER&#39;,7839,to_date(&#39;09-JUN-81&#39;,&#39;DD-MON-RR&#39;),2450,null,10);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7788,&#39;SCOTT&#39;,&#39;ANALYST&#39;,7566,to_date(&#39;19-APR-87&#39;,&#39;DD-MON-RR&#39;),3000,null,20);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7839,&#39;KING&#39;,&#39;PRESIDENT&#39;,null,to_date(&#39;17-NOV-81&#39;,&#39;DD-MON-RR&#39;),5000,null,10);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7844,&#39;TURNER&#39;,&#39;SALESMAN&#39;,7698,to_date(&#39;08-SEP-81&#39;,&#39;DD-MON-RR&#39;),1500,0,30);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7876,&#39;ADAMS&#39;,&#39;CLERK&#39;,7788,to_date(&#39;23-MAY-87&#39;,&#39;DD-MON-RR&#39;),1100,null,20);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7900,&#39;JAMES&#39;,&#39;CLERK&#39;,7698,to_date(&#39;03-DEC-81&#39;,&#39;DD-MON-RR&#39;),950,null,30);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7902,&#39;FORD&#39;,&#39;ANALYST&#39;,7566,to_date(&#39;03-DEC-81&#39;,&#39;DD-MON-RR&#39;),3000,null,20);</span><br><span class="line">insert into EMP (EMPNO,ENAME,JOB,MGR,HIREDATE,SAL,COMM,DEPTNO) values (7934,&#39;MILLER&#39;,&#39;CLERK&#39;,7782,to_date(&#39;23-JAN-82&#39;,&#39;DD-MON-RR&#39;),1300,null,10);</span><br><span class="line">commit;</span><br></pre></td></tr></table></figure>
+
+<h3 id="啟用-ORDS"><a href="#啟用-ORDS" class="headerlink" title="啟用 ORDS"></a>啟用 ORDS</h3><p>這個步驟最為重要, 他這裡的 <code>p_url_mapping_pattern</code> 表示路徑 <code>http://localhost:8080/ords/hr/</code> 這個 <code>hr</code> 不能重複</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">  ORDS.enable_schema(</span><br><span class="line">    p_enabled             &#x3D;&gt; TRUE,</span><br><span class="line">    p_schema              &#x3D;&gt; &#39;TESTUSER1&#39;,</span><br><span class="line">    p_url_mapping_type    &#x3D;&gt; &#39;BASE_PATH&#39;,</span><br><span class="line">    p_url_mapping_pattern &#x3D;&gt; &#39;hr&#39;,</span><br><span class="line">    p_auto_rest_auth      &#x3D;&gt; FALSE</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SELECT parsing_schema,</span><br><span class="line">       pattern</span><br><span class="line">FROM   user_ords_schemas;</span><br></pre></td></tr></table></figure>
+
+<p>這裡如果要玩的話可以改用自己喜歡的 <code>test</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">  ORDS.enable_schema(</span><br><span class="line">    p_enabled             &#x3D;&gt; TRUE,</span><br><span class="line">    p_schema              &#x3D;&gt; &#39;test&#39;,</span><br><span class="line">    p_url_mapping_type    &#x3D;&gt; &#39;BASE_PATH&#39;,</span><br><span class="line">    p_url_mapping_pattern &#x3D;&gt; &#39;test&#39;,</span><br><span class="line">    p_auto_rest_auth      &#x3D;&gt; FALSE</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="撰寫預存程序"><a href="#撰寫預存程序" class="headerlink" title="撰寫預存程序"></a>撰寫預存程序</h3><p>建立預存程序 (insert) create_employee</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">CREATE OR REPLACE PROCEDURE create_employee (</span><br><span class="line">  p_empno     IN  emp.empno%TYPE,</span><br><span class="line">  p_ename     IN  emp.ename%TYPE,</span><br><span class="line">  p_job       IN  emp.job%TYPE,</span><br><span class="line">  p_mgr       IN  emp.mgr%TYPE,</span><br><span class="line">  p_hiredate  IN  VARCHAR2,</span><br><span class="line">  p_sal       IN  emp.sal%TYPE,</span><br><span class="line">  p_comm      IN  emp.comm%TYPE,</span><br><span class="line">  p_deptno    IN  emp.deptno%TYPE</span><br><span class="line">)</span><br><span class="line">AS</span><br><span class="line">BEGIN</span><br><span class="line">  INSERT INTO emp (empno, ename, job, mgr, hiredate, sal, comm, deptno)</span><br><span class="line">  VALUES (p_empno, p_ename, p_job, p_mgr, TO_DATE(p_hiredate, &#39;YYYY-MM-DD&#39;), p_sal, p_comm, p_deptno);</span><br><span class="line">EXCEPTION</span><br><span class="line">  WHEN OTHERS THEN</span><br><span class="line">    HTP.print(SQLERRM);</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>建立預存程序 (update) amend_employee</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">CREATE OR REPLACE PROCEDURE amend_employee (</span><br><span class="line">  p_empno     IN  emp.empno%TYPE,</span><br><span class="line">  p_ename     IN  emp.ename%TYPE,</span><br><span class="line">  p_job       IN  emp.job%TYPE,</span><br><span class="line">  p_mgr       IN  emp.mgr%TYPE,</span><br><span class="line">  p_hiredate  IN  VARCHAR2,</span><br><span class="line">  p_sal       IN  emp.sal%TYPE,</span><br><span class="line">  p_comm      IN  emp.comm%TYPE,</span><br><span class="line">  p_deptno    IN  emp.deptno%TYPE</span><br><span class="line">)</span><br><span class="line">AS</span><br><span class="line">BEGIN</span><br><span class="line">  UPDATE emp</span><br><span class="line">  SET ename    &#x3D; p_ename,</span><br><span class="line">      job      &#x3D; p_job,</span><br><span class="line">      mgr      &#x3D; p_mgr,</span><br><span class="line">      hiredate &#x3D; TO_DATE(p_hiredate, &#39;YYYY-MM-DD&#39;),</span><br><span class="line">      sal      &#x3D; p_sal,</span><br><span class="line">      comm     &#x3D; p_comm,</span><br><span class="line">      deptno   &#x3D; p_deptno</span><br><span class="line">  WHERE empno  &#x3D; p_empno;</span><br><span class="line">EXCEPTION</span><br><span class="line">  WHEN OTHERS THEN</span><br><span class="line">    HTP.print(SQLERRM);</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>建立預存程序 (delete) remove_employee</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">CREATE OR REPLACE PROCEDURE remove_employee (</span><br><span class="line">  p_empno  IN  emp.empno%TYPE</span><br><span class="line">)</span><br><span class="line">AS</span><br><span class="line">BEGIN</span><br><span class="line">  DELETE FROM emp WHERE empno &#x3D; p_empno;</span><br><span class="line">EXCEPTION</span><br><span class="line">  WHEN OTHERS THEN</span><br><span class="line">    HTP.print(SQLERRM);</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="撰寫-ORDS-API"><a href="#撰寫-ORDS-API" class="headerlink" title="撰寫 ORDS API"></a>撰寫 ORDS API</h3><p><code>define_module</code> =&gt; 先定義模組名稱, 然後定義他的路徑</p>
+<p><code>define_template</code> =&gt; 定義在哪個路徑, 他這裡用 <code>employees/</code></p>
+<p>因為我們一開始定義在 <code>hr</code> 底下</p>
+<p>所以他的最終路徑會長這樣 <code>http://localhost:8080/ords/hr/rest-v9/employees/</code></p>
+<p>這裡還可以在 <code>define_handler</code> 補個註解 <code>p_comments</code> =&gt; <code>get all employees</code> 這樣他會在 swagger 產出該方法說明<br>後來發現<a href="https://www.thatjeffsmith.com/archive/2020/02/how-to-customize-your-openapi-doc-for-oracle-rest-data-services/" target="_blank" rel="noopener">老外</a>寫說可以用 markdown, 會更詳細些</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">  ORDS.define_module(</span><br><span class="line">    p_module_name    &#x3D;&gt; &#39;rest-v9&#39;,</span><br><span class="line">    p_base_path      &#x3D;&gt; &#39;rest-v9&#x2F;&#39;,</span><br><span class="line">    p_items_per_page &#x3D;&gt; 0);</span><br><span class="line"></span><br><span class="line">  ORDS.define_template(</span><br><span class="line">   p_module_name    &#x3D;&gt; &#39;rest-v9&#39;,</span><br><span class="line">   p_pattern        &#x3D;&gt; &#39;employees&#x2F;&#39;);</span><br><span class="line"></span><br><span class="line">  -- READ : All records.</span><br><span class="line">  ORDS.define_handler(</span><br><span class="line">    p_module_name    &#x3D;&gt; &#39;rest-v9&#39;,</span><br><span class="line">    p_pattern        &#x3D;&gt; &#39;employees&#x2F;&#39;,</span><br><span class="line">    p_method         &#x3D;&gt; &#39;GET&#39;,</span><br><span class="line">    p_source_type    &#x3D;&gt; ORDS.source_type_collection_feed,</span><br><span class="line">    p_source         &#x3D;&gt; &#39;SELECT * FROM emp&#39;,</span><br><span class="line">    p_items_per_page &#x3D;&gt; 0);</span><br><span class="line"></span><br><span class="line">  -- INSERT</span><br><span class="line">  ORDS.define_handler(</span><br><span class="line">    p_module_name    &#x3D;&gt; &#39;rest-v9&#39;,</span><br><span class="line">    p_pattern        &#x3D;&gt; &#39;employees&#x2F;&#39;,</span><br><span class="line">    p_method         &#x3D;&gt; &#39;POST&#39;,</span><br><span class="line">    p_source_type    &#x3D;&gt; ORDS.source_type_plsql,</span><br><span class="line">    p_source         &#x3D;&gt; &#39;BEGIN</span><br><span class="line">                           create_employee (p_empno    &#x3D;&gt; :empno,</span><br><span class="line">                                            p_ename    &#x3D;&gt; :ename,</span><br><span class="line">                                            p_job      &#x3D;&gt; :job,</span><br><span class="line">                                            p_mgr      &#x3D;&gt; :mgr,</span><br><span class="line">                                            p_hiredate &#x3D;&gt; :hiredate,</span><br><span class="line">                                            p_sal      &#x3D;&gt; :sal,</span><br><span class="line">                                            p_comm     &#x3D;&gt; :comm,</span><br><span class="line">                                            p_deptno   &#x3D;&gt; :deptno);</span><br><span class="line">                         END;&#39;,</span><br><span class="line">    p_items_per_page &#x3D;&gt; 0);</span><br><span class="line"></span><br><span class="line">  -- UPDATE</span><br><span class="line">  ORDS.define_handler(</span><br><span class="line">    p_module_name    &#x3D;&gt; &#39;rest-v9&#39;,</span><br><span class="line">    p_pattern        &#x3D;&gt; &#39;employees&#x2F;&#39;,</span><br><span class="line">    p_method         &#x3D;&gt; &#39;PUT&#39;,</span><br><span class="line">    p_source_type    &#x3D;&gt; ORDS.source_type_plsql,</span><br><span class="line">    p_source         &#x3D;&gt; &#39;BEGIN</span><br><span class="line">                           amend_employee(p_empno    &#x3D;&gt; :empno,</span><br><span class="line">                                          p_ename    &#x3D;&gt; :ename,</span><br><span class="line">                                          p_job      &#x3D;&gt; :job,</span><br><span class="line">                                          p_mgr      &#x3D;&gt; :mgr,</span><br><span class="line">                                          p_hiredate &#x3D;&gt; :hiredate,</span><br><span class="line">                                          p_sal      &#x3D;&gt; :sal,</span><br><span class="line">                                          p_comm     &#x3D;&gt; :comm,</span><br><span class="line">                                          p_deptno   &#x3D;&gt; :deptno);</span><br><span class="line">                         END;&#39;,</span><br><span class="line">    p_items_per_page &#x3D;&gt; 0);</span><br><span class="line"></span><br><span class="line">  -- DELETE</span><br><span class="line">  ORDS.define_handler(</span><br><span class="line">    p_module_name    &#x3D;&gt; &#39;rest-v9&#39;,</span><br><span class="line">    p_pattern        &#x3D;&gt; &#39;employees&#x2F;&#39;,</span><br><span class="line">    p_method         &#x3D;&gt; &#39;DELETE&#39;,</span><br><span class="line">    p_source_type    &#x3D;&gt; ORDS.source_type_plsql,</span><br><span class="line">    p_source         &#x3D;&gt; &#39;BEGIN</span><br><span class="line">                           remove_employee(p_empno &#x3D;&gt; :empno);</span><br><span class="line">                         END;&#39;,</span><br><span class="line">    p_items_per_page &#x3D;&gt; 0);</span><br><span class="line"></span><br><span class="line">  -- READ : One Record</span><br><span class="line">  ORDS.define_template(</span><br><span class="line">   p_module_name    &#x3D;&gt; &#39;rest-v9&#39;,</span><br><span class="line">   p_pattern        &#x3D;&gt; &#39;employees&#x2F;:empno&#39;);</span><br><span class="line"></span><br><span class="line">  ORDS.define_handler(</span><br><span class="line">    p_module_name    &#x3D;&gt; &#39;rest-v9&#39;,</span><br><span class="line">    p_pattern        &#x3D;&gt; &#39;employees&#x2F;:empno&#39;,</span><br><span class="line">    p_method         &#x3D;&gt; &#39;GET&#39;,</span><br><span class="line">    p_source_type    &#x3D;&gt; ORDS.source_type_collection_feed,</span><br><span class="line">    p_source         &#x3D;&gt; &#39;SELECT * FROM emp WHERE empno &#x3D; :empno&#39;,</span><br><span class="line">    p_items_per_page &#x3D;&gt; 0);</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="以-GET-取得所有-employees"><a href="#以-GET-取得所有-employees" class="headerlink" title="以 GET 取得所有 employees"></a>以 GET 取得所有 employees</h3><p>GET 就把他想像成 sql 的查詢即可, 用 get 可以直接用 chrome 點以下網址即可獲得結果, 不須 postman</p>
+<p><a href="http://10.1.23.45:8080/ords/hr/rest-v9/employees/" target="_blank" rel="noopener">http://10.1.23.45:8080/ords/hr/rest-v9/employees/</a></p>
+<h3 id="以-GET-取得特定編號員工"><a href="#以-GET-取得特定編號員工" class="headerlink" title="以 GET 取得特定編號員工"></a>以 GET 取得特定編號員工</h3><p><a href="http://10.1.23.45:8080/ords/hr/rest-v9/employees/7499" target="_blank" rel="noopener">http://10.1.23.45:8080/ords/hr/rest-v9/employees/7499</a></p>
+<h3 id="以-POST-新增員工"><a href="#以-POST-新增員工" class="headerlink" title="以 POST 新增員工"></a>以 POST 新增員工</h3><p><a href="http://10.1.23.45:8080/ords/hr/rest-v9/employees/" target="_blank" rel="noopener">http://10.1.23.45:8080/ords/hr/rest-v9/employees/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;empno&quot;: 9999, &quot;ename&quot;: &quot;HALL&quot;, &quot;job&quot;: &quot;ANALYST&quot;, &quot;mgr&quot;: 7782, &quot;hiredate&quot;: &quot;2016-01-01&quot;, &quot;sal&quot;: 1000, &quot;comm&quot;: null, &quot;deptno&quot;: 10 &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="以-PUT-更新員工"><a href="#以-PUT-更新員工" class="headerlink" title="以 PUT 更新員工"></a>以 PUT 更新員工</h3><p><a href="http://10.1.23.45:8080/ords/hr/rest-v9/employees/" target="_blank" rel="noopener">http://10.1.23.45:8080/ords/hr/rest-v9/employees/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;empno&quot;: 9999, &quot;ename&quot;: &quot;WOOD&quot;, &quot;job&quot;: &quot;ANALYST&quot;, &quot;mgr&quot;: 7782, &quot;hiredate&quot;: &quot;2016-01-01&quot;, &quot;sal&quot;: 1000, &quot;comm&quot;: null, &quot;deptno&quot;: 20 &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="以-DELETE-刪除員工"><a href="#以-DELETE-刪除員工" class="headerlink" title="以 DELETE 刪除員工"></a>以 DELETE 刪除員工</h3><p><a href="http://10.1.23.45:8080/ords/hr/rest-v9/employees/" target="_blank" rel="noopener">http://10.1.23.45:8080/ords/hr/rest-v9/employees/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; &quot;empno&quot;: 9999 &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="查目前的-API-路徑"><a href="#查目前的-API-路徑" class="headerlink" title="查目前的 API 路徑"></a>查目前的 API 路徑</h2><p><a href="http://10.1.23.45:8080/ords/hr/open-api-catalog/" target="_blank" rel="noopener">http://10.1.23.45:8080/ords/hr/open-api-catalog/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">    &quot;items&quot;: [&#123;</span><br><span class="line">            &quot;name&quot;: &quot;rest-v1&quot;,</span><br><span class="line">            &quot;links&quot;: [&#123;</span><br><span class="line">                    &quot;rel&quot;: &quot;canonical&quot;,</span><br><span class="line">                    &quot;href&quot;: &quot;http:&#x2F;&#x2F;10.1.23.45:8080&#x2F;ords&#x2F;hr&#x2F;open-api-catalog&#x2F;rest-v1&#x2F;&quot;,</span><br><span class="line">                    &quot;mediaType&quot;: &quot;application&#x2F;openapi+json&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            &quot;name&quot;: &quot;rest-v3&quot;,</span><br><span class="line">            &quot;links&quot;: [&#123;</span><br><span class="line">                    &quot;rel&quot;: &quot;canonical&quot;,</span><br><span class="line">                    &quot;href&quot;: &quot;http:&#x2F;&#x2F;10.1.23.45:8080&#x2F;ords&#x2F;hr&#x2F;open-api-catalog&#x2F;rest-v3&#x2F;&quot;,</span><br><span class="line">                    &quot;mediaType&quot;: &quot;application&#x2F;openapi+json&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            ]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>可以點選 <code>links</code> =&gt; <code>href</code> 內的網址, 點開會有標準的 openapi json<br><a href="http://10.1.23.45:8080/ords/hr/rest-v1/" target="_blank" rel="noopener">http://10.1.23.45:8080/ords/hr/rest-v1/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;openapi&quot;: &quot;3.0.0&quot;,</span><br><span class="line">    &quot;info&quot;: &#123;</span><br><span class="line">        &quot;title&quot;: &quot;ORDS generated API for rest-v1&quot;,</span><br><span class="line">        &quot;version&quot;: &quot;1.0.0&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;servers&quot;: [&#123;</span><br><span class="line">            &quot;url&quot;: &quot;http:&#x2F;&#x2F;10.1.23.45:8080&#x2F;ords&#x2F;hr&#x2F;rest-v1&#x2F;&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    &quot;paths&quot;: &#123;</span><br><span class="line">        &quot;&#x2F;employees&#x2F;&quot;: &#123;</span><br><span class="line">            &quot;get&quot;: &#123;</span><br><span class="line">                &quot;description&quot;: &quot;Retrieve records from rest-v1&quot;,</span><br><span class="line">                &quot;responses&quot;: &#123;</span><br><span class="line">                    &quot;200&quot;: &#123;</span><br><span class="line">                        &quot;description&quot;: &quot;The queried record.&quot;,</span><br><span class="line">                        &quot;content&quot;: &#123;</span><br><span class="line">                            &quot;application&#x2F;json&quot;: &#123;</span><br><span class="line">                                &quot;schema&quot;: &#123;</span><br><span class="line">                                    &quot;type&quot;: &quot;object&quot;,</span><br><span class="line">                                    &quot;properties&quot;: &#123;</span><br><span class="line">                                        &quot;items&quot;: &#123;</span><br><span class="line">                                            &quot;type&quot;: &quot;array&quot;,</span><br><span class="line">                                            &quot;items&quot;: &#123;</span><br><span class="line">                                                &quot;type&quot;: &quot;object&quot;,</span><br><span class="line">                                                &quot;properties&quot;: &#123;</span><br><span class="line">                                                    &quot;comm&quot;: &#123;</span><br><span class="line">                                                        &quot;$ref&quot;: &quot;#&#x2F;components&#x2F;schemas&#x2F;NUMBER&quot;</span><br><span class="line">                                                    &#125;,</span><br><span class="line">                                                    &quot;deptno&quot;: &#123;</span><br><span class="line">                                                        &quot;$ref&quot;: &quot;#&#x2F;components&#x2F;schemas&#x2F;NUMBER&quot;</span><br><span class="line">                                                    &#125;,</span><br><span class="line">                                                    &quot;empno&quot;: &#123;</span><br><span class="line">                                                        &quot;$ref&quot;: &quot;#&#x2F;components&#x2F;schemas&#x2F;NUMBER&quot;</span><br><span class="line">                                                    &#125;,</span><br><span class="line">                                                    &quot;ename&quot;: &#123;</span><br><span class="line">                                                        &quot;$ref&quot;: &quot;#&#x2F;components&#x2F;schemas&#x2F;VARCHAR2&quot;</span><br><span class="line">                                                    &#125;,</span><br><span class="line">                                                    &quot;hiredate&quot;: &#123;</span><br><span class="line">                                                        &quot;$ref&quot;: &quot;#&#x2F;components&#x2F;schemas&#x2F;DATE&quot;</span><br><span class="line">                                                    &#125;,</span><br><span class="line">                                                    &quot;job&quot;: &#123;</span><br><span class="line">                                                        &quot;$ref&quot;: &quot;#&#x2F;components&#x2F;schemas&#x2F;VARCHAR2&quot;</span><br><span class="line">                                                    &#125;,</span><br><span class="line">                                                    &quot;mgr&quot;: &#123;</span><br><span class="line">                                                        &quot;$ref&quot;: &quot;#&#x2F;components&#x2F;schemas&#x2F;NUMBER&quot;</span><br><span class="line">                                                    &#125;,</span><br><span class="line">                                                    &quot;sal&quot;: &#123;</span><br><span class="line">                                                        &quot;$ref&quot;: &quot;#&#x2F;components&#x2F;schemas&#x2F;NUMBER&quot;</span><br><span class="line">                                                    &#125;</span><br><span class="line">                                                &#125;</span><br><span class="line">                                            &#125;</span><br><span class="line">                                        &#125;</span><br><span class="line">                                    &#125;</span><br><span class="line">                                &#125;</span><br><span class="line">                            &#125;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;parameters&quot;: []</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;components&quot;: &#123;</span><br><span class="line">        &quot;schemas&quot;: &#123;</span><br><span class="line">            &quot;DATE&quot;: &#123;</span><br><span class="line">                &quot;type&quot;: &quot;string&quot;,</span><br><span class="line">                &quot;format&quot;: &quot;date-time&quot;,</span><br><span class="line">                &quot;pattern&quot;: &quot;^\\d&#123;4&#125;-[01]\\d-[0123]\\dT[012]\\d:[0-5]\\d:[0-5]\\d(.\\d+)?(Z|([-+][012]\\d:[0-5]\\d))$&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;NUMBER&quot;: &#123;</span><br><span class="line">                &quot;type&quot;: &quot;number&quot;</span><br><span class="line">            &#125;,</span><br><span class="line">            &quot;VARCHAR2&quot;: &#123;</span><br><span class="line">                &quot;type&quot;: &quot;string&quot;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>貼到 <a href="https://editor.swagger.io/" target="_blank" rel="noopener">editor.swagger.io</a> 即可看見目前以 PL/SQL 實作之 api 結果</p>
+<p>或是使用 redocly 即可在本機產生 swagger 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redocly build-docs http:&#x2F;&#x2F;10.1.23.45:8080&#x2F;ords&#x2F;hr&#x2F;open-api-catalog&#x2F;rest-v9&#x2F; --output&#x3D;index.html</span><br></pre></td></tr></table></figure>
+
+<h2 id="https-設定"><a href="#https-設定" class="headerlink" title="https 設定"></a>https 設定</h2><p>這裡遇到 Invalid SNI <a href="https://peterobrien.blog/2024/02/29/invalid-sni-what-is-it-and-how-to-fix-it/" target="_blank" rel="noopener">參考老外</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">java -jar ords.war --config &#x2F;home&#x2F;gg&#x2F;ords config set security.verifySSL false</span><br><span class="line">java -jar ords.war --config &#x2F;home&#x2F;gg&#x2F;ords config set standalone.https.port 8443</span><br><span class="line">java -jar ords.war --config &#x2F;home&#x2F;gg&#x2F;ords config set standalone.https.host localhost</span><br></pre></td></tr></table></figure>
+
+<p>他設定檔的位置應該在此 <code>vim ~/ords/global/settings.xml</code></p>
+<p>設定完後就可以用 https 來訪問</p>
+<p><a href="https://localhost:8443/ords/hr/open-api-catalog/" target="_blank" rel="noopener">https://localhost:8443/ords/hr/open-api-catalog/</a></p>
+<p><code>settings.xml</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version&#x3D;&quot;1.0&quot; encoding&#x3D;&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!DOCTYPE properties SYSTEM &quot;http:&#x2F;&#x2F;java.sun.com&#x2F;dtd&#x2F;properties.dtd&quot;&gt;</span><br><span class="line">&lt;properties&gt;</span><br><span class="line">&lt;comment&gt;Saved on Thu Sep 12 17:54:51 CST 2024&lt;&#x2F;comment&gt;</span><br><span class="line">&lt;entry key&#x3D;&quot;database.api.enabled&quot;&gt;true&lt;&#x2F;entry&gt;</span><br><span class="line">&lt;entry key&#x3D;&quot;security.verifySSL&quot;&gt;false&lt;&#x2F;entry&gt;</span><br><span class="line">&lt;entry key&#x3D;&quot;standalone.doc.root&quot;&gt;&#x2F;home&#x2F;gg&#x2F;ords&#x2F;global&#x2F;doc_root&lt;&#x2F;entry&gt;</span><br><span class="line">&lt;entry key&#x3D;&quot;standalone.http.port&quot;&gt;8080&lt;&#x2F;entry&gt;</span><br><span class="line">&lt;entry key&#x3D;&quot;standalone.https.host&quot;&gt;localhost&lt;&#x2F;entry&gt;</span><br><span class="line">&lt;entry key&#x3D;&quot;standalone.https.port&quot;&gt;8443&lt;&#x2F;entry&gt;</span><br><span class="line">&lt;entry key&#x3D;&quot;standalone.static.context.path&quot;&gt;&#x2F;ords&lt;&#x2F;entry&gt;</span><br><span class="line">&lt;&#x2F;properties&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="OAuth"><a href="#OAuth" class="headerlink" title="OAuth"></a>OAuth</h2><h3 id="Basic-Authentication"><a href="#Basic-Authentication" class="headerlink" title="Basic Authentication"></a>Basic Authentication</h3><p>請參考<a href="https://oracle-base.com/articles/misc/oracle-rest-data-services-ords-authentication" target="_blank" rel="noopener">這篇</a></p>
+<p>他這裡有串命令官網文件, 跟這教學都沒更新, 只要用下面命令即可正常增加 <code>user</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ords.war config user add emp_user emp_role</span><br></pre></td></tr></table></figure>
+
+<p>命令如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">  ORDS.create_role(</span><br><span class="line">    p_role_name &#x3D;&gt; &#39;emp_role&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">  l_roles_arr    OWA.vc_arr;</span><br><span class="line">  l_patterns_arr OWA.vc_arr;</span><br><span class="line">BEGIN</span><br><span class="line">  l_roles_arr(1)    :&#x3D; &#39;emp_role&#39;;</span><br><span class="line">  l_patterns_arr(1) :&#x3D; &#39;&#x2F;employees&#x2F;*&#39;;</span><br><span class="line"></span><br><span class="line">  ORDS.define_privilege (</span><br><span class="line">    p_privilege_name &#x3D;&gt; &#39;emp_priv&#39;,</span><br><span class="line">    p_roles          &#x3D;&gt; l_roles_arr,</span><br><span class="line">    p_patterns       &#x3D;&gt; l_patterns_arr,</span><br><span class="line">    p_label          &#x3D;&gt; &#39;EMP Data&#39;,</span><br><span class="line">    p_description    &#x3D;&gt; &#39;Allow access to the EMP data.&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>不用 https 的話就直接下 <a href="http://localhost:8080/ords/hr/employees/7788" target="_blank" rel="noopener">http://localhost:8080/ords/hr/employees/7788</a> 就直接有結果</p>
+<h3 id="client-credentials"><a href="#client-credentials" class="headerlink" title="client credentials"></a>client credentials</h3><p>這裡要先記得開啟 api 保護</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">  l_roles_arr    OWA.vc_arr;</span><br><span class="line">  l_patterns_arr OWA.vc_arr;</span><br><span class="line">BEGIN</span><br><span class="line">  l_roles_arr(1)    :&#x3D; &#39;emp_role&#39;;</span><br><span class="line">  l_patterns_arr(1) :&#x3D; &#39;&#x2F;rest-v9&#x2F;employees&#x2F;*&#39;;</span><br><span class="line">  </span><br><span class="line">  ORDS.define_privilege (</span><br><span class="line">    p_privilege_name &#x3D;&gt; &#39;emp_priv&#39;,</span><br><span class="line">    p_roles          &#x3D;&gt; l_roles_arr,</span><br><span class="line">    p_patterns       &#x3D;&gt; l_patterns_arr,</span><br><span class="line">    p_label          &#x3D;&gt; &#39;EMP Data&#39;,</span><br><span class="line">    p_description    &#x3D;&gt; &#39;Allow access to the EMP data.&#39;</span><br><span class="line">  );</span><br><span class="line">   </span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">BEGIN</span><br><span class="line">  OAUTH.create_client(</span><br><span class="line">    p_name            &#x3D;&gt; &#39;emp_client&#39;,</span><br><span class="line">    p_grant_type      &#x3D;&gt; &#39;client_credentials&#39;,</span><br><span class="line">    p_owner           &#x3D;&gt; &#39;My Company Limited&#39;,</span><br><span class="line">    p_description     &#x3D;&gt; &#39;A client for Emp management&#39;,</span><br><span class="line">    p_support_email   &#x3D;&gt; &#39;tim@example.com&#39;,</span><br><span class="line">    p_privilege_names &#x3D;&gt; &#39;emp_priv&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">SELECT id, name, client_id, client_secret</span><br><span class="line">FROM   user_ords_clients;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">BEGIN</span><br><span class="line">  OAUTH.grant_client_role(</span><br><span class="line">    p_client_name &#x3D;&gt; &#39;emp_client&#39;,</span><br><span class="line">    p_role_name   &#x3D;&gt; &#39;emp_role&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>這裡因為是 client credentials 所以只會有 access token, 所以要驗證 token 過期的方法就是看狀態是否 401<br>可以參考這兩篇</p>
+<p><a href="https://www.jmjcloud.com/blog/ords-securing-services-using-oauth2-2-legged" target="_blank" rel="noopener">https://www.jmjcloud.com/blog/ords-securing-services-using-oauth2-2-legged</a><br><a href="https://www.jmjcloud.com/blog/ords-changing-the-default-oauth2-token-expiry-lifetime" target="_blank" rel="noopener">https://www.jmjcloud.com/blog/ords-changing-the-default-oauth2-token-expiry-lifetime</a></p>
+<h3 id="Authorization-Code"><a href="#Authorization-Code" class="headerlink" title="Authorization Code"></a>Authorization Code</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">  OAUTH.create_client(</span><br><span class="line">    p_name            &#x3D;&gt; &#39;emp_client&#39;,</span><br><span class="line">    p_grant_type      &#x3D;&gt; &#39;authorization_code&#39;,</span><br><span class="line">    p_owner           &#x3D;&gt; &#39;My Company Limited&#39;,</span><br><span class="line">    p_description     &#x3D;&gt; &#39;A client for Emp management&#39;,</span><br><span class="line">    p_redirect_uri    &#x3D;&gt; &#39;https:&#x2F;&#x2F;localhost:8443&#x2F;ords&#x2F;hr&#x2F;redirect&#39;,</span><br><span class="line">    p_support_email   &#x3D;&gt; &#39;tim@example.com&#39;,</span><br><span class="line">    p_support_uri     &#x3D;&gt; &#39;https:&#x2F;&#x2F;localhost:8443&#x2F;ords&#x2F;hr&#x2F;support&#39;,</span><br><span class="line">    p_privilege_names &#x3D;&gt; &#39;emp_priv&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br><span class="line"></span><br><span class="line">SELECT id, name, client_id, client_secret</span><br><span class="line">FROM   user_ords_clients;</span><br></pre></td></tr></table></figure>
+
+<p>這裡的 <code>state</code> 就隨便寫即可, 這裡用 ok</p>
+<p><a href="https://localhost:8443/ords/hr/oauth/auth?response_type=code&amp;client_id=Z4lbymKnlaG2JHtKgDD0uQ..&amp;state=ok" target="_blank" rel="noopener">https://localhost:8443/ords/hr/oauth/auth?response_type=code&amp;client_id=Z4lbymKnlaG2JHtKgDD0uQ..&amp;state=ok</a></p>
+<p>之後會噴這個 401 畫面</p>
+<p>輸入帳號 <code>emp_user</code> 及你的密碼即可登入</p>
+<p>接著跳這頁要你允許給權限</p>
+<p>然後他會跳這頁給你 <code>code</code> 這裡是 <code>rml0SJA1Rx-fe0rCYZaOJg</code>, 好像有時效性</p>
+<p><a href="https://localhost:8443/ords/hr/redirect?code=rml0SJA1Rx-fe0rCYZaOJg&amp;state=ok" target="_blank" rel="noopener">https://localhost:8443/ords/hr/redirect?code=rml0SJA1Rx-fe0rCYZaOJg&amp;state=ok</a></p>
+<p>用 curl or postman 拿 code 換 token, oauth 最重要口訣就是拿 code 換 token</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -i -k --user r20KPMlOwi0sYkjkQrH5LQ..:hQPkQgZgVsKEoa4rtW9gXQ.. --data &quot;grant_type&#x3D;authorization_code&amp;code&#x3D;vjokEevUwIavYYMRyFLsIg&quot; https:&#x2F;&#x2F;localhost:8443&#x2F;ords&#x2F;hr&#x2F;oauth&#x2F;token</span><br><span class="line"></span><br><span class="line">&#123;&quot;access_token&quot;:&quot;gdDAou1H3SC5ufnQxMoi_Q&quot;,&quot;token_type&quot;:&quot;bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;HOo1Uh1Y4pW5PxS3UlJv9A&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後用 postman 打看看, 也可用 curl</p>
+<h3 id="hostname-問題"><a href="#hostname-問題" class="headerlink" title="hostname 問題"></a>hostname 問題</h3><p>這裡一樣想對外有可能會噴 <code>Invalid SNI</code> <a href="https://peterobrien.blog/2024/02/29/invalid-sni-what-is-it-and-how-to-fix-it/" target="_blank" rel="noopener">參考老外</a></p>
+<p>另外還需要先把 <code>~/ords/global/standalone</code> 底下的這兩個檔案 <code>self-signed.key</code> <code>self-signed.pem</code> 刪除</p>
+<p>接著跑這個命令, 他好像只能指定 <code>唯一</code> 一個, 所以應該是選真實 ip</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># for linux</span><br><span class="line"># java -jar ords.war --config &#x2F;home&#x2F;gg&#x2F;ords config set standalone.https.host 172.1.23.45</span><br><span class="line"></span><br><span class="line"># for 真實 ip</span><br><span class="line">java -jar ords.war --config &#x2F;home&#x2F;gg&#x2F;ords config set standalone.https.host 10.1.23.45</span><br></pre></td></tr></table></figure>
+
+<p>最後先把 <code>ords</code> 的 web server 重啟</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ords.war serve</span><br></pre></td></tr></table></figure>
+
+<h3 id="delete"><a href="#delete" class="headerlink" title="delete"></a>delete</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">  OAUTH.revoke_client_role(</span><br><span class="line">    p_client_name &#x3D;&gt; &#39;emp_client&#39;,</span><br><span class="line">    p_role_name   &#x3D;&gt; &#39;emp_role&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br><span class="line"></span><br><span class="line">BEGIN</span><br><span class="line">  OAUTH.delete_client(</span><br><span class="line">    p_name &#x3D;&gt; &#39;emp_client&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">  ORDS.delete_privilege_mapping(</span><br><span class="line">    p_privilege_name &#x3D;&gt; &#39;emp_priv&#39;,</span><br><span class="line">    p_pattern &#x3D;&gt; &#39;&#x2F;employees&#x2F;*&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br><span class="line"></span><br><span class="line">BEGIN</span><br><span class="line">  ORDS.delete_privilege (</span><br><span class="line">    p_name &#x3D;&gt; &#39;emp_priv&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br><span class="line"></span><br><span class="line">BEGIN</span><br><span class="line">  ORDS.delete_role(</span><br><span class="line">    p_role_name &#x3D;&gt; &#39;emp_role&#39;</span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line">  COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ACL-設定"><a href="#ACL-設定" class="headerlink" title="ACL 設定"></a>ACL 設定</h3><p><a href="https://oracle-base.com/articles/11g/fine-grained-access-to-network-services-11gr1" target="_blank" rel="noopener">https://oracle-base.com/articles/11g/fine-grained-access-to-network-services-11gr1</a></p>
+<p>ACL 要這樣設定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">	dbms_network_acl_admin.create_acl (    </span><br><span class="line">	acl         &#x3D;&gt; &#39;utl_http.xml&#39;,         </span><br><span class="line">	description &#x3D;&gt; &#39;HTTP Access&#39;,          </span><br><span class="line">	principal   &#x3D;&gt; &#39;SYSTEM&#39;,               </span><br><span class="line">	is_grant    &#x3D;&gt; TRUE,                   </span><br><span class="line">	privilege   &#x3D;&gt; &#39;connect&#39;,              </span><br><span class="line">	start_date  &#x3D;&gt; null,                   </span><br><span class="line">	end_date    &#x3D;&gt; null                    </span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	dbms_network_acl_admin.add_privilege (  </span><br><span class="line">	acl        &#x3D;&gt; &#39;utl_http.xml&#39;,           </span><br><span class="line">	principal  &#x3D;&gt; &#39;SYSTEM&#39;,                 </span><br><span class="line">	is_grant   &#x3D;&gt; TRUE,                     </span><br><span class="line">	privilege  &#x3D;&gt; &#39;resolve&#39;,                </span><br><span class="line">	start_date &#x3D;&gt; null,                     </span><br><span class="line">	end_date   &#x3D;&gt; null</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	dbms_network_acl_admin.assign_acl (</span><br><span class="line">	acl        &#x3D;&gt; &#39;utl_http.xml&#39;,</span><br><span class="line">	host       &#x3D;&gt; &#39;*&#39;</span><br><span class="line">	);</span><br><span class="line">	</span><br><span class="line">	COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>這裡要把 UTL_HTTP 開給使用者<br>並開 acl, 注意 username 要大寫<br>不然會噴這樣 ORA-44416: Invalid ACL: Unresolved principal ‘testuser1’</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">GRANT EXECUTE ON UTL_HTTP TO testuser1;</span><br><span class="line"></span><br><span class="line">BEGIN</span><br><span class="line">	dbms_network_acl_admin.add_privilege (  </span><br><span class="line">	acl        &#x3D;&gt; &#39;utl_http.xml&#39;,           </span><br><span class="line">	principal  &#x3D;&gt; &#39;TESTUSER1&#39;,                 </span><br><span class="line">	is_grant   &#x3D;&gt; TRUE,                     </span><br><span class="line">	privilege  &#x3D;&gt; &#39;connect&#39;,                </span><br><span class="line">	start_date &#x3D;&gt; null,                     </span><br><span class="line">	end_date   &#x3D;&gt; null</span><br><span class="line">	);</span><br><span class="line">	</span><br><span class="line">	COMMIT;</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>最後用 TESTUSER1 呼叫個外部的 api 看看, 如果要 https 還要設定錢包, 這裡就懶得弄了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT UTL_HTTP.REQUEST(&#39;http:&#x2F;&#x2F;jsonplaceholder.typicode.com&#x2F;comments?postId&#x3D;1&#39;) DOC </span><br><span class="line">FROM DUAL;</span><br></pre></td></tr></table></figure>
+
+<h3 id="PL-SQL-用核發的-access-token-呼叫-ords-的-api"><a href="#PL-SQL-用核發的-access-token-呼叫-ords-的-api" class="headerlink" title="PL/SQL 用核發的 access token 呼叫 ords 的 api"></a>PL/SQL 用核發的 access token 呼叫 ords 的 api</h3><p>code 如下, 也是雷了半天</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">declare</span><br><span class="line">  l_http_request   utl_http.req;</span><br><span class="line">  l_http_response  utl_http.resp;</span><br><span class="line">  l_text           varchar2(32767);</span><br><span class="line">begin</span><br><span class="line">  -- Make a HTTP request and get the response.</span><br><span class="line">  --l_http_request  :&#x3D; utl_http.begin_request(&#39;http:&#x2F;&#x2F;localhost:8080&#x2F;ords&#x2F;hr&#x2F;rest-v9&#x2F;employees&#x2F;&#39;);</span><br><span class="line">  l_http_request  :&#x3D; utl_http.begin_request(&#39;http:&#x2F;&#x2F;172.24.141.71:8080&#x2F;ords&#x2F;hr&#x2F;rest-v9&#x2F;employees&#x2F;&#39;);</span><br><span class="line">  UTL_HTTP.set_header(l_http_request, &#39;Authorization&#39;, &#39;Bearer _PccQv26yDHZcovbgXhpzg&#39;);</span><br><span class="line"></span><br><span class="line">  l_http_response :&#x3D; utl_http.get_response(l_http_request);</span><br><span class="line"></span><br><span class="line">  -- Loop through the response.</span><br><span class="line">  begin</span><br><span class="line">    loop</span><br><span class="line">      utl_http.read_text(l_http_response, l_text, 32766);</span><br><span class="line">      dbms_output.put_line(l_text);</span><br><span class="line">    end loop;</span><br><span class="line">  exception</span><br><span class="line">    when utl_http.end_of_body then</span><br><span class="line">      utl_http.end_response(l_http_response);</span><br><span class="line">  end;</span><br><span class="line">exception</span><br><span class="line">  when others then</span><br><span class="line">    utl_http.end_response(l_http_response);</span><br><span class="line">    raise;</span><br><span class="line">end;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>這裡我測如果用 localhost 的話會噴這樣, 好像只能用 ip 太專業不懂 XD?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE HTML PUBLIC &quot;-&#x2F;&#x2F;IETF&#x2F;&#x2F;DTD HTML 2.0&#x2F;&#x2F;EN&quot;&gt;</span><br><span class="line">&lt;HTML&gt;&lt;HEAD&gt;</span><br><span class="line">&lt;TITLE&gt;400 Bad Request&lt;&#x2F;TITLE&gt;</span><br><span class="line">&lt;&#x2F;HEAD&gt;&lt;BODY&gt;&lt;H1&gt;Bad Request&lt;&#x2F;H1&gt;</span><br><span class="line">The HTTP client sent a request that this server could not understand.&lt;&#x2F;BODY&gt;&lt;&#x2F;HTML&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="PL-SQL-拿-ords-client-credentials-核發的-access-token"><a href="#PL-SQL-拿-ords-client-credentials-核發的-access-token" class="headerlink" title="PL/SQL 拿 ords client_credentials 核發的 access token"></a>PL/SQL 拿 ords client_credentials 核發的 access token</h3><p>拿 token 要用 client_id client_secret 先組 base64 出來, 可以參考<a href="https://stackoverflow.com/questions/34637761/how-to-pass-credentials-and-download-file-from-a-url-on-11g-oracle-pl-sql" target="_blank" rel="noopener">這篇</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select utl_raw.cast_to_varchar2(</span><br><span class="line">		utl_encode.base64_encode(</span><br><span class="line">			utl_i18n.string_to_raw(&#39;B5NgfoBVLS1ndtq4dRJ0Ew..:fPkowxijRbTmvWwM5Pr9Bw..&#39;, &#39;AL32UTF8&#39;)</span><br><span class="line">		)</span><br><span class="line">	)</span><br><span class="line">from dual;</span><br></pre></td></tr></table></figure>
+
+<p>但是組完後會發現一個問題, 他的字串會有換行符號, 如果這樣丟的話會發生錯誤</p>
+<p>“QjVOZ2ZvQlZMUzFuZHRxNGRSSjBFdy4uOmZQa293eGlqUmJUbXZXd001UHI5Qncu<br>Lg==”</p>
+<p>實際上應該要長這樣<br>“QjVOZ2ZvQlZMUzFuZHRxNGRSSjBFdy4uOmZQa293eGlqUmJUbXZXd001UHI5QncuLg==”</p>
+<p>所以可以用以下方式得到一個正確的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">	REPLACE(</span><br><span class="line">		REPLACE(</span><br><span class="line">			utl_raw.cast_to_varchar2(utl_encode.base64_encode(utl_i18n.string_to_raw(&#39;B5NgfoBVLS1ndtq4dRJ0Ew..:fPkowxijRbTmvWwM5Pr9Bw..&#39;, &#39;AL32UTF8&#39;))</span><br><span class="line">		), CHR(10), &#39;&#39;), CHR(13), &#39;&#39;)</span><br><span class="line">from dual;</span><br></pre></td></tr></table></figure>
+
+<p>最後參考<a href="https://intelligent-advisor.com/main/authenticating-oracle-intelligent-advisor-rest-api-from-sql/" target="_blank" rel="noopener">這篇</a> 就可以把 token 印出來囉, 灑花 ~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">DECLARE</span><br><span class="line">    http_req         utl_http.req;</span><br><span class="line">    http_resp        utl_http.resp;</span><br><span class="line">    l_authresponse   utl_http.resp;</span><br><span class="line">    l_authraw        VARCHAR2(32767);</span><br><span class="line">    l_authreqbody    VARCHAR2(2000);</span><br><span class="line">    v_url            VARCHAR2(2000) :&#x3D; &#39;http:&#x2F;&#x2F;172.24.141.71:8080&#x2F;ords&#x2F;hr&#x2F;oauth&#x2F;token&#39;;</span><br><span class="line">	content          VARCHAR2(4000) :&#x3D; &#39;grant_type&#x3D;client_credentials&#39;;</span><br><span class="line">BEGIN </span><br><span class="line">    http_req :&#x3D; utl_http.begin_request(v_url, &#39;POST&#39;);</span><br><span class="line">    utl_http.set_header(http_req, &#39;Content-Type&#39;, &#39;application&#x2F;x-www-form-urlencoded&#39;);</span><br><span class="line">    --utl_http.set_header(http_req, &#39;Authorization&#39;, &#39;Basic &#39; || &#39;QjVOZ2ZvQlZMUzFuZHRxNGRSSjBFdy4uOmZQa293eGlqUmJUbXZXd001UHI5QncuLg&#x3D;&#x3D;&#39;);	</span><br><span class="line"></span><br><span class="line">	utl_http.set_header(http_req, &#39;Authorization&#39;,</span><br><span class="line">	&#39;Basic &#39; || </span><br><span class="line">	REPLACE(</span><br><span class="line">		REPLACE(</span><br><span class="line">			utl_raw.cast_to_varchar2(utl_encode.base64_encode(utl_i18n.string_to_raw(&#39;B5NgfoBVLS1ndtq4dRJ0Ew..:fPkowxijRbTmvWwM5Pr9Bw..&#39;, &#39;AL32UTF8&#39;))</span><br><span class="line">		), CHR(10), &#39;&#39;), CHR(13), &#39;&#39;)</span><br><span class="line">	);</span><br><span class="line">	</span><br><span class="line">    utl_http.set_header(http_req, &#39;Content-Length&#39;, length(content));</span><br><span class="line">    utl_http.write_text(http_req, content);</span><br><span class="line">    dbms_output.put_line(content);</span><br><span class="line">    l_authresponse :&#x3D; utl_http.get_response(http_req);</span><br><span class="line">    utl_http.read_text(l_authresponse, l_authraw);</span><br><span class="line">    dbms_output.put_line(l_authraw);</span><br><span class="line">    utl_http.end_response(l_authresponse);</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="PL-SQL-用-authorization-code-的-refresh-token-取得-access-token"><a href="#PL-SQL-用-authorization-code-的-refresh-token-取得-access-token" class="headerlink" title="PL/SQL 用 authorization code 的 refresh token 取得 access token"></a>PL/SQL 用 authorization code 的 refresh token 取得 access token</h3><p>這也雷滿久的, 也沒啥文件 QQ<br>如果是 <code>authorization code</code> 的流程會給你 <code>refresh token</code>, 如果 <code>client_credentials</code> 則不會給你</p>
+<p>這裡一樣先到 <code>http://localhost:8080/ords/hr/oauth/auth?response_type=code&amp;client_id=HUQp7hr7ZAyrnRpOPBbKpw..&amp;state=xxoo</code> 換 code<br>然後用 curl 拿 code 換 token</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">curl -i -k --user HUQp7hr7ZAyrnRpOPBbKpw..:DBxFUd6GawcrXWrvokg94g.. --data &quot;grant_type&#x3D;authorization_code&amp;code&#x3D;FeCS-XY0HhYNFAQ6u_K0Uw&quot; http:&#x2F;&#x2F;10.1.54.180:8080&#x2F;ords&#x2F;hr&#x2F;oauth&#x2F;token</span><br><span class="line"></span><br><span class="line">&#123;&quot;access_token&quot;:&quot;lYKKov2fbVXfCk6IbeBhFQ&quot;,&quot;token_type&quot;:&quot;bearer&quot;,&quot;expires_in&quot;:3600,&quot;refresh_token&quot;:&quot;PKJpJDhBOMfXEWpqtTncKw&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著要得到 refresh token 他的 curl 是這樣打的, 他也是用 post <code>application/x-www-form-urlencoded</code> 的方式來得到 token</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl --location &#39;http:&#x2F;&#x2F;localhost:8080&#x2F;ords&#x2F;hr&#x2F;oauth&#x2F;token&#39; \</span><br><span class="line">--header &#39;Authorization: Basic SFVRcDdocjdaQXlyblJwT1BCYktwdy4uOkRCeEZVZDZHYXdjclhXcnZva2c5NGcuLg&#x3D;&#x3D;&#39; \</span><br><span class="line">--header &#39;Content-Type: application&#x2F;x-www-form-urlencoded&#39; \</span><br><span class="line">--data-urlencode &#39;grant_type&#x3D;refresh_token&#39; \</span><br><span class="line">--data-urlencode &#39;refresh_token&#x3D;PKJpJDhBOMfXEWpqtTncKw&#39;</span><br></pre></td></tr></table></figure>
+
+<p>要記得他跟 client_credentials 發的 client_id , client_secret 是不同低, 可以查這張表看是否已經建立</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select * from user_ords_clients;</span><br></pre></td></tr></table></figure>
+
+<p>以下為 PL/SQL 範例, 應該是不太會用到, 就玩看看 lol<br>這裡還要注意如果用 <code>&amp;</code> PL/SQL 會當成要輸入變數值, 所以先用 <code>SET DEFINE OFF</code> 關閉他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">SET DEFINE OFF;</span><br><span class="line">DECLARE</span><br><span class="line">    http_req         utl_http.req;</span><br><span class="line">    http_resp        utl_http.resp;</span><br><span class="line">    l_authresponse   utl_http.resp;</span><br><span class="line">    l_authraw        VARCHAR2(32767);</span><br><span class="line">    l_authreqbody    VARCHAR2(2000);</span><br><span class="line">    v_url            VARCHAR2(2000) :&#x3D; &#39;http:&#x2F;&#x2F;172.24.141.71:8080&#x2F;ords&#x2F;hr&#x2F;oauth&#x2F;token&#39;;</span><br><span class="line">	content          VARCHAR2(4000) :&#x3D; &#39;grant_type&#x3D;refresh_token&amp;refresh_token&#x3D;PKJpJDhBOMfXEWpqtTncKw&#39;;</span><br><span class="line">BEGIN </span><br><span class="line">    http_req :&#x3D; utl_http.begin_request(v_url, &#39;POST&#39;);</span><br><span class="line">    utl_http.set_header(http_req, &#39;Content-Type&#39;, &#39;application&#x2F;x-www-form-urlencoded&#39;);</span><br><span class="line">    --utl_http.set_header(http_req, &#39;Authorization&#39;, &#39;Basic &#39; || &#39;SFVRcDdocjdaQXlyblJwT1BCYktwdy4uOkRCeEZVZDZHYXdjclhXcnZva2c5NGcuLg&#x3D;&#x3D;&#39;);	</span><br><span class="line"></span><br><span class="line">	utl_http.set_header(http_req, &#39;Authorization&#39;,</span><br><span class="line">	&#39;Basic &#39; || </span><br><span class="line">	REPLACE(</span><br><span class="line">		REPLACE(</span><br><span class="line">			utl_raw.cast_to_varchar2(utl_encode.base64_encode(utl_i18n.string_to_raw(&#39;HUQp7hr7ZAyrnRpOPBbKpw..:DBxFUd6GawcrXWrvokg94g..&#39;, &#39;AL32UTF8&#39;))</span><br><span class="line">		), CHR(10), &#39;&#39;), CHR(13), &#39;&#39;)</span><br><span class="line">	);</span><br><span class="line">	</span><br><span class="line">    utl_http.set_header(http_req, &#39;Content-Length&#39;, length(content));</span><br><span class="line">    utl_http.write_text(http_req, content);</span><br><span class="line">    dbms_output.put_line(content);</span><br><span class="line">    l_authresponse :&#x3D; utl_http.get_response(http_req);</span><br><span class="line">    utl_http.read_text(l_authresponse, l_authraw);</span><br><span class="line">    dbms_output.put_line(l_authraw);</span><br><span class="line">    utl_http.end_response(l_authresponse);</span><br><span class="line">END;</span><br><span class="line">&#x2F;</span><br></pre></td></tr></table></figure>
+
+<h3 id="c-call-ords"><a href="#c-call-ords" class="headerlink" title="c# call ords"></a>c# call ords</h3><p>他的 client credentials 是用 username:password 這種模式, 整個詭異 XD</p>
+<p>可以看<a href="https://www.jmjcloud.com/blog/ords-securing-services-using-oauth2-2-legged" target="_blank" rel="noopener">這篇</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">[ApiController]</span><br><span class="line">[Route(&quot;[controller]&quot;)]</span><br><span class="line">public class EmpController : ControllerBase</span><br><span class="line">&#123;</span><br><span class="line"></span><br><span class="line">    private readonly ILogger&lt;EmpController&gt; _logger;</span><br><span class="line"></span><br><span class="line">    public EmpController(ILogger&lt;EmpController&gt; logger)</span><br><span class="line">    &#123;</span><br><span class="line">        _logger &#x3D; logger;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [HttpGet]</span><br><span class="line">    [Route(&quot;GetEmp&quot;)]</span><br><span class="line">    public async Task&lt;IActionResult&gt; Get()</span><br><span class="line">    &#123;</span><br><span class="line">        using HttpClient http &#x3D; new();</span><br><span class="line">        http.DefaultRequestHeaders.Add(&quot;Authorization&quot;, &quot;Bearer uPjC3RgmEoQ02whkst0Wug&quot;);</span><br><span class="line">        var resp &#x3D; await http.GetAsync(&quot;http:&#x2F;&#x2F;localhost:8080&#x2F;ords&#x2F;hr&#x2F;rest-v9&#x2F;employees&#x2F;&quot;);</span><br><span class="line">        var json &#x3D; await resp.Content.ReadAsStringAsync();</span><br><span class="line">        Console.WriteLine(json);</span><br><span class="line">        return Ok(json);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [HttpGet]</span><br><span class="line">    [Route(&quot;GetToken&quot;)]</span><br><span class="line">    public async Task&lt;IActionResult&gt; GetToken()</span><br><span class="line">    &#123;</span><br><span class="line">        using HttpClient client &#x3D; new();</span><br><span class="line"></span><br><span class="line">        string url &#x3D; &quot;http:&#x2F;&#x2F;localhost:8080&#x2F;ords&#x2F;hr&#x2F;oauth&#x2F;token&quot;;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 設定用戶名和密碼</span><br><span class="line">        var username &#x3D; &quot;B5NgfoBVLS1ndtq4dRJ0Ew..&quot;;</span><br><span class="line">        var password &#x3D; &quot;fPkowxijRbTmvWwM5Pr9Bw..&quot;;</span><br><span class="line">        var byteArray &#x3D; Encoding.ASCII.GetBytes($&quot;&#123;username&#125;:&#123;password&#125;&quot;);</span><br><span class="line">        client.DefaultRequestHeaders.Authorization &#x3D; new AuthenticationHeaderValue(&quot;Basic&quot;, Convert.ToBase64String(byteArray));</span><br><span class="line">        var content &#x3D; new StringContent(&quot;grant_type&#x3D;client_credentials&quot;, Encoding.UTF8, &quot;application&#x2F;x-www-form-urlencoded&quot;);</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 發送 POST 請求</span><br><span class="line">        HttpResponseMessage response &#x3D; await client.PostAsync(url, content);</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 確認請求成功</span><br><span class="line">        response.EnsureSuccessStatusCode();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 讀取響應內容為字串</span><br><span class="line">        string jsonResponse &#x3D; await response.Content.ReadAsStringAsync();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 顯示取得的 JSON</span><br><span class="line">        Console.WriteLine(jsonResponse);</span><br><span class="line"></span><br><span class="line">        return Ok(jsonResponse);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    [HttpGet]</span><br><span class="line">    [Route(&quot;GetRefreshToken&quot;)]</span><br><span class="line">    public async Task&lt;IActionResult&gt; GetRefreshToken()</span><br><span class="line">    &#123;</span><br><span class="line">        using HttpClient client &#x3D; new();</span><br><span class="line"></span><br><span class="line">        string url &#x3D; &quot;http:&#x2F;&#x2F;localhost:8080&#x2F;ords&#x2F;hr&#x2F;oauth&#x2F;token&quot;;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 設定用戶名和密碼</span><br><span class="line">        var username &#x3D; &quot;B5NgfoBVLS1ndtq4dRJ0Ew..&quot;;</span><br><span class="line">        var password &#x3D; &quot;fPkowxijRbTmvWwM5Pr9Bw..&quot;;</span><br><span class="line">        var byteArray &#x3D; Encoding.ASCII.GetBytes($&quot;&#123;username&#125;:&#123;password&#125;&quot;);</span><br><span class="line">        client.DefaultRequestHeaders.Authorization &#x3D; new AuthenticationHeaderValue(&quot;Basic&quot;, Convert.ToBase64String(byteArray));</span><br><span class="line">        var content &#x3D; new StringContent(</span><br><span class="line">            &quot;grant_type&#x3D;refresh_token&amp;refresh_token&#x3D;0BgjL6JmXB7H22j2iSYEpA&quot;, </span><br><span class="line">            Encoding.UTF8, </span><br><span class="line">            &quot;application&#x2F;x-www-form-urlencoded&quot;);</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 發送 POST 請求</span><br><span class="line">        HttpResponseMessage response &#x3D; await client.PostAsync(url, content);</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 確認請求成功</span><br><span class="line">        response.EnsureSuccessStatusCode();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 讀取響應內容為字串</span><br><span class="line">        string jsonResponse &#x3D; await response.Content.ReadAsStringAsync();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F; 顯示取得的 JSON</span><br><span class="line">        Console.WriteLine(jsonResponse);</span><br><span class="line"></span><br><span class="line">        return Ok(jsonResponse);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">		</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><h3 id="時區"><a href="#時區" class="headerlink" title="時區"></a>時區</h3><p>可以參考<a href="https://docs.oracle.com/en/database/oracle/oracle-rest-data-services/24.2/orddg/developing-REST-applications.html#GUID-2AFE28A3-26D3-4600-8BEB-E130DFAA25DB" target="_blank" rel="noopener">這裡</a><br>如果是 windows 需要設定環境變數, 這篇 有說明各種 java 關於 <code>OPTIONS</code> 的區別<br>變數 =&gt; <code>_JAVA_OPTIONS</code><br>值 =&gt; <code>-Duser.timezone=Asia/Taipei</code></p>
+<p>linux 則是啟動時直接下 <code>java -Duser.timezone=Asia/Taipei -jar ords.war serve</code> 就搞定惹<br>或是設定環境變數 <code>JVM_TIMEZONE</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim ~&#x2F;.bashrc</span><br><span class="line">export JVM_TIMEZONE&#x3D;&quot;Asia&#x2F;Taipei&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="windows-安裝"><a href="#windows-安裝" class="headerlink" title="windows 安裝"></a>windows 安裝</h3><p>後來發現如果 windows 安裝他好像會自動偵測 <code>tnsnames.ora</code> 然後就會直接出現在選單裡</p>
+<p>C:\Users\YOURUSERNAME\Oracle\network\admin\tnsnames.ora</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">docker11g &#x3D;</span><br><span class="line">  (DESCRIPTION &#x3D;</span><br><span class="line">    (ADDRESS &#x3D; (PROTOCOL &#x3D; TCP)(HOST &#x3D; localhost)(PORT &#x3D; 49161))</span><br><span class="line">	(CONNECT_DATA &#x3D; </span><br><span class="line">		(SERVICE_NAME&#x3D;xe))</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/oracle/" rel="tag"># oracle</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/18/sqlplus-clear-screen/" rel="prev" title="sqlplus clear screen">
+      <i class="fa fa-chevron-left"></i> sqlplus clear screen
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/24/oracle-sqlcl-%E8%A8%AD%E5%AE%9A/" rel="next" title="oracle sqlcl 設定">
+      oracle sqlcl 設定 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#wsl-安裝-docker"><span class="nav-number">1.</span> <span class="nav-text">wsl 安裝 docker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lab-環境架構"><span class="nav-number">2.</span> <span class="nav-text">Lab 環境架構</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安裝"><span class="nav-number">3.</span> <span class="nav-text">安裝</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以-Oracle-預存程序實作-api"><span class="nav-number">4.</span> <span class="nav-text">以 Oracle 預存程序實作 api</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#建立測試用帳號"><span class="nav-number">4.1.</span> <span class="nav-text">建立測試用帳號</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#啟用-ORDS"><span class="nav-number">4.2.</span> <span class="nav-text">啟用 ORDS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#撰寫預存程序"><span class="nav-number">4.3.</span> <span class="nav-text">撰寫預存程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#撰寫-ORDS-API"><span class="nav-number">4.4.</span> <span class="nav-text">撰寫 ORDS API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-GET-取得所有-employees"><span class="nav-number">4.5.</span> <span class="nav-text">以 GET 取得所有 employees</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-GET-取得特定編號員工"><span class="nav-number">4.6.</span> <span class="nav-text">以 GET 取得特定編號員工</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-POST-新增員工"><span class="nav-number">4.7.</span> <span class="nav-text">以 POST 新增員工</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-PUT-更新員工"><span class="nav-number">4.8.</span> <span class="nav-text">以 PUT 更新員工</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#以-DELETE-刪除員工"><span class="nav-number">4.9.</span> <span class="nav-text">以 DELETE 刪除員工</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查目前的-API-路徑"><span class="nav-number">5.</span> <span class="nav-text">查目前的 API 路徑</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#https-設定"><span class="nav-number">6.</span> <span class="nav-text">https 設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OAuth"><span class="nav-number">7.</span> <span class="nav-text">OAuth</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Basic-Authentication"><span class="nav-number">7.1.</span> <span class="nav-text">Basic Authentication</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#client-credentials"><span class="nav-number">7.2.</span> <span class="nav-text">client credentials</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Authorization-Code"><span class="nav-number">7.3.</span> <span class="nav-text">Authorization Code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hostname-問題"><span class="nav-number">7.4.</span> <span class="nav-text">hostname 問題</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#delete"><span class="nav-number">7.5.</span> <span class="nav-text">delete</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ACL-設定"><span class="nav-number">7.6.</span> <span class="nav-text">ACL 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PL-SQL-用核發的-access-token-呼叫-ords-的-api"><span class="nav-number">7.7.</span> <span class="nav-text">PL&#x2F;SQL 用核發的 access token 呼叫 ords 的 api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PL-SQL-拿-ords-client-credentials-核發的-access-token"><span class="nav-number">7.8.</span> <span class="nav-text">PL&#x2F;SQL 拿 ords client_credentials 核發的 access token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PL-SQL-用-authorization-code-的-refresh-token-取得-access-token"><span class="nav-number">7.9.</span> <span class="nav-text">PL&#x2F;SQL 用 authorization code 的 refresh token 取得 access token</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-call-ords"><span class="nav-number">7.10.</span> <span class="nav-text">c# call ords</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#其他"><span class="nav-number">8.</span> <span class="nav-text">其他</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#時區"><span class="nav-number">8.1.</span> <span class="nav-text">時區</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#windows-安裝"><span class="nav-number">8.2.</span> <span class="nav-text">windows 安裝</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2024/09/18/oracle-rest-data-service-lab/";
+    this.page.identifier = "2024/09/18/oracle-rest-data-service-lab/";
+    this.page.title = "oracle rest data service lab";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

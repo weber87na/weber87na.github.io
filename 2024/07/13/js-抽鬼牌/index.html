@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="js 抽鬼牌">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2024/07/13/js-%E6%8A%BD%E9%AC%BC%E7%89%8C/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-07-12T17:28:17.000Z">
+<meta property="article:modified_time" content="2025-03-05T17:29:42.570Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="js">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2024/07/13/js-%E6%8A%BD%E9%AC%BC%E7%89%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>js 抽鬼牌 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2024/07/13/js-%E6%8A%BD%E9%AC%BC%E7%89%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          js 抽鬼牌
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2024-07-13 01:28:17" itemprop="dateCreated datePublished" datetime="2024-07-13T01:28:17+08:00">2024-07-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-03-06 01:29:42" itemprop="dateModified" datetime="2025-03-06T01:29:42+08:00">2025-03-06</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2024/07/13/js-%E6%8A%BD%E9%AC%BC%E7%89%8C/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/07/13/js-抽鬼牌/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.4k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>7 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<p>七月要到了, 無聊想說搞個抽鬼牌看看, 果然寫得卡到卡到的 ~<br>卡到後來 UI 也懶得弄了, 沒想像中那麼容易寫, 順便筆記下</p>
+<h2 id="發牌"><a href="#發牌" class="headerlink" title="發牌"></a>發牌</h2><p>一個花色有 13 張牌, 共 4 個花色 , 外加一張鬼牌, 所以共 53 張</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">initCards</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="comment">//交叉花色發從 1 - 13</span></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= <span class="number">13</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; <span class="number">4</span>; j++) &#123;</span><br><span class="line">      cards.push(&#123;</span><br><span class="line">        suit: suits[j],</span><br><span class="line">        num: i,</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  cards.push(&#123; <span class="attr">suit</span>: <span class="string">'joker'</span>, <span class="attr">num</span>: <span class="number">99</span> &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="取得兩數之間的亂數"><a href="#取得兩數之間的亂數" class="headerlink" title="取得兩數之間的亂數"></a>取得兩數之間的亂數</h2><p>老朋友, 怎麼寫怎麼忘, 每次都用 gpt 產生</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">getRandomNumber</span>(<span class="params">min, max</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="built_in">Math</span>.floor(<span class="built_in">Math</span>.random() * (max - min + <span class="number">1</span>)) + min;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="洗牌"><a href="#洗牌" class="headerlink" title="洗牌"></a>洗牌</h2><p>洗牌就隨便亂數產個兩張卡, 互相交換位置即可, 萬一抽到重覆的直接用遞迴再抽一次<br>接著用 doShuffle 洗個 100 次</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">function shuffle(cards) &#123;</span><br><span class="line">  let num1 &#x3D; getRandomNumber(0, 52);</span><br><span class="line">  let num2 &#x3D; getRandomNumber(0, 52);</span><br><span class="line">  if (num1 &#x3D;&#x3D;&#x3D; num2) return shuffle(cards);</span><br><span class="line"></span><br><span class="line">  let card1 &#x3D; cards[num1];</span><br><span class="line">  let tmpCard1 &#x3D; &#123; ...card1 &#125;;</span><br><span class="line">  let card2 &#x3D; cards[num2];</span><br><span class="line">  cards[num1] &#x3D; card2;</span><br><span class="line">  cards[num2] &#x3D; tmpCard1;</span><br><span class="line"></span><br><span class="line">  return cards;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;執行 100 次洗牌</span><br><span class="line">function doShuffle(cards) &#123;</span><br><span class="line">  let result &#x3D; [];</span><br><span class="line">  for (let i &#x3D; 0; i &lt; 100; i++) &#123;</span><br><span class="line">    result &#x3D; shuffle(cards);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="發牌-1"><a href="#發牌-1" class="headerlink" title="發牌"></a>發牌</h2><p>發牌只針對一個花色處理, 從一個牌堆不斷 pop 彈出 13 張給該玩家, 如果牌堆只剩一張就把這張給最後一個玩家</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dealingCards</span>(<span class="params">player</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="number">13</span>; i++) &#123;</span><br><span class="line">    <span class="keyword">let</span> card = cards.pop();</span><br><span class="line">    player.push(card);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (cards.length === <span class="number">1</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> card = cards.pop();</span><br><span class="line">    player.push(card);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="找對子"><a href="#找對子" class="headerlink" title="找對子"></a>找對子</h2><p>這個函數應該可以拆兩個, 不過偷懶就一個做完<br>首先用一個 keeper 物件來保存每個數字出現幾次</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	3: 2</span><br><span class="line">	6: 1</span><br><span class="line">	7: 2</span><br><span class="line">	8: 3</span><br><span class="line">	9: 1</span><br><span class="line">	10: 1</span><br><span class="line">	11: 1</span><br><span class="line">	12: 2</span><br><span class="line">	99: 1</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著從這裏面撈出 value &gt; 1 的, 即為該 array 內可以組成對子的, 最後回傳</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">	&#123;num: 3, count:2&#125;,</span><br><span class="line">	&#123;num: 7, count:2&#125;,</span><br><span class="line">	&#123;num: 8, count:3&#125;,</span><br><span class="line">	&#123;num: 12, count:2&#125;,</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//撈出相同數字的卡片有可能, 同個數字有可能 2 3 4 張</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">findCanPair</span>(<span class="params">player</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (player.length === <span class="number">0</span>) <span class="keyword">return</span> [];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> keeper = &#123;&#125;;</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> card <span class="keyword">of</span> player) &#123;</span><br><span class="line">    <span class="keyword">if</span> (!keeper[card.num]) &#123;</span><br><span class="line">      keeper[card.num] = <span class="number">1</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      keeper[card.num] += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> result = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> key <span class="keyword">in</span> keeper) &#123;</span><br><span class="line">    <span class="keyword">if</span> (keeper.hasOwnProperty(key)) &#123;</span><br><span class="line">      <span class="keyword">let</span> value = keeper[key];</span><br><span class="line">      <span class="comment">//可能 2 3 4</span></span><br><span class="line">      <span class="keyword">if</span> (value &gt; <span class="number">1</span>)</span><br><span class="line">        result.push(&#123;</span><br><span class="line">          num: <span class="built_in">parseInt</span>(key),</span><br><span class="line">          count: value,</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'keeper'</span>, keeper);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'result'</span>, result);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="取得匹配-2-張或-4-張可以組成對子的卡"><a href="#取得匹配-2-張或-4-張可以組成對子的卡" class="headerlink" title="取得匹配 2 張或 4 張可以組成對子的卡"></a>取得匹配 2 張或 4 張可以組成對子的卡</h2><p>這裡可以用 every 來得到該牌堆是否能組成 2 張或 4 張對子的卡<br>然後呼叫 canPairCards.map 做出類似 sql select num from xxx 的效果<br>接著用 card2.filter((ele) =&gt; !card1.includes(ele)) 把玩家本身的卡與能夠為對子的卡相減<br>類似 sql 的 minus or except 最後回傳相減的集合</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dropEven</span>(<span class="params">player</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (player.length === <span class="number">0</span>) <span class="keyword">return</span> [];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> canPairCards = findCanPair(player);</span><br><span class="line">  <span class="comment">//判斷是否直接把牌丟掉</span></span><br><span class="line">  <span class="keyword">let</span> dropAll = canPairCards.every(<span class="function">(<span class="params">x</span>) =&gt;</span> x.count === <span class="number">2</span> || x.count === <span class="number">4</span>);</span><br><span class="line">  <span class="keyword">if</span> (dropAll) &#123;</span><br><span class="line">    <span class="comment">//用 map 達成 sql select 效果取得 num</span></span><br><span class="line">    <span class="keyword">let</span> card1 = canPairCards.map(<span class="function">(<span class="params">x</span>) =&gt;</span> x.num);</span><br><span class="line">    <span class="comment">//玩家的卡</span></span><br><span class="line">    <span class="keyword">let</span> card2 = player.map(<span class="function">(<span class="params">x</span>) =&gt;</span> x.num);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//array 相減取得結果, 必須要是玩家減去可以丟的</span></span><br><span class="line">    <span class="keyword">let</span> subCards = card2.filter(<span class="function">(<span class="params">ele</span>) =&gt;</span> !card1.includes(ele));</span><br><span class="line">    <span class="comment">// console.log('card2 - card1 = ', subCards);</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//取得結果</span></span><br><span class="line">    <span class="keyword">let</span> result = player.filter(<span class="function">(<span class="params">ele</span>) =&gt;</span> subCards.includes(ele.num));</span><br><span class="line">    <span class="comment">// console.log('the result', result);</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> [];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="找出一個數字出現-3-次的卡"><a href="#找出一個數字出現-3-次的卡" class="headerlink" title="找出一個數字出現 3 次的卡"></a>找出一個數字出現 3 次的卡</h2><p>這裡用 some 判斷是否有出現一次以上 3 張卡數字相同的<br>如果有的話, 先用 filter 做成一個只留數字的 array<br>接著跑兩層迴圈把有符合連續三個數字的 前兩張卡 丟棄, 只留下一張<br>這裡需要用 splice 來移除, 並且要呼叫 i– 來減少索引, 不然索引會錯誤</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dropAny3NumToNormal</span>(<span class="params">player</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (player.length === <span class="number">0</span>) <span class="keyword">return</span> [];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> canPairCards = findCanPair(player);</span><br><span class="line">  <span class="keyword">let</span> any3Counts = canPairCards.some(<span class="function">(<span class="params">x</span>) =&gt;</span> x.count === <span class="number">3</span>);</span><br><span class="line">  <span class="keyword">if</span> (any3Counts) &#123;</span><br><span class="line">    <span class="keyword">let</span> specialNums = canPairCards</span><br><span class="line">      .filter(<span class="function">(<span class="params">ele</span>) =&gt;</span> ele.count === <span class="number">3</span>)</span><br><span class="line">      .map(<span class="function">(<span class="params">x</span>) =&gt;</span> x.num);</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'specialNums'</span>, specialNums);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> clonePlayer = [...player];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> num <span class="keyword">of</span> specialNums) &#123;</span><br><span class="line">      <span class="keyword">let</span> counter = <span class="number">0</span>;</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; clonePlayer.length; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (counter === <span class="number">2</span>) <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (clonePlayer[i].num === num) &#123;</span><br><span class="line">          <span class="comment">//刪除符合的前兩個數字, 調整 array</span></span><br><span class="line">          clonePlayer.splice(i, <span class="number">1</span>);</span><br><span class="line">          i--;</span><br><span class="line">          counter++;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> clonePlayer;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> [];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="丟棄對子"><a href="#丟棄對子" class="headerlink" title="丟棄對子"></a>丟棄對子</h3><p>丟棄對子有三種情況</p>
+<p>首先可能很賽都沒對子, 直接 return 本來的牌堆</p>
+<p>第二種則是拿到可以組成對子的卡剛好都是 2 or 4, 只要呼叫 dropEven 就搞定了</p>
+<p>最後一種則是有拿到 3 張相同數字的, 所以先呼叫 dropAny3NumToNormal 把牌丟成正常狀況<br>接著再呼叫 dropEven 讓剩餘的卡有組成 2 or 4 對子的丟掉即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">dropPlayerPairs</span>(<span class="params">player</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (player.length === <span class="number">0</span>) <span class="keyword">return</span> [];</span><br><span class="line"></span><br><span class="line">  <span class="comment">// console.log('orig cards', player)</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> canPairCards = findCanPair(player);</span><br><span class="line"></span><br><span class="line">  <span class="comment">//萬一很賽都沒拿到對子</span></span><br><span class="line">  <span class="keyword">if</span> (canPairCards.length === <span class="number">0</span>) <span class="keyword">return</span> player;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//刪除數字可以組成正常對子的</span></span><br><span class="line">  <span class="keyword">let</span> result = dropEven(player);</span><br><span class="line">  <span class="keyword">if</span> (result.length &gt; <span class="number">0</span>) <span class="keyword">return</span> result;</span><br><span class="line"></span><br><span class="line">  <span class="comment">//刪除數字組成對子但是有三張相同數字的</span></span><br><span class="line">  <span class="keyword">let</span> normalize = dropAny3NumToNormal(player);</span><br><span class="line">  result = dropEven(normalize);</span><br><span class="line">  <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="抽卡"><a href="#抽卡" class="headerlink" title="抽卡"></a>抽卡</h2><p>抽卡則是由 A 抽 B<br>所以亂數取得卡片位置, 接著把 B 的 array 減小<br>最後把抽到的卡 push 進去 A</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">drawCard</span>(<span class="params">players, numA, numB</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> playerA = players[numA];</span><br><span class="line">  <span class="keyword">let</span> playerB = players[numB];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> num = getRandomNumber(<span class="number">0</span>, playerB.length - <span class="number">1</span>);</span><br><span class="line">  <span class="keyword">let</span> theCard = playerB[num];</span><br><span class="line"></span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">let</span> i = playerB.length - <span class="number">1</span>; i &gt;= <span class="number">0</span>; i--) &#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="built_in">JSON</span>.stringify(playerB[i]) === <span class="built_in">JSON</span>.stringify(theCard)) &#123;</span><br><span class="line">      playerB.splice(i, <span class="number">1</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  playerA.push(theCard);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> players;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="是否只剩下鬼牌"><a href="#是否只剩下鬼牌" class="headerlink" title="是否只剩下鬼牌"></a>是否只剩下鬼牌</h2><p>這個比較簡單, 因為丟對子函數會幫我們把其他非鬼牌都處理掉<br>所以只要判斷卡堆是否只剩下一張卡, 並且其他幾個卡堆都沒卡即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isOnlyJoker</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (</span><br><span class="line">    players[<span class="number">0</span>].length === <span class="number">1</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">1</span>].length === <span class="number">0</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">2</span>].length === <span class="number">0</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">3</span>].length === <span class="number">0</span></span><br><span class="line">  )</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (</span><br><span class="line">    players[<span class="number">0</span>].length === <span class="number">0</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">1</span>].length === <span class="number">1</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">2</span>].length === <span class="number">0</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">3</span>].length === <span class="number">0</span></span><br><span class="line">  )</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (</span><br><span class="line">    players[<span class="number">0</span>].length === <span class="number">0</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">1</span>].length === <span class="number">0</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">2</span>].length === <span class="number">1</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">3</span>].length === <span class="number">0</span></span><br><span class="line">  )</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (</span><br><span class="line">    players[<span class="number">0</span>].length === <span class="number">0</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">1</span>].length === <span class="number">0</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">2</span>].length === <span class="number">0</span> &amp;&amp;</span><br><span class="line">    players[<span class="number">3</span>].length === <span class="number">1</span></span><br><span class="line">  )</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="取得真正執行抽卡或被抽卡的人"><a href="#取得真正執行抽卡或被抽卡的人" class="headerlink" title="取得真正執行抽卡或被抽卡的人"></a>取得真正執行抽卡或被抽卡的人</h2><p>這個函數比較燒腦點</p>
+<p>正常情況下, 抽排會由 0 ~ 3 這樣的順序執行, 因為這個函數同時負責取得目前玩家, 還有下個玩家<br>所以使用上有可能會傳入 turn + 1 造成超越 array 範圍的狀況, 所以先放個防禦式<br>當超過範圍時, 先把 turn 設定為 0, 才進入下個步驟</p>
+<p>由於牌有可能被抽完, 這時候則需要把 turn + 1 讓下個人抽, 由於下個人也可能卡已經抽完, 所以將此動作寫為遞迴</p>
+<p>最後則是正常情況, 直接返回 turn 即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">realTurn</span>(<span class="params">turn</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (turn &gt; <span class="number">3</span>) turn = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (players[turn].length === <span class="number">0</span>) &#123;</span><br><span class="line">    turn++;</span><br><span class="line">    <span class="keyword">return</span> realTurn(turn);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> turn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判斷是否-gg"><a href="#判斷是否-gg" class="headerlink" title="判斷是否 gg"></a>判斷是否 gg</h2><p>這個函數將先前的函數組合起來, 先用 realTurn 取得真正要執行抽卡的人, 接著用 realTurn(turn + 1) 取得下家<br>分別將索引放入 drawCard 來修改這兩者的 array<br>接續使用 dropPlayerPairs 判斷抽卡結束是否可以組成對子<br>最後看看是否只剩下鬼牌, 是的話回傳 -1<br>反之則回傳下個回合輪到誰</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">isGG</span>(<span class="params">turn, players</span>) </span>&#123;</span><br><span class="line">  turn = realTurn(turn);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'current turn'</span>, turn);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">let</span> nextTurn = realTurn(turn + <span class="number">1</span>);</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'nextTurn'</span>, nextTurn);</span><br><span class="line"></span><br><span class="line">  players = drawCard(players, turn, nextTurn);</span><br><span class="line">  <span class="keyword">let</span> player = dropPlayerPairs(players[turn]);</span><br><span class="line">  players[turn] = player;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (isOnlyJoker()) <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> nextTurn;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="自動執行"><a href="#自動執行" class="headerlink" title="自動執行"></a>自動執行</h2><p>這裡只需要跑個迴圈, 如果回傳 -1 表示 gg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">function run() &#123;</span><br><span class="line">  let counter &#x3D; 1;</span><br><span class="line">  while (true) &#123;</span><br><span class="line">    console.log(&#96;第: $&#123;counter&#125; 次&#96;);</span><br><span class="line">    turn &#x3D; isGG(turn, players);</span><br><span class="line">    if (turn &#x3D;&#x3D;&#x3D; -1) &#123;</span><br><span class="line">      alert(&#39;G___G +&#39;);</span><br><span class="line">      break;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    counter++;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="卡片-css-content-特殊用法"><a href="#卡片-css-content-特殊用法" class="headerlink" title="卡片 css content 特殊用法"></a>卡片 css content 特殊用法</h2><p>雖然還沒寫 UI, 不過想到一個用法可以玩看看</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"card"</span> <span class="attr">suit</span>=<span class="string">"♠️"</span> <span class="attr">num</span>=<span class="string">"10"</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"card-img"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>因為撲克牌的花色通常都在數字上面, 所以可以用 <code>content</code> 把字放上去, 此外可以用 <code>\A</code> 來換行<br>還可以用 <code>attr</code> 這個屬性把自訂的 suit num 串接起來 <code>content: attr(num) &#39;\A&#39;attr(suit)</code><br>最後可以拿到 <code>content: &#39;10\A♠️&#39;</code> 這樣的等價效果</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.card</span> &#123;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">150px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">200px</span>;</span><br><span class="line">	<span class="attribute">border-radius</span>: <span class="number">3px</span>;</span><br><span class="line">	<span class="attribute">display</span>: flex;</span><br><span class="line">	<span class="attribute">border</span>: solid <span class="number">1px</span> <span class="number">#ccc</span>;</span><br><span class="line">	<span class="attribute">position</span>: absolute;</span><br><span class="line">	<span class="attribute">bottom</span>: <span class="number">0</span>;</span><br><span class="line">	<span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.card-img</span> &#123;</span><br><span class="line">	<span class="attribute">margin</span>: auto;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">140px</span>;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">100px</span>;</span><br><span class="line">	<span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">'https://raw.githubusercontent.com/weber87na/flowers/master/chun.png'</span>);</span><br><span class="line">	<span class="attribute">background-position</span>: center/center;</span><br><span class="line">	<span class="attribute">background-repeat</span>: no-repeat;</span><br><span class="line">	<span class="attribute">background-size</span>: cover;</span><br><span class="line">	<span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#dedede</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.card</span><span class="selector-pseudo">::before</span>,</span><br><span class="line"><span class="selector-class">.card</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">	<span class="attribute">font-family</span>: <span class="string">'微軟正黑體'</span>;</span><br><span class="line">	<span class="attribute">text-align</span>: center;</span><br><span class="line">	<span class="attribute">font-size</span>: <span class="number">16px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">40px</span>;</span><br><span class="line">	<span class="attribute">width</span>: <span class="number">30px</span>;</span><br><span class="line">	<span class="attribute">position</span>: absolute;</span><br><span class="line">	<span class="comment">/* content: '10\A♠️'; */</span></span><br><span class="line">	<span class="attribute">content</span>: <span class="built_in">attr</span>(num) <span class="string">'\A'</span><span class="built_in">attr</span>(suit);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.card</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">	<span class="attribute">top</span>: <span class="number">2px</span>;</span><br><span class="line">	<span class="attribute">left</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.card</span><span class="selector-pseudo">::after</span> &#123;</span><br><span class="line">	<span class="attribute">transform</span>: <span class="built_in">rotate</span>(<span class="number">180deg</span>);</span><br><span class="line">	<span class="attribute">bottom</span>: <span class="number">2px</span>;</span><br><span class="line">	<span class="attribute">right</span>: <span class="number">2px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="fullcode"><a href="#fullcode" class="headerlink" title="fullcode"></a>fullcode</h2><p class="codepen" data-height="300" data-default-tab="result" data-slug-hash="GRbrjMb" data-pen-title="Joker" data-user="weber87na" style="height: 300px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a href="https://codepen.io/weber87na/pen/GRbrjMb" target="_blank" rel="noopener">
+  Joker</a> by 喇賽人 (<a href="https://codepen.io/weber87na" target="_blank" rel="noopener">@weber87na</a>)
+  on <a href="https://codepen.io" target="_blank" rel="noopener">CodePen</a>.</span>
+</p>
+<script async src="https://public.codepenassets.com/embed/index.js"></script>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"># js</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/07/09/js-canvas-%E6%89%8B%E5%AF%AB%E5%A1%97%E9%B4%89/" rel="prev" title="js canvas 手寫塗鴉">
+      <i class="fa fa-chevron-left"></i> js canvas 手寫塗鴉
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/07/18/js-%E8%B8%A9%E5%9C%B0%E9%9B%B7/" rel="next" title="js 踩地雷">
+      js 踩地雷 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#發牌"><span class="nav-number">1.</span> <span class="nav-text">發牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取得兩數之間的亂數"><span class="nav-number">2.</span> <span class="nav-text">取得兩數之間的亂數</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#洗牌"><span class="nav-number">3.</span> <span class="nav-text">洗牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#發牌-1"><span class="nav-number">4.</span> <span class="nav-text">發牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#找對子"><span class="nav-number">5.</span> <span class="nav-text">找對子</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取得匹配-2-張或-4-張可以組成對子的卡"><span class="nav-number">6.</span> <span class="nav-text">取得匹配 2 張或 4 張可以組成對子的卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#找出一個數字出現-3-次的卡"><span class="nav-number">7.</span> <span class="nav-text">找出一個數字出現 3 次的卡</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#丟棄對子"><span class="nav-number">7.1.</span> <span class="nav-text">丟棄對子</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#抽卡"><span class="nav-number">8.</span> <span class="nav-text">抽卡</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#是否只剩下鬼牌"><span class="nav-number">9.</span> <span class="nav-text">是否只剩下鬼牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取得真正執行抽卡或被抽卡的人"><span class="nav-number">10.</span> <span class="nav-text">取得真正執行抽卡或被抽卡的人</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#判斷是否-gg"><span class="nav-number">11.</span> <span class="nav-text">判斷是否 gg</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自動執行"><span class="nav-number">12.</span> <span class="nav-text">自動執行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#卡片-css-content-特殊用法"><span class="nav-number">13.</span> <span class="nav-text">卡片 css content 特殊用法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fullcode"><span class="nav-number">14.</span> <span class="nav-text">fullcode</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2024/07/13/js-%E6%8A%BD%E9%AC%BC%E7%89%8C/";
+    this.page.identifier = "2024/07/13/js-抽鬼牌/";
+    this.page.title = "js 抽鬼牌";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

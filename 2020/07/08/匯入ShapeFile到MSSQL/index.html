@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="匯入ShapeFile到MSSQL">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-07-08T11:01:27.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="sql">
+<meta property="article:tag" content="GIS">
+<meta property="article:tag" content="mssql">
+<meta property="article:tag" content="shapefile">
+<meta property="article:tag" content="ogr2ogr">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>匯入ShapeFile到MSSQL | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          匯入ShapeFile到MSSQL
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2020-07-08 19:01:27" itemprop="dateCreated datePublished" datetime="2020-07-08T19:01:27+08:00">2020-07-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/08/匯入ShapeFile到MSSQL/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>5.9k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>5 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+<p>這篇是很久以前一個朋友有全台灣紅豆餅店的經緯度資料 , 但是沒有詳細縣市鄉鎮 , 佛心幫忙看看</p>
+<h3 id="匯入-shapefile-到-sql-server"><a href="#匯入-shapefile-到-sql-server" class="headerlink" title="匯入 shapefile 到 sql server"></a>匯入 shapefile 到 sql server</h3><p>首先建立台灣資料庫</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">database</span> Taiwan</span><br></pre></td></tr></table></figure>
+
+<p>接著隨便找 open data 下載資料 , 後來發現本來的資料連結掛了 , 換成國土測繪中心的資料 , 搜尋這個<a href="https://whgis.nlsc.gov.tw/English/5-1Files.aspx" target="_blank" rel="noopener">鄉鎮市區界線</a> 正常就有資料了</p>
+<p>先用 qgis 開啟來看看下載的檔案是否正確 , 如果遇到 big5 亂碼的話可以參考<a href="https://wenlab501.github.io/tutorial/qgis_tutor/basic_workflow/encoding/" target="_blank" rel="noopener">這篇</a></p>
+<p>開啟 PowerShell cd 到以下目錄</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd C:\Program Files\QGIS 3.10\bin</span><br></pre></td></tr></table></figure>
+
+<p>匯入鄉鎮地理資料(這邊用localdb)</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\ogr2ogr.exe -progress -f "MSSQLSpatial" "MSSQL:server=(localdb)\MSSQLLocalDB;database=Taiwan;trusted_connection=yes;" "D:\tw.shp" -a_srs "EPSG:4326" -lco PRECISION=NO</span><br></pre></td></tr></table></figure>
+
+<p>用帳號密碼可以參考這種</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\ogr2ogr.exe -progress -f "MSSQLSpatial" "MSSQL:server=127.0.0.1,1433;database=Taiwan;uid=sa;pwd=pwd@" "D:\Taiwan\tw.shp" -a_srs "EPSG:4326" -lco PRECISION=NO</span><br></pre></td></tr></table></figure>
+
+<p>建立紅豆餅店的 geometry , 操作 geometry 可以看<a href="https://docs.microsoft.com/zh-tw/sql/t-sql/spatial-geometry/spatial-types-geometry-transact-sql?view=sql-server-2016" target="_blank" rel="noopener">微軟官方</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">--更新Geom</span><br><span class="line">update Station</span><br><span class="line">set Geom &#x3D; (geometry::Point([Longitude] ,[Latitude] , 4326))</span><br></pre></td></tr></table></figure>
+
+<p>查詢空間查詢將紅豆餅店與地理資料進行 JOIN 看看結果</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">--sql server spatial join</span></span><br><span class="line"><span class="keyword">select</span> S.* , T.countyname , T.townname</span><br><span class="line"><span class="keyword">from</span> [Taiwan].[Station] S</span><br><span class="line"><span class="keyword">join</span> [Taiwan].[dbo].[TW] T</span><br><span class="line"><span class="keyword">on</span> S.Geom.STIntersects(T.[ogr_geometry]) = <span class="number">1</span></span><br></pre></td></tr></table></figure>
+
+
+<p>確認結果無誤以後更新紅豆餅店的縣市鄉鎮</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">--更新縣市鄉鎮</span><br><span class="line">update S</span><br><span class="line">set S.County &#x3D; T.countyname , S.Town &#x3D; T.townname</span><br><span class="line">from [Taiwan].[dbo].[Station] S</span><br><span class="line">join [Taiwan].[dbo].[TW] T</span><br><span class="line">on S.Geom.STIntersects(T.[ogr_geometry]) &#x3D; 1</span><br></pre></td></tr></table></figure>
+
+<h3 id="用-sql-語法擷取-shapefile-資料"><a href="#用-sql-語法擷取-shapefile-資料" class="headerlink" title="用 sql 語法擷取 shapefile 資料"></a>用 sql 語法擷取 shapefile 資料</h3><p>後來遇到人吵著要直接過濾 Shapefile 把台東給撈出來 , 以前用過這招到現在還是覺得很淫蕩 XD , 老樣子看看<a href="https://gdal.org/programs/ogr2ogr.html" target="_blank" rel="noopener">官方手冊</a><br>首先先用 <code>ogrinfo</code> 撈看看欄位資訊 , 第一個竟然是 <code>成功</code> 好彩頭 ~<br>接著用 <code>ogr2ogr</code> 撈出台東 , 這邊注意要設定 <code>-lco ENCODING=UTF-8</code> 不然會噴錯<br>此外 sql 直接寫的話中文會有亂碼錯誤 , 所以用 <code>@filename</code> 這個選項把 sql 寫在其他檔案 , 還有不曉得為啥我的 sqlite 不支援 like .. 可能版本太舊?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ogrinfo.exe -sql &quot;select * from TOWN_MOI_1100415 limit 1&quot; TOWN_MOI_1100415.shp</span><br><span class="line">ogr2ogr.exe -f &quot;ESRI Shapefile&quot; -dialect sqlite -sql &quot;@test.sql&quot; Taitung.shp TOWN_MOI_1100415.shp -lco ENCODING&#x3D;UTF-8</span><br></pre></td></tr></table></figure>
+
+<p><code>test.sql</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select *  from TOWN_MOI_1100415</span><br><span class="line">where COUNTYNAME &#x3D; &#39;臺東縣&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="sql-server-匯出到-shapefile"><a href="#sql-server-匯出到-shapefile" class="headerlink" title="sql server 匯出到 shapefile"></a>sql server 匯出到 shapefile</h3><p>後來又遇到要把資料從 sql server 撈出來變成 shapefile , 這個雷在於 localdb 不曉得為啥我試不出來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ogr2ogr.exe -f &quot;ESRI Shapefile&quot; GPS.shp &quot;MSSQL:server&#x3D;127.0.0.1;driver&#x3D;SQL Server;database&#x3D;GPS;uid&#x3D;sa;pwd&#x3D;yourpassword;&quot; -sql &quot;select GPSID , geometry::Point(x, y , 0) from GPS&quot; -lco ENCODING&#x3D;UTF-8</span><br></pre></td></tr></table></figure>
+
+<h3 id="轉換-geojson"><a href="#轉換-geojson" class="headerlink" title="轉換 geojson"></a>轉換 geojson</h3><p>這個也滿靈異 , 我用 sql server 直接轉就是失敗 , 可能我 GDAL 版本比較舊? 只好從 shapefile 再轉為 geosjon</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ogr2ogr -f GeoJSON GPS.json GPS.shp</span><br></pre></td></tr></table></figure>
+
+<h3 id="geojson-匯入到-sql-server"><a href="#geojson-匯入到-sql-server" class="headerlink" title="geojson 匯入到 sql server"></a>geojson 匯入到 sql server</h3><p>先建立 database</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">crate database GPS</span><br></pre></td></tr></table></figure>
+
+<p>接著匯入看看 , 意外成功 , 靈異 ~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ogr2ogr.exe -f &quot;MSSQLSpatial&quot; &quot;MSSQL:server&#x3D;127.0.0.1,1433;driver&#x3D;SQL Server;database&#x3D;GPS;uid&#x3D;sa;pwd&#x3D;yourpassword&quot; GPS.json -a_srs &quot;EPSG:4326&quot; -lco PRECISION&#x3D;NO</span><br></pre></td></tr></table></figure>
+
+<p>最後用 sql server 2016 才有的 json 功能玩看看 , 參考<a href="https://techcommunity.microsoft.com/t5/sql-server-blog/loading-geojson-data-into-sql-server/ba-p/384601" target="_blank" rel="noopener">這篇</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">DECLARE @JSON varchar(max)</span><br><span class="line">SELECT @JSON &#x3D;BulkColumn</span><br><span class="line">FROM OPENROWSET (BULK &#39;D:\taiwan\GPS.json&#39;, SINGLE_CLOB) as x;</span><br><span class="line"></span><br><span class="line">SELECT *</span><br><span class="line">FROM OPENJSON(@JSON , &#39;$.features&#39;)</span><br><span class="line">WITH(</span><br><span class="line">	FID varchar(100) &#39;$.properties.FID&#39;,</span><br><span class="line">	lon varchar(100) &#39;$.geometry.coordinates[0]&#39;,</span><br><span class="line">	lat varchar(100) &#39;$.geometry.coordinates[1]&#39;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="將現有經緯度資料轉為-geosjon"><a href="#將現有經緯度資料轉為-geosjon" class="headerlink" title="將現有經緯度資料轉為 geosjon"></a>將現有經緯度資料轉為 geosjon</h3><p>工作上時不時有個需求 , 需要將 sql server 的資料轉成 geojson , 以前要做這件事可不容易 , 多半都寫個免洗程式去處理 , 久沒用就忘了<br>現在 sql server 2016 支援 json 的功能 , 雖然跟 postgresql 比起來還是斷手斷腳 , 勉強可以拼出來<br>首先在 CTE 的 <code>coordinates</code> 屬性用無腦的方式把經緯度轉換為字串然後拼接起來<br>接著如果需要 <code>properties</code> 則利用 <code>FOR JSON PATH</code> 的 功能轉為 json , 注意要加上 <code>WITHOUT_ARRAY_WRAPPER</code> , 不然 json 會被包成 array<br>最後在外層用 <code>FOR XML PATH</code> 的技巧把 string 連成一排 , 注意到要替換掉 <code>&amp;#x0D;</code> 這個 xml 符號<br>由於 features 裡面需要用逗點分隔 , 所以利用 case 判斷是否要補上逗點<br>最後可以用<a href="https://geojson.io/#map=2/20.1/0.0" target="_blank" rel="noopener">這個網站來 debug</a> 看看產出的 geojson 正確性<br>另外 SSMS 資料量太大會不給複製 , 最好升級到 18 的版本 (17 的版本好像沒辦法調很高) , 並需要調高這個設定 <code>Query</code> =&gt; <code>Query Options</code> =&gt; <code>Results</code> =&gt; <code>Grid</code> =&gt; <code>Maximun Characters Retrived</code> =&gt; <code>Non XML data</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">WITH CTE(Num , GPSID , FreightID , [DateTime] , X , Y , Point) AS (</span><br><span class="line">SELECT ROW_NUMBER() OVER(ORDER BY GPSID) AS Num , * ,</span><br><span class="line">&#39;</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;Feature&quot;,</span><br><span class="line">      &quot;properties&quot;: &#39; +</span><br><span class="line">   (</span><br><span class="line">   SELECT *</span><br><span class="line">   FROM GPS B</span><br><span class="line">   WHERE 1 &#x3D; 1</span><br><span class="line">   AND A.GPSID &#x3D; B.GPSID</span><br><span class="line">   FOR JSON PATH , WITHOUT_ARRAY_WRAPPER</span><br><span class="line">   )</span><br><span class="line">   + &#39;,</span><br><span class="line">      &quot;geometry&quot;: &#123;</span><br><span class="line">        &quot;type&quot;: &quot;Point&quot;,</span><br><span class="line">        &quot;coordinates&quot;: [</span><br><span class="line">          &#39;</span><br><span class="line">    + CAST(X AS VARCHAR) +</span><br><span class="line">    &#39;,&#39;</span><br><span class="line">    + CAST(Y AS VARCHAR) +</span><br><span class="line">&#39;</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line"> &#125;</span><br><span class="line">&#39; Point</span><br><span class="line">FROM GPS A</span><br><span class="line">WHERE 1 &#x3D; 1</span><br><span class="line">AND FreightID &#x3D; &#39;9999&#39;</span><br><span class="line">AND [DateTime] &gt;&#x3D; &#39;2022-03-15&#39;</span><br><span class="line">AND [DateTime] &lt; &#39;2022-03-16&#39;</span><br><span class="line"></span><br><span class="line">)</span><br><span class="line"></span><br><span class="line">SELECT</span><br><span class="line">&#39;&#123;</span><br><span class="line">  &quot;type&quot;: &quot;FeatureCollection&quot;,</span><br><span class="line">  &quot;features&quot;: [&#39; +</span><br><span class="line"> REPLACE (</span><br><span class="line">  (SELECT Point + CASE WHEN Num &gt; 1 THEN &#39;,&#39; ELSE &#39;&#39; END</span><br><span class="line">  FROM CTE</span><br><span class="line">  ORDER BY Num DESC</span><br><span class="line">  FOR XML PATH(&#39;&#39;)),</span><br><span class="line">  &#39;&amp;#x0D;&#39;,</span><br><span class="line">  &#39;&#39;</span><br><span class="line"> )</span><br><span class="line">+</span><br><span class="line">&#39;  ]</span><br><span class="line">&#125;&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="解析-geojson-內的屬性"><a href="#解析-geojson-內的屬性" class="headerlink" title="解析 geojson 內的屬性"></a>解析 geojson 內的屬性</h3><p>當開使在 sql server 操作 json 這也是個常見問題 , 假定有這樣的 geojson</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;type&quot;: &quot;FeatureCollection&quot;,</span><br><span class="line">  &quot;features&quot;: [</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;Feature&quot;,</span><br><span class="line">      &quot;properties&quot;: &#123;</span><br><span class="line">        &quot;GPSID&quot;: 1029030,</span><br><span class="line">        &quot;FreightID&quot;: &quot;K999&quot;,</span><br><span class="line">        &quot;DateTime&quot;: &quot;2022-03-15T23:59:53&quot;,</span><br><span class="line">        &quot;X&quot;: 120.4012284,</span><br><span class="line">        &quot;Y&quot;: 22.5988653</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;geometry&quot;: &#123;</span><br><span class="line">        &quot;type&quot;: &quot;Point&quot;,</span><br><span class="line">        &quot;coordinates&quot;: [</span><br><span class="line">          120.4012284,</span><br><span class="line">          22.5988653</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;type&quot;: &quot;Feature&quot;,</span><br><span class="line">      &quot;properties&quot;: &#123;</span><br><span class="line">        &quot;GPSID&quot;: 1029029,</span><br><span class="line">        &quot;FreightID&quot;: &quot;K999&quot;,</span><br><span class="line">        &quot;DateTime&quot;: &quot;2022-03-15T23:59:44&quot;,</span><br><span class="line">        &quot;X&quot;: 120.4012654,</span><br><span class="line">        &quot;Y&quot;: 22.5988138</span><br><span class="line">      &#125;,</span><br><span class="line">      &quot;geometry&quot;: &#123;</span><br><span class="line">        &quot;type&quot;: &quot;Point&quot;,</span><br><span class="line">        &quot;coordinates&quot;: [</span><br><span class="line">          120.4012654,</span><br><span class="line">          22.5988138</span><br><span class="line">        ]</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>通常會想要快速拿出 properties 內的資料 , 或是 geometry 內的資料 , 所以可以這樣解</p>
+<p><code>解法1</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select *</span><br><span class="line">from OPENJSON(@geojson, &#39;$.features&#39;)</span><br><span class="line">with (</span><br><span class="line">	GPSID int &#39;$.properties.GPSID&#39;,</span><br><span class="line">	FreightID nvarchar(max) &#39;$.properties.FreightID&#39;,</span><br><span class="line">	[DateTime] DateTime &#39;$.properties.DateTime&#39;,</span><br><span class="line">	X decimal(11,8) &#39;$.properties.X&#39;,</span><br><span class="line">	Y decimal(10,8) &#39;$.properties.Y&#39;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p><code>解法2</code><br>特別注意到這裡要用 <code>JSON_VALUE</code> , 如果是 array 的話才用 <code>JSON_QUERY</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">	JSON_VALUE(x.value , &#39;$.properties.GPSID&#39;) GPSID,</span><br><span class="line">	JSON_VALUE(x.value , &#39;$.properties.FreightID&#39;) FreightID,</span><br><span class="line">	JSON_VALUE(x.value , &#39;$.properties.DateTime&#39;) [DateTime],</span><br><span class="line">	JSON_VALUE(x.value , &#39;$.properties.X&#39;) X,</span><br><span class="line">	JSON_VALUE(x.value , &#39;$.properties.Y&#39;) Y</span><br><span class="line">from openjson (@geojson, &#39;$.features&#39;) x</span><br></pre></td></tr></table></figure>
+
+<p>巢狀搭配 <code>JSON_VALUE</code> &amp; <code>JSON_QUERY</code> 拿第一筆的 GPSID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select JSON_VALUE(JSON_QUERY(@geojson, &#39;$.features[0]&#39;) , &#39;$.properties.GPSID&#39;) GPSID</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/sql/" rel="tag"># sql</a>
+              <a href="/tags/GIS/" rel="tag"># GIS</a>
+              <a href="/tags/mssql/" rel="tag"># mssql</a>
+              <a href="/tags/shapefile/" rel="tag"># shapefile</a>
+              <a href="/tags/ogr2ogr/" rel="tag"># ogr2ogr</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/06/%E5%BF%AB%E9%80%9F%E9%96%8B%E5%95%9F%E7%9B%AE%E5%89%8D%E7%9B%AE%E9%8C%84%E7%9A%84%E5%B0%8F%E6%8A%80%E5%B7%A7/" rel="prev" title="快速開啟目前目錄的小技巧">
+      <i class="fa fa-chevron-left"></i> 快速開啟目前目錄的小技巧
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/" rel="next" title="git日常筆記">
+      git日常筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#匯入-shapefile-到-sql-server"><span class="nav-number">1.</span> <span class="nav-text">匯入 shapefile 到 sql server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用-sql-語法擷取-shapefile-資料"><span class="nav-number">2.</span> <span class="nav-text">用 sql 語法擷取 shapefile 資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sql-server-匯出到-shapefile"><span class="nav-number">3.</span> <span class="nav-text">sql server 匯出到 shapefile</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#轉換-geojson"><span class="nav-number">4.</span> <span class="nav-text">轉換 geojson</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#geojson-匯入到-sql-server"><span class="nav-number">5.</span> <span class="nav-text">geojson 匯入到 sql server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#將現有經緯度資料轉為-geosjon"><span class="nav-number">6.</span> <span class="nav-text">將現有經緯度資料轉為 geosjon</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#解析-geojson-內的屬性"><span class="nav-number">7.</span> <span class="nav-text">解析 geojson 內的屬性</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/";
+    this.page.identifier = "2020/07/08/匯入ShapeFile到MSSQL/";
+    this.page.title = "匯入ShapeFile到MSSQL";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

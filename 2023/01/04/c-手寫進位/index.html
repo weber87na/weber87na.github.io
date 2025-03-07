@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c# 手寫進位">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2023/01/04/c-%E6%89%8B%E5%AF%AB%E9%80%B2%E4%BD%8D/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2023-01-04T10:58:04.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="c#">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2023/01/04/c-%E6%89%8B%E5%AF%AB%E9%80%B2%E4%BD%8D/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>c# 手寫進位 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2023/01/04/c-%E6%89%8B%E5%AF%AB%E9%80%B2%E4%BD%8D/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          c# 手寫進位
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2023-01-04 18:58:04" itemprop="dateCreated datePublished" datetime="2023-01-04T18:58:04+08:00">2023-01-04</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/01/04/c-%E6%89%8B%E5%AF%AB%E9%80%B2%E4%BD%8D/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/01/04/c-手寫進位/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>11 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+<p>工作上遇到的問題 , 搞得像是寫 leetcode , 順手筆記下 , 難得寫這種燒腦的東西</p>
+<h3 id="數字進位"><a href="#數字進位" class="headerlink" title="數字進位"></a>數字進位</h3><p>如果是 <code>9</code> 的話直接把數字換成 <code>0</code> , 接著看看下個位數是否也是 <code>9</code><br>反之將目前數字 +1 進位 , 當數字為 <code>99999</code> 時則回到 <code>00000</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;目前號碼</span><br><span class="line">string[] numbers &#x3D; new string[] &#123; &quot;9&quot;, &quot;9&quot;, &quot;8&quot;, &quot;9&quot;, &quot;9&quot; &#125;;</span><br><span class="line"></span><br><span class="line">int current &#x3D; numbers.Length - 1;</span><br><span class="line">while (current &gt;&#x3D; 0)</span><br><span class="line">&#123;</span><br><span class="line">    if (numbers[current] &#x3D;&#x3D; &quot;9&quot;)</span><br><span class="line">    &#123;</span><br><span class="line">        numbers[current] &#x3D; &quot;0&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    else</span><br><span class="line">    &#123;</span><br><span class="line">        var num &#x3D; Convert.ToInt32(numbers[current]) + 1;</span><br><span class="line">        numbers[current] &#x3D; num.ToString();</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;當進位直接跳出</span><br><span class="line">        break;</span><br><span class="line">    &#125;</span><br><span class="line">    current--;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">foreach (var item in numbers) Console.Write(item.ToString());</span><br></pre></td></tr></table></figure>
+
+<h3 id="客製進位規則"><a href="#客製進位規則" class="headerlink" title="客製進位規則"></a>客製進位規則</h3><p>編號首碼可以用 <code>0-9 a-z</code> , 排除 <code>I</code> , <code>O</code><br>從 <code>00000</code> 開始 , 當數字為 <code>99999</code> 時 , 則進位到 <code>A0000</code><br>當數字為 <code>A9999</code> 時進位 <code>B0000</code> 以此類推<br>共 <code>34</code> 個字母 , 所以組成 <code>34 * 10000</code> 個組合</p>
+<p>這裡邏輯要調整下 , 多插個 head 的防守在前面處理即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line">public class NumberGenerator</span><br><span class="line">&#123;</span><br><span class="line">	&#x2F;&#x2F;&#x2F; &lt;summary&gt;</span><br><span class="line">	&#x2F;&#x2F;&#x2F; 取得下個固定五碼的 SerialNumber</span><br><span class="line">	&#x2F;&#x2F;&#x2F; &lt;&#x2F;summary&gt;</span><br><span class="line">	&#x2F;&#x2F;&#x2F; &lt;param name&#x3D;&quot;currentSerialNumber&quot;&gt;目前的 SerialNumber&lt;&#x2F;param&gt;</span><br><span class="line">	&#x2F;&#x2F;&#x2F; &lt;returns&gt;&lt;&#x2F;returns&gt;</span><br><span class="line">	public string GetNext(string currentSerialNumber)</span><br><span class="line">	&#123;</span><br><span class="line">		&#x2F;&#x2F;轉換 string array , 不要用 char array 免得又要額外處理 ascii 相關問題</span><br><span class="line">		var currentSerialNumberArray &#x3D; currentSerialNumber.ToCharArray().Select(c &#x3D;&gt; c.ToString()).ToArray();</span><br><span class="line"></span><br><span class="line">		int current &#x3D; currentSerialNumberArray.Length - 1;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;當數字為 09 時 , 他會先去把 0 補起來</span><br><span class="line">		&#x2F;&#x2F;接著在跑 else 那句進位 , 所以輸出 10</span><br><span class="line">		&#x2F;&#x2F;當數字為 99999 時會回歸原點 00000</span><br><span class="line">		while (current &gt;&#x3D; 0)</span><br><span class="line">		&#123;</span><br><span class="line">			&#x2F;&#x2F;假如到頭了</span><br><span class="line">			&#x2F;&#x2F;09999 &#x3D;&gt; 0 是頭</span><br><span class="line">			if (current &#x3D;&#x3D; 0)</span><br><span class="line">			&#123;</span><br><span class="line">				string head &#x3D; currentSerialNumberArray[current];</span><br><span class="line">				if(head !&#x3D; &quot;Z&quot;)</span><br><span class="line">				&#123;</span><br><span class="line">					int headCarryPos &#x3D; codeList.IndexOf(head);</span><br><span class="line"></span><br><span class="line">					&#x2F;&#x2F;取得下個頭編號數字 or 字母</span><br><span class="line">					string carryHead &#x3D; codeList[headCarryPos + 1];</span><br><span class="line"></span><br><span class="line">					&#x2F;&#x2F;設定目前的頭進位</span><br><span class="line">					currentSerialNumberArray[current] &#x3D; carryHead;</span><br><span class="line">				&#125;</span><br><span class="line">				else</span><br><span class="line">				&#123;</span><br><span class="line">					&#x2F;&#x2F;已經到 Z , 設定為 0 , 理論上不會有這麼多編號 , 如果走到這裡就表示東西壞了</span><br><span class="line">					currentSerialNumberArray[current] &#x3D; &quot;0&quot;;</span><br><span class="line">				&#125;</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">			&#x2F;&#x2F;計算頭以外的進位方式</span><br><span class="line">			if (currentSerialNumberArray[current] &#x3D;&#x3D; &quot;9&quot;)</span><br><span class="line">			&#123;</span><br><span class="line">				currentSerialNumberArray[current] &#x3D; &quot;0&quot;;</span><br><span class="line">			&#125;</span><br><span class="line">			else</span><br><span class="line">			&#123;</span><br><span class="line">				&#x2F;&#x2F;普通情況直接進位</span><br><span class="line">				var num &#x3D; Convert.ToInt32(currentSerialNumberArray[current]) + 1;</span><br><span class="line">				currentSerialNumberArray[current] &#x3D; num.ToString();</span><br><span class="line"></span><br><span class="line">				&#x2F;&#x2F;當進位直接跳出</span><br><span class="line">				break;</span><br><span class="line">			&#125;</span><br><span class="line">			current--;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		&#x2F;&#x2F;組合結果 serialNumber</span><br><span class="line">		StringBuilder result &#x3D; new StringBuilder();</span><br><span class="line">		foreach (var item in currentSerialNumberArray)</span><br><span class="line">			result.Append(item.ToString());</span><br><span class="line"></span><br><span class="line">		return result.ToString();</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	private readonly List&lt;string&gt; codeList &#x3D; new List&lt;string&gt; &#123;</span><br><span class="line">		  &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;,</span><br><span class="line">		  &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;, &quot;H&quot;, &quot;J&quot;, &quot;K&quot;,</span><br><span class="line">		  &quot;L&quot;, &quot;M&quot;, &quot;N&quot;, &quot;P&quot;, &quot;Q&quot;, &quot;R&quot;, &quot;S&quot;, &quot;T&quot;, &quot;U&quot;, &quot;V&quot;,</span><br><span class="line">		  &quot;W&quot;, &quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;</span><br><span class="line">	&#125;;</span><br></pre></td></tr></table></figure>
+
+<p>順便補個單元測試 , 如果是 <code>MSTest</code> <code>TestCase</code> 則用 <code>DataRow</code> 代替</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class Tests</span><br><span class="line">&#123;</span><br><span class="line">	[SetUp]</span><br><span class="line">	public void Setup()</span><br><span class="line">	&#123;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[TestCase(&quot;00000&quot;,&quot;00001&quot;)]</span><br><span class="line">	[TestCase(&quot;00099&quot;,&quot;00100&quot;)]</span><br><span class="line">	[TestCase(&quot;99999&quot;,&quot;A0000&quot;)]</span><br><span class="line">	[TestCase(&quot;89999&quot;,&quot;90000&quot;)]</span><br><span class="line">	[TestCase(&quot;A0000&quot;,&quot;A0001&quot;)]</span><br><span class="line">	[TestCase(&quot;A0001&quot;,&quot;A0002&quot;)]</span><br><span class="line">	[TestCase(&quot;A0009&quot;,&quot;A0010&quot;)]</span><br><span class="line">	[TestCase(&quot;A0789&quot;,&quot;A0790&quot;)]</span><br><span class="line">	[TestCase(&quot;A9999&quot;,&quot;B0000&quot;)]</span><br><span class="line">	[TestCase(&quot;Z9999&quot;,&quot;00000&quot;)]</span><br><span class="line">	public void CarryNumAreEqual(</span><br><span class="line">		string currentNumber,</span><br><span class="line">		string expected)</span><br><span class="line">	&#123;</span><br><span class="line">		NumberGenerator generator &#x3D; new NumberGenerator();</span><br><span class="line">		string serialNumber &#x3D; generator.GetNext(currentNumber);</span><br><span class="line">		Assert.AreEqual(expected, serialNumber);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="遞迴數字進位"><a href="#遞迴數字進位" class="headerlink" title="遞迴數字進位"></a>遞迴數字進位</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;var serialNumber &#x3D; new SerialNumber(new string[] &#123; &quot;0&quot;, &quot;1&quot;, &quot;9&quot; &#125;);</span><br><span class="line">var serialNumber &#x3D; new SerialNumber(&quot;019&quot;);</span><br><span class="line">var result &#x3D; serialNumber.GetNextNumber();</span><br><span class="line">Console.WriteLine(result);</span><br><span class="line">Console.Read();</span><br><span class="line"></span><br><span class="line">public class SerialNumber</span><br><span class="line">&#123;</span><br><span class="line">    private string[] numbers &#x3D; new string[] &#123; &#125;;</span><br><span class="line">    public string[] Numbers &#123; get &#123; return numbers; &#125; &#125;</span><br><span class="line">    public SerialNumber(string[] numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        this.numbers &#x3D; numbers;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public SerialNumber(string numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        var chars &#x3D; numbers.ToArray();</span><br><span class="line">        List&lt;string&gt; strs &#x3D; new List&lt;string&gt;();</span><br><span class="line">        foreach (var item in chars) strs.Add(item.ToString());</span><br><span class="line">        this.numbers &#x3D; strs.ToArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;是否需要進位</span><br><span class="line">    bool needCarryNum &#x3D; true;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;取得下個號碼</span><br><span class="line">    public string GetNextNumber()</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;重設狀態</span><br><span class="line">        needCarryNum &#x3D; true;</span><br><span class="line">        return this.Calc(this.Numbers);</span><br><span class="line">    &#125;</span><br><span class="line">    private string Calc(string[] numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        if (numbers.Length &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F;取得目前的元素</span><br><span class="line">            var take &#x3D; numbers.Take(1).ToArray()[0];</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;取得 splice 後的 array 讓他可以丟下去當遞迴參數</span><br><span class="line">            var arr &#x3D; numbers.Skip(1).ToArray();</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;假設資料為 0 1 9</span><br><span class="line">            &#x2F;&#x2F;運用遞迴 cache data , 首個會是 empty string &#x3D;&gt; 9 &#x3D;&gt; 1 &#x3D;&gt; 0</span><br><span class="line">            &#x2F;&#x2F;所以最後這個會輸出 019 這樣的正序</span><br><span class="line">            string cache &#x3D; Calc(arr);</span><br><span class="line"></span><br><span class="line">            if (take &#x3D;&#x3D; &quot;9&quot; &amp;&amp; needCarryNum &#x3D;&#x3D; true)</span><br><span class="line">                return &quot;0&quot; + cache;</span><br><span class="line"></span><br><span class="line">            int n &#x3D; 0;</span><br><span class="line">            if (needCarryNum)</span><br><span class="line">            &#123;</span><br><span class="line">                n &#x3D; Convert.ToInt32(take) + 1;</span><br><span class="line">                needCarryNum &#x3D; false;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                n &#x3D; Convert.ToInt32(take);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return n.ToString() + cache;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="客製進位規則遞迴"><a href="#客製進位規則遞迴" class="headerlink" title="客製進位規則遞迴"></a>客製進位規則遞迴</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br></pre></td><td class="code"><pre><span class="line">public class SerialNumberGeneratorRecursive</span><br><span class="line">&#123;</span><br><span class="line">    private int headLen &#x3D; 0;</span><br><span class="line">    private string[] numbers &#x3D; new string[] &#123; &#125;;</span><br><span class="line">    public string[] Numbers &#123; get &#123; return numbers; &#125; &#125;</span><br><span class="line">    public SerialNumberGeneratorRecursive(string[] numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        this.numbers &#x3D; numbers;</span><br><span class="line">        this.headLen &#x3D; numbers.Length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public SerialNumberGeneratorRecursive(string numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        var chars &#x3D; numbers.ToArray();</span><br><span class="line">        List&lt;string&gt; strs &#x3D; new List&lt;string&gt;();</span><br><span class="line">        foreach (var item in chars) strs.Add(item.ToString());</span><br><span class="line">        this.numbers &#x3D; strs.ToArray();</span><br><span class="line">        this.headLen &#x3D; numbers.Length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;是否需要進位</span><br><span class="line">    bool needCarryNum &#x3D; true;</span><br><span class="line"></span><br><span class="line">	private readonly List&lt;string&gt; codeList &#x3D; new List&lt;string&gt; &#123;</span><br><span class="line">		  &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;,</span><br><span class="line">		  &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;, &quot;G&quot;, &quot;H&quot;, &quot;J&quot;, &quot;K&quot;,</span><br><span class="line">		  &quot;L&quot;, &quot;M&quot;, &quot;N&quot;, &quot;P&quot;, &quot;Q&quot;, &quot;R&quot;, &quot;S&quot;, &quot;T&quot;, &quot;U&quot;, &quot;V&quot;,</span><br><span class="line">		  &quot;W&quot;, &quot;X&quot;, &quot;Y&quot;, &quot;Z&quot;</span><br><span class="line">	&#125;;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;取得下個號碼</span><br><span class="line">    public string GetNextNumber()</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F;重設狀態</span><br><span class="line">        needCarryNum &#x3D; true;</span><br><span class="line">        return this.Calc(this.Numbers);</span><br><span class="line">    &#125;</span><br><span class="line">    private string Calc(string[] numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        if (numbers.Length &gt; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            &#x2F;&#x2F;取得目前的元素</span><br><span class="line">            var take &#x3D; numbers.Take(1).ToArray()[0];</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;取得 splice 後的 array 讓他可以丟下去當遞迴參數</span><br><span class="line">            var arr &#x3D; numbers.Skip(1).ToArray();</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;假設資料為 0 1 9</span><br><span class="line">            &#x2F;&#x2F;運用遞迴 cache data , 首個會是 empty string &#x3D;&gt; 9 &#x3D;&gt; 1 &#x3D;&gt; 0</span><br><span class="line">            &#x2F;&#x2F;所以最後這個會輸出 019 這樣的正序</span><br><span class="line">            string cache &#x3D; Calc(arr);</span><br><span class="line"></span><br><span class="line">            &#x2F;&#x2F;假設已經走到頭部</span><br><span class="line">            if (numbers.Length &#x3D;&#x3D; headLen)</span><br><span class="line">            &#123;</span><br><span class="line">                int headCarryPos &#x3D; codeList.IndexOf(take);</span><br><span class="line">                if (needCarryNum)</span><br><span class="line">                &#123;</span><br><span class="line">                    if (take !&#x3D; &quot;Z&quot;)</span><br><span class="line">                    &#123;</span><br><span class="line">                        &#x2F;&#x2F;取得下個頭編號數字 or 字母 非 Z 的話往下進位</span><br><span class="line">                        string carryHead &#x3D; codeList[headCarryPos + 1];</span><br><span class="line">                        return carryHead + cache;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    &#x2F;&#x2F;Z99 這種情況直接回傳 000</span><br><span class="line">                    return &quot;0&quot; + cache;</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    &#x2F;&#x2F;取得下個頭編號數字 or 字母 Z 的話保持 Z</span><br><span class="line">                    string carryHead &#x3D; codeList[headCarryPos];</span><br><span class="line">                    return carryHead + cache;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                &#x2F;&#x2F;假設走到 9 直接進位</span><br><span class="line">                if (take &#x3D;&#x3D; &quot;9&quot; &amp;&amp; needCarryNum &#x3D;&#x3D; true) return &quot;0&quot; + cache;</span><br><span class="line"></span><br><span class="line">                &#x2F;&#x2F;正常進位</span><br><span class="line">                int n &#x3D; 0;</span><br><span class="line">                if (needCarryNum)</span><br><span class="line">                &#123;</span><br><span class="line">                    n &#x3D; Convert.ToInt32(take) + 1;</span><br><span class="line">                    needCarryNum &#x3D; false;</span><br><span class="line">                &#125;</span><br><span class="line">                else</span><br><span class="line">                &#123;</span><br><span class="line">                    n &#x3D; Convert.ToInt32(take);</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                return n.ToString() + cache;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        &#x2F;&#x2F;遞迴最深處</span><br><span class="line">        return &quot;&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[TestClass]</span><br><span class="line">public class UnitTestSerialNumberUseRecursive</span><br><span class="line">&#123;</span><br><span class="line">	[TestMethod()]</span><br><span class="line">	public void CarryNum_Z8999_Next_Z9000()</span><br><span class="line">	&#123;</span><br><span class="line">		var generator &#x3D; new SerialNumberGeneratorRecursive(&quot;Z8999&quot;);</span><br><span class="line">		string serialNumber &#x3D; generator.GetNextNumber();</span><br><span class="line">		Assert.AreEqual(&quot;Z9000&quot;, serialNumber);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[TestMethod()]</span><br><span class="line">	public void CarryNum_08999_Next_09000()</span><br><span class="line">	&#123;</span><br><span class="line">		var generator &#x3D; new SerialNumberGeneratorRecursive(&quot;08999&quot;);</span><br><span class="line">		string serialNumber &#x3D; generator.GetNextNumber();</span><br><span class="line">		Assert.AreEqual(&quot;09000&quot;, serialNumber);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[TestMethod()]</span><br><span class="line">	public void CarryNum_00000_Next_00001()</span><br><span class="line">	&#123;</span><br><span class="line">		var generator &#x3D; new SerialNumberGeneratorRecursive(&quot;00000&quot;);</span><br><span class="line">		string serialNumber &#x3D; generator.GetNextNumber();</span><br><span class="line">		Assert.AreEqual(&quot;00001&quot;, serialNumber);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[TestMethod()]</span><br><span class="line">	public void CarryNum_Z99_Next_000()</span><br><span class="line">	&#123;</span><br><span class="line">		var generator &#x3D; new SerialNumberGeneratorRecursive(&quot;Z99&quot;);</span><br><span class="line">		string serialNumber &#x3D; generator.GetNextNumber();</span><br><span class="line">		Assert.AreEqual(&quot;000&quot;, serialNumber);</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[TestMethod()]</span><br><span class="line">	public void CarryNum_Y99_Next_Z00()</span><br><span class="line">	&#123;</span><br><span class="line">		var generator &#x3D; new SerialNumberGeneratorRecursive(&quot;Y99&quot;);</span><br><span class="line">		string serialNumber &#x3D; generator.GetNextNumber();</span><br><span class="line">		Assert.AreEqual(&quot;Z00&quot;, serialNumber);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="16進位"><a href="#16進位" class="headerlink" title="16進位"></a>16進位</h3><p>這裡定義一個環狀取得進位</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">public class SerialNumberRing</span><br><span class="line">&#123;</span><br><span class="line">    private readonly List&lt;string&gt; carryRing &#x3D; new List&lt;string&gt; &#123;</span><br><span class="line">          &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;,</span><br><span class="line">          &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    public readonly List&lt;string&gt; CarryRing16 &#x3D; new List&lt;string&gt; &#123;</span><br><span class="line">          &quot;0&quot;, &quot;1&quot;, &quot;2&quot;, &quot;3&quot;, &quot;4&quot;, &quot;5&quot;, &quot;6&quot;, &quot;7&quot;, &quot;8&quot;, &quot;9&quot;,</span><br><span class="line">          &quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;D&quot;, &quot;E&quot;, &quot;F&quot;,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    public SerialNumberRing()</span><br><span class="line">    &#123;</span><br><span class="line">        carryRing &#x3D; CarryRing16;</span><br><span class="line">    &#125;</span><br><span class="line">    public SerialNumberRing(List&lt;string&gt; carryRing)</span><br><span class="line">    &#123;</span><br><span class="line">        this.carryRing &#x3D; carryRing;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private string GetNextCarry(string num)</span><br><span class="line">    &#123;</span><br><span class="line">        var index &#x3D; carryRing.IndexOf(num);</span><br><span class="line">        if(index &#x3D;&#x3D; carryRing.Count - 1) return carryRing[0];</span><br><span class="line"></span><br><span class="line">        var carry &#x3D; carryRing[index + 1];</span><br><span class="line">        return carry;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public string GetNext(string numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        var currentNumberArray &#x3D; numbers.ToCharArray().Select(c &#x3D;&gt; c.ToString()).ToArray();</span><br><span class="line">        return GetNext(currentNumberArray);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public string GetNext(string[] numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        int current &#x3D; numbers.Length - 1;</span><br><span class="line">        while (current &gt;&#x3D; 0)</span><br><span class="line">        &#123;</span><br><span class="line">            if(numbers[current] &#x3D;&#x3D; carryRing[ carryRing.Count - 1])</span><br><span class="line">            &#123;</span><br><span class="line">                numbers[current] &#x3D; carryRing[0];</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                var num &#x3D; numbers[current];</span><br><span class="line">                var carry &#x3D; GetNextCarry(num);</span><br><span class="line">                numbers[current] &#x3D; carry;</span><br><span class="line">                break;</span><br><span class="line">            &#125;</span><br><span class="line">            current--;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">        string result &#x3D; BuildResult(numbers);</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private string BuildResult(string[] numbers)</span><br><span class="line">    &#123;</span><br><span class="line">        string result &#x3D; &quot;&quot;;</span><br><span class="line">        foreach (var item in numbers) result +&#x3D; item.ToString();</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[TestClass()]</span><br><span class="line">public class UnitTestSerialNumberRingUseLoop</span><br><span class="line">&#123;</span><br><span class="line">	[DataRow(&quot;00000&quot;, &quot;00001&quot;)]</span><br><span class="line">	[DataRow(&quot;00009&quot;, &quot;0000A&quot;)]</span><br><span class="line">	[DataRow(&quot;0000A&quot;, &quot;0000B&quot;)]</span><br><span class="line">	[DataRow(&quot;0000F&quot;, &quot;00010&quot;)]</span><br><span class="line">	[DataRow(&quot;FFF&quot;, &quot;000&quot;)]</span><br><span class="line">	[DataRow(&quot;FFE&quot;, &quot;FFF&quot;)]</span><br><span class="line">	[DataRow(&quot;FF9&quot;, &quot;FFA&quot;)]</span><br><span class="line">	[TestMethod()]</span><br><span class="line">	public void CarryNumAreEqual(</span><br><span class="line">		string currentNumber,</span><br><span class="line">		string expected)</span><br><span class="line">	&#123;</span><br><span class="line">		var generator &#x3D; new SerialNumberRing();</span><br><span class="line">		string serialNumber &#x3D; generator.GetNext(currentNumber);</span><br><span class="line">		Assert.AreEqual(expected, serialNumber);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/12/30/iframe-%E7%AD%86%E8%A8%98/" rel="prev" title="iframe 筆記">
+      <i class="fa fa-chevron-left"></i> iframe 筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/01/31/%E6%89%93%E5%AD%97%E7%B7%B4%E7%BF%92/" rel="next" title="打字練習">
+      打字練習 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#數字進位"><span class="nav-number">1.</span> <span class="nav-text">數字進位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客製進位規則"><span class="nav-number">2.</span> <span class="nav-text">客製進位規則</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遞迴數字進位"><span class="nav-number">3.</span> <span class="nav-text">遞迴數字進位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#客製進位規則遞迴"><span class="nav-number">4.</span> <span class="nav-text">客製進位規則遞迴</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#16進位"><span class="nav-number">5.</span> <span class="nav-text">16進位</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2023/01/04/c-%E6%89%8B%E5%AF%AB%E9%80%B2%E4%BD%8D/";
+    this.page.identifier = "2023/01/04/c-手寫進位/";
+    this.page.title = "c# 手寫進位";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker 基本觀念及操作筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/05/12/docker-%E5%9F%BA%E6%9C%AC%E8%A7%80%E5%BF%B5%E5%8F%8A%E6%93%8D%E4%BD%9C%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-05-12T11:19:58.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/05/12/docker-%E5%9F%BA%E6%9C%AC%E8%A7%80%E5%BF%B5%E5%8F%8A%E6%93%8D%E4%BD%9C%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>docker 基本觀念及操作筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/05/12/docker-%E5%9F%BA%E6%9C%AC%E8%A7%80%E5%BF%B5%E5%8F%8A%E6%93%8D%E4%BD%9C%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          docker 基本觀念及操作筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-05-12 19:19:58" itemprop="dateCreated datePublished" datetime="2021-05-12T19:19:58+08:00">2021-05-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/05/12/docker-%E5%9F%BA%E6%9C%AC%E8%A7%80%E5%BF%B5%E5%8F%8A%E6%93%8D%E4%BD%9C%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/05/12/docker-基本觀念及操作筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>17k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>15 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<h3 id="powershell-事前準備"><a href="#powershell-事前準備" class="headerlink" title="powershell 事前準備"></a>powershell 事前準備</h3><p>礙於之前整理 powershell 比較散亂 , 我已經更新成<a href="https://weber87na.github.io/2021/12/01/%E6%88%91%E7%9A%84-powershell-%E8%A8%AD%E5%AE%9A/" target="_blank" rel="noopener">這篇</a><br>安裝 <code>CHOCOLATEY</code> <a href="https://chocolatey.org/install" target="_blank" rel="noopener">官網</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol &#x3D; [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString(&#39;https:&#x2F;&#x2F;chocolatey.org&#x2F;install.ps1&#39;))</span><br></pre></td></tr></table></figure>
+
+<p>choco 安裝 <code>gsudo</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install gsudo</span><br></pre></td></tr></table></figure>
+
+<p>或使用 powershell 安裝 <code>gsudo</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PowerShell -Command &quot;Set-ExecutionPolicy RemoteSigned -scope Process; iwr -useb https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;gerardog&#x2F;gsudo&#x2F;master&#x2F;installgsudo.ps1 | iex&quot;</span><br></pre></td></tr></table></figure>
+
+<p>安裝 firacode 字體 (建議要安裝 , 這樣使用 git-posh 才會正常顯示)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">choco install firacode</span><br></pre></td></tr></table></figure>
+<p>或<a href="https://github.com/tonsky/FiraCode" target="_blank" rel="noopener">官網下載</a> , 解壓縮以後選 <code>ttf</code> 全選以後右鍵安裝</p>
+<h3 id="設定-windows-ssh-powershell-連線"><a href="#設定-windows-ssh-powershell-連線" class="headerlink" title="設定 windows ssh powershell 連線"></a>設定 windows ssh powershell 連線</h3><p>我這邊直接使用 windows 的 powershell 來進行連線 , 因為預設的 powershell 畫面很醜 , 像是很古老的當機畫面 , 所以稍微 config 一下<br><a href="https://zhuanlan.zhihu.com/p/163007658" target="_blank" rel="noopener">powershell 字體設定</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">電腦\HKEY_CURRENT_USER\Console\%SystemRoot%_SysWOW64_WindowsPowerShell_v1.0_powershell.exe</span><br><span class="line">FaceName 設定 Fira Code 注意有空格</span><br></pre></td></tr></table></figure>
+<p>設定好後開啟 powershell =&gt; <code>右鍵</code> =&gt; <code>內容</code> =&gt; <code>字型</code> =&gt; <code>Fira Code</code> 即可</p>
+<p>萬一有使用 powerline 這鬼東西 , 可以到這個網頁<a href="https://github.com/powerline/fonts" target="_blank" rel="noopener">下載</a><br>選擇這個字體 <code>DejaVu Sans Mono for Powerline</code> , 其他字體測不出來 , 圖示都會亂碼 , 安裝好的話用 ssh 連線 ubuntu 也可以正常顯示</p>
+<p>後來發現不管用什麼字體只要是 run powershell 都會跑掉變回原形很醜 , 找到保哥<a href="https://blog.miniasp.com/post/2017/12/06/Microsoft-YaHei-Mono-Chinese-Font-for-Command-Prompt-and-WSL" target="_blank" rel="noopener">這篇</a> 只要下載他的字體就可以解決問題 , 但是一些 icon 還是無解至少開 vim 不會跑掉 , 對沒有 windows terminal 的環境幫助滿大的<br>另外捲軸沒有 30 cm 的話可以用老外的<a href="https://mcpmag.com/articles/2013/03/12/powershell-screen-buffer-size.aspx" target="_blank" rel="noopener">設定</a> 老外直接設定 3000 cm真是狠腳色</p>
+<p>安裝 powershell 黑色系佈景 <a href="https://github.com/dracula/powershell" target="_blank" rel="noopener">Dracula</a><br>下載後解壓 <code>dist\ColorTool</code> 執行 <code>install.cmd</code> 即可完成安裝 , 並且將 <code>dracula-prompt-configuration.ps1</code> 內的設定貼到 <code>$profile</code><br>powershell <code>$profile</code> 的設定檔 <code>profile.ps1</code> 跟 <code>.bashrc</code> 類似 , 就是用來初始化 powershell 的設定檔<br>一般會在以下路徑內新增一個 <code>profile.ps1</code> 文件來進行管理 , 若有 <code>Microsoft.PowerShell_profile.ps1</code> 也可以直接編輯他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#for admin</span><br><span class="line">C:\Windows\System32\WindowsPowerShell\v1.0</span><br><span class="line"></span><br><span class="line">#for user</span><br><span class="line">C:\Users\YourName\Documents\WindowsPowerShell\</span><br></pre></td></tr></table></figure>
+
+<p>安裝 oh-my-posh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Install-Module posh-git -Scope CurrentUser</span><br><span class="line">Install-Module oh-my-posh -Scope CurrentUser</span><br></pre></td></tr></table></figure>
+
+<p>安裝 <a href="https://github.com/matt9ucci/DockerCompletion" target="_blank" rel="noopener">DockerCompletion</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module DockerCompletion</span><br></pre></td></tr></table></figure>
+
+<p>啟動歷史預測提示 <a href="https://devblogs.microsoft.com/powershell/announcing-psreadline-2-1-with-predictive-intellisense/" target="_blank" rel="noopener">predictive</a><br>注意預設是關閉的需要自行啟用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Module PSReadLine -RequiredVersion 2.1.0</span><br></pre></td></tr></table></figure>
+
+<p>最後額外設定自己的 config , 過程中太頻繁懶得打 docker 直接用 alias , 另外還有像是 history 搜尋可以按 <code>ctrl + r</code> 往前搜尋這種不錯的小技巧可以用 , 詳情參考<a href="https://www.thewindowsclub.com/how-to-see-powershell-command-history-on-windows-10" target="_blank" rel="noopener">印度仔</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">#設定 powershell 的 key binding emacs style</span><br><span class="line">Set-PSReadLineOption -EditMode Emacs</span><br><span class="line">Import-Module posh-git</span><br><span class="line">Import-Module oh-my-posh</span><br><span class="line"></span><br><span class="line">#注意 posh v3 新版是這個命令不是 Set-Theme</span><br><span class="line">Set-PoshPrompt darkblood</span><br><span class="line"></span><br><span class="line">#設定 docker alias</span><br><span class="line">Set-Alias -Name d -Value docker</span><br><span class="line"></span><br><span class="line">#啟用 docker 提示</span><br><span class="line">Import-Module DockerCompletion</span><br><span class="line"></span><br><span class="line">#設定歷史預測提示</span><br><span class="line">Set-PSReadLineOption -PredictionSource History</span><br></pre></td></tr></table></figure>
+
+<p>接著可能會用 powershell 以 Nuget 安裝套件 , 用 admin 執行以下命令 , 防止後續炸出 error</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[Net.ServicePointManager]::SecurityProtocol &#x3D; [Net.SecurityProtocolType]::Tls12</span><br><span class="line">Install-PackageProvider -Name NuGet</span><br></pre></td></tr></table></figure>
+
+<p>萬一 docker 炸出以下 error</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">error during connect: Get http:&#x2F;&#x2F;%2F%2F.%2Fpipe%2Fdocker_engine&#x2F;v1.38&#x2F;images&#x2F;json: open &#x2F;&#x2F;.&#x2F;pipe&#x2F;docker_engine: The system cannot find the file specified. In the default daemon configuration on Windows, the docker client must be run elevated to connect. This error may also indicate that the docker daemon is not running</span><br></pre></td></tr></table></figure>
+
+<p>請輸入以下命令即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd &quot;C:\Program Files\Docker\Docker&quot;</span><br><span class="line">.&#x2F;DockerCli.exe -SwitchDaemon</span><br></pre></td></tr></table></figure>
+
+<p>切換 docker 使用的 engine linux or windows</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#切成 linux</span><br><span class="line">.&#x2F;DockerCli.exe -SwitchLinuxEngine</span><br><span class="line"></span><br><span class="line">#切成 windows</span><br><span class="line">.&#x2F;DockerCli.exe -SwitchWindowsEngine</span><br></pre></td></tr></table></figure>
+
+<h3 id="docker-基本觀念及操作"><a href="#docker-基本觀念及操作" class="headerlink" title="docker 基本觀念及操作"></a>docker 基本觀念及操作</h3><p>image =&gt; 檔案<br>container =&gt; 檔案內的軟體</p>
+<p>查看資訊的基本命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#看一些資訊</span><br><span class="line">docker info</span><br><span class="line"></span><br><span class="line">#目前執行中的 container</span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line">#注意看看是 windows or linux</span><br><span class="line">docker version</span><br><span class="line"></span><br><span class="line">#幫助訊息</span><br><span class="line">docker help</span><br><span class="line">docker container --help</span><br><span class="line">docker container attach --help</span><br></pre></td></tr></table></figure>
+
+<p>常用的訊息命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">#看這機器上有多少 image</span><br><span class="line">docker image ls</span><br><span class="line">docker images</span><br><span class="line"></span><br><span class="line">#看目前 running 的</span><br><span class="line">docker container ls</span><br><span class="line"></span><br><span class="line">#看沒 running 的</span><br><span class="line">docker container ls -a</span><br><span class="line"></span><br><span class="line">docker container ls --no-trunc -a</span><br><span class="line">docker image ls --no-trunc -a</span><br></pre></td></tr></table></figure>
+
+<p>搜尋與下載 image<br><a href="https://hub.docker.com/search?image_filter=official&type=image" target="_blank" rel="noopener">熱門的 image</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#搜尋</span><br><span class="line">docker search hello-world</span><br><span class="line"></span><br><span class="line">#搜尋星星數大於 100 的</span><br><span class="line">docker search nginx -f stars&#x3D;100</span><br><span class="line"></span><br><span class="line">#拉 hello-world</span><br><span class="line">docker image pull hello-world</span><br><span class="line">docker pull hello-world</span><br><span class="line"></span><br><span class="line">docker pull busybox</span><br><span class="line"></span><br><span class="line">#看看自己有什麼 image</span><br><span class="line">docker image ls</span><br></pre></td></tr></table></figure>
+
+<p>執行 hello-world</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run hello-world</span><br></pre></td></tr></table></figure>
+
+<p>執行 ubuntu 交互</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">docker pull ubuntu</span><br><span class="line"></span><br><span class="line">#-i interactive 交互</span><br><span class="line">#-t tty linux 終端術語</span><br><span class="line">docker run -i -t ubuntu &#x2F;bin&#x2F;bash</span><br><span class="line">docker run -it ubuntu &#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">#預設就是進入到 &#x2F;bin&#x2F;bash 裡面</span><br><span class="line">docker run ubuntu</span><br><span class="line"></span><br><span class="line">#直接跑 bash</span><br><span class="line">docker exec -it 3afs3 &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+
+<p>除了交互式以外 , 也可以跑成後台服務 (daemon , 大陸叫做守護進程)</p>
+<p>-d detachs<br>-p publish <host>:<container></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker run --help</span><br><span class="line">docker pull nginx</span><br><span class="line">docker run --name my-nginx -d -p 8787:80 nginx</span><br></pre></td></tr></table></figure>
+
+<p>執行 chrome <a href="http://localhost:8787/" target="_blank" rel="noopener">http://localhost:8787/</a> 應該可以看到 nginx<br>補充可以用 inspect 檢查 image or container 等等狀態</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">docker container inspect d312</span><br><span class="line"></span><br><span class="line">#用 powershell 列出橫式的訊息</span><br><span class="line">(docker container inspect d312 | ConvertFrom-Json)</span><br><span class="line"></span><br><span class="line">#撈 ip</span><br><span class="line">$ip &#x3D; (docker container inspect d312 | ConvertFrom-Json).NetworkSettings.Networks.bridge.IPAddress</span><br><span class="line"></span><br><span class="line">#執行 chrome , 不過這個 example 不能這樣 run</span><br><span class="line">#start http:&#x2F;&#x2F;$ip</span><br><span class="line"></span><br><span class="line">#其他連線方法以我這台為例</span><br><span class="line">#http:&#x2F;&#x2F;host.docker.internal:8787&#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>其他操作 for image &amp; container</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">#停止 container</span><br><span class="line">docker stop my-nginx</span><br><span class="line"></span><br><span class="line">#開啟 my-nginx 服務</span><br><span class="line">docker start my-nginx</span><br><span class="line"></span><br><span class="line">#因為被停止了所以用 -a 列出包含停止的 container</span><br><span class="line">docker ps -a</span><br><span class="line"></span><br><span class="line">#看看最後執行的 container 是什麼</span><br><span class="line">docker ps -l</span><br><span class="line"></span><br><span class="line">#-q 是只列出 id</span><br><span class="line">docker ps -lq</span><br><span class="line"></span><br><span class="line">#刪除 container</span><br><span class="line">docker container rm d312bcc86783</span><br><span class="line"></span><br><span class="line">#也可以搭配剛剛的命令使用</span><br><span class="line">docker container rm $(docker ps -lq)</span><br><span class="line"></span><br><span class="line">#這樣可以快速刪除全部就像 sql 語法的 in 一樣</span><br><span class="line">#select * from container where id in (a345a,b2hfg,c25s,dw3,e23)</span><br><span class="line">docker container rm $(docker ps ls -aq)</span><br></pre></td></tr></table></figure>
+
+<h3 id="Lab-Docker-包裝一個-vim-的-image"><a href="#Lab-Docker-包裝一個-vim-的-image" class="headerlink" title="Lab Docker 包裝一個 vim 的 image"></a>Lab Docker 包裝一個 vim 的 image</h3><p>常常包來用的兩個超迷你的 linux</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull busybox</span><br><span class="line">docker pull alpine</span><br></pre></td></tr></table></figure>
+
+<p>包裝一個新的 image</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it alpine</span><br><span class="line">apk add bash</span><br></pre></td></tr></table></figure>
+
+<p>注意這個一 run exit 下載就白費了 , 所以我們需要開另外一個 powershell</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#看看目前這個在 run 的 container</span><br><span class="line">docker ps</span><br><span class="line"></span><br><span class="line">#自己包裝成有 bash 版本的</span><br><span class="line">docker commit -m&#x3D;&quot;add bash&quot; -a&#x3D;&quot;gg&quot; 0c4a5f78e8ab alpine-bash</span><br></pre></td></tr></table></figure>
+
+<p>這下子就有 bash 可以用了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker container run -it alpine-bash &#x2F;bin&#x2F;bash</span><br><span class="line"></span><br><span class="line">#在多包一個 vim</span><br><span class="line">apk add vim</span><br></pre></td></tr></table></figure>
+
+<p>一樣開啟另外一個 powershell 並且 commit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">docker commit -m&#x3D;&quot;add vim&quot; -a&#x3D;&quot;gg&quot; 5cb alpine-bash-vim</span><br><span class="line">docker container run -it alpine-bash-vim &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+
+<p>從 host 複製 vimrc 檔案到 container , 404b2c =&gt; container 的 id</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker cp &quot;C:\Program Files\Git\etc\vimrc&quot; 404b2c:&#x2F;root&#x2F;vimrc</span><br><span class="line">apk add curl</span><br><span class="line">apk add git</span><br><span class="line">curl -fLo ~&#x2F;.vim&#x2F;autoload&#x2F;plug.vim --create-dirs https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;junegunn&#x2F;vim-plug&#x2F;master&#x2F;plug.vim</span><br><span class="line">vim</span><br><span class="line">:PlugInstall</span><br><span class="line">#找到 colorscheme ayu 並且註解掉最後就可以 commit 了</span><br></pre></td></tr></table></figure>
+
+<p>補充 , 從 container 複製檔案到 host</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker cp 404b2c:&#x2F;root&#x2F;.vimrc $&#123;PWD&#125;&#x2F;vimrcnew</span><br></pre></td></tr></table></figure>
+
+<p>另外一個 powershell 進行 commit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br><span class="line">docker commit -m&#x3D;&quot;add vim&quot; -a&#x3D;&quot;gg&quot; 5cb alpine-bash-vim-myconfig</span><br><span class="line">docker images</span><br><span class="line">#最後很清楚可以看到 docker 是一層一層疊上來的 , 所以最後一個 image 裝了一堆東西大小明顯變大很多</span><br><span class="line">#REPOSITORY                         TAG        IMAGE ID       CREATED             SIZE</span><br><span class="line">#alpine-bash-vim-myconfig           latest     cf92a859ff98   3 seconds ago       51MB</span><br><span class="line">#alpine-bash-vim                    latest     dc17cb68096a   About an hour ago   25.7MB</span><br><span class="line">#alpine-bash                        latest     0f542f76e815   About an hour ago   9.74MB</span><br></pre></td></tr></table></figure>
+
+<h3 id="Lab-用-busybox-安裝-vim-並且包裝成新的-image"><a href="#Lab-用-busybox-安裝-vim-並且包裝成新的-image" class="headerlink" title="Lab 用 busybox 安裝 vim , 並且包裝成新的 image"></a>Lab 用 busybox 安裝 vim , 並且包裝成新的 image</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it progrium&#x2F;busybox</span><br></pre></td></tr></table></figure>
+
+<p>在 busybox 內執行安裝 vim 並且退出 container</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># busybox 裡面安裝 vim</span><br><span class="line">opkg-install vim</span><br><span class="line">exit</span><br></pre></td></tr></table></figure>
+
+<p>想要再次啟動這個 container 的話可以輸入以下指令 , 注意 busybox 跟 alpine 預設都是 sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start 6f9bf9785ce5 &#x2F;bin&#x2F;sh</span><br></pre></td></tr></table></figure>
+
+<p>雖然已經離開了 container , 但還是可以 commit 為新的 image</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker commit -a&#x3D;&quot;gg&quot; -m&#x3D;&quot;add vim&quot; 6f9bf9785ce5 busybox-vim</span><br></pre></td></tr></table></figure>
+
+<p>注意若現在把之前的 container <code>6f9bf9785ce5</code> 跑起來的話 vim 還是會存在的 , 但如果新跑一個 image 則 vim 不會在</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker start 6f9bf9785ce5</span><br><span class="line"></span><br><span class="line">#執行 vim 是可以成功的</span><br><span class="line">vim</span><br></pre></td></tr></table></figure>
+
+<p>以下方法則是從新啟動一個 container , 所以裡面不會有 vim , container 的 id 是不一樣的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -it progrium&#x2F;busybox</span><br><span class="line">docker container ls -a</span><br><span class="line">#CONTAINER ID   IMAGE            COMMAND   CREATED              STATUS                         </span><br><span class="line">#c77c1d77e23b   progrium&#x2F;busybox &quot;&#x2F;bin&#x2F;sh&quot; About a minute ago   Exited (127) About a minute ago</span><br><span class="line">#6f9bf9785ce5   progrium&#x2F;busybox &quot;&#x2F;bin&#x2F;sh&quot; 29 minutes ago       Exited (137) 6 minutes ago</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="網路基本命令"><a href="#網路基本命令" class="headerlink" title="網路基本命令"></a>網路基本命令</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker network ls</span><br><span class="line"></span><br><span class="line">#建立網路</span><br><span class="line">docker network create test</span><br><span class="line"></span><br><span class="line">#刪除網路</span><br><span class="line">docker network rm 789</span><br></pre></td></tr></table></figure>
+
+<p>在 container 內互相連線</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker pull tutum&#x2F;wordpress</span><br><span class="line">docker run -d -p 10001:80 --name blog1 tutum&#x2F;wordpress</span><br><span class="line"></span><br><span class="line">#將 container blog1 連線到 my_network 的網路內</span><br><span class="line">docker network connect my_network blog1</span><br><span class="line"></span><br><span class="line">#用 --network 指定網路 , 所以此時這兩個 container 就可以互通了</span><br><span class="line">docker run -it --network my_network ubuntu:16.04 bash</span><br></pre></td></tr></table></figure>
+
+<p>此時在 ubuntu 的 container 內安裝 curl 並且執行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt update &amp;&amp; apt install -y curl</span><br><span class="line">curl -sSL blog1 | head -n5</span><br></pre></td></tr></table></figure>
+
+<h3 id="docker-進階網路-debug"><a href="#docker-進階網路-debug" class="headerlink" title="docker 進階網路 debug"></a>docker 進階網路 debug</h3><p>在 docker 裡面拔了一堆東西 , 所以想看網路的話直接就 gg , 所以應該包一個這種網路除錯工具來用<br>通常資深一點的人都習慣用 ifconfig 這類 net-tools 命令來看 , 所以最好新舊 tool 都包一包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update</span><br><span class="line">sudo apt upgrade</span><br><span class="line"></span><br><span class="line">#舊版標配</span><br><span class="line">sudo apt-get install -y net-tools</span><br><span class="line"></span><br><span class="line">#新版標配</span><br><span class="line">sudo apt-get install -y iproute2</span><br></pre></td></tr></table></figure>
+
+<p>常用 debug 網路通不通的 command</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#一直 ping</span><br><span class="line">ping 8.8.8.8</span><br><span class="line"></span><br><span class="line">#ping 一次</span><br><span class="line">ping 8.8.8.8 -c1</span><br><span class="line"></span><br><span class="line">traceroute 8.8.8.8</span><br><span class="line">mtr 8.8.8.8</span><br></pre></td></tr></table></figure>
+
+<p>docker 實際上是透過 linux bridge 隔離 network namespace , 預設會送你一張 docker0 , 如果有建立 container 就會自動發配 veth 給你</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">ip a</span><br><span class="line"></span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link&#x2F;loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1&#x2F;8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 ::1&#x2F;128 scope host</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc mq state UP group default qlen 1000</span><br><span class="line">    link&#x2F;ether 00:15:5d:36:b4:38 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.137.156&#x2F;24 brd 192.168.137.255 scope global dynamic eth0</span><br><span class="line">       valid_lft 604759sec preferred_lft 604759sec</span><br><span class="line">    inet6 fe80::215:5dff:fe36:b438&#x2F;64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">3: docker0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">    link&#x2F;ether 02:42:9f:6f:7d:c8 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.17.0.1&#x2F;16 brd 172.17.255.255 scope global docker0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">    inet6 fe80::42:9fff:fe6f:7dc8&#x2F;64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">5: veth1f0e6cb@if4: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default</span><br><span class="line">    link&#x2F;ether f2:2c:a5:77:11:12 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet6 fe80::f02c:a5ff:fe77:1112&#x2F;64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">7: veth9a6ae72@if6: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default</span><br><span class="line">    link&#x2F;ether b6:99:a6:c7:dc:cb brd ff:ff:ff:ff:ff:ff link-netnsid 1</span><br><span class="line">    inet6 fe80::b499:a6ff:fec7:dccb&#x2F;64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">21: vetha156707@if20: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default</span><br><span class="line">    link&#x2F;ether b6:79:46:57:e5:82 brd ff:ff:ff:ff:ff:ff link-netnsid 2</span><br><span class="line">    inet6 fe80::b479:46ff:fe57:e582&#x2F;64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<p>只看 veth 不是很好看 , 所以可以用下面這種方法來看些 details<br>撈 container 的 pid , 接著用 nsenter 跳進去 , 注意這邊指定 -n 參數的話才可以直接進去 network namespace (netns)<br>發現很好用 , 跳到 netns 內可以用 host 的工具進行 debug , 如果直接進去 docker 裡面是沒有 ip 工具可以使用的<br>最後可以看看<a href="https://www.cpweb.top/343" target="_blank" rel="noopener">強國人這篇</a>寫得滿詳細的</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">docker inspect 00f | grep Pid</span><br><span class="line">#不分大小寫</span><br><span class="line">docker inspect 00f | grep -i pid</span><br><span class="line"></span><br><span class="line">#跳到 network namespace</span><br><span class="line">sudo nsenter -n -t 152912 &#x2F;bin&#x2F;bash</span><br><span class="line">ip a</span><br><span class="line">#1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">#    link&#x2F;loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">#    inet 127.0.0.1&#x2F;8 scope host lo</span><br><span class="line">#       valid_lft forever preferred_lft forever</span><br><span class="line">#6: eth0@if7: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">#    link&#x2F;ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">#    inet 172.17.0.3&#x2F;16 brd 172.17.255.255 scope global eth0</span><br><span class="line">#       valid_lft forever preferred_lft forever</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#看看跟直接跳 docker 裡面有啥差異 (nginx container)</span><br><span class="line">docker container exec -it e0c &#x2F;bin&#x2F;bash</span><br><span class="line">root@e0c0c8d096ca:&#x2F;# ip a</span><br><span class="line">bash: ip: command not found</span><br><span class="line"></span><br><span class="line">#docker 有把 netns 偷偷搬到 docker 資料夾底下 , 多隔一層</span><br><span class="line">#預設則是在 &#x2F;var&#x2F;run&#x2F;netns&#x2F;</span><br><span class="line">sudo ls &#x2F;var&#x2F;run&#x2F;docker&#x2F;netns</span><br></pre></td></tr></table></figure>
+
+
+<p>為何 container 可以連線外網 , 可以用 iptables 查看看 docker 偷偷做的事 , 有兩種看法<br>方法一 <code>iptables-save</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables-save</span><br><span class="line"></span><br><span class="line"># Generated by iptables-save v1.8.4 on Wed Aug 11 04:23:28 2021</span><br><span class="line">*filter</span><br><span class="line">:INPUT ACCEPT [8720:602415]</span><br><span class="line">:FORWARD DROP [0:0]</span><br><span class="line">:OUTPUT ACCEPT [8382:1516434]</span><br><span class="line">:DOCKER - [0:0]</span><br><span class="line">:DOCKER-ISOLATION-STAGE-1 - [0:0]</span><br><span class="line">:DOCKER-ISOLATION-STAGE-2 - [0:0]</span><br><span class="line">:DOCKER-USER - [0:0]</span><br><span class="line">-A FORWARD -j DOCKER-USER</span><br><span class="line">-A FORWARD -j DOCKER-ISOLATION-STAGE-1</span><br><span class="line">-A FORWARD -o docker0 -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT</span><br><span class="line">-A FORWARD -o docker0 -j DOCKER</span><br><span class="line">-A FORWARD -i docker0 ! -o docker0 -j ACCEPT</span><br><span class="line">-A FORWARD -i docker0 -o docker0 -j ACCEPT</span><br><span class="line">-A DOCKER-ISOLATION-STAGE-1 -i docker0 ! -o docker0 -j DOCKER-ISOLATION-STAGE-2</span><br><span class="line">-A DOCKER-ISOLATION-STAGE-1 -j RETURN</span><br><span class="line">-A DOCKER-ISOLATION-STAGE-2 -o docker0 -j DROP</span><br><span class="line">-A DOCKER-ISOLATION-STAGE-2 -j RETURN</span><br><span class="line">-A DOCKER-USER -j RETURN</span><br><span class="line">COMMIT</span><br><span class="line"># Completed on Wed Aug 11 04:23:28 2021</span><br><span class="line"># Generated by iptables-save v1.8.4 on Wed Aug 11 04:23:28 2021</span><br><span class="line">*nat</span><br><span class="line">:PREROUTING ACCEPT [454:89225]</span><br><span class="line">:INPUT ACCEPT [22:4283]</span><br><span class="line">:OUTPUT ACCEPT [1697:136012]</span><br><span class="line">:POSTROUTING ACCEPT [1703:136290]</span><br><span class="line">:DOCKER - [0:0]</span><br><span class="line">-A PREROUTING -m addrtype --dst-type LOCAL -j DOCKER</span><br><span class="line">-A OUTPUT ! -d 127.0.0.0&#x2F;8 -m addrtype --dst-type LOCAL -j DOCKER</span><br><span class="line">-A POSTROUTING -s 172.17.0.0&#x2F;16 ! -o docker0 -j MASQUERADE</span><br><span class="line">-A DOCKER -i docker0 -j RETURN</span><br><span class="line">COMMIT</span><br><span class="line"># Completed on Wed Aug 11 04:23:28 2021</span><br></pre></td></tr></table></figure>
+
+<p>方法二 <code>iptables</code> 可以搭配參數看到行號</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables --list --line-number</span><br><span class="line"></span><br><span class="line">#Chain INPUT (policy ACCEPT)</span><br><span class="line">#num  target     prot opt source               destination</span><br><span class="line">#</span><br><span class="line">#Chain FORWARD (policy DROP)</span><br><span class="line">#num  target     prot opt source               destination</span><br><span class="line">#1    DOCKER-USER  all  --  anywhere             anywhere</span><br><span class="line">#2    DOCKER-ISOLATION-STAGE-1  all  --  anywhere             anywhere</span><br><span class="line">#3    ACCEPT     all  --  anywhere             anywhere             ctstate RELATED,ESTABLISHED</span><br><span class="line">#4    DOCKER     all  --  anywhere             anywhere</span><br><span class="line">#5    ACCEPT     all  --  anywhere             anywhere</span><br><span class="line">#6    ACCEPT     all  --  anywhere             anywhere</span><br><span class="line">#</span><br><span class="line">#Chain OUTPUT (policy ACCEPT)</span><br><span class="line">#num  target     prot opt source               destination</span><br><span class="line">#</span><br><span class="line">#Chain DOCKER (1 references)</span><br><span class="line">#num  target     prot opt source               destination</span><br><span class="line">#</span><br><span class="line">#Chain DOCKER-ISOLATION-STAGE-1 (1 references)</span><br><span class="line">#num  target     prot opt source               destination</span><br><span class="line">#1    DOCKER-ISOLATION-STAGE-2  all  --  anywhere             anywhere</span><br><span class="line">#2    RETURN     all  --  anywhere             anywhere</span><br><span class="line">#</span><br><span class="line">#Chain DOCKER-ISOLATION-STAGE-2 (1 references)</span><br><span class="line">#num  target     prot opt source               destination</span><br><span class="line">#1    DROP       all  --  anywhere             anywhere</span><br><span class="line">#2    RETURN     all  --  anywhere             anywhere</span><br><span class="line">#</span><br><span class="line">#Chain DOCKER-USER (1 references)</span><br><span class="line">#num  target     prot opt source               destination</span><br><span class="line">#1    RETURN     all  --  anywhere             anywhere</span><br></pre></td></tr></table></figure>
+
+<p>刪除的話用需要加 Chain 跟 行號</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables --delete FORWARD 1</span><br></pre></td></tr></table></figure>
+
+<p>最後還有種 debug 有趣用法 , 因為 docker 有個 container 模式 , k8s 就是用這種模式<br>這邊用 nginx + dotnet core 來玩看看 , 因為 dotnet core 的 image 內建 curl 所以可以用來打 nginx 網頁看看<br>提醒如果你 port 相衝突到的話 container 一執行 run 就直接跳走了 , 例如同時起兩個 nginx 會搶 80 , 所以會都起不來</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">docker run nginx</span><br><span class="line">docker run  -it --net&#x3D;container:757f5a389a6b  mcr.microsoft.com&#x2F;dotnet&#x2F;sdk</span><br><span class="line">docker inspect 757f5a389a6b | grep IPA</span><br><span class="line"></span><br><span class="line">#&quot;SecondaryIPAddresses&quot;: null,</span><br><span class="line">#&quot;IPAddress&quot;: &quot;172.17.0.2&quot;,</span><br><span class="line">#        &quot;IPAMConfig&quot;: null,</span><br><span class="line">#        &quot;IPAddress&quot;: &quot;172.17.0.2&quot;,</span><br><span class="line"></span><br><span class="line">docker exec -it awr3 &#x2F;bin&#x2F;bash</span><br></pre></td></tr></table></figure>
+
+<p>先跳到 nginx 的 netns 看看 , 注意這邊可以用 ip a 是因為在 host run</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker inspect 757f5a389a6b | grep -i pid</span><br><span class="line">sudo   nsenter -t 25311 -n</span><br><span class="line">ip a</span><br><span class="line">#1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">#    link&#x2F;loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">#    inet 127.0.0.1&#x2F;8 scope host lo</span><br><span class="line">#       valid_lft forever preferred_lft forever</span><br><span class="line">#16: eth0@if17: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">#    link&#x2F;ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">#    inet 172.17.0.2&#x2F;16 brd 172.17.255.255 scope global eth0</span><br><span class="line">#       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<p>接著跳到 dotnet core 的 netns 內看看 , 發現 ip 果然與 dotnet core 的如出一徹</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker inspect awr3 | grep -i pid</span><br><span class="line">sudo   nsenter -t 35348 -n</span><br><span class="line">ip a</span><br><span class="line">#16: eth0@if17: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">#    link&#x2F;ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">#    inet 172.17.0.2&#x2F;16 brd 172.17.255.255 scope global eth0</span><br><span class="line">#       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+
+<h3 id="透過-tcp-連線遠端-docker"><a href="#透過-tcp-連線遠端-docker" class="headerlink" title="透過 tcp 連線遠端 docker"></a>透過 tcp 連線遠端 docker</h3><p>莫名其妙的遠端 docker tcp 不能連線 , <a href="https://stackoverflow.com/questions/26561963/how-to-detect-a-docker-daemon-port" target="_blank" rel="noopener">參考強者老外</a><br>上課看到可以直接用 ip 加上指令的方式直接管理遠端 docker</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker -H 10.1.25.123 images</span><br></pre></td></tr></table></figure>
+
+<p>搞了一堆方法都失敗 , 後來 try 這個老外講的才成功</p>
+<p>Prepare extra configuration file. Create a file named /etc/systemd/system/docker.service.d/docker.conf. Inside the file docker.conf, paste below content:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Service]</span><br><span class="line">ExecStart&#x3D;</span><br><span class="line">ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;dockerd -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock</span><br></pre></td></tr></table></figure>
+<p>Note that if there is no directory like docker.service.d or a file named docker.conf then you should create it.</p>
+<p>Restart Docker. After saving this file, reload the configuration by systemctl daemon-reload and restart Docker by systemctl restart docker.service.</p>
+<p>Check your Docker daemon. After restarting docker service, you can see the port in the output of systemctl status docker.service like /usr/bin/dockerd -H tcp://0.0.0.0:2375 -H unix:///var/run/docker.sock.</p>
+<p>以下為我的實作筆記過程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">cd &#x2F;etc&#x2F;systemd&#x2F;system</span><br><span class="line">mkdir docker.service.d</span><br><span class="line">cd docker.service.d</span><br><span class="line">sudo vim docker.conf</span><br><span class="line"></span><br><span class="line">#加入這個片段</span><br><span class="line">#[Service]</span><br><span class="line">#ExecStart&#x3D;</span><br><span class="line">#ExecStart&#x3D;&#x2F;usr&#x2F;bin&#x2F;dockerd -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock</span><br><span class="line"></span><br><span class="line">#重新更新 daemon 設定</span><br><span class="line">systemctl daemon-reload</span><br><span class="line"></span><br><span class="line">#重開 docker</span><br><span class="line">systemctl restart docker.service</span><br><span class="line"></span><br><span class="line">#印出狀態</span><br><span class="line">systemctl status docker.service</span><br><span class="line"></span><br><span class="line">#● docker.service - Docker Application Container Engine</span><br><span class="line">#     Loaded: loaded (&#x2F;lib&#x2F;systemd&#x2F;system&#x2F;docker.service; enabled; vendor preset: enabled)</span><br><span class="line">#    Drop-In: &#x2F;etc&#x2F;systemd&#x2F;system&#x2F;docker.service.d</span><br><span class="line">#             └─docker.conf</span><br><span class="line">#     Active: active (running) since Thu 2021-07-15 12:49:20 CST; 8min ago</span><br><span class="line">#TriggeredBy: ● docker.socket</span><br><span class="line">#       Docs: https:&#x2F;&#x2F;docs.docker.com</span><br><span class="line">#   Main PID: 829386 (dockerd)</span><br><span class="line">#      Tasks: 39</span><br><span class="line">#     Memory: 75.5M</span><br><span class="line">#     CGroup: &#x2F;system.slice&#x2F;docker.service</span><br><span class="line">#             ├─829386 &#x2F;usr&#x2F;bin&#x2F;dockerd -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock</span><br><span class="line">#             └─829752 &#x2F;usr&#x2F;bin&#x2F;docker-proxy -proto tcp -host-ip 127.0.0.1 -host-port 1514 -container-ip 172.21.0.6 -container-port 10514</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#一樣印出狀態</span><br><span class="line">ps auxw | grep dockerd</span><br><span class="line">#root      829386  3.2  2.8 2422328 114552 ?      Ssl  12:48   0:19 &#x2F;usr&#x2F;bin&#x2F;dockerd -H tcp:&#x2F;&#x2F;0.0.0.0:2375 -H unix:&#x2F;&#x2F;&#x2F;var&#x2F;run&#x2F;docker.sock</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他錯誤"><a href="#其他錯誤" class="headerlink" title="其他錯誤"></a>其他錯誤</h3><p><a href="https://stackoverflow.com/questions/39130263/docker-proxy-using-port-when-no-containers-are-running" target="_blank" rel="noopener">今天噴個奇怪錯誤</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">docker: Error response from daemon: driver failed programming external connectivity on endpoint upbeat_cartwright (7b56e9f46ca459fcfd5e28b3fb4740dee0d7a0efc5dfc217b9f6a883db678b13): Bind for 0.0.0.0:80 failed: port is already allocated</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo lsof -i -P -n</span><br><span class="line">sudo service docker stop</span><br><span class="line">sudo rm -f &#x2F;var&#x2F;lib&#x2F;docker&#x2F;network&#x2F;files&#x2F;local-kv.db</span><br><span class="line"></span><br><span class="line">sudo service docker start</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/05/11/%E7%A7%81%E6%9C%89-Nuget-Server-%E6%9E%B6%E8%A8%AD-BaGet/" rel="prev" title="私有 Nuget Server 架設 BaGet">
+      <i class="fa fa-chevron-left"></i> 私有 Nuget Server 架設 BaGet
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/05/12/docker-%E5%BB%BA%E7%AB%8B%E7%A7%81%E6%9C%89%E7%9A%84-registry/" rel="next" title="docker 建立私有的 registry">
+      docker 建立私有的 registry <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-事前準備"><span class="nav-number">1.</span> <span class="nav-text">powershell 事前準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#設定-windows-ssh-powershell-連線"><span class="nav-number">2.</span> <span class="nav-text">設定 windows ssh powershell 連線</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-基本觀念及操作"><span class="nav-number">3.</span> <span class="nav-text">docker 基本觀念及操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-Docker-包裝一個-vim-的-image"><span class="nav-number">4.</span> <span class="nav-text">Lab Docker 包裝一個 vim 的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lab-用-busybox-安裝-vim-並且包裝成新的-image"><span class="nav-number">5.</span> <span class="nav-text">Lab 用 busybox 安裝 vim , 並且包裝成新的 image</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#網路基本命令"><span class="nav-number">6.</span> <span class="nav-text">網路基本命令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker-進階網路-debug"><span class="nav-number">7.</span> <span class="nav-text">docker 進階網路 debug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#透過-tcp-連線遠端-docker"><span class="nav-number">8.</span> <span class="nav-text">透過 tcp 連線遠端 docker</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他錯誤"><span class="nav-number">9.</span> <span class="nav-text">其他錯誤</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">302</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.5m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">23:28</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/05/12/docker-%E5%9F%BA%E6%9C%AC%E8%A7%80%E5%BF%B5%E5%8F%8A%E6%93%8D%E4%BD%9C%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2021/05/12/docker-基本觀念及操作筆記/";
+    this.page.title = "docker 基本觀念及操作筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>
