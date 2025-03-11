@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-03-07T19:35:39.000Z">
-<meta property="article:modified_time" content="2025-03-08T18:12:08.269Z">
+<meta property="article:modified_time" content="2025-03-11T00:17:17.475Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="喇賽">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2025-03-09 02:12:08" itemprop="dateModified" datetime="2025-03-09T02:12:08+08:00">2025-03-09</time>
+                <time title="修改時間：2025-03-11 08:17:17" itemprop="dateModified" datetime="2025-03-11T08:17:17+08:00">2025-03-11</time>
               </span>
 
           
@@ -292,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>4.1k</span>
+              <span>6.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>4 分鐘</span>
+              <span>6 分鐘</span>
             </span>
 
         </div>
@@ -354,6 +354,7 @@
 <p>撰寫設定 </p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">notepad $profile</span><br></pre></td></tr></table></figure>
 
+<p>另外想要設定 <code>ctrl+v</code> 為貼上的話可以到 <code>設定</code> =&gt; <code>動作</code> =&gt; <code>新增動作</code> 然後把 <code>ctrl+v</code> 補上即可</p>
 <h2 id="full-powershell-config"><a href="#full-powershell-config" class="headerlink" title="full powershell config"></a>full powershell config</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">#清除開頭煩人的訊息</span><br><span class="line">Clear-Host</span><br><span class="line"></span><br><span class="line">#emacs 模式</span><br><span class="line">Set-PSReadLineOption -EditMode Emacs</span><br><span class="line"></span><br><span class="line">#設定 tab 補全</span><br><span class="line">Set-PSReadlineKeyHandler -Chord Tab -Function MenuComplete</span><br><span class="line"></span><br><span class="line">#開啟歷史提示</span><br><span class="line">Set-PSReadLineOption -PredictionSource History</span><br><span class="line"></span><br><span class="line">#列表模式</span><br><span class="line">Set-PSReadLineOption -PredictionViewStyle ListView</span><br><span class="line"></span><br><span class="line">#改用 starship</span><br><span class="line">Invoke-Expression (&amp;starship init powershell)</span><br><span class="line"></span><br><span class="line">#美化 icon</span><br><span class="line">Import-Module -Name Terminal-Icons</span><br><span class="line"></span><br><span class="line">#設定 linux curl wget 而非 powershell 的功能</span><br><span class="line">IF (Test-Path Alias:curl) &#123; Remove-Item Alias:curl &#125;</span><br><span class="line">IF (Test-Path Alias:wget) &#123; Remove-Item Alias:wget &#125;</span><br><span class="line"></span><br><span class="line">#開啟 hosts</span><br><span class="line">function hosts &#123; notepad C:\windows\system32\drivers\etc\hosts &#125;</span><br><span class="line"></span><br><span class="line">#開啟 vsvimrc</span><br><span class="line">function vsvimrc &#123; notepad $HOME\_vsvimrc &#125;</span><br><span class="line"></span><br><span class="line">#開啟 vscode 的 settings.json</span><br><span class="line">function codesettings &#123; notepad $env:APPDATA\Code\User\settings.json &#125;</span><br><span class="line"></span><br><span class="line">#tig</span><br><span class="line">function tig &#123; &amp; &quot;C:\Program Files\Git\usr\bin\tig.exe&quot; &#125;</span><br><span class="line"></span><br><span class="line">#取得目前的 git repo</span><br><span class="line">function current-repo &#123; start chrome (git config remote.origin.url).Replace(&quot;.git&quot;,&quot;&quot;) &#125;</span><br><span class="line"></span><br><span class="line">#清除啟動以後的訊息</span><br><span class="line">clear</span><br></pre></td></tr></table></figure>
 
 
@@ -376,6 +377,29 @@
 <p><a href="https://github.com/microsoft/PowerToys" target="_blank" rel="noopener">PowerToys</a> 安裝如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winget install Microsoft.PowerToys -s winget</span><br></pre></td></tr></table></figure>
 
+<h2 id="顯示按鍵"><a href="#顯示按鍵" class="headerlink" title="顯示按鍵"></a>顯示按鍵</h2><p>之前都是用 <code>carnac</code> 這套<br>後來發現這個 <a href="https://github.com/microsoft/PowerToys/issues/981" target="_blank" rel="noopener">討論</a> 裡面有些其他同性質的, 不過用起來舊愛還是最美 LOL</p>
+<p><a href="https://github.com/Code52/carnac" target="_blank" rel="noopener">https://github.com/Code52/carnac</a> - Unmaintained, does not work on most applications<br><a href="https://github.com/Phaiax/Key-n-Stroke" target="_blank" rel="noopener">https://github.com/Phaiax/Key-n-Stroke</a><br><a href="https://github.com/marius-sucan/KeyPress-OSD" target="_blank" rel="noopener">https://github.com/marius-sucan/KeyPress-OSD</a> - Commercial version available<br><a href="https://github.com/Jagailo/YetAnotherKeyDisplayer" target="_blank" rel="noopener">https://github.com/Jagailo/YetAnotherKeyDisplayer</a><br><a href="https://github.com/mulaRahul/keyviz" target="_blank" rel="noopener">https://github.com/mulaRahul/keyviz</a> - Quite new and looks good</p>
+<h2 id="anaconda"><a href="#anaconda" class="headerlink" title="anaconda"></a>anaconda</h2><p>這次發現 <a href="https://www.anaconda.com/download" target="_blank" rel="noopener">官網</a> 又改版了 XD<br>要直接下載的話有個很小的字 <code>Skip registration</code> 哪天跟 Oracle 一樣都要登入才能下載也不意外了</p>
+<p>安裝好後設定以下路徑到 <code>Path</code> 環境變數底下, 可以用 <code>PowerToys</code> 設定會更人性一點</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\youruser\anaconda3</span><br><span class="line">C:\Users\youruser\anaconda3\Scripts</span><br><span class="line">C:\Users\youruser\anaconda3\Library\bin</span><br></pre></td></tr></table></figure>
+
+<p>每次安裝 <code>anaconda</code> 多多少少都有些驚喜跟意外, 沒有一次正常過的..<br>這次因為用 <code>powershell 7.5</code> <code>conda 24.11</code> 然後執行 <code>conda init</code> 以後就會噴以下錯誤</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">usage: conda-script.py [-h] [-v] [--no-plugins] [-V] COMMAND ...</span><br><span class="line">conda-script.py: error: argument COMMAND: invalid choice: &#39;&#39; (choose from &#39;activate&#39;, &#39;deactivate&#39;, &#39;clean&#39;, &#39;compare&#39;, &#39;config&#39;, &#39;create&#39;, &#39;env&#39;, &#39;export&#39;, &#39;info&#39;, &#39;init&#39;, &#39;install&#39;, &#39;list&#39;, &#39;notices&#39;, &#39;package&#39;, &#39;remove&#39;, &#39;uninstall&#39;, &#39;rename&#39;, &#39;run&#39;, &#39;search&#39;, &#39;update&#39;, &#39;upgrade&#39;, &#39;build&#39;, &#39;content-trust&#39;, &#39;convert&#39;, &#39;debug&#39;, &#39;develop&#39;, &#39;doctor&#39;, &#39;index&#39;, &#39;inspect&#39;, &#39;metapackage&#39;, &#39;render&#39;, &#39;repoquery&#39;, &#39;skeleton&#39;, &#39;server&#39;, &#39;token&#39;, &#39;repo&#39;, &#39;pack&#39;)</span><br><span class="line">Invoke-Expression: Cannot bind argument to parameter &#39;Command&#39; because it is an empty string.</span><br></pre></td></tr></table></figure>
+
+<p>丟 chatgpt 問半天也問不出個毛, 然後 google 發現一堆老外一樣<a href="https://github.com/conda/conda/issues/14292" target="_blank" rel="noopener">哀鴻遍野</a> LOL ~<br>檢查 <code>powershell</code> 及 <code>conda</code> 版本命令如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$PSVersionTable.PSVersion</span><br><span class="line">conda -V</span><br></pre></td></tr></table></figure>
+
+<p>照老外說 <code>conda 25.x</code> 就會正常, 然後執行 <code>conda</code> 更新根本就不會動 XD 還是停在 <code>24.x</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda update conda</span><br></pre></td></tr></table></figure>
+
+<p>後來發現這個<a href="https://naiv.fun/Ops/118.html" target="_blank" rel="noopener">強國人</a> 有現成解法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">conda install -n base conda&#x3D;25.1.1 -c conda-forge --override-channels --yes</span><br><span class="line">conda init --reverse</span><br><span class="line">conda init</span><br></pre></td></tr></table></figure>
+
+<p>不過他是用 <code>oh-my-posh</code> 我是用 <code>starship</code> 沒啥大問題, 唯一就是預設不會顯示 <code>base</code> 環境<br>如果 <code>starship</code> 要正確顯示出目前 <code>base</code> 環境可以參考<a href="https://github.com/starship/starship/issues/6322" target="_blank" rel="noopener">這篇</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">starship config conda.ignore_base false</span><br></pre></td></tr></table></figure>
+
+<p>最後就會長這樣, 灑花 ~</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~ 🅒 base</span><br><span class="line">🌹</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -459,7 +483,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#改回-win10-舊版選單"><span class="nav-number">1.</span> <span class="nav-text">改回 win10 舊版選單</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#輸入法切換"><span class="nav-number">2.</span> <span class="nav-text">輸入法切換</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo"><span class="nav-number">3.</span> <span class="nav-text">sudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gsudo"><span class="nav-number">4.</span> <span class="nav-text">gsudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wsl"><span class="nav-number">5.</span> <span class="nav-text">wsl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chrome"><span class="nav-number">6.</span> <span class="nav-text">chrome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7zip"><span class="nav-number">7.</span> <span class="nav-text">7zip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#firacode"><span class="nav-number">8.</span> <span class="nav-text">firacode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nerdfonts"><span class="nav-number">9.</span> <span class="nav-text">nerdfonts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#notepad"><span class="nav-number">10.</span> <span class="nav-text">notepad++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NotepadReplacer"><span class="nav-number">11.</span> <span class="nav-text">NotepadReplacer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#postman"><span class="nav-number">12.</span> <span class="nav-text">postman</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#powershell-相關設定"><span class="nav-number">13.</span> <span class="nav-text">powershell 相關設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#full-powershell-config"><span class="nav-number">14.</span> <span class="nav-text">full powershell config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#starship"><span class="nav-number">15.</span> <span class="nav-text">starship</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#github"><span class="nav-number">16.</span> <span class="nav-text">github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PowerToys"><span class="nav-number">17.</span> <span class="nav-text">PowerToys</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#改回-win10-舊版選單"><span class="nav-number">1.</span> <span class="nav-text">改回 win10 舊版選單</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#輸入法切換"><span class="nav-number">2.</span> <span class="nav-text">輸入法切換</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo"><span class="nav-number">3.</span> <span class="nav-text">sudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gsudo"><span class="nav-number">4.</span> <span class="nav-text">gsudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wsl"><span class="nav-number">5.</span> <span class="nav-text">wsl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chrome"><span class="nav-number">6.</span> <span class="nav-text">chrome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7zip"><span class="nav-number">7.</span> <span class="nav-text">7zip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#firacode"><span class="nav-number">8.</span> <span class="nav-text">firacode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nerdfonts"><span class="nav-number">9.</span> <span class="nav-text">nerdfonts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#notepad"><span class="nav-number">10.</span> <span class="nav-text">notepad++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NotepadReplacer"><span class="nav-number">11.</span> <span class="nav-text">NotepadReplacer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#postman"><span class="nav-number">12.</span> <span class="nav-text">postman</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#powershell-相關設定"><span class="nav-number">13.</span> <span class="nav-text">powershell 相關設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#full-powershell-config"><span class="nav-number">14.</span> <span class="nav-text">full powershell config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#starship"><span class="nav-number">15.</span> <span class="nav-text">starship</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#github"><span class="nav-number">16.</span> <span class="nav-text">github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PowerToys"><span class="nav-number">17.</span> <span class="nav-text">PowerToys</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#顯示按鍵"><span class="nav-number">18.</span> <span class="nav-text">顯示按鍵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#anaconda"><span class="nav-number">19.</span> <span class="nav-text">anaconda</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -543,13 +567,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">總廢話字數：</span>
-    <span title="總廢話字數">1.5m</span>
+    <span title="總廢話字數">1.6m</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">23:28</span>
+    <span title="所需總浪費時間">23:30</span>
 </div>
 
         
