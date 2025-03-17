@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-03-07T19:35:39.000Z">
-<meta property="article:modified_time" content="2025-03-15T07:32:56.657Z">
+<meta property="article:modified_time" content="2025-03-17T07:21:32.155Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="喇賽">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2025-03-15 15:32:56" itemprop="dateModified" datetime="2025-03-15T15:32:56+08:00">2025-03-15</time>
+                <time title="修改時間：2025-03-17 15:21:32" itemprop="dateModified" datetime="2025-03-17T15:21:32+08:00">2025-03-17</time>
               </span>
 
           
@@ -292,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>6.4k</span>
+              <span>7k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -321,13 +321,25 @@
 <h2 id="輸入法切換"><a href="#輸入法切換" class="headerlink" title="輸入法切換"></a>輸入法切換</h2><p>因為自己比較習慣用 <code>win + space</code> 切換, 這樣 intellisense 才不會衝突, 詳細 <a href="https://blog.miniasp.com/post/2020/03/19/Devs-must-setup-multi-language-input-method" target="_blank" rel="noopener">請看保哥</a> 核心就這四句</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$UserLanguageList &#x3D; New-WinUserLanguageList -Language &quot;zh-TW&quot;</span><br><span class="line">$UserLanguageList.Add(&quot;en-US&quot;)</span><br><span class="line">Set-WinUserLanguageList -LanguageList $UserLanguageList -Force</span><br><span class="line">Set-WinDefaultInputMethodOverride -InputTip &quot;0409:00000409&quot;</span><br></pre></td></tr></table></figure>
 
+<h2 id="鍵盤問題"><a href="#鍵盤問題" class="headerlink" title="鍵盤問題"></a>鍵盤問題</h2><p>我這個鍵盤沒有 <code>home</code> 跟 <code>end</code> 他跟右邊數字 <code>7</code> 共用, 研究下發現要按 <code>fn</code> + <code>7</code> 就能用 <code>home</code><br>不然就是把 <code>NumLk</code> 開啟直接把他變成 <code>home</code></p>
+<p>另外以前打 cs1.6 有一招急停步, 當時候會這樣調整, 可以讓鍵盤響應更快<br><code>win + r</code> =&gt; <code>control panel</code> =&gt; <code>keyboard</code> =&gt; <code>重複延遲設定最短</code> =&gt; <code>重複速度設定最快</code></p>
 <h2 id="sudo"><a href="#sudo" class="headerlink" title="sudo"></a>sudo</h2><p>本來想說都上 win11 應該可以直接用 sudo 沒想到要 <code>24h2</code> 版本, 看著網路上的災情還是果斷放棄 XD</p>
+<p>後來還是升級上去 <code>24h2</code> 就順便玩看看, 可以參考<a href="https://learn.microsoft.com/zh-tw/windows/sudo/" target="_blank" rel="noopener">官方</a></p>
+<p><code>win</code> =&gt; <code>設定</code> =&gt; <code>系統</code> =&gt; <code>開發人員專用</code> =&gt; <code>啟用 sudo</code></p>
 <h2 id="gsudo"><a href="#gsudo" class="headerlink" title="gsudo"></a>gsudo</h2><p>乖乖回去裝 <a href="https://github.com/gerardog/gsudo" target="_blank" rel="noopener">gsudo</a> 才不用每次都要管理員權限很難按</p>
 <p>winget 在 win11 就直接有了</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">winget install gerardog.gsudo</span><br></pre></td></tr></table></figure>
 
 <h2 id="wsl"><a href="#wsl" class="headerlink" title="wsl"></a>wsl</h2><p>只要執行無腦命令 <code>wsl --install</code> 就搞定了, 印象中以前還要一堆麻煩步驟</p>
+<p>如果想快速從 windows 開啟 wsl 檔案位置的話可以找到這個路徑<br><code>\\wsl.localhost\Ubuntu\home</code></p>
+<p>或是直接在 wsl 裡面敲這個命令, 即可開啟目前 <code>wsl</code> 位置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">explorer.exe .</span><br></pre></td></tr></table></figure>
+
 <h2 id="chrome"><a href="#chrome" class="headerlink" title="chrome"></a>chrome</h2><p>雖然有 edge 但是 <a href="https://www.google.com/intl/zh-TW/chrome/?brand=YTUH&gclid=Cj0KCQjw3eeXBhD7ARIsAHjssr8oKWGTMVDaA16mwksZ0TJhTpE7StFhrqeDUoQukMZjB-kPKpxNmFgaAlHkEALw_wcB&gclsrc=aw.ds" target="_blank" rel="noopener">chrome</a> 用得更習慣些<br>身為 vim 的愛好者不免俗還是要安裝下 <a href="https://chrome.google.com/webstore/detail/vimium/dbepggeogbaibhgnhhndojpepiihcmeb" target="_blank" rel="noopener">Vimium</a></p>
+<p>不曉得啥時開始 chrome console 會噴這個警告讓你不能貼 code 上去, 這個真是擾民!</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Warning: Don’t paste code into the DevTools Console that you don’t understand or haven’t reviewed yourself. This could allow attackers to steal your identity or take control of your computer. Please type ‘allow pasting’ below and hit Enter to allow pasting.</span><br></pre></td></tr></table></figure>
+
+<p>只要敲入 <code>allow pasting</code> 就能解, 但是通常會忘記這串要手敲不能貼上 XD</p>
 <h2 id="7zip"><a href="#7zip" class="headerlink" title="7zip"></a>7zip</h2><p>不曉得哪年開始都用 <a href="https://www.7-zip.org/" target="_blank" rel="noopener">7zip</a> 就放生 <a href="https://rar.tw/" target="_blank" rel="noopener">winrar</a> 二擇一即可</p>
 <h2 id="firacode"><a href="#firacode" class="headerlink" title="firacode"></a>firacode</h2><p>不多說, coding 字體</p>
 <p><a href="https://github.com/tonsky/FiraCode" target="_blank" rel="noopener">https://github.com/tonsky/FiraCode</a></p>
@@ -488,7 +500,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#改回-win10-舊版選單"><span class="nav-number">1.</span> <span class="nav-text">改回 win10 舊版選單</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#輸入法切換"><span class="nav-number">2.</span> <span class="nav-text">輸入法切換</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo"><span class="nav-number">3.</span> <span class="nav-text">sudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gsudo"><span class="nav-number">4.</span> <span class="nav-text">gsudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wsl"><span class="nav-number">5.</span> <span class="nav-text">wsl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chrome"><span class="nav-number">6.</span> <span class="nav-text">chrome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7zip"><span class="nav-number">7.</span> <span class="nav-text">7zip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#firacode"><span class="nav-number">8.</span> <span class="nav-text">firacode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nerdfonts"><span class="nav-number">9.</span> <span class="nav-text">nerdfonts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#notepad"><span class="nav-number">10.</span> <span class="nav-text">notepad++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NotepadReplacer"><span class="nav-number">11.</span> <span class="nav-text">NotepadReplacer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#postman"><span class="nav-number">12.</span> <span class="nav-text">postman</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#powershell-相關設定"><span class="nav-number">13.</span> <span class="nav-text">powershell 相關設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#full-powershell-config"><span class="nav-number">14.</span> <span class="nav-text">full powershell config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#starship"><span class="nav-number">15.</span> <span class="nav-text">starship</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#github"><span class="nav-number">16.</span> <span class="nav-text">github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PowerToys"><span class="nav-number">17.</span> <span class="nav-text">PowerToys</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#顯示按鍵"><span class="nav-number">18.</span> <span class="nav-text">顯示按鍵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#anaconda"><span class="nav-number">19.</span> <span class="nav-text">anaconda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSMS"><span class="nav-number">20.</span> <span class="nav-text">SSMS</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#改回-win10-舊版選單"><span class="nav-number">1.</span> <span class="nav-text">改回 win10 舊版選單</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#輸入法切換"><span class="nav-number">2.</span> <span class="nav-text">輸入法切換</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#鍵盤問題"><span class="nav-number">3.</span> <span class="nav-text">鍵盤問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#sudo"><span class="nav-number">4.</span> <span class="nav-text">sudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gsudo"><span class="nav-number">5.</span> <span class="nav-text">gsudo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wsl"><span class="nav-number">6.</span> <span class="nav-text">wsl</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#chrome"><span class="nav-number">7.</span> <span class="nav-text">chrome</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7zip"><span class="nav-number">8.</span> <span class="nav-text">7zip</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#firacode"><span class="nav-number">9.</span> <span class="nav-text">firacode</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#nerdfonts"><span class="nav-number">10.</span> <span class="nav-text">nerdfonts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#notepad"><span class="nav-number">11.</span> <span class="nav-text">notepad++</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NotepadReplacer"><span class="nav-number">12.</span> <span class="nav-text">NotepadReplacer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#postman"><span class="nav-number">13.</span> <span class="nav-text">postman</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#powershell-相關設定"><span class="nav-number">14.</span> <span class="nav-text">powershell 相關設定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#full-powershell-config"><span class="nav-number">15.</span> <span class="nav-text">full powershell config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#starship"><span class="nav-number">16.</span> <span class="nav-text">starship</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#github"><span class="nav-number">17.</span> <span class="nav-text">github</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PowerToys"><span class="nav-number">18.</span> <span class="nav-text">PowerToys</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#顯示按鍵"><span class="nav-number">19.</span> <span class="nav-text">顯示按鍵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#anaconda"><span class="nav-number">20.</span> <span class="nav-text">anaconda</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSMS"><span class="nav-number">21.</span> <span class="nav-text">SSMS</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -578,7 +590,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">23:30</span>
+    <span title="所需總浪費時間">23:31</span>
 </div>
 
         
