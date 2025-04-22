@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-04-18T19:17:34.000Z">
-<meta property="article:modified_time" content="2025-04-19T21:34:42.467Z">
+<meta property="article:modified_time" content="2025-04-22T17:39:48.455Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2025-04-20 05:34:42" itemprop="dateModified" datetime="2025-04-20T05:34:42+08:00">2025-04-20</time>
+                <time title="修改時間：2025-04-23 01:39:48" itemprop="dateModified" datetime="2025-04-23T01:39:48+08:00">2025-04-23</time>
               </span>
 
           
@@ -292,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>9.1k</span>
+              <span>11k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>8 分鐘</span>
+              <span>10 分鐘</span>
             </span>
 
         </div>
@@ -440,6 +440,31 @@
 
 <p>他們也可以搭配一起用, 好噁心</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">def some(*arg1, **arg2):</span><br><span class="line">	print(arg1)</span><br><span class="line">	print(arg2)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; some(1,2,3)</span><br><span class="line">(1, 2, 3)</span><br><span class="line">&#123;&#125;</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; some(name &#x3D; &#39;丁ava&#39;)</span><br><span class="line">()</span><br><span class="line">&#123;&#39;name&#39;: &#39;丁ava&#39;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; some(&#39;fq&#39; , &#39;qq&#39;, name &#x3D; &#39;丁ava&#39;)</span><br><span class="line">(&#39;fq&#39;, &#39;qq&#39;)</span><br><span class="line">&#123;&#39;name&#39;: &#39;丁ava&#39;&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ch5"><a href="#ch5" class="headerlink" title="ch5"></a>ch5</h2><h3 id="import-1"><a href="#import-1" class="headerlink" title="import"></a>import</h3><p>一個 <code>.py</code> 就是一個模組, 可以用 <code>dir</code> 來看模組裡面的東東</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">import numpy</span><br><span class="line">import math</span><br><span class="line">dir(numpy)</span><br><span class="line">dir(numpy.version)</span><br><span class="line">dir(math)</span><br></pre></td></tr></table></figure>
+
+<p>可以定義模組然後 import 來用</p>
+<p><code>mygame.py</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def gg():</span><br><span class="line">	print(&#39;gg&#39;)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import mygame</span><br><span class="line"></span><br><span class="line">mygame.gg()</span><br></pre></td></tr></table></figure>
+
+<p>也可以用懶人用法法呼叫 mygame 裡面的 gg</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">from mygame import gg</span><br><span class="line"></span><br><span class="line">gg()</span><br></pre></td></tr></table></figure>
+
+<p>也可以用 <code>from xxx import *</code> 不過會發生命名衝突, 所以就忘了它吧! 他會把所有不含底線公開的內容都給匯入</p>
+<h3 id="類別"><a href="#類別" class="headerlink" title="類別"></a>類別</h3><p>可以用以下這種方法定義類別, <code>__init__</code> 是建構子, 第一個參數約定俗成為 <code>self</code>, <code>__str__</code> 則跟 c# 的 ToString 差不多, 兩個底線表示魔術方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Person:</span><br><span class="line">    def __init__(self, name, age):</span><br><span class="line">        self.name &#x3D; name</span><br><span class="line">        self.age &#x3D; age</span><br><span class="line"></span><br><span class="line">    def introduce(self):</span><br><span class="line">        return f&quot;Hi, I&#39;m &#123;self.name&#125; and I&#39;m &#123;self.age&#125; years old.&quot;</span><br><span class="line"></span><br><span class="line">    def __str__(self):</span><br><span class="line">        return self.introduce()</span><br><span class="line">		</span><br><span class="line">import person</span><br><span class="line">p &#x3D; person.Person(&quot;gg&quot;, 30)</span><br><span class="line">print(p)</span><br></pre></td></tr></table></figure>
+
+<p>如果需要把參數設定為私有要這樣寫, 不過還是可以訪問他的私有變數只不過要改寫這樣 <code>p._Person__name</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">class Person:</span><br><span class="line">    def __init__(self, name, age):</span><br><span class="line">        self.__name &#x3D; name</span><br><span class="line">        self.__age &#x3D; age</span><br><span class="line"></span><br><span class="line">    def introduce(self):</span><br><span class="line">        return f&quot;Hi, I&#39;m &#123;self.__name&#125; and I&#39;m &#123;self.__age&#125; years old.&quot;</span><br><span class="line"></span><br><span class="line">    def __str__(self):</span><br><span class="line">        return self.introduce()</span><br><span class="line">		</span><br><span class="line">import person</span><br><span class="line">p &#x3D; person.Person(&quot;gg&quot;, 30)</span><br><span class="line">print(p)</span><br></pre></td></tr></table></figure>
+
+<p>如果想搞出 c# getter 需要加上 <code>@property</code> 標註即可</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">class Person:</span><br><span class="line">    def __init__(self, name, age):</span><br><span class="line">        self.__name &#x3D; name</span><br><span class="line">        self.__age &#x3D; age</span><br><span class="line"></span><br><span class="line">    def introduce(self):</span><br><span class="line">        return f&quot;Hi, I&#39;m &#123;self.__name&#125; and I&#39;m &#123;self.__age&#125; years old.&quot;</span><br><span class="line"></span><br><span class="line">    def __str__(self):</span><br><span class="line">        return self.introduce()</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def name(self):</span><br><span class="line">        return self.__name</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def age(self):</span><br><span class="line">        return self.__age</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">import person</span><br><span class="line">p &#x3D; person.Person(&quot;gg&quot;, 30)</span><br><span class="line">p.name</span><br></pre></td></tr></table></figure>
+
+<p>如果想要 getter 與 setter 則這樣寫, 怎麼覺得 getter setter 在 python 變得好囉嗦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">class Person:</span><br><span class="line">    def __init__(self, name, age):</span><br><span class="line">        self.__name &#x3D; name</span><br><span class="line">        self.__age &#x3D; age</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def name(self):</span><br><span class="line">        return self.__name</span><br><span class="line"></span><br><span class="line">    @name.setter</span><br><span class="line">    def name(self, value):</span><br><span class="line">        if not value:</span><br><span class="line">            raise ValueError(&quot;Name cannot be empty.&quot;)</span><br><span class="line">        self.__name &#x3D; value</span><br><span class="line"></span><br><span class="line">    @property</span><br><span class="line">    def age(self):</span><br><span class="line">        return self.__age</span><br><span class="line"></span><br><span class="line">    @age.setter</span><br><span class="line">    def age(self, value):</span><br><span class="line">        if value &lt; 0:</span><br><span class="line">            raise ValueError(&quot;Age cannot be negative.&quot;)</span><br><span class="line">        self.__age &#x3D; value</span><br><span class="line"></span><br><span class="line">    def introduce(self):</span><br><span class="line">        return f&quot;Hi, I&#39;m &#123;self.__name&#125; and I&#39;m &#123;self.__age&#125; years old.&quot;</span><br><span class="line"></span><br><span class="line">    def __str__(self):</span><br><span class="line">        return self.introduce()</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -529,7 +554,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ch1-ch2"><span class="nav-number">1.</span> <span class="nav-text">ch1 ch2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#環境變數關鍵字"><span class="nav-number">1.1.</span> <span class="nav-text">環境變數關鍵字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#套件"><span class="nav-number">1.2.</span> <span class="nav-text">套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import"><span class="nav-number">1.3.</span> <span class="nav-text">import</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ch3"><span class="nav-number">2.</span> <span class="nav-text">ch3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ch4"><span class="nav-number">3.</span> <span class="nav-text">ch4</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#while"><span class="nav-number">3.1.</span> <span class="nav-text">while</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#for"><span class="nav-number">3.2.</span> <span class="nav-text">for</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#def-定義函數"><span class="nav-number">3.3.</span> <span class="nav-text">def 定義函數</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ch1-ch2"><span class="nav-number">1.</span> <span class="nav-text">ch1 ch2</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#環境變數關鍵字"><span class="nav-number">1.1.</span> <span class="nav-text">環境變數關鍵字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#套件"><span class="nav-number">1.2.</span> <span class="nav-text">套件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#import"><span class="nav-number">1.3.</span> <span class="nav-text">import</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ch3"><span class="nav-number">2.</span> <span class="nav-text">ch3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ch4"><span class="nav-number">3.</span> <span class="nav-text">ch4</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#while"><span class="nav-number">3.1.</span> <span class="nav-text">while</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#for"><span class="nav-number">3.2.</span> <span class="nav-text">for</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#def-定義函數"><span class="nav-number">3.3.</span> <span class="nav-text">def 定義函數</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ch5"><span class="nav-number">4.</span> <span class="nav-text">ch5</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#import-1"><span class="nav-number">4.1.</span> <span class="nav-text">import</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#類別"><span class="nav-number">4.2.</span> <span class="nav-text">類別</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -619,7 +644,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">23:48</span>
+    <span title="所需總浪費時間">23:50</span>
 </div>
 
         
