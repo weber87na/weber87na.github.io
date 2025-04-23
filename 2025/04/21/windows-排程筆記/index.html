@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-04-20T19:34:46.000Z">
-<meta property="article:modified_time" content="2025-04-20T19:35:05.930Z">
+<meta property="article:modified_time" content="2025-04-23T19:48:44.166Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="喇賽">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2025-04-21 03:34:46 / 修改時間：03:35:05" itemprop="dateCreated datePublished" datetime="2025-04-21T03:34:46+08:00">2025-04-21</time>
+              <time title="亂入時間：2025-04-21 03:34:46" itemprop="dateCreated datePublished" datetime="2025-04-21T03:34:46+08:00">2025-04-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-04-24 03:48:44" itemprop="dateModified" datetime="2025-04-24T03:48:44+08:00">2025-04-24</time>
+              </span>
 
           
   
@@ -286,7 +292,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1k</span>
+              <span>1.1k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -310,7 +316,7 @@
 
 <p>好多年沒在 windows 上面搞排程, 自己建 <code>serilog</code> 沒有正常寫入到該出現的地方, 整個耍腦筆記下踩到的雷</p>
 <p>首先 <code>win + r</code> 輸入 <code>taskschd.msc</code> 打開排程檢視, 或是 <code>win + s</code> 輸入 <code>工作排程器</code> 即可<br>接著先選到 <code>工作排程器程式庫</code> 建立一個資料夾, 這裡用 <code>Demo</code></p>
-<p>然後點選 <code>Demo</code> =&gt; <code>右鍵</code> =&gt; <code>建立工作</code> =&gt; <code>一般</code> 敲入名稱 =&gt; 如果有特殊需求要用較高的權限需要勾選 <code>以最高權限執行</code><br>接著切到 <code>觸發程序</code> =&gt; <code>新增</code> 選想要的時間即可<br>切到 <code>動作</code> =&gt; <code>新增</code> =&gt; <code>程式或指令碼</code> 輸入要執行的程式名稱 =&gt; 重點要選 <code>開始位置</code> 跟剛剛輸入的程式名稱同資料夾底下即可, 沒選的話就會踩到雷 XD</p>
+<p>然後點選 <code>Demo</code> =&gt; <code>右鍵</code> =&gt; <code>建立工作</code> =&gt; <code>一般</code> 敲入名稱 =&gt; 如果有特殊需求要用較高的權限需要勾選 <code>以最高權限執行</code><br>另外最好選擇 <code>不論使用者登入與否均執行</code> 這樣才不會有問題<br>接著切到 <code>觸發程序</code> =&gt; <code>新增</code> 選想要的時間即可<br>切到 <code>動作</code> =&gt; <code>新增</code> =&gt; <code>程式或指令碼</code> 輸入要執行的程式名稱 =&gt; 重點要選 <code>開始位置</code> 跟剛剛輸入的程式名稱同資料夾底下即可, 沒選的話就會踩到雷 XD</p>
 <p>以下是我 <code>serilog</code> 設定, 他的 <code>path</code> 設定為 <code>logs/log-.txt</code>, 可是這樣會 gg, 因為會寫到 <code>C:\Windows\System32\Logs</code> 底下 @. @<br>可以參考這個<a href="https://stackoverflow.com/questions/28407236/serilog-or-any-loggers-does-not-create-file-from-task-scheduler-but-creates-from" target="_blank" rel="noopener">說明</a></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&quot;Serilog&quot;: &#123;</span><br><span class="line">  &quot;MinimumLevel&quot;: &#123;</span><br><span class="line">    &quot;Default&quot;: &quot;Information&quot;,</span><br><span class="line">    &quot;Override&quot;: &#123;</span><br><span class="line">      &quot;Microsoft&quot;: &quot;Warning&quot;,</span><br><span class="line">      &quot;System&quot;: &quot;Warning&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;WriteTo&quot;: [</span><br><span class="line">    &#123; &quot;Name&quot;: &quot;Console&quot; &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">      &quot;Name&quot;: &quot;File&quot;,</span><br><span class="line">      &quot;Args&quot;: &#123;</span><br><span class="line">        &quot;path&quot;: &quot;logs&#x2F;log-.txt&quot;,</span><br><span class="line">        &quot;rollingInterval&quot;: &quot;Day&quot;,</span><br><span class="line">        &quot;outputTemplate&quot;: &quot;[&#123;Timestamp:HH:mm:ss&#125; &#123;Level:u3&#125;] &#123;Message:lj&#125;&#123;NewLine&#125;&#123;Exception&#125;&quot;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
