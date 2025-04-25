@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="fastapi 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2025/04/26/fastapi-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-04-25T18:48:57.000Z">
+<meta property="article:modified_time" content="2025-04-25T18:49:23.674Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2025/04/26/fastapi-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>fastapi 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2025/04/26/fastapi-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          fastapi 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2025-04-26 02:48:57 / 修改時間：02:49:23" itemprop="dateCreated datePublished" datetime="2025-04-26T02:48:57+08:00">2025-04-26</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2025/04/26/fastapi-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/04/26/fastapi-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.8k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>7 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<p>建立環境</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m venv fastapienv</span><br></pre></td></tr></table></figure>
+
+<p>啟動</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.\fastapienv\Scripts\Activate.ps1</span><br></pre></td></tr></table></figure>
+
+<p>退出</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">deactivate</span><br></pre></td></tr></table></figure>
+
+<p>pip 安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pip install fastapi</span><br><span class="line">pip install &quot;uvicorn[standard]&quot;</span><br><span class="line">pip list</span><br></pre></td></tr></table></figure>
+
+<p>conda 安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda install fastapi</span><br><span class="line">conda install uvicorn-standard</span><br></pre></td></tr></table></figure>
+
+<p>啟動 uvicorn web server</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uvicorn books:app --reload</span><br></pre></td></tr></table></figure>
+
+<p>另一種啟動方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fastapi run books.py</span><br></pre></td></tr></table></figure>
+
+<p>預設會在 <a href="http://127.0.0.1:8000/" target="_blank" rel="noopener">http://127.0.0.1:8000/</a> 這個路徑進去的話會給這樣</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;&quot;detail&quot;:&quot;Not Found&quot;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>想要進去 swagger 路徑要這樣寫 <a href="http://127.0.0.1:8000/docs" target="_blank" rel="noopener">http://127.0.0.1:8000/docs</a><br>另外還有一套 redoc <a href="http://127.0.0.1:8000/redoc" target="_blank" rel="noopener">http://127.0.0.1:8000/redoc</a></p>
+<p>\ 表示換行</p>
+<p>path parameter = .net 的 route parameter<br>query parameter = query parameter</p>
+<h3 id="pycharm-debug"><a href="#pycharm-debug" class="headerlink" title="pycharm debug"></a>pycharm debug</h3><p>點選上方工具列的 Run → Edit Configurations…</p>
+<p>點左上角的 ➕ 新增一個配置</p>
+<p>選擇：Python</p>
+<p>設定以下欄位：</p>
+<p>欄位    設定內容<br>Name    FastAPI（你可以自訂）<br>Script path    ✅ 勾選 “Module name”<br>Module name    uvicorn<br>Parameters    main:app –reload（視你的檔案名而定）<br>Python interpreter    選你要的虛擬環境<br>Working directory    專案根目錄即可</p>
+<p>設定好後點 debug 然後打中斷點 f5 下去就搞定</p>
+<h3 id="post"><a href="#post" class="headerlink" title="post"></a>post</h3><p>要先 import 才可以使用<br>from fastapi import FastAPI, Path, Query, HTTPException, Body</p>
+<p>Body() = FromBody</p>
+<p>@app.post(“qq”)<br>async def QQ(xxx=Body()) = FromBody</p>
+<p>post json 必須要使用雙引號</p>
+<h3 id="uvicorn-不正常關閉"><a href="#uvicorn-不正常關閉" class="headerlink" title="uvicorn 不正常關閉"></a>uvicorn 不正常關閉</h3><p>這問題滿鳥的, 直接把 python 砍了就好, 不然找 process 起來也是砍不到</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano | findstr :8000</span><br><span class="line"></span><br><span class="line">TCP    127.0.0.1:8000          0.0.0.0:0              LISTENING       5944</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">🌹 taskkill &#x2F;PID 5944 &#x2F;F</span><br><span class="line">錯誤: 找不到處理程序 &quot;5944&quot;。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Pydantic"><a href="#Pydantic" class="headerlink" title="Pydantic"></a>Pydantic</h3><p>Pydantic =&gt; 驗證資料用的咚咚</p>
+<p>可以在 <code>Field</code> 加上想要驗證的設定即可<br>需要引用以下的咚咚</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from pydantic import BaseModel, Field</span><br></pre></td></tr></table></figure>
+
+<p><code>model_config</code> 則是會出現在 swagger 上面的說明</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">class Book:</span><br><span class="line">    id: int</span><br><span class="line">    title: str</span><br><span class="line">    author: str</span><br><span class="line">    description: str</span><br><span class="line">    rating: int</span><br><span class="line">    published_date: int</span><br><span class="line"></span><br><span class="line">    def __init__(self, id, title, author, description, rating, published_date):</span><br><span class="line">        self.id &#x3D; id</span><br><span class="line">        self.title &#x3D; title</span><br><span class="line">        self.author &#x3D; author</span><br><span class="line">        self.description &#x3D; description</span><br><span class="line">        self.rating &#x3D; rating</span><br><span class="line">        self.published_date &#x3D; published_date</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class BookRequest(BaseModel):</span><br><span class="line">    id: Optional[int] &#x3D; Field(description&#x3D;&#39;ID is not needed on create&#39;, default&#x3D;None)</span><br><span class="line">    title: str &#x3D; Field(min_length&#x3D;3)</span><br><span class="line">    author: str &#x3D; Field(min_length&#x3D;1)</span><br><span class="line">    description: str &#x3D; Field(min_length&#x3D;1, max_length&#x3D;100)</span><br><span class="line">    rating: int &#x3D; Field(gt&#x3D;0, lt&#x3D;6)</span><br><span class="line">    published_date: int &#x3D; Field(gt&#x3D;1999, lt&#x3D;2031)</span><br><span class="line"></span><br><span class="line">    model_config &#x3D; &#123;</span><br><span class="line">        &quot;json_schema_extra&quot;: &#123;</span><br><span class="line">            &quot;example&quot;: &#123;</span><br><span class="line">                &quot;title&quot;: &quot;A new book&quot;,</span><br><span class="line">                &quot;author&quot;: &quot;codingwithroby&quot;,</span><br><span class="line">                &quot;description&quot;: &quot;A new description of a book&quot;,</span><br><span class="line">                &quot;rating&quot;: 5,</span><br><span class="line">                &#39;published_date&#39;: 2029</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.post(&quot;&#x2F;create-book&quot;, status_code&#x3D;status.HTTP_201_CREATED)</span><br><span class="line">async def create_book(book_request: BookRequest):</span><br><span class="line">    new_book &#x3D; Book(**book_request.model_dump())</span><br><span class="line">    BOOKS.append(find_book_id(new_book))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def find_book_id(book: Book):</span><br><span class="line">    book.id &#x3D; 1 if len(BOOKS) &#x3D;&#x3D; 0 else BOOKS[-1].id + 1</span><br><span class="line">    return book</span><br></pre></td></tr></table></figure>
+
+<h3 id="sqlalchemy-煉金術"><a href="#sqlalchemy-煉金術" class="headerlink" title="sqlalchemy 煉金術"></a>sqlalchemy 煉金術</h3><p>先到 <a href="https://www.sqlite.org/download.html" target="_blank" rel="noopener">https://www.sqlite.org/download.html</a> 官網下載管理工具 sqlite-tools-win-x64-3490100.zip 然後 rename 為 sqlite3 放到 c 底下<br>接著用 <code>win + env</code> 可以快速叫出環境變數編輯的介面, 這裡要選系統的, 不要選成自己帳號, 將 <code>C:\sqlite3</code> 加入 <code>path</code><br>用以下方是開啟 db</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sqlite3 todos.db</span><br></pre></td></tr></table></figure>
+
+<p><code>.schema</code> 命令則可以看到目前資料表結構<br><code>.mode column</code> 則可以變換輸出模式, 他還支援 <code>markdown</code> 等一狗票輸出滿酷</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sqlite&gt; .schema</span><br><span class="line">CREATE TABLE todos (</span><br><span class="line">        id INTEGER NOT NULL,</span><br><span class="line">        title VARCHAR,</span><br><span class="line">        description VARCHAR,</span><br><span class="line">        priority INTEGER,</span><br><span class="line">        complete BOOLEAN,</span><br><span class="line">        PRIMARY KEY (id)</span><br><span class="line">);</span><br><span class="line">CREATE INDEX ix_todos_id ON todos (id);</span><br></pre></td></tr></table></figure>
+
+<p>接著隨便新增 5 筆資料</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO todos (id, title, description, priority, complete) VALUES (1, &#39;Buy groceries&#39;, &#39;Milk, Bread, Eggs&#39;, 2, 0);</span><br><span class="line">INSERT INTO todos (id, title, description, priority, complete) VALUES (2, &#39;Workout&#39;, &#39;Gym session at 6 PM&#39;, 3, 0);</span><br><span class="line">INSERT INTO todos (id, title, description, priority, complete) VALUES (3, &#39;Read book&#39;, &#39;Finish reading Chapter 4&#39;, 1, 1);</span><br><span class="line">INSERT INTO todos (id, title, description, priority, complete) VALUES (4, &#39;Call Alice&#39;, &#39;Discuss weekend plans&#39;, 2, 0);</span><br><span class="line">INSERT INTO todos (id, title, description, priority, complete) VALUES (5, &#39;Pay bills&#39;, &#39;Electricity and Internet&#39;, 3, 1);</span><br><span class="line"></span><br><span class="line">| id |     title     |       description        | priority | complete |</span><br><span class="line">|----|---------------|--------------------------|----------|----------|</span><br><span class="line">| 1  | Buy groceries | Milk, Bread, Eggs        | 2        | 0        |</span><br><span class="line">| 2  | Workout       | Gym session at 6 PM      | 3        | 0        |</span><br><span class="line">| 3  | Read book     | Finish reading Chapter 4 | 1        | 1        |</span><br><span class="line">| 4  | Call Alice    | Discuss weekend plans    | 2        | 0        |</span><br><span class="line">| 5  | Pay bills     | Electricity and Internet | 3        | 1        |</span><br></pre></td></tr></table></figure>
+
+
+<p>安裝</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">conda install sqlalchemy</span><br></pre></td></tr></table></figure>
+
+<p>新增 TodoApp 資料夾, 加入以下檔案</p>
+<p><code>database.py</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from sqlalchemy import create_engine</span><br><span class="line">from sqlalchemy.orm import sessionmaker</span><br><span class="line">from sqlalchemy.ext.declarative import declarative_base</span><br><span class="line"></span><br><span class="line">SQLALCHEMY_DATABASE_URL &#x3D; &#39;sqlite:&#x2F;&#x2F;&#x2F;.&#x2F;todosapp.db&#39;</span><br><span class="line"></span><br><span class="line">engine &#x3D; create_engine(SQLALCHEMY_DATABASE_URL, connect_args&#x3D;&#123;&#39;check_same_thread&#39;: False&#125;)</span><br><span class="line"></span><br><span class="line">SessionLocal &#x3D; sessionmaker(autocommit&#x3D;False, autoflush&#x3D;False, bind&#x3D;engine)</span><br><span class="line"></span><br><span class="line">Base &#x3D; declarative_base()</span><br></pre></td></tr></table></figure>
+
+<p><code>models.py</code><br>這邊定義欄位型別, 水應該也很深</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from database import Base</span><br><span class="line">from sqlalchemy import Column, Integer , String , Boolean</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">class Todos(Base):</span><br><span class="line">    __tablename__ &#x3D; &#39;todos&#39;</span><br><span class="line"></span><br><span class="line">    id &#x3D; Column(Integer, primary_key&#x3D;True, index&#x3D;True)</span><br><span class="line">    title &#x3D; Column(String)</span><br><span class="line">    description &#x3D; Column(String)</span><br><span class="line">    priority &#x3D; Column(Integer)</span><br><span class="line">    complete &#x3D; Column(Boolean, default&#x3D;False)</span><br></pre></td></tr></table></figure>
+
+<p><code>main.py</code><br>這裡執行這句 <code>models.Base.metadata.create_all(bind=engine)</code> 以後, 然後啟動 <code>uvicorn main:app --reload</code> 就會出現 <code>todo.db</code><br>依照以前用 ef 的經驗這種咚咚就是難用 LOL</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">from typing import Annotated</span><br><span class="line">from sqlalchemy.orm import Session</span><br><span class="line">from fastapi import FastAPI , Depends</span><br><span class="line"></span><br><span class="line">import models</span><br><span class="line">from models import Todos</span><br><span class="line">from database import engine, SessionLocal</span><br><span class="line"></span><br><span class="line">app &#x3D; FastAPI()</span><br><span class="line"></span><br><span class="line">models.Base.metadata.create_all(bind&#x3D;engine)</span><br><span class="line"></span><br><span class="line">def get_db():</span><br><span class="line">    db &#x3D; SessionLocal()</span><br><span class="line">    try:</span><br><span class="line">        yield db</span><br><span class="line">    finally:</span><br><span class="line">        db.close()</span><br><span class="line"></span><br><span class="line">@app.get(&quot;&#x2F;&quot;)</span><br><span class="line">async def read_all(db:Annotated[Session, Depends(get_db)]):</span><br><span class="line">    return db.query(Todos).all()</span><br></pre></td></tr></table></figure>
+
+<p>接著可以建立以 id 查詢的函數</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@app.get(&quot;&#x2F;todo&#x2F;&#123;todo_id&#125;&quot;, status_code&#x3D;status.HTTP_200_OK)</span><br><span class="line">async def read_todo(db: db_dependency, todo_id: int &#x3D; Path(gt&#x3D;0)):</span><br><span class="line">    todo_model &#x3D; db.query(Todos).filter(Todos.id &#x3D;&#x3D; todo_id).first()</span><br><span class="line">    if todo_model is not None:</span><br><span class="line">        return todo_model</span><br><span class="line">    raise HTTPException(status_code&#x3D;404, detail&#x3D;&#39;Todo not found&#39;)</span><br></pre></td></tr></table></figure>
+
+<p>post</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">class TodoRequest(BaseModel):</span><br><span class="line">    title: str &#x3D; Field(min_length&#x3D;3)</span><br><span class="line">    description: str &#x3D; Field(min_length&#x3D;3, max_length&#x3D;100)</span><br><span class="line">    priority: int &#x3D; Field(gt&#x3D;0, lt&#x3D;6)</span><br><span class="line">    complete: bool</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.post(&quot;&#x2F;todo&quot;, status_code&#x3D;status.HTTP_201_CREATED)</span><br><span class="line">async def create_todo(db: db_dependency, todo_request: TodoRequest):</span><br><span class="line">    todo_model &#x3D; Todos(**todo_request.dict())</span><br><span class="line">    db.add(todo_model)</span><br><span class="line">    db.commit()</span><br></pre></td></tr></table></figure>
+
+<p>put</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">@app.put(&quot;&#x2F;todo&quot;,status_code&#x3D;status.HTTP_204_NO_CONTENT)</span><br><span class="line">async def update_todo(db:db_dependency, todo_id:int, todo_request:TodoRequest):</span><br><span class="line">    todo_model &#x3D; db.query(Todos).filter(Todos.id &#x3D;&#x3D; todo_id).first()</span><br><span class="line"></span><br><span class="line">    if todo_model is None:</span><br><span class="line">        raise HTTPException(status_code&#x3D;404, detail&#x3D;&#39;Todo not found&#39;)</span><br><span class="line"></span><br><span class="line">    todo_model.title &#x3D; todo_request.title</span><br><span class="line">    todo_model.description &#x3D; todo_request.description</span><br><span class="line">    todo_model.priority &#x3D; todo_request.priority</span><br><span class="line">    todo_model.complete &#x3D; todo_request.complete</span><br><span class="line"></span><br><span class="line">    db.add(todo_model)</span><br><span class="line">    db.commit()</span><br></pre></td></tr></table></figure>
+
+
+<p>delete</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@app.delete(&quot;&#x2F;todo&quot;, status_code&#x3D;status.HTTP_204_NO_CONTENT)</span><br><span class="line">async def delete_todo(db: db_dependency, todo_id: int &#x3D; Path(gt&#x3D;0)):</span><br><span class="line">    todo_model &#x3D; db.query(Todos).filter(Todos.id &#x3D;&#x3D; todo_id).first()</span><br><span class="line">    if todo_model is None:</span><br><span class="line">        raise HTTPException(status_code&#x3D;404, detail&#x3D;&#39;Todo not found&#39;)</span><br><span class="line">    db.query(Todos).filter(Todos.id &#x3D;&#x3D; todo_id).delete()</span><br><span class="line">    db.commit()</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="畫一隻土撥鼠"><a href="#畫一隻土撥鼠" class="headerlink" title="畫一隻土撥鼠"></a>畫一隻土撥鼠</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import io</span><br><span class="line">from typing import Optional</span><br><span class="line">from fastapi import FastAPI, Path, Query, HTTPException, Body</span><br><span class="line">from pydantic import BaseModel, Field</span><br><span class="line">from starlette import status</span><br><span class="line">import numpy as np</span><br><span class="line">import cv2</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from fastapi.responses import StreamingResponse</span><br><span class="line"></span><br><span class="line">app &#x3D; FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.get(&quot;&#x2F;marmot&quot;)</span><br><span class="line">async def marmot():</span><br><span class="line">    # 讀圖 + 轉成 RGB</span><br><span class="line">    marmot &#x3D; cv2.imread(&#39;marmot.jpg&#39;)</span><br><span class="line">    marmot &#x3D; cv2.cvtColor(marmot, cv2.COLOR_BGR2RGB)</span><br><span class="line"></span><br><span class="line">    # 畫圖但不顯示</span><br><span class="line">    fig, ax &#x3D; plt.subplots()</span><br><span class="line">    ax.imshow(marmot)</span><br><span class="line">    ax.axis(&#39;off&#39;)  # 不顯示座標軸</span><br><span class="line"></span><br><span class="line">    # 儲存到記憶體</span><br><span class="line">    buf &#x3D; io.BytesIO()</span><br><span class="line">    plt.savefig(buf, format&#x3D;&#39;png&#39;, bbox_inches&#x3D;&#39;tight&#39;)</span><br><span class="line">    plt.close(fig)</span><br><span class="line">    buf.seek(0)</span><br><span class="line"></span><br><span class="line">    # 回傳成 image&#x2F;png</span><br><span class="line">    return StreamingResponse(buf, media_type&#x3D;&quot;image&#x2F;png&quot;)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/04/24/opencv-%E7%AD%86%E8%A8%98/" rel="prev" title="opencv 筆記">
+      <i class="fa fa-chevron-left"></i> opencv 筆記
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#pycharm-debug"><span class="nav-number">1.</span> <span class="nav-text">pycharm debug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post"><span class="nav-number">2.</span> <span class="nav-text">post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uvicorn-不正常關閉"><span class="nav-number">3.</span> <span class="nav-text">uvicorn 不正常關閉</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pydantic"><span class="nav-number">4.</span> <span class="nav-text">Pydantic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlalchemy-煉金術"><span class="nav-number">5.</span> <span class="nav-text">sqlalchemy 煉金術</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#畫一隻土撥鼠"><span class="nav-number">6.</span> <span class="nav-text">畫一隻土撥鼠</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">309</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">118</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.6m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">24:04</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2025/04/26/fastapi-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2025/04/26/fastapi-筆記/";
+    this.page.title = "fastapi 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>
