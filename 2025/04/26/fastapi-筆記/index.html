@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-04-25T18:48:57.000Z">
-<meta property="article:modified_time" content="2025-04-25T18:49:23.674Z">
+<meta property="article:modified_time" content="2025-04-25T19:45:58.086Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -263,7 +263,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2025-04-26 02:48:57 / 修改時間：02:49:23" itemprop="dateCreated datePublished" datetime="2025-04-26T02:48:57+08:00">2025-04-26</time>
+              <time title="亂入時間：2025-04-26 02:48:57 / 修改時間：03:45:58" itemprop="dateCreated datePublished" datetime="2025-04-26T02:48:57+08:00">2025-04-26</time>
             </span>
 
           
@@ -308,7 +308,7 @@
         <p>&nbsp;</p>
 <a id="more"></a>
 
-<p>建立環境</p>
+<h3 id="helloworld"><a href="#helloworld" class="headerlink" title="helloworld"></a>helloworld</h3><p>建立環境</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m venv fastapienv</span><br></pre></td></tr></table></figure>
 
 <p>啟動</p>
@@ -335,13 +335,9 @@
 <p>想要進去 swagger 路徑要這樣寫 <a href="http://127.0.0.1:8000/docs" target="_blank" rel="noopener">http://127.0.0.1:8000/docs</a><br>另外還有一套 redoc <a href="http://127.0.0.1:8000/redoc" target="_blank" rel="noopener">http://127.0.0.1:8000/redoc</a></p>
 <p>\ 表示換行</p>
 <p>path parameter = .net 的 route parameter<br>query parameter = query parameter</p>
-<h3 id="pycharm-debug"><a href="#pycharm-debug" class="headerlink" title="pycharm debug"></a>pycharm debug</h3><p>點選上方工具列的 Run → Edit Configurations…</p>
-<p>點左上角的 ➕ 新增一個配置</p>
-<p>選擇：Python</p>
-<p>設定以下欄位：</p>
-<p>欄位    設定內容<br>Name    FastAPI（你可以自訂）<br>Script path    ✅ 勾選 “Module name”<br>Module name    uvicorn<br>Parameters    main:app –reload（視你的檔案名而定）<br>Python interpreter    選你要的虛擬環境<br>Working directory    專案根目錄即可</p>
-<p>設定好後點 debug 然後打中斷點 f5 下去就搞定</p>
-<h3 id="post"><a href="#post" class="headerlink" title="post"></a>post</h3><p>要先 import 才可以使用<br>from fastapi import FastAPI, Path, Query, HTTPException, Body</p>
+<p>post 要先 import 才可以使用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">from fastapi import FastAPI, Path, Query, HTTPException, Body</span><br></pre></td></tr></table></figure>
+
 <p>Body() = FromBody</p>
 <p>@app.post(“qq”)<br>async def QQ(xxx=Body()) = FromBody</p>
 <p>post json 必須要使用雙引號</p>
@@ -393,6 +389,14 @@
 
 
 <h3 id="畫一隻土撥鼠"><a href="#畫一隻土撥鼠" class="headerlink" title="畫一隻土撥鼠"></a>畫一隻土撥鼠</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import io</span><br><span class="line">from typing import Optional</span><br><span class="line">from fastapi import FastAPI, Path, Query, HTTPException, Body</span><br><span class="line">from pydantic import BaseModel, Field</span><br><span class="line">from starlette import status</span><br><span class="line">import numpy as np</span><br><span class="line">import cv2</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from fastapi.responses import StreamingResponse</span><br><span class="line"></span><br><span class="line">app &#x3D; FastAPI()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@app.get(&quot;&#x2F;marmot&quot;)</span><br><span class="line">async def marmot():</span><br><span class="line">    # 讀圖 + 轉成 RGB</span><br><span class="line">    marmot &#x3D; cv2.imread(&#39;marmot.jpg&#39;)</span><br><span class="line">    marmot &#x3D; cv2.cvtColor(marmot, cv2.COLOR_BGR2RGB)</span><br><span class="line"></span><br><span class="line">    # 畫圖但不顯示</span><br><span class="line">    fig, ax &#x3D; plt.subplots()</span><br><span class="line">    ax.imshow(marmot)</span><br><span class="line">    ax.axis(&#39;off&#39;)  # 不顯示座標軸</span><br><span class="line"></span><br><span class="line">    # 儲存到記憶體</span><br><span class="line">    buf &#x3D; io.BytesIO()</span><br><span class="line">    plt.savefig(buf, format&#x3D;&#39;png&#39;, bbox_inches&#x3D;&#39;tight&#39;)</span><br><span class="line">    plt.close(fig)</span><br><span class="line">    buf.seek(0)</span><br><span class="line"></span><br><span class="line">    # 回傳成 image&#x2F;png</span><br><span class="line">    return StreamingResponse(buf, media_type&#x3D;&quot;image&#x2F;png&quot;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="pycharm-debug"><a href="#pycharm-debug" class="headerlink" title="pycharm debug"></a>pycharm debug</h3><p>點選上方工具列的 Run → Edit Configurations…</p>
+<p>點左上角的 ➕ 新增一個配置</p>
+<p>選擇：Python</p>
+<p>設定以下欄位：</p>
+<p>欄位    設定內容<br>Name    FastAPI（你可以自訂）<br>Script path    ✅ 勾選 “Module name”<br>Module name    uvicorn<br>Parameters    main:app –reload（視你的檔案名而定）<br>Python interpreter    選你要的虛擬環境<br>Working directory    專案根目錄即可</p>
+<p>設定好後點 debug 然後打中斷點 f5 下去就搞定</p>
 
     </div>
 
@@ -480,7 +484,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#pycharm-debug"><span class="nav-number">1.</span> <span class="nav-text">pycharm debug</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#post"><span class="nav-number">2.</span> <span class="nav-text">post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uvicorn-不正常關閉"><span class="nav-number">3.</span> <span class="nav-text">uvicorn 不正常關閉</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pydantic"><span class="nav-number">4.</span> <span class="nav-text">Pydantic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlalchemy-煉金術"><span class="nav-number">5.</span> <span class="nav-text">sqlalchemy 煉金術</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#畫一隻土撥鼠"><span class="nav-number">6.</span> <span class="nav-text">畫一隻土撥鼠</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#helloworld"><span class="nav-number">1.</span> <span class="nav-text">helloworld</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uvicorn-不正常關閉"><span class="nav-number">2.</span> <span class="nav-text">uvicorn 不正常關閉</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pydantic"><span class="nav-number">3.</span> <span class="nav-text">Pydantic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlalchemy-煉金術"><span class="nav-number">4.</span> <span class="nav-text">sqlalchemy 煉金術</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#畫一隻土撥鼠"><span class="nav-number">5.</span> <span class="nav-text">畫一隻土撥鼠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pycharm-debug"><span class="nav-number">6.</span> <span class="nav-text">pycharm debug</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
