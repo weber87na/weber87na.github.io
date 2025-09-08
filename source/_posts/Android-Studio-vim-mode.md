@@ -73,6 +73,11 @@ imap <M-j> <ESC>:action HippieCompletion<CR>a
 imap <M-k> <ESC>:action HippieBackwardCompletion<CR>a
 ```
 
+### 上下移動 正解
+後來發現正解, 意外的簡單 - . -
+`Settings` => `Keymap` => `Editor Actions` => `Up` => `右鍵` => `Add Keyboard Shortcut` => `alt + k`
+`Settings` => `Keymap` => `Editor Actions` => `Down` => `右鍵` => `Add Keyboard Shortcut` => `alt + j`
+
 ### argtextobj
 可以參考這個[大陸人](https://www.bilibili.com/s/video/BV1Av411e7T5)
 功能主要就是加上 `a` 這個 text object , 可以方便刪除或是修改 function 內的參數 , vscode 好像沒有!?
