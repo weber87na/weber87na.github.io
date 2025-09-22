@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-09-21T02:11:58.000Z">
-<meta property="article:modified_time" content="2025-09-22T06:12:35.859Z">
+<meta property="article:modified_time" content="2025-09-22T06:46:10.439Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="c#">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2025-09-22 14:12:35" itemprop="dateModified" datetime="2025-09-22T14:12:35+08:00">2025-09-22</time>
+                <time title="修改時間：2025-09-22 14:46:10" itemprop="dateModified" datetime="2025-09-22T14:46:10+08:00">2025-09-22</time>
               </span>
 
           
@@ -314,7 +314,7 @@
         <p>&nbsp;</p>
 <a id="more"></a>
 
-<p>莫名其妙被抓來稿 OPC Server 恰巧之前有在 Udemy 上面買過相關課程, 順手筆記下免得忘光, 對他還是很陌生</p>
+<p>莫名其妙被抓來搞 OPC Server, 在工廠做 MES 沒遇到, 離職才遇到也是很妙 LOL<br>恰巧之前有在 Udemy 上面買過相關課程, 順手筆記下免得忘光, 對他還是很陌生</p>
 <p>首先要安裝模擬用的 <a href="https://prosysopc.com/products/opc-ua-simulation-server/" target="_blank" rel="noopener">Prosys OPC UA Simulation Server</a> 特別注意需要用公司信箱或機構信箱申請才能安裝, 我用學校驗證也失敗 Orz<br>接著安裝 Client <a href="https://www.unified-automation.com/products/development-tools/uaexpert.html" target="_blank" rel="noopener">UaExpert</a> 這樣才能監控數值, 還有測試看看連線之類的問題<br>程式碼則可以到 <a href="https://github.com/OPCFoundation/UA-.NETStandard-Samples" target="_blank" rel="noopener">OPCFoundation</a> 下載範例來看, 整個非常複雜.. 還好現在有 ChatGPT 不然要搞起來真的會看到發瘋</p>
 <p>我最終目的是希望把數值讀出來寫入 localdb 需要安裝的套件如下</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;ItemGroup&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;Dapper&quot; Version&#x3D;&quot;2.1.66&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;Microsoft.Data.SqlClient&quot; Version&#x3D;&quot;6.1.1&quot; &#x2F;&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;OPCFoundation.NetStandard.Opc.Ua&quot; Version&#x3D;&quot;1.5.376.244&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;OPCFoundation.NetStandard.Opc.Ua.Client&quot; Version&#x3D;&quot;1.5.376.244&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;OPCFoundation.NetStandard.Opc.Ua.Configuration&quot; Version&#x3D;&quot;1.5.376.244&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;OPCFoundation.NetStandard.Opc.Ua.Core&quot; Version&#x3D;&quot;1.5.376.244&quot; &#x2F;&gt;</span><br><span class="line">	</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;Microsoft.Extensions.Configuration&quot; Version&#x3D;&quot;9.0.3&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;Microsoft.Extensions.Configuration.FileExtensions&quot; Version&#x3D;&quot;9.0.3&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;Microsoft.Extensions.Configuration.Json&quot; Version&#x3D;&quot;9.0.3&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;Serilog&quot; Version&#x3D;&quot;4.2.0&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;Serilog.Settings.Configuration&quot; Version&#x3D;&quot;9.0.0&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;Serilog.Sinks.Console&quot; Version&#x3D;&quot;6.0.0&quot; &#x2F;&gt;</span><br><span class="line">	&lt;PackageReference Include&#x3D;&quot;Serilog.Sinks.File&quot; Version&#x3D;&quot;6.0.0&quot; &#x2F;&gt;</span><br><span class="line">&lt;&#x2F;ItemGroup&gt;</span><br></pre></td></tr></table></figure>
