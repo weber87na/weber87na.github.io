@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-09-21T02:11:58.000Z">
-<meta property="article:modified_time" content="2025-09-21T02:18:22.759Z">
+<meta property="article:modified_time" content="2025-09-22T06:12:35.859Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="c#">
 <meta name="twitter:card" content="summary">
@@ -261,10 +261,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2025-09-21 10:11:58 / 修改時間：10:18:22" itemprop="dateCreated datePublished" datetime="2025-09-21T10:11:58+08:00">2025-09-21</time>
+              <time title="亂入時間：2025-09-21 10:11:58" itemprop="dateCreated datePublished" datetime="2025-09-21T10:11:58+08:00">2025-09-21</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-09-22 14:12:35" itemprop="dateModified" datetime="2025-09-22T14:12:35+08:00">2025-09-22</time>
+              </span>
 
           
   
@@ -286,14 +292,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>13k</span>
+              <span>14k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>12 分鐘</span>
+              <span>13 分鐘</span>
             </span>
 
         </div>
@@ -341,6 +347,13 @@
 
 <p>appsettings.json</p>
 <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  <span class="attr">"OPCServerUrl"</span>: <span class="string">"opc.tcp://yourserver:53530/OPCUA/SimulationServer"</span>,</span><br><span class="line">  <span class="attr">"ConnectionStrings"</span>: &#123;</span><br><span class="line">    <span class="attr">"SimulationDatabase"</span>: <span class="string">"Server=(localdb)\\MSSQLLocalDB;Database=Test;Trusted_Connection=True;"</span></span><br><span class="line">  &#125;,</span><br><span class="line">  <span class="attr">"Serilog"</span>: &#123;</span><br><span class="line">    <span class="attr">"MinimumLevel"</span>: &#123;</span><br><span class="line">      <span class="attr">"Default"</span>: <span class="string">"Information"</span>,</span><br><span class="line">      <span class="attr">"Override"</span>: &#123;</span><br><span class="line">        <span class="attr">"Microsoft"</span>: <span class="string">"Warning"</span>,</span><br><span class="line">        <span class="attr">"System"</span>: <span class="string">"Warning"</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">"WriteTo"</span>: [</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"Name"</span>: <span class="string">"Console"</span>,</span><br><span class="line">        <span class="attr">"Args"</span>: &#123;</span><br><span class="line">          <span class="attr">"outputTemplate"</span>: <span class="string">"[&#123;Timestamp:yyyy-MM-dd HH:mm:ss&#125; &#123;Level:u3&#125;] &#123;Message:lj&#125;&#123;NewLine&#125;&#123;Exception&#125;"</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">      &#125;,</span><br><span class="line">      &#123;</span><br><span class="line">        <span class="attr">"Name"</span>: <span class="string">"File"</span>,</span><br><span class="line">        <span class="attr">"Args"</span>: &#123;</span><br><span class="line">          <span class="attr">"path"</span>: <span class="string">"logs/log-.txt"</span>,</span><br><span class="line">          <span class="attr">"rollingInterval"</span>: <span class="string">"Day"</span>,</span><br><span class="line">          <span class="attr">"outputTemplate"</span>: <span class="string">"[&#123;Timestamp:yyyy-MM-dd HH:mm:ss&#125; &#123;Level:u3&#125;] &#123;Message:lj&#125;&#123;NewLine&#125;&#123;Exception&#125;"</span></span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    ]</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>後面發現實際在跟 OPC UA Server 串的時候會有憑證問題, 可以參考以下解法</p>
+<p>如果遇到嚴格一點的連線需要先在 server 的 <code>users</code> 設定帳號密碼, 並且在 <code>Endpoint</code> 的頁籤 <code>Security Modes</code> 把 <code>None</code> 取消勾選, 並重啟<br>連線程式碼則需要調整如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var opcServerUrl &#x3D; configuration[&quot;OPCServerUrl&quot;];</span><br><span class="line">var endpointURL &#x3D; opcServerUrl;</span><br><span class="line"></span><br><span class="line">var endpoint &#x3D; CoreClientUtils.SelectEndpoint(endpointURL, true);</span><br><span class="line">var config &#x3D; EndpointConfiguration.Create(application.ApplicationConfiguration);</span><br><span class="line">var endpointConfig &#x3D; new ConfiguredEndpoint(null, endpoint, config);</span><br><span class="line"></span><br><span class="line">var userIdentity &#x3D; new UserIdentity(&quot;test&quot;, &quot;test&quot;);</span><br><span class="line"></span><br><span class="line">using var session &#x3D; await Session.Create(</span><br><span class="line">    application.ApplicationConfiguration,</span><br><span class="line">    endpointConfig,</span><br><span class="line">    false,</span><br><span class="line">    &quot;MySession&quot;,</span><br><span class="line">    60000,</span><br><span class="line">    userIdentity,</span><br><span class="line">    null</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>接著把 <code>server</code> 的憑證 <code>SimulationServer@yourpcname.der</code> 搬進去 <code>client</code> 信任的資料夾 <code>C:\ProgramData\OPC Foundation\pki\trusted\certs</code><br><code>server</code> 憑證 <code>SimulationServer@yourpcname.der</code> 路徑可以在 <code>certificate</code> 頁籤找到</p>
+<p>接著嘗試第一次連線 <code>client</code> 之憑證會出現在以下資料夾內 <code>C:\Users\yourusername\.prosysopc\prosys-opc-ua-simulation-server\PKI\CA\rejected</code><br>可以在 <code>certificate</code> 頁籤對著憑證按右鍵改為 <code>trust</code> 就搞定了</p>
 
     </div>
 
@@ -517,7 +530,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">25:02</span>
+    <span title="所需總浪費時間">25:03</span>
 </div>
 
         
