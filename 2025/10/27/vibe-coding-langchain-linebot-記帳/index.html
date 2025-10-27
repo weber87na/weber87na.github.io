@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&amp;nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vibe coding langchain + linebot 記帳">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2025/10/27/vibe-coding-langchain-linebot-%E8%A8%98%E5%B8%B3/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&amp;nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-10-27T03:57:32.000Z">
+<meta property="article:modified_time" content="2025-10-27T04:04:00.077Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="line">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="langchain">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2025/10/27/vibe-coding-langchain-linebot-%E8%A8%98%E5%B8%B3/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>vibe coding langchain + linebot 記帳 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2025/10/27/vibe-coding-langchain-linebot-%E8%A8%98%E5%B8%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vibe coding langchain + linebot 記帳
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+              
+
+              <time title="亂入時間：2025-10-27 11:57:32 / 修改時間：12:04:00" itemprop="dateCreated datePublished" datetime="2025-10-27T11:57:32+08:00">2025-10-27</time>
+            </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2025/10/27/vibe-coding-langchain-linebot-%E8%A8%98%E5%B8%B3/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/10/27/vibe-coding-langchain-linebot-記帳/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>11 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<a id="more"></a>
+
+<p>簡單筆記下 vibe coding 記帳, 感覺效果有限</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE [dbo].[Expenses](</span><br><span class="line">	[Id] [int] IDENTITY(1,1) NOT NULL,</span><br><span class="line">	[Category] [nvarchar](50) NULL,</span><br><span class="line">	[Amount] [decimal](10, 2) NULL,</span><br><span class="line">	[Description] [nvarchar](200) NULL,</span><br><span class="line">	[CreatedAt] [datetime] NULL,</span><br><span class="line">	[UserId] [nvarchar](250) NULL</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<p>這邊用 fastapi + langchain</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br></pre></td><td class="code"><pre><span class="line">import sys</span><br><span class="line">import os</span><br><span class="line">import re</span><br><span class="line">import urllib.parse</span><br><span class="line">import json</span><br><span class="line">from datetime import datetime, timedelta</span><br><span class="line">from pprint import pprint</span><br><span class="line"># 統一從 typing 導入，並移除冗餘導入</span><br><span class="line">from typing import Literal, List, Dict, Any, Optional </span><br><span class="line"></span><br><span class="line"># LangChain Core&#x2F;Community Imports</span><br><span class="line">from langchain_community.utilities import SQLDatabase</span><br><span class="line">from langchain_community.agent_toolkits import SQLDatabaseToolkit, create_sql_agent</span><br><span class="line">from langchain_core.prompts import PromptTemplate</span><br><span class="line"># 統一使用 Pydantic v2 標準</span><br><span class="line">from pydantic import BaseModel, Field, ValidationError </span><br><span class="line">from langchain_core.output_parsers import PydanticOutputParser </span><br><span class="line"></span><br><span class="line"># OpenAI LLM</span><br><span class="line">from langchain_openai import ChatOpenAI  # 建議在環境變數設置 OPENAI_API_KEY</span><br><span class="line"></span><br><span class="line"># FastAPI &#x2F; LINE Bot Imports</span><br><span class="line">from fastapi import FastAPI, Request, HTTPException</span><br><span class="line">from linebot import LineBotApi, WebhookHandler</span><br><span class="line">from linebot.exceptions import InvalidSignatureError</span><br><span class="line">from linebot.models import MessageEvent, TextMessage, TextSendMessage</span><br><span class="line"></span><br><span class="line"># 查詢結果的單筆資料結構 (Query data list item)</span><br><span class="line">class ExpenseData(BaseModel):</span><br><span class="line">    Category: str &#x3D; Field(description&#x3D;&quot;支出的具體類別。&quot;)</span><br><span class="line">    Amount: float &#x3D; Field(description&#x3D;&quot;支出金額。&quot;)</span><br><span class="line">    Description: str &#x3D; Field(description&#x3D;&quot;支出事項的簡短描述。&quot;)</span><br><span class="line">    CreatedAt: str &#x3D; Field(description&#x3D;&quot;完整日期時間字串。&quot;)</span><br><span class="line">    UserId : Optional[str] &#x3D; Field(description&#x3D;&quot;使用者編號&quot;)</span><br><span class="line"></span><br><span class="line"># 修正後的通用最終回覆結構 (Final Answer Schema)</span><br><span class="line"># 必須使用 Optional&#x2F;預設值處理 insert 和 query 之間的互斥欄位</span><br><span class="line">class FinalResponse(BaseModel):</span><br><span class="line">    # 共同欄位</span><br><span class="line">    action: Literal[&quot;insert&quot;, &quot;query&quot;] &#x3D; Field(description&#x3D;&quot;要執行的動作，只能是 &#39;insert&#39; 或 &#39;query&#39;。&quot;)</span><br><span class="line">    message: str &#x3D; Field(description&#x3D;&quot;給長輩的嘮叨或提醒訊息，必須是中文長字串，每次都必須不同。&quot;)</span><br><span class="line"></span><br><span class="line">    # INSERT 專屬欄位 (QUERY 時為 None&#x2F;空字串&#x2F;0.0)</span><br><span class="line">    category: Optional[str] &#x3D; Field(None, description&#x3D;&quot;支出的具體類別。&quot;)</span><br><span class="line">    amount: Optional[float] &#x3D; Field(None, description&#x3D;&quot;支出金額。&quot;)</span><br><span class="line">    description: Optional[str] &#x3D; Field(None, description&#x3D;&quot;支出事項的簡短描述。&quot;)</span><br><span class="line">    created_at: Optional[str] &#x3D; Field(None, description&#x3D;&quot;完整日期時間字串。&quot;)</span><br><span class="line">    user_id : Optional[str] &#x3D; Field(None, description&#x3D;&quot;使用者編號&quot;)</span><br><span class="line"></span><br><span class="line">    # QUERY 專屬欄位 (INSERT 時為 None&#x2F;空列表&#x2F;空字串)</span><br><span class="line">    sql: Optional[str] &#x3D; Field(None, description&#x3D;&quot;Agent 執行過的 SQL SELECT 語句。&quot;)</span><br><span class="line">    data: Optional[List[ExpenseData]] &#x3D; Field(None, description&#x3D;&quot;SQL 查詢回傳的資料列表。&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app &#x3D; FastAPI(title&#x3D;&quot;長輩版中文記帳助理&quot;)</span><br><span class="line"></span><br><span class="line"># sql server</span><br><span class="line">params &#x3D; urllib.parse.quote_plus(</span><br><span class="line">    &quot;DRIVER&#x3D;&#123;ODBC Driver 17 for SQL Server&#125;;&quot;</span><br><span class="line">    &quot;SERVER&#x3D;(localdb)\\MSSQLLocalDB;&quot;</span><br><span class="line">    &quot;DATABASE&#x3D;ExpenseDB;&quot;</span><br><span class="line">    &quot;Trusted_Connection&#x3D;yes;&quot;</span><br><span class="line">)</span><br><span class="line">connection_str &#x3D; f&quot;mssql+pyodbc:&#x2F;&#x2F;&#x2F;?odbc_connect&#x3D;&#123;params&#125;&quot;</span><br><span class="line"></span><br><span class="line">try:</span><br><span class="line">    db &#x3D; SQLDatabase.from_uri(connection_str)</span><br><span class="line">except Exception as e:</span><br><span class="line">    print(f&quot;🚨 資料庫連線錯誤：&#123;e&#125;&quot;)</span><br><span class="line">    sys.exit(1)</span><br><span class="line"></span><br><span class="line"># llm parser</span><br><span class="line">llm &#x3D; ChatOpenAI(temperature&#x3D;0, model&#x3D;&quot;gpt-4o&quot;)</span><br><span class="line"># llm &#x3D; ChatOpenAI(temperature&#x3D;0)</span><br><span class="line"></span><br><span class="line"># PydanticOutputParser 使用單一的 FinalResponse 模型</span><br><span class="line">pydantic_parser &#x3D; PydanticOutputParser(pydantic_object&#x3D;FinalResponse) </span><br><span class="line">format_instructions &#x3D; pydantic_parser.get_format_instructions()</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># sql agent</span><br><span class="line">toolkit &#x3D; SQLDatabaseToolkit(db&#x3D;db, llm&#x3D;llm)</span><br><span class="line">agent_executor &#x3D; create_sql_agent(</span><br><span class="line">    llm&#x3D;llm,</span><br><span class="line">    toolkit&#x3D;toolkit,</span><br><span class="line">    agent_type&#x3D;&quot;openai-tools&quot;,</span><br><span class="line">    verbose&#x3D;True,</span><br><span class="line">    agent_executor_kwargs&#x3D;&#123;&quot;return_intermediate_steps&quot;: True&#125;, </span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">prompt &#x3D; PromptTemplate(</span><br><span class="line">    input_variables&#x3D;[&quot;user_input&quot;, &quot;today&quot;, &quot;user_id&quot;, &quot;format_instructions&quot;],</span><br><span class="line">    template&#x3D;(</span><br><span class="line">        &quot;你是一位親切但愛嘮叨的台灣長輩記帳助理，會用長輩語氣提醒使用者花費要節省。\n\n&quot;</span><br><span class="line">        &quot;資料表結構：[Expenses(UserId NVARCHAR(100), Category NVARCHAR(50), Amount DECIMAL(10,2), Description NVARCHAR(200), CreatedAt DATETIME, UserId NVARCHAR(250))]\n&quot;</span><br><span class="line">        &quot;類別(Category) 分為：食、衣、住、行、育、樂、其他。\n&quot;</span><br><span class="line">        &quot;CreatedAt 欄位必須為完整日期時間格式，例如 &#39;2025-10-25 10:30:00.000&#39;\n\n&quot;</span><br><span class="line">        &quot;【規則】\n&quot;</span><br><span class="line">        &quot; 當使用者要求新增支出，生成正確的 SQL INSERT 語句，並在資料中包含 UserId。\n&quot;</span><br><span class="line">        &quot; 確保字串用單引號，數字型別正確。\n&quot;</span><br><span class="line">        &quot; 執行後回覆 JSON，例如：\n&quot;</span><br><span class="line">        &quot;&#123;&#123;&#39;action&#39;:&#39;insert&#39;,&#39;user_id&#39;:&#39;&#123;user_id&#125;&#39;,&#39;category&#39;:&#39;...&#39;,&#39;amount&#39;:...,&#39;description&#39;:&#39;...&#39;,&#39;created_at&#39;:&#39;...&#39;,&#39;message&#39;:&#39;隨機生成長輩嘮叨語氣，每次都不同&#39;&#125;&#125;\n\n&quot;</span><br><span class="line">        &quot; 💡 message 範例可使用以下長輩語氣，但請每次隨機挑選或創造相似語氣，不要固定使用同一句：\n&quot;</span><br><span class="line">        &quot; - &#39;唉呀～又花錢啦？要省一點哪～&#39;\n&quot;</span><br><span class="line">        &quot; - &#39;年輕人要懂理財啊～今天花太多了喔～&#39;\n&quot;</span><br><span class="line">        &quot; - &#39;唉唷～這筆支出有點大，記得下個月要省錢啊～&#39;\n&quot;</span><br><span class="line">        &quot; - &#39;哎呀～又出去吃飯啦？要學會自己煮飯省點錢啊～&#39;\n&quot;</span><br><span class="line">        &quot; - &#39;你真的很討債～今天不要亂花錢啊～&#39;\n&quot;</span><br><span class="line">        &quot; - &#39;歸剛ㄟ～買東西要有計畫，別亂花錢～&#39;\n&quot;</span><br><span class="line">        &quot; - &#39;唉唷～小朋友啊，這筆花費有點大，先忍一忍吧～&#39;\n&quot;</span><br><span class="line">        &quot; - &#39;年輕人要存錢啦～吃喝玩樂要適可而止～&#39;\n&quot;</span><br><span class="line">        &quot;請生成符合規則的 JSON，message 必須使用長輩嘮叨語氣，每次都不同。\n\n&quot;</span><br><span class="line">        &quot; 當使用者要求查詢或統計，生成正確 SQL SELECT，並回覆 JSON，例如：\n&quot;</span><br><span class="line">        &quot;&#123;&#123;&#39;action&#39;:&#39;query&#39;,&#39;user_id&#39;:&#39;&#123;user_id&#125;&#39;,&#39;sql&#39;:&#39;SELECT ...&#39;,&#39;message&#39;:&#39;你的花費&#39;,&#39;data&#39;:[&#123;&#123;&#39;Category&#39;:&#39;食&#39;,&#39;Amount&#39;:50.0,&#39;Description&#39;:&#39;買飯&#39;,&#39;CreatedAt&#39;:&#39;2025-10-24 12:00:00&#39;&#125;&#125;]&#125;&#125;\n\n&quot;</span><br><span class="line">        &quot;回覆 **只包含 JSON**，不要解釋或重複資料表結構。\n&quot;</span><br><span class="line">        &quot;如果輸入含時間詞（今天、昨天、前天等），請轉換成完整日期時間格式。\n\n&quot;</span><br><span class="line">        &quot;今天日期：&#123;today&#125;\n&quot;</span><br><span class="line">        &quot;使用者 ID：&#123;user_id&#125;\n&quot;</span><br><span class="line">        &quot;使用者輸入：&#123;user_input&#125;\n\n&quot;</span><br><span class="line">        &quot;請回覆 **JSON**，格式如下：\n&quot;</span><br><span class="line">        &quot;&#123;format_instructions&#125;&quot;</span><br><span class="line">    )</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 轉換時間</span><br><span class="line">def replace_time_words(user_input: str):</span><br><span class="line">    now &#x3D; datetime.now()</span><br><span class="line">    found_date &#x3D; False</span><br><span class="line"></span><br><span class="line">    # 基本日期詞</span><br><span class="line">    mapping &#x3D; &#123;&quot;今天&quot;: now, &quot;昨天&quot;: now - timedelta(days&#x3D;1), &quot;前天&quot;: now - timedelta(days&#x3D;2)&#125;</span><br><span class="line">    for word, dt in mapping.items():</span><br><span class="line">        if re.search(r&#39;\b&#39; + re.escape(word) + r&#39;\b&#39;, user_input):</span><br><span class="line">            dt_str &#x3D; dt.strftime(&quot;%Y-%m-%d %H:%M:%S.%f&quot;)[:-3]</span><br><span class="line">            user_input &#x3D; re.sub(r&#39;\b&#39; + re.escape(word) + r&#39;\b&#39;, dt_str, user_input)</span><br><span class="line">            found_date &#x3D; True</span><br><span class="line"></span><br><span class="line">    # 星期詞</span><br><span class="line">    weekday_mapping &#x3D; &#123;</span><br><span class="line">        &quot;禮拜一&quot;: 0, &quot;禮拜二&quot;: 1, &quot;禮拜三&quot;: 2, &quot;禮拜四&quot;: 3,</span><br><span class="line">        &quot;禮拜五&quot;: 4, &quot;禮拜六&quot;: 5, &quot;禮拜日&quot;: 6,</span><br><span class="line">        &quot;星期一&quot;: 0, &quot;星期二&quot;: 1, &quot;星期三&quot;: 2, &quot;星期四&quot;: 3,</span><br><span class="line">        &quot;星期五&quot;: 4, &quot;星期六&quot;: 5, &quot;星期日&quot;: 6,</span><br><span class="line">        &quot;週一&quot;: 0, &quot;週二&quot;: 1, &quot;週三&quot;: 2, &quot;週四&quot;: 3,</span><br><span class="line">        &quot;週五&quot;: 4, &quot;週六&quot;: 5, &quot;週日&quot;: 6,</span><br><span class="line">    &#125;</span><br><span class="line">    for word, target_weekday in weekday_mapping.items():</span><br><span class="line">        pattern &#x3D; rf&quot;(上週|本週)?&#123;word&#125;&quot;</span><br><span class="line">        for match in re.finditer(pattern, user_input):</span><br><span class="line">            prefix &#x3D; match.group(1)</span><br><span class="line">            today_weekday &#x3D; now.weekday()</span><br><span class="line">            delta_days &#x3D; target_weekday - today_weekday</span><br><span class="line">            if prefix &#x3D;&#x3D; &quot;上週&quot;:</span><br><span class="line">                delta_days -&#x3D; 7</span><br><span class="line">            elif prefix &#x3D;&#x3D; &quot;本週&quot; or prefix is None:</span><br><span class="line">                if delta_days &gt; 0:</span><br><span class="line">                    delta_days -&#x3D; 7</span><br><span class="line">            target_date &#x3D; now + timedelta(days&#x3D;delta_days)</span><br><span class="line">            dt_str &#x3D; target_date.strftime(&quot;%Y-%m-%d %H:%M:%S.%f&quot;)[:-3]</span><br><span class="line">            user_input &#x3D; user_input.replace(match.group(0), dt_str)</span><br><span class="line">            found_date &#x3D; True</span><br><span class="line"></span><br><span class="line">    # 本週&#x2F;上週&#x2F;這個月&#x2F;上個月</span><br><span class="line">    week_month_mapping &#x3D; &#123;</span><br><span class="line">        &quot;這週&quot;: now - timedelta(days&#x3D;now.weekday()),</span><br><span class="line">        &quot;上週&quot;: now - timedelta(days&#x3D;now.weekday() + 7),</span><br><span class="line">        &quot;這個月&quot;: now.replace(day&#x3D;1),</span><br><span class="line">        &quot;上個月&quot;: (now.replace(day&#x3D;1) - timedelta(days&#x3D;1)).replace(day&#x3D;1),</span><br><span class="line">    &#125;</span><br><span class="line">    for word, dt in week_month_mapping.items():</span><br><span class="line">        if re.search(r&#39;\b&#39; + re.escape(word) + r&#39;\b&#39;, user_input):</span><br><span class="line">            dt_str &#x3D; dt.strftime(&quot;%Y-%m-%d %H:%M:%S.%f&quot;)[:-3]</span><br><span class="line">            user_input &#x3D; re.sub(r&#39;\b&#39; + re.escape(word) + r&#39;\b&#39;, dt_str, user_input)</span><br><span class="line">            found_date &#x3D; True</span><br><span class="line"></span><br><span class="line">    # 處理時間詞</span><br><span class="line">    match &#x3D; re.search(r&#39;(\d+)\s*點&#39;, user_input)</span><br><span class="line">    if match:</span><br><span class="line">        hour &#x3D; int(match.group(1))</span><br><span class="line">        date_match &#x3D; re.search(r&#39;\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;&#39;, user_input)</span><br><span class="line">        if date_match:</span><br><span class="line">            user_input &#x3D; re.sub(r&#39;(\d+)\s*點&#39;, &#39;&#39;, user_input)</span><br><span class="line">            user_input &#x3D; user_input.strip() + f&quot; &#123;hour:02d&#125;:00:00.000&quot;</span><br><span class="line">            found_date &#x3D; True</span><br><span class="line"></span><br><span class="line">    # 沒有日期時間，預設加今天</span><br><span class="line">    if not found_date and not re.search(r&#39;\d&#123;4&#125;-\d&#123;2&#125;-\d&#123;2&#125;&#39;, user_input):</span><br><span class="line">        user_input +&#x3D; f&quot; &#123;now.strftime(&#39;%Y-%m-%d %H:%M:%S.%f&#39;)[:-3]&#125;&quot;</span><br><span class="line"></span><br><span class="line">    return user_input</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">CHANNEL_ACCESS_TOKEN &#x3D; os.getenv(&quot;CHANNEL_ACCESS_TOKEN&quot;)</span><br><span class="line"># print(CHANNEL_ACCESS_TOKEN)</span><br><span class="line">CHANNEL_SECRET &#x3D; os.getenv(&quot;CHANNEL_SECRET&quot;)</span><br><span class="line"># print(CHANNEL_SECRET)</span><br><span class="line"></span><br><span class="line">line_bot_api &#x3D; LineBotApi(CHANNEL_ACCESS_TOKEN)</span><br><span class="line">handler &#x3D; WebhookHandler(CHANNEL_SECRET)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># line callback</span><br><span class="line">@app.post(&quot;&#x2F;callback&quot;)</span><br><span class="line">async def callback(request: Request):</span><br><span class="line">    signature &#x3D; request.headers.get(&quot;X-Line-Signature&quot;, &quot;&quot;)</span><br><span class="line">    body &#x3D; await request.body()</span><br><span class="line">    body_str &#x3D; body.decode(&quot;utf-8&quot;)</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        handler.handle(body_str, signature)</span><br><span class="line">    except InvalidSignatureError:</span><br><span class="line">        raise HTTPException(status_code&#x3D;400, detail&#x3D;&quot;Invalid signature&quot;)</span><br><span class="line"></span><br><span class="line">    return &quot;OK&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 當使用者發送訊息觸發</span><br><span class="line">@handler.add(MessageEvent, message&#x3D;TextMessage)</span><br><span class="line">def handle_message(event: MessageEvent):</span><br><span class="line">    user_id &#x3D; event.source.user_id</span><br><span class="line">    user_text &#x3D; event.message.text</span><br><span class="line">    print(f&quot;收到來自使用者 ID: &#123;user_id&#125; 的訊息: &#123;user_text&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    # 預設訊息</span><br><span class="line">    reply_message &#x3D; &quot;阿公聽不懂你在說什麼啦～&quot;</span><br><span class="line"></span><br><span class="line">    try:</span><br><span class="line">        # 處理時間詞</span><br><span class="line">        user_input &#x3D; replace_time_words(user_text)</span><br><span class="line">        # 這裡使用當前的時間作為 TODAY</span><br><span class="line">        today &#x3D; datetime.now().strftime(&quot;%Y-%m-%d&quot;)</span><br><span class="line"></span><br><span class="line">        # 準備 final prompt (新增 user_id 傳入)</span><br><span class="line">        final_prompt &#x3D; prompt.format(</span><br><span class="line">            user_input&#x3D;user_input,</span><br><span class="line">            today&#x3D;today,</span><br><span class="line">            user_id&#x3D;user_id,</span><br><span class="line">            format_instructions&#x3D;pydantic_parser.get_format_instructions()</span><br><span class="line">        )</span><br><span class="line"></span><br><span class="line">        # 呼叫 agent</span><br><span class="line">        response &#x3D; agent_executor.invoke(&#123;&quot;input&quot;: final_prompt&#125;)</span><br><span class="line">        output_text &#x3D; response.get(&quot;output&quot;, &quot;&quot;)</span><br><span class="line">        pprint(output_text)  </span><br><span class="line">        </span><br><span class="line">        # 如果 Agent 輸出格式錯誤，會拋出異常並被 except 捕獲</span><br><span class="line">        parsed_data: FinalResponse &#x3D; pydantic_parser.parse(output_text)</span><br><span class="line">        action &#x3D; parsed_data.action  </span><br><span class="line"></span><br><span class="line">        # 根據 action 選擇對應邏輯 (還原 DB 寫入邏輯)</span><br><span class="line">        if action &#x3D;&#x3D; &quot;insert&quot;:</span><br><span class="line">            # 確保所有必填欄位存在 (Pydantic 已經做了大部分檢查)</span><br><span class="line">            if not all([parsed_data.category, parsed_data.amount, parsed_data.description, parsed_data.created_at]):</span><br><span class="line">                 raise ValueError(&quot;解析到的 INSERT 資料不完整。&quot;)</span><br><span class="line">            </span><br><span class="line">            # 構建 SQL 語句 (必須包含 UserId 欄位)</span><br><span class="line">            sql_to_run &#x3D; f&quot;&quot;&quot;</span><br><span class="line">            INSERT INTO Expenses (Category, Amount, Description, CreatedAt, UserId)</span><br><span class="line">            VALUES (&#39;&#123;parsed_data.category&#125;&#39;, &#123;parsed_data.amount&#125;, &#39;&#123;parsed_data.description&#125;&#39;, &#39;&#123;parsed_data.created_at&#125;&#39;, &#39;&#123;user_id&#125;&#39;);</span><br><span class="line">            &quot;&quot;&quot;</span><br><span class="line">            # 執行資料庫寫入操作</span><br><span class="line">            db.run(sql_to_run)</span><br><span class="line">            </span><br><span class="line">            # 回覆 LLM 生成的長輩嘮叨訊息</span><br><span class="line">            reply_message &#x3D; parsed_data.message</span><br><span class="line"></span><br><span class="line">        elif action &#x3D;&#x3D; &quot;query&quot;:</span><br><span class="line">            # 這裡假設 Agent 已經執行了 SELECT SQL 並將結果填入 data</span><br><span class="line">            data: List[ExpenseData] &#x3D; parsed_data.data if parsed_data.data else []</span><br><span class="line">            </span><br><span class="line">            if data:</span><br><span class="line">                reply_message &#x3D; &quot;你的花費明細如下：\n&quot; + &quot;\n&quot;.join(</span><br><span class="line">                    [f&quot;&#123;d.CreatedAt&#125; &#123;d.Category&#125; &#123;d.Amount&#125;元 &#123;d.Description&#125;&quot; for d in data]</span><br><span class="line">                )</span><br><span class="line">            else:</span><br><span class="line">                reply_message &#x3D; &quot;阿公查不到你的花費資料～&quot;</span><br><span class="line">        </span><br><span class="line">        else:</span><br><span class="line">            # 處理無法識別的 action 或其他回覆</span><br><span class="line">            reply_message &#x3D; parsed_data.message</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    except Exception as e:</span><br><span class="line">        reply_message &#x3D; f&quot;阿公嘆氣：網路線斷掉了，資料解析失敗。(&#123;type(e).__name__&#125;)&quot;</span><br><span class="line">        print(f&quot;致命錯誤 (可能是 JSON 或 Pydantic 解析失敗)：&#123;e&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    # 回覆 LINE</span><br><span class="line">    line_bot_api.reply_message(</span><br><span class="line">        event.reply_token,</span><br><span class="line">        TextSendMessage(text&#x3D;reply_message)</span><br><span class="line">    )</span><br></pre></td></tr></table></figure>
+
+
+<p>執行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uvicorn main:app --reload</span><br></pre></td></tr></table></figure>
+
+<p>啟動 ngork 穿透, 網址會長下面 free.app 那樣, 最後到 line 管理後臺設定 callback 然後點 verify</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ngrok http 8000</span><br><span class="line"></span><br><span class="line">https:&#x2F;&#x2F;7a9545b1866f.ngrok-free.app</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/line/" rel="tag"># line</a>
+              <a href="/tags/python/" rel="tag"># python</a>
+              <a href="/tags/langchain/" rel="tag"># langchain</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/10/24/sql-self-join-%E5%88%AA%E9%99%A4%E9%87%8D%E8%A4%87%E8%B3%87%E6%96%99/" rel="prev" title="sql self join 刪除重複資料">
+      <i class="fa fa-chevron-left"></i> sql self join 刪除重複資料
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">319</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:25</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2025/10/27/vibe-coding-langchain-linebot-%E8%A8%98%E5%B8%B3/";
+    this.page.identifier = "2025/10/27/vibe-coding-langchain-linebot-記帳/";
+    this.page.title = "vibe coding langchain + linebot 記帳";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>
