@@ -49,7 +49,7 @@
 <meta property="og:description" content="&amp;nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-04-25T18:48:57.000Z">
-<meta property="article:modified_time" content="2025-04-26T19:41:27.726Z">
+<meta property="article:modified_time" content="2025-11-03T15:15:37.872Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -269,7 +269,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2025-04-27 03:41:27" itemprop="dateModified" datetime="2025-04-27T03:41:27+08:00">2025-04-27</time>
+                <time title="修改時間：2025-11-03 23:15:37" itemprop="dateModified" datetime="2025-11-03T23:15:37+08:00">2025-11-03</time>
               </span>
 
           
@@ -349,6 +349,15 @@
 <p>post json 必須要使用雙引號</p>
 <h3 id="uvicorn-不正常關閉"><a href="#uvicorn-不正常關閉" class="headerlink" title="uvicorn 不正常關閉"></a>uvicorn 不正常關閉</h3><p>這問題滿鳥的, 直接把 python 砍了就好, 不然找 process 起來也是砍不到</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">netstat -ano | findstr :8000</span><br><span class="line"></span><br><span class="line">TCP    127.0.0.1:8000          0.0.0.0:0              LISTENING       5944</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">🌹 taskkill &#x2F;PID 5944 &#x2F;F</span><br><span class="line">錯誤: 找不到處理程序 &quot;5944&quot;。</span><br></pre></td></tr></table></figure>
+
+<h3 id="Path-Parameter-vs-Query-Parameter"><a href="#Path-Parameter-vs-Query-Parameter" class="headerlink" title="Path Parameter vs Query Parameter"></a>Path Parameter vs Query Parameter</h3><p><code>Path Parameter</code> 大概就等價 asp.net 裡面的 <code>Route Template</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@app.get(&quot;&#x2F;books&#x2F;&#123;book_id&#125;&quot;)</span><br><span class="line">def get_book(book_id: int):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[HttpGet(&quot;books&#x2F;&#123;bookId&#125;&quot;)]</span><br><span class="line">public IActionResult GetBook(int bookId)</span><br><span class="line">&#123;</span><br><span class="line">    return Ok(new &#123; bookId &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p><code>Query Parameter</code> 等價 asp.net 裡面的 <code>[FromQuery]</code> 表示網址會有 <code>?xxx=ooo</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">@app.get(&quot;&#x2F;books&quot;)</span><br><span class="line">def get_books(category: str &#x3D; Query(None), limit: int &#x3D; 10):</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[HttpGet(&quot;books&quot;)]</span><br><span class="line">public IActionResult GetBooks([FromQuery] string category, [FromQuery] int limit &#x3D; 10)</span><br><span class="line">&#123;</span><br><span class="line">    return Ok(new &#123; category, limit &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
 
 <h3 id="Pydantic"><a href="#Pydantic" class="headerlink" title="Pydantic"></a>Pydantic</h3><p>Pydantic =&gt; 驗證資料用的咚咚</p>
 <p>可以在 <code>Field</code> 加上想要驗證的設定即可<br>需要引用以下的咚咚</p>
@@ -583,7 +592,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#helloworld"><span class="nav-number">1.</span> <span class="nav-text">helloworld</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uvicorn-不正常關閉"><span class="nav-number">2.</span> <span class="nav-text">uvicorn 不正常關閉</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pydantic"><span class="nav-number">3.</span> <span class="nav-text">Pydantic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlalchemy-煉金術"><span class="nav-number">4.</span> <span class="nav-text">sqlalchemy 煉金術</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Authentication-amp-Authorization"><span class="nav-number">5.</span> <span class="nav-text">Authentication &amp; Authorization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#畫一隻土撥鼠"><span class="nav-number">6.</span> <span class="nav-text">畫一隻土撥鼠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pycharm-debug"><span class="nav-number">7.</span> <span class="nav-text">pycharm debug</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#helloworld"><span class="nav-number">1.</span> <span class="nav-text">helloworld</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#uvicorn-不正常關閉"><span class="nav-number">2.</span> <span class="nav-text">uvicorn 不正常關閉</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Path-Parameter-vs-Query-Parameter"><span class="nav-number">3.</span> <span class="nav-text">Path Parameter vs Query Parameter</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pydantic"><span class="nav-number">4.</span> <span class="nav-text">Pydantic</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#sqlalchemy-煉金術"><span class="nav-number">5.</span> <span class="nav-text">sqlalchemy 煉金術</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Authentication-amp-Authorization"><span class="nav-number">6.</span> <span class="nav-text">Authentication &amp; Authorization</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#畫一隻土撥鼠"><span class="nav-number">7.</span> <span class="nav-text">畫一隻土撥鼠</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pycharm-debug"><span class="nav-number">8.</span> <span class="nav-text">pycharm debug</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
