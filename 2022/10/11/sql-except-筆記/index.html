@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="sql except 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/10/11/sql-except-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/sql.png">
+<meta property="article:published_time" content="2022-10-11T10:44:42.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="sql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/sql.png">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/10/11/sql-except-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>sql except 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/10/11/sql-except-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          sql except 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-10-11 18:44:42" itemprop="dateCreated datePublished" datetime="2022-10-11T18:44:42+08:00">2022-10-11</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/10/11/sql-except-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/10/11/sql-except-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.3k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>7 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://raw.githubusercontent.com/weber87na/flowers/master/sql.png" alt="sql"></p>
+<span id="more"></span>
+
+<p>工作上測試東西遇到的問題 , 太久沒用 except 忘了特性 , 本來以為用下去就可以直接得到 <code>E</code> , <code>F</code> 結果不行 XD<br>另外 oracle 沒 <code>except</code> 則要用 <code>minus</code></p>
+<p>A - B 取不到結果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">;with A as (</span><br><span class="line">	select &#x27;A&#x27; Id union all</span><br><span class="line">	select &#x27;B&#x27; union all</span><br><span class="line">	select &#x27;C&#x27; union all</span><br><span class="line">	select &#x27;D&#x27;</span><br><span class="line">) , B as (</span><br><span class="line">	select &#x27;A&#x27; Id union all</span><br><span class="line">	select &#x27;B&#x27; union all</span><br><span class="line">	select &#x27;C&#x27; union all</span><br><span class="line">	select &#x27;D&#x27; union all</span><br><span class="line">	select &#x27;E&#x27; union all</span><br><span class="line">	select &#x27;F&#x27;</span><br><span class="line">)</span><br><span class="line">select Id</span><br><span class="line">from A</span><br><span class="line">except</span><br><span class="line">select Id</span><br><span class="line">from B</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Id</span><br><span class="line">----</span><br><span class="line"></span><br><span class="line">(0 rows affected)</span><br></pre></td></tr></table></figure>
+
+
+<p>所以這時候要用 B - A 才可以取得資料</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">;with A as (</span><br><span class="line">	select &#x27;A&#x27; Id union all</span><br><span class="line">	select &#x27;B&#x27; union all</span><br><span class="line">	select &#x27;C&#x27; union all</span><br><span class="line">	select &#x27;D&#x27;</span><br><span class="line">) , B as (</span><br><span class="line">	select &#x27;A&#x27; Id union all</span><br><span class="line">	select &#x27;B&#x27; union all</span><br><span class="line">	select &#x27;C&#x27; union all</span><br><span class="line">	select &#x27;D&#x27; union all</span><br><span class="line">	select &#x27;E&#x27; union all</span><br><span class="line">	select &#x27;F&#x27;</span><br><span class="line">)</span><br><span class="line">select Id</span><br><span class="line">from B</span><br><span class="line">except</span><br><span class="line">select Id</span><br><span class="line">from A</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Id</span><br><span class="line">----</span><br><span class="line">E</span><br><span class="line">F</span><br><span class="line"></span><br><span class="line">(2 rows affected)</span><br></pre></td></tr></table></figure>
+
+
+<p>知道特性後就可以來修正 ef 上面遇到的問題 , 情境大概是這樣 , 要從 <code>Oracle</code> 原始資料運用排程把資料倒進去 <code>sql server</code> 裡</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">//這裡拿兩個特殊觸發欄位進行相減</span><br><span class="line">var oracleData =</span><br><span class="line">	oracleDb.Doc.AsNoTracking()</span><br><span class="line">	.Select( x =&gt; new ExceptViewModel</span><br><span class="line">	&#123;</span><br><span class="line">		Id = x.Id,</span><br><span class="line">		Item1 = x.Item1,</span><br><span class="line">		ModifyDatetime = x.ModifyDatetime,</span><br><span class="line">		SysUpdateDatetime = x.SysUpdateDatetime,</span><br><span class="line">	&#125; ).ToList();</span><br><span class="line"></span><br><span class="line">var msData = msDb.Doc.AsNoTracking()</span><br><span class="line">	.Select( x =&gt; new ExceptViewModel</span><br><span class="line">	&#123;</span><br><span class="line">		Id = x.Id,</span><br><span class="line">		Item1 = x.Item1,</span><br><span class="line">		ModifyDatetime = x.ModifyDatetime,</span><br><span class="line">		SysUpdateDatetime = x.SysUpdateDatetime,</span><br><span class="line">	&#125; ).ToList();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//取出全部 sql server 裡面存放的 oracle 同步資料</span><br><span class="line">var msFullData = msData.Doc.ToList();</span><br><span class="line"></span><br><span class="line">//Oracle 減去 sql server 資料</span><br><span class="line">var modifyOracleData = oracleData.Except( msData, new ExceptIEqualityComparer() ).ToArray();</span><br><span class="line"></span><br><span class="line">//做些其他處理</span><br></pre></td></tr></table></figure>
+
+<p>在 linq 裡面用 <code>Except</code> 的話需要自訂比較方法 , 所以要繼承 <code>IEqualityComparer</code> 去比較 , 我這裡設定所有欄位當節點<br>另外一點特別注意 <code>GetHashCode</code> 只寫需要比較的欄位就好 , 多寫或是少寫都會錯誤</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class ExceptIEqualityComparer : IEqualityComparer&lt;ExceptDocViewModel&gt;</span><br><span class="line">&#123;</span><br><span class="line">	public bool Equals( ExceptDocViewModel x, ExceptDocViewModel y )</span><br><span class="line">	&#123;</span><br><span class="line">		return ( x.Id == y.Id &amp;&amp;</span><br><span class="line">			x.Item1 == y.Item1 &amp;&amp;</span><br><span class="line">			x.ModifyDatetime == y.ModifyDatetime &amp;&amp;</span><br><span class="line">			x.SysUpdateDatetime == y.SysUpdateDatetime );</span><br><span class="line">	&#125;</span><br><span class="line">	public int GetHashCode( ExceptDocViewModel obj )</span><br><span class="line">	&#123;</span><br><span class="line">		return (obj.Id,</span><br><span class="line">			obj.Item1,</span><br><span class="line">			obj.ModifyDatetime,</span><br><span class="line">			obj.SysUpdateDatetime</span><br><span class="line">			).GetHashCode();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>後續又遇到效能問題 , 本來是在 ef 跑 loop , 去 insert or update or delete 結果因為資料量有 7 萬筆 , 速度超慢要跑個 20 - 30 分鐘<br>同步資料主要有三個動作 , 先刪除 sql server 內的多餘資料 , 接著 insert oracle 新增的資料 , 最後 update oracle 與 sql server 差異部分</p>
+<p>找出需要從 sql server 刪除的資料</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var deleteData = ms.Except( oracle, new ExceptIdEqualityComparer () )</span><br></pre></td></tr></table></figure>
+
+<p>找出 oracle 新增的資料 , 等等新增到 sql server , 這裡的 Comparer 只需要比對 Id 即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var insertData = oracle.Except( ms, new ExceptIdEqualityComparer () )</span><br></pre></td></tr></table></figure>
+
+<p>找出需要更新的資料 , 注意這裡的 Comparer 不一樣 , 需要比對數值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var modifyOracleData = oracleData.Except( msData, new ExceptIEqualityComparer() ).ToArray();</span><br></pre></td></tr></table></figure>
+
+
+<p>比對 ID 用 , 找出需要 insert &amp; delete 的資料</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class ExceptIdEqualityComparer : IEqualityComparer&lt;ExceptDocViewModel&gt;</span><br><span class="line">&#123;</span><br><span class="line">    public bool Equals( ExceptDocViewModel x, ExceptDocViewModel y )</span><br><span class="line">    &#123;</span><br><span class="line">        return (</span><br><span class="line">            x.Id == y.Id</span><br><span class="line">            );</span><br><span class="line">    &#125;</span><br><span class="line">    public int GetHashCode( ExceptDocViewModel obj )</span><br><span class="line">    &#123;</span><br><span class="line">        return (</span><br><span class="line">            obj.Id</span><br><span class="line">            ).GetHashCode();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>建立 datatable 等等寫入 temp table</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">private static DataTable CreateDataTable( ExceptDocViewModel[] list )</span><br><span class="line">&#123;</span><br><span class="line">	//欄位名稱不一樣所以多個多載</span><br><span class="line">	//PlmDcItemElecDoc</span><br><span class="line">	var datatable = new DataTable();</span><br><span class="line">	datatable.Columns.Add( &quot;Id&quot;, typeof( string ) );</span><br><span class="line">	datatable.Columns.Add( &quot;Item1&quot;, typeof( string ) );</span><br><span class="line">	datatable.Columns.Add( &quot;ModifyDatetime&quot;, typeof( DateTime ) );</span><br><span class="line">	datatable.Columns.Add( &quot;SysUpdateDatetime&quot;, typeof( DateTime ) );</span><br><span class="line">	foreach( var item in list )</span><br><span class="line">		datatable.Rows.Add(</span><br><span class="line">				item.Id,</span><br><span class="line">				item.Item1 ,</span><br><span class="line">				item.ModifyDatetime ,</span><br><span class="line">				item.SysUpdateDatetime </span><br><span class="line">			);</span><br><span class="line">	return datatable;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>塞入資料到 sql server 內 , 最關鍵就是先用 select into 建立空的臨時表 , 接著把 datatable 資料塞到臨時表<br>最後要新增的話就直接從臨時表新增至主表 , 更新的話則用 join 去更新資料 , 大概 20 秒內就可以解決原本要 20 - 30 分鐘的作業時間</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">                //mapping data to datatable</span><br><span class="line">                var datatable = CreateDataTable( needInsertData );</span><br><span class="line"></span><br><span class="line">                var conn = db.Database.Connection;</span><br><span class="line">                conn.Open();</span><br><span class="line">                var transaction = conn.BeginTransaction();</span><br><span class="line">                var cmd = conn.CreateCommand();</span><br><span class="line"></span><br><span class="line">                //這邊要設定交易不然會噴下面這個 error</span><br><span class="line">                //當指定給命令的連接為擱置的本機交易時，ExecuteNonQuery 需要連接以交易。命令的 Transaction 屬性尚未初始化。</span><br><span class="line">                cmd.Transaction = transaction;</span><br><span class="line"></span><br><span class="line">                //用 select into 建立暫時資料表</span><br><span class="line">                cmd.CommandText =</span><br><span class="line">@&quot;</span><br><span class="line">select Item1 , ModifyDatetime , SysUpdateDatetime</span><br><span class="line">into #DocForInsert</span><br><span class="line">from Doc</span><br><span class="line">where 1 != 1;</span><br><span class="line">&quot;;</span><br><span class="line">                var effect = cmd.ExecuteNonQuery();</span><br><span class="line">                using( var bulkCopy = new SqlBulkCopy(</span><br><span class="line">                    (SqlConnection) conn,</span><br><span class="line">                    SqlBulkCopyOptions.Default,</span><br><span class="line">                    (SqlTransaction) transaction ) )</span><br><span class="line">                &#123;</span><br><span class="line">                    //丟到 temp table</span><br><span class="line">                    bulkCopy.DestinationTableName = &quot;#DocForInsert&quot;;</span><br><span class="line">                    bulkCopy.WriteToServer( datatable );</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                //把 temp 資料表的內容丟入</span><br><span class="line">                cmd = conn.CreateCommand();</span><br><span class="line"></span><br><span class="line">                //這邊要設定交易不然會噴下面這個 error</span><br><span class="line">                //當指定給命令的連接為擱置的本機交易時，ExecuteNonQuery 需要連接以交易。命令的 Transaction 屬性尚未初始化。</span><br><span class="line">                cmd.Transaction = transaction;</span><br><span class="line"></span><br><span class="line">                //把暫存的資料丟進去真正的資料表內</span><br><span class="line">                cmd.CommandText =</span><br><span class="line">@&quot;</span><br><span class="line">insert into Doc(Item1 , ModifyDatetime , SysUpdateDatetime)</span><br><span class="line">select Item1 , ModifyDatetime , SysUpdateDatetime</span><br><span class="line">from #DocForInsert</span><br><span class="line">&quot;;</span><br><span class="line">                effect = cmd.ExecuteNonQuery();</span><br><span class="line"></span><br><span class="line">                transaction.Commit();</span><br><span class="line">                Debug.WriteLine( $&quot;新增筆數: &#123;effect&#125;&quot; );</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>如果要更新的話 sql 語法大改長這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">update Doc</span><br><span class="line">set Doc.Item1 = #DocForInsert.Item1 ,</span><br><span class="line">Doc.ModifyDatetime = #DocForInsert.ModifyDatetime ,</span><br><span class="line">Doc.SysUpdateDatetime = #DocForInsert.SysUpdateDatetime</span><br><span class="line">from Doc join #DocForInsert</span><br><span class="line">on Doc.DocId = #DocForInsert.DocId</span><br></pre></td></tr></table></figure>
+
+<p>最後如果是用 Oracle 可以參考 <a target="_blank" rel="noopener" href="https://www.c-sharpcorner.com/article/two-ways-to-insert-bulk-data-into-oracle-database-using-c-sharp/">這篇文章</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private static void BulkInsertToOracle(ErpDbContext erpDb, DataTable datatable)</span><br><span class="line">&#123;</span><br><span class="line">    var conn = erpDb.Database.Connection;</span><br><span class="line">    erpDb.Database.Connection.Open();</span><br><span class="line">    using( var bulkCopy = new OracleBulkCopy(</span><br><span class="line">	(OracleConnection) conn,</span><br><span class="line">	OracleBulkCopyOptions.Default</span><br><span class="line">	) )</span><br><span class="line">    &#123;</span><br><span class="line">	bulkCopy.DestinationTableName = &quot;yourtable&quot;;</span><br><span class="line">	bulkCopy.WriteToServer( datatable );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>後來又發現其實可以用 merge into , 以前好像在書上看過 , 可是沒實戰沒那個感覺 , 用這招三秒就全部的事都做完了 .. 真是淫蕩</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">MERGE Doc AS T</span><br><span class="line">USING #DocSource AS S</span><br><span class="line">ON T.DocId = S.DocId</span><br><span class="line">WHEN MATCHED THEN</span><br><span class="line">	UPDATE SET  T.Item1 = S.Item1</span><br><span class="line">		  , T.ModifyDatetime = S.ModifyDatetime</span><br><span class="line">		  , T.SysUpdateDatetime = S.SysUpdateDatetime</span><br><span class="line">WHEN NOT MATCHED BY TARGET </span><br><span class="line">	THEN INSERT (Item1 , ModifyDatetime , SysUpdateDatetime) </span><br><span class="line">	VALUES (S.Item1 , S.ModifyDatetime , S.SysUpdateDatetime)</span><br><span class="line">WHEN NOT MATCHED BY SOURCE THEN DELETE;</span><br></pre></td></tr></table></figure>
+
+<p>另外還可以這樣用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">INSERT INTO DocTest(S.Item1 , S.ModifyDatetime , S.SysUpdateDatetime)</span><br><span class="line">SELECT Item1 , ModifyDatetime , SysUpdateDatetime</span><br><span class="line">FROM (</span><br><span class="line">	MERGE Doc AS T</span><br><span class="line">	USING #DocSource AS S</span><br><span class="line">	ON T.DocId = S.DocId</span><br><span class="line">	WHEN MATCHED THEN</span><br><span class="line">		UPDATE SET  T.Item1 = S.Item1</span><br><span class="line">			  , T.ModifyDatetime = S.ModifyDatetime</span><br><span class="line">			  , T.SysUpdateDatetime = S.SysUpdateDatetime</span><br><span class="line">	WHEN NOT MATCHED BY TARGET </span><br><span class="line">		THEN INSERT (Item1 , ModifyDatetime , SysUpdateDatetime) </span><br><span class="line">		VALUES (S.Item1 , S.ModifyDatetime , S.SysUpdateDatetime)</span><br><span class="line">	WHEN NOT MATCHED BY SOURCE THEN DELETE</span><br><span class="line">	OUTPUT $action , Inserted.Item1 , Inserted.ModifyDatetime , SysUpdateDatetime.DocId</span><br><span class="line">) AS Changes (Action , Item1 , ModifyDatetime , DocId)</span><br><span class="line">WHERE Action = &#x27;INSERT&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>最後就是如果兩個資料集相同的話 , 其實 <code>merge into</code> 還是會 <code>update</code> , 本來腦補以為不會更新 , 結果觀念有點錯<br>如果要加工的話 insert update delete 結果的話可以這樣寫</p>
+<p>可以參考 <a target="_blank" rel="noopener" href="https://www.sqlservercentral.com/articles/the-output-clause-for-the-merge-statements">這篇</a> 或是 <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/17165870/multiple-output-clauses-in-merge-insert-delete-sql-commands">這篇</a> <a target="_blank" rel="noopener" href="https://learn.microsoft.com/zh-tw/sql/t-sql/queries/output-clause-transact-sql?view=sql-server-ver16">官方</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">DECLARE @DocTest TABLE</span><br><span class="line">(</span><br><span class="line">   MergeAction varchar(50),</span><br><span class="line">   Item1 varchar(30) not null,</span><br><span class="line">   ModifyDatetime datetime null,</span><br><span class="line">   SysUpdateDatetime datetime not null</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">MERGE Doc AS T</span><br><span class="line">USING #DocSource AS S</span><br><span class="line">ON T.DocId = S.DocId</span><br><span class="line">WHEN MATCHED THEN</span><br><span class="line">	UPDATE SET  T.Item1 = S.Item1</span><br><span class="line">		  , T.ModifyDatetime = S.ModifyDatetime</span><br><span class="line">		  , T.SysUpdateDatetime = S.SysUpdateDatetime</span><br><span class="line">WHEN NOT MATCHED BY TARGET </span><br><span class="line">	THEN INSERT (Item1 , ModifyDatetime , SysUpdateDatetime) </span><br><span class="line">	VALUES (S.Item1 , S.ModifyDatetime , S.SysUpdateDatetime)</span><br><span class="line">WHEN NOT MATCHED BY SOURCE THEN DELETE</span><br><span class="line">OUTPUT $action as MergeAction,</span><br><span class="line">    CASE $action</span><br><span class="line">		WHEN &#x27;DELETE&#x27; THEN deleted.Item1 </span><br><span class="line">		ELSE inserted.Item1 END AS Item1,</span><br><span class="line">    CASE $action</span><br><span class="line">		WHEN &#x27;DELETE&#x27; THEN deleted.ModifyDatetime </span><br><span class="line">		ELSE inserted.ModifyDatetime END AS ModifyDatetime,</span><br><span class="line">    CASE $action</span><br><span class="line">		WHEN &#x27;DELETE&#x27; THEN deleted.SysUpdateDatetime </span><br><span class="line">		ELSE inserted.DocId END AS SysUpdateDatetime</span><br><span class="line">    INTO @DocTest;</span><br><span class="line"></span><br><span class="line">SELECT *</span><br><span class="line">FROM @DocTest;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/sql/" rel="tag"># sql</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/11/angular-%E7%AD%86%E8%A8%98/" rel="prev" title="angular 筆記">
+      <i class="fa fa-chevron-left"></i> angular 筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/17/starship-%E7%AD%86%E8%A8%98/" rel="next" title="starship 筆記">
+      starship 筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/10/11/sql-except-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2022/10/11/sql-except-筆記/";
+    this.page.title = "sql except 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

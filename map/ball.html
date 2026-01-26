@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        html,
+        body {
+            height: 100vh;
+            background-color: #000000;
+            overflow: hidden;
+        }
+
+        #panel {
+            height: 100%;
+            /* width: 100%; */
+            overflow: hidden;
+        }
+        #plus{
+            transition: all 3s;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="panel">
+    </div>
+    <script>
+        var panel = document.getElementById('panel');
+        var texts = generateTexts(10);
+        texts.forEach(function(text){
+            panel.appendChild(text);
+        });
+        panel.appendChild(createPlus());
+        var timerCounter = 0;
+        var endOfTime = randomIntFromInterval(1,5);
+        var plus = document.getElementById('plus');
+        // plus.addEventListener("transitionend", function(){
+        //     plus.style.left = '0px';
+        // }, false);
+
+        setInterval(function(){
+            if(endOfTime === timerCounter){
+                plus.style.left = panel.clientWidth + 'px';
+                endOfTime = randomIntFromInterval(1,5);
+                timerCounter = 0;
+            }
+            var texts = document.getElementsByClassName('text');
+            Object.keys(texts).forEach(function (key) {
+                var text = texts[key];
+                // console.log(text);
+                var h = parseInt(text.style.top);
+                var w = parseInt(text.style.left);
+                var x = Math.floor(Math.random() * (10));
+                var y = Math.floor(Math.random() * (10));
+                var step = randomIntFromInterval(-30,30);
+                text.style.top = h + step + 'px';
+                text.style.left = w + step + 'px';
+            });
+            timerCounter += 1;
+        }, 1000 );
+
+        function randomIntFromInterval(min, max) { // min and max included 
+            return Math.floor(Math.random() * (max - min + 1) + min);
+        }
+        function makeid(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+        function generateTexts(num){
+            // var count = Math.floor(Math.random() * (num));
+            var count = num;
+            var texts = [];
+            for(var i = 0 ; i < count ; i++)
+                texts.push(createText());
+            return texts;
+        }
+        function createText() {
+            var text = document.createElement('div');
+            text.setAttribute('class','text');
+            text.style.position = 'fixed';
+            text.style.lineHeight = '100px';
+            text.style.textAlign = 'center';
+            text.style.fontSize = '48px';
+            text.style.height = '100px';
+            text.style.width = '100px';
+            var h = parseInt(text.style.height);
+            var w = parseInt(text.style.width);
+            var x = Math.floor(Math.random() * (panel.clientWidth - w));
+            var y = Math.floor(Math.random() * (panel.clientHeight  - h));
+            text.style.top = y + 'px';
+            text.style.left = x + 'px';
+            text.style.backgroundColor = '#f00';
+            text.style.borderRadius = '50%';
+            text.style.color = '#fff';
+            text.innerText = makeid(1);
+            return text;
+        }
+        function createPlus() {
+            var plus = document.createElement('div');
+            plus.setAttribute('id','plus');
+            plus.style.position = 'fixed';
+            plus.style.lineHeight = '100px';
+            plus.style.textAlign = 'center';
+            plus.style.fontSize = '72px';
+            plus.style.height = '100px';
+            plus.style.width = '100px';
+            var h = parseInt(plus.style.height);
+            var w = parseInt(plus.style.width);
+            var x = Math.floor(Math.random() * (panel.clientWidth - w));
+            var y = Math.floor(Math.random() * (panel.clientHeight  - h));
+            plus.style.top = y + 'px';
+            plus.style.left = -x + 'px';
+            // text.style.backgroundColor = '#f00';
+            plus.style.color = '#f0f';
+            plus.innerText = '+';
+            return plus;
+        }
+    </script>
+</body>
+
+</html>

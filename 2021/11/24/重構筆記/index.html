@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重構筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/11/24/%E9%87%8D%E6%A7%8B%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-11-23T19:23:03.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="csharp">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/11/24/%E9%87%8D%E6%A7%8B%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>重構筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/11/24/%E9%87%8D%E6%A7%8B%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          重構筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-11-24 03:23:03" itemprop="dateCreated datePublished" datetime="2021-11-24T03:23:03+08:00">2021-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/11/24/%E9%87%8D%E6%A7%8B%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/11/24/重構筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>2.1k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>2 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+
+<p>最近接了個超級複雜程式碼翻寫任務 , 算是最害怕的任務吧 , 就順便重構一些過去的技術債 , 所以筆記一下</p>
+<h2 id="好的程式碼原則"><a href="#好的程式碼原則" class="headerlink" title="好的程式碼原則"></a>好的程式碼原則</h2><ul>
+<li>少於 10 行程式碼的方法 (最好不超過 4 行) , 不超過兩個參數的方法 , 超過的話重構為物件 DTO &#x3D;&gt; 在座的各位都是垃圾的意思 ~</li>
+<li>函數不會修改資料或是狀態 immutable</li>
+<li>boolean 盲性 &#x3D;&gt; 用列舉 enum 解決</li>
+<li>在大型類別中使用區域 (region)</li>
+<li>遇到 switch 時重構那個片段成為 function</li>
+<li>永遠將函數的回傳值命為 result</li>
+<li>使用動態語言時參數預設戴上類別名稱 &#x3D;&gt; 這個還挺有用 , 但是會變很長</li>
+<li>移除臨時變數 &#x3D;&gt; 實戰感覺吃 ide , 有的沒法一眼看到 debug 狀態還是挺麻煩</li>
+<li>拆開 loop , 如果不太影響效能最好拆成兩個 loop , 不要讓邏輯混在一起</li>
+<li>兩頂帽子理論 &#x3D;&gt; 添加新功能時不重構 , 重構時不加上新功能</li>
+<li>三次法則 &#x3D;&gt; 第一次做事就放手做 , 第二次作類似的事會賭爛 , 但是還能做 , 第三次再發生就該重構</li>
+</ul>
+<h2 id="手法"><a href="#手法" class="headerlink" title="手法"></a>手法</h2><h3 id="if-消除"><a href="#if-消除" class="headerlink" title="if 消除"></a>if 消除</h3><p>如果遇到這種 if 結構可以用 Dictionary 重構 , 消除 switch-case 可以參考這篇(<a target="_blank" rel="noopener" href="https://ronsun.github.io/content/20180412-anti-switch-case.html">https://ronsun.github.io/content/20180412-anti-switch-case.html</a>)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if(x == &quot;Dev&quot;)&#123;</span><br><span class="line">	return 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">if(x == &quot;Prod&quot;)&#123;</span><br><span class="line">	return 2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var dict = new Dictionary&lt;string,int&gt;()&#123;</span><br><span class="line">	&#123;&quot;Dev&quot;,1&#125;,</span><br><span class="line">	&#123;&quot;Prod&quot;,2&#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">if (dict.ContainsKey(x))&#123;</span><br><span class="line">	return dict[x];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="out-消除"><a href="#out-消除" class="headerlink" title="out 消除"></a>out 消除</h3><p>工作常我 99% 自己不會用 <code>out</code> , 偏偏老舊 code 一堆 <code>out</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public string ToolMan(int money , Food food , out string byebye)&#123;</span><br><span class="line">	//todo</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>改建立類別 , 把掰掰變成屬性即可成為沒出局的工具人 ~</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">public class Man &#123;</span><br><span class="line">	public string ByeBye &#123; get; set; &#125;</span><br><span class="line">	public string ToolMan(int money , Food food)&#123;</span><br><span class="line">		//todo</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="壞味道"><a href="#壞味道" class="headerlink" title="壞味道"></a>壞味道</h2><h3 id="神秘命名-mysterious-name"><a href="#神秘命名-mysterious-name" class="headerlink" title="神秘命名 mysterious name"></a>神秘命名 mysterious name</h3><p>我曾經接過一包很爛的 code 一堆朝狀 if else , 變數名稱是用 <code>fuck</code> 來命名 , code 爛不說連變數都這樣搞<br>就不能乖乖取名 <code>_30cm</code> 這種有意義又好看的命名嗎?</p>
+<h3 id="重複代碼-duplicated-code"><a href="#重複代碼-duplicated-code" class="headerlink" title="重複代碼 duplicated code"></a>重複代碼 duplicated code</h3><h3 id="過長函數-long-function"><a href="#過長函數-long-function" class="headerlink" title="過長函數 long function"></a>過長函數 long function</h3><p>在鄉民的世界裡 30cm 幾乎是標準配備 , 在 coding 的世界裡越是行數多的程式碼越難一眼理解<br>依據大師原則 , 少於 10 行程式碼的方法 (最好不超過 4 行)<br>所以大師規定 10cm 才是好的 code 最好不要超過 4cm ~ 這下館長有救了!</p>
+<h3 id="過長參數列表-long-parameter-list"><a href="#過長參數列表-long-parameter-list" class="headerlink" title="過長參數列表 long parameter list"></a>過長參數列表 long parameter list</h3><p>依據大師原則 &#x3D;&gt; 不超過兩個參數的方法 , 超過的話重構為物件 DTO</p>
+<h3 id="全局資料-Global-Data"><a href="#全局資料-Global-Data" class="headerlink" title="全局資料 Global Data"></a>全局資料 Global Data</h3><h3 id="可變資料-Mutable-Data"><a href="#可變資料-Mutable-Data" class="headerlink" title="可變資料 Mutable Data"></a>可變資料 Mutable Data</h3><h3 id="發散式變化-Divergent-Change"><a href="#發散式變化-Divergent-Change" class="headerlink" title="發散式變化 Divergent Change"></a>發散式變化 Divergent Change</h3><h3 id="散彈式修改-Shotgun-Surgery"><a href="#散彈式修改-Shotgun-Surgery" class="headerlink" title="散彈式修改 Shotgun Surgery"></a>散彈式修改 Shotgun Surgery</h3><h3 id="依戀情節-Feature-Envy"><a href="#依戀情節-Feature-Envy" class="headerlink" title="依戀情節 Feature Envy"></a>依戀情節 Feature Envy</h3><p>我不太會形容 , 感覺有點像是這樣 , 明明可以直接在 Ruler 搞定的事硬要搬到 Man 裡面 , 像是 30cm 情節</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Man&#123;</span><br><span class="line">	public static void HowLong(Ruler r)&#123;</span><br><span class="line">		return r.Meaure();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Ruler&#123;</span><br><span class="line">	public int Measure()&#123; return 30; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="資料泥團-Data-Clumps"><a href="#資料泥團-Data-Clumps" class="headerlink" title="資料泥團 Data Clumps"></a>資料泥團 Data Clumps</h3><h3 id="基本類型偏執-Primitive-Obsession"><a href="#基本類型偏執-Primitive-Obsession" class="headerlink" title="基本類型偏執 Primitive Obsession"></a>基本類型偏執 Primitive Obsession</h3><h3 id="重複的-switch-Repeated-Switches"><a href="#重複的-switch-Repeated-Switches" class="headerlink" title="重複的 switch Repeated Switches"></a>重複的 switch Repeated Switches</h3><h3 id="循環-loops"><a href="#循環-loops" class="headerlink" title="循環 loops"></a>循環 loops</h3><p>大師意思就是寫 for or foreach 的 code 都是垃圾 ~</p>
+<h3 id="多餘的元素-lazy-element"><a href="#多餘的元素-lazy-element" class="headerlink" title="多餘的元素 lazy element"></a>多餘的元素 lazy element</h3><h3 id="臨時欄位-temporary-field"><a href="#臨時欄位-temporary-field" class="headerlink" title="臨時欄位 temporary field"></a>臨時欄位 temporary field</h3><h3 id="過長的消息鍊-message-chains"><a href="#過長的消息鍊-message-chains" class="headerlink" title="過長的消息鍊 message chains"></a>過長的消息鍊 message chains</h3><h2 id="coding-標準參考"><a href="#coding-標準參考" class="headerlink" title="coding 標準參考"></a>coding 標準參考</h2><p><a target="_blank" rel="noopener" href="https://www.c-sharpcorner.com/UploadFile/ankurmalik123/C-Sharp-coding-standards">https://www.c-sharpcorner.com/UploadFile/ankurmalik123/C-Sharp-coding-standards</a><br><a target="_blank" rel="noopener" href="https://www.dofactory.com/reference/csharp-coding-standards">https://www.dofactory.com/reference/csharp-coding-standards</a><br><a target="_blank" rel="noopener" href="https://blog.submain.com/coding-standards-c-developers-need">https://blog.submain.com/coding-standards-c-developers-need</a></p>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><p><a target="_blank" rel="noopener" href="http://findbugs.sourceforge.net/">FindBugs</a><br><a target="_blank" rel="noopener" href="https://pmd.github.io/pmd-6.41.0/">PMD</a><br><a target="_blank" rel="noopener" href="https://checkstyle.sourceforge.io/">Checkstyle</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/csharp/" rel="tag"># csharp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/11/21/google-analytics-%E8%AD%89%E7%85%A7/" rel="prev" title="google analytics 證照">
+      <i class="fa fa-chevron-left"></i> google analytics 證照
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/29/%E5%8F%96%E6%B6%88%E8%87%AA%E5%8B%95%E8%A8%82%E9%96%B1%E5%9E%83%E5%9C%BE%E7%9A%84-PLURALSIGHT-%E6%96%B9%E6%B3%95/" rel="next" title="取消自動訂閱垃圾的 PLURALSIGHT 方法">
+      取消自動訂閱垃圾的 PLURALSIGHT 方法 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A5%BD%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%A2%BC%E5%8E%9F%E5%89%87"><span class="nav-number">1.</span> <span class="nav-text">好的程式碼原則</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%89%8B%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">手法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#if-%E6%B6%88%E9%99%A4"><span class="nav-number">2.1.</span> <span class="nav-text">if 消除</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#out-%E6%B6%88%E9%99%A4"><span class="nav-number">2.2.</span> <span class="nav-text">out 消除</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A3%9E%E5%91%B3%E9%81%93"><span class="nav-number">3.</span> <span class="nav-text">壞味道</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A5%9E%E7%A7%98%E5%91%BD%E5%90%8D-mysterious-name"><span class="nav-number">3.1.</span> <span class="nav-text">神秘命名 mysterious name</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E8%A4%87%E4%BB%A3%E7%A2%BC-duplicated-code"><span class="nav-number">3.2.</span> <span class="nav-text">重複代碼 duplicated code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%8E%E9%95%B7%E5%87%BD%E6%95%B8-long-function"><span class="nav-number">3.3.</span> <span class="nav-text">過長函數 long function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%8E%E9%95%B7%E5%8F%83%E6%95%B8%E5%88%97%E8%A1%A8-long-parameter-list"><span class="nav-number">3.4.</span> <span class="nav-text">過長參數列表 long parameter list</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E8%B3%87%E6%96%99-Global-Data"><span class="nav-number">3.5.</span> <span class="nav-text">全局資料 Global Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%AF%E8%AE%8A%E8%B3%87%E6%96%99-Mutable-Data"><span class="nav-number">3.6.</span> <span class="nav-text">可變資料 Mutable Data</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%99%BC%E6%95%A3%E5%BC%8F%E8%AE%8A%E5%8C%96-Divergent-Change"><span class="nav-number">3.7.</span> <span class="nav-text">發散式變化 Divergent Change</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%A3%E5%BD%88%E5%BC%8F%E4%BF%AE%E6%94%B9-Shotgun-Surgery"><span class="nav-number">3.8.</span> <span class="nav-text">散彈式修改 Shotgun Surgery</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E6%88%80%E6%83%85%E7%AF%80-Feature-Envy"><span class="nav-number">3.9.</span> <span class="nav-text">依戀情節 Feature Envy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E6%B3%A5%E5%9C%98-Data-Clumps"><span class="nav-number">3.10.</span> <span class="nav-text">資料泥團 Data Clumps</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%A1%9E%E5%9E%8B%E5%81%8F%E5%9F%B7-Primitive-Obsession"><span class="nav-number">3.11.</span> <span class="nav-text">基本類型偏執 Primitive Obsession</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E8%A4%87%E7%9A%84-switch-Repeated-Switches"><span class="nav-number">3.12.</span> <span class="nav-text">重複的 switch Repeated Switches</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BE%AA%E7%92%B0-loops"><span class="nav-number">3.13.</span> <span class="nav-text">循環 loops</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E9%A4%98%E7%9A%84%E5%85%83%E7%B4%A0-lazy-element"><span class="nav-number">3.14.</span> <span class="nav-text">多餘的元素 lazy element</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%A8%E6%99%82%E6%AC%84%E4%BD%8D-temporary-field"><span class="nav-number">3.15.</span> <span class="nav-text">臨時欄位 temporary field</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%8E%E9%95%B7%E7%9A%84%E6%B6%88%E6%81%AF%E9%8D%8A-message-chains"><span class="nav-number">3.16.</span> <span class="nav-text">過長的消息鍊 message chains</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#coding-%E6%A8%99%E6%BA%96%E5%8F%83%E8%80%83"><span class="nav-number">4.</span> <span class="nav-text">coding 標準參考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">5.</span> <span class="nav-text">工具</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/11/24/%E9%87%8D%E6%A7%8B%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2021/11/24/重構筆記/";
+    this.page.title = "重構筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

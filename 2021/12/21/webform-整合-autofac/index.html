@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="webform 整合 autofac">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/12/21/webform-%E6%95%B4%E5%90%88-autofac/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/10.jpg">
+<meta property="article:published_time" content="2021-12-20T21:47:45.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="c#">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/10.jpg">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/12/21/webform-%E6%95%B4%E5%90%88-autofac/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>webform 整合 autofac | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/12/21/webform-%E6%95%B4%E5%90%88-autofac/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          webform 整合 autofac
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-12-21 05:47:45" itemprop="dateCreated datePublished" datetime="2021-12-21T05:47:45+08:00">2021-12-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/12/21/webform-%E6%95%B4%E5%90%88-autofac/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/12/21/webform-整合-autofac/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>34k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>31 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/10.jpg" alt="vim"></p>
+<span id="more"></span>
+
+<p>參考<a target="_blank" rel="noopener" href="https://autofac.readthedocs.io/en/latest/integration/webforms.html">官方</a></p>
+<h3 id="Autofac"><a href="#Autofac" class="headerlink" title="Autofac"></a>Autofac</h3><p>安裝 <code>Autofac.Web</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package Autofac.Web -Version 6.0.0</span><br></pre></td></tr></table></figure>
+
+<p>先在 <code>web.config</code> 加上這段 , 官方寫推薦 IIS6 &amp; IIS7 的設定都加 , 我懶得加</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;system.webServer&gt;</span><br><span class="line">  &lt;!-- This section is used for IIS7 --&gt;</span><br><span class="line">  &lt;modules&gt;</span><br><span class="line">    &lt;add</span><br><span class="line">      name=&quot;ContainerDisposal&quot;</span><br><span class="line">      type=&quot;Autofac.Integration.Web.ContainerDisposalModule, Autofac.Integration.Web&quot;</span><br><span class="line">      preCondition=&quot;managedHandler&quot;/&gt;</span><br><span class="line">    &lt;add</span><br><span class="line">      name=&quot;PropertyInjection&quot;</span><br><span class="line">      type=&quot;Autofac.Integration.Web.Forms.PropertyInjectionModule, Autofac.Integration.Web&quot;</span><br><span class="line">      preCondition=&quot;managedHandler&quot;/&gt;</span><br><span class="line">  &lt;/modules&gt;</span><br><span class="line">&lt;/system.webServer&gt;</span><br></pre></td></tr></table></figure>
+
+<p>建立類別 <code>Box</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class Box</span><br><span class="line">&#123;</span><br><span class="line">	public string Name &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建立 interface <code>IRepo</code> 及 <code>BoxRepo</code></p>
+<p><code>IRepo</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface IRepo</span><br><span class="line">&#123;</span><br><span class="line">	List&lt;Box&gt; GetAll();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>BoxRepo</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">  public class BoxRepo : IRepo</span><br><span class="line">  &#123;</span><br><span class="line">//理論上這邊會寫 ado.net or dapper or ef 的程式碼</span><br><span class="line">      public List&lt;Box&gt; GetAll()</span><br><span class="line">      &#123;</span><br><span class="line">          return new List&lt;Box&gt; &#123;</span><br><span class="line">              new Box &#123; Name = &quot;Car 1&quot; &#125; ,</span><br><span class="line">              new Box &#123; Name = &quot;Car 2&quot; &#125; ,</span><br><span class="line">              new Box &#123; Name = &quot;Car 3&quot; &#125; ,</span><br><span class="line">          &#125;;</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>接著找到 <code>Global</code> 實現這個介面 <code>IContainerProviderAccessor</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">public class Global : HttpApplication, IContainerProviderAccessor</span><br><span class="line">&#123;</span><br><span class="line">	// Provider that holds the application container.</span><br><span class="line">	static IContainerProvider _containerProvider;</span><br><span class="line"></span><br><span class="line">	// Instance property that will be used by Autofac HttpModules</span><br><span class="line">	// to resolve and inject dependencies.</span><br><span class="line">	public IContainerProvider ContainerProvider</span><br><span class="line">	&#123;</span><br><span class="line">		get &#123; return _containerProvider; &#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	void Application_Start( object sender, EventArgs e )</span><br><span class="line">	&#123;</span><br><span class="line">		// Build up your application container and register your dependencies.</span><br><span class="line">		var builder = new ContainerBuilder();</span><br><span class="line">		builder.RegisterType&lt;BoxRepo&gt;().As&lt;IRepo&gt;().InstancePerRequest();</span><br><span class="line"></span><br><span class="line">		//builder.RegisterType&lt;BoxService&gt;().As&lt;IBoxService&gt;().</span><br><span class="line">		//	UsingConstructor(typeof(IRepo)).InstancePerRequest();</span><br><span class="line">		// ... continue registering dependencies...</span><br><span class="line"></span><br><span class="line">		// Once you&#x27;re done registering things, set the container</span><br><span class="line">		// provider up with your registrations.</span><br><span class="line">		_containerProvider = new ContainerProvider( builder.Build() );</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		// Code that runs on application startup</span><br><span class="line">		RouteConfig.RegisterRoutes( RouteTable.Routes );</span><br><span class="line">		BundleConfig.RegisterBundles( BundleTable.Bundles );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後撰寫 <code>Page</code> 的程式碼 , 至此 <code>Repository</code> 就可以直接拿出資料了 , 可是實際上應該要多加個 <code>Service</code> 層比較優 , 不過老案子可能會沒這些</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public partial class _Default : Page</span><br><span class="line">&#123;</span><br><span class="line">    public IRepo BoxRepo &#123; get; set; &#125;</span><br><span class="line">    //public IBoxService BoxService &#123; get; set; &#125;</span><br><span class="line">    protected void Page_Load( object sender, EventArgs e )</span><br><span class="line">    &#123;</span><br><span class="line">        var boxs = BoxRepo.GetAll();</span><br><span class="line">        boxs.ForEach( x =&gt; Console.WriteLine(x.Name));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接著建立 <code>IBoxService</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public interface IBoxService : IRepo</span><br><span class="line">&#123;</span><br><span class="line">    Box GetFirst();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然後實現他 , 這裡用建構子注入 <code>IRepo</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">public class BoxService : IBoxService</span><br><span class="line">&#123;</span><br><span class="line">    private readonly IRepo _boxRepo;</span><br><span class="line">    public BoxService( IRepo boxRepo )</span><br><span class="line">    &#123;</span><br><span class="line">        _boxRepo = boxRepo;</span><br><span class="line">    &#125;</span><br><span class="line">    public List&lt;Box&gt; GetAll()</span><br><span class="line">    &#123;</span><br><span class="line">        return _boxRepo.GetAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public Box GetFirst()</span><br><span class="line">    &#123;</span><br><span class="line">        return _boxRepo.GetAll().FirstOrDefault();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>一樣回到 Global 加入 DI 設定的程式碼 , 看看要不要明確設定 <code>UsingConstructor</code> 不這樣寫應該可以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">builder.RegisterType&lt;BoxService&gt;().As&lt;IBoxService&gt;()</span><br><span class="line">	.UsingConstructor(typeof(IRepo)).InstancePerRequest();</span><br></pre></td></tr></table></figure>
+
+<p>接著調整 Page 就搞定了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public partial class _Default : Page</span><br><span class="line">&#123;</span><br><span class="line">    //public IRepo BoxRepo &#123; get; set; &#125;</span><br><span class="line">    public IBoxService BoxService &#123; get; set; &#125;</span><br><span class="line">    protected void Page_Load( object sender, EventArgs e )</span><br><span class="line">    &#123;</span><br><span class="line">        //var boxs = BoxRepo.GetAll();</span><br><span class="line">        //boxs.ForEach( x =&gt; Console.WriteLine(x.Name));</span><br><span class="line"></span><br><span class="line">        var boxs = BoxService.GetAll();</span><br><span class="line">        var box = BoxService.GetFirst();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="整合-NLog"><a href="#整合-NLog" class="headerlink" title="整合 NLog"></a>整合 NLog</h3><h3 id="webform"><a href="#webform" class="headerlink" title="webform"></a>webform</h3><p>安裝 <code>NLog</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package NLog -Version 4.7.13</span><br></pre></td></tr></table></figure>
+
+<p>接著在 <code>Global</code> 註冊 NLog</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.RegisterType&lt;Logger&gt;().As&lt;ILogger&gt;().InstancePerRequest();</span><br></pre></td></tr></table></figure>
+
+<p>但是會炸 error , 因為他的建構子是 <code>protected internal</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Autofac.Core.Activators.Reflection.NoConstructorsFoundException: &#x27;No accessible constructors were found for the type &#x27;NLog.Logger&#x27;.&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>最無腦爆力法直接繼承 Logger 然後送他一個 public 的建構子即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public class MyLogger : Logger</span><br><span class="line">&#123;</span><br><span class="line">	public MyLogger()&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Global</code> 註冊改這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.RegisterType&lt;MyLogger&gt;().As&lt;ILogger&gt;().InstancePerRequest();</span><br></pre></td></tr></table></figure>
+
+<p>另外如果想要在自己的物件也用屬性注入的話修改這樣 , 因為老 code 很容易有建構子地獄發生 , 所以插 Log 改用屬性注入 , 不然寫到哭</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.RegisterType&lt;BoxService&gt;().As&lt;IBoxService&gt;().PropertiesAutowired().InstancePerRequest();</span><br></pre></td></tr></table></figure>
+
+
+<p>最後 Default Page 修改這樣就搞定了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public partial class _Default : Page</span><br><span class="line">&#123;</span><br><span class="line">    public IBoxService BoxService &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public ILogger Logger &#123; get; set; &#125;</span><br><span class="line">    protected void Page_Load( object sender, EventArgs e )</span><br><span class="line">    &#123;</span><br><span class="line">        Logger.Info( &quot;test log default page&quot; );</span><br><span class="line">        //var boxs = BoxRepo.GetAll();</span><br><span class="line">        //boxs.ForEach( x =&gt; Console.WriteLine(x.Name));</span><br><span class="line"></span><br><span class="line">        var box = BoxService.GetFirst();</span><br><span class="line">        //Logger.Info(box.Name);</span><br><span class="line">        var boxs = BoxService.GetAll();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>不然就是參考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/43454336/nlog-with-autofac-how-to-give-logger-name">老外</a>多包一個代理用的中間層</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">public interface ILoggerService&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    void Info(string message);</span><br><span class="line"></span><br><span class="line">    void Debug(string message);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class LoggerService&lt;T&gt; : ILoggerService&lt;T&gt;</span><br><span class="line">&#123;</span><br><span class="line">    public ILogger logger &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">    public LoggerService()</span><br><span class="line">    &#123;</span><br><span class="line">        logger = LogManager.GetLogger(typeof(T).FullName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Debug(string message)</span><br><span class="line">    &#123;</span><br><span class="line">        logger.Debug(message);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void Info(string message)</span><br><span class="line">    &#123;</span><br><span class="line">        logger.Info(message);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最後註冊進去就搞定了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.RegisterGeneric(typeof(LoggerService&lt;&gt;)).As(typeof(ILoggerService&lt;&gt;)).InstancePerRequest();</span><br></pre></td></tr></table></figure>
+
+<h4 id="webapi"><a href="#webapi" class="headerlink" title="webapi"></a>webapi</h4><p>想要在 <code>Global</code> 的 <code>Application_Error</code> 讓 Log 有作用 , 生命週期要選 <code>InstancePerLifetimeScope</code> 才生效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">builder.RegisterType&lt;MyLogger&gt;().As&lt;ILogger&gt;().InstancePerLifetimeScope();</span><br></pre></td></tr></table></figure>
+
+<p>測試 Application_Error</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">protected void Application_Error(object sender, EventArgs e)</span><br><span class="line">&#123;</span><br><span class="line">	var rawUrl = Request.RawUrl;</span><br><span class="line">	var ex = Server.GetLastError();</span><br><span class="line"></span><br><span class="line">	var logger = _containerProvider.ApplicationContainer.Resolve&lt;ILogger&gt;();</span><br><span class="line">	logger.Error(ex);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	Debug.WriteLine(&quot;RawUrl: &#123;0&#125;&quot;, rawUrl);</span><br><span class="line">	Debug.WriteLine(&quot;Ex: &#123;0&#125;&quot;, ex.Message);</span><br><span class="line">	Debug.WriteLine(&quot;StackTrace: &#123;0&#125;&quot;, ex.StackTrace);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可是 web api 不會直接走 <code>Application_Error</code> , 要加上 filter , 但因為跟 autofac 進行整合 , 所以要加上 <code>IAutofacExceptionFilter</code> <a target="_blank" rel="noopener" href="https://autofac.readthedocs.io/en/latest/integration/webapi.html#register-the-filter-provider">參考官網</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class LoggingActionFilter : IAutofacExceptionFilter</span><br><span class="line">&#123;</span><br><span class="line">	readonly ILogger _logger;</span><br><span class="line"></span><br><span class="line">	public LoggingActionFilter(ILogger logger)</span><br><span class="line">	&#123;</span><br><span class="line">		_logger = logger;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Task OnExceptionAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)</span><br><span class="line">	&#123;</span><br><span class="line">		_logger.Error(actionExecutedContext.Exception);</span><br><span class="line">		return Task.FromResult(0);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著設定 DI 屬性注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">builder.Register(c =&gt; new LoggingActionFilter(c.Resolve&lt;ILogger&gt;()))</span><br><span class="line">	.AsWebApiExceptionFilterForAllControllers()</span><br><span class="line">	.InstancePerRequest();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注意還要有設定這段才會正確生效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var config = GlobalConfiguration.Configuration;</span><br><span class="line">builder.RegisterWebApiFilterProvider(config);</span><br></pre></td></tr></table></figure>
+
+
+<p>如果不想用 Global 的方式的話 , 其實也可以直接繼承 <code>ExceptionFilterAttribute</code> 然後 <code>override OnException</code><br>特別注意到 namespace <code>System.Web.Http.Filters</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class LogExceptionFilterAttribute : ExceptionFilterAttribute</span><br><span class="line">&#123;</span><br><span class="line">	public ILogger Logger &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">	public override void OnException(HttpActionExecutedContext context)</span><br><span class="line">	&#123;</span><br><span class="line">		Logger.Error(context.Exception);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注意一樣要設定 <code>builder.RegisterWebApiFilterProvider(config);</code> , 接著掛載 <code>Attribute</code> 到 <code>Controller</code> 上即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[LogExceptionFilter]</span><br><span class="line">public class HaController : ApiController</span><br><span class="line">&#123;</span><br><span class="line">	[HttpGet]</span><br><span class="line">	[Route(&quot;ha&quot;)]</span><br><span class="line">	public string Ha()</span><br><span class="line">	&#123;</span><br><span class="line">		throw new Exception(&quot;Ha&quot;);</span><br><span class="line">		return &quot;HA&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="改用-Microsoft-Extensions-Logging"><a href="#改用-Microsoft-Extensions-Logging" class="headerlink" title="改用 Microsoft.Extensions.Logging"></a>改用 Microsoft.Extensions.Logging</h4><p>首先安裝 <code>NLog.Config</code> <code>NLog.Extensions.Logging</code> <code>NLog.Web</code><br><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/yc421206/2020/10/28/standard_log_api_Microsoft_Extensions_Logging_for_nlog">參考大神</a> 及 <a target="_blank" rel="noopener" href="https://github.com/nlog/NLog/wiki/File-target">NLog官方</a><br>舊版 web api 忘了怎麼寫可以參考<a target="_blank" rel="noopener" href="https://www.c-sharpcorner.com/article/exception-handling-in-asp-net-mvc-web-api/">老外</a> or <a target="_blank" rel="noopener" href="https://dotblogs.com.tw/yc421206/2013/11/07/127253">這篇</a></p>
+<p>注意引用命名空間 <code>using Microsoft.Extensions.Logging;</code></p>
+<p>接著設定 Autofac 整合 , 修改 <code>Application_Start</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">protected void Application_Start()</span><br><span class="line">&#123;</span><br><span class="line">	AreaRegistration.RegisterAllAreas();</span><br><span class="line">	GlobalConfiguration.Configure(WebApiConfig.Register);</span><br><span class="line">	FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);</span><br><span class="line">	RouteConfig.RegisterRoutes(RouteTable.Routes);</span><br><span class="line">	BundleConfig.RegisterBundles(BundleTable.Bundles);</span><br><span class="line"></span><br><span class="line">	//把 NLog 的 Provider 新增進去</span><br><span class="line">	var loggerFactory = new LoggerFactory();</span><br><span class="line">	loggerFactory.AddProvider(new NLogLoggerProvider());</span><br><span class="line"></span><br><span class="line">	var builder = new ContainerBuilder();</span><br><span class="line"></span><br><span class="line">	//這行是必須的</span><br><span class="line">	builder.RegisterInstance(loggerFactory).As&lt;ILoggerFactory&gt;().SingleInstance();</span><br><span class="line">	//用泛型註冊</span><br><span class="line">	builder.RegisterGeneric(typeof(Logger&lt;&gt;)).As(typeof(ILogger&lt;&gt;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	builder.RegisterType&lt;TestAttribute&gt;().PropertiesAutowired();</span><br><span class="line">	builder.RegisterType&lt;LogExceptionFilterAttribute&gt;().PropertiesAutowired();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	builder.Register(c =&gt; new LoggingActionFilter(c.Resolve&lt;ILogger&lt;LoggingActionFilter&gt;&gt;()))</span><br><span class="line">		.AsWebApiExceptionFilterForAllControllers()</span><br><span class="line">		.InstancePerRequest();</span><br><span class="line"></span><br><span class="line">	builder.RegisterApiControllers(Assembly.GetExecutingAssembly());</span><br><span class="line">	var config = GlobalConfiguration.Configuration;</span><br><span class="line">	builder.RegisterWebApiFilterProvider(config);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	var container = builder.Build();</span><br><span class="line">	config.DependencyResolver = new AutofacWebApiDependencyResolver(container);</span><br><span class="line"></span><br><span class="line">	//清除 web api xml</span><br><span class="line">	GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接著把要用 Log 的類別改成這樣即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class LoggingActionFilter : IAutofacExceptionFilter</span><br><span class="line">&#123;</span><br><span class="line">	readonly ILogger&lt;LoggingActionFilter&gt; _logger;</span><br><span class="line"></span><br><span class="line">	public LoggingActionFilter(ILogger&lt;LoggingActionFilter&gt; logger)</span><br><span class="line">	&#123;</span><br><span class="line">		_logger = logger;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Task OnExceptionAsync(HttpActionExecutedContext actionExecutedContext, CancellationToken cancellationToken)</span><br><span class="line">	&#123;</span><br><span class="line">		_logger.LogError(actionExecutedContext.Exception.Message.ToString());</span><br><span class="line">		return Task.FromResult(0);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>然後 Controller 大概改這樣 , action 裡面的實作就自行調整</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">[RoutePrefix(&quot;api/ha&quot;)]</span><br><span class="line">public class HaController : ApiController</span><br><span class="line">&#123;</span><br><span class="line">	readonly ILogger&lt;HaController&gt; _logger;</span><br><span class="line">	public HaController(ILogger&lt;HaController&gt; logger)</span><br><span class="line">	&#123;</span><br><span class="line">		_logger = logger;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[HttpGet]</span><br><span class="line">	[Route(&quot;ha&quot;)]</span><br><span class="line">	public IHttpActionResult Ha()</span><br><span class="line">	&#123;</span><br><span class="line">		_logger.LogError(&quot;測試 controller &amp; action&quot;);</span><br><span class="line"></span><br><span class="line">		try</span><br><span class="line">		&#123;</span><br><span class="line">			throw new Exception(&quot;test&quot;);</span><br><span class="line">			List&lt;string&gt; list = new List&lt;string&gt;();</span><br><span class="line">			list.Add(&quot;haha&quot;);</span><br><span class="line">			return Ok(list);</span><br><span class="line">		&#125;</span><br><span class="line">		catch (Exception ex)</span><br><span class="line">		&#123;</span><br><span class="line">			_logger.LogError(ex.ToString());</span><br><span class="line">			return StatusCode(HttpStatusCode.InternalServerError);</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>後來遇到一個雷用 Json 當 Layout 時出現中文亂碼 , 加上 <code>escapeUnicode=&quot;false&quot;</code> 還有設定 <code>encoding=&quot;utf-8&quot;</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;</span><br><span class="line">&lt;nlog xmlns=&quot;http://www.nlog-project.org/schemas/NLog.xsd&quot;</span><br><span class="line">      xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span><br><span class="line">      xsi:schemaLocation=&quot;http://www.nlog-project.org/schemas/NLog.xsd NLog.xsd&quot;</span><br><span class="line">      autoReload=&quot;true&quot;</span><br><span class="line">      throwExceptions=&quot;false&quot;</span><br><span class="line">      internalLogLevel=&quot;Off&quot; internalLogFile=&quot;c:\temp\nlog-internal.log&quot;&gt;</span><br><span class="line"></span><br><span class="line">	&lt;extensions&gt;</span><br><span class="line">		&lt;add assembly=&quot;NLog.Web&quot;/&gt;</span><br><span class="line">	&lt;/extensions&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	&lt;!-- optional, add some variables</span><br><span class="line">  https://github.com/nlog/NLog/wiki/Configuration-file#variables</span><br><span class="line">  --&gt;</span><br><span class="line">	&lt;variable name=&quot;myvar&quot; value=&quot;myvalue&quot;/&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!--</span><br><span class="line">  See https://github.com/nlog/nlog/wiki/Configuration-file</span><br><span class="line">  for information on customizing logging rules and outputs.</span><br><span class="line">   --&gt;</span><br><span class="line">	&lt;targets&gt;</span><br><span class="line"></span><br><span class="line">		&lt;!--</span><br><span class="line">    add your targets here</span><br><span class="line">    See https://github.com/nlog/NLog/wiki/Targets for possible targets.</span><br><span class="line">    See https://github.com/nlog/NLog/wiki/Layout-Renderers for the possible layout renderers.</span><br><span class="line">    --&gt;</span><br><span class="line"></span><br><span class="line">		&lt;!--</span><br><span class="line">    Write events to a file with the date in the filename.</span><br><span class="line">    &lt;target xsi:type=&quot;File&quot; name=&quot;f&quot; fileName=&quot;$&#123;basedir&#125;/logs/$&#123;shortdate&#125;.log&quot;</span><br><span class="line">            layout=&quot;$&#123;longdate&#125; $&#123;uppercase:$&#123;level&#125;&#125; $&#123;message&#125;&quot; /&gt;</span><br><span class="line">    --&gt;</span><br><span class="line">		&lt;target name=&quot;file&quot; xsi:type=&quot;File&quot;</span><br><span class="line">			layout=&quot;$&#123;longdate&#125; $&#123;logger&#125; $&#123;message&#125;$&#123;exception:format=ToString&#125;&quot;</span><br><span class="line">			fileName=&quot;$&#123;basedir&#125;/logs/$&#123;shortdate&#125;.log&quot;</span><br><span class="line">			encoding=&quot;utf-8&quot; /&gt;</span><br><span class="line"></span><br><span class="line">		&lt;target name=&quot;jsonfile&quot; xsi:type=&quot;File&quot; fileName=&quot;$&#123;basedir&#125;/logs/$&#123;shortdate&#125;.json&quot; encoding=&quot;utf-8&quot;&gt;</span><br><span class="line">			&lt;layout xsi:type=&quot;JsonLayout&quot;&gt;</span><br><span class="line">				&lt;attribute name=&quot;time&quot; layout=&quot;$&#123;date:format=O&#125;&quot; /&gt;</span><br><span class="line">				&lt;attribute name=&quot;message&quot; layout=&quot;$&#123;message&#125;&quot; escapeUnicode=&quot;false&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;logger&quot; layout=&quot;$&#123;logger&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;level&quot; layout=&quot;$&#123;level&#125;&quot;/&gt;</span><br><span class="line"></span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-appbasepath&#125;&quot; layout=&quot;$&#123;aspnet-appbasepath&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-application&#125;&quot; layout=&quot;$&#123;aspnet-application&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-item&#125;&quot; layout=&quot;$&#123;aspnet-item&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-mvc-action&#125;&quot; layout=&quot;$&#123;aspnet-mvc-action&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-mvc-controller&#125;&quot; layout=&quot;$&#123;aspnet-mvc-controller&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request&#125;&quot; layout=&quot;$&#123;aspnet-request&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-cookie&#125;&quot; layout=&quot;$&#123;aspnet-request-cookie&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-form&#125;&quot; layout=&quot;$&#123;aspnet-request-form&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-headers&#125;&quot; layout=&quot;$&#123;aspnet-request-headers&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-host&#125;&quot; layout=&quot;$&#123;aspnet-request-host&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-ip&#125;&quot; layout=&quot;$&#123;aspnet-request-ip&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-method&#125;&quot; layout=&quot;$&#123;aspnet-request-method&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-posted-body&#125;&quot; layout=&quot;$&#123;aspnet-request-posted-body&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-querystring&#125;&quot; layout=&quot;$&#123;aspnet-request-querystring&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-referrer&#125;&quot; layout=&quot;$&#123;aspnet-request-referrer&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-routeparameters&#125;&quot; layout=&quot;$&#123;aspnet-request-routeparameters&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-url&#125;&quot; layout=&quot;$&#123;aspnet-request-url&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-request-useragent&#125;&quot; layout=&quot;$&#123;aspnet-request-useragent&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-response-statuscode&#125;&quot; layout=&quot;$&#123;aspnet-response-statuscode&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-session&#125;&quot; layout=&quot;$&#123;aspnet-session&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-sessionid&#125;&quot; layout=&quot;$&#123;aspnet-sessionid&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-traceidentifier&#125;&quot; layout=&quot;$&#123;aspnet-traceidentifier&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-user-authtype&#125;&quot; layout=&quot;$&#123;aspnet-user-authtype&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-user-identity&#125;&quot; layout=&quot;$&#123;aspnet-user-identity&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-user-isauthenticated&#125;&quot; layout=&quot;$&#123;aspnet-user-isauthenticated&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;aspnet-webrootpath&#125;&quot; layout=&quot;$&#123;aspnet-webrootpath&#125;&quot;/&gt;</span><br><span class="line">				&lt;attribute name=&quot;$&#123;iis-site-name&#125;&quot; layout=&quot;$&#123;iis-site-name&#125;&quot;/&gt;</span><br><span class="line">			&lt;/layout&gt;</span><br><span class="line">		&lt;/target&gt;</span><br><span class="line"></span><br><span class="line">	&lt;/targets&gt;</span><br><span class="line"></span><br><span class="line">	&lt;rules&gt;</span><br><span class="line">		&lt;!-- add your logging rules here --&gt;</span><br><span class="line"></span><br><span class="line">		&lt;!--</span><br><span class="line">    Write all events with minimal level of Debug (So Debug, Info, Warn, Error and Fatal, but not Trace)  to &quot;f&quot;</span><br><span class="line">    &lt;logger name=&quot;*&quot; minlevel=&quot;Debug&quot; writeTo=&quot;f&quot; /&gt;</span><br><span class="line">    --&gt;</span><br><span class="line">		&lt;logger name=&quot;*&quot; minlevel=&quot;Debug&quot; writeTo=&quot;file&quot; /&gt;</span><br><span class="line">		&lt;logger name=&quot;*&quot; minlevel=&quot;Debug&quot; writeTo=&quot;jsonfile&quot; /&gt;</span><br><span class="line">	&lt;/rules&gt;</span><br><span class="line">&lt;/nlog&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>為了讓 Error 統一輸出自己想要的格式<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47778018/exceptionhandler-being-called-but-not-returning-json">參考這篇</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">public class GlobalExceptionHandler : ExceptionHandler</span><br><span class="line">&#123;</span><br><span class="line">	//要順便 Log 的話加上去</span><br><span class="line">	//public ILogger&lt;GlobalExceptionHandler&gt; Logger &#123; get; set; &#125;</span><br><span class="line">	public override void Handle(ExceptionHandlerContext context)</span><br><span class="line">	&#123;</span><br><span class="line">		//Logger.LogError(context.Exception.ToString());</span><br><span class="line"></span><br><span class="line">		var info = new ErrorInformation</span><br><span class="line">		&#123;</span><br><span class="line">			Message = &quot;伺服器內部發生錯誤&quot; ,</span><br><span class="line">			ErrorDate = DateTime.UtcNow</span><br><span class="line">		&#125;;</span><br><span class="line">		var result = context.Request.CreateResponse( HttpStatusCode.InternalServerError, info,</span><br><span class="line">					System.Net.Http.Formatting.JsonMediaTypeFormatter.DefaultMediaType);</span><br><span class="line">		context.Result = new ResponseMessageResult(result);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>看看要不要順便也把 Log 插裡面 , 要的話需要用 di container 去拿</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">builder.RegisterType&lt;GlobalExceptionHandler&gt;().PropertiesAutowired();</span><br><span class="line">config.Services.Replace(typeof(IExceptionHandler), container.Resolve&lt;GlobalExceptionHandler&gt;());</span><br></pre></td></tr></table></figure>
+
+<p>如果不用 DI 拿的話 config 記得要多加上這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">config.Services.Replace(typeof(IExceptionHandler), new GlobalExceptionHandler());</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他地雷"><a href="#其他地雷" class="headerlink" title="其他地雷"></a>其他地雷</h3><p>如果有遇到噴這個 error 就檢查看看型別是否設定有錯誤</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">None of the constructors found with &#x27;Autofac.Core.Activators.Reflection.DefaultConstructorFinder&#x27; on type &#x27;WebApplication3.BoxService&#x27; can be invoked with the available services and parameters:</span><br><span class="line">Cannot resolve parameter &#x27;WebApplication3.BoxRepo boxRepo&#x27; of constructor &#x27;Void .ctor(WebApplication3.BoxRepo)&#x27;.</span><br></pre></td></tr></table></figure>
+
+<p>建構子有問題</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Cannot choose between multiple constructors with equal length 2 on type &#x27;WebApplication3.BoxService&#x27;. Select the constructor explicitly, with the UsingConstructor() configuration method, when the component is registered.</span><br></pre></td></tr></table></figure>
+
+<p>這兩個順序會讓 autofac 搞不懂要找誰 , 老 code 特別容易發生這種問題</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public BoxService( IRepo boxRepo, ILogger logger )</span><br><span class="line">&#123;</span><br><span class="line">	_boxRepo = boxRepo;</span><br><span class="line">	_logger = logger;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public BoxService( ILogger logger ,IRepo boxRepo )</span><br><span class="line">&#123;</span><br><span class="line">	_boxRepo = boxRepo;</span><br><span class="line">	_logger = logger;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>使用 <code>UsingConstructor</code> 告訴他建構子用哪個即可搞定</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">builder.RegisterType&lt;BoxService&gt;().As&lt;IBoxService&gt;()</span><br><span class="line">	.UsingConstructor(typeof(IRepo) , typeof(ILogger))</span><br><span class="line">	.PropertiesAutowired().InstancePerRequest();</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="SignalR"><a href="#SignalR" class="headerlink" title="SignalR"></a>SignalR</h3><p>官方文件好像沒更新 , 應該是要安裝 <code>Autofac.SignalR2</code> 以及 <code>Autofac.Owin</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package Autofac.SignalR2 -Version 6.0.0</span><br></pre></td></tr></table></figure>
+
+<p>這裡特別要注意到 , 如果整合 asp.net webform 的話 , DI 的設定是直接寫在 <code>Global</code> 裡面 , 而 SignalR 則是寫在 <code>Startup</code> 類別裡</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">public class Startup</span><br><span class="line">&#123;</span><br><span class="line">	public void Configuration( IAppBuilder app )</span><br><span class="line">	&#123;</span><br><span class="line">		var builder = new ContainerBuilder();</span><br><span class="line"></span><br><span class="line">		builder.RegisterHubs( Assembly.GetExecutingAssembly() );</span><br><span class="line"></span><br><span class="line">		//註冊繼承自 NLog 把建構子改為 public 的自訂類別</span><br><span class="line">		builder.RegisterType&lt;MyLogger&gt;().As&lt;ILogger&gt;();</span><br><span class="line"></span><br><span class="line">		//註冊 repository</span><br><span class="line">		builder.RegisterType&lt;BoxRepo&gt;().As&lt;IRepo&gt;();</span><br><span class="line"></span><br><span class="line">		//設定 services</span><br><span class="line">		builder.RegisterType&lt;BoxService&gt;().As&lt;IBoxService&gt;()</span><br><span class="line">			.UsingConstructor( typeof( IRepo ), typeof( ILogger ) );</span><br><span class="line">			//.InstancePerLifetimeScope();</span><br><span class="line"></span><br><span class="line">		var container = builder.Build();</span><br><span class="line">		var resolver = new AutofacDependencyResolver( container );</span><br><span class="line"></span><br><span class="line">		// Any connection or hub wire up and configuration should go here</span><br><span class="line">		app.UseAutofacMiddleware(container);</span><br><span class="line"></span><br><span class="line">		app.Map( &quot;/signalr&quot;, map =&gt;</span><br><span class="line">		&#123;</span><br><span class="line">			map.UseCors( CorsOptions.AllowAll );</span><br><span class="line">			var config = new HubConfiguration &#123; Resolver = resolver &#125;;</span><br><span class="line">			map.RunSignalR(config);</span><br><span class="line">		&#125; );</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接著注入物件到 <code>hub</code> 內</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">public class TestHub : Hub</span><br><span class="line">&#123;</span><br><span class="line">	private readonly ILifetimeScope _hubLifetimeScope;</span><br><span class="line">	private readonly ILogger _logger;</span><br><span class="line">	private readonly IBoxService _boxService;</span><br><span class="line"></span><br><span class="line">	//可以這樣寫</span><br><span class="line">	//public TestHub( ILifetimeScope lifetimeScope )</span><br><span class="line">	//&#123;</span><br><span class="line">	//    // Create a lifetime scope for the hub.</span><br><span class="line">	//    _hubLifetimeScope = lifetimeScope.BeginLifetimeScope();</span><br><span class="line"></span><br><span class="line">	//    // Resolve dependencies from the hub lifetime scope.</span><br><span class="line">	//    _logger = _hubLifetimeScope.Resolve&lt;ILogger&gt;();</span><br><span class="line"></span><br><span class="line">	//    _boxService = _hubLifetimeScope.Resolve&lt;IBoxService&gt;();</span><br><span class="line">	//&#125;</span><br><span class="line"></span><br><span class="line">	//這樣寫也可以</span><br><span class="line">	public TestHub(IBoxService boxService , ILogger logger)</span><br><span class="line">	&#123;</span><br><span class="line">		_boxService = boxService;</span><br><span class="line">		_logger = logger;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">	//給 client 呼叫 server 上的方法</span><br><span class="line">	public void LaSai( string message )</span><br><span class="line">	&#123;</span><br><span class="line">		_logger.Info( &quot;test log&quot; );</span><br><span class="line">		var result = _boxService.GetAll();</span><br><span class="line">		//server 丟一些 result 回去給 client</span><br><span class="line">		Clients.All.hello( result );</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最後是前端呼叫 <code>laSai</code> 這個方法時 , 因為在 server 內有這句 <code>Clients.All.hello( result );</code> 所以前端會把得到的 json 物件印在畫面上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;Scripts/jquery-3.4.1.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;Scripts/jquery.signalR-2.2.2.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;/signalr/hubs&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!--使用靜態生出來的--&gt;</span><br><span class="line">    &lt;!--&lt;script src=&quot;Scripts/server.js&quot;&gt;&lt;/script&gt;--&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line"></span><br><span class="line">		//如果是其他站台要用的話要加上這句</span><br><span class="line">		//$.connection.hub.url = &#x27;http://localhost:23007/signalr&#x27;;</span><br><span class="line">        var chat = $.connection.testHub;</span><br><span class="line"></span><br><span class="line">        $.connection.hub.start().done(function () &#123;</span><br><span class="line">            $(document).on(&#x27;click&#x27; , &#x27;#btn&#x27;, function () &#123;</span><br><span class="line">                chat.server.laSai(&#x27;la di sai&#x27;);</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line"></span><br><span class="line">        chat.client.hello = function (resp) &#123;</span><br><span class="line">            console.log(resp);</span><br><span class="line">            resp.forEach(x =&gt; &#123;</span><br><span class="line">                $(&#x27;#display&#x27;).append(`&lt;p&gt;$&#123;x.Name&#125;&lt;/p&gt;`);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">    &lt;div id=&quot;display&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;button id=&quot;btn&quot;&gt;go&lt;/button&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="SignalR-後續"><a href="#SignalR-後續" class="headerlink" title="SignalR 後續"></a>SignalR 後續</h3><p>常常有個疑惑 , 不曉得怎樣定時去撈 DB 然後用 signalr 傳給前端 , 於是看到了<a target="_blank" rel="noopener" href="http://henriquat.re/server-integration/signalr/integrateWithSignalRHubs.html">這篇文章</a><br>主要就是實現了 <code>IRegisteredObject</code> 介面 , 然後就可以在 server 裡面定時去執行某些任務<br>所以特別注意到 <code>HostingEnvironment.RegisterObject</code> 當插入這個以後 server side (IIS) 就會固定每隔 N 秒執行撈 sql 的動作</p>
+<p>另外有個雷 , 因為我有用 <code>autofac</code> 導致執行的時候雖然會觸發 timer 內的事件 , 結果 signalr server side 裡面的 function 卻不 work<br>所以要參考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/21126624/signalr-autofac-owin-why-doesnt-globalhost-connectionmanager-gethubcontext">這篇</a>去調整設定 , 不然是吃不到 DI 的</p>
+<p><code>Startup</code> 內的 <code>Configuration</code> 方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line">var builder = new ContainerBuilder();</span><br><span class="line"></span><br><span class="line">//註冊 signalr 的 hub</span><br><span class="line">builder.RegisterHubs(Assembly.GetExecutingAssembly());</span><br><span class="line"></span><br><span class="line">//把 NLog 的 Provider 新增進去</span><br><span class="line">var loggerFactory = new LoggerFactory();</span><br><span class="line">loggerFactory.AddProvider(new NLogLoggerProvider());</span><br><span class="line"></span><br><span class="line">//註冊 AutoMapper</span><br><span class="line">builder.RegisterAutoMapper(Assembly.GetExecutingAssembly());</span><br><span class="line">builder.RegisterType(typeof(Mapper)).AsSelf();</span><br><span class="line"></span><br><span class="line">//這行是必須的</span><br><span class="line">builder.RegisterInstance(loggerFactory).As&lt;ILoggerFactory&gt;().SingleInstance();</span><br><span class="line"></span><br><span class="line">//用泛型註冊</span><br><span class="line">builder.RegisterGeneric(typeof(Logger&lt;&gt;)).As(typeof(ILogger&lt;&gt;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//DI 的相關屬性設定</span><br><span class="line">//註冊 connectionFactory</span><br><span class="line">builder.RegisterType&lt;ConnectionFactory&gt;()</span><br><span class="line">	.As&lt;IConnectionFactory&gt;()</span><br><span class="line">	.AsSelf();</span><br><span class="line"></span><br><span class="line">//註冊 repository</span><br><span class="line">builder.RegisterType&lt;YourRepository&gt;()</span><br><span class="line">	.As&lt;IYourRepository&gt;()</span><br><span class="line">	.As&lt;IRepository&lt;YourClass&gt;&gt;()</span><br><span class="line">	.AsSelf();</span><br><span class="line"></span><br><span class="line">var container = builder.Build();</span><br><span class="line">var resolver = new AutofacDependencyResolver(container);</span><br><span class="line"></span><br><span class="line">//todo 注意這個地方很雷 , 如果沒有替換 DependencyResolver 會無法正常 trigger 10 秒更新軌跡的動作</span><br><span class="line">//https://stackoverflow.com/questions/21126624/signalr-autofac-owin-why-doesnt-globalhost-connectionmanager-gethubcontext</span><br><span class="line">GlobalHost.DependencyResolver = resolver;</span><br><span class="line"></span><br><span class="line">var yourService = resolver.Resolve&lt;YourService&gt;();</span><br><span class="line"></span><br><span class="line">// Any connection or hub wire up and configuration should go here</span><br><span class="line">app.UseAutofacMiddleware(container);</span><br><span class="line"></span><br><span class="line">//設定 signalr</span><br><span class="line">app.Map(&quot;/signalr&quot;, map =&gt;</span><br><span class="line">&#123;</span><br><span class="line">   map.UseCors(CorsOptions.AllowAll);</span><br><span class="line"></span><br><span class="line">   //這裡直接插 config 會失效</span><br><span class="line">   //var config = new HubConfiguration &#123; Resolver = resolver &#125;;</span><br><span class="line"></span><br><span class="line">   //要選用這個方法</span><br><span class="line">   //map.MapHubs(config);</span><br><span class="line"></span><br><span class="line">   //如果直接用這句的話不曉得為啥會不給過 , 可能是 autofac 跟 signalr 整合的 bug</span><br><span class="line">   //map.RunSignalR(config);</span><br><span class="line"></span><br><span class="line">   //同上面的問題 GlobalHost.DependencyResolver , 上面三句在此處其實都不起作用  , 直接呼叫 RunSignalR 即可</span><br><span class="line">   map.RunSignalR();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">//註冊背景物件 , 這個會去定時每隔 10 秒呼叫一次 hub</span><br><span class="line">//撈 sql 把資料給送給前端使用</span><br><span class="line">HostingEnvironment.RegisterObject(new BackgroundServerTimer(yourService));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+<h3 id="web-api"><a href="#web-api" class="headerlink" title="web api"></a>web api</h3><h4 id="autofac"><a href="#autofac" class="headerlink" title="autofac"></a>autofac</h4><p><code>Autofac.WebApi2</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Install-Package Autofac.WebApi2 -Version 6.1.0</span><br></pre></td></tr></table></figure>
+
+<p>一樣在 <code>Global</code> 設定 , 這次不小心踩個雷 , 把 <code>builder.RegisterApiControllers( Assembly.GetExecutingAssembly() ).InstancePerRequest();</code> 寫在 <code>var container = builder.Build();</code> 之後<br>特別注意這個順序很重要 , 寫錯了就起不來 , 讓你 debug 到想死 , 可憐 ~</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">void Application_Start( object sender, EventArgs e )</span><br><span class="line">&#123;</span><br><span class="line">	//設定 DI</span><br><span class="line">	var builder = new ContainerBuilder();</span><br><span class="line"></span><br><span class="line">	//DI 的相關屬性設定</span><br><span class="line">	builder.RegisterType&lt;MyLogger&gt;().As&lt;ILogger&gt;().InstancePerRequest();</span><br><span class="line">	builder.RegisterType&lt;BoxRepo&gt;().As&lt;IRepo&gt;().InstancePerRequest();</span><br><span class="line">	builder.RegisterType&lt;BoxService&gt;().As&lt;IBoxService&gt;()</span><br><span class="line">		.UsingConstructor( typeof( IRepo ), typeof( ILogger ) )</span><br><span class="line">		.PropertiesAutowired().InstancePerRequest();</span><br><span class="line"></span><br><span class="line">	//設定 web api controller 註冊 DI</span><br><span class="line">	builder.RegisterApiControllers( Assembly.GetExecutingAssembly() ).InstancePerRequest();</span><br><span class="line">	</span><br><span class="line">	//建立 DI container 特別注意順序很重要 , build 完以後才寫上面的屬性註冊會失效</span><br><span class="line">	var container = builder.Build();</span><br><span class="line">	</span><br><span class="line">	//註冊給 asp.net webform 使用</span><br><span class="line">	_containerProvider = new ContainerProvider( container );</span><br><span class="line">	</span><br><span class="line">	//設定 web api 的 di</span><br><span class="line">	var config = GlobalConfiguration.Configuration;</span><br><span class="line">	config.DependencyResolver = new AutofacWebApiDependencyResolver( container );</span><br><span class="line"></span><br><span class="line">	//預設的 application startup 設定流程</span><br><span class="line">	GlobalConfiguration.Configure( WebApiConfig.Register );</span><br><span class="line">	RouteConfig.RegisterRoutes( RouteTable.Routes );</span><br><span class="line">	BundleConfig.RegisterBundles( BundleTable.Bundles );</span><br><span class="line"></span><br><span class="line">	//清空 xml formatter</span><br><span class="line">	GlobalConfiguration.Configuration.Formatters.XmlFormatter.SupportedMediaTypes.Clear();</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="WebApiProxy"><a href="#WebApiProxy" class="headerlink" title="WebApiProxy"></a>WebApiProxy</h4><p>在 nuget 搜尋  <code>WebApiProxy</code> 並且安裝<br>找到 <code>WebApiConfig</code> 加上這句 <code>config.RegisterProxyRoutes( );</code><br><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/yc421206/2018/09/28/webapi_generate_proxy_class_code">參考自這篇</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">private static void AddRoutes(HttpConfiguration config)</span><br><span class="line">&#123;</span><br><span class="line">    //https://dotblogs.com.tw/yc421206/2018/09/28/webapi_generate_proxy_class_code</span><br><span class="line">    //WebApiProxy</span><br><span class="line">    config.RegisterProxyRoutes( );</span><br><span class="line"></span><br><span class="line">    //這串要在 MapHttpRoute 前面</span><br><span class="line">    config.MapHttpAttributeRoutes( );</span><br><span class="line"></span><br><span class="line">    config.Routes.MapHttpRoute(</span><br><span class="line">        name: &quot;DefaultApi&quot;,</span><br><span class="line">        routeTemplate: &quot;api/&#123;controller&#125;/&#123;id&#125;&quot;,</span><br><span class="line">        defaults: new &#123; id = RouteParameter.Optional &#125;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>他會幫你自動產生 proxy 像這樣 <code>http://localhost:23007/api/proxies</code><br>接著前端 code 會長這樣 , 注意需要有 <code>jQuery</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;Scripts/jquery-3.4.1.js&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">    &lt;!--自動產生的 javascript api proxies--&gt;</span><br><span class="line">    &lt;script src=&quot;/api/proxies&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        //測試 proxy 產出的 javascript api</span><br><span class="line">        $.proxies.gps.get(&#x27;test2&#x27;).done(function (resp) &#123;</span><br><span class="line">            console.log(resp);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        var test1 = &#123;</span><br><span class="line">            &quot;id&quot;: &#x27;test1&#x27;,</span><br><span class="line">            &quot;x&quot;: 12,</span><br><span class="line">            &quot;y&quot;: 24,</span><br><span class="line">        &#125;;</span><br><span class="line">        $.proxies.gps.add(test1).done(function (resp) &#123;</span><br><span class="line">            console.log(resp);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Swashbuckle"><a href="#Swashbuckle" class="headerlink" title="Swashbuckle"></a>Swashbuckle</h4><p>在 nuget 搜尋 <code>Swashbuckle</code> 並且安裝<br><code>Build</code> &#x3D;&gt; <code>Output path</code> &#x3D;&gt; <code>bin\</code> &#x3D;&gt; 打勾 <code>XML document file</code> &#x3D;&gt; <code>bin\WebApplicationWebFormWithWebApi.xml</code><br>找到 <code>SwaggerConfig.cs</code> 底下的 <code>c.IncludeXmlComments</code> 這串 , 修改為這樣<br><a target="_blank" rel="noopener" href="https://marcus116.blogspot.com/2019/01/how-to-add-api-document-using-swagger-in-webapi.html">參考1</a> <a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-tw/aspnet/core/tutorials/getting-started-with-swashbuckle?view=aspnetcore-6.0&tabs=visual-studio">參考2</a> <a target="_blank" rel="noopener" href="https://dotblogs.com.tw/shadowkk/2019/09/03/092620">參考3</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var files = Directory.GetFiles(</span><br><span class="line">	AppDomain.CurrentDomain.BaseDirectory, $&quot;WebApplicationWebFormWithWebApi*.xml&quot;,</span><br><span class="line">	SearchOption.AllDirectories</span><br><span class="line">);</span><br><span class="line">foreach (var name in files) c.IncludeXmlComments( name );</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="生出-typescript-用的-前端-api"><a href="#生出-typescript-用的-前端-api" class="headerlink" title="生出 typescript 用的 前端 api"></a>生出 typescript 用的 前端 api</h3><p>這個是因為用純 js 太通靈 , 後來才發現的 typescript 方法 , 需要先有 swagger 的 api 才可以動!<br>安裝 , 注意要切到你專案的 root 底下 , 可以參考這個官方<a target="_blank" rel="noopener" href="https://www.npmjs.com/package/swagger-typescript-api">說明</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i swagger-typescript-api</span><br></pre></td></tr></table></figure>
+
+<p>建立資料夾讓他長得像是下面這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">├───Scripts</span><br><span class="line">│   └───TypeScripts</span><br><span class="line">│       ├───dist</span><br><span class="line">│       └───src</span><br></pre></td></tr></table></figure>
+
+<p>接著在 TypeScripts&#x2F;src 底下新增 <code>tsconfig.json</code> , 這個選項 <code>compileOnSave</code> 可以讓存檔時生出 <code>js</code> 檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;compilerOptions&quot;: &#123;</span><br><span class="line">    &quot;noImplicitAny&quot;: false,</span><br><span class="line">    &quot;noEmitOnError&quot;: true,</span><br><span class="line">    &quot;removeComments&quot;: false,</span><br><span class="line">    &quot;sourceMap&quot;: true,</span><br><span class="line">    &quot;target&quot;: &quot;ES2020&quot;,</span><br><span class="line">    &quot;outDir&quot;: &quot;./dist&quot;,</span><br><span class="line">    &quot;rootDir&quot;: &quot;./src&quot;,</span><br><span class="line">    &quot;module&quot;: &quot;ES2020&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;exclude&quot;: [</span><br><span class="line">    &quot;node_modules&quot;,</span><br><span class="line">    &quot;wwwroot&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;compileOnSave&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>最後啟動你的 api 網站 , 讓他能抓得到 swagger 產生的 json , 並且執行以下命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx swagger-typescript-api -p http://localhost:50348/swagger/docs/v1 -o ./YourProject/Scripts/TypeScripts/src -n myApi.ts</span><br></pre></td></tr></table></figure>
+
+<p>接著 cd 到 <code>TypeScripts</code> 目錄 , 執行 <code>tsc</code> 這個命令讓 <code>js</code> 可以生出來 , 注意一定要在 <code>TypeScripts</code> 這個資料夾才正常</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>Solution Exploer</code> 上面點 <code>Show All Files</code> 可以看到生出 <code>myApi.ts</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc myApi.ts</span><br></pre></td></tr></table></figure>
+
+
+<p>萬一跳這個 error 執行這串即可 <code>npm install -g typescript</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc : 無法辨識 &#x27;tsc&#x27; 詞彙是否為 Cmdlet、函數、指令檔或可執行程式的名稱。請檢查名稱拼字是否正確，如果包含路徑的話，請確認路徑是否正確，然後再試一次。</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>src</code> 加入這個檔案 <code>test.ts</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Api &#125; from &quot;./myApi.js&quot;;</span><br><span class="line"></span><br><span class="line">const root = new Api(&#123;</span><br><span class="line">    baseUrl: &quot;http://localhost:50348&quot;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">var test = root.api.valuesGet();</span><br><span class="line"></span><br><span class="line">root.api.valuesGet().then(x =&gt; console.log(x.data));</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最後新增個網頁來測 <code>test.html</code> , 正常的話在 console 上面會印出 api 撈出的數值 , 這樣可以用強行別減輕不少開發壓力</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script src=&quot;Scripts/TypeScripts/src/test.js&quot; type=&quot;module&quot;&gt;&lt;/script&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="整合-AutoMaper"><a href="#整合-AutoMaper" class="headerlink" title="整合 AutoMaper"></a>整合 AutoMaper</h3><p>首先安裝 <code>AutoMapper</code> 及 <code>AutoMapper.Contrib.Autofac.DependencyInjection</code><br>可以參考他的<a target="_blank" rel="noopener" href="https://github.com/alsami/AutoMapper.Contrib.Autofac.DependencyInjection">官網</a></p>
+<p>修正 <code>Global</code> 如下就可以正常註冊了 , 他的 github 上面 example 好像沒更新<br>他是用這句 <code>containerBuilder.AddAutoMapper(typeof(Program).Assembly);</code> 實際使用時看他標示已經棄用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"> public class Global : HttpApplication, IContainerProviderAccessor</span><br><span class="line"> &#123;</span><br><span class="line">     static IContainerProvider _containerProvider;</span><br><span class="line">     public IContainerProvider ContainerProvider</span><br><span class="line">     &#123;</span><br><span class="line">         get &#123; return _containerProvider; &#125;</span><br><span class="line">     &#125;</span><br><span class="line">     void Application_Start( object sender, EventArgs e )</span><br><span class="line">     &#123;</span><br><span class="line">         var builder = new ContainerBuilder();</span><br><span class="line"></span><br><span class="line">         //註冊 AutoMapper</span><br><span class="line">         builder.RegisterAutoMapper( Assembly.GetExecutingAssembly() );</span><br><span class="line">//我測 webform 沒加這句的話也會噴 null</span><br><span class="line">builder.RegisterType(typeof(Mapper)).AsSelf();</span><br><span class="line"></span><br><span class="line">         builder.RegisterType&lt;MyLogger&gt;().As&lt;ILogger&gt;().InstancePerRequest();</span><br><span class="line">         builder.RegisterApiControllers( Assembly.GetExecutingAssembly() ).InstancePerRequest();</span><br><span class="line">         var container = builder.Build();</span><br><span class="line">         _containerProvider = new ContainerProvider( container );</span><br><span class="line">         var config = GlobalConfiguration.Configuration;</span><br><span class="line">         config.DependencyResolver = new AutofacWebApiDependencyResolver( container );</span><br><span class="line"></span><br><span class="line">         //從 Autofac 裡面拿出 AutoMapper 的 config</span><br><span class="line">         var mapperConfiguration = container.Resolve&lt;MapperConfiguration&gt;();</span><br><span class="line"></span><br><span class="line">         //這句用來驗證 AutoMapper 的 Profile 是否正確</span><br><span class="line">         mapperConfiguration.AssertConfigurationIsValid(  );</span><br><span class="line"></span><br><span class="line">         // Code that runs on application startup</span><br><span class="line">         GlobalConfiguration.Configure( WebApiConfig.Register );</span><br><span class="line">         RouteConfig.RegisterRoutes( RouteTable.Routes );</span><br><span class="line">         BundleConfig.RegisterBundles( BundleTable.Bundles );</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>建立 <code>Customer</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class Customer</span><br><span class="line">&#123;</span><br><span class="line">	public Guid Id &#123; get; &#125;</span><br><span class="line">	public string Name &#123; get; &#125;</span><br><span class="line"></span><br><span class="line">	public Customer( Guid id, string name )</span><br><span class="line">	&#123;</span><br><span class="line">		Id = id;</span><br><span class="line">		Name = name;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>建立 <code>CustomerDto</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public class CustomerDto</span><br><span class="line">&#123;</span><br><span class="line">	public Guid Id &#123; get; &#125;</span><br><span class="line">	public string Name &#123; get; &#125;</span><br><span class="line"></span><br><span class="line">	public string FullName &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">	public CustomerDto( Guid id, string name )</span><br><span class="line">	&#123;</span><br><span class="line">		Id = id;</span><br><span class="line">		Name = name;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>建立 <code>CustomerProfile</code><br>這裡是重點 , 最好在專案建立資料夾 <code>Profiles</code> 進行分類 , 不然會有一堆 mapping<br>注意他的規則是擺在後面的 Type 為 return 的物件 , 所以此處為設定 <code>CustomerDto</code> 為 return 的結果<br>如果屬性相同的話可以不用一個一個設定 , 他會自己去 mapping<br>最後可以考慮加上 <code>ReverseMap();</code> 這樣可以  two way mapping</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">public class CustomerProfile : Profile</span><br><span class="line">&#123;</span><br><span class="line">	public CustomerProfile()</span><br><span class="line">	&#123;</span><br><span class="line">		//注意他的規則是擺在後面的 Type 為 return 的物件</span><br><span class="line">		//從 Customer 的 Name +Id Mapping 至 DTO 的 FullName</span><br><span class="line">		CreateMap&lt;Customer, CustomerDto&gt;()</span><br><span class="line">			.ForMember( x =&gt; x.FullName, y =&gt; y.MapFrom( z =&gt; z.Id + z.Name ) )</span><br><span class="line">			.ReverseMap();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>最後弄個 api controller 測試看看 , 要手動注入 <code>IMapper</code> 就搞定了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">[RoutePrefix(&quot;api/values&quot;)]</span><br><span class="line">public class ValuesController : ApiController</span><br><span class="line">&#123;</span><br><span class="line">	private readonly IComponentContext _componentContext;</span><br><span class="line">	private readonly IMapper _mapper;</span><br><span class="line">	public ValuesController( IComponentContext componentContext, IMapper mapper )</span><br><span class="line">	&#123;</span><br><span class="line">		_componentContext = componentContext;</span><br><span class="line">		_mapper = mapper;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[HttpGet]</span><br><span class="line">	[Route(&quot;test&quot;)]</span><br><span class="line">	public string Get()</span><br><span class="line">	&#123;</span><br><span class="line">		Debug.WriteLine(&quot;Hello World&quot;);</span><br><span class="line">		var x = _componentContext.Resolve&lt;ILogger&gt;(new TypedParameter(typeof(string) , &quot;test test test test&quot;));</span><br><span class="line">		x.Info( &quot;Ha Ha&quot; );</span><br><span class="line"></span><br><span class="line">		return &quot;test&quot;;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[HttpGet]</span><br><span class="line">	[Route(&quot;CustomerToDto&quot;)]</span><br><span class="line">	public CustomerDto CustomerToDto()</span><br><span class="line">	&#123;</span><br><span class="line">		var customer = new Customer( Guid.NewGuid(), &quot;HaHa&quot; );</span><br><span class="line">		var result = _mapper.Map&lt;Customer, CustomerDto&gt;(customer);</span><br><span class="line">		return result;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	[HttpGet]</span><br><span class="line">	[Route(&quot;DtoToCustomer&quot;)]</span><br><span class="line">	public Customer DtoToCustomer()</span><br><span class="line">	&#123;</span><br><span class="line">		var customerDto = new CustomerDto( Guid.NewGuid(), &quot;HaHa&quot; );</span><br><span class="line">		var result = _mapper.Map&lt;CustomerDto, Customer&gt;(customerDto);</span><br><span class="line">		return result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>最後是 signalr 整合 automapper , 跟前面一樣大同小異在 <code>Startup</code><br>加入關鍵這三行即可<br><code>builder.RegisterAutoMapper( Assembly.GetExecutingAssembly() );</code><br><code>var mapperConfiguration = container.Resolve&lt;MapperConfiguration&gt;();</code><br><code>mapperConfiguration.AssertConfigurationIsValid();</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">public class Startup</span><br><span class="line">&#123;</span><br><span class="line">	public void Configuration( IAppBuilder app )</span><br><span class="line">	&#123;</span><br><span class="line">		var builder = new ContainerBuilder();</span><br><span class="line"></span><br><span class="line">		builder.RegisterAutoMapper( Assembly.GetExecutingAssembly() );</span><br><span class="line"></span><br><span class="line">		builder.RegisterHubs( Assembly.GetExecutingAssembly() );</span><br><span class="line">		builder.RegisterType&lt;MyLogger&gt;().As&lt;ILogger&gt;();</span><br><span class="line"></span><br><span class="line">		builder.RegisterType&lt;BoxRepo&gt;().As&lt;IRepo&gt;();</span><br><span class="line"></span><br><span class="line">		builder.RegisterType&lt;BoxService&gt;().As&lt;IBoxService&gt;()</span><br><span class="line">			.UsingConstructor( typeof( IRepo ), typeof( ILogger ) );</span><br><span class="line">			//.InstancePerLifetimeScope();</span><br><span class="line"></span><br><span class="line">		var container = builder.Build();</span><br><span class="line">		var resolver = new AutofacDependencyResolver( container );</span><br><span class="line"></span><br><span class="line">		//從 Autofac 裡面拿出 AutoMapper 的 config</span><br><span class="line">		var mapperConfiguration = container.Resolve&lt;MapperConfiguration&gt;();</span><br><span class="line"></span><br><span class="line">		//這句用來驗證 AutoMapper 的 Profile 是否正確</span><br><span class="line">		mapperConfiguration.AssertConfigurationIsValid();</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">		// Any connection or hub wire up and configuration should go here</span><br><span class="line">		app.UseAutofacMiddleware(container);</span><br><span class="line"></span><br><span class="line">		app.Map( &quot;/signalr&quot;, map =&gt;</span><br><span class="line">		&#123;</span><br><span class="line">			map.UseCors( CorsOptions.AllowAll );</span><br><span class="line">			var config = new HubConfiguration &#123; Resolver = resolver &#125;;</span><br><span class="line">			map.RunSignalR(config);</span><br><span class="line">		&#125; );</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著建立 <code>CustomerHub</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">public class CustomerHub : Hub</span><br><span class="line">&#123;</span><br><span class="line">	private readonly IMapper _mapper;</span><br><span class="line"></span><br><span class="line">	public CustomerHub( IMapper mapper )</span><br><span class="line">	&#123;</span><br><span class="line">		_mapper = mapper;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public CustomerDto CustomerToDto()</span><br><span class="line">	&#123;</span><br><span class="line">		var customer = new Customer( Guid.NewGuid(), &quot;HaHa&quot; );</span><br><span class="line">		var result = _mapper.Map&lt;Customer, CustomerDto&gt;( customer );</span><br><span class="line">		Clients.All.getCustomerDto( result );</span><br><span class="line">		return result;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public Customer DtoToCustomer()</span><br><span class="line">	&#123;</span><br><span class="line">		var customerDto = new CustomerDto( Guid.NewGuid(), &quot;HaHa&quot; );</span><br><span class="line">		var result = _mapper.Map&lt;CustomerDto, Customer&gt;( customerDto );</span><br><span class="line">		Clients.All.getCustomer( result );</span><br><span class="line">		return result;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後調整前端 code</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">&lt;html&gt;</span><br><span class="line">&lt;head&gt;</span><br><span class="line">    &lt;meta charset=&quot;utf-8&quot; /&gt;</span><br><span class="line">    &lt;title&gt;&lt;/title&gt;</span><br><span class="line">    &lt;script src=&quot;Scripts/jquery-3.4.1.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;Scripts/jquery.signalR-2.2.2.js&quot;&gt;&lt;/script&gt;</span><br><span class="line">    &lt;script src=&quot;/signalr/hubs&quot;&gt;&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">	&lt;!--使用靜態生出來的--&gt;</span><br><span class="line">    &lt;!--&lt;script src=&quot;Scripts/server.js&quot;&gt;&lt;/script&gt;--&gt;</span><br><span class="line">&lt;/head&gt;</span><br><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var chat = $.connection.customerHub;</span><br><span class="line">        $.connection.hub.start().done(function () &#123;</span><br><span class="line">            $(document).on(&#x27;click&#x27; , &#x27;#btn&#x27;, function () &#123;</span><br><span class="line">                chat.server.customerToDto();</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;)</span><br><span class="line">        chat.client.getCustomerDto = function (resp) &#123;</span><br><span class="line">            console.log(resp);</span><br><span class="line">            $(&#x27;#display&#x27;).append(`&lt;p&gt;$&#123;resp.Id&#125; , $&#123;resp.Name&#125;&lt;/p&gt;`);</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">    &lt;div id=&quot;display&quot;&gt;&lt;/div&gt;</span><br><span class="line">    &lt;button id=&quot;btn&quot;&gt;go&lt;/button&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/20/SignalR-%E7%AD%86%E8%A8%98/" rel="prev" title="SignalR 筆記">
+      <i class="fa fa-chevron-left"></i> SignalR 筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/03/android-%E5%9C%B0%E9%9B%B7%E7%AD%86%E8%A8%98/" rel="next" title="android 地雷筆記">
+      android 地雷筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Autofac"><span class="nav-number">1.</span> <span class="nav-text">Autofac</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E5%90%88-NLog"><span class="nav-number">2.</span> <span class="nav-text">整合 NLog</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webform"><span class="nav-number">3.</span> <span class="nav-text">webform</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#webapi"><span class="nav-number">3.1.</span> <span class="nav-text">webapi</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%B9%E7%94%A8-Microsoft-Extensions-Logging"><span class="nav-number">3.2.</span> <span class="nav-text">改用 Microsoft.Extensions.Logging</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%9C%B0%E9%9B%B7"><span class="nav-number">4.</span> <span class="nav-text">其他地雷</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SignalR"><span class="nav-number">5.</span> <span class="nav-text">SignalR</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#SignalR-%E5%BE%8C%E7%BA%8C"><span class="nav-number">6.</span> <span class="nav-text">SignalR 後續</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-api"><span class="nav-number">7.</span> <span class="nav-text">web api</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#autofac"><span class="nav-number">7.1.</span> <span class="nav-text">autofac</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#WebApiProxy"><span class="nav-number">7.2.</span> <span class="nav-text">WebApiProxy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Swashbuckle"><span class="nav-number">7.3.</span> <span class="nav-text">Swashbuckle</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%9F%E5%87%BA-typescript-%E7%94%A8%E7%9A%84-%E5%89%8D%E7%AB%AF-api"><span class="nav-number">8.</span> <span class="nav-text">生出 typescript 用的 前端 api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B4%E5%90%88-AutoMaper"><span class="nav-number">9.</span> <span class="nav-text">整合 AutoMaper</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/12/21/webform-%E6%95%B4%E5%90%88-autofac/";
+    this.page.identifier = "2021/12/21/webform-整合-autofac/";
+    this.page.title = "webform 整合 autofac";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

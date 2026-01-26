@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="升級 angularjs 至 angular">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2024/09/06/%E5%8D%87%E7%B4%9A-angularjs-%E8%87%B3-angular/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2024-09-06T02:48:14.000Z">
+<meta property="article:modified_time" content="2025-03-06T02:49:11.719Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="angular">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2024/09/06/%E5%8D%87%E7%B4%9A-angularjs-%E8%87%B3-angular/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>升級 angularjs 至 angular | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2024/09/06/%E5%8D%87%E7%B4%9A-angularjs-%E8%87%B3-angular/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          升級 angularjs 至 angular
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2024-09-06 10:48:14" itemprop="dateCreated datePublished" datetime="2024-09-06T10:48:14+08:00">2024-09-06</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-03-06 10:49:11" itemprop="dateModified" datetime="2025-03-06T10:49:11+08:00">2025-03-06</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2024/09/06/%E5%8D%87%E7%B4%9A-angularjs-%E8%87%B3-angular/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2024/09/06/升級-angularjs-至-angular/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.5k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>7 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+
+<p>因為工作的關係, 要把前後分離, 以前前端是 cshtml + angularjs 這種混亂的組合, 現在要翻 angular 非常痛苦, 順手筆記下<br>因為寫得斷斷續續的, 所以用這樣 cookbook 的方式</p>
+<h2 id="href-hash-導致跳錯地方的問題"><a href="#href-hash-導致跳錯地方的問題" class="headerlink" title="href hash 導致跳錯地方的問題"></a>href hash 導致跳錯地方的問題</h2><p>這算是老生常談 , 因為在 angular 的 routing 是允許 # 這種格式 , 所以 angularjs 寫 href&#x3D;”#” 就變成惡夢</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;#&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<p>angular</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;a href=&quot;javascript:void(0)&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Can’t-bind-to-‘ngModel’-since-it-isn’t-a-known-property-of-‘input’-ngtsc-998002"><a href="#Can’t-bind-to-‘ngModel’-since-it-isn’t-a-known-property-of-‘input’-ngtsc-998002" class="headerlink" title="Can’t bind to ‘ngModel’ since it isn’t a known property of ‘input’.ngtsc(-998002)"></a>Can’t bind to ‘ngModel’ since it isn’t a known property of ‘input’.ngtsc(-998002)</h2><p>這個通常都是忘了引用 <code>FormsModule</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">NgModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/core&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">BrowserModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/platform-browser&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">FormsModule</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;@angular/forms&#x27;</span>; <span class="comment">// Import FormsModule</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> &#123; <span class="title class_">AppComponent</span> &#125; <span class="keyword">from</span> <span class="string">&#x27;./app.component&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">@NgModule</span>(&#123;</span><br><span class="line">  <span class="attr">declarations</span>: [</span><br><span class="line">    <span class="title class_">AppComponent</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">imports</span>: [</span><br><span class="line">    <span class="title class_">BrowserModule</span>,</span><br><span class="line">    <span class="title class_">FormsModule</span> <span class="comment">// Add FormsModule here</span></span><br><span class="line">  ],</span><br><span class="line">  <span class="attr">providers</span>: [],</span><br><span class="line">  <span class="attr">bootstrap</span>: [<span class="title class_">AppComponent</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">class</span> <span class="title class_">AppModule</span> &#123; &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="NG01352-If-ngModel-is-used-within-a-form-tag-either-the-name-attribute-must-be-set-or-the-form-control-must-be-defined-as-‘standalone’-in-ngModelOptions"><a href="#NG01352-If-ngModel-is-used-within-a-form-tag-either-the-name-attribute-must-be-set-or-the-form-control-must-be-defined-as-‘standalone’-in-ngModelOptions" class="headerlink" title="NG01352: If ngModel is used within a form tag, either the name attribute must be set or the form control must be defined as ‘standalone’ in ngModelOptions"></a>NG01352: If ngModel is used within a form tag, either the name attribute must be set or the form control must be defined as ‘standalone’ in ngModelOptions</h2><p>在 input 給上 name 即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;text&quot; name=&quot;myInput&quot; [(ngModel)]=&quot;myModel&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ng-show"><a href="#ng-show" class="headerlink" title="ng-show"></a>ng-show</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*ngIf=xxx&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ng-disable"><a href="#ng-disable" class="headerlink" title="ng-disable"></a>ng-disable</h2><p>ng-disable &#x3D;&gt; [disable]</p>
+<h2 id="ng-repeat"><a href="#ng-repeat" class="headerlink" title="ng-repeat"></a>ng-repeat</h2><p>angularjs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div ng-repeat=&quot;item in items&quot;&gt;</span><br><span class="line">  &#123;&#123; item.name &#125;&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>angular</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div *ngFor=&quot;let item of items&quot;&gt;</span><br><span class="line">  &#123;&#123; item.name &#125;&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="js-to-ts"><a href="#js-to-ts" class="headerlink" title="js to ts"></a>js to ts</h2><p><a target="_blank" rel="noopener" href="https://js2ts.com/">https://js2ts.com/</a></p>
+<h2 id="沿用-jquery"><a href="#沿用-jquery" class="headerlink" title="沿用 jquery"></a>沿用 jquery</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i --save-dev @types/jquery</span><br><span class="line">npm install jquery --save</span><br></pre></td></tr></table></figure>
+
+<p>angular.json</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: [</span><br><span class="line">  &quot;node_modules/jquery/dist/jquery.min.js&quot;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h2 id="angular-toJson"><a href="#angular-toJson" class="headerlink" title="angular.toJson"></a>angular.toJson</h2><p><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/38372134/how-to-convert-an-object-to-json-correctly-in-angular-2-with-typescript">https://stackoverflow.com/questions/38372134/how-to-convert-an-object-to-json-correctly-in-angular-2-with-typescript</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">angular.toJson(xxx)</span><br></pre></td></tr></table></figure>
+
+<h2 id="jquery-jquery-ui-定義檔"><a href="#jquery-jquery-ui-定義檔" class="headerlink" title="jquery &amp; jquery ui 定義檔"></a>jquery &amp; jquery ui 定義檔</h2><p>如果不用定義檔的話直接這樣寫</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">declare var $: any;</span><br></pre></td></tr></table></figure>
+
+<p>要使用定義檔的話則先安裝</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install @types/jquery --save-dev</span><br><span class="line">npm install @types/jqueryui --save-dev</span><br></pre></td></tr></table></figure>
+
+<p>接著在文件這樣 import</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import * as $ from &#x27;jquery&#x27;;</span><br></pre></td></tr></table></figure>
+
+<h3 id="jquery-plugin-ztree-安裝"><a href="#jquery-plugin-ztree-安裝" class="headerlink" title="jquery plugin ztree 安裝"></a>jquery plugin ztree 安裝</h3><p>因為之前的案子用這個套件, 影響太大暫時沒空把它改成 angular 的套件, 只好先這樣上<br>用之前記得要先安裝 jquery</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install ztree</span><br></pre></td></tr></table></figure>
+
+<p><code>angular.json</code> 裡要這樣設定, 這裡設定完以後記得還是要 <code>ng build</code> 不然一邊做一邊改這個不會生效</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;styles&quot;: [</span><br><span class="line">	&quot;node_modules/ztree/css/zTreeStyle/zTreeStyle.css&quot;,</span><br><span class="line">],</span><br><span class="line">&quot;scripts&quot;: [</span><br><span class="line">	&quot;node_modules/ztree/js/jquery.ztree.all.js&quot;,</span><br><span class="line">	&quot;node_modules/ztree/js/jquery.ztree.exhide.js&quot;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>元件則是這樣寫, 另外這裡還有個自己遇到的雷, 以前會專案用 $timeout 這個東西來延遲, 在 angular 則要使用 setTimeout<br>不然 ztree 拿到的物件會是 null<br>另外這裡還有 onClick, 不能直接寫 onClick: this.onClick,<br>而是要寫成 <code>this.onClick.bind(this)</code> 才能順利拿到 angular 資料, 不然會造成 scope 錯誤, 拿到 null</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">declare var $: any;</span><br><span class="line">@Component(&#123;</span><br><span class="line">  selector: &#x27;app-xxx&#x27;,</span><br><span class="line">  templateUrl: `XXX.component.html`,</span><br><span class="line">  styleUrls: [&#x27;./XXX.component.css&#x27;],</span><br><span class="line">  changeDetection: ChangeDetectionStrategy.Default,</span><br><span class="line">&#125;)</span><br><span class="line">export class XXXComponent implements OnInit &#123;</span><br><span class="line"></span><br><span class="line">  initZTree(): void &#123;</span><br><span class="line">    const setting = &#123;</span><br><span class="line">      view: &#123;</span><br><span class="line">        fontCss: &#123; color: &#x27;#333&#x27; &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      data: &#123;</span><br><span class="line">        simpleData: &#123;</span><br><span class="line">          enable: true</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      callback:&#123;</span><br><span class="line">	    onClick: this.onClick.bind(this)</span><br><span class="line">	  &#125;	  </span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    const zNodes = [</span><br><span class="line">      &#123; id: 1, pId: 0, name: &quot;父節點 1&quot;, open: true &#125;,</span><br><span class="line">      &#123; id: 11, pId: 1, name: &quot;子節點 1-1&quot; &#125;,</span><br><span class="line">      &#123; id: 12, pId: 1, name: &quot;子節點 1-2&quot; &#125;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    $.fn.zTree.init($(&#x27;#tree&#x27;), setting, zNodes);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="index"><a href="#index" class="headerlink" title="$index"></a>$index</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div *ngFor=&quot;let item of items; let i = index&quot;&gt;</span><br><span class="line">  Index: &#123;&#123; i &#125;&#125;, Value: &#123;&#123; item &#125;&#125;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="vim-多語系轉換"><a href="#vim-多語系轉換" class="headerlink" title="vim 多語系轉換"></a>vim 多語系轉換</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">q velxi&#123;&#123;&#x27;&lt;Esc&gt;eli&#x27;&#125;&#125;&lt;Esc&gt;hhli | trans&lt;Esc&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="rowspan"><a href="#rowspan" class="headerlink" title="rowspan"></a>rowspan</h2><p>Can’t bind to ‘rowspan’ since it isn’t a known property of ‘td’.ngtsc(-998002)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;td [attr.rowspan]=&quot;someValue&quot;&gt;Content&lt;/td&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="angularjs-filter-to-angular-pipe"><a href="#angularjs-filter-to-angular-pipe" class="headerlink" title="angularjs filter to angular pipe"></a>angularjs filter to angular pipe</h2><p>在 angularjs 內的 filter 需要轉為 pipe 才能用<br>angularjs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ngApp.filter(&#x27;numberFixedLen&#x27;, () =&gt; (a, b) =&gt; (1e4 + &quot;&quot; + a).slice(-b));</span><br></pre></td></tr></table></figure>
+
+<p>angular</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Pipe, PipeTransform &#125; from &#x27;@angular/core&#x27;;</span><br><span class="line"></span><br><span class="line">@Pipe(&#123; name: &#x27;numberFixedLen&#x27; &#125;)</span><br><span class="line">export class NumberFixedLenPipe implements PipeTransform &#123;</span><br><span class="line">  transform(value: any, length: number): string &#123;</span><br><span class="line">    return (1e4 + &quot;&quot; + value).slice(-length);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="select-option"><a href="#select-option" class="headerlink" title="select option"></a>select option</h2><p>這個問題要注意的點就是需要把 <code>ng-change</code> 改為 <code>ngModelChange</code><br>另外把 option 新建標籤移到 select 裡面<br>最後要補上 <code>name</code></p>
+<p>angularjs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;select id=&quot;xxx&quot; </span><br><span class="line">	ng-model=&quot;searchParam.xxx&quot; </span><br><span class="line">	ng-options=&quot;item.Code as ( item.xxx ) for item in list&quot; </span><br><span class="line">	ng-change=&quot;search()&quot; </span><br><span class="line">	class=&quot;form-control text-left&quot;&gt;</span><br><span class="line">	&lt;option value=&quot;&quot;&gt;請選擇&lt;/option&gt;</span><br><span class="line">&lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<p>angular</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;select</span><br><span class="line">	id=&quot;xxx&quot;</span><br><span class="line">	[(ngModel)]=&quot;searchParam.xxx&quot;</span><br><span class="line">	(ngModelChange)=&quot;search()&quot;</span><br><span class="line">	class=&quot;form-control text-left&quot;</span><br><span class="line">	name=&quot;code&quot;</span><br><span class="line">  &gt;</span><br><span class="line">	&lt;option disabled hidden value=&quot;&quot;&gt;</span><br><span class="line">	  請選擇</span><br><span class="line">	&lt;/option&gt;</span><br><span class="line"></span><br><span class="line">	&lt;option *ngFor=&quot;let item of list&quot; [value]=&quot;item.xxx&quot;&gt;</span><br><span class="line">	  &#123;&#123; item.xxx &#125;&#125;</span><br><span class="line">	&lt;/option&gt;</span><br><span class="line">  &lt;/select&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="limitTo"><a href="#limitTo" class="headerlink" title="limitTo"></a>limitTo</h2><p>angularjs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;tr ng-repeat=&quot;data in datas | limitTo:100&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>angular</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div *ngFor=&quot;let item of items | slice:0:100&quot;&gt;</span><br><span class="line">  &lt;!-- 顯示 item 的內容 --&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<h2 id="loop-一堆屬性-interface-的值"><a href="#loop-一堆屬性-interface-的值" class="headerlink" title="loop 一堆屬性 interface 的值"></a>loop 一堆屬性 interface 的值</h2><p>假設有 26 個屬性, 依序寫非常麻煩, 可以用以下方法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">interface Station&#123;</span><br><span class="line">	A : string,</span><br><span class="line">	B : string,</span><br><span class="line">	C : string,</span><br><span class="line">	//...</span><br><span class="line">	Z : string</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>html</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">*ngFor=&quot;let data of Objectvalues(dataArr)&quot;</span><br></pre></td></tr></table></figure>
+
+<p>component</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Objectvalues = Object.values</span><br></pre></td></tr></table></figure>
+
+<h2 id="ng-value"><a href="#ng-value" class="headerlink" title="ng-value"></a>ng-value</h2><p>這個在 angular 沒有要改用 [value]</p>
+<h2 id="ngOnInit-設定-url-上有-query-string-切換物件數值"><a href="#ngOnInit-設定-url-上有-query-string-切換物件數值" class="headerlink" title="ngOnInit 設定 url 上有 query string 切換物件數值"></a>ngOnInit 設定 url 上有 query string 切換物件數值</h2><p>我有一個物件希望當 url 上面有 id 時設定某種預設值, 如果普通網址進來則設定 beginDate moment()<br>關鍵在於這裡 <code>moment.Moment | null</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">queryObj = &#123;</span><br><span class="line">	beginDate: moment() as moment.Moment | null,</span><br><span class="line">	endDate: moment() as moment.Moment | null,</span><br><span class="line">	id: &#x27;&#x27;,</span><br><span class="line">&#125;;</span><br><span class="line">  </span><br><span class="line">ngOnInit(): void &#123;</span><br><span class="line">	//先拿 id</span><br><span class="line">	if(id === &#x27;xxx&#x27;)&#123;</span><br><span class="line">      this.queryObj.beginDate = null;</span><br><span class="line">      this.queryObj.endDate = null;</span><br><span class="line">      this.queryObj.id = id!;</span><br><span class="line">      this.search();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="bootstrap-modal"><a href="#bootstrap-modal" class="headerlink" title="bootstrap modal"></a>bootstrap modal</h2><p>舊版好像是這樣, 有點忘了<br>$(‘#xxx’).modal();</p>
+<p>我的解法是改用這套 ngx</p>
+<p><a target="_blank" rel="noopener" href="https://valor-software.com/ngx-bootstrap/#/components/modals?tab=overview">https://valor-software.com/ngx-bootstrap/#/components/modals?tab=overview</a></p>
+<h2 id="keyvalue-pipe-排序的問題"><a href="#keyvalue-pipe-排序的問題" class="headerlink" title="keyvalue pipe 排序的問題"></a>keyvalue pipe 排序的問題</h2><p>本來我在 angularjs 有一段動態從 db 撈資料表的功能, 因為每次查詢的表可能不同, 所以丟給前端結果也不同</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;table-responsive mt-2&quot;&gt;</span><br><span class="line">    &lt;table class=&quot;table table-sm table-bordered table-hover&quot;&gt;</span><br><span class="line">        &lt;thead class=&quot;table-success&quot;&gt;</span><br><span class="line">            &lt;tr ng-repeat=&quot;sub in header()&quot;&gt;</span><br><span class="line">                &lt;th scope=&quot;col&quot; ng-repeat=&quot;(key , value) in sub&quot;&gt;&#123;&#123;key&#125;&#125;&lt;/th&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">        &lt;/thead&gt;</span><br><span class="line">        &lt;tbody&gt;</span><br><span class="line">            &lt;tr ng-repeat=&quot;sub in subList&quot;&gt;</span><br><span class="line">                &lt;td ng-repeat=&quot;(key , value) in sub&quot;</span><br><span class="line">                    style=&quot;white-space: nowrap;&quot;&gt;</span><br><span class="line">                    &#123;&#123;value&#125;&#125;</span><br><span class="line">                &lt;/td&gt;</span><br><span class="line">            &lt;/tr&gt;</span><br><span class="line">        &lt;/tbody&gt;</span><br><span class="line">    &lt;/table&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>可是在 angular 預設的 keyvalue pipe 好像是依照 字母排序<br>所以要依照老外這篇說明 改寫成下列這樣即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// Preserve original property order</span><br><span class="line">originalOrder = (a: KeyValue&lt;number,string&gt;, b: KeyValue&lt;number,string&gt;): number =&gt; &#123;</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Order by ascending property value</span><br><span class="line">valueAscOrder = (a: KeyValue&lt;number,string&gt;, b: KeyValue&lt;number,string&gt;): number =&gt; &#123;</span><br><span class="line">  return a.value.localeCompare(b.value);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// Order by descending property key</span><br><span class="line">keyDescOrder = (a: KeyValue&lt;number,string&gt;, b: KeyValue&lt;number,string&gt;): number =&gt; &#123;</span><br><span class="line">  return a.key &gt; b.key ? -1 : (b.key &gt; a.key ? 1 : 0);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;table-responsive mt-2&quot;&gt;</span><br><span class="line">  &lt;table class=&quot;table table-sm table-bordered table-hover&quot;&gt;</span><br><span class="line">    &lt;thead class=&quot;table-success&quot;&gt;</span><br><span class="line">      &lt;tr *ngFor=&quot;let sub of header()&quot;&gt;</span><br><span class="line">        &lt;th</span><br><span class="line">          scope=&quot;col&quot;</span><br><span class="line">          *ngFor=&quot;let pair of sub | keyvalue : originalOrder&quot;</span><br><span class="line">        &gt;</span><br><span class="line">          &#123;&#123; pair.key &#125;&#125;</span><br><span class="line">        &lt;/th&gt;</span><br><span class="line">      &lt;/tr&gt;</span><br><span class="line">    &lt;/thead&gt;</span><br><span class="line">    &lt;tbody&gt;</span><br><span class="line">      &lt;tr *ngFor=&quot;let sub of subList&quot;&gt;</span><br><span class="line">        &lt;td</span><br><span class="line">          *ngFor=&quot;let pair of sub | keyvalue : originalOrder&quot;</span><br><span class="line">          style=&quot;white-space: nowrap&quot;</span><br><span class="line">        &gt;</span><br><span class="line">          &#123;&#123; pair.value &#125;&#125;</span><br><span class="line">        &lt;/td&gt;</span><br><span class="line">      &lt;/tr&gt;</span><br><span class="line">    &lt;/tbody&gt;</span><br><span class="line">  &lt;/table&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/angular/" rel="tag"># angular</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2024/09/03/docker-desktop-%E9%99%A3%E4%BA%A1/" rel="prev" title="docker desktop 陣亡">
+      <i class="fa fa-chevron-left"></i> docker desktop 陣亡
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2024/09/11/wsl-%E8%AE%93%E5%A4%96%E9%83%A8%E9%80%A3%E7%B7%9A/" rel="next" title="wsl 讓外部連線">
+      wsl 讓外部連線 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#href-hash-%E5%B0%8E%E8%87%B4%E8%B7%B3%E9%8C%AF%E5%9C%B0%E6%96%B9%E7%9A%84%E5%95%8F%E9%A1%8C"><span class="nav-number">1.</span> <span class="nav-text">href hash 導致跳錯地方的問題</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Can%E2%80%99t-bind-to-%E2%80%98ngModel%E2%80%99-since-it-isn%E2%80%99t-a-known-property-of-%E2%80%98input%E2%80%99-ngtsc-998002"><span class="nav-number">2.</span> <span class="nav-text">Can’t bind to ‘ngModel’ since it isn’t a known property of ‘input’.ngtsc(-998002)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NG01352-If-ngModel-is-used-within-a-form-tag-either-the-name-attribute-must-be-set-or-the-form-control-must-be-defined-as-%E2%80%98standalone%E2%80%99-in-ngModelOptions"><span class="nav-number">3.</span> <span class="nav-text">NG01352: If ngModel is used within a form tag, either the name attribute must be set or the form control must be defined as ‘standalone’ in ngModelOptions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ng-show"><span class="nav-number">4.</span> <span class="nav-text">ng-show</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ng-disable"><span class="nav-number">5.</span> <span class="nav-text">ng-disable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ng-repeat"><span class="nav-number">6.</span> <span class="nav-text">ng-repeat</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#js-to-ts"><span class="nav-number">7.</span> <span class="nav-text">js to ts</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B2%BF%E7%94%A8-jquery"><span class="nav-number">8.</span> <span class="nav-text">沿用 jquery</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#angular-toJson"><span class="nav-number">9.</span> <span class="nav-text">angular.toJson</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#jquery-jquery-ui-%E5%AE%9A%E7%BE%A9%E6%AA%94"><span class="nav-number">10.</span> <span class="nav-text">jquery &amp; jquery ui 定義檔</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jquery-plugin-ztree-%E5%AE%89%E8%A3%9D"><span class="nav-number">10.1.</span> <span class="nav-text">jquery plugin ztree 安裝</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#index"><span class="nav-number">11.</span> <span class="nav-text">$index</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#vim-%E5%A4%9A%E8%AA%9E%E7%B3%BB%E8%BD%89%E6%8F%9B"><span class="nav-number">12.</span> <span class="nav-text">vim 多語系轉換</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#rowspan"><span class="nav-number">13.</span> <span class="nav-text">rowspan</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#angularjs-filter-to-angular-pipe"><span class="nav-number">14.</span> <span class="nav-text">angularjs filter to angular pipe</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#select-option"><span class="nav-number">15.</span> <span class="nav-text">select option</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#limitTo"><span class="nav-number">16.</span> <span class="nav-text">limitTo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#loop-%E4%B8%80%E5%A0%86%E5%B1%AC%E6%80%A7-interface-%E7%9A%84%E5%80%BC"><span class="nav-number">17.</span> <span class="nav-text">loop 一堆屬性 interface 的值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ng-value"><span class="nav-number">18.</span> <span class="nav-text">ng-value</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ngOnInit-%E8%A8%AD%E5%AE%9A-url-%E4%B8%8A%E6%9C%89-query-string-%E5%88%87%E6%8F%9B%E7%89%A9%E4%BB%B6%E6%95%B8%E5%80%BC"><span class="nav-number">19.</span> <span class="nav-text">ngOnInit 設定 url 上有 query string 切換物件數值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bootstrap-modal"><span class="nav-number">20.</span> <span class="nav-text">bootstrap modal</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#keyvalue-pipe-%E6%8E%92%E5%BA%8F%E7%9A%84%E5%95%8F%E9%A1%8C"><span class="nav-number">21.</span> <span class="nav-text">keyvalue pipe 排序的問題</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2024/09/06/%E5%8D%87%E7%B4%9A-angularjs-%E8%87%B3-angular/";
+    this.page.identifier = "2024/09/06/升級-angularjs-至-angular/";
+    this.page.title = "升級 angularjs 至 angular";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

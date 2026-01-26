@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="StableDiffusion 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/08/27/StableDiffusion-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/flower_heart.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/flower_heart.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/mooncake.png">
+<meta property="article:published_time" content="2022-08-27T11:28:58.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/flower_heart.png">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/08/27/StableDiffusion-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>StableDiffusion 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/08/27/StableDiffusion-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          StableDiffusion 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-08-27 19:28:58" itemprop="dateCreated datePublished" datetime="2022-08-27T19:28:58+08:00">2022-08-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/08/27/StableDiffusion-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/08/27/StableDiffusion-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>75k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>1:08</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://raw.githubusercontent.com/weber87na/flowers/master/flower_heart.png" alt="heart"></p>
+<span id="more"></span>
+
+<h3 id="gpu"><a href="#gpu" class="headerlink" title="gpu"></a>gpu</h3><p>最近 Stable Diffusion 非常火熱 , 跟風玩看看 , 研究下發現好像沒 Colab Pro RAM 會不足跑不起來 , 他有個 <a target="_blank" rel="noopener" href="https://beta.dreamstudio.ai/">dreamstudio GUI 在此</a><br>最後嘗試用減半的方法有成功不買 Colab Pro 也可以跑起來 , 所以筆記一下整個過程<br>Stable Diffusion <a target="_blank" rel="noopener" href="https://colab.research.google.com/drive/1uWCe41_BSRip4y4nlcB8ESQgKtr5BfrN?usp=sharing#scrollTo=9JapYBSCB6Bd">參考這裡</a> , 安裝 <code>conda</code> 可以參考<a target="_blank" rel="noopener" href="https://towardsdev.com/how-to-install-and-run-conda-on-google-colab-1b2aafeb1a2f">印度人</a><br>設定 GPU <code>執行階段</code> &#x3D;&gt; <code>變更執行階段</code> &#x3D;&gt; <code>選 GPU</code> 看現在 GPU 狀態</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">!nvidia-smi</span><br><span class="line"></span><br><span class="line">Thu Aug 25 19:29:17 2022       </span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| NVIDIA-SMI 460.32.03    Driver Version: 460.32.03    CUDA Version: 11.2     |</span><br><span class="line">|-------------------------------+----------------------+----------------------+</span><br><span class="line">| GPU  Name        Persistence-M| Bus-Id        Disp.A | Volatile Uncorr. ECC |</span><br><span class="line">| Fan  Temp  Perf  Pwr:Usage/Cap|         Memory-Usage | GPU-Util  Compute M. |</span><br><span class="line">|                               |                      |               MIG M. |</span><br><span class="line">|===============================+======================+======================|</span><br><span class="line">|   0  Tesla T4            Off  | 00000000:00:04.0 Off |                    0 |</span><br><span class="line">| N/A   46C    P8     9W /  70W |      0MiB / 15109MiB |      0%      Default |</span><br><span class="line">|                               |                      |                  N/A |</span><br><span class="line">+-------------------------------+----------------------+----------------------+</span><br><span class="line">                                                                               </span><br><span class="line">+-----------------------------------------------------------------------------+</span><br><span class="line">| Processes:                                                                  |</span><br><span class="line">|  GPU   GI   CI        PID   Type   Process name                  GPU Memory |</span><br><span class="line">|        ID   ID                                                   Usage      |</span><br><span class="line">|=============================================================================|</span><br><span class="line">|  No running processes found                                                 |</span><br><span class="line">+-----------------------------------------------------------------------------+</span><br></pre></td></tr></table></figure>
+
+<p>下載 miniconda</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">!wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</span><br><span class="line"></span><br><span class="line">--2022-08-25 19:29:33--  https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</span><br><span class="line">Resolving repo.anaconda.com (repo.anaconda.com)... 104.16.131.3, 104.16.130.3, 2606:4700::6810:8203, ...</span><br><span class="line">Connecting to repo.anaconda.com (repo.anaconda.com)|104.16.131.3|:443... connected.</span><br><span class="line">HTTP request sent, awaiting response... 200 OK</span><br><span class="line">Length: 76607678 (73M) [application/x-sh]</span><br><span class="line">Saving to: ‘Miniconda3-latest-Linux-x86_64.sh’</span><br><span class="line"></span><br><span class="line">Miniconda3-latest-L 100%[===================&gt;]  73.06M   218MB/s    in 0.3s    </span><br><span class="line"></span><br><span class="line">2022-08-25 19:29:33 (218 MB/s) - ‘Miniconda3-latest-Linux-x86_64.sh’ saved [76607678/76607678]</span><br></pre></td></tr></table></figure>
+
+<p>切換權限</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!chmod +x Miniconda3-latest-Linux-x86_64.sh</span><br></pre></td></tr></table></figure>
+
+<p>這段不曉得為啥網路上都會加上 -b -f 這些參數 , 有空再查 , -p 應該是指定目錄 不這樣安裝的話會有問題 conda 會跳 command not found</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">!bash ./Miniconda3-latest-Linux-x86_64.sh -b -f -p /usr/local/</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PREFIX=/usr/local</span><br><span class="line">Unpacking payload ...</span><br><span class="line">Collecting package metadata (current_repodata.json): done</span><br><span class="line">Solving environment: done</span><br><span class="line"></span><br><span class="line">## Package Plan ##</span><br><span class="line"></span><br><span class="line">  environment location: /usr/local</span><br><span class="line"></span><br><span class="line">  added / updated specs:</span><br><span class="line">    - _libgcc_mutex==0.1=main</span><br><span class="line">    - _openmp_mutex==4.5=1_gnu</span><br><span class="line">    - brotlipy==0.7.0=py39h27cfd23_1003</span><br><span class="line">    - ca-certificates==2022.3.29=h06a4308_1</span><br><span class="line">    - certifi==2021.10.8=py39h06a4308_2</span><br><span class="line">    - cffi==1.15.0=py39hd667e15_1</span><br><span class="line">    - charset-normalizer==2.0.4=pyhd3eb1b0</span><br></pre></td></tr></table></figure>
+
+<p>看看有沒有裝好</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">!which conda</span><br><span class="line">!conda env list</span><br></pre></td></tr></table></figure>
+
+<p>下載 <code>stable-diffusion</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!git clone https://github.com/CompVis/stable-diffusion.git</span><br></pre></td></tr></table></figure>
+
+<p>切換目錄 這裡很雷 , 他預設會在 content 底下 , 不是在 user 的 home 而且要 cd 目錄的話要這樣寫 % cd &#x2F;content , %cd &#x2F;content&#x2F;stable-diffusion&#x2F; , 也可以用 python 去 cd 像下面這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">import os</span><br><span class="line">os.chdir(&#x27;stable-diffusion&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>安裝這裡要等一陣子 , 大概五分鐘內</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!conda env update -n base -f environment.yaml</span><br><span class="line"></span><br><span class="line">Collecting package metadata (repodata.json): done</span><br><span class="line">Solving environment: done</span><br><span class="line"></span><br><span class="line">Downloading and Extracting Packages</span><br><span class="line">freetype-2.11.0      | 618 KB    | : 100% 1.0/1 [00:00&lt;00:00, 11.57it/s]</span><br><span class="line">libpng-1.6.37        | 278 KB    | : 100% 1.0/1 [00:00&lt;00:00, 21.68it/s]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>下載訓練好的模型 看它們這票人好像都到 這個網站找 model</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!curl https://www.googleapis.com/storage/v1/b/aai-blog-files/o/sd-v1-4.ckpt?alt=media &gt; sd-v1-4.ckpt</span><br></pre></td></tr></table></figure>
+
+<p>安裝</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!pip install -e .</span><br></pre></td></tr></table></figure>
+
+<p>建立 model 目錄</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir  models/ldm/stable-diffusion-v1/</span><br></pre></td></tr></table></figure>
+
+<p>把下載好的 model 搬到目錄</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv &#x27;sd-v1-4.ckpt&#x27; /content/stable-diffusion/models/ldm/stable-diffusion-v1/model.ckpt</span><br></pre></td></tr></table></figure>
+
+<p>調整訓練參數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%pycat scripts/txt2img.py</span><br></pre></td></tr></table></figure>
+
+<p>這裡記憶體會爆炸 , 要白嫖的話要把 model 訓練量減半 <code>model.half()</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br><span class="line">321</span><br><span class="line">322</span><br><span class="line">323</span><br><span class="line">324</span><br><span class="line">325</span><br><span class="line">326</span><br><span class="line">327</span><br><span class="line">328</span><br><span class="line">329</span><br><span class="line">330</span><br><span class="line">331</span><br><span class="line">332</span><br><span class="line">333</span><br><span class="line">334</span><br><span class="line">335</span><br><span class="line">336</span><br><span class="line">337</span><br><span class="line">338</span><br><span class="line">339</span><br><span class="line">340</span><br><span class="line">341</span><br><span class="line">342</span><br><span class="line">343</span><br><span class="line">344</span><br><span class="line">345</span><br><span class="line">346</span><br><span class="line">347</span><br></pre></td><td class="code"><pre><span class="line">%%writefile scripts/txt2img.py</span><br><span class="line">import argparse, os, sys, glob</span><br><span class="line">import cv2</span><br><span class="line">import torch</span><br><span class="line">import numpy as np</span><br><span class="line">from omegaconf import OmegaConf</span><br><span class="line">from PIL import Image</span><br><span class="line">from tqdm import tqdm, trange</span><br><span class="line">from imwatermark import WatermarkEncoder</span><br><span class="line">from itertools import islice</span><br><span class="line">from einops import rearrange</span><br><span class="line">from torchvision.utils import make_grid</span><br><span class="line">import time</span><br><span class="line">from pytorch_lightning import seed_everything</span><br><span class="line">from torch import autocast</span><br><span class="line">from contextlib import contextmanager, nullcontext</span><br><span class="line"></span><br><span class="line">from ldm.util import instantiate_from_config</span><br><span class="line">from ldm.models.diffusion.ddim import DDIMSampler</span><br><span class="line">from ldm.models.diffusion.plms import PLMSSampler</span><br><span class="line"></span><br><span class="line">from diffusers.pipelines.stable_diffusion.safety_checker import StableDiffusionSafetyChecker</span><br><span class="line">from transformers import AutoFeatureExtractor</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># load safety model</span><br><span class="line">safety_model_id = &quot;CompVis/stable-diffusion-safety-checker&quot;</span><br><span class="line">safety_feature_extractor = AutoFeatureExtractor.from_pretrained(safety_model_id)</span><br><span class="line">safety_checker = StableDiffusionSafetyChecker.from_pretrained(safety_model_id)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def chunk(it, size):</span><br><span class="line">    it = iter(it)</span><br><span class="line">    return iter(lambda: tuple(islice(it, size)), ())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def numpy_to_pil(images):</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    Convert a numpy image or a batch of images to a PIL image.</span><br><span class="line">    &quot;&quot;&quot;</span><br><span class="line">    if images.ndim == 3:</span><br><span class="line">        images = images[None, ...]</span><br><span class="line">    images = (images * 255).round().astype(&quot;uint8&quot;)</span><br><span class="line">    pil_images = [Image.fromarray(image) for image in images]</span><br><span class="line"></span><br><span class="line">    return pil_images</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def load_model_from_config(config, ckpt, verbose=False):</span><br><span class="line">    print(f&quot;Loading model from &#123;ckpt&#125;&quot;)</span><br><span class="line">    pl_sd = torch.load(ckpt, map_location=&quot;cpu&quot;)</span><br><span class="line">    if &quot;global_step&quot; in pl_sd:</span><br><span class="line">        print(f&quot;Global Step: &#123;pl_sd[&#x27;global_step&#x27;]&#125;&quot;)</span><br><span class="line">    sd = pl_sd[&quot;state_dict&quot;]</span><br><span class="line">    model = instantiate_from_config(config.model)</span><br><span class="line">    #減半</span><br><span class="line">    model.half()</span><br><span class="line">    m, u = model.load_state_dict(sd, strict=False)</span><br><span class="line">    if len(m) &gt; 0 and verbose:</span><br><span class="line">        print(&quot;missing keys:&quot;)</span><br><span class="line">        print(m)</span><br><span class="line">    if len(u) &gt; 0 and verbose:</span><br><span class="line">        print(&quot;unexpected keys:&quot;)</span><br><span class="line">        print(u)</span><br><span class="line"></span><br><span class="line">    model.cuda()</span><br><span class="line">    model.eval()</span><br><span class="line">    return model</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def put_watermark(img, wm_encoder=None):</span><br><span class="line">    if wm_encoder is not None:</span><br><span class="line">        img = cv2.cvtColor(np.array(img), cv2.COLOR_RGB2BGR)</span><br><span class="line">        img = wm_encoder.encode(img, &#x27;dwtDct&#x27;)</span><br><span class="line">        img = Image.fromarray(img[:, :, ::-1])</span><br><span class="line">    return img</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def load_replacement(x):</span><br><span class="line">    try:</span><br><span class="line">        hwc = x.shape</span><br><span class="line">        y = Image.open(&quot;assets/rick.jpeg&quot;).convert(&quot;RGB&quot;).resize((hwc[1], hwc[0]))</span><br><span class="line">        y = (np.array(y)/255.0).astype(x.dtype)</span><br><span class="line">        assert y.shape == x.shape</span><br><span class="line">        return y</span><br><span class="line">    except Exception:</span><br><span class="line">        return x</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def check_safety(x_image):</span><br><span class="line">    safety_checker_input = safety_feature_extractor(numpy_to_pil(x_image), return_tensors=&quot;pt&quot;)</span><br><span class="line">    x_checked_image, has_nsfw_concept = safety_checker(images=x_image, clip_input=safety_checker_input.pixel_values)</span><br><span class="line">    assert x_checked_image.shape[0] == len(has_nsfw_concept)</span><br><span class="line">    for i in range(len(has_nsfw_concept)):</span><br><span class="line">        if has_nsfw_concept[i]:</span><br><span class="line">            x_checked_image[i] = load_replacement(x_checked_image[i])</span><br><span class="line">    return x_checked_image, has_nsfw_concept</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    parser = argparse.ArgumentParser()</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--prompt&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        nargs=&quot;?&quot;,</span><br><span class="line">        default=&quot;a painting of a virus monster playing guitar&quot;,</span><br><span class="line">        help=&quot;the prompt to render&quot;</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--outdir&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        nargs=&quot;?&quot;,</span><br><span class="line">        help=&quot;dir to write results to&quot;,</span><br><span class="line">        default=&quot;outputs/txt2img-samples&quot;</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--skip_grid&quot;,</span><br><span class="line">        action=&#x27;store_true&#x27;,</span><br><span class="line">        help=&quot;do not save a grid, only individual samples. Helpful when evaluating lots of samples&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--skip_save&quot;,</span><br><span class="line">        action=&#x27;store_true&#x27;,</span><br><span class="line">        help=&quot;do not save individual samples. For speed measurements.&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--ddim_steps&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=50,</span><br><span class="line">        help=&quot;number of ddim sampling steps&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--plms&quot;,</span><br><span class="line">        action=&#x27;store_true&#x27;,</span><br><span class="line">        help=&quot;use plms sampling&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--laion400m&quot;,</span><br><span class="line">        action=&#x27;store_true&#x27;,</span><br><span class="line">        help=&quot;uses the LAION400M model&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--fixed_code&quot;,</span><br><span class="line">        action=&#x27;store_true&#x27;,</span><br><span class="line">        help=&quot;if enabled, uses the same starting code across samples &quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--ddim_eta&quot;,</span><br><span class="line">        type=float,</span><br><span class="line">        default=0.0,</span><br><span class="line">        help=&quot;ddim eta (eta=0.0 corresponds to deterministic sampling&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--n_iter&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=2,</span><br><span class="line">        help=&quot;sample this often&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--H&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=512,</span><br><span class="line">        help=&quot;image height, in pixel space&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--W&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=512,</span><br><span class="line">        help=&quot;image width, in pixel space&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--C&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=4,</span><br><span class="line">        help=&quot;latent channels&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--f&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=8,</span><br><span class="line">        help=&quot;downsampling factor&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--n_samples&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=3,</span><br><span class="line">        help=&quot;how many samples to produce for each given prompt. A.k.a. batch size&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--n_rows&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=0,</span><br><span class="line">        help=&quot;rows in the grid (default: n_samples)&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--scale&quot;,</span><br><span class="line">        type=float,</span><br><span class="line">        default=7.5,</span><br><span class="line">        help=&quot;unconditional guidance scale: eps = eps(x, empty) + scale * (eps(x, cond) - eps(x, empty))&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--from-file&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        help=&quot;if specified, load prompts from this file&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--config&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        default=&quot;configs/stable-diffusion/v1-inference.yaml&quot;,</span><br><span class="line">        help=&quot;path to config which constructs model&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--ckpt&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        default=&quot;models/ldm/stable-diffusion-v1/model.ckpt&quot;,</span><br><span class="line">        help=&quot;path to checkpoint of model&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--seed&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=42,</span><br><span class="line">        help=&quot;the seed (for reproducible sampling)&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--precision&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        help=&quot;evaluate at this precision&quot;,</span><br><span class="line">        choices=[&quot;full&quot;, &quot;autocast&quot;],</span><br><span class="line">        default=&quot;autocast&quot;</span><br><span class="line">    )</span><br><span class="line">    opt = parser.parse_args()</span><br><span class="line"></span><br><span class="line">    if opt.laion400m:</span><br><span class="line">        print(&quot;Falling back to LAION 400M model...&quot;)</span><br><span class="line">        opt.config = &quot;configs/latent-diffusion/txt2img-1p4B-eval.yaml&quot;</span><br><span class="line">        opt.ckpt = &quot;models/ldm/text2img-large/model.ckpt&quot;</span><br><span class="line">        opt.outdir = &quot;outputs/txt2img-samples-laion400m&quot;</span><br><span class="line"></span><br><span class="line">    seed_everything(opt.seed)</span><br><span class="line"></span><br><span class="line">    config = OmegaConf.load(f&quot;&#123;opt.config&#125;&quot;)</span><br><span class="line">    model = load_model_from_config(config, f&quot;&#123;opt.ckpt&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    device = torch.device(&quot;cuda&quot;) if torch.cuda.is_available() else torch.device(&quot;cpu&quot;)</span><br><span class="line">    model = model.to(device)</span><br><span class="line"></span><br><span class="line">    if opt.plms:</span><br><span class="line">        sampler = PLMSSampler(model)</span><br><span class="line">    else:</span><br><span class="line">        sampler = DDIMSampler(model)</span><br><span class="line"></span><br><span class="line">    os.makedirs(opt.outdir, exist_ok=True)</span><br><span class="line">    outpath = opt.outdir</span><br><span class="line"></span><br><span class="line">    print(&quot;Creating invisible watermark encoder (see https://github.com/ShieldMnt/invisible-watermark)...&quot;)</span><br><span class="line">    wm = &quot;StableDiffusionV1&quot;</span><br><span class="line">    wm_encoder = WatermarkEncoder()</span><br><span class="line">    wm_encoder.set_watermark(&#x27;bytes&#x27;, wm.encode(&#x27;utf-8&#x27;))</span><br><span class="line"></span><br><span class="line">    batch_size = opt.n_samples</span><br><span class="line">    n_rows = opt.n_rows if opt.n_rows &gt; 0 else batch_size</span><br><span class="line">    if not opt.from_file:</span><br><span class="line">        prompt = opt.prompt</span><br><span class="line">        assert prompt is not None</span><br><span class="line">        data = [batch_size * [prompt]]</span><br><span class="line"></span><br><span class="line">    else:</span><br><span class="line">        print(f&quot;reading prompts from &#123;opt.from_file&#125;&quot;)</span><br><span class="line">        with open(opt.from_file, &quot;r&quot;) as f:</span><br><span class="line">            data = f.read().splitlines()</span><br><span class="line">            data = list(chunk(data, batch_size))</span><br><span class="line"></span><br><span class="line">    sample_path = os.path.join(outpath, &quot;samples&quot;)</span><br><span class="line">    os.makedirs(sample_path, exist_ok=True)</span><br><span class="line">    base_count = len(os.listdir(sample_path))</span><br><span class="line">    grid_count = len(os.listdir(outpath)) - 1</span><br><span class="line"></span><br><span class="line">    start_code = None</span><br><span class="line">    if opt.fixed_code:</span><br><span class="line">        start_code = torch.randn([opt.n_samples, opt.C, opt.H // opt.f, opt.W // opt.f], device=device)</span><br><span class="line"></span><br><span class="line">    precision_scope = autocast if opt.precision==&quot;autocast&quot; else nullcontext</span><br><span class="line">    with torch.no_grad():</span><br><span class="line">        with precision_scope(&quot;cuda&quot;):</span><br><span class="line">            with model.ema_scope():</span><br><span class="line">                tic = time.time()</span><br><span class="line">                all_samples = list()</span><br><span class="line">                for n in trange(opt.n_iter, desc=&quot;Sampling&quot;):</span><br><span class="line">                    for prompts in tqdm(data, desc=&quot;data&quot;):</span><br><span class="line">                        uc = None</span><br><span class="line">                        if opt.scale != 1.0:</span><br><span class="line">                            uc = model.get_learned_conditioning(batch_size * [&quot;&quot;])</span><br><span class="line">                        if isinstance(prompts, tuple):</span><br><span class="line">                            prompts = list(prompts)</span><br><span class="line">                        c = model.get_learned_conditioning(prompts)</span><br><span class="line">                        shape = [opt.C, opt.H // opt.f, opt.W // opt.f]</span><br><span class="line">                        samples_ddim, _ = sampler.sample(S=opt.ddim_steps,</span><br><span class="line">                                                         conditioning=c,</span><br><span class="line">                                                         batch_size=opt.n_samples,</span><br><span class="line">                                                         shape=shape,</span><br><span class="line">                                                         verbose=False,</span><br><span class="line">                                                         unconditional_guidance_scale=opt.scale,</span><br><span class="line">                                                         unconditional_conditioning=uc,</span><br><span class="line">                                                         eta=opt.ddim_eta,</span><br><span class="line">                                                         x_T=start_code)</span><br><span class="line"></span><br><span class="line">                        x_samples_ddim = model.decode_first_stage(samples_ddim)</span><br><span class="line">                        x_samples_ddim = torch.clamp((x_samples_ddim + 1.0) / 2.0, min=0.0, max=1.0)</span><br><span class="line">                        x_samples_ddim = x_samples_ddim.cpu().permute(0, 2, 3, 1).numpy()</span><br><span class="line"></span><br><span class="line">                        x_checked_image, has_nsfw_concept = check_safety(x_samples_ddim)</span><br><span class="line"></span><br><span class="line">                        x_checked_image_torch = torch.from_numpy(x_checked_image).permute(0, 3, 1, 2)</span><br><span class="line"></span><br><span class="line">                        if not opt.skip_save:</span><br><span class="line">                            for x_sample in x_checked_image_torch:</span><br><span class="line">                                x_sample = 255. * rearrange(x_sample.cpu().numpy(), &#x27;c h w -&gt; h w c&#x27;)</span><br><span class="line">                                img = Image.fromarray(x_sample.astype(np.uint8))</span><br><span class="line">                                img = put_watermark(img, wm_encoder)</span><br><span class="line">                                img.save(os.path.join(sample_path, f&quot;&#123;base_count:05&#125;.png&quot;))</span><br><span class="line">                                base_count += 1</span><br><span class="line"></span><br><span class="line">                        if not opt.skip_grid:</span><br><span class="line">                            all_samples.append(x_checked_image_torch)</span><br><span class="line"></span><br><span class="line">                if not opt.skip_grid:</span><br><span class="line">                    # additionally, save as grid</span><br><span class="line">                    grid = torch.stack(all_samples, 0)</span><br><span class="line">                    grid = rearrange(grid, &#x27;n b c h w -&gt; (n b) c h w&#x27;)</span><br><span class="line">                    grid = make_grid(grid, nrow=n_rows)</span><br><span class="line"></span><br><span class="line">                    # to image</span><br><span class="line">                    grid = 255. * rearrange(grid, &#x27;c h w -&gt; h w c&#x27;).cpu().numpy()</span><br><span class="line">                    img = Image.fromarray(grid.astype(np.uint8))</span><br><span class="line">                    img = put_watermark(img, wm_encoder)</span><br><span class="line">                    img.save(os.path.join(outpath, f&#x27;grid-&#123;grid_count:04&#125;.png&#x27;))</span><br><span class="line">                    grid_count += 1</span><br><span class="line"></span><br><span class="line">                toc = time.time()</span><br><span class="line"></span><br><span class="line">    print(f&quot;Your samples are ready and waiting for you here: \n&#123;outpath&#125; \n&quot;</span><br><span class="line">          f&quot; \nEnjoy.&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>參考這個 <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=z99WBrs1D3g">怪人 youtuber</a> 設定的參數 , 看到  <code>PLMS Sampler</code> 有出現就表示成功跑起來<br>如果跑到一半出現 <code>^C</code> 代表記憶體爆炸</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">!python scripts/txt2img.py --prompt &quot;peach heart romantic flower&quot; --plms --W 448 --H 448 --n_samples 1</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Global seed set to 42</span><br><span class="line">Loading model from models/ldm/stable-diffusion-v1/model.ckpt</span><br><span class="line">Global Step: 470000</span><br><span class="line">LatentDiffusion: Running in eps-prediction mode</span><br><span class="line">DiffusionWrapper has 859.52 M params.</span><br><span class="line">making attention of type &#x27;vanilla&#x27; with 512 in_channels</span><br><span class="line">Working with z of shape (1, 4, 32, 32) = 4096 dimensions.</span><br><span class="line">making attention of type &#x27;vanilla&#x27; with 512 in_channels</span><br><span class="line">Some weights of the model checkpoint at openai/clip-vit-large-patch14 were not used when initializing CLIPTextModel: [&#x27;visual_projection.weight&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.15.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.2.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.15.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.7.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.10.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.23.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.9.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.5.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.10.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.8.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.7.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.9.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.22.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.8.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.6.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.11.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.16.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.1.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.20.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.21.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.17.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.13.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.18.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.12.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.10.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.out_proj.bias&#x27;, &#x27;vision_model.embeddings.patch_embedding.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.13.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.23.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.16.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.2.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.0.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.10.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.k_proj.weight&#x27;, &#x27;vision_model.pre_layrnorm.bias&#x27;, &#x27;vision_model.encoder.layers.21.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.14.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.7.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.18.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.13.layer_norm1.weight&#x27;, &#x27;logit_scale&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.11.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.17.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.5.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.3.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.11.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.21.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.19.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.2.mlp.fc2.weight&#x27;, &#x27;vision_model.embeddings.class_embedding&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.4.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.17.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.22.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.21.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.2.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.1.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.0.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.20.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.14.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.20.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.5.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.5.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.10.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.23.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.17.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.19.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.5.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.2.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.18.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.11.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.18.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.8.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.1.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.6.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.11.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.v_proj.weight&#x27;, &#x27;text_projection.weight&#x27;, &#x27;vision_model.post_layernorm.weight&#x27;, &#x27;vision_model.encoder.layers.19.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.14.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.13.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.11.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.16.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.6.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.3.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.20.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.10.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.21.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.22.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.2.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.0.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.8.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.10.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.6.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.14.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.3.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.22.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.14.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.14.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.12.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.21.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.14.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.4.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.18.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.8.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.0.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.4.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.out_proj.bias&#x27;, &#x27;vision_model.post_layernorm.bias&#x27;, &#x27;vision_model.encoder.layers.8.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.16.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.4.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.3.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.6.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.out_proj.bias&#x27;, &#x27;vision_model.pre_layrnorm.weight&#x27;, &#x27;vision_model.encoder.layers.1.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.1.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.1.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.15.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.5.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.21.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.5.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.6.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.0.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.22.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.9.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.17.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.15.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.12.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.9.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.8.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.15.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.6.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.15.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.12.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.10.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.4.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.20.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.4.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.16.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.23.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.19.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.16.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.2.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.18.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.3.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.17.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.5.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.12.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.16.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.23.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.4.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.4.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.1.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.21.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.11.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.19.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.2.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.11.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.7.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.8.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.15.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.q_proj.weight&#x27;, &#x27;vision_model.embeddings.position_ids&#x27;, &#x27;vision_model.encoder.layers.19.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.12.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.3.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.16.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.12.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.17.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.13.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.14.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.23.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.22.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.23.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.layer_norm2.bias&#x27;, &#x27;vision_model.embeddings.position_embedding.weight&#x27;, &#x27;vision_model.encoder.layers.15.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.13.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.12.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.23.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.13.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.17.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.1.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.7.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.13.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.mlp.fc1.bias&#x27;]</span><br><span class="line">- This IS expected if you are initializing CLIPTextModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).</span><br><span class="line">- This IS NOT expected if you are initializing CLIPTextModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).</span><br><span class="line">Creating invisible watermark encoder (see https://github.com/ShieldMnt/invisible-watermark)...</span><br><span class="line">Sampling:   0% 0/2 [00:00&lt;?, ?it/s]</span><br><span class="line">data:   0% 0/1 [00:00&lt;?, ?it/s]Data shape for PLMS sampling is (1, 4, 56, 56)</span><br><span class="line">Running PLMS Sampling with 50 timesteps</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">PLMS Sampler:   0% 0/50 [00:00&lt;?, ?it/s]</span><br><span class="line"></span><br><span class="line">PLMS Sampler:   2% 1/50 [00:01&lt;01:23,  1.70s/it]</span><br></pre></td></tr></table></figure>
+
+<p>想看跑出來的圖可以這樣下 , 我最後跑出這張圖 , 整個很有 fu<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/flower_heart.png" alt="flower"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">from IPython.display import Image</span><br><span class="line">Image(&#x27;/content/stable-diffusion/outputs/txt2img-samples/samples/00000.png&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>接著玩看看 img2img</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import requests</span><br><span class="line">from PIL import Image</span><br><span class="line">from io import BytesIO</span><br><span class="line"># 畫</span><br><span class="line"># url = &quot;https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Flh6.googleusercontent.com%2Fproxy%2FQBZTSycU3BmNf_YnyU4vm7Ammqx-aKnQcXSr_mD5xn28buzYMdg4G4NZOoxF8-hhW-a_HenRvkeiOnwnRw4Ll0TYjcs9HehMcoFWWsCpqA5BKAQCOUeJ5yd2eXnIlcxd_F6n7dugodr4GuwtI7aNtIqETNci0EFPeyc6sgVUx4f_1wHb_RwEXRGTxbc3L5jqYbde-ArPVo4_HRuJPBhmq-hJ86M4%3Dw1200-h630-p-k-no-nu&amp;f=1&amp;nofb=1&quot;</span><br><span class="line"># 花</span><br><span class="line"># url = &quot;https://d1nhio0ox7pgb.cloudfront.net/_img/g_collection_png/standard/256x256/flower.png&quot;</span><br><span class="line"># 賽</span><br><span class="line">url = &quot;http://s3.amazonaws.com/pix.iemoji.com/images/emoji/apple/ios-12/256/pile-of-poo.png&quot;</span><br><span class="line">response = requests.get(url)</span><br><span class="line">init_image = Image.open(BytesIO(response.content)).convert(&quot;RGB&quot;)</span><br><span class="line">init_image.save(&quot;test.jpg&quot;)</span><br><span class="line">init_image</span><br></pre></td></tr></table></figure>
+
+<p>這裡一樣要設定訓練量減半 , 不然記憶體會爆炸 , 另外圖片也要做對應的設定參考這個 <a target="_blank" rel="noopener" href="https://blog.csdn.net/leviopku/article/details/112472123">大陸人</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br></pre></td><td class="code"><pre><span class="line">%%writefile scripts/img2img.py</span><br><span class="line">&quot;&quot;&quot;make variations of input image&quot;&quot;&quot;</span><br><span class="line"></span><br><span class="line">import argparse, os, sys, glob</span><br><span class="line">import PIL</span><br><span class="line">import torch</span><br><span class="line">import numpy as np</span><br><span class="line">from omegaconf import OmegaConf</span><br><span class="line">from PIL import Image</span><br><span class="line">from tqdm import tqdm, trange</span><br><span class="line">from itertools import islice</span><br><span class="line">from einops import rearrange, repeat</span><br><span class="line">from torchvision.utils import make_grid</span><br><span class="line">from torch import autocast</span><br><span class="line">from contextlib import nullcontext</span><br><span class="line">import time</span><br><span class="line">from pytorch_lightning import seed_everything</span><br><span class="line"></span><br><span class="line">from ldm.util import instantiate_from_config</span><br><span class="line">from ldm.models.diffusion.ddim import DDIMSampler</span><br><span class="line">from ldm.models.diffusion.plms import PLMSSampler</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def chunk(it, size):</span><br><span class="line">    it = iter(it)</span><br><span class="line">    return iter(lambda: tuple(islice(it, size)), ())</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def load_model_from_config(config, ckpt, verbose=False):</span><br><span class="line">    print(f&quot;Loading model from &#123;ckpt&#125;&quot;)</span><br><span class="line">    pl_sd = torch.load(ckpt, map_location=&quot;cpu&quot;)</span><br><span class="line">    if &quot;global_step&quot; in pl_sd:</span><br><span class="line">        print(f&quot;Global Step: &#123;pl_sd[&#x27;global_step&#x27;]&#125;&quot;)</span><br><span class="line">    sd = pl_sd[&quot;state_dict&quot;]</span><br><span class="line">    model = instantiate_from_config(config.model)</span><br><span class="line"></span><br><span class="line">    m, u = model.load_state_dict(sd, strict=False)</span><br><span class="line">    if len(m) &gt; 0 and verbose:</span><br><span class="line">        print(&quot;missing keys:&quot;)</span><br><span class="line">        print(m)</span><br><span class="line">    if len(u) &gt; 0 and verbose:</span><br><span class="line">        print(&quot;unexpected keys:&quot;)</span><br><span class="line">        print(u)</span><br><span class="line"></span><br><span class="line">    #訓練量減半</span><br><span class="line">    model.half()</span><br><span class="line">    model.cuda()</span><br><span class="line">    model.eval()</span><br><span class="line">    return model</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def load_img(path):</span><br><span class="line">    image = Image.open(path).convert(&quot;RGB&quot;)</span><br><span class="line">    w, h = image.size</span><br><span class="line">    print(f&quot;loaded input image of size (&#123;w&#125;, &#123;h&#125;) from &#123;path&#125;&quot;)</span><br><span class="line">    w, h = map(lambda x: x - x % 32, (w, h))  # resize to integer multiple of 32</span><br><span class="line">    image = image.resize((w, h), resample=PIL.Image.LANCZOS)</span><br><span class="line">    image = np.array(image).astype(np.float32) / 255.0</span><br><span class="line">    image = image[None].transpose(0, 3, 1, 2)</span><br><span class="line">    #減半</span><br><span class="line">    image = torch.from_numpy(image).float()</span><br><span class="line">    image = image.cuda()</span><br><span class="line">    image = image.half()</span><br><span class="line">    return 2.*image - 1.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def main():</span><br><span class="line">    parser = argparse.ArgumentParser()</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--prompt&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        nargs=&quot;?&quot;,</span><br><span class="line">        default=&quot;a painting of a virus monster playing guitar&quot;,</span><br><span class="line">        help=&quot;the prompt to render&quot;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--init-img&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        nargs=&quot;?&quot;,</span><br><span class="line">        help=&quot;path to the input image&quot;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--outdir&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        nargs=&quot;?&quot;,</span><br><span class="line">        help=&quot;dir to write results to&quot;,</span><br><span class="line">        default=&quot;outputs/img2img-samples&quot;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--skip_grid&quot;,</span><br><span class="line">        action=&#x27;store_true&#x27;,</span><br><span class="line">        help=&quot;do not save a grid, only individual samples. Helpful when evaluating lots of samples&quot;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--skip_save&quot;,</span><br><span class="line">        action=&#x27;store_true&#x27;,</span><br><span class="line">        help=&quot;do not save indiviual samples. For speed measurements.&quot;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--ddim_steps&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=50,</span><br><span class="line">        help=&quot;number of ddim sampling steps&quot;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--plms&quot;,</span><br><span class="line">        action=&#x27;store_true&#x27;,</span><br><span class="line">        help=&quot;use plms sampling&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--fixed_code&quot;,</span><br><span class="line">        action=&#x27;store_true&#x27;,</span><br><span class="line">        help=&quot;if enabled, uses the same starting code across all samples &quot;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--ddim_eta&quot;,</span><br><span class="line">        type=float,</span><br><span class="line">        default=0.0,</span><br><span class="line">        help=&quot;ddim eta (eta=0.0 corresponds to deterministic sampling&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--n_iter&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=1,</span><br><span class="line">        help=&quot;sample this often&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--C&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=4,</span><br><span class="line">        help=&quot;latent channels&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--f&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=8,</span><br><span class="line">        help=&quot;downsampling factor, most often 8 or 16&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--n_samples&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=2,</span><br><span class="line">        help=&quot;how many samples to produce for each given prompt. A.k.a batch size&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--n_rows&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=0,</span><br><span class="line">        help=&quot;rows in the grid (default: n_samples)&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--scale&quot;,</span><br><span class="line">        type=float,</span><br><span class="line">        default=5.0,</span><br><span class="line">        help=&quot;unconditional guidance scale: eps = eps(x, empty) + scale * (eps(x, cond) - eps(x, empty))&quot;,</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--strength&quot;,</span><br><span class="line">        type=float,</span><br><span class="line">        default=0.75,</span><br><span class="line">        help=&quot;strength for noising/unnoising. 1.0 corresponds to full destruction of information in init image&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--from-file&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        help=&quot;if specified, load prompts from this file&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--config&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        default=&quot;configs/stable-diffusion/v1-inference.yaml&quot;,</span><br><span class="line">        help=&quot;path to config which constructs model&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--ckpt&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        default=&quot;models/ldm/stable-diffusion-v1/model.ckpt&quot;,</span><br><span class="line">        help=&quot;path to checkpoint of model&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--seed&quot;,</span><br><span class="line">        type=int,</span><br><span class="line">        default=42,</span><br><span class="line">        help=&quot;the seed (for reproducible sampling)&quot;,</span><br><span class="line">    )</span><br><span class="line">    parser.add_argument(</span><br><span class="line">        &quot;--precision&quot;,</span><br><span class="line">        type=str,</span><br><span class="line">        help=&quot;evaluate at this precision&quot;,</span><br><span class="line">        choices=[&quot;full&quot;, &quot;autocast&quot;],</span><br><span class="line">        default=&quot;autocast&quot;</span><br><span class="line">    )</span><br><span class="line"></span><br><span class="line">    opt = parser.parse_args()</span><br><span class="line">    seed_everything(opt.seed)</span><br><span class="line"></span><br><span class="line">    config = OmegaConf.load(f&quot;&#123;opt.config&#125;&quot;)</span><br><span class="line">    model = load_model_from_config(config, f&quot;&#123;opt.ckpt&#125;&quot;)</span><br><span class="line"></span><br><span class="line">    device = torch.device(&quot;cuda&quot;) if torch.cuda.is_available() else torch.device(&quot;cpu&quot;)</span><br><span class="line">    model = model.to(device)</span><br><span class="line"></span><br><span class="line">    if opt.plms:</span><br><span class="line">        raise NotImplementedError(&quot;PLMS sampler not (yet) supported&quot;)</span><br><span class="line">        sampler = PLMSSampler(model)</span><br><span class="line">    else:</span><br><span class="line">        sampler = DDIMSampler(model)</span><br><span class="line"></span><br><span class="line">    os.makedirs(opt.outdir, exist_ok=True)</span><br><span class="line">    outpath = opt.outdir</span><br><span class="line"></span><br><span class="line">    batch_size = opt.n_samples</span><br><span class="line">    n_rows = opt.n_rows if opt.n_rows &gt; 0 else batch_size</span><br><span class="line">    if not opt.from_file:</span><br><span class="line">        prompt = opt.prompt</span><br><span class="line">        assert prompt is not None</span><br><span class="line">        data = [batch_size * [prompt]]</span><br><span class="line"></span><br><span class="line">    else:</span><br><span class="line">        print(f&quot;reading prompts from &#123;opt.from_file&#125;&quot;)</span><br><span class="line">        with open(opt.from_file, &quot;r&quot;) as f:</span><br><span class="line">            data = f.read().splitlines()</span><br><span class="line">            data = list(chunk(data, batch_size))</span><br><span class="line"></span><br><span class="line">    sample_path = os.path.join(outpath, &quot;samples&quot;)</span><br><span class="line">    os.makedirs(sample_path, exist_ok=True)</span><br><span class="line">    base_count = len(os.listdir(sample_path))</span><br><span class="line">    grid_count = len(os.listdir(outpath)) - 1</span><br><span class="line"></span><br><span class="line">    assert os.path.isfile(opt.init_img)</span><br><span class="line">    init_image = load_img(opt.init_img).to(device)</span><br><span class="line">    init_image = repeat(init_image, &#x27;1 ... -&gt; b ...&#x27;, b=batch_size)</span><br><span class="line">    init_latent = model.get_first_stage_encoding(model.encode_first_stage(init_image))  # move to latent space</span><br><span class="line"></span><br><span class="line">    sampler.make_schedule(ddim_num_steps=opt.ddim_steps, ddim_eta=opt.ddim_eta, verbose=False)</span><br><span class="line"></span><br><span class="line">    assert 0. &lt;= opt.strength &lt;= 1., &#x27;can only work with strength in [0.0, 1.0]&#x27;</span><br><span class="line">    t_enc = int(opt.strength * opt.ddim_steps)</span><br><span class="line">    print(f&quot;target t_enc is &#123;t_enc&#125; steps&quot;)</span><br><span class="line"></span><br><span class="line">    precision_scope = autocast if opt.precision == &quot;autocast&quot; else nullcontext</span><br><span class="line">    with torch.no_grad():</span><br><span class="line">        with precision_scope(&quot;cuda&quot;):</span><br><span class="line">            with model.ema_scope():</span><br><span class="line">                tic = time.time()</span><br><span class="line">                all_samples = list()</span><br><span class="line">                for n in trange(opt.n_iter, desc=&quot;Sampling&quot;):</span><br><span class="line">                    for prompts in tqdm(data, desc=&quot;data&quot;):</span><br><span class="line">                        uc = None</span><br><span class="line">                        if opt.scale != 1.0:</span><br><span class="line">                            uc = model.get_learned_conditioning(batch_size * [&quot;&quot;])</span><br><span class="line">                        if isinstance(prompts, tuple):</span><br><span class="line">                            prompts = list(prompts)</span><br><span class="line">                        c = model.get_learned_conditioning(prompts)</span><br><span class="line"></span><br><span class="line">                        # encode (scaled latent)</span><br><span class="line">                        z_enc = sampler.stochastic_encode(init_latent, torch.tensor([t_enc]*batch_size).to(device))</span><br><span class="line">                        # decode it</span><br><span class="line">                        samples = sampler.decode(z_enc, c, t_enc, unconditional_guidance_scale=opt.scale,</span><br><span class="line">                                                 unconditional_conditioning=uc,)</span><br><span class="line"></span><br><span class="line">                        x_samples = model.decode_first_stage(samples)</span><br><span class="line">                        x_samples = torch.clamp((x_samples + 1.0) / 2.0, min=0.0, max=1.0)</span><br><span class="line"></span><br><span class="line">                        if not opt.skip_save:</span><br><span class="line">                            for x_sample in x_samples:</span><br><span class="line">                                x_sample = 255. * rearrange(x_sample.cpu().numpy(), &#x27;c h w -&gt; h w c&#x27;)</span><br><span class="line">                                Image.fromarray(x_sample.astype(np.uint8)).save(</span><br><span class="line">                                    os.path.join(sample_path, f&quot;&#123;base_count:05&#125;.png&quot;))</span><br><span class="line">                                base_count += 1</span><br><span class="line">                        all_samples.append(x_samples)</span><br><span class="line"></span><br><span class="line">                if not opt.skip_grid:</span><br><span class="line">                    # additionally, save as grid</span><br><span class="line">                    grid = torch.stack(all_samples, 0)</span><br><span class="line">                    grid = rearrange(grid, &#x27;n b c h w -&gt; (n b) c h w&#x27;)</span><br><span class="line">                    grid = make_grid(grid, nrow=n_rows)</span><br><span class="line"></span><br><span class="line">                    # to image</span><br><span class="line">                    grid = 255. * rearrange(grid, &#x27;c h w -&gt; h w c&#x27;).cpu().numpy()</span><br><span class="line">                    Image.fromarray(grid.astype(np.uint8)).save(os.path.join(outpath, f&#x27;grid-&#123;grid_count:04&#125;.png&#x27;))</span><br><span class="line">                    grid_count += 1</span><br><span class="line"></span><br><span class="line">                toc = time.time()</span><br><span class="line"></span><br><span class="line">    print(f&quot;Your samples are ready and waiting for you here: \n&#123;outpath&#125; \n&quot;</span><br><span class="line">          f&quot; \nEnjoy.&quot;)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure>
+
+<p>我用花跟賽測的話可以跑出來 , 用印度人的圖沒辦法 , 會跑出下面這句 , 總之就算白嫖機器還是有點不夠力<br>RuntimeError: CUDA out of memory. Tried to allocate 3.77 GiB (GPU 0; 14.76 GiB total capacity; 13.45 GiB already allocated; 147.75 MiB free; 13.54 GiB reserved in total by PyTorch) If reserved memory is &gt;&gt; allocated memory try setting max_split_size_mb to avoid fragmentation. See documentation for Memory Management and PYTORCH_CUDA_ALLOC_CONF</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">!python scripts/img2img.py --prompt &quot;stel&quot; --init-img &#x27;test.jpg&#x27; --n_samples 1</span><br><span class="line"></span><br><span class="line">Global seed set to 42</span><br><span class="line">Loading model from models/ldm/stable-diffusion-v1/model.ckpt</span><br><span class="line">Global Step: 470000</span><br><span class="line">LatentDiffusion: Running in eps-prediction mode</span><br><span class="line">DiffusionWrapper has 859.52 M params.</span><br><span class="line">making attention of type &#x27;vanilla&#x27; with 512 in_channels</span><br><span class="line">Working with z of shape (1, 4, 32, 32) = 4096 dimensions.</span><br><span class="line">making attention of type &#x27;vanilla&#x27; with 512 in_channels</span><br><span class="line">Some weights of the model checkpoint at openai/clip-vit-large-patch14 were not used when initializing CLIPTextModel: [&#x27;vision_model.encoder.layers.23.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.4.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.23.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.21.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.23.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.out_proj.weight&#x27;, &#x27;vision_model.post_layernorm.bias&#x27;, &#x27;vision_model.encoder.layers.3.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.19.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.7.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.17.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.8.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.11.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.16.layer_norm1.weight&#x27;, &#x27;vision_model.pre_layrnorm.weight&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.0.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.11.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.13.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.9.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.13.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.k_proj.bias&#x27;, &#x27;vision_model.pre_layrnorm.bias&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.14.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.11.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.21.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.4.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.18.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.17.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.17.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.15.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.7.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.18.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.11.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.q_proj.bias&#x27;, &#x27;vision_model.embeddings.position_ids&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.5.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.3.layer_norm1.weight&#x27;, &#x27;vision_model.post_layernorm.weight&#x27;, &#x27;vision_model.encoder.layers.2.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.10.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.12.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.14.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.18.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.10.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.4.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.12.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.1.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.5.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.22.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.2.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.3.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.1.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.22.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.7.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.7.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.8.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.23.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.7.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.14.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.16.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.23.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.10.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.19.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.14.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.10.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.v_proj.weight&#x27;, &#x27;vision_model.embeddings.class_embedding&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.18.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.20.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.2.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.2.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.21.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.14.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.3.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.out_proj.weight&#x27;, &#x27;logit_scale&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.23.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.19.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.4.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.14.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.5.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.21.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.7.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.13.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.3.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.9.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.12.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.4.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.17.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.2.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.12.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.8.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.9.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.16.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.19.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.14.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.5.mlp.fc1.bias&#x27;, &#x27;vision_model.embeddings.position_embedding.weight&#x27;, &#x27;vision_model.encoder.layers.20.mlp.fc1.weight&#x27;, &#x27;vision_model.embeddings.patch_embedding.weight&#x27;, &#x27;vision_model.encoder.layers.1.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.20.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.4.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.11.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.12.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.9.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.15.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.21.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.17.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.18.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.19.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.2.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.q_proj.weight&#x27;, &#x27;visual_projection.weight&#x27;, &#x27;vision_model.encoder.layers.1.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.11.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.15.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.17.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.10.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.10.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.13.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.11.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.8.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.5.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.17.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.23.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.1.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.15.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.15.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.17.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.15.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.0.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.21.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.1.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.20.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.19.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.22.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.12.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.1.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.9.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.19.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.23.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.2.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.20.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.19.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.6.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.21.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.22.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.16.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.8.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.0.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.8.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.0.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.13.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.0.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.15.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.3.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.8.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.12.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.5.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.16.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.19.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.5.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.12.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.10.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.5.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.2.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.4.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.9.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.6.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.6.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.11.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.20.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.6.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.12.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.0.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.4.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.8.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.22.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.23.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.7.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.1.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.10.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.15.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.8.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.5.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.21.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.16.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.9.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.13.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.9.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.18.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.15.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.q_proj.weight&#x27;, &#x27;vision_model.encoder.layers.22.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.16.layer_norm2.bias&#x27;, &#x27;text_projection.weight&#x27;, &#x27;vision_model.encoder.layers.17.self_attn.v_proj.weight&#x27;, &#x27;vision_model.encoder.layers.16.mlp.fc1.weight&#x27;, &#x27;vision_model.encoder.layers.10.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.14.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.20.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.13.layer_norm2.weight&#x27;, &#x27;vision_model.encoder.layers.0.mlp.fc2.weight&#x27;, &#x27;vision_model.encoder.layers.1.layer_norm2.bias&#x27;, &#x27;vision_model.encoder.layers.16.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.21.self_attn.q_proj.bias&#x27;, &#x27;vision_model.encoder.layers.3.layer_norm1.bias&#x27;, &#x27;vision_model.encoder.layers.20.mlp.fc2.bias&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.2.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.7.self_attn.out_proj.weight&#x27;, &#x27;vision_model.encoder.layers.18.self_attn.k_proj.weight&#x27;, &#x27;vision_model.encoder.layers.23.self_attn.k_proj.bias&#x27;, &#x27;vision_model.encoder.layers.13.layer_norm1.weight&#x27;, &#x27;vision_model.encoder.layers.4.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.13.self_attn.out_proj.bias&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.v_proj.bias&#x27;, &#x27;vision_model.encoder.layers.14.mlp.fc1.bias&#x27;, &#x27;vision_model.encoder.layers.11.self_attn.k_proj.bias&#x27;]</span><br><span class="line">- This IS expected if you are initializing CLIPTextModel from the checkpoint of a model trained on another task or with another architecture (e.g. initializing a BertForSequenceClassification model from a BertForPreTraining model).</span><br><span class="line">- This IS NOT expected if you are initializing CLIPTextModel from the checkpoint of a model that you expect to be exactly identical (initializing a BertForSequenceClassification model from a BertForSequenceClassification model).</span><br><span class="line">loaded input image of size (256, 256) from test.jpg</span><br><span class="line">target t_enc is 37 steps</span><br><span class="line">Sampling:   0% 0/1 [00:00&lt;?, ?it/s]</span><br><span class="line">data:   0% 0/1 [00:00&lt;?, ?it/s]Running DDIM Sampling with 37 timesteps</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Decoding image:   0% 0/37 [00:00&lt;?, ?it/s]</span><br><span class="line"></span><br><span class="line">Decoding image:   3% 1/37 [00:00&lt;00:07,  4.83it/s]</span><br><span class="line"></span><br><span class="line">Decoding image:   8% 3/37 [00:00&lt;00:04,  8.43it/s]</span><br></pre></td></tr></table></figure>
+
+<h3 id="cpu"><a href="#cpu" class="headerlink" title="cpu"></a>cpu</h3><p><img src="https://raw.githubusercontent.com/weber87na/flowers/master/mooncake.png" alt="mooncake"><br>後來發現有 cpu <a target="_blank" rel="noopener" href="https://github.com/bes-dev/stable_diffusion.openvino.git">版本</a> , 剛好中秋跑個月餅 , 效果不錯</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">conda create --name py38 python=3.8</span><br><span class="line">conda activate py38</span><br><span class="line">git clone https://github.com/bes-dev/stable_diffusion.openvino.git</span><br><span class="line">cd stable_diffusion.openvino</span><br><span class="line">pip install -r requirements.txt</span><br><span class="line">python stable_diffusion.py --prompt &quot;flower&quot;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/08/25/vantajs-%E8%A3%BD%E4%BD%9C%E7%B6%93%E5%85%B8%E9%9B%BB%E5%BD%B1%E7%89%87%E9%A0%AD/" rel="prev" title="vantajs 製作經典電影片頭">
+      <i class="fa fa-chevron-left"></i> vantajs 製作經典電影片頭
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/09/05/css-%E4%B9%8B%E4%B8%AD%E8%8F%AF%E4%B8%80%E7%95%AA-%E9%9B%A3%E5%90%83%E5%8D%B0/" rel="next" title="css 之中華一番 難吃印">
+      css 之中華一番 難吃印 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#gpu"><span class="nav-number">1.</span> <span class="nav-text">gpu</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#cpu"><span class="nav-number">2.</span> <span class="nav-text">cpu</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/08/27/StableDiffusion-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2022/08/27/StableDiffusion-筆記/";
+    this.page.title = "StableDiffusion 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

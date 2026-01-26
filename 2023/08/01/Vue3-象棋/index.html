@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="Vue3 象棋">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2023/08/01/Vue3-%E8%B1%A1%E6%A3%8B/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/%E9%9B%BB%E9%BE%9C5.png">
+<meta property="og:image" content="https://storage.potatomedia.co/articles/potato_dbb1fbf1-e77e-4952-adba-8f549590248d_2b2a57799cbd03b71e0b07f6557e93a67863597e.png">
+<meta property="article:published_time" content="2023-08-01T10:37:18.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="vue3">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/%E9%9B%BB%E9%BE%9C5.png">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2023/08/01/Vue3-%E8%B1%A1%E6%A3%8B/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Vue3 象棋 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2023/08/01/Vue3-%E8%B1%A1%E6%A3%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vue3 象棋
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2023-08-01 18:37:18" itemprop="dateCreated datePublished" datetime="2023-08-01T18:37:18+08:00">2023-08-01</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/08/01/Vue3-%E8%B1%A1%E6%A3%8B/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/08/01/Vue3-象棋/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>19k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>17 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://raw.githubusercontent.com/weber87na/flowers/master/%E9%9B%BB%E9%BE%9C5.png" alt="image"></p>
+<span id="more"></span>
+
+<p class="codepen" data-height="700" data-slug-hash="VwVXboY" data-user="weber87na" style="height: 700px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+  <span>See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/weber87na/pen/VwVXboY">
+  龜小象棋</a> by 喇賽人 (<a target="_blank" rel="noopener" href="https://codepen.io/weber87na">@weber87na</a>)
+  on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</span>
+</p>
+<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+
+<p>有了暗棋當然也要有象棋 , 算是致敬當年勸退的事件 , 不然感覺有點遜 XD<br>我另外也有做 <a target="_blank" rel="noopener" href="https://stackblitz.com/edit/chinese-chees?file=src/main.ts">angular 版本</a><br>象棋用 angular 來做就複雜多了 , 有些 ts 的地雷要採 , 如果這包直接搬過去的話會狂噴 <code>is not defined function</code></p>
+<h2 id="資料結構"><a href="#資料結構" class="headerlink" title="資料結構"></a>資料結構</h2><h3 id="棋子"><a href="#棋子" class="headerlink" title="棋子"></a>棋子</h3><p>首先定義棋子的部分<br><code>id</code> &#x3D;&gt; 區分每個子的唯一識別編號<br><code>name</code> &#x3D;&gt; 顯示該棋子是 兵 炮 或其他兵種使用<br><code>suit</code> &#x3D;&gt; 紅色或黑色<br><code>lv</code> &#x3D;&gt; 棋子的等級 , 由此判斷他能吃什麼子 , 或他的移動行為<br><code>x</code> &#x3D;&gt; 目前的 x 座標<br><code>y</code> &#x3D;&gt; 目前的 y 座標<br><code>move</code> &#x3D;&gt; 移動的函數 , 不過後來改寫成 angular 發現這個方式不太好 , 應該建立移動的類別去處理 , 這裡就暫時這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; id: 1, name: &#x27;俥&#x27;, suit: &#x27;red&#x27;, lv: 4, x: 0, y: 0, move: moveCar &#125;,</span><br></pre></td></tr></table></figure>
+<p>依序塞入 cheesPool 的 array 內即可</p>
+<h3 id="棋盤"><a href="#棋盤" class="headerlink" title="棋盤"></a>棋盤</h3><p>棋盤其實就是由一堆格子構成 , 它的結構比較簡單<br><code>id</code> &#x3D;&gt; 區分每格的唯一識別編號 , 象棋竟然有 90 格編到心累<br><code>x</code> &#x3D;&gt; 該格的 x 座標<br><code>y</code> &#x3D;&gt; 該格的 y 座標<br><code>chees</code> &#x3D;&gt; 這格上面的棋子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123; id: 1, x: 0, y: 0, chees: cheesPool.value[0] &#125;,</span><br></pre></td></tr></table></figure>
+<p>依序將每格放入 cells 的 array , 並且設定棋子的位置</p>
+<h2 id="UI-設計"><a href="#UI-設計" class="headerlink" title="UI 設計"></a>UI 設計</h2><h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><p>象棋的棋盤跟暗棋不太一樣 , 他是走在線上 , 所以運用兩個 <code>div</code> 設定 <code>grid</code> , 分別設定紅方及黑方的黑線格子的視覺外觀<br>這裡比較特別的是使用 <code>v-for=&quot;index in 32&quot;</code> 來 <code>loop</code></p>
+<p>接著定義每個格子 , 如同暗棋<br>先用 <code>v-for</code> 對整個棋盤進行 <code>loop</code> 每個格子 <code>cell</code><br><code>@drop</code> 需要設定 <code>onDrop</code> 讓棋子可以被拖拉到格子上<br><code>@dragover &amp; @dragover</code> 都要設定 <code>prevent</code></p>
+<p>然後在格子內塞個 <code>div</code> 設定 <code>v-if</code> 去判斷這格是否有棋子 , 如果有的話則顯示該子 , 並讓他的事件 &amp; 樣式可以觸發套用<br><code>:class</code> 內設定這個棋子是否被翻開及套用它的花色<br><code>:draggable</code> 這裡永遠是 <code>true</code><br><code>@dragstart</code> 裡面放 <code>onDrag</code> 這個事件<br>最後 div 內擺上該子是啥兵種即可</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;app&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;board&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner-board inner-board-top&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner-cell&quot;</span></span></span><br><span class="line"><span class="tag">				<span class="attr">v-for</span>=<span class="string">&quot;index in 32&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner-board inner-board-bottom&quot;</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;inner-cell&quot;</span></span></span><br><span class="line"><span class="tag">				<span class="attr">v-for</span>=<span class="string">&quot;index in 32&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;cell&quot;</span></span></span><br><span class="line"><span class="tag">			<span class="attr">v-for</span>=<span class="string">&quot;cell in cells&quot;</span></span></span><br><span class="line"><span class="tag">			@<span class="attr">drop</span>=<span class="string">&quot;onDrop($event, cell)&quot;</span></span></span><br><span class="line"><span class="tag">			@<span class="attr">dragover.prevent</span></span></span><br><span class="line"><span class="tag">			@<span class="attr">dragenter.prevent</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">div</span> <span class="attr">v-if</span>=<span class="string">&quot;cell.chees&quot;</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;chees&quot;</span></span></span><br><span class="line"><span class="tag">					<span class="attr">:class</span>=<span class="string">&quot;cell.chees.suit&quot;</span></span></span><br><span class="line"><span class="tag">					@<span class="attr">dragstart</span>=<span class="string">&quot;onDrag($event, cell)&quot;</span></span></span><br><span class="line"><span class="tag">					<span class="attr">:draggable</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">					&#123;&#123;cell.chees.name&#125;&#125;</span><br><span class="line">				<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="css"><a href="#css" class="headerlink" title="css"></a>css</h3><p>先把 <code>board</code> 設定為 <code>grid</code> 定義出棋盤上的格子共 <code>90</code> 格</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.board</span> &#123;</span><br><span class="line">	<span class="attribute">display</span>: grid;</span><br><span class="line">	<span class="attribute">grid-template-columns</span>: <span class="built_in">repeat</span>(<span class="number">9</span>, <span class="number">1</span>fr);</span><br><span class="line">	<span class="attribute">grid-template-rows</span>: <span class="built_in">repeat</span>(<span class="number">10</span>, <span class="number">1</span>fr);</span><br><span class="line">	<span class="attribute">grid-column</span>-<span class="attribute">gap</span>: <span class="number">0px</span>;</span><br><span class="line">	<span class="attribute">grid-row</span>-<span class="attribute">gap</span>: <span class="number">0px</span>;</span><br><span class="line"></span><br><span class="line">	<span class="attribute">width</span>: <span class="built_in">calc</span>(<span class="number">90px</span> * <span class="built_in">var</span>(--size));</span><br><span class="line">	<span class="attribute">height</span>: <span class="built_in">calc</span>(<span class="number">100px</span> * <span class="built_in">var</span>(--size));</span><br><span class="line"></span><br><span class="line">	<span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後在 <code>cell</code> 的部分設定 <code>outline</code> 為紅色虛線方便 debug<br>實際上棋子是走在紅線的格子內 , 非眼睛看到的黑線上面</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.cell</span> &#123;</span><br><span class="line">	<span class="attribute">background-color</span>: <span class="number">#ffd664</span>;</span><br><span class="line">	<span class="attribute">outline</span>: <span class="number">1px</span> dashed <span class="number">#f00</span>;</span><br><span class="line">	<span class="attribute">display</span>: flex;</span><br><span class="line">	<span class="attribute">justify-content</span>: center;</span><br><span class="line">	<span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後分別設定紅方及黑方的行走區塊 , 他是一個 <code>8 * 4</code> 的 <code>grid</code> 結構 , 然後用絕對定位去定位他們<br>這裡還有個重點 , 要把 <code>user-select</code> &amp; <code>pointer-events</code> 都設定為 <code>none</code> 防止前端 <code>drag drop</code> 出現 <code>bug</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.inner-board</span> &#123;</span><br><span class="line">	<span class="attribute">display</span>: grid;</span><br><span class="line">	<span class="attribute">grid-template-columns</span>: <span class="built_in">repeat</span>(<span class="number">8</span>, <span class="number">1</span>fr);</span><br><span class="line">	<span class="attribute">grid-template-rows</span>: <span class="built_in">repeat</span>(<span class="number">4</span>, <span class="number">1</span>fr);</span><br><span class="line">	<span class="attribute">grid-column</span>-<span class="attribute">gap</span>: <span class="number">0px</span>;</span><br><span class="line">	<span class="attribute">grid-row</span>-<span class="attribute">gap</span>: <span class="number">0px</span>;</span><br><span class="line"></span><br><span class="line">	<span class="attribute">width</span>: <span class="number">480px</span>;</span><br><span class="line">	<span class="attribute">height</span>: <span class="number">240px</span>;</span><br><span class="line">	<span class="attribute">position</span>: absolute;</span><br><span class="line">	<span class="attribute">outline</span>: <span class="number">2px</span> solid <span class="number">#000</span>;</span><br><span class="line">	<span class="attribute">user-select</span>: none;</span><br><span class="line">	<span class="attribute">pointer-events</span>: none;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="核心邏輯說明"><a href="#核心邏輯說明" class="headerlink" title="核心邏輯說明"></a>核心邏輯說明</h2><p>因為不太會下象棋 , 所以規則可以參考<a target="_blank" rel="noopener" href="https://www.cccs.org.tw/Message/MessageView?mid=32&itemid=57">這裡</a><br>這把我就懶得去做切換 <code>user</code> 的回合 , 還有王將飛越這兩個部分 , 但是其他都實作完成</p>
+<h3 id="Drag-棋子"><a href="#Drag-棋子" class="headerlink" title="Drag 棋子"></a>Drag 棋子</h3><p>先看看該格子上是否有棋子 , 有的話設定 <code>dataTransfer</code> 讓 <code>Drop</code> 時可以接收</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">onDrag</span>(<span class="params">event, cell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> chees = cell.<span class="property">chees</span></span><br><span class="line">	<span class="keyword">if</span> (chees === <span class="literal">undefined</span>) <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">// console.log(&#x27;drag&#x27;, event)</span></span><br><span class="line">	<span class="comment">// console.log(&#x27;drag&#x27;, chees)</span></span><br><span class="line">	<span class="comment">// console.log(&#x27;drag&#x27;, cell)</span></span><br><span class="line"></span><br><span class="line">	event.<span class="property">dataTransfer</span>.<span class="property">dropEffect</span> = <span class="string">&#x27;move&#x27;</span></span><br><span class="line">	event.<span class="property">dataTransfer</span>.<span class="property">effectAllowed</span> = <span class="string">&#x27;move&#x27;</span></span><br><span class="line">	event.<span class="property">dataTransfer</span>.<span class="title function_">setData</span>(<span class="string">&#x27;cheesId&#x27;</span>, chees.<span class="property">id</span>)</span><br><span class="line">	event.<span class="property">dataTransfer</span>.<span class="title function_">setData</span>(<span class="string">&#x27;cellId&#x27;</span>, cell.<span class="property">id</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="Drop-棋子"><a href="#Drop-棋子" class="headerlink" title="Drop 棋子"></a>Drop 棋子</h3><p>這裡因為利用物件的 <code>move</code> 方法去處理移動的邏輯 , 所以比較簡單 , 只要得到 <code>dragChees</code> 然後呼叫 <code>move</code> 即可 , 各子會依照其對應的真正移動方法進行移動</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">onDrop</span>(<span class="params">event, dropCell</span>) &#123;</span><br><span class="line">	<span class="comment">// console.log(dropCell)</span></span><br><span class="line">	<span class="keyword">const</span> dragCellId = <span class="built_in">parseInt</span>(event.<span class="property">dataTransfer</span>.<span class="title function_">getData</span>(<span class="string">&#x27;cellId&#x27;</span>))</span><br><span class="line">	<span class="keyword">const</span> dragCell = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">x</span> =&gt;</span> x.<span class="property">id</span> == dragCellId)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	dragChees.<span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="移動及吃子"><a href="#移動及吃子" class="headerlink" title="移動及吃子"></a>移動及吃子</h3><p>首先判斷該格是否有棋子 , 沒有子的話移動過去 , 反之則吃子<br>這個函數是算是最後一步 , 其他所有函數移動時都會有個防禦式的函數去設定 <code>canMove</code> 來判斷是否可以移動<br>當 <code>canMove</code> 得到 <code>true</code> 則呼叫 <code>move</code> 函數進行吃子或是移動 , 後續的函數也都利用類似的作法去實作</p>
+<blockquote>
+<p><code>特別注意</code> 這個 <code>move</code> 方法 <code>並非</code> 棋子物件內的 <code>move</code> 方法</p>
+</blockquote>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">move</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//如果沒有棋子在上面的話則移動過去</span></span><br><span class="line">	<span class="keyword">if</span> (dropCell.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">		<span class="comment">//清空原來位置上的棋子</span></span><br><span class="line">		<span class="comment">// console.log(dragCell)</span></span><br><span class="line">		dragCell.<span class="property">chees</span> = <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">		<span class="comment">//設定棋子位置</span></span><br><span class="line">		dragChees.<span class="property">x</span> = dropCell.<span class="property">x</span></span><br><span class="line">		dragChees.<span class="property">y</span> = dropCell.<span class="property">y</span></span><br><span class="line">		dropCell.<span class="property">chees</span> = dragChees</span><br><span class="line"></span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="comment">//表示有棋子</span></span><br><span class="line">		<span class="comment">//判斷花色不同的</span></span><br><span class="line">		<span class="keyword">if</span> (dropCell.<span class="property">chees</span>.<span class="property">suit</span> !== dragChees.<span class="property">suit</span>) &#123;</span><br><span class="line">			dragCell.<span class="property">chees</span> = <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">//幹掉棋子</span></span><br><span class="line">			dropCell.<span class="property">chees</span> = <span class="literal">undefined</span></span><br><span class="line"></span><br><span class="line">			<span class="comment">//設定棋子位置</span></span><br><span class="line">			dragChees.<span class="property">x</span> = dropCell.<span class="property">x</span></span><br><span class="line">			dragChees.<span class="property">y</span> = dropCell.<span class="property">y</span></span><br><span class="line">			dropCell.<span class="property">chees</span> = dragChees</span><br><span class="line"></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="移動兵卒"><a href="#移動兵卒" class="headerlink" title="移動兵卒"></a>移動兵卒</h3><p>首先兵卒的規則是只能前進沒法後退 , 一次只能移動一格 , 並且過了河之後可以橫向移動<br>對於黑方來說河的邊界在 <code>y &lt;= 4</code> 紅方則是 <code>y &gt;= 5</code> 如果超過這個範圍兵卒就可以橫向移動</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//移動兵卒</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveSoldier</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">suit</span> === <span class="string">&#x27;black&#x27;</span>) &#123;</span><br><span class="line">		canMove = <span class="title function_">moveBlackSoldier</span>(dragCell, dropCell)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		canMove = <span class="title function_">moveRedSoldier</span>(dragCell, dropCell)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (canMove) <span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveBlackSoldier</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//有進無退</span></span><br><span class="line">	<span class="keyword">if</span> (dropCell.<span class="property">y</span> &gt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">		canMove = <span class="literal">false</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//當 x 相等時表示正常前進</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span>) &#123;</span><br><span class="line">		<span class="comment">//如果 y - 1 的話表示正常前進</span></span><br><span class="line">		<span class="keyword">if</span> (dragChees.<span class="property">y</span> - <span class="number">1</span> === dropCell.<span class="property">y</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">true</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//想要橫向移動</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> !== dropCell.<span class="property">x</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷是否過河</span></span><br><span class="line">		<span class="keyword">if</span> (dragChees.<span class="property">y</span> &lt;= <span class="number">4</span>) &#123;</span><br><span class="line">			<span class="comment">//計算距離是否為 1 格</span></span><br><span class="line">			<span class="keyword">let</span> distanceX = <span class="title class_">Math</span>.<span class="title function_">abs</span>(dropCell.<span class="property">x</span> - dragChees.<span class="property">x</span>)</span><br><span class="line">			<span class="keyword">if</span> (distanceX === <span class="number">1</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveRedSoldier</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//有進無退</span></span><br><span class="line">	<span class="keyword">if</span> (dropCell.<span class="property">y</span> &lt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">		canMove = <span class="literal">false</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//當 x 相等時表示正常前進</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span>) &#123;</span><br><span class="line">		<span class="comment">//如果 y + 1 的話表示正常前進</span></span><br><span class="line">		<span class="keyword">if</span> (dragChees.<span class="property">y</span> + <span class="number">1</span> === dropCell.<span class="property">y</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">true</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//想要橫向移動</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> !== dropCell.<span class="property">x</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷是否過河</span></span><br><span class="line">		<span class="keyword">if</span> (dragChees.<span class="property">y</span> &gt;= <span class="number">5</span>) &#123;</span><br><span class="line">			<span class="comment">//計算距離是否為 1 格</span></span><br><span class="line">			<span class="keyword">let</span> distanceX = <span class="title class_">Math</span>.<span class="title function_">abs</span>(dropCell.<span class="property">x</span> - dragChees.<span class="property">x</span>)</span><br><span class="line">			<span class="keyword">if</span> (distanceX === <span class="number">1</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="將帥移動"><a href="#將帥移動" class="headerlink" title="將帥移動"></a>將帥移動</h3><p>將帥移動的邏輯也相對容易 , 需要限定它們在各自的 <code>3 * 3</code> 範圍之內 , 並且一次也只能移動一格<br>所以他們的 <code>x</code> 被限定在 <code>dropCell.x &gt;= 3 &amp;&amp; dropCell.x &lt;= 5</code> 以內<br><code>y</code> 的移動範圍若為紅方則限定在 <code>3</code> 以內 , 黑方則為 <code>7</code> 以內</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">moveGeneral</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">suit</span> === <span class="string">&#x27;black&#x27;</span>) &#123;</span><br><span class="line">		canMove = <span class="title function_">moveBlackGeneral</span>(dragCell, dropCell)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		canMove = <span class="title function_">moveRedGeneral</span>(dragCell, dropCell)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (canMove) <span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveRedGeneral</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="comment">//左右移動</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">x</span> - dropCell.<span class="property">x</span>) === <span class="number">1</span> &amp;&amp;</span><br><span class="line">		dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">y</span> &lt;= <span class="number">2</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">x</span> &gt;= <span class="number">3</span> &amp;&amp; dropCell.<span class="property">x</span> &lt;= <span class="number">5</span></span><br><span class="line">	) &#123;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//上下移動</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">y</span> - dropCell.<span class="property">y</span>) === <span class="number">1</span> &amp;&amp;</span><br><span class="line">		dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">y</span> &lt;= <span class="number">2</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">x</span> &gt;= <span class="number">3</span> &amp;&amp; dropCell.<span class="property">x</span> &lt;= <span class="number">5</span></span><br><span class="line">	) &#123;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveBlackGeneral</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="comment">//左右移動</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">x</span> - dropCell.<span class="property">x</span>) === <span class="number">1</span> &amp;&amp;</span><br><span class="line">		dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">y</span> &gt;= <span class="number">7</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">x</span> &gt;= <span class="number">3</span> &amp;&amp; dropCell.<span class="property">x</span> &lt;= <span class="number">5</span></span><br><span class="line">	) &#123;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//上下移動</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">y</span> - dropCell.<span class="property">y</span>) === <span class="number">1</span> &amp;&amp;</span><br><span class="line">		dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">y</span> &gt;= <span class="number">7</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">x</span> &gt;= <span class="number">3</span> &amp;&amp; dropCell.<span class="property">x</span> &lt;= <span class="number">5</span></span><br><span class="line">	) &#123;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="士的移動"><a href="#士的移動" class="headerlink" title="士的移動"></a>士的移動</h3><p>士跟將一樣只能在限定的 <code>3 * 3</code> 小圈圈內打轉<br>不過是走斜的 , 所以表示每次移動時 <code>x &amp; y</code> 兩者都必須 <code>+1 or -1</code><br>這裡用 <code>Math.abs</code> 去計算這兩者是否都有增加或是減少<br><code>Math.abs(dragChees.x - dropCell.x) === 1 &amp;&amp; Math.abs(dragChees.y - dropCell.y) === 1</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">moveOfficer</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">suit</span> === <span class="string">&#x27;black&#x27;</span>) &#123;</span><br><span class="line">		canMove = <span class="title function_">moveBlackOfficer</span>(dragCell, dropCell)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		canMove = <span class="title function_">moveRedOfficer</span>(dragCell, dropCell)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (canMove) <span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveRedOfficer</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">x</span> - dropCell.<span class="property">x</span>) === <span class="number">1</span> &amp;&amp;</span><br><span class="line">		<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">y</span> - dropCell.<span class="property">y</span>) === <span class="number">1</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">y</span> &lt;= <span class="number">2</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">x</span> &gt;= <span class="number">3</span> &amp;&amp; dropCell.<span class="property">x</span> &lt;= <span class="number">5</span></span><br><span class="line">	) &#123;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveBlackOfficer</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">x</span> - dropCell.<span class="property">x</span>) === <span class="number">1</span> &amp;&amp;</span><br><span class="line">		<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">y</span> - dropCell.<span class="property">y</span>) === <span class="number">1</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">y</span> &gt;= <span class="number">7</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">x</span> &gt;= <span class="number">3</span> &amp;&amp; dropCell.<span class="property">x</span> &lt;= <span class="number">5</span></span><br><span class="line">	) &#123;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="象的移動"><a href="#象的移動" class="headerlink" title="象的移動"></a>象的移動</h3><p>象只能走田字 , 如果中心點有其他子的話 , 則會被拐象腳 , 另外象也不能過河<br>所以他的移動邏輯可以說就是士的放大版 , 一樣用 <code>Math.abs</code> 去處理他的行走方法只不過這次 <code>x &amp; y</code> 都要是 <code>2</code><br>並且限定在自己的國界內 , 黑方為 <code>y &gt;= 5</code> 紅方為 <code>y &lt;= 4</code><br>最後判斷是否有拐象腳 , 判斷其四方的中心點是否有子 , 如果為 <code>undefined</code> 才回傳 <code>true</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">moveElephant</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">suit</span> === <span class="string">&#x27;black&#x27;</span>) &#123;</span><br><span class="line">		canMove = <span class="title function_">moveBlackElephant</span>(dragCell, dropCell)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		canMove = <span class="title function_">moveRedElephant</span>(dragCell, dropCell)</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (canMove) <span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveBlackElephant</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">x</span> - dropCell.<span class="property">x</span>) === <span class="number">2</span> &amp;&amp;</span><br><span class="line">		<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">y</span> - dropCell.<span class="property">y</span>) === <span class="number">2</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">y</span> &gt;= <span class="number">5</span></span><br><span class="line">	) &#123;</span><br><span class="line">		<span class="comment">//左上移動</span></span><br><span class="line">		<span class="keyword">if</span> (dropCell.<span class="property">x</span> &lt; dragChees.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &lt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragChees.<span class="property">y</span> - <span class="number">1</span> &amp;&amp; cell.<span class="property">x</span> == dragChees.<span class="property">x</span> - <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (find.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//右下移動</span></span><br><span class="line">		<span class="keyword">if</span> (dropCell.<span class="property">x</span> &gt; dragChees.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &gt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragChees.<span class="property">y</span> + <span class="number">1</span> &amp;&amp; cell.<span class="property">x</span> == dragChees.<span class="property">x</span> + <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (find.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//右上移動</span></span><br><span class="line">		<span class="keyword">if</span> (dropCell.<span class="property">x</span> &gt; dragChees.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &lt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragChees.<span class="property">y</span> - <span class="number">1</span> &amp;&amp; cell.<span class="property">x</span> == dragChees.<span class="property">x</span> + <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (find.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//左下移動</span></span><br><span class="line">		<span class="keyword">if</span> (dropCell.<span class="property">x</span> &lt; dragChees.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &gt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragChees.<span class="property">y</span> + <span class="number">1</span> &amp;&amp; cell.<span class="property">x</span> == dragChees.<span class="property">x</span> - <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (find.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">moveRedElephant</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">if</span> (<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">x</span> - dropCell.<span class="property">x</span>) === <span class="number">2</span> &amp;&amp;</span><br><span class="line">		<span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">y</span> - dropCell.<span class="property">y</span>) === <span class="number">2</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">y</span> &lt;= <span class="number">4</span></span><br><span class="line">	) &#123;</span><br><span class="line">		<span class="comment">//左上移動</span></span><br><span class="line">		<span class="keyword">if</span> (dropCell.<span class="property">x</span> &lt; dragChees.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &lt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragChees.<span class="property">y</span> - <span class="number">1</span> &amp;&amp; cell.<span class="property">x</span> == dragChees.<span class="property">x</span> - <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (find.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//右下移動</span></span><br><span class="line">		<span class="keyword">if</span> (dropCell.<span class="property">x</span> &gt; dragChees.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &gt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragChees.<span class="property">y</span> + <span class="number">1</span> &amp;&amp; cell.<span class="property">x</span> == dragChees.<span class="property">x</span> + <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (find.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//右上移動</span></span><br><span class="line">		<span class="keyword">if</span> (dropCell.<span class="property">x</span> &gt; dragChees.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &lt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragChees.<span class="property">y</span> - <span class="number">1</span> &amp;&amp; cell.<span class="property">x</span> == dragChees.<span class="property">x</span> + <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (find.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//左下移動</span></span><br><span class="line">		<span class="keyword">if</span> (dropCell.<span class="property">x</span> &lt; dragChees.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &gt; dragChees.<span class="property">y</span>) &#123;</span><br><span class="line">			<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragChees.<span class="property">y</span> + <span class="number">1</span> &amp;&amp; cell.<span class="property">x</span> == dragChees.<span class="property">x</span> - <span class="number">1</span>)</span><br><span class="line">			<span class="keyword">if</span> (find.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">				canMove = <span class="literal">true</span></span><br><span class="line">				<span class="keyword">return</span> canMove</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="馬的移動"><a href="#馬的移動" class="headerlink" title="馬的移動"></a>馬的移動</h3><p>馬的移動 XD 好像在講髒話<br>馬比較複雜 , 他是走日 , 總共有八個方位可以移動<br>並且還有拐馬腳的規則 , 如果其他子在他的上下左右四方 , 他就會遭到受限  , 可以參考下圖會更清楚<br>另外眼睛的視線專注在紅色虛線框出來的格子裡 , 這樣寫才清晰直覺<br><img src="https://storage.potatomedia.co/articles/potato_dbb1fbf1-e77e-4952-adba-8f549590248d_2b2a57799cbd03b71e0b07f6557e93a67863597e.png" alt="image"></p>
+<p>我這裡用跟 <code>css border</code> 一樣的規則由左上開始順時針計算 , 共八個方位<br>所以由左上的直向日開始 , 接著右上直向日 , 接著右上橫日依序下去<br>如果移動直向日的話則 <code>x</code> 需 <code>+1 or -1</code> 而 y 則 <code>+2 or -2</code><br>如果移動橫向日的話則 <code>x</code> 需 <code>+2 or -2</code> 而 y 則 <code>+1 or -1</code><br>若有棋子在上下的話 , 則無法移動該子對應方位的直向日<br>若有棋子在左右的話 , 則無法移動該子對應方位的橫向日<br>所以用 <code>find</code> 函數去找對應的上下左右是否有子 , 若有的話則在該邏輯式判斷為拐馬腳</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">moveHorse</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	canMove = <span class="title function_">canMoveHorse</span>(dragCell, dropCell)</span><br><span class="line">	<span class="keyword">if</span> (canMove) <span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">canMoveHorse</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//1</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> + <span class="number">1</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> + <span class="number">2</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷上邊有無拐馬腳</span></span><br><span class="line">		<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span></span><br><span class="line">			cell.<span class="property">x</span> == dragChees.<span class="property">x</span> &amp;&amp; cell.<span class="property">y</span> == dragChees.<span class="property">y</span> - <span class="number">1</span></span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">if</span> (find.<span class="property">chees</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//2</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> - <span class="number">1</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> + <span class="number">2</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷上邊有無拐馬腳</span></span><br><span class="line">		<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span></span><br><span class="line">			cell.<span class="property">x</span> == dragChees.<span class="property">x</span> &amp;&amp; cell.<span class="property">y</span> == dragChees.<span class="property">y</span> - <span class="number">1</span></span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">if</span> (find.<span class="property">chees</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//3</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> - <span class="number">2</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> + <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷右邊有無拐馬腳</span></span><br><span class="line">		<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span></span><br><span class="line">			cell.<span class="property">x</span> == dragChees.<span class="property">x</span> + <span class="number">1</span> &amp;&amp; cell.<span class="property">y</span> == dragChees.<span class="property">y</span></span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">if</span> (find.<span class="property">chees</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//4</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> - <span class="number">2</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> - <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷右邊有無拐馬腳</span></span><br><span class="line">		<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span></span><br><span class="line">			cell.<span class="property">x</span> == dragChees.<span class="property">x</span> + <span class="number">1</span> &amp;&amp; cell.<span class="property">y</span> == dragChees.<span class="property">y</span></span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">if</span> (find.<span class="property">chees</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//5</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> - <span class="number">1</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> - <span class="number">2</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷上邊有無拐馬腳</span></span><br><span class="line">		<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span></span><br><span class="line">			cell.<span class="property">x</span> == dragChees.<span class="property">x</span> &amp;&amp; cell.<span class="property">y</span> == dragChees.<span class="property">y</span> + <span class="number">1</span></span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">if</span> (find.<span class="property">chees</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//6</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> + <span class="number">1</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> - <span class="number">2</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷上邊有無拐馬腳</span></span><br><span class="line">		<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span></span><br><span class="line">			cell.<span class="property">x</span> == dragChees.<span class="property">x</span> &amp;&amp; cell.<span class="property">y</span> == dragChees.<span class="property">y</span> + <span class="number">1</span></span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">if</span> (find.<span class="property">chees</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//7</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> + <span class="number">2</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> - <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷左邊有無拐馬腳</span></span><br><span class="line">		<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span></span><br><span class="line">			cell.<span class="property">x</span> == dragChees.<span class="property">x</span> - <span class="number">1</span> &amp;&amp; cell.<span class="property">y</span> == dragChees.<span class="property">y</span></span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">if</span> (find.<span class="property">chees</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//8</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> + <span class="number">2</span> &amp;&amp; dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> + <span class="number">1</span>) &#123;</span><br><span class="line">		<span class="comment">//判斷左邊有無拐馬腳</span></span><br><span class="line">		<span class="keyword">let</span> find = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span></span><br><span class="line">			cell.<span class="property">x</span> == dragChees.<span class="property">x</span> - <span class="number">1</span> &amp;&amp; cell.<span class="property">y</span> == dragChees.<span class="property">y</span></span><br><span class="line">		)</span><br><span class="line">		<span class="keyword">if</span> (find.<span class="property">chees</span>) &#123;</span><br><span class="line">			canMove = <span class="literal">false</span></span><br><span class="line">			<span class="keyword">return</span> canMove</span><br><span class="line">		&#125;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">		<span class="keyword">return</span> canMove</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="車的移動"><a href="#車的移動" class="headerlink" title="車的移動"></a>車的移動</h3><p>車的移動跟炮類似 , 他可以很霸道的走直線或橫線 , 這裡比較特別的是用了 <code>c# 委派的概念</code> , 也就是將函數作為參數傳遞進去 <code>canMoveCar</code> 裡<br><code>calcMoveCarXXX</code> 系列函數定義了 <code>x &amp; y</code> 軸往左右移動統計棋子的邏輯 , 這系列函數炮也一樣會用到<br>另外我邏輯條件為 <code>x &lt;= distance</code> 所以跟暗棋有細微的不同<br>如果統計起來為 <code>1</code> 並且是花色相異的子表示吃子<br>若為 <code>0</code> 則表示可以移動過去</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">moveCar</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line"></span><br><span class="line">	<span class="comment">//直向向上移動</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &lt; dragCell.<span class="property">y</span>) &#123;</span><br><span class="line">		canMove = <span class="title function_">canMoveCar</span>(dragCell, dropCell, calcMoveCarTop)</span><br><span class="line">		<span class="keyword">if</span> (canMove) <span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//直向向下移動</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">x</span> === dropCell.<span class="property">x</span> &amp;&amp; dropCell.<span class="property">y</span> &gt; dragCell.<span class="property">y</span>) &#123;</span><br><span class="line">		canMove = <span class="title function_">canMoveCar</span>(dragCell, dropCell, calcMoveCarBottom)</span><br><span class="line">		<span class="keyword">if</span> (canMove) <span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//橫向向左</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> &amp;&amp; dropCell.<span class="property">x</span> &lt; dragCell.<span class="property">x</span>) &#123;</span><br><span class="line">		canMove = <span class="title function_">canMoveCar</span>(dragCell, dropCell, calcMoveCarLeft)</span><br><span class="line">		<span class="keyword">if</span> (canMove) <span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//橫向向右</span></span><br><span class="line">	<span class="keyword">if</span> (dragChees.<span class="property">y</span> === dropCell.<span class="property">y</span> &amp;&amp; dropCell.<span class="property">x</span> &gt; dragCell.<span class="property">x</span>) &#123;</span><br><span class="line">		canMove = <span class="title function_">canMoveCar</span>(dragCell, dropCell, calcMoveCarRight)</span><br><span class="line">		<span class="keyword">if</span> (canMove) <span class="title function_">move</span>(dragCell, dropCell)</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">canMoveCar</span>(<span class="params">dragCell, dropCell, fn</span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canMove = <span class="literal">false</span></span><br><span class="line">	<span class="keyword">let</span> counter = <span class="number">0</span>;</span><br><span class="line">	counter = <span class="title function_">fn</span>(dragCell, dropCell)</span><br><span class="line">	<span class="keyword">if</span> (counter === <span class="number">1</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">chees</span> !== <span class="literal">undefined</span> &amp;&amp;</span><br><span class="line">		dropCell.<span class="property">chees</span>.<span class="property">suit</span> !== dragCell.<span class="property">chees</span>.<span class="property">suit</span>) &#123;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">if</span> (counter === <span class="number">0</span> &amp;&amp; dropCell.<span class="property">chees</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">		canMove = <span class="literal">true</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> canMove</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">calcMoveCarBottom</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="keyword">let</span> counter = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//計算 Y 軸上的棋子數量</span></span><br><span class="line">	<span class="keyword">let</span> distanceY = <span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">y</span> - dropCell.<span class="property">y</span>)</span><br><span class="line">	<span class="comment">//向上移動</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= distanceY; i++) &#123;</span><br><span class="line">		<span class="keyword">let</span> isFind = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragCell.<span class="property">y</span> + i &amp;&amp; cell.<span class="property">x</span> == dragCell.<span class="property">x</span>)</span><br><span class="line">		<span class="keyword">if</span> (isFind.<span class="property">chees</span>) &#123;</span><br><span class="line">			counter++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> counter</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">calcMoveCarTop</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="keyword">let</span> counter = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//計算 Y 軸上的棋子數量</span></span><br><span class="line">	<span class="keyword">let</span> distanceY = <span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">y</span> - dropCell.<span class="property">y</span>)</span><br><span class="line">	<span class="comment">//向上移動</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= distanceY; i++) &#123;</span><br><span class="line">		<span class="keyword">let</span> isFind = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">y</span> == dragCell.<span class="property">y</span> - i &amp;&amp; cell.<span class="property">x</span> == dragCell.<span class="property">x</span>)</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(dragCell)</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;i&#x27;</span>, i)</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;isFind&#x27;</span>, isFind)</span><br><span class="line">		<span class="keyword">if</span> (isFind.<span class="property">chees</span>) &#123;</span><br><span class="line">			counter++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> counter</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">calcMoveCarLeft</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="keyword">let</span> counter = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//計算 X 軸上的棋子數量</span></span><br><span class="line">	<span class="keyword">let</span> distanceX = <span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">x</span> - dropCell.<span class="property">x</span>)</span><br><span class="line">	<span class="comment">//向左移動</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= distanceX; i++) &#123;</span><br><span class="line">		<span class="keyword">let</span> isFind = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">x</span> == dragCell.<span class="property">x</span> - i &amp;&amp; cell.<span class="property">y</span> == dragCell.<span class="property">y</span>)</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(dragCell)</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;i&#x27;</span>, i)</span><br><span class="line">		<span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;isFind&#x27;</span>, isFind)</span><br><span class="line">		<span class="keyword">if</span> (isFind.<span class="property">chees</span>) &#123;</span><br><span class="line">			counter++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> counter</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">calcMoveCarRight</span>(<span class="params">dragCell, dropCell</span>) &#123;</span><br><span class="line">	<span class="keyword">const</span> dragChees = dragCell.<span class="property">chees</span></span><br><span class="line">	<span class="keyword">let</span> counter = <span class="number">0</span>;</span><br><span class="line">	<span class="comment">//計算 X 軸上的棋子數量</span></span><br><span class="line">	<span class="keyword">let</span> distanceX = <span class="title class_">Math</span>.<span class="title function_">abs</span>(dragChees.<span class="property">x</span> - dropCell.<span class="property">x</span>)</span><br><span class="line">	<span class="comment">//向右移動</span></span><br><span class="line">	<span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt;= distanceX; i++) &#123;</span><br><span class="line">		<span class="keyword">let</span> isFind = cells.<span class="property">value</span>.<span class="title function_">find</span>(<span class="function"><span class="params">cell</span> =&gt;</span> cell.<span class="property">x</span> == dragCell.<span class="property">x</span> + i &amp;&amp; cell.<span class="property">y</span> == dragCell.<span class="property">y</span>)</span><br><span class="line">		<span class="keyword">if</span> (isFind.<span class="property">chees</span>) &#123;</span><br><span class="line">			counter++</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">return</span> counter</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="炮的移動"><a href="#炮的移動" class="headerlink" title="炮的移動"></a>炮的移動</h3><p>炮的移動基本上跟車幾乎一樣 , 所以沿用車的 <code>calcMoveCarXXX</code> 系列函數<br>不過他吃子的方式不同 , 當統計為 <code>2</code> 子並且花色相異才可以用飛躍的方式吃子移動</p>
+<p>若為 0 則表示可以移動過去</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">function canMoveArtillery(dragCell, dropCell, fn) &#123;</span><br><span class="line">	let canMove = false</span><br><span class="line">	let counter = 0;</span><br><span class="line">	counter = fn(dragCell, dropCell)</span><br><span class="line">	if (counter === 2 &amp;&amp;</span><br><span class="line">		dropCell.chees !== undefined &amp;&amp;</span><br><span class="line">		dropCell.chees.suit !== dragCell.chees.suit) &#123;</span><br><span class="line">		canMove = true</span><br><span class="line">	&#125;</span><br><span class="line">	if (counter === 0 &amp;&amp; dropCell.chees === undefined) &#123;</span><br><span class="line">		canMove = true</span><br><span class="line">	&#125;</span><br><span class="line">	return canMove</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function moveArtillery(dragCell, dropCell) &#123;</span><br><span class="line">	let canMove = false</span><br><span class="line">	const dragChees = dragCell.chees</span><br><span class="line"></span><br><span class="line">	//直向向上移動</span><br><span class="line">	if (dragChees.x === dropCell.x &amp;&amp; dropCell.y &lt; dragCell.y) &#123;</span><br><span class="line">		canMove = canMoveArtillery(dragCell, dropCell, calcMoveCarTop)</span><br><span class="line">		if (canMove) move(dragCell, dropCell)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//直向向下移動</span><br><span class="line">	if (dragChees.x === dropCell.x &amp;&amp; dropCell.y &gt; dragCell.y) &#123;</span><br><span class="line">		canMove = canMoveArtillery(dragCell, dropCell, calcMoveCarBottom)</span><br><span class="line">		if (canMove) move(dragCell, dropCell)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//橫向向左</span><br><span class="line">	if (dragChees.y === dropCell.y &amp;&amp; dropCell.x &lt; dragCell.x) &#123;</span><br><span class="line">		canMove = canMoveArtillery(dragCell, dropCell, calcMoveCarLeft)</span><br><span class="line">		if (canMove) move(dragCell, dropCell)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	//橫向向右</span><br><span class="line">	if (dragChees.y === dropCell.y &amp;&amp; dropCell.x &gt; dragCell.x) &#123;</span><br><span class="line">		canMove = canMoveArtillery(dragCell, dropCell, calcMoveCarRight)</span><br><span class="line">		if (canMove) move(dragCell, dropCell)</span><br><span class="line">		return</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"># js</a>
+              <a href="/tags/vue3/" rel="tag"># vue3</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/07/31/Vue3-%E6%9A%97%E6%A3%8B/" rel="prev" title="Vue3 暗棋">
+      <i class="fa fa-chevron-left"></i> Vue3 暗棋
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/08/12/Vue3-%E5%89%8D%E7%AB%AF%E5%88%86%E9%A0%81/" rel="next" title="Vue3 前端分頁">
+      Vue3 前端分頁 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%B3%87%E6%96%99%E7%B5%90%E6%A7%8B"><span class="nav-number">1.</span> <span class="nav-text">資料結構</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%8B%E5%AD%90"><span class="nav-number">1.1.</span> <span class="nav-text">棋子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A3%8B%E7%9B%A4"><span class="nav-number">1.2.</span> <span class="nav-text">棋盤</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UI-%E8%A8%AD%E8%A8%88"><span class="nav-number">2.</span> <span class="nav-text">UI 設計</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#html"><span class="nav-number">2.1.</span> <span class="nav-text">html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#css"><span class="nav-number">2.2.</span> <span class="nav-text">css</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E9%82%8F%E8%BC%AF%E8%AA%AA%E6%98%8E"><span class="nav-number">3.</span> <span class="nav-text">核心邏輯說明</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Drag-%E6%A3%8B%E5%AD%90"><span class="nav-number">3.1.</span> <span class="nav-text">Drag 棋子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Drop-%E6%A3%8B%E5%AD%90"><span class="nav-number">3.2.</span> <span class="nav-text">Drop 棋子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E5%8B%95%E5%8F%8A%E5%90%83%E5%AD%90"><span class="nav-number">3.3.</span> <span class="nav-text">移動及吃子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%BB%E5%8B%95%E5%85%B5%E5%8D%92"><span class="nav-number">3.4.</span> <span class="nav-text">移動兵卒</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%87%E5%B8%A5%E7%A7%BB%E5%8B%95"><span class="nav-number">3.5.</span> <span class="nav-text">將帥移動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A3%AB%E7%9A%84%E7%A7%BB%E5%8B%95"><span class="nav-number">3.6.</span> <span class="nav-text">士的移動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B1%A1%E7%9A%84%E7%A7%BB%E5%8B%95"><span class="nav-number">3.7.</span> <span class="nav-text">象的移動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A6%AC%E7%9A%84%E7%A7%BB%E5%8B%95"><span class="nav-number">3.8.</span> <span class="nav-text">馬的移動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BB%8A%E7%9A%84%E7%A7%BB%E5%8B%95"><span class="nav-number">3.9.</span> <span class="nav-text">車的移動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%AE%E7%9A%84%E7%A7%BB%E5%8B%95"><span class="nav-number">3.10.</span> <span class="nav-text">炮的移動</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2023/08/01/Vue3-%E8%B1%A1%E6%A3%8B/";
+    this.page.identifier = "2023/08/01/Vue3-象棋/";
+    this.page.title = "Vue3 象棋";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

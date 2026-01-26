@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="opencv 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2025/04/24/opencv-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-04-23T19:44:37.000Z">
+<meta property="article:modified_time" content="2025-04-29T08:09:39.781Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2025/04/24/opencv-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>opencv 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2025/04/24/opencv-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          opencv 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2025-04-24 03:44:37" itemprop="dateCreated datePublished" datetime="2025-04-24T03:44:37+08:00">2025-04-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-04-29 16:09:39" itemprop="dateModified" datetime="2025-04-29T16:09:39+08:00">2025-04-29</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2025/04/24/opencv-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/04/24/opencv-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>10 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+
+<p>最近看 <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=rn5OK18bTdI&list=PLaqioiYJMwvbpyOGhoyAYL1IuyAZDhK3n">opencv 課程</a> 當個免費仔就筆記下練習內容</p>
+<h2 id="helloworld"><a href="#helloworld" class="headerlink" title="helloworld"></a>helloworld</h2><p>先在自己的 base 安裝 <code>nb_conda_kernels</code> 他會掃描全部的 conda 環境然後讓 jupyter kernel 加進去, 搞 python 裝環境真的超煩.. 整個心態炸裂</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">conda activate base</span><br><span class="line">conda install nb_conda_kernels</span><br><span class="line"></span><br><span class="line"># 切到 cv2 這個環境安裝 ipykernel</span><br><span class="line">conda activate cv2</span><br><span class="line">conda install ipykernel</span><br><span class="line">conda install opencv</span><br><span class="line">conda install matplotlib</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<p>接著用 jupyter 開啟, 看是喜歡 notebook or lab 都可以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jupyter notebook</span><br><span class="line">jupyter-lab</span><br></pre></td></tr></table></figure>
+
+<p>helloworld 這裡的 <code>%matplotlib inline</code> 可以直接顯示圖片在 cell 上面<br>opencv 預設的顏色通道是 <code>bgr</code> 而 matplotlib 則是 <code>rgb</code><br>所以需要呼叫 <code>cv2.cvtColor(marmot, cv2.COLOR_BGR2RGB)</code> 先轉為 <code>rgb</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">import cv2</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">%matplotlib inline</span><br><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;)</span><br><span class="line">marmot = cv2.cvtColor(marmot, cv2.COLOR_BGR2RGB)</span><br><span class="line">plt.imshow(marmot)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>如果想讀成灰度的話需要補上 <code>cv2.IMREAD_GRAYSCALE</code><br>接著 matplotlib 要加入 colormap 參數 <code>cmap</code></p>
+<p>可以到這邊來找喜歡的 <a target="_blank" rel="noopener" href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">colormap</a><br>以前最常用 <code>jet</code> 這樣就可以得到一隻彩色土撥鼠 XD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;, cv2.IMREAD_GRAYSCALE)</span><br><span class="line">plt.imshow(marmot, cmap=&#x27;gray&#x27;)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line">plt.imshow(marmot, cmap=&#x27;jet&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>另外讀圖還有這種方法, 不過要記得是按下任意的按鍵, 點關閉視窗是沒用低, jupyter 的格子會掛點</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;)</span><br><span class="line">blur_marmot = cv2.blur(marmot, (3,3))</span><br><span class="line">blur_marmot_rgb = cv2.cvtColor(blur_marmot, cv2.COLOR_BGR2RGB)</span><br><span class="line">cv2.imshow(&#x27;marmot&#x27; , marmot)</span><br><span class="line">cv2.waitKey(0)</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h3 id="ROI-Region-of-Interest"><a href="#ROI-Region-of-Interest" class="headerlink" title="ROI (Region of Interest)"></a>ROI (Region of Interest)</h3><p>ROI (Region of Interest)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 先 Y 後 X</span><br><span class="line">y_start, y_end = 50, 250</span><br><span class="line">x_start, x_end = 150, 500</span><br><span class="line">roi_marmot = marmot[y_start:y_end,x_start:x_end]</span><br><span class="line">plt.imshow(roi_marmot, cmap=&#x27;jet&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>可以用 split 分出三個通道的 array 然後調整數值就可以弄出一隻憂鬱的老鼠 LOL</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;)</span><br><span class="line">b,g,r = cv2.split(marmot)</span><br><span class="line">b[:] = 200</span><br><span class="line"></span><br><span class="line">deep_blue = cv2.merge((b,g,r))</span><br><span class="line">deep_blue = cv2.cvtColor(deep_blue, cv2.COLOR_BGR2RGB)</span><br><span class="line">plt.imshow(deep_blue)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="外框填充"><a href="#外框填充" class="headerlink" title="外框填充"></a>外框填充</h3><p>跑 <code>convolution</code> 的時候邊框會損失一圈, 可以用 <code>copyMakeBorder</code> 來補</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">img = cv2.imread(&#x27;marmot.jpg&#x27;)</span><br><span class="line">img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</span><br><span class="line">top_size, bottom_size, left_size , right_size = (50,50,50,50)</span><br><span class="line"></span><br><span class="line">replicate = cv2.copyMakeBorder(img, top_size, bottom_size, left_size , right_size , borderType=cv2.BORDER_REPLICATE)</span><br><span class="line">reflect = cv2.copyMakeBorder(img, top_size, bottom_size, left_size , right_size , borderType=cv2.BORDER_REFLECT)</span><br><span class="line">reflect101 = cv2.copyMakeBorder(img, top_size, bottom_size, left_size , right_size , borderType=cv2.BORDER_REFLECT101)</span><br><span class="line">wrap = cv2.copyMakeBorder(img, top_size, bottom_size, left_size , right_size , borderType=cv2.BORDER_WRAP)</span><br><span class="line">constant = cv2.copyMakeBorder(img, top_size, bottom_size, left_size , right_size , borderType=cv2.BORDER_CONSTANT, value=0)</span><br><span class="line"></span><br><span class="line">plt.subplot(231), plt.imshow(img,&#x27;gray&#x27;), plt.title(&#x27;img&#x27;)</span><br><span class="line">plt.subplot(232), plt.imshow(replicate,&#x27;gray&#x27;), plt.title(&#x27;replicate&#x27;)</span><br><span class="line">plt.subplot(233), plt.imshow(reflect,&#x27;gray&#x27;), plt.title(&#x27;reflect&#x27;)</span><br><span class="line">plt.subplot(234), plt.imshow(reflect101,&#x27;gray&#x27;), plt.title(&#x27;reflect101&#x27;)</span><br><span class="line">plt.subplot(235), plt.imshow(wrap,&#x27;gray&#x27;), plt.title(&#x27;wrap&#x27;)</span><br><span class="line">plt.subplot(236), plt.imshow(constant,&#x27;gray&#x27;), plt.title(&#x27;constant&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="影像相加-融合"><a href="#影像相加-融合" class="headerlink" title="影像相加(融合)"></a>影像相加(融合)</h3><p>融合需要調整把兩張圖大小先 resize 成一樣才可以</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;)</span><br><span class="line">marmot.shape</span><br><span class="line"># (360, 640, 3)</span><br><span class="line">sweet_dumpling = cv2.imread(&#x27;sweet_dumpling.jpg&#x27;)</span><br><span class="line">sweet_dumpling.shape</span><br><span class="line"># (1398, 2484, 3)</span><br><span class="line"></span><br><span class="line">sweet_dumpling_resize = cv2.resize(sweet_dumpling, (640, 360))</span><br><span class="line"># plt.imshow(sweet_dumpling_resize)</span><br><span class="line"># plt.show()</span><br><span class="line"></span><br><span class="line">fusion = cv2.addWeighted(sweet_dumpling_resize, 0.8 , marmot, 0.5 , 0)</span><br><span class="line">fusion = cv2.cvtColor(fusion, cv2.COLOR_BGR2RGB)</span><br><span class="line">plt.imshow(fusion)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h2 id="threshold-與平滑處理"><a href="#threshold-與平滑處理" class="headerlink" title="threshold 與平滑處理"></a>threshold 與平滑處理</h2><h3 id="threshold-門檻值-閾"><a href="#threshold-門檻值-閾" class="headerlink" title="threshold 門檻值(閾)"></a>threshold 門檻值(閾)</h3><p>閾 (ㄩˋ) 但一堆人會念成 閥 (ㄈㄚˊ) LOL</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">marmot_gray = cv2.imread(&#x27;marmot.jpg&#x27;, cv2.IMREAD_GRAYSCALE)</span><br><span class="line">ret, t1 = cv2.threshold(marmot_gray, 127, 255, cv2.THRESH_BINARY)</span><br><span class="line">ret, t2 = cv2.threshold(marmot_gray, 127, 255, cv2.THRESH_BINARY_INV)</span><br><span class="line">ret, t3 = cv2.threshold(marmot_gray, 127, 255, cv2.THRESH_TRUNC)</span><br><span class="line">ret, t4 = cv2.threshold(marmot_gray, 127, 255, cv2.THRESH_TOZERO)</span><br><span class="line">ret, t5 = cv2.threshold(marmot_gray, 127, 255, cv2.THRESH_TOZERO_INV)</span><br><span class="line"></span><br><span class="line">titles = [&#x27;marmot&#x27; , &#x27;THRESH_BINARY&#x27; , &#x27;THRESH_BINARY_INV&#x27; , &#x27;THRESH_TRUNC&#x27; , &#x27;THRESH_TOZERO&#x27; , &#x27;THRESH_TOZERO_INV&#x27;]</span><br><span class="line">images = [marmot_gray, t1, t2,t3,t4,t5]</span><br><span class="line"></span><br><span class="line">for i in range(6):</span><br><span class="line">    plt.subplot(2, 3 , i + 1)</span><br><span class="line">    plt.imshow(images[i], &#x27;gray&#x27;)</span><br><span class="line">    plt.title(titles[i])</span><br><span class="line">    plt.xticks([])</span><br><span class="line">    plt.yticks([])</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="平滑"><a href="#平滑" class="headerlink" title="平滑"></a>平滑</h3><p>產噪音點</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 讀取影像</span><br><span class="line">img = cv2.imread(&#x27;your_image.jpg&#x27;)</span><br><span class="line"></span><br><span class="line"># 取得影像的尺寸</span><br><span class="line">height, width, channels = img.shape</span><br><span class="line"></span><br><span class="line"># 設定噪點密度（0-100）</span><br><span class="line">noise_density = 0.05  # 例如 5% 的噪點</span><br><span class="line"></span><br><span class="line"># 生成隨機的噪點矩陣</span><br><span class="line">noise = np.random.rand(height, width) &lt; noise_density</span><br><span class="line"></span><br><span class="line"># 將噪點設為白色（255）</span><br><span class="line">img_with_noise = img.copy()</span><br><span class="line">img_with_noise[noise] = 255  # 白色噪點</span><br><span class="line"></span><br><span class="line"># 顯示結果</span><br><span class="line">cv2.imshow(&#x27;Image with White Noise&#x27;, img_with_noise)</span><br><span class="line">cv2.waitKey(0)</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<p>blur (3,3) 為卷積大小, 一般都用奇數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;)</span><br><span class="line">blur_marmot = cv2.blur(marmot, (3,3))</span><br><span class="line">blur_marmot_rgb = cv2.cvtColor(blur_marmot, cv2.COLOR_BGR2RGB)</span><br><span class="line">cv2.imshow(&#x27;marmot&#x27; , marmot)</span><br><span class="line">cv2.waitKey(0)</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<p>另一種寫法呼叫 boxFilter 函數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;)</span><br><span class="line">blur_marmot = cv2.boxFilter(marmot,-1, (3,3), normalize=True)</span><br><span class="line">blur_marmot_rgb = cv2.cvtColor(blur_marmot, cv2.COLOR_BGR2RGB)</span><br><span class="line">plt.imshow(blur_marmot_rgb)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>高斯模糊</p>
+<p>取鄰近的讓權重更大些, 大概長這樣<br>[<br>	[0.6,0.8,0.6],<br>	[0.8, 1 ,0.8],<br>	[0.6,0.8,0.6],<br>]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot_noise.jpg&#x27;)</span><br><span class="line">blur_marmot = cv2.GaussianBlur(marmot,(5,5), 0)</span><br><span class="line">blur_marmot_rgb = cv2.cvtColor(blur_marmot, cv2.COLOR_BGR2RGB)</span><br><span class="line">plt.imshow(blur_marmot_rgb)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>中值因為他取中間的數值, 所以可以有效消除噪音點</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">marmot_noise = cv2.imread(&#x27;marmot_noise.jpg&#x27;)</span><br><span class="line">blur_marmot = cv2.medianBlur(marmot_noise, 3)</span><br><span class="line">blur_marmot_rgb = cv2.cvtColor(blur_marmot, cv2.COLOR_BGR2RGB)</span><br><span class="line">plt.imshow(blur_marmot_rgb)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>他這裡教一個技巧可以用 numpy 的 <code>hstack</code> <code>vstack</code> 把圖拼成一張</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">marmot_noise = cv2.imread(&#x27;marmot_noise.jpg&#x27;)</span><br><span class="line">blur_marmot = cv2.GaussianBlur(marmot_noise,(5,5), 0)</span><br><span class="line">blur_marmot2 = cv2.medianBlur(marmot_noise, 3)</span><br><span class="line">res = np.hstack((marmot_noise, blur_marmot, blur_marmot2))</span><br><span class="line">res = cv2.cvtColor(res, cv2.COLOR_BGR2RGB)</span><br><span class="line">plt.imshow(res)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"># cv2.imshow(&#x27;res&#x27;, res)</span><br><span class="line"># cv2.waitKey(0)</span><br><span class="line"># cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h2 id="形態學-Morphological"><a href="#形態學-Morphological" class="headerlink" title="形態學 Morphological"></a>形態學 Morphological</h2><h3 id="腐蝕-Erosion"><a href="#腐蝕-Erosion" class="headerlink" title="腐蝕 Erosion"></a>腐蝕 Erosion</h3><p>通常用在已經二值化的圖上, 先拿小畫家寫個黑底白字的土撥鼠, 然後字上面畫毛</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">marmot_text = cv2.imread(&#x27;marmot_text.png&#x27;)</span><br><span class="line">kernel = np.ones((3,3), np.uint8)</span><br><span class="line"># kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (3, 3))</span><br><span class="line">print(kernel)</span><br><span class="line">print(type(kernel))</span><br><span class="line">marmot_text_erode = cv2.erode(marmot_text , kernel, iterations= 1)</span><br><span class="line">res = np.hstack((marmot_text,marmot_text_erode))</span><br><span class="line">plt.imshow(res)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="膨脹-dilate"><a href="#膨脹-dilate" class="headerlink" title="膨脹 dilate"></a>膨脹 dilate</h3><p>跟腐蝕相互為逆, 假如腐蝕過後線條變細可以用膨脹來讓它變粗</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">marmot_text = cv2.imread(&#x27;marmot_text.png&#x27;)</span><br><span class="line">kernel = np.ones((3,3), np.uint8)</span><br><span class="line">print(kernel)</span><br><span class="line">print(type(kernel))</span><br><span class="line">marmot_text_erode = cv2.erode(marmot_text , kernel, iterations= 1)</span><br><span class="line">marmot_text_dilate = cv2.dilate(marmot_text_erode , kernel, iterations= 1)</span><br><span class="line">res = np.hstack((marmot_text,marmot_text_erode,marmot_text_dilate))</span><br><span class="line">plt.imshow(res)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="開運算-Opening-閉運算-Closing"><a href="#開運算-Opening-閉運算-Closing" class="headerlink" title="開運算 Opening &#x2F; 閉運算 Closing"></a>開運算 Opening &#x2F; 閉運算 Closing</h3><p>開運算 &#x3D;&gt; 先腐蝕再膨脹<br>閉運算 &#x3D;&gt; 先膨脹再腐蝕</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">marmot_text = cv2.imread(&#x27;marmot_text.png&#x27;)</span><br><span class="line">kernel = np.ones((3,3), np.uint8)</span><br><span class="line">marmot_text_open = cv2.morphologyEx(marmot_text,cv2.MORPH_OPEN, kernel)</span><br><span class="line">marmot_text_close = cv2.morphologyEx(marmot_text,cv2.MORPH_CLOSE, kernel)</span><br><span class="line">res = np.hstack((marmot_text_open, marmot_text_close))</span><br><span class="line">plt.imshow(res)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="梯度運算-Gradient"><a href="#梯度運算-Gradient" class="headerlink" title="梯度運算 Gradient"></a>梯度運算 Gradient</h3><p>Gradient &#x3D; 膨脹 Dilation(image) - 腐蝕 Erosion(image)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">marmot_text = cv2.imread(&#x27;marmot_text.png&#x27;)</span><br><span class="line">marmot_text_open = cv2.morphologyEx(marmot_text,cv2.MORPH_OPEN, kernel)</span><br><span class="line">plt.imshow(res)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h3 id="禮帽-Top-Hat-黑帽-Black-Hat"><a href="#禮帽-Top-Hat-黑帽-Black-Hat" class="headerlink" title="禮帽 Top Hat &#x2F; 黑帽 Black Hat"></a>禮帽 Top Hat &#x2F; 黑帽 Black Hat</h3><p>TopHat &#x3D; 原圖 - 開運算結果</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">marmot_text = cv2.imread(&#x27;marmot_text.png&#x27;)</span><br><span class="line">kernel = np.ones((3,3), np.uint8)</span><br><span class="line">marmot_text_tophat = cv2.morphologyEx(marmot_text,cv2.MORPH_TOPHAT, kernel)</span><br><span class="line">plt.imshow(marmot_text_tophat)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>BlackHat &#x3D; 閉運算結果 - 原圖</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">marmot_text = cv2.imread(&#x27;marmot_text.png&#x27;)</span><br><span class="line">kernel = np.ones((3,3), np.uint8)</span><br><span class="line">marmot_text_blackhat = cv2.morphologyEx(marmot_text,cv2.MORPH_BLACKHAT, kernel)</span><br><span class="line">plt.imshow(marmot_text_blackhat)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<h2 id="圖像梯度"><a href="#圖像梯度" class="headerlink" title="圖像梯度"></a>圖像梯度</h2><h3 id="Sobel"><a href="#Sobel" class="headerlink" title="Sobel"></a>Sobel</h3><p>跟高斯有點像, 越近權重越高</p>
+<p>kernelx &#x3D;<br>[<br>-1 0 +1<br>-2 0 +2<br>-1 0 +1<br>]</p>
+<p>kernely &#x3D;<br>[<br>-1 -2 -1<br> 0  0  0<br>+1 +2 +1<br>]</p>
+<p>Gx &#x3D; kernelx * A and Gy &#x3D; kernely * A</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;, cv2.IMREAD_GRAYSCALE)</span><br><span class="line">marmotx = cv2.Sobel(marmot, cv2.CV_64F, 1, 0, ksize=3)</span><br><span class="line">marmoty = cv2.Sobel(marmot, cv2.CV_64F, 0, 1, ksize=3)</span><br><span class="line">marmotx = cv2.convertScaleAbs(marmotx)</span><br><span class="line">marmoty = cv2.convertScaleAbs(marmoty)</span><br><span class="line">marmotxy = cv2.addWeighted(marmotx, 0.5, marmoty, 0.5, 0)</span><br><span class="line">plt.imshow(marmotxy, cmap=&#x27;gray&#x27;)</span><br><span class="line">plt.show()</span><br><span class="line"># cv2.imshow(&#x27;marmotxy&#x27;, marmotxy)</span><br><span class="line"># cv2.waitKey(0)</span><br><span class="line"># cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure>
+
+<h3 id="scharr-lapkacian"><a href="#scharr-lapkacian" class="headerlink" title="scharr &#x2F; lapkacian"></a>scharr &#x2F; lapkacian</h3><p>scharr 細節會比 Sobel 還更多</p>
+<p>kernelx &#x3D;<br>[<br> -3 0  3<br>-10 0 10<br> -3 0  3<br>] </p>
+<p>kernely &#x3D;<br>[<br>-3 -10  3<br> 0   0  0<br>-3 -10 -3<br>] </p>
+<p>Gx &#x3D; kernelx * A<br>Gy &#x3D; kernely * A</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;, cv2.IMREAD_GRAYSCALE)</span><br><span class="line">marmotx = cv2.Scharr(marmot, cv2.CV_64F, 1, 0)</span><br><span class="line">marmoty = cv2.Scharr(marmot, cv2.CV_64F, 0, 1)</span><br><span class="line">marmotx = cv2.convertScaleAbs(marmotx)</span><br><span class="line">marmoty = cv2.convertScaleAbs(marmoty)</span><br><span class="line">marmotxy = cv2.addWeighted(marmotx, 0.5, marmoty, 0.5, 0)</span><br><span class="line">plt.imshow(marmotxy, cmap=&#x27;gray&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+<p>lapkacian 不建議單獨使用, 需要搭配其他咚咚</p>
+<p>G &#x3D;<br>[<br>0  1 0<br>1 -4 1<br>0  1 0<br>]</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">marmot = cv2.imread(&#x27;marmot.jpg&#x27;, cv2.IMREAD_GRAYSCALE)</span><br><span class="line">marmot_laplacian = cv2.Laplacian(marmot, cv2.CV_64F)</span><br><span class="line">marmot_laplacian = cv2.convertScaleAbs(marmot_laplacian)</span><br><span class="line">plt.imshow(marmot_laplacian, cmap=&#x27;gray&#x27;)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Retinex-視網膜"><a href="#Retinex-視網膜" class="headerlink" title="Retinex 視網膜"></a>Retinex 視網膜</h2><p>參考自這個 <a target="_blank" rel="noopener" href="https://github.com/aravindskrishnan/Retinex-Image-Enhancement?tab=readme-ov-file">repo</a><br>還有另外一種 <a target="_blank" rel="noopener" href="https://github.com/dongb5/Retinex">https://github.com/dongb5/Retinex</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">import cv2</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">import numpy as np</span><br><span class="line">%matplotlib inline</span><br><span class="line"></span><br><span class="line">def singleScaleRetinex(img,variance):</span><br><span class="line">    retinex = np.log10(img) - np.log10(cv2.GaussianBlur(img, (0, 0), variance))</span><br><span class="line">    return retinex</span><br><span class="line"></span><br><span class="line">def multiScaleRetinex(img, variance_list):</span><br><span class="line">    retinex = np.zeros_like(img)</span><br><span class="line">    for variance in variance_list:</span><br><span class="line">        retinex += singleScaleRetinex(img, variance)</span><br><span class="line">    retinex = retinex / len(variance_list)</span><br><span class="line">    return retinex</span><br><span class="line"></span><br><span class="line">   </span><br><span class="line"></span><br><span class="line">def MSR(img, variance_list):</span><br><span class="line">    img = np.float64(img) + 1.0</span><br><span class="line">    img_retinex = multiScaleRetinex(img, variance_list)</span><br><span class="line"></span><br><span class="line">    for i in range(img_retinex.shape[2]):</span><br><span class="line">        unique, count = np.unique(np.int32(img_retinex[:, :, i] * 100), return_counts=True)</span><br><span class="line">        for u, c in zip(unique, count):</span><br><span class="line">            if u == 0:</span><br><span class="line">                zero_count = c</span><br><span class="line">                break            </span><br><span class="line">        low_val = unique[0] / 100.0</span><br><span class="line">        high_val = unique[-1] / 100.0</span><br><span class="line">        for u, c in zip(unique, count):</span><br><span class="line">            if u &lt; 0 and c &lt; zero_count * 0.1:</span><br><span class="line">                low_val = u / 100.0</span><br><span class="line">            if u &gt; 0 and c &lt; zero_count * 0.1:</span><br><span class="line">                high_val = u / 100.0</span><br><span class="line">                break            </span><br><span class="line">        img_retinex[:, :, i] = np.maximum(np.minimum(img_retinex[:, :, i], high_val), low_val)</span><br><span class="line">        </span><br><span class="line">        img_retinex[:, :, i] = (img_retinex[:, :, i] - np.min(img_retinex[:, :, i])) / \</span><br><span class="line">                               (np.max(img_retinex[:, :, i]) - np.min(img_retinex[:, :, i])) \</span><br><span class="line">                               * 255</span><br><span class="line">    img_retinex = np.uint8(img_retinex)        </span><br><span class="line">    return img_retinex</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def SSR(img, variance):</span><br><span class="line">    img = np.float64(img) + 1.0</span><br><span class="line">    img_retinex = singleScaleRetinex(img, variance)</span><br><span class="line">    for i in range(img_retinex.shape[2]):</span><br><span class="line">        unique, count = np.unique(np.int32(img_retinex[:, :, i] * 100), return_counts=True)</span><br><span class="line">        for u, c in zip(unique, count):</span><br><span class="line">            if u == 0:</span><br><span class="line">                zero_count = c</span><br><span class="line">                break            </span><br><span class="line">        low_val = unique[0] / 100.0</span><br><span class="line">        high_val = unique[-1] / 100.0</span><br><span class="line">        for u, c in zip(unique, count):</span><br><span class="line">            if u &lt; 0 and c &lt; zero_count * 0.1:</span><br><span class="line">                low_val = u / 100.0</span><br><span class="line">            if u &gt; 0 and c &lt; zero_count * 0.1:</span><br><span class="line">                high_val = u / 100.0</span><br><span class="line">                break            </span><br><span class="line">        img_retinex[:, :, i] = np.maximum(np.minimum(img_retinex[:, :, i], high_val), low_val)</span><br><span class="line">        </span><br><span class="line">        img_retinex[:, :, i] = (img_retinex[:, :, i] - np.min(img_retinex[:, :, i])) / \</span><br><span class="line">                               (np.max(img_retinex[:, :, i]) - np.min(img_retinex[:, :, i])) \</span><br><span class="line">                               * 255</span><br><span class="line">    img_retinex = np.uint8(img_retinex)        </span><br><span class="line">    return img_retinex</span><br></pre></td></tr></table></figure>
+
+<p>呼叫法</p>
+<p>MSR 需要吃一個 array AI 建議用這樣 variance_list &#x3D; [15, 80, 200]<br>SSR 只需要單一數值</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">variance_list = [15, 80, 200]</span><br><span class="line">variance = 300</span><br><span class="line"></span><br><span class="line"># 原圖</span><br><span class="line">img = cv2.imread(&#x27;sweet_dumpling.jpg&#x27;)</span><br><span class="line">img_plt = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)</span><br><span class="line"></span><br><span class="line">plt.imshow(img_plt)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"># MSR</span><br><span class="line">img_msr = MSR(img,variance_list)</span><br><span class="line">img_msr_plt = cv2.cvtColor(img_msr, cv2.COLOR_BGR2RGB)</span><br><span class="line">plt.imshow(img_msr_plt)</span><br><span class="line">plt.show()</span><br><span class="line"></span><br><span class="line"># SSR</span><br><span class="line">img_ssr = SSR(img, variance)</span><br><span class="line">img_ssr_plt = cv2.cvtColor(img_ssr, cv2.COLOR_BGR2RGB)</span><br><span class="line">plt.imshow(img_ssr_plt)</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/04/23/numpy-%E7%AD%86%E8%A8%98/" rel="prev" title="numpy 筆記">
+      <i class="fa fa-chevron-left"></i> numpy 筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/04/26/fastapi-%E7%AD%86%E8%A8%98/" rel="next" title="fastapi 筆記">
+      fastapi 筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#helloworld"><span class="nav-number">1.</span> <span class="nav-text">helloworld</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ROI-Region-of-Interest"><span class="nav-number">1.1.</span> <span class="nav-text">ROI (Region of Interest)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%96%E6%A1%86%E5%A1%AB%E5%85%85"><span class="nav-number">1.2.</span> <span class="nav-text">外框填充</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BD%B1%E5%83%8F%E7%9B%B8%E5%8A%A0-%E8%9E%8D%E5%90%88"><span class="nav-number">1.3.</span> <span class="nav-text">影像相加(融合)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#threshold-%E8%88%87%E5%B9%B3%E6%BB%91%E8%99%95%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">threshold 與平滑處理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#threshold-%E9%96%80%E6%AA%BB%E5%80%BC-%E9%96%BE"><span class="nav-number">2.1.</span> <span class="nav-text">threshold 門檻值(閾)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B9%B3%E6%BB%91"><span class="nav-number">2.2.</span> <span class="nav-text">平滑</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BD%A2%E6%85%8B%E5%AD%B8-Morphological"><span class="nav-number">3.</span> <span class="nav-text">形態學 Morphological</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%85%90%E8%9D%95-Erosion"><span class="nav-number">3.1.</span> <span class="nav-text">腐蝕 Erosion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%86%A8%E8%84%B9-dilate"><span class="nav-number">3.2.</span> <span class="nav-text">膨脹 dilate</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%96%8B%E9%81%8B%E7%AE%97-Opening-%E9%96%89%E9%81%8B%E7%AE%97-Closing"><span class="nav-number">3.3.</span> <span class="nav-text">開運算 Opening &#x2F; 閉運算 Closing</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A2%AF%E5%BA%A6%E9%81%8B%E7%AE%97-Gradient"><span class="nav-number">3.4.</span> <span class="nav-text">梯度運算 Gradient</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A6%AE%E5%B8%BD-Top-Hat-%E9%BB%91%E5%B8%BD-Black-Hat"><span class="nav-number">3.5.</span> <span class="nav-text">禮帽 Top Hat &#x2F; 黑帽 Black Hat</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%96%E5%83%8F%E6%A2%AF%E5%BA%A6"><span class="nav-number">4.</span> <span class="nav-text">圖像梯度</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Sobel"><span class="nav-number">4.1.</span> <span class="nav-text">Sobel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#scharr-lapkacian"><span class="nav-number">4.2.</span> <span class="nav-text">scharr &#x2F; lapkacian</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Retinex-%E8%A6%96%E7%B6%B2%E8%86%9C"><span class="nav-number">5.</span> <span class="nav-text">Retinex 視網膜</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2025/04/24/opencv-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2025/04/24/opencv-筆記/";
+    this.page.title = "opencv 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

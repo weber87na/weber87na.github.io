@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="git日常筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-07-08T16:06:28.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="git">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>git日常筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          git日常筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2020-07-09 00:06:28" itemprop="dateCreated datePublished" datetime="2020-07-09T00:06:28+08:00">2020-07-09</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/09/git日常筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>6.3k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>6 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+<p>隨手紀錄一下日常遇到的git問題</p>
+<h3 id="重新命名-master-為-main-分支"><a href="#重新命名-master-為-main-分支" class="headerlink" title="重新命名 master 為 main 分支"></a>重新命名 master 為 main 分支</h3><p>因為 visual studio 開專案預設還是使用 master 當作分支 , 如果還在 local 的話可以這樣做</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git branch -m master main</span><br><span class="line"># 確認已經修改為 main</span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p>因為 <code>gitlab</code> 現在預設都用 <code>main</code><br>如果要匯入 <code>gitlab</code> 的話  , 在 <code>gitlab</code> 點加號 <code>Create new project</code> &#x3D;&gt; <code>Create blank project</code><br>填入你的專案名稱等等 , 記得不要勾加入 <code>readme</code><br>再次確認你現有的 local project 看看分支是否為 <code>main</code> 最後輸入以下指令即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://oooooxxxxx/ladisai/DemoApiDoc.git</span><br><span class="line">git push --set-upstream origin main</span><br></pre></td></tr></table></figure>
+
+<h3 id="中文亂碼"><a href="#中文亂碼" class="headerlink" title="中文亂碼"></a>中文亂碼</h3><p>參考以下文章<br>powershell<br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Laggage/p/12301495.html">https://www.cnblogs.com/Laggage/p/12301495.html</a> </p>
+<p>git bash<br><a target="_blank" rel="noopener" href="https://dotblogs.com.tw/H20/2018/06/22/111411">https://dotblogs.com.tw/H20/2018/06/22/111411</a></p>
+<h3 id="遠端切換分支"><a href="#遠端切換分支" class="headerlink" title="遠端切換分支"></a>遠端切換分支</h3><p>參考<br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git">https://stackoverflow.com/questions/67699/how-to-clone-all-remote-branches-in-git</a></p>
+<p>自己的 git 太廢學了又忘筆記一下常用的多人開發狀況<br>A 開發者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">列出所有分支</span><br><span class="line">git branch -a</span><br><span class="line"></span><br><span class="line">remotes/origin/develop</span><br><span class="line">remotes/origin/master</span><br><span class="line"></span><br><span class="line">從遠端追蹤分支建立連結</span><br><span class="line">git checkout develop</span><br><span class="line"></span><br><span class="line">建立新的 new1 本地分支</span><br><span class="line">git checkout -b new1</span><br><span class="line"></span><br><span class="line">將本地分支上傳到遠端(-u origin 是設定上游)</span><br><span class="line">git push -u origin</span><br></pre></td></tr></table></figure>
+
+<p>B 開發者</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">下載遠端追蹤分支</span><br><span class="line">git fetch</span><br><span class="line"></span><br><span class="line">remotes/origin/develop</span><br><span class="line">remotes/origin/master</span><br><span class="line">remotes/origin/new1</span><br><span class="line"></span><br><span class="line">git checkout new1</span><br></pre></td></tr></table></figure>
+
+<h3 id="visual-studio-clone-分支"><a href="#visual-studio-clone-分支" class="headerlink" title="visual studio clone 分支"></a>visual studio clone 分支</h3><p>如果要用 <code>visual studio</code> 切換的話請參考 <a target="_blank" rel="noopener" href="https://saraford.net/2017/04/26/how-to-create-a-local-copy-of-a-remote-branch-in-visual-studio-116/">這篇</a><br>先點右下角的 <code>Manage Branches</code><br>接著他會 show 出 <code>本地 (local)</code> 分支及 <code>遠端 (remotes/origin)</code> 分支<br>接著點開 <code>遠端 remotes</code> 分支看看目前有哪些可用分支 , 點選 <code>New Branch</code> 建立跟 <code>遠端 reomtes</code> 一樣的分支名稱 , 本例為 <code>ladisai</code> , 接著選你要 <code>based</code> 的遠端分支 , 本例為 <code>origin/ladisai</code><br>記得要勾選 <code>checkout</code> 及 <code>Track remote branch</code> 此時專案應該就正常了</p>
+<h3 id="救援"><a href="#救援" class="headerlink" title="救援"></a>救援</h3><p>腦子不清楚寫錯 code 時放棄目前所有檔案變更</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">git reset --hard HEAD</span><br><span class="line"></span><br><span class="line">上一個版本</span><br><span class="line">git reset --hard HEAD~1</span><br><span class="line"></span><br><span class="line">回到 reset 以前的版本</span><br><span class="line">git reset --hard ORIG_HEAD</span><br><span class="line"></span><br><span class="line">軟男小幅改動程式 , 不想又多 commit 時使用</span><br><span class="line">git reset --soft HEAD~1</span><br></pre></td></tr></table></figure>
+
+<p>將自己的分支上傳前被遠端 reject 以後 pull 時用<br>只更新索引不強制復原檔案(預設就是 –mixed)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git reset --mixed</span><br></pre></td></tr></table></figure>
+
+<p>修正之前寫錯的 commit (會自動帶出之前 commit 的 message 內容)<br>或是追加檔案在最後一個 commit 注意只在 local 使用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git commit -amend</span><br><span class="line"></span><br><span class="line">or</span><br><span class="line">追加的檔案</span><br><span class="line">git add index.html</span><br><span class="line">git commit -amend</span><br></pre></td></tr></table></figure>
+
+<p>還原誤刪的檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">rm test.html</span><br><span class="line">git checkout -- test.html</span><br><span class="line"></span><br><span class="line">還原某個 commit 裡面的 test.html</span><br><span class="line">git checkout ab1234afsb -- test.html</span><br><span class="line"></span><br><span class="line">拿三個版本以前的</span><br><span class="line">git checkout HEAD~3 test.html</span><br><span class="line"></span><br><span class="line">救全部</span><br><span class="line">git checkout .</span><br></pre></td></tr></table></figure>
+
+<h3 id="log"><a href="#log" class="headerlink" title="log"></a>log</h3><p>log 近三次的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log -3</span><br></pre></td></tr></table></figure>
+
+<p>log 單一檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log gy.html</span><br></pre></td></tr></table></figure>
+
+<p>log 詳細單一檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log -p gy.html</span><br></pre></td></tr></table></figure>
+
+<p>log 作者名稱 gy</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --oneline --author=&quot;gy&quot;</span><br></pre></td></tr></table></figure>
+
+<p>log 找罵客戶的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --oneline --grep=&quot;gy&quot;</span><br></pre></td></tr></table></figure>
+
+<p>找內容有髒話的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log -S &quot;gy&quot;</span><br></pre></td></tr></table></figure>
+
+<p>參考自遺留系統重建實戰<br>找 10 天內最常修改的 source code<br><code>&quot;[^\s]&quot;</code> &#x3D;&gt; 去除空白行<br>特別要注意排序部分有可能有相同數量的檔案 , 所以依照 count 接著 name 進行排序</p>
+<p><code>bash</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --since=&quot;10 days ago&quot; --pretty=format:&quot;&quot; --name-only | grep &quot;[^\s]&quot; | sort | uniq -c | sort -nr | head -10</span><br></pre></td></tr></table></figure>
+
+<p><code>powershell</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git log --since=&quot;10 days ago&quot; --pretty=format:&quot;&quot; --name-only | Select-String -Pattern &quot;[^\s]&quot; | Group-Object | sort count , name -desc | select Count , Name -first 10</span><br></pre></td></tr></table></figure>
+
+<h3 id="刪檔"><a href="#刪檔" class="headerlink" title="刪檔"></a>刪檔</h3><p>讓 git 刪除檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm index.html</span><br></pre></td></tr></table></figure>
+
+<p>讓檔案變成 untrack 狀態</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached index.html</span><br></pre></td></tr></table></figure>
+
+<p>刪除火大的 Untrack file Thumbs.db <a target="_blank" rel="noopener" href="https://koukia.ca/how-to-remove-local-untracked-files-from-the-current-git-branch-571c6ce9b6b1">參考</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clean -f</span><br></pre></td></tr></table></figure>
+
+<h3 id="忽略檔案"><a href="#忽略檔案" class="headerlink" title="忽略檔案"></a>忽略檔案</h3><p>git 通靈目錄</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">touch .keep</span><br></pre></td></tr></table></figure>
+
+<p>git 忽略檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">建立忽略文件列表</span><br><span class="line">.gitignore</span><br><span class="line"></span><br><span class="line">踢掉建立 gitignore 以前的所有檔案</span><br><span class="line">git clean -fX</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/github/gitignore">.gitignore template</a><br><a target="_blank" rel="noopener" href="https://elanderson.net/2016/09/add-git-ignore-to-existing-visual-studio-project/">visual studio 底下建 .gitignore 的方法</a></p>
+<p>git you give love a bad name</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git blame bonjovi.html</span><br></pre></td></tr></table></figure>
+
+<p>萬一被 cache 鎖住更新不了可以參考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/6030530/git-ignore-not-working-in-a-directory">這篇</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git rm -r --cached .</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;Gitignore issue fixed&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="fatal-fsync-error-on-‘-git-objects-pack-tmp-pack-DZTfQ3’-Bad-file-descriptor"><a href="#fatal-fsync-error-on-‘-git-objects-pack-tmp-pack-DZTfQ3’-Bad-file-descriptor" class="headerlink" title="fatal: fsync error on ‘.git&#x2F;objects&#x2F;pack&#x2F;tmp_pack_DZTfQ3’: Bad file descriptor"></a>fatal: fsync error on ‘.git&#x2F;objects&#x2F;pack&#x2F;tmp_pack_DZTfQ3’: Bad file descriptor</h3><p>今天遇到這個問題 , 我是用 visual studio 開啟專案 , 然後開 git bash 執行 pull 發生的 , 怎麼樣都沒法正確 pull 下來<br>後來參考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47929881/git-fatal-fsync-error-on-sha1-file-bad-file-descriptor">老外</a><br>搞了半天最後把 visual studio 關閉 , 然後用 git bash pull 就成功了 , 不曉得是不是 lock 什麼檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fatal: fsync error on &#x27;.git/objects/pack/tmp_pack_DZTfQ3&#x27;: Bad file descriptor</span><br></pre></td></tr></table></figure>
+
+<h3 id="repository-改名"><a href="#repository-改名" class="headerlink" title="repository 改名"></a>repository 改名</h3><p>今天在用 git 遇到的問題 , 原本的 repository 被改名了 , 這樣比較好運的意思<br>只要設定下面這個就搞定 <code>git remote set-url origin https://xxx.com.tw/oxapi.git</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">remote: To create a merge request for xxxapi, visit:</span><br><span class="line">remote:   https://xxx.com.tw/api/-/merge_requests/new?merge_request%5Bsource_branch%5D=api</span><br><span class="line">remote: Project &#x27;XXX/api&#x27; was moved to &#x27;OOO/oxapi&#x27;.</span><br><span class="line">remote: Please update your Git remote:</span><br><span class="line">remote:   git remote set-url origin https://xxx.com.tw/oxapi.git</span><br></pre></td></tr></table></figure>
+
+<h3 id="排除-web-config-裡面的敏感資訊"><a href="#排除-web-config-裡面的敏感資訊" class="headerlink" title="排除 web.config 裡面的敏感資訊"></a>排除 web.config 裡面的敏感資訊</h3><p>最近遇到一個問題 , 業主要求要給 git 版控紀錄 , 老實說還真不想給 , 這樣內部密碼等敏感資訊不就裸奔 , 所以研究一下怎麼搞 , 主要<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/45677569/how-do-i-keep-asp-net-connection-string-passwords-secure-on-a-git-repository/45706222">參考老外</a> 及<a target="_blank" rel="noopener" href="http://johnatten.com/2014/04/06/asp-net-mvc-keep-private-settings-out-of-source-control/">這篇</a> 也可以參考<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-tw/aspnet/identity/overview/features-api/best-practices-for-deploying-passwords-and-other-sensitive-data-to-aspnet-and-azure">微軟</a><br>新增一個連線字串的檔案 <code>ConnectionStrings.config</code> 然後把原本的連線字串都丟進來 , 這裡用 LocalDb</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;connectionStrings&gt;</span><br><span class="line">	&lt;add name=&quot;WorldCities&quot; </span><br><span class="line">	   connectionString=&quot;Data Source=(LocalDb)\MSSQLLocalDB;Initial Catalog=WorldCities;Integrated Security=SSPI;&quot;</span><br><span class="line">	   providerName=&quot;System.Data.SqlClient&quot; </span><br><span class="line">	/&gt;</span><br><span class="line">&lt;/connectionStrings&gt;</span><br></pre></td></tr></table></figure>
+
+
+<p>接著修改 <code>web.config</code> 的內容 , 找到原本連線字串的地方 , 改為這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;configuration&gt;</span><br><span class="line">	&lt;connectionStrings configSource=&quot;ConnectionStrings.config&quot; /&gt;</span><br><span class="line">&lt;/configuration&gt;</span><br></pre></td></tr></table></figure>
+
+<p>在 <code>.gitignore</code> 裡面加上排除條件</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"># 排除 web.config 裡面的敏感資訊</span><br><span class="line">ConnectionStrings.config</span><br></pre></td></tr></table></figure>
+
+<p>執行 <code>git status</code> 大概會長這樣 , 這樣就排除了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">git status</span><br><span class="line"></span><br><span class="line">On branch master</span><br><span class="line">Changes not staged for commit:</span><br><span class="line">  (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)</span><br><span class="line">  (use &quot;git restore &lt;file&gt;...&quot; to discard changes in working directory)</span><br><span class="line">        modified:   ../.gitignore</span><br><span class="line">        modified:   Web.config</span><br><span class="line">        deleted:    connections.config</span><br></pre></td></tr></table></figure>
+
+<p>接著隨便寫段 code 連看看應該就沒事了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class DapperBaseRepository</span><br><span class="line">&#123;</span><br><span class="line">	public List&lt;T&gt; Query&lt;T&gt;(string query, object parameters = null)</span><br><span class="line">	&#123;</span><br><span class="line">		try</span><br><span class="line">		&#123;</span><br><span class="line"></span><br><span class="line">			using (SqlConnection conn </span><br><span class="line">				   = new SqlConnection(ConfigurationManager.ConnectionStrings[&quot;WorldCities&quot;].ToString()))</span><br><span class="line">			&#123;</span><br><span class="line">				return conn.Query&lt;T&gt;(query, parameters).ToList();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">		catch (Exception ex)</span><br><span class="line">		&#123;</span><br><span class="line">			//Handle the exception</span><br><span class="line">			return new List&lt;T&gt;();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>appSettings</code> 詳細可以看<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-tw/aspnet/identity/overview/features-api/best-practices-for-deploying-passwords-and-other-sensitive-data-to-aspnet-and-azure">官方</a>跟<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/19596233/mvc-3-getting-values-from-appsettings-in-web-config">這篇</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;appSettings file=&quot;AppSettingsSecrets.config&quot;&gt;</span><br><span class="line">	&lt;add key=&quot;webpages:Version&quot; value=&quot;3.0.0.0&quot; /&gt;</span><br><span class="line">	&lt;add key=&quot;webpages:Enabled&quot; value=&quot;false&quot; /&gt;</span><br><span class="line">	&lt;add key=&quot;ClientValidationEnabled&quot; value=&quot;true&quot; /&gt;</span><br><span class="line">	&lt;add key=&quot;UnobtrusiveJavaScriptEnabled&quot; value=&quot;true&quot; /&gt;</span><br><span class="line">&lt;/appSettings&gt;</span><br></pre></td></tr></table></figure>
+
+<p>接著新增 <code>AppSettingsSecrets.config</code> 注意要在 gitignore 裡面先設定</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;appSettings&gt;</span><br><span class="line">   &lt;!-- SendGrid--&gt;</span><br><span class="line">   &lt;add key=&quot;mailAccount&quot; value=&quot;My mail account.&quot; /&gt;</span><br><span class="line">   &lt;add key=&quot;mailPassword&quot; value=&quot;My mail password.&quot; /&gt;</span><br><span class="line">   &lt;!-- Twilio--&gt;</span><br><span class="line">   &lt;add key=&quot;TwilioSid&quot; value=&quot;My Twilio SID.&quot; /&gt;</span><br><span class="line">   &lt;add key=&quot;TwilioToken&quot; value=&quot;My Twilio Token.&quot; /&gt;</span><br><span class="line">   &lt;add key=&quot;TwilioFromPhone&quot; value=&quot;+12065551234&quot; /&gt;</span><br><span class="line"></span><br><span class="line">   &lt;add key=&quot;GoogClientID&quot; value=&quot;1.apps.googleusercontent.com&quot; /&gt;</span><br><span class="line">   &lt;add key=&quot;GoogClientSecret&quot; value=&quot;My Google client secret.&quot; /&gt;</span><br><span class="line">&lt;/appSettings&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>撈資料</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var x = System.Configuration.ConfigurationManager.AppSettings[&quot;mailAccount&quot;];</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="本地看不到遠端分支"><a href="#本地看不到遠端分支" class="headerlink" title="本地看不到遠端分支"></a>本地看不到遠端分支</h3><p>今天發生個詭異問題 , gitlab 上面看得到分支 , 但是自己電腦上看不到遠端分支 , 簡直活見鬼</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#看不到</span><br><span class="line">git branch -r</span><br><span class="line"></span><br><span class="line">#先更新即可</span><br><span class="line">git remote update</span><br><span class="line">git branch -r</span><br></pre></td></tr></table></figure>
+
+<h3 id="將-local-現有專案-push-至-gitlab-的方法"><a href="#將-local-現有專案-push-至-gitlab-的方法" class="headerlink" title="將 local 現有專案 push 至 gitlab 的方法"></a>將 local 現有專案 push 至 gitlab 的方法</h3><p>首先在 gitlab 點選 create blank project<br>由於現在 gitlab 都會用 main 當作主支 , 所以 init 時記得設定下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">git init --initial-branch=main</span><br><span class="line">git status</span><br><span class="line">git add --all</span><br><span class="line">git commit -m &quot;init&quot;</span><br><span class="line">git remote add origin https://yourgitlab/yourproject.git</span><br><span class="line">git pull https://yourgitlab/yourproject.git main --allow-unrelated-histories</span><br><span class="line">git status</span><br><span class="line">git push --set-upstream origin main</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他資源"><a href="#其他資源" class="headerlink" title="其他資源"></a>其他資源</h3><p><a target="_blank" rel="noopener" href="https://learngitbranching.js.org/?locale=zh_TW">git 練習</a></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/08/%E5%8C%AF%E5%85%A5ShapeFile%E5%88%B0MSSQL/" rel="prev" title="匯入ShapeFile到MSSQL">
+      <i class="fa fa-chevron-left"></i> 匯入ShapeFile到MSSQL
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/09/%E4%B8%80%E4%BA%9B%E7%B6%B2%E8%B7%AF%E9%AB%98%E6%89%8B%E7%9A%84Blog/" rel="next" title="一些網路高手的Blog">
+      一些網路高手的Blog <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E6%96%B0%E5%91%BD%E5%90%8D-master-%E7%82%BA-main-%E5%88%86%E6%94%AF"><span class="nav-number">1.</span> <span class="nav-text">重新命名 master 為 main 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%AD%E6%96%87%E4%BA%82%E7%A2%BC"><span class="nav-number">2.</span> <span class="nav-text">中文亂碼</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%A0%E7%AB%AF%E5%88%87%E6%8F%9B%E5%88%86%E6%94%AF"><span class="nav-number">3.</span> <span class="nav-text">遠端切換分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#visual-studio-clone-%E5%88%86%E6%94%AF"><span class="nav-number">4.</span> <span class="nav-text">visual studio clone 分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%91%E6%8F%B4"><span class="nav-number">5.</span> <span class="nav-text">救援</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#log"><span class="nav-number">6.</span> <span class="nav-text">log</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%AA%E6%AA%94"><span class="nav-number">7.</span> <span class="nav-text">刪檔</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%BD%E7%95%A5%E6%AA%94%E6%A1%88"><span class="nav-number">8.</span> <span class="nav-text">忽略檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#fatal-fsync-error-on-%E2%80%98-git-objects-pack-tmp-pack-DZTfQ3%E2%80%99-Bad-file-descriptor"><span class="nav-number">9.</span> <span class="nav-text">fatal: fsync error on ‘.git&#x2F;objects&#x2F;pack&#x2F;tmp_pack_DZTfQ3’: Bad file descriptor</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#repository-%E6%94%B9%E5%90%8D"><span class="nav-number">10.</span> <span class="nav-text">repository 改名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8E%92%E9%99%A4-web-config-%E8%A3%A1%E9%9D%A2%E7%9A%84%E6%95%8F%E6%84%9F%E8%B3%87%E8%A8%8A"><span class="nav-number">11.</span> <span class="nav-text">排除 web.config 裡面的敏感資訊</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E7%9C%8B%E4%B8%8D%E5%88%B0%E9%81%A0%E7%AB%AF%E5%88%86%E6%94%AF"><span class="nav-number">12.</span> <span class="nav-text">本地看不到遠端分支</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%87-local-%E7%8F%BE%E6%9C%89%E5%B0%88%E6%A1%88-push-%E8%87%B3-gitlab-%E7%9A%84%E6%96%B9%E6%B3%95"><span class="nav-number">13.</span> <span class="nav-text">將 local 現有專案 push 至 gitlab 的方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E8%B3%87%E6%BA%90"><span class="nav-number">14.</span> <span class="nav-text">其他資源</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2020/07/09/git%E6%97%A5%E5%B8%B8%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2020/07/09/git日常筆記/";
+    this.page.title = "git日常筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

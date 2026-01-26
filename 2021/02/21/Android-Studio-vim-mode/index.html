@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Studio vim mode">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/02/21/Android-Studio-vim-mode/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/01.jpg">
+<meta property="article:published_time" content="2021-02-21T09:05:51.000Z">
+<meta property="article:modified_time" content="2025-11-05T09:13:48.372Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="vim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/01.jpg">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/02/21/Android-Studio-vim-mode/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>Android Studio vim mode | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/02/21/Android-Studio-vim-mode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Android Studio vim mode
+        </h1>
+
+        <div class="post-meta">
+		
+			<i class="fa fa-thumb-tack"></i>
+			<font color="7D26CD">我自己要看 頂</font>
+			<span class="post-meta-divider">|</span>
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-02-21 17:05:51" itemprop="dateCreated datePublished" datetime="2021-02-21T17:05:51+08:00">2021-02-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-11-05 17:13:48" itemprop="dateModified" datetime="2025-11-05T17:13:48+08:00">2025-11-05</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/02/21/Android-Studio-vim-mode/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/02/21/Android-Studio-vim-mode/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>10 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/01.jpg" alt="vim"></p>
+<span id="more"></span>
+
+<h3 id="課程與書籍推薦"><a href="#課程與書籍推薦" class="headerlink" title="課程與書籍推薦"></a>課程與書籍推薦</h3><h4 id="收費課程"><a href="#收費課程" class="headerlink" title="收費課程"></a>收費課程</h4><ol>
+<li><p><a target="_blank" rel="noopener" href="https://tdd.best/courses/">大神 91 老師的極速開發課程</a><br>這個課算是我學 <code>vim</code> 操作的啟發 , 接案公司要趕時間 , 偏偏就是沒那麼多時間 , 於是才找到這門課 , 結果排了一年才上到<br>價格約 <code>1.w</code> 左右的摳摳 , 著重怎麼用 vim + ide 整合提升開發速度 , 也是有很多神奇技巧跟密技心法 , 建議先把下面的免費仔課程看完才去上 , 讚!</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.udemy.com/course/how-to-code-faster-zh/">Emacs 大神如何提高編程速度</a><br>emacs 大師 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=redguardtoo.matchit">vscode matchit 作者</a><br>emacs 大師 , 只能用無敵來形容 , 內容硬核建議完整看完高見龍老師的 vim 教學才看 , 雖然也會帶你走一次 vim 基本操作 , 不過步調很快<br>大約 <code>2000</code> 元左右的摳摳就能享受到很多很實用的技巧 , 還有許多正常人想不出的神祕技法 , 讚!</p>
+</li>
+</ol>
+<h4 id="佛心免費仔課程"><a href="#佛心免費仔課程" class="headerlink" title="佛心免費仔課程"></a>佛心免費仔課程</h4><ol>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=mPVwS8gjDVI&list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&index=2">五倍紅寶石 高見龍 高見龍老師</a><br>使用純 <code>vim</code> 進行教學 , 想要完整學會整個 <code>vim</code> 的話必看 , 熬過去就是你的 , 價值真的無價 , 佛心啊~</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=rzpoMlss7Kk&list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB">橫跨北美的工程師 Victor</a><br>他的教學超讚 , 適合睡前花點小時間玩看看 , 講解也很口語化很好懂 , 佛心~</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Yk4s-WLjxug">Gamma Ray 軟體工作室</a><br>這個是 <code>2021</code> 年才看到的 , 內容是很棒 , 也很用心製作 , 就是聲音有點生硬 , 看他直播 coding 反而比較自然 , 也是很值得推薦</p>
+</li>
+</ol>
+<h4 id="書籍資源推薦"><a href="#書籍資源推薦" class="headerlink" title="書籍資源推薦"></a>書籍資源推薦</h4><ol>
+<li><p><a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9787115427861?list_name=srh">Vim 實用技巧</a><br>我一開始是買這本書來翻 , 認真練大概 1 - 2 週就可以看完 , 搭配上面的課程整個過完大概也會得差不多</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9787121383281?list_name=srh">精通 Vim : 用 Vim 8 和 Neovim 實現高效開發</a><br>這本是後來看到的應該是 <code>Vim 實用技巧</code> 的姊妹作 , 印象中有多講 neovim , 有點 cookbook 的感覺</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9787115527059?list_name=srh">Vim 8 文本處理實戰 (</a><br>這本也是後來才發現的 , 有講些別於 <code>Vim 實用技巧</code> 以外的東東 , 考量摳摳的話可以只看 <code>Vim 實用技巧</code> 就好</p>
+</li>
+</ol>
+<h3 id="基本設定"><a href="#基本設定" class="headerlink" title="基本設定"></a>基本設定</h3><p>因為有選擇障礙, 想說來開發個 APP 所以轉戰 kotlin 萬事起頭難 , 還好之前有 vscode 跟 visual studio 使用 vim 經驗<br>設定字體 &#x3D;&gt; <code>File</code> &#x3D;&gt; <code>Settings</code> &#x3D;&gt; <code>Editor</code> &#x3D;&gt; <code>Font</code> &#x3D;&gt; <code>Fira Code</code> &#x3D;&gt; <code>Enable font ligatures 打勾</code><br>設定背景豆沙色 &#x3D;&gt; <code>File</code> &#x3D;&gt; <code>Settings</code> &#x3D;&gt; <code>Editor</code> &#x3D;&gt; <code>Color Scheme</code> &#x3D;&gt; <code>General</code> &#x3D;&gt; <code>Text</code> &#x3D;&gt; <code>Default text</code> &#x3D;&gt; <code>#EFFFEF</code><br>安裝 Plugin &#x3D;&gt; <code>File</code> &#x3D;&gt; <code>Settings</code> &#x3D;&gt; <code>Plugins</code> &#x3D;&gt; <code>IdeaVim</code><br>一開始找不到 vimrc 位置後來看了老外才知道原來是在 <code>~/.ideavimrc</code><br>順帶一提在 intelli sense 移動有支援 vim 的熱鍵 <code>ctrl + n</code> <code>ctrl + p</code><br>設定 keymap &#x3D;&gt; <code>File</code> &#x3D;&gt; <code>Settings</code> &#x3D;&gt; <code>Get more keymaps in setting</code> &#x3D;&gt; <code>VSCode Keymap</code> 安裝完記得要 Apply<br>感覺 Android Studio 跟 intellij 出自同源不花錢就能享受到 intellij 流暢的功能還真是開心啊!<br><a target="_blank" rel="noopener" href="https://ttu.github.io/kotlin-is-like-csharp/">kotlin 跟 csharp 的語法比較小抄</a></p>
+<p>後來發現中文字體看起來就是怪怪的很醜 , 請調整 <code>fallback font</code> &#x3D;&gt; <code>Microsoft JhengHei</code><br>萬一有按鍵發生衝突可以這樣設定 <code>File</code> &#x3D;&gt; <code>Settings</code> &#x3D;&gt; <code>Editor =&gt; </code>Vim Emulation&#96;</p>
+<h3 id="使用-EAP-開啟-NERDTree"><a href="#使用-EAP-開啟-NERDTree" class="headerlink" title="使用 EAP 開啟 NERDTree"></a>使用 EAP 開啟 NERDTree</h3><p>在 <code>Settings</code> &#x3D;&gt; <code>Plugins</code> &#x3D;&gt; 點齒輪 &#x3D;&gt; <code>Manage Plugin Repositories</code> 加上這段 url <code>https://plugins.jetbrains.com/plugins/eap/ideavim</code><br>撰寫這篇剛好看到 NERDTree 的功能被實做出來了 就順便設定看看<br>記得要在 <code>~/.ideavimrc</code> 設定 <code>set NERDTree</code> 就搞定了</p>
+<h3 id="上下移動-Hippie-Completion"><a href="#上下移動-Hippie-Completion" class="headerlink" title="上下移動 Hippie Completion"></a>上下移動 Hippie Completion</h3><p>套用之前很常用 <code>alt+j alt+k</code> 來進行移動 intellisense , 暫時沒找到類似設定 , 找了半天只有個<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/30149091/how-to-configure-in-ideavim-ctrl-n-and-ctrl-p-completion-from-vim">非完美解</a><br>所以把這個 key bind 讓給 Hippie Completion , 後來覺得用預設的 <code>alt + /</code> 其實就夠了 , 不過還是筆記下<br>在 <code>File</code> &#x3D;&gt; <code>Settings</code> &#x3D;&gt; <code>Keymap</code> &#x3D;&gt; 搜尋 <code>Cyclic Expand Word</code> 改成 <code>alt + j</code> 接著搜 <code>Cyclic Expand Word (Backward)</code> 改成 <code>alt + k</code><br>然後再 .ideavimrc 裡面設定以下 remap 就可以用了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;設定 hippie completion 用 alt+j &amp; alt+k</span><br><span class="line">imap &lt;M-j&gt; &lt;ESC&gt;:action HippieCompletion&lt;CR&gt;a</span><br><span class="line">imap &lt;M-k&gt; &lt;ESC&gt;:action HippieBackwardCompletion&lt;CR&gt;a</span><br></pre></td></tr></table></figure>
+
+<h3 id="上下移動-正解"><a href="#上下移動-正解" class="headerlink" title="上下移動 正解"></a>上下移動 正解</h3><p>後來發現正解, 意外的簡單 - . -<br><code>Settings</code> &#x3D;&gt; <code>Keymap</code> &#x3D;&gt; <code>Editor Actions</code> &#x3D;&gt; <code>Up</code> &#x3D;&gt; <code>右鍵</code> &#x3D;&gt; <code>Add Keyboard Shortcut</code> &#x3D;&gt; <code>alt + k</code><br><code>Settings</code> &#x3D;&gt; <code>Keymap</code> &#x3D;&gt; <code>Editor Actions</code> &#x3D;&gt; <code>Down</code> &#x3D;&gt; <code>右鍵</code> &#x3D;&gt; <code>Add Keyboard Shortcut</code> &#x3D;&gt; <code>alt + j</code></p>
+<h3 id="argtextobj"><a href="#argtextobj" class="headerlink" title="argtextobj"></a>argtextobj</h3><p>可以參考這個<a target="_blank" rel="noopener" href="https://www.bilibili.com/s/video/BV1Av411e7T5">大陸人</a><br>功能主要就是加上 <code>a</code> 這個 text object , 可以方便刪除或是修改 function 內的參數 , vscode 好像沒有!?</p>
+<h3 id="mutiple-cursors-功能"><a href="#mutiple-cursors-功能" class="headerlink" title="mutiple-cursors 功能"></a>mutiple-cursors 功能</h3><p>過年看到群組討論 , 稍微記錄下 , 可以參考<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1VA411L7Km/">大陸人</a><br>如果要搭配滑鼠的話 <code>alt + 滑鼠左鍵</code> 就可以完成多選 , vscode 好像也是這樣<br>詳細的話可以看<a target="_blank" rel="noopener" href="https://github.com/JetBrains/ideavim/wiki/Emulated-plugins#multiple-cursors">官方設定</a></p>
+<h3 id="電燈泡的秘密"><a href="#電燈泡的秘密" class="headerlink" title="電燈泡的秘密"></a>電燈泡的秘密</h3><p>用過 visual studio or jetbrains 系列的人應該都知道可以用 <code>ctrl + .</code> 叫出約會殺手電燈泡 , <a target="_blank" rel="noopener" href="https://hcizcummqz5rubajpp5diq-on.drv.tw/www/snowman/">補個我做的電燈泡圖</a><br>接著燈泡就會給出很多建議像是吃西餐還是日本料理之類的 , 偏偏又有選擇障礙 , 選起來很困難就會開始用滑鼠去點 , 其實可以用 <code>tab</code> 往下移動 <code>shift + tab</code> 往上移動</p>
+<h3 id="AceJump"><a href="#AceJump" class="headerlink" title="AceJump"></a>AceJump</h3><p><a target="_blank" rel="noopener" href="https://plugins.jetbrains.com/plugin/7086-acejump">安裝網址</a><br>跟 visual studio 的預期效果不太一樣 , 需要按下 <code>space</code> 以後 , 接著輸入關鍵字像是找 <code>class</code> 必須要先敲 <code>a</code> 這樣才會 work<br><code>.ideavimrc</code> 設定</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap &lt;space&gt; :action AceAction&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="設定-1-8-新功能-matchit"><a href="#設定-1-8-新功能-matchit" class="headerlink" title="設定 1.8 新功能 matchit"></a>設定 1.8 新功能 matchit</h3><p>今天很振奮的看到一個超有用的功能 <code>matchit</code> 終於有支援了 , 大概是不想被 emacs 大師嘴?<br><a target="_blank" rel="noopener" href="https://github.com/JetBrains/ideavim/blob/master/CHANGES.md">changes</a><br>設定方法參考<a target="_blank" rel="noopener" href="https://github.com/JetBrains/ideavim/wiki/Emulated-plugins">這篇說明</a><br>本來以為預設是開啟 , 沒想到還要自己手動開啟<br>老樣子在 <code>.ideavimrc</code> 加入這行然後重新載入一下 <code>:source ~/.ideavimrc</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;1.8新增功能</span><br><span class="line">set matchit</span><br></pre></td></tr></table></figure>
+<p>接著就可以爽用 <code>%</code> 符號在 html tag 開頭結尾遊走 , 不需要再用 <code>vato</code> 接著 <code>o</code> 這種變態的智障方法操作 , 祈禱 visual studio vim 的作者也快點搞出來吧</p>
+<h3 id="設定-1-8-新功能指定-config"><a href="#設定-1-8-新功能指定-config" class="headerlink" title="設定 1.8 新功能指定 config"></a>設定 1.8 新功能指定 config</h3><p>預設都是讀取 <code>.ideavimrc</code> 這個檔案 , 但是如果寫好幾種語言的話大概就會有這個需求 , 官方現在提供了用 vimscript 的方式去客製這個部分<br>可以參考他這個<a target="_blank" rel="noopener" href="https://github.com/JetBrains/ideavim#vim-script">說明</a><br>不過目前我好像還用不太到 , 能想到的是判斷哪個 ide 去讀取那個 ide 的 config</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">set nu</span><br><span class="line">set relativenumber</span><br><span class="line"></span><br><span class="line">if has(&#x27;ide&#x27;)</span><br><span class="line">  &quot; mappings and options that exist only in IdeaVim</span><br><span class="line">  map &lt;leader&gt;f &lt;Action&gt;(GotoFile)</span><br><span class="line">  map &lt;leader&gt;g &lt;Action&gt;(FindInPath)</span><br><span class="line">  map &lt;leader&gt;b &lt;Action&gt;(Switcher)</span><br><span class="line"></span><br><span class="line">  if &amp;ide =~? &#x27;intellij idea&#x27;</span><br><span class="line">    if &amp;ide =~? &#x27;community&#x27;</span><br><span class="line">      &quot; some mappings and options for IntelliJ IDEA Community Edition</span><br><span class="line">    elseif &amp;ide =~? &#x27;ultimate&#x27;</span><br><span class="line">      &quot; some mappings and options for IntelliJ IDEA Ultimate Edition</span><br><span class="line">    endif</span><br><span class="line">  elseif &amp;ide =~? &#x27;pycharm&#x27;</span><br><span class="line">    &quot; PyCharm specific mappings and options</span><br><span class="line">  endif</span><br><span class="line">else</span><br><span class="line">  &quot; some mappings for Vim/Neovim</span><br><span class="line">  nnoremap &lt;leader&gt;f &lt;cmd&gt;Telescope find_files&lt;cr&gt;</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+
+<h3 id="exchange-交換單字或是行的功能"><a href="#exchange-交換單字或是行的功能" class="headerlink" title="exchange 交換單字或是行的功能"></a>exchange 交換單字或是行的功能</h3><p>最近遇到一個很賭爛的需求 , 就是要交換一堆單字 , 以前對這種交換的認知大概就是個跑龍套 , 今天特別搞看看 , 主要參考<a target="_blank" rel="noopener" href="https://github.com/tommcdo/vim-exchange">這篇</a><br>首先需要在 <code>.ideavimrc</code> 手動開啟</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set exchange</span><br></pre></td></tr></table></figure>
+
+<p>操作方式<br>在第一個要交換的單字敲上 <code>cxiw</code> 他會亮起黃色 , 然後移動到第二個單字一樣敲上 <code>cxiw</code> 就搞定</p>
+<p>before</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br></pre></td></tr></table></figure>
+
+<p>after</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">world hello</span><br></pre></td></tr></table></figure>
+
+<p><code>cxx</code> 則是交換行<br>假設想交換 <code>hello world</code> 跟 <code>world hello</code><br>先在 <code>hello world</code> 這行敲上 <code>cxx</code> 一樣會整行亮起黃色 , 接著移動到 <code>world hello</code> 敲 <code>cxx</code> 就搞定了<br>before</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br><span class="line">喇低賽</span><br><span class="line">world hello</span><br></pre></td></tr></table></figure>
+
+<p>after</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">world hello</span><br><span class="line">喇低賽</span><br><span class="line">hello world</span><br></pre></td></tr></table></figure>
+
+<p>想清除交換的動作則用 <code>cxc</code></p>
+<h3 id="Surround-筆記"><a href="#Surround-筆記" class="headerlink" title="Surround 筆記"></a>Surround 筆記</h3><p>最近又跑來搞前端真的悲劇 , 筆記一下遇到的問題 , Surround <a target="_blank" rel="noopener" href="https://github.com/tpope/vim-surround">操作參考</a></p>
+<p>記得設定 <code>.ideavimrc</code> 啟動 surround</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set surround &quot; use surround shortcuts</span><br></pre></td></tr></table></figure>
+
+<p>visual mode 操作</p>
+<p>在 angular 常常會有這樣的需求要包中括號<br>例如 <code>class.bg-info</code> 可以用呼叫 <code>EditorSelectWord</code> 快速選起來 , 我是 bind <code>,xx</code><br>或是用 <code>veeeee</code> 直接選都可 , 接著用 <code>S[</code> 就可以包起來 , 最後就長這樣<br>特別要注意到操作要連貫 , 不然呼叫 <code>S</code> 的時候會失效 , 變成 vim 的整行消除</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div [class.bg-info]=&quot;&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>另外 JetBrain 系列的 IDE 都有 <code>SurroundWith</code> 這個功能 , 也可以善加利用來包東西<br><code>.ideavimrc</code> 設定</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmap ,sr :action SurroundWith&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+
+<p>後來用 pycharm 發現如果想包 list(xxx) 可以用 <code>yswf</code> 他就會跳出 <code>function:</code> 讓你輸入, 這時敲入 list 即可</p>
+<p>詳細可以看 <a target="_blank" rel="noopener" href="https://github.com/tpope/vim-surround/blob/master/doc/surround.txt">surround 說明</a></p>
+<h3 id="反向-Surround"><a href="#反向-Surround" class="headerlink" title="反向 Surround"></a>反向 Surround</h3><p>最近時不時會用到移除 html tag 的功能 , 之前都是包裹比較多 , 特別研究看看<br>可以參考這份看有啥<a target="_blank" rel="noopener" href="https://gist.github.com/zchee/9c78f91cc5ad771c1f5d">actionlist</a><br>預設熱鍵 <code>ctrl</code> + <code>shift</code> + <code>delete</code><br>老樣子編輯 <code>.ideavimrc</code> , 我是設定 <code>,dsr</code> 就可以快樂移除<br>vscode 也有類似的功能可以參考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/49336584/is-there-a-quick-way-to-delete-an-html-tag-pair-in-vscode">這篇</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vmap ,dsr :action Unwrap&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="窮人的-JSP-Support"><a href="#窮人的-JSP-Support" class="headerlink" title="窮人的 JSP Support"></a>窮人的 JSP Support</h3><p>主要參考自<a target="_blank" rel="noopener" href="https://blog.softhints.com/intellij-community-edition-add-css-jsp-syntax-highlighting/#addcssjspsyntaxhighlightingtointellij">這個老外的方法</a><br>還有<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33782187/intellij-community-edition-jsp-syntax-highlighting/35439692">這篇</a><br>cd 到這個目錄底下 <code>%APPDATA%\JetBrains</code><br>把下面這串另存成 <code>Custom JSP.xml</code> 貼進去這個路徑 <code>%APPDATA%\JetBrains\IdeaIC2021.1\filetypes\Custom JSP.xml</code><br>這樣就可以得到一個半殘的高亮 , 只能用悲劇 , 還是乖乖花錢買比較實在</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&lt;filetype binary=&quot;false&quot; description=&quot;Custom JSP&quot; name=&quot;Custom JSP&quot;&gt;</span><br><span class="line">  &lt;highlighting&gt;</span><br><span class="line">    &lt;options&gt;</span><br><span class="line">      &lt;option name=&quot;LINE_COMMENT&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;option name=&quot;COMMENT_START&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;option name=&quot;COMMENT_END&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;option name=&quot;HEX_PREFIX&quot; value=&quot;&quot; /&gt;</span><br><span class="line">      &lt;option name=&quot;NUM_POSTFIXES&quot; value=&quot;&quot; /&gt;</span><br><span class="line">    &lt;/options&gt;</span><br><span class="line">    &lt;keywords keywords=&quot;%&amp;gt;;&amp;lt;%!;&amp;lt;%@;include;page;taglib&quot; ignore_case=&quot;false&quot; /&gt;</span><br><span class="line">    &lt;keywords2 keywords=&quot;c:choose;c:if;c:otherwise;c:set;c:url;c:when;fmt:message;fmt:setBundle;fmt:setLocale;s:eval;s:message;sec:authorize&quot; /&gt;</span><br><span class="line">    &lt;keywords3 keywords=&quot;a;body;br;button;div;footer;form;h1;h2;h3;h4;h5;head;header;hr;html;i;img;input;label;li;meta;nav;noscript;ol;p;script;section;span;style;submit;table;td;textarea;th;title;tr;ul&quot; /&gt;</span><br><span class="line">    &lt;keywords4 keywords=&quot;alert;boolean;case;char;confirm;console;continue;do;else;false;for;forms;function;if;length;let;return;this;thows;true;var;while;with&quot; /&gt;</span><br><span class="line">  &lt;/highlighting&gt;</span><br><span class="line">  &lt;extensionMap&gt;</span><br><span class="line">    &lt;mapping ext=&quot;jsp&quot; /&gt;</span><br><span class="line">  &lt;/extensionMap&gt;</span><br><span class="line">&lt;/filetype&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="設定-Html-Tag-屬性引號預設值"><a href="#設定-Html-Tag-屬性引號預設值" class="headerlink" title="設定 Html Tag 屬性引號預設值"></a>設定 Html Tag 屬性引號預設值</h3><p>因為在 vscode 上面預設好像是雙引號 , 可是 webstorm 上面則是單引號 , 所幸查看看 , <a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/35918707/how-to-make-webstorm-reformatting-source-code-to-change-double-quotes-to-singl">參考自老外</a><br><code>File</code> &#x3D;&gt; <code>Settings</code> &#x3D;&gt; <code>Editor</code> &#x3D;&gt; <code>Code Style</code> &#x3D;&gt; <code>Html</code> &#x3D;&gt; <code>Other</code> &#x3D;&gt; <code>Generated quote marks</code></p>
+<h3 id="啟用-CodeMap"><a href="#啟用-CodeMap" class="headerlink" title="啟用 CodeMap"></a>啟用 CodeMap</h3><p>這個功能在 visual studio 上面也用滿多年的 , 螢幕比較大的話多半會開啟他 , 查了下預設在 Jetbrain 系列的 ide 好像沒有<br>乖乖安裝這個 <a target="_blank" rel="noopener" href="https://github.com/vektah/CodeGlance">CodeGlance</a> plugin 當隻掛狗 , 裝完記得重開 ide</p>
+<h3 id="透明視窗設定"><a href="#透明視窗設定" class="headerlink" title="透明視窗設定"></a>透明視窗設定</h3><p>不曉得為啥 , 我不太能適應黑色佈景與白底的網頁或是看紙本書籍之間的切換 , 眼睛會很不舒服<br>所以大多數情況下我會使用白色主題佈景然後底用綠色的豆沙色 , 如果必須使用黑色佈景我會想辦法加上透明度 , 這樣就會緩解眼睛的不適</p>
+<p>原生的 jetbrains ide 有沒有可以設定整個視窗透明的功能我沒特別研究過 , 不過可以用看看這個古老軟體 <a target="_blank" rel="noopener" href="https://chime.tv/products/glass2k.shtml">Glass2k</a><br>算是一種萬用的解法 , 大多數的視窗好像都可以透明 , 我測 notepad++ , jetbrains 系列可以 , 不過 visual studio 不能 , 真的悲劇 , 冏</p>
+<p>除了緩解眼睛的不適外還有個好處是可以把需求放在底下 , 這樣就不用一直接換視窗或是用雙螢幕也可以直接看到需求寫啥 , 我就免費仔 ~<br>我自己是設定桌面為純色黑色 , 然後 <code>右鍵</code> &#x3D;&gt; <code>檢視</code> &#x3D;&gt; <code>顯示桌面圖示</code> 讓桌面整個乾淨</p>
+<h3 id="full-config-這邊幾乎偷懶先用-emacs-大師的"><a href="#full-config-這邊幾乎偷懶先用-emacs-大師的" class="headerlink" title="full config 這邊幾乎偷懶先用 emacs 大師的"></a>full config 這邊幾乎偷懶先用 emacs 大師的</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">let mapleader = &quot;,&quot;   &quot; leader is comma</span><br><span class="line">let localleader = &quot;,&quot; &quot; leader is comma</span><br><span class="line"></span><br><span class="line">set tabstop=4       &quot; number of visual spaces per TAB</span><br><span class="line">set softtabstop=4   &quot; number of spaces in tab when editing</span><br><span class="line">set shiftwidth=4    &quot; spaces in newline start</span><br><span class="line">set expandtab       &quot; tabs are spaces</span><br><span class="line">set number              &quot; show line numbers</span><br><span class="line">set rnu                 &quot; show relative line numbers</span><br><span class="line">set showcmd             &quot; show command in bottom bar</span><br><span class="line">set cursorline          &quot; highlight current line</span><br><span class="line">set surround            &quot; use surround shortcuts</span><br><span class="line">set mini-ai				&quot; mini-ai</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot;1.8新增功能快速移動到 html tag 頭尾</span><br><span class="line">set matchit</span><br><span class="line"></span><br><span class="line">&quot;交換單字或是行</span><br><span class="line">set exchange</span><br><span class="line"></span><br><span class="line">set commentary &quot;vim-commentary</span><br><span class="line">filetype indent on      &quot; load filetype-specific indent files</span><br><span class="line">set wildmenu            &quot; visual autocomplete for command menu</span><br><span class="line">set showmatch           &quot; highlight matching [&#123;()&#125;]</span><br><span class="line">set timeoutlen=500      &quot; timeout for key combinations</span><br><span class="line"></span><br><span class="line">set so=5                &quot; lines to cursor</span><br><span class="line">set backspace=2         &quot; make backspace work like most other apps</span><br><span class="line">set incsearch           &quot; search as characters are entered</span><br><span class="line">set hlsearch            &quot; highlight matches</span><br><span class="line">set ignorecase          &quot; do case insensitive matching</span><br><span class="line">set smartcase           &quot; do smart case matching</span><br><span class="line">set hidden</span><br><span class="line"></span><br><span class="line">set fillchars+=stl:\ ,stlnc:\</span><br><span class="line">set laststatus=2</span><br><span class="line">set clipboard=unnamedplus  &quot;X clipboard as unnamed</span><br><span class="line">set NERDTree</span><br><span class="line"></span><br><span class="line">&quot;press kj to exit insert mode</span><br><span class="line">&quot;imap kj &lt;Esc&gt;</span><br><span class="line">&quot;vmap kj &lt;Esc&gt;</span><br><span class="line">imap ,, &lt;Esc&gt;</span><br><span class="line">vmap ,, &lt;Esc&gt;</span><br><span class="line">noremap ,, &lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;reload</span><br><span class="line">map ,so :source ~/.ideavimrc&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;@see https://youtrack.jetbrains.com/issue/VIM-510 on expand selected region. Press `Ctrl-W` and `Ctrl-Shift-W` to increase and decrease selected region</span><br><span class="line"></span><br><span class="line">noremap ,xm :action SearchEverywhere&lt;CR&gt;</span><br><span class="line">noremap ,ci :action CommentByLineComment&lt;CR&gt;</span><br><span class="line">noremap ,xs :action SaveAll&lt;CR&gt;</span><br><span class="line">noremap ,aa :action $Copy&lt;CR&gt;</span><br><span class="line">noremap ,zz :action $Paste&lt;CR&gt;</span><br><span class="line">noremap ,yy :action PasteMultiple&lt;CR&gt;</span><br><span class="line">noremap ,qq :action FindInPath&lt;CR&gt;</span><br><span class="line">noremap ,ss :action Find&lt;CR&gt;</span><br><span class="line">noremap ,fp :action CopyPaths&lt;CR&gt;</span><br><span class="line">noremap ,xk :action CloseEditor&lt;CR&gt;</span><br><span class="line">noremap ,rr :action RecentFiles&lt;CR&gt;</span><br><span class="line">noremap ,kk :action GotoFile&lt;CR&gt;</span><br><span class="line">noremap ,ii :action GotoSymbol&lt;CR&gt;</span><br><span class="line">noremap &lt;C-]&gt; :action GotoImplementation&lt;CR&gt;</span><br><span class="line">noremap ,xz :action ActivateTerminalToolWindow&lt;CR&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot; ideavim don&#x27;t support numberic character in hotkey in 0.55</span><br><span class="line">&quot; it&#x27;s fixed in 0.55.1</span><br><span class="line">noremap ,x1 &lt;C-W&gt;o</span><br><span class="line">noremap ,x2 :split&lt;CR&gt;</span><br><span class="line">noremap ,x3 :vsplit&lt;CR&gt;</span><br><span class="line">noremap ,x0 :q&lt;CR&gt;</span><br><span class="line">&quot; move window</span><br><span class="line">noremap ,wh &lt;C-W&gt;h</span><br><span class="line">noremap ,wl &lt;C-W&gt;l</span><br><span class="line">noremap ,wj &lt;C-W&gt;j</span><br><span class="line">noremap ,wk &lt;C-W&gt;k</span><br><span class="line">noremap ,xx :action EditorSelectWord&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">noremap ,ff :action ToggleDistractionFreeMode&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;設定 intellisense 選單用 alt+j &amp; alt+k</span><br><span class="line">imap &lt;M-j&gt; &lt;ESC&gt;:action HippieCompletion&lt;CR&gt;a</span><br><span class="line">imap &lt;M-k&gt; &lt;ESC&gt;:action HippieBackwardCompletion&lt;CR&gt;a</span><br><span class="line"></span><br><span class="line">&quot;頭尾移動</span><br><span class="line">nmap zl $</span><br><span class="line">imap zl &lt;End&gt;</span><br><span class="line"></span><br><span class="line">nmap zh ^</span><br><span class="line">imap zh &lt;Esc&gt;^i</span><br><span class="line"></span><br><span class="line">&quot;如果 js, c# 用分號</span><br><span class="line">&quot;nmap z; $a;&lt;Esc&gt;</span><br><span class="line">&quot;imap z; &lt;Esc&gt;$a;</span><br><span class="line"></span><br><span class="line">&quot;如果 python 用冒號</span><br><span class="line">&quot;nmap z; $a:&lt;Esc&gt;</span><br><span class="line">&quot;imap z; &lt;Esc&gt;$a:</span><br><span class="line"></span><br><span class="line">&quot; 根據 IDE 名稱做不同設定</span><br><span class="line">if &amp;ide =~? &#x27;DataGrip&#x27;</span><br><span class="line">  &quot; DataGrip插入分號</span><br><span class="line">  nmap z; $a;&lt;Esc&gt;</span><br><span class="line">  imap z; &lt;Esc&gt;$a;</span><br><span class="line">elseif &amp;ide =~? &#x27;Pycharm&#x27;</span><br><span class="line">  &quot; PyCharm: z; 插入冒號</span><br><span class="line">  nmap z; $a:&lt;Esc&gt;</span><br><span class="line">  imap z; &lt;Esc&gt;$a:</span><br><span class="line">else</span><br><span class="line">  &quot; fallback: 預設為分號（可改成你想要的）</span><br><span class="line">  nmap z; $a;&lt;Esc&gt;</span><br><span class="line">  imap z; &lt;Esc&gt;$a;</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">nmap z, $a,&lt;Esc&gt;</span><br><span class="line">imap z, &lt;Esc&gt;$a,</span><br><span class="line"></span><br><span class="line">&quot;包裹</span><br><span class="line">vmap ,sr :action SurroundWith&lt;CR&gt;</span><br><span class="line">vmap ,dsr :action Unwrap&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;ace jump</span><br><span class="line">nmap &lt;space&gt; :action AceAction&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;設定跳到錯誤</span><br><span class="line">nmap zn :action GotoNextError&lt;CR&gt;</span><br><span class="line">imap zn &lt;Esc&gt;:action GotoNextError&lt;CR&gt;i</span><br></pre></td></tr></table></figure>
+
+<h3 id="其他阿薩布魯問題"><a href="#其他阿薩布魯問題" class="headerlink" title="其他阿薩布魯問題"></a>其他阿薩布魯問題</h3><p>參考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/60092405/untrusted-server-certificate-in-intellij">這篇</a><br>rider server’s certificate is not trusted<br><code>Preferences</code> &#x3D;&gt; <code>Tools</code> &#x3D;&gt; <code>Server Certificates</code> &#x3D;&gt; <code>Check on Accept non-trusted certificates automatically</code></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/02/17/csharp-LeetCode-Uncommon-Words-from-Two-Sentences/" rel="prev" title="csharp LeetCode Uncommon Words from Two Sentences">
+      <i class="fa fa-chevron-left"></i> csharp LeetCode Uncommon Words from Two Sentences
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/02/24/asp-net-web-api-swagger-%E7%AD%86%E8%A8%98/" rel="next" title="asp.net web api swagger 筆記">
+      asp.net web api swagger 筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AA%B2%E7%A8%8B%E8%88%87%E6%9B%B8%E7%B1%8D%E6%8E%A8%E8%96%A6"><span class="nav-number">1.</span> <span class="nav-text">課程與書籍推薦</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%94%B6%E8%B2%BB%E8%AA%B2%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">收費課程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9B%E5%BF%83%E5%85%8D%E8%B2%BB%E4%BB%94%E8%AA%B2%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">佛心免費仔課程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B8%E7%B1%8D%E8%B3%87%E6%BA%90%E6%8E%A8%E8%96%A6"><span class="nav-number">1.3.</span> <span class="nav-text">書籍資源推薦</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.</span> <span class="nav-text">基本設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-EAP-%E9%96%8B%E5%95%9F-NERDTree"><span class="nav-number">3.</span> <span class="nav-text">使用 EAP 開啟 NERDTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E7%A7%BB%E5%8B%95-Hippie-Completion"><span class="nav-number">4.</span> <span class="nav-text">上下移動 Hippie Completion</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8A%E4%B8%8B%E7%A7%BB%E5%8B%95-%E6%AD%A3%E8%A7%A3"><span class="nav-number">5.</span> <span class="nav-text">上下移動 正解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#argtextobj"><span class="nav-number">6.</span> <span class="nav-text">argtextobj</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mutiple-cursors-%E5%8A%9F%E8%83%BD"><span class="nav-number">7.</span> <span class="nav-text">mutiple-cursors 功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%9B%BB%E7%87%88%E6%B3%A1%E7%9A%84%E7%A7%98%E5%AF%86"><span class="nav-number">8.</span> <span class="nav-text">電燈泡的秘密</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AceJump"><span class="nav-number">9.</span> <span class="nav-text">AceJump</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-1-8-%E6%96%B0%E5%8A%9F%E8%83%BD-matchit"><span class="nav-number">10.</span> <span class="nav-text">設定 1.8 新功能 matchit</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-1-8-%E6%96%B0%E5%8A%9F%E8%83%BD%E6%8C%87%E5%AE%9A-config"><span class="nav-number">11.</span> <span class="nav-text">設定 1.8 新功能指定 config</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#exchange-%E4%BA%A4%E6%8F%9B%E5%96%AE%E5%AD%97%E6%88%96%E6%98%AF%E8%A1%8C%E7%9A%84%E5%8A%9F%E8%83%BD"><span class="nav-number">12.</span> <span class="nav-text">exchange 交換單字或是行的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Surround-%E7%AD%86%E8%A8%98"><span class="nav-number">13.</span> <span class="nav-text">Surround 筆記</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%8D%E5%90%91-Surround"><span class="nav-number">14.</span> <span class="nav-text">反向 Surround</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AA%AE%E4%BA%BA%E7%9A%84-JSP-Support"><span class="nav-number">15.</span> <span class="nav-text">窮人的 JSP Support</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-Html-Tag-%E5%B1%AC%E6%80%A7%E5%BC%95%E8%99%9F%E9%A0%90%E8%A8%AD%E5%80%BC"><span class="nav-number">16.</span> <span class="nav-text">設定 Html Tag 屬性引號預設值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%95%9F%E7%94%A8-CodeMap"><span class="nav-number">17.</span> <span class="nav-text">啟用 CodeMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%80%8F%E6%98%8E%E8%A6%96%E7%AA%97%E8%A8%AD%E5%AE%9A"><span class="nav-number">18.</span> <span class="nav-text">透明視窗設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#full-config-%E9%80%99%E9%82%8A%E5%B9%BE%E4%B9%8E%E5%81%B7%E6%87%B6%E5%85%88%E7%94%A8-emacs-%E5%A4%A7%E5%B8%AB%E7%9A%84"><span class="nav-number">19.</span> <span class="nav-text">full config 這邊幾乎偷懶先用 emacs 大師的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E9%98%BF%E8%96%A9%E5%B8%83%E9%AD%AF%E5%95%8F%E9%A1%8C"><span class="nav-number">20.</span> <span class="nav-text">其他阿薩布魯問題</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/02/21/Android-Studio-vim-mode/";
+    this.page.identifier = "2021/02/21/Android-Studio-vim-mode/";
+    this.page.title = "Android Studio vim mode";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

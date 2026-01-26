@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="常見的 asp.net core 低能問題">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-04-16T12:23:48.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="asp.net core">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>常見的 asp.net core 低能問題 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          常見的 asp.net core 低能問題
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-04-16 20:23:48" itemprop="dateCreated datePublished" datetime="2021-04-16T20:23:48+08:00">2021-04-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/04/16/常見的-asp-net-core-低能問題/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.8k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>7 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+
+<p>這篇是因為三不五時又被抓回來寫後端搞的 , 一下子 .net framework 一下子 .net core 我都搞不太清楚在寫啥<br>有遇到問題就順手紀錄看看</p>
+<h3 id="ABP-手動建立-controller"><a href="#ABP-手動建立-controller" class="headerlink" title="ABP 手動建立 controller"></a>ABP 手動建立 controller</h3><p>以前沒用過 ABP framework , 有機會剛好用看看 , 它裡面有個 auto api controller 機制<br>只要繼承 <code>IApplicationService</code> 就可以自動讓 Service 去產生 api , 跟之前用 java 的 spring 有個懶人用法類似<br>但是沒講怎麼手動建立 , 實際上在專案底下有 <code>XXX.XXX.HttpApi</code> 這個方案<br>直接在裡面加上 controller 即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public class XXXApiController : AbpController&#123;</span><br><span class="line">	//todo</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="一次-POST-多筆資料-count-永遠為零"><a href="#一次-POST-多筆資料-count-永遠為零" class="headerlink" title="一次 POST 多筆資料 count 永遠為零"></a>一次 POST 多筆資料 count 永遠為零</h3><p>久沒寫 web api 了 , 今天遇到一個靈異事件 , post 多筆資料 countr 永遠為零 , 可能之前多半丟單一個 DTO 上來而已<br>關鍵在於要加上 [FromBody] 這樣才收得到<br>順便一提如果是用 abp 插入的話不用特別加上 [FormBody] 就可以吃到參數 , 靈異 ~</p>
+<p>錯誤</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[HttpPost( &quot;Hello&quot; )]</span><br><span class="line">public IActionResult Hello(List&lt;DTO&gt; test)</span><br><span class="line">&#123;</span><br><span class="line">	return Json( test );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>正確</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[HttpPost( &quot;Hello&quot; )]</span><br><span class="line">public IActionResult Hello([FromBody] List&lt;DTO&gt; test)</span><br><span class="line">&#123;</span><br><span class="line">	return Json( test );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="Missing-type-map-configuration-or-unsupported-mapping"><a href="#Missing-type-map-configuration-or-unsupported-mapping" class="headerlink" title="Missing type map configuration or unsupported mapping."></a>Missing type map configuration or unsupported mapping.</h3><p>今天炸了忘了加 auto mapper 的問題 , 筆記一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Mapping types:</span><br><span class="line">Object -&gt; SfcStationDto</span><br><span class="line">System.Object -&gt; Sunon.Cim.Sfc.SfcStationDto</span><br></pre></td></tr></table></figure>
+
+<p>首先要知道 return 的型別為後面那個 , 像是下面這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">StationDto result = ObjectMapper.Map&lt;Station, StationDto&gt;( station );</span><br></pre></td></tr></table></figure>
+
+<p>所以要在 MapperProfile 裡面定義這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public class StationAutoMapperProfile : Profile&#123;</span><br><span class="line">	public StationAutoMapperProfile()&#123;</span><br><span class="line">		CreateMap&lt;Station, StationDto&gt;();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="升級-net-3-1-to-net-5"><a href="#升級-net-3-1-to-net-5" class="headerlink" title="升級 .net 3.1 to .net 5"></a>升級 .net 3.1 to .net 5</h3><p>┏[User]<br>┖[~\source\repos\SportSln\SportsStore]&gt; dotnet ef migrations add Orders<br>Could not execute because the application was not found or a compatible .NET SDK is not installed.<br>Possible reasons for this include:</p>
+<ul>
+<li>You intended to execute a .NET program:<br>  The application ‘ef’ does not exist.</li>
+<li>You intended to execute a .NET SDK command:<br>  A compatible installed .NET SDK for global.json version [3.1.101] from [C:\Users\User\source\repos\SportSln\SportsStore\global.json] was not found.<br>  Install the [3.1.101] .NET SDK or update [C:\Users\User\source\repos\SportSln\SportsStore\global.json] with an installed .NET SDK:<br>5.0.201 [C:\Program Files\dotnet\sdk]</li>
+</ul>
+<p>┏[User][xERROR]<br>┖[<del>\source\repos\SportSln\SportsStore]&gt; dotnet ef migrations add Orders<br>Build started…<br>Build succeeded.<br>Done. To undo this action, use ‘ef migrations remove’<br>┏[User]<br>┖[</del>\source\repos\SportSln\SportsStore]&gt;</p>
+<p>修改 <code>global.json</code></p>
+<p>修改前</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;sdk&quot;: &#123;</span><br><span class="line">    &quot;version&quot;: &quot;3.1.101&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>修改後</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;sdk&quot;: &#123;</span><br><span class="line">    &quot;version&quot;: &quot;5.0&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p><code>Project</code> &#x3D;&gt; <code>Your Project Properties</code> &#x3D;&gt; <code>Application</code> &#x3D;&gt; <code>Target framework</code> &#x3D;&gt; <code>5.0</code></p>
+<p><code>Manage Nuget Packages</code> &#x3D;&gt; <code>Update All</code></p>
+<h3 id="怎麼取得-ControllerName-or-ActionName"><a href="#怎麼取得-ControllerName-or-ActionName" class="headerlink" title="怎麼取得 ControllerName or ActionName"></a>怎麼取得 ControllerName or ActionName</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var controllerName = ControllerContext.ActionDescriptor.ControllerName;</span><br><span class="line">var action = ControllerContext.ActionDescriptor.ActionName;</span><br></pre></td></tr></table></figure>
+
+<h3 id="怎麼取得-appsetting-json-內的值"><a href="#怎麼取得-appsetting-json-內的值" class="headerlink" title="怎麼取得 appsetting.json 內的值"></a>怎麼取得 appsetting.json 內的值</h3><p>首先在建構子先注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">public class LaSaiController&#123;</span><br><span class="line">	private readonly IConfiguration configuration;</span><br><span class="line">	public LaSaiController(IConfiguration configuration)&#123;</span><br><span class="line">		this.configuration = configuration;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public LaDiSai1()&#123;</span><br><span class="line">		return configuration[&quot;LaDiSai:Name&quot;];</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	public LaDiSai2()&#123;</span><br><span class="line">		return configuration.GetValue&lt;string&gt;(&quot;LaDiSai:Name&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>appsetting.json</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;LaDiSai&quot; : &#123;</span><br><span class="line">	&quot;Name&quot; : &quot;GG&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="簡單粗暴動態切換-DB-連線字串"><a href="#簡單粗暴動態切換-DB-連線字串" class="headerlink" title="簡單粗暴動態切換 DB 連線字串"></a>簡單粗暴動態切換 DB 連線字串</h3><p>先隨便開個資料庫 , 然後安裝 EF Core Power Tools 可以省事很多</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">services.AddDbContext&lt;TestDbContext&gt;(</span><br><span class="line">	options =&gt; options.UseSqlServer( getConnectionString(code) )</span><br><span class="line">	);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">private string getConnectionString(string code)</span><br><span class="line">&#123;</span><br><span class="line">	switch (code)</span><br><span class="line">	&#123;</span><br><span class="line">		case &quot;test&quot;:</span><br><span class="line">			return &quot;name=ConnectionStrings:TestDbContext&quot;;</span><br><span class="line">		case &quot;test2&quot;:</span><br><span class="line">			return &quot;name=ConnectionStrings:Test2DbContext&quot;;</span><br><span class="line">		default:</span><br><span class="line">			return &quot;name=ConnectionStrings:TestDbContext&quot;;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>appsetting.json</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot;ConnectionStrings&quot;: &#123;</span><br><span class="line">  &quot;TestDbContext&quot;: &quot;ooxx&quot;,</span><br><span class="line">  &quot;Test2DbContext&quot;: &quot;xxoo&quot;,</span><br><span class="line">&#125;,</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+<h3 id="正確取得-DB-連線字串"><a href="#正確取得-DB-連線字串" class="headerlink" title="正確取得 DB 連線字串"></a>正確取得 DB 連線字串</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Configuration.GetConnectionString(&quot;OOXXConnection&quot;)</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="多個類別繼承同個-interface-怎麼注入-DI"><a href="#多個類別繼承同個-interface-怎麼注入-DI" class="headerlink" title="多個類別繼承同個 interface 怎麼注入 DI"></a>多個類別繼承同個 interface 怎麼注入 DI</h3><p><a target="_blank" rel="noopener" href="https://medium.com/ricos-note/how-to-register-and-inject-multiple-implementations-of-a-same-interface-c2ac518db459">參考 RICO 大師</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices( IServiceCollection services )</span><br><span class="line">&#123;</span><br><span class="line">	//因為之前寫原生的 .net core 2.x 無法像 Unity DI framework 有具名的 DI 注入方法 , 這邊參考 rico 大師的文章 , 分別注入 目前表以及歷史表的 repository</span><br><span class="line">	//參考如何使用具名的 DI 方法</span><br><span class="line"></span><br><span class="line">	services.AddScoped&lt; TestRepository&gt;()</span><br><span class="line">	.AddScoped&lt;ITestRepository, TestRepository&gt;( s =&gt; s.GetRequiredService&lt;TestRepository&gt;() );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Service</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">private readonly ITestRepository testRepository;</span><br><span class="line">private readonly ITestRepository testHistoryRepository;</span><br><span class="line">private readonly IServiceScopeFactory serviceScopeFactory;</span><br><span class="line">public ManoBarcodeService(IServiceScopeFactory serviceScopeFactory</span><br><span class="line">    )</span><br><span class="line">&#123;</span><br><span class="line">    this.serviceScopeFactory = serviceScopeFactory;</span><br><span class="line">    var ser = serviceScopeFactory.CreateScope().ServiceProvider;</span><br><span class="line"></span><br><span class="line">    this.testRepository = ser.GetRequiredService&lt;TestRepository&gt;();</span><br><span class="line">    this.testHistoryRepository = ser.GetRequiredService&lt;TestHistoryRepository&gt;();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>後來在 .net 6 發現可以這樣寫</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public BeforeStationController(IEnumerable&lt;IStationRepository&gt; stationRepositories)</span><br><span class="line">&#123;</span><br><span class="line">    _stationRepository = stationRepositories.FirstOrDefault(x =&gt; x.GetType() == typeof(BeforeStationRepository));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="找不到-ToXXOOAsync-非同步方法"><a href="#找不到-ToXXOOAsync-非同步方法" class="headerlink" title="找不到 ToXXOOAsync 非同步方法"></a>找不到 ToXXOOAsync 非同步方法</h3><p>某天低能要改寫常見的 GetAll 方法 , 讓他變成 Async , 結果一時找不到 , 其實只要引用以下命名空間就好</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">using System.Threading.Tasks;</span><br><span class="line">using Microsoft.EntityFrameworkCore;</span><br></pre></td></tr></table></figure>
+
+<h3 id="怎麼讓在內網的同事也看得到你現在測試的結果"><a href="#怎麼讓在內網的同事也看得到你現在測試的結果" class="headerlink" title="怎麼讓在內網的同事也看得到你現在測試的結果"></a>怎麼讓在內網的同事也看得到你現在測試的結果</h3><p>調整 <code>launchSettings.json</code> 內的 <code>applicationUrl</code> 加入 <code>https://0.0.0.0:3001;http://0.0.0.0:3000</code> 即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&quot;profiles&quot;: &#123;</span><br><span class="line">  &quot;DemoApi&quot;: &#123;</span><br><span class="line">    &quot;commandName&quot;: &quot;Project&quot;,</span><br><span class="line">    &quot;dotnetRunMessages&quot;: true,</span><br><span class="line">    &quot;launchBrowser&quot;: true,</span><br><span class="line">    &quot;launchUrl&quot;: &quot;swagger&quot;,</span><br><span class="line">    &quot;applicationUrl&quot;: &quot;https://localhost:3001;http://localhost:3000;https://0.0.0.0:3001;http://0.0.0.0:3000&quot;,</span><br><span class="line">    &quot;environmentVariables&quot;: &#123;</span><br><span class="line">      &quot;ASPNETCORE_ENVIRONMENT&quot;: &quot;Development&quot;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br></pre></td></tr></table></figure>
+
+<h3 id="簡單指定-port-測試程式"><a href="#簡單指定-port-測試程式" class="headerlink" title="簡單指定 port 測試程式"></a>簡單指定 port 測試程式</h3><p>cd 到 .net5 資料夾底下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dotnet OOXX.dll --urls &quot;http://localhost:7887&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="怎麼用-HttpClient-撈遠端資料"><a href="#怎麼用-HttpClient-撈遠端資料" class="headerlink" title="怎麼用 HttpClient 撈遠端資料"></a>怎麼用 HttpClient 撈遠端資料</h3><p>Startup.cs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices( IServiceCollection services )</span><br><span class="line">&#123;</span><br><span class="line">	//...</span><br><span class="line">	services.AddHttpClient();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">private readonly IHttpClientFactory clientFactory;</span><br><span class="line">public TestController(</span><br><span class="line">	IHttpClientFactory clientFactory</span><br><span class="line">	)&#123;</span><br><span class="line"></span><br><span class="line">	[HttpGet]</span><br><span class="line">	public async Task&lt; ActionResult&lt;List&lt;Test&gt;&gt;&gt; GetAll()</span><br><span class="line">	&#123;</span><br><span class="line">		var client = clientFactory.CreateClient();</span><br><span class="line">		var url = $&quot;http://xxoo&quot;;</span><br><span class="line">		var resp =  await client.GetAsync( url );</span><br><span class="line">		if (resp.IsSuccessStatusCode)</span><br><span class="line">		&#123;</span><br><span class="line">			var stream = await resp.Content.ReadAsStringAsync();</span><br><span class="line">			var result = JsonSerializer.Deserialize&lt;List&lt;Test&gt;&gt;( stream );</span><br><span class="line">			return result;</span><br><span class="line">		&#125;</span><br><span class="line">		else</span><br><span class="line">		&#123;</span><br><span class="line">			return NotFound();</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="執行-net-core-結束後關閉惱火的-console-視窗"><a href="#執行-net-core-結束後關閉惱火的-console-視窗" class="headerlink" title="執行 .net core 結束後關閉惱火的 console 視窗"></a>執行 .net core 結束後關閉惱火的 console 視窗</h3><p><code>工具</code> &#x3D;&gt; <code>選項</code> &#x3D;&gt; <code>偵錯</code> &#x3D;&gt; <code>偵錯停止時，自動關閉主控台</code><br><code>Tools</code> &#x3D;&gt; <code>Options</code> &#x3D;&gt; <code>Debugging</code> &#x3D;&gt; <code>Automatcilly close the console when debugging stops</code></p>
+<h3 id="關閉產生-xml-文件造成賭爛的-Missing-XML-comment-for-publicly-visible-type-or-member"><a href="#關閉產生-xml-文件造成賭爛的-Missing-XML-comment-for-publicly-visible-type-or-member" class="headerlink" title="關閉產生 xml 文件造成賭爛的 Missing XML comment for publicly visible type or member"></a>關閉產生 xml 文件造成賭爛的 Missing XML comment for publicly visible type or member</h3><p>在 csproj 萬一設定了產生 xml 文件的話 , 常常會跳這個賭爛錯誤 , 只要加上 <code>NoWarn</code> 區塊即可消除煩人的綠毛蟲</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;PropertyGroup Condition=&quot;&#x27;$(Configuration)|$(Platform)&#x27;==&#x27;Debug|AnyCPU&#x27;&quot;&gt;</span><br><span class="line">  &lt;DocumentationFile&gt;bin\GG.xml&lt;/DocumentationFile&gt;</span><br><span class="line"> &lt;NoWarn&gt;$(NoWarn);1591&lt;/NoWarn&gt;</span><br><span class="line">&lt;/PropertyGroup&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="其他-developer-懶得看文件-不會用-api-的-swagger-解法"><a href="#其他-developer-懶得看文件-不會用-api-的-swagger-解法" class="headerlink" title="其他 developer 懶得看文件 , 不會用 api 的 swagger 解法"></a>其他 developer 懶得看文件 , 不會用 api 的 swagger 解法</h3><p>常常文件寫了一狗票 , 然後突然一個需求變更就直接 gg 了 , 所以每個人在測試時根本懶得看文件<br><a target="_blank" rel="noopener" href="https://github.com/mattfrear/Swashbuckle.AspNetCore.Filters">可以考慮加入</a> 直接做個 example 讓 user 測試比較實際</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Swashbuckle.AspNetCore.Filters</span><br></pre></td></tr></table></figure>
+
+<p>Startup.cs</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">services.AddSwaggerGen();</span><br><span class="line">services.AddSwaggerExamplesFromAssemblies(Assembly.GetEntryAssembly());</span><br><span class="line">//...</span><br></pre></td></tr></table></figure>
+
+<p>一般類別只要無腦寫 xml 註解時加入 example 區塊即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class GG</span><br><span class="line">&#123;</span><br><span class="line">	/// &lt;summary&gt;</span><br><span class="line">	/// 編號</span><br><span class="line">	/// &lt;/summary&gt;</span><br><span class="line">	/// &lt;example&gt;oxoxgggg&lt;/example&gt;</span><br><span class="line">	[JsonPropertyName(&quot;GGID&quot;)]</span><br><span class="line">	public string GGID &#123; get; set; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>controller 類別</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/// &lt;summary&gt;</span><br><span class="line">/// 懶得寫</span><br><span class="line">/// &lt;/summary&gt;</span><br><span class="line">/// &lt;param name=&quot;id&quot; example=&quot;oxoxgggg&quot;&gt;GGID&lt;/param&gt;</span><br><span class="line">/// &lt;returns&gt;&lt;/returns&gt;</span><br><span class="line">[HttpGet]</span><br><span class="line">[Route(&quot;gg/&#123;id&#125;&quot;)]</span><br><span class="line">public async Task&lt; ActionResult&lt;List&lt;GG&gt;&gt;&gt; GetAll()</span><br><span class="line">&#123;</span><br><span class="line">	//...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="如何在Repository內使用Configuration"><a href="#如何在Repository內使用Configuration" class="headerlink" title="如何在Repository內使用Configuration"></a>如何在Repository內使用Configuration</h3><p>設定注入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public void ConfigureServices( IServiceCollection services )&#123;</span><br><span class="line">	//注入 Configuration 讓 repository 使用 , 因為是 global 所以直接用單例就好</span><br><span class="line">	services.AddSingleton( _ =&gt; Configuration );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>注入到 Repository</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">private readonly IConfiguration configuration;</span><br><span class="line">public GGRepository(IConfiguration configuration )</span><br><span class="line">&#123;</span><br><span class="line">	this.configuration = configuration ?? throw new System.ArgumentNullException( nameof( configuration ) );</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/asp-net-core/" rel="tag"># asp.net core</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/04/11/spring-boot-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/" rel="prev" title="spring boot 的低能兒筆記">
+      <i class="fa fa-chevron-left"></i> spring boot 的低能兒筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/04/18/flask-%E7%9A%84%E4%BD%8E%E8%83%BD%E5%85%92%E7%AD%86%E8%A8%98/" rel="next" title="flask 的低能兒筆記">
+      flask 的低能兒筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#ABP-%E6%89%8B%E5%8B%95%E5%BB%BA%E7%AB%8B-controller"><span class="nav-number">1.</span> <span class="nav-text">ABP 手動建立 controller</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E6%AC%A1-POST-%E5%A4%9A%E7%AD%86%E8%B3%87%E6%96%99-count-%E6%B0%B8%E9%81%A0%E7%82%BA%E9%9B%B6"><span class="nav-number">2.</span> <span class="nav-text">一次 POST 多筆資料 count 永遠為零</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Missing-type-map-configuration-or-unsupported-mapping"><span class="nav-number">3.</span> <span class="nav-text">Missing type map configuration or unsupported mapping.</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%87%E7%B4%9A-net-3-1-to-net-5"><span class="nav-number">4.</span> <span class="nav-text">升級 .net 3.1 to .net 5</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E9%BA%BC%E5%8F%96%E5%BE%97-ControllerName-or-ActionName"><span class="nav-number">5.</span> <span class="nav-text">怎麼取得 ControllerName or ActionName</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E9%BA%BC%E5%8F%96%E5%BE%97-appsetting-json-%E5%85%A7%E7%9A%84%E5%80%BC"><span class="nav-number">6.</span> <span class="nav-text">怎麼取得 appsetting.json 內的值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B0%A1%E5%96%AE%E7%B2%97%E6%9A%B4%E5%8B%95%E6%85%8B%E5%88%87%E6%8F%9B-DB-%E9%80%A3%E7%B7%9A%E5%AD%97%E4%B8%B2"><span class="nav-number">7.</span> <span class="nav-text">簡單粗暴動態切換 DB 連線字串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E7%A2%BA%E5%8F%96%E5%BE%97-DB-%E9%80%A3%E7%B7%9A%E5%AD%97%E4%B8%B2"><span class="nav-number">8.</span> <span class="nav-text">正確取得 DB 連線字串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%80%8B%E9%A1%9E%E5%88%A5%E7%B9%BC%E6%89%BF%E5%90%8C%E5%80%8B-interface-%E6%80%8E%E9%BA%BC%E6%B3%A8%E5%85%A5-DI"><span class="nav-number">9.</span> <span class="nav-text">多個類別繼承同個 interface 怎麼注入 DI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%BE%E4%B8%8D%E5%88%B0-ToXXOOAsync-%E9%9D%9E%E5%90%8C%E6%AD%A5%E6%96%B9%E6%B3%95"><span class="nav-number">10.</span> <span class="nav-text">找不到 ToXXOOAsync 非同步方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E9%BA%BC%E8%AE%93%E5%9C%A8%E5%85%A7%E7%B6%B2%E7%9A%84%E5%90%8C%E4%BA%8B%E4%B9%9F%E7%9C%8B%E5%BE%97%E5%88%B0%E4%BD%A0%E7%8F%BE%E5%9C%A8%E6%B8%AC%E8%A9%A6%E7%9A%84%E7%B5%90%E6%9E%9C"><span class="nav-number">11.</span> <span class="nav-text">怎麼讓在內網的同事也看得到你現在測試的結果</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B0%A1%E5%96%AE%E6%8C%87%E5%AE%9A-port-%E6%B8%AC%E8%A9%A6%E7%A8%8B%E5%BC%8F"><span class="nav-number">12.</span> <span class="nav-text">簡單指定 port 測試程式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%8E%E9%BA%BC%E7%94%A8-HttpClient-%E6%92%88%E9%81%A0%E7%AB%AF%E8%B3%87%E6%96%99"><span class="nav-number">13.</span> <span class="nav-text">怎麼用 HttpClient 撈遠端資料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%B7%E8%A1%8C-net-core-%E7%B5%90%E6%9D%9F%E5%BE%8C%E9%97%9C%E9%96%89%E6%83%B1%E7%81%AB%E7%9A%84-console-%E8%A6%96%E7%AA%97"><span class="nav-number">14.</span> <span class="nav-text">執行 .net core 結束後關閉惱火的 console 視窗</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%9C%E9%96%89%E7%94%A2%E7%94%9F-xml-%E6%96%87%E4%BB%B6%E9%80%A0%E6%88%90%E8%B3%AD%E7%88%9B%E7%9A%84-Missing-XML-comment-for-publicly-visible-type-or-member"><span class="nav-number">15.</span> <span class="nav-text">關閉產生 xml 文件造成賭爛的 Missing XML comment for publicly visible type or member</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96-developer-%E6%87%B6%E5%BE%97%E7%9C%8B%E6%96%87%E4%BB%B6-%E4%B8%8D%E6%9C%83%E7%94%A8-api-%E7%9A%84-swagger-%E8%A7%A3%E6%B3%95"><span class="nav-number">16.</span> <span class="nav-text">其他 developer 懶得看文件 , 不會用 api 的 swagger 解法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A6%82%E4%BD%95%E5%9C%A8Repository%E5%85%A7%E4%BD%BF%E7%94%A8Configuration"><span class="nav-number">17.</span> <span class="nav-text">如何在Repository內使用Configuration</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/04/16/%E5%B8%B8%E8%A6%8B%E7%9A%84-asp-net-core-%E4%BD%8E%E8%83%BD%E5%95%8F%E9%A1%8C/";
+    this.page.identifier = "2021/04/16/常見的-asp-net-core-低能問題/";
+    this.page.title = "常見的 asp.net core 低能問題";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

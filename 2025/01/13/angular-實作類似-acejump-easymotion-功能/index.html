@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="angular 實作類似 acejump easymotion 功能">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2025/01/13/angular-%E5%AF%A6%E4%BD%9C%E9%A1%9E%E4%BC%BC-acejump-easymotion-%E5%8A%9F%E8%83%BD/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-01-13T04:54:51.000Z">
+<meta property="article:modified_time" content="2025-03-06T05:02:26.993Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="angular">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2025/01/13/angular-%E5%AF%A6%E4%BD%9C%E9%A1%9E%E4%BC%BC-acejump-easymotion-%E5%8A%9F%E8%83%BD/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>angular 實作類似 acejump easymotion 功能 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2025/01/13/angular-%E5%AF%A6%E4%BD%9C%E9%A1%9E%E4%BC%BC-acejump-easymotion-%E5%8A%9F%E8%83%BD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          angular 實作類似 acejump easymotion 功能
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2025-01-13 12:54:51" itemprop="dateCreated datePublished" datetime="2025-01-13T12:54:51+08:00">2025-01-13</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-03-06 13:02:26" itemprop="dateModified" datetime="2025-03-06T13:02:26+08:00">2025-03-06</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2025/01/13/angular-%E5%AF%A6%E4%BD%9C%E9%A1%9E%E4%BC%BC-acejump-easymotion-%E5%8A%9F%E8%83%BD/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2025/01/13/angular-實作類似-acejump-easymotion-功能/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>6.2k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>6 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+
+<p>最近因為要離職的關係, 才發現離上一篇已經快兩個月, 好久沒更新 blog 了!<br>想當初是因為長官的知遇之恩才續留, 沒想到最後還是這種結果, 整個心情超難過的 哀~<br>要是能重來, 去年錄取保哥時就該直接過去, 錯失保哥還真的滿可惜的! 也不會有後續這些遲早引爆的事件發生</p>
+<p>離開前把一直想在 <code>angular</code> 上面做類似 <code>acejump</code> or <code>easymotion</code> 的功能給完成下, 不過我覺得用 <code>slickback</code> 這個詞更貼切<br>之前有用純 js 在自己 blog 搞過一把, 這次就獻給 <code>angular</code> 說不定這是職涯最後一把用 <code>angular</code> 了, 就當最後的致敬吧!</p>
+<p>html 的部分大概長這樣, 需要注意的是 span 這個部分<br>他應該要每一個字使用一個 span, 這樣才可以每敲一個字下去變成紅字, 否則會整坨都紅字</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;div</span><br><span class="line">	#dtags</span><br><span class="line">	class=&quot;slickback-tag&quot;</span><br><span class="line">	[ngStyle]=&quot;&#123;display: isFirstCharInCmdArray(&#x27;d&#x27;) ? &#x27;&#x27; : &#x27;none&#x27;&#125;&quot;&gt;</span><br><span class="line">	&lt;span</span><br><span class="line">	  *ngFor=&quot;</span><br><span class="line">		let text of indexToSpan(i, &#x27;d&#x27;);</span><br><span class="line">		let textIndex = index</span><br><span class="line">	  &quot;</span><br><span class="line">	  [ngStyle]=&quot;&#123;</span><br><span class="line">		color: textInCmdArray(</span><br><span class="line">		  indexToSpan(i, &#x27;d&#x27;).join(&#x27;&#x27;),</span><br><span class="line">		  textIndex</span><br><span class="line">		)</span><br><span class="line">		  ? &#x27;red&#x27;</span><br><span class="line">		  : &#x27;black&#x27;</span><br><span class="line">	  &#125;&quot;</span><br><span class="line">	  &gt;&#123;&#123; text &#125;&#125;&lt;/span&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>css 則是用絕對定位這老朋友即可搞定</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">.slickback-tag &#123;</span><br><span class="line">  position: absolute;</span><br><span class="line">  left: 0;</span><br><span class="line">  top: 0;</span><br><span class="line">  background-color: #89cf07;</span><br><span class="line">  font-weight: bold;</span><br><span class="line">  font-size: 10px;</span><br><span class="line">  color: black;</span><br><span class="line">  padding: 2px;</span><br><span class="line">  border-radius: 2px;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>當使用者敲擊第一個字如果是以下列表時表示會觸發執行跳躍的事件, 將這些字 <code>push</code> 進去 <code>cmdArray</code> 裡面</p>
+<p><code>e</code> &#x3D;&gt; <code>edit</code><br><code>a</code> &#x3D;&gt; <code>add</code><br><code>d</code> &#x3D;&gt; <code>delete</code></p>
+<p>接著如果命令的字大於一個時則判斷是否敲入 <code>0123456789</code><br>如果正確的話一樣 <code>push</code> 該 <code>key</code>, 反之則設定 <code>cmdArray = []</code> 清除</p>
+<p><code>isNeedAnotherKeyTyping</code> 這個函數則是用來判斷 <code>a1 ... a10 a11</code> 這類兩個字開頭一樣的情況, 如果不需要的話就執行跳躍</p>
+<p>回頭看到 <code>防禦式</code> 的部分, 如果使用者敲 <code>e1 a1 d1</code> 這類有可能兩個字相同的部分, 並且明確敲下 Enter 則直接執行</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//防禦式, 如果需要執行第二個 key 時直接按下 Enter 則直接執行 ex: e1 a1 d1</span><br><span class="line">if (keyPressed === &#x27;Enter&#x27; &amp;&amp; this.needAnotherKey) &#123;</span><br><span class="line">  if (this.typingTimeout) &#123;</span><br><span class="line">	clearTimeout(this.typingTimeout);</span><br><span class="line">  &#125;</span><br><span class="line">  console.log(&#x27;needAnotherKey&#x27;, this.needAnotherKey);</span><br><span class="line"></span><br><span class="line">  this.slickbackClick();</span><br><span class="line">  return;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最後看到 <code>setTimeout</code> 時間如果在 2.5 秒內都沒動作的話, 就執行 <code>slickbackClick</code> 讓貼在 span 上的按鈕觸發 click 即可</p>
+<p>full code</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line">cmdArray = new Array&lt;string&gt;();</span><br><span class="line">@ViewChildren(&#x27;etags&#x27;)</span><br><span class="line">etags?: QueryList&lt;ElementRef&gt;;</span><br><span class="line"></span><br><span class="line">@ViewChildren(&#x27;atags&#x27;)</span><br><span class="line">atags?: QueryList&lt;ElementRef&gt;;</span><br><span class="line"></span><br><span class="line">@ViewChildren(&#x27;dtags&#x27;)</span><br><span class="line">dtags?: QueryList&lt;ElementRef&gt;;</span><br><span class="line"></span><br><span class="line">typingTimeout: any;</span><br><span class="line">typingKeyDelayTime = 2500;</span><br><span class="line">needAnotherKey = false;</span><br><span class="line">@HostListener(&#x27;document:keydown&#x27;, [&#x27;$event&#x27;])</span><br><span class="line">onKeyDown(event: KeyboardEvent): void &#123;</span><br><span class="line">  // console.log(`KeyDown: $&#123;event.key&#125;`);</span><br><span class="line"></span><br><span class="line">  let keyPressed = event.key;</span><br><span class="line"></span><br><span class="line">  //防禦式, 如果需要執行第二個 key 時直接按下 Enter 則直接執行 ex: e1 a1 d1</span><br><span class="line">  if (keyPressed === &#x27;Enter&#x27; &amp;&amp; this.needAnotherKey) &#123;</span><br><span class="line">    if (this.typingTimeout) &#123;</span><br><span class="line">      clearTimeout(this.typingTimeout);</span><br><span class="line">    &#125;</span><br><span class="line">    console.log(&#x27;needAnotherKey&#x27;, this.needAnotherKey);</span><br><span class="line"></span><br><span class="line">    this.slickbackClick();</span><br><span class="line">    return;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  //正常情況</span><br><span class="line">  if (this.cmdArray.length &gt; 0) &#123;</span><br><span class="line">    if (&#x27;0123456789&#x27;.includes(keyPressed)) &#123;</span><br><span class="line">      this.cmdArray.push(keyPressed);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      //萬一中間按下其他 key 則終止執行動作</span><br><span class="line">      this.cmdArray = [];</span><br><span class="line">    &#125;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line"></span><br><span class="line">    if (this.isViewMode) &#123;</span><br><span class="line">      //編輯</span><br><span class="line">      if (keyPressed === &#x27;e&#x27;) this.cmdArray.push(&#x27;e&#x27;);</span><br><span class="line"></span><br><span class="line">      if (keyPressed === &#x27;a&#x27;) this.cmdArray.push(&#x27;a&#x27;);</span><br><span class="line"></span><br><span class="line">      if (keyPressed === &#x27;d&#x27;) this.cmdArray.push(&#x27;d&#x27;);</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      //新增</span><br><span class="line">      if (keyPressed === &#x27;a&#x27;) this.cmdArray.push(&#x27;a&#x27;);</span><br><span class="line"></span><br><span class="line">      //刪除</span><br><span class="line">      if (keyPressed === &#x27;d&#x27;) this.cmdArray.push(&#x27;d&#x27;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  this.needAnotherKey = this.isNeedAnotherKeyTyping();</span><br><span class="line">  if (this.needAnotherKey) return;</span><br><span class="line"></span><br><span class="line">  if (this.typingTimeout) &#123;</span><br><span class="line">    clearTimeout(this.typingTimeout);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  //3 秒內按下的話就執行 slickback</span><br><span class="line">  this.typingTimeout = setTimeout(() =&gt; &#123;</span><br><span class="line">    this.slickbackClick();</span><br><span class="line">  &#125;, this.typingKeyDelayTime);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//快捷跳躍</span><br><span class="line">slickbackClick() &#123;</span><br><span class="line">  if (this.cmdArray.length &gt; 1) &#123;</span><br><span class="line">    console.log(&#x27;於 1 秒按下&#x27;);</span><br><span class="line">    console.log(&#x27;exe&#x27;, this.cmdArray);</span><br><span class="line">    let str = this.cmdArray.join(&#x27;&#x27;);</span><br><span class="line">    console.log(&#x27;str&#x27;, str);</span><br><span class="line">    let index = parseInt(str.substring(1));</span><br><span class="line"></span><br><span class="line">    let arr;</span><br><span class="line"></span><br><span class="line">    if (this.isViewMode) &#123;</span><br><span class="line">      if (str[0] === &#x27;e&#x27;) arr = this.etags?.toArray();</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      if (str[0] === &#x27;a&#x27;) arr = this.atags?.toArray();</span><br><span class="line">      if (str[0] === &#x27;d&#x27;) arr = this.dtags?.toArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (arr &amp;&amp; arr.length &gt; 0 &amp;&amp; index &lt; arr.length)</span><br><span class="line">      arr![index].nativeElement.parentElement.click();</span><br><span class="line"></span><br><span class="line">    //已經執行命令所以清空</span><br><span class="line">    this.cmdArray = [];</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//判斷是否需要輸入其他 key, ex:a1 ... a10 a11 這時就需要</span><br><span class="line">isNeedAnotherKeyTyping() &#123;</span><br><span class="line">  if (this.cmdArray.length &gt; 1) &#123;</span><br><span class="line">    console.log(&#x27;於 1 秒按下&#x27;);</span><br><span class="line">    console.log(&#x27;exe&#x27;, this.cmdArray);</span><br><span class="line">    let str = this.cmdArray.join(&#x27;&#x27;);</span><br><span class="line">    console.log(&#x27;str&#x27;, str);</span><br><span class="line">    let index = parseInt(str.substring(1));</span><br><span class="line">    let sindex = str.substring(1);</span><br><span class="line"></span><br><span class="line">    let arr;</span><br><span class="line"></span><br><span class="line">    if (this.isViewMode) &#123;</span><br><span class="line">      if (str[0] === &#x27;e&#x27;) arr = this.etags?.toArray();</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">      if (str[0] === &#x27;a&#x27;) arr = this.atags?.toArray();</span><br><span class="line">      if (str[0] === &#x27;d&#x27;) arr = this.dtags?.toArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if (!arr || arr.length === 0) return false;</span><br><span class="line">    let indexAsStrings = arr?.map((_, index) =&gt; index.toString());</span><br><span class="line"></span><br><span class="line">    console.log(&#x27;sindex&#x27;, sindex);</span><br><span class="line">    let needDelay = indexAsStrings?.some(</span><br><span class="line">      (value) =&gt; value.startsWith(sindex) &amp;&amp; value !== sindex</span><br><span class="line">    );</span><br><span class="line"></span><br><span class="line">    // console.log(&#x27;indexAsStrings&#x27;, indexAsStrings);</span><br><span class="line"></span><br><span class="line">    // console.log(&#x27;needDelay&#x27;, needDelay);</span><br><span class="line"></span><br><span class="line">    if (!needDelay) &#123;</span><br><span class="line">      // console.log(&#x27;arr&#x27;, arr);</span><br><span class="line">      if (arr &amp;&amp; arr?.length &gt; 0 &amp;&amp; index &lt; arr.length)</span><br><span class="line">        arr![index].nativeElement.parentElement.click();</span><br><span class="line"></span><br><span class="line">      //已經執行命令所以清空</span><br><span class="line">      this.cmdArray = [];</span><br><span class="line">      return false;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return true;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//把 index 轉為一個一個的 span</span><br><span class="line">indexToSpan(index: number, key: string) &#123;</span><br><span class="line">  let arr = key + index.toString();</span><br><span class="line">  let result = arr.split(&#x27;&#x27;);</span><br><span class="line">  return result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">textInCmdArray(arr: string, index: number) &#123;</span><br><span class="line">  if (this.cmdArray.length === 0) return false;</span><br><span class="line"></span><br><span class="line">  for (let i = 0; i &lt; index + 1; i++) &#123;</span><br><span class="line">    if (arr[i] !== this.cmdArray[i]) return false;</span><br><span class="line">  &#125;</span><br><span class="line">  return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">isFirstCharInCmdArray(key: string) &#123;</span><br><span class="line">  if (this.cmdArray.length &gt;= 1) &#123;</span><br><span class="line">    if (this.cmdArray[0] === key) return true;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  return false;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//global 當點選按鈕時, 取消 slickback</span><br><span class="line">@HostListener(&#x27;document:click&#x27;, [&#x27;$event&#x27;])</span><br><span class="line">onClick(event: MouseEvent) &#123;</span><br><span class="line">  const target = event.target as HTMLElement;</span><br><span class="line">  if (target &amp;&amp; target.tagName.toLowerCase() === &#x27;button&#x27;) &#123;</span><br><span class="line">    // 如果點擊的是按鈕，觸發事件</span><br><span class="line">    console.log(&#x27;button click cancel slickback cmd&#x27;);</span><br><span class="line">    this.cmdArray = [];</span><br><span class="line">    this.needAnotherKey = false;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/angular/" rel="tag"># angular</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2025/01/13/angular-%E5%AF%A6%E4%BD%9C%E9%A1%9E%E4%BC%BC-youtube-loading-%E7%81%B0%E8%89%B2%E8%89%B2%E5%A1%8A%E6%95%88%E6%9E%9C/" rel="prev" title="angular 實作類似 youtube loading 灰色色塊效果">
+      <i class="fa fa-chevron-left"></i> angular 實作類似 youtube loading 灰色色塊效果
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2025/03/08/%E6%88%91%E7%9A%84%E9%96%8B%E7%99%BC%E7%92%B0%E5%A2%83-2025/" rel="next" title="我的開發環境 2025">
+      我的開發環境 2025 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2025/01/13/angular-%E5%AF%A6%E4%BD%9C%E9%A1%9E%E4%BC%BC-acejump-easymotion-%E5%8A%9F%E8%83%BD/";
+    this.page.identifier = "2025/01/13/angular-實作類似-acejump-easymotion-功能/";
+    this.page.title = "angular 實作類似 acejump easymotion 功能";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

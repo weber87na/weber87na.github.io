@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta property="og:type" content="article">
+<meta property="og:title" content="IdentityServer4 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2022/09/27/IdentityServer4-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://identityserver4.readthedocs.io/en/latest/_images/logo.png">
+<meta property="article:published_time" content="2022-09-27T11:12:51.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content=".net 6">
+<meta property="article:tag" content="c#">
+<meta property="article:tag" content="sso">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://identityserver4.readthedocs.io/en/latest/_images/logo.png">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2022/09/27/IdentityServer4-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>IdentityServer4 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2022/09/27/IdentityServer4-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          IdentityServer4 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-09-27 19:12:51" itemprop="dateCreated datePublished" datetime="2022-09-27T19:12:51+08:00">2022-09-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2022/09/27/IdentityServer4-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2022/09/27/IdentityServer4-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>24k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>22 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p><img src="https://identityserver4.readthedocs.io/en/latest/_images/logo.png" alt="identityserver4"></p>
+<span id="more"></span>
+
+<p>因為接了個燙手山芋 , 要把 .net framework 升級到 .net 6 , 陳年的包袱不好搞 , 還要可以串 SSO , 所以筆記下<br>以前頂多就是串串 line login 自己內部網站要搞 SSO 還真沒頭緒 , 碰巧遇到 <a target="_blank" rel="noopener" href="https://www.accupass.com/event/2202070459001516929761">保哥有開課</a> 就自己丟錢去上<br>不過他這個課很講概念 , 後續沒自己實作一定陣亡 XD<br>如果不想花錢的話可以看 <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV16b411k7yM/?spm_id_from=333.337.search-card.all.click">這個大陸 MVP 教學</a><br>他的 <a target="_blank" rel="noopener" href="https://github.com/solenovex/Identity-Server-4-Tutorial-Demo-Code">code 在此</a></p>
+<p>我後來有做個 FineReport 串接 SSO 的 lab 有興趣也可以<a href="https://www.blog.lasai.com.tw/2023/03/08/FineReport-%E4%B8%B2%E6%8E%A5-Identity-Server-SSO-%E7%AD%86%E8%A8%98/">參考看看</a></p>
+<h3 id="Skoruba-identityserver4-Admin"><a href="#Skoruba-identityserver4-Admin" class="headerlink" title="Skoruba identityserver4 Admin"></a>Skoruba identityserver4 Admin</h3><p>純 IdentityServer4 是沒有 UI 去管理你的 Client , 如果要的話好像要付錢 , 所以有大神搞了個<a target="_blank" rel="noopener" href="https://github.com/skoruba/IdentityServer4.Admin">免錢專案</a><br>老實說完全沒接觸過的話不太可能搞得起來 <code>OAuth 2.0</code> 實在複雜到暈頭轉向 , 廢話不多說實作先<br>他的文件 <a target="_blank" rel="noopener" href="https://skoruba-identityserver4-admin.readthedocs.io/en/dev-doc/index.html">在此</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/skoruba/IdentityServer4.Admin.git</span><br></pre></td></tr></table></figure>
+<p>clone 下來以後先在 <code>Solution</code> &#x3D;&gt; <code>Properties</code> &#x3D;&gt; <code>Common Properties</code> &#x3D;&gt; <code>Startup Project</code> &#x3D;&gt; <code>Multiple startup projects</code> 選單內<br>設定以下三個 <code>Skoruba.IdentityServer4.Admin</code> <code>Skoruba.IdentityServer4.Admin.Api</code> <code>Skoruba.IdentityServer4.STS.Identity</code> 為 Start 就能動了</p>
+<h4 id="Skoruba-IdentityServer4-Admin"><a href="#Skoruba-IdentityServer4-Admin" class="headerlink" title="Skoruba.IdentityServer4.Admin"></a>Skoruba.IdentityServer4.Admin</h4><p><a target="_blank" rel="noopener" href="https://localhost:44303/">https://localhost:44303/</a></p>
+<p>這個做用是後臺 GUI , 也就是純 IdentityServer4 沒給你的東西 , 用這個可以管理你的 <code>Client</code><br>他的帳號密碼是 <code>admin</code> <code>Pa$$word123</code> 其他詳細訊息可以在 <code>identitydata.json</code> or <code>identityserverdata.json</code> 這兩隻檔案找到</p>
+<p>在 OAuth2.0 裡面 <code>Client</code> 可以看做 console app or web app 這類東西 , 類似 line api 後臺管理介面的概念<br>這個網站本身就是一個 <code>Client</code> 他也受到 <code>IdentityServer4.STS.Identity</code> 他進行保護 , 啟動後你的 localdb 會多一堆 table 之後再研究<br>點選 <code>https://localhost:44303/Configuration/Clients</code> 進去以後可以看到預設有兩個 client <code>skoruba_identity_admin_api_swaggerui</code> <code>skoruba_identity_admin</code><br>接著點 <code>skoruba_identity_admin</code> &#x3D;&gt; <code>Edit</code> &#x3D;&gt; <code>Basic</code> 可以看到這個就是走 <code>authorization_code</code> 這個流程<br>另外有幾個重要的網址要記下 , 後續設定自己的 mvc 網站就要模仿這樣設定 , 如果近來看到中文的話右下角可以改成英文 , 不然翻譯的很鬼畜</p>
+<p><code>Redirect Uri</code> &#x3D;&gt; <code>https://localhost:44303/signin-oidc</code><br><code>Front Channel Logout Uri </code> &#x3D;&gt; <code>https://localhost:44303/signout-oidc</code><br><code>Post Logout Redirect Uris </code> &#x3D;&gt; <code>https://localhost:44303/signout-callback-oidc</code><br><code>Allowed Cors Origins </code> &#x3D;&gt; <code>https://localhost:44303</code><br><code>Client Uri </code> &#x3D;&gt; <code>https://localhost:44303</code></p>
+<h4 id="Skoruba-IdentityServer4-Admin-Api"><a href="#Skoruba-IdentityServer4-Admin-Api" class="headerlink" title="Skoruba.IdentityServer4.Admin.Api"></a>Skoruba.IdentityServer4.Admin.Api</h4><p><a target="_blank" rel="noopener" href="https://localhost:44302/swagger/index.html">https://localhost:44302/swagger/index.html</a></p>
+<p>這個是他給的 swagger , 實作上暫時沒遇到要直接呼叫他</p>
+<h4 id="Skoruba-IdentityServer4-STS-Identity"><a href="#Skoruba-IdentityServer4-STS-Identity" class="headerlink" title="Skoruba.IdentityServer4.STS.Identity"></a>Skoruba.IdentityServer4.STS.Identity</h4><p><a target="_blank" rel="noopener" href="https://localhost:44310/">https://localhost:44310/</a></p>
+<p>這個等價於 IdentityServer4 的 STS (security token service) , 當你要設定你自己的網站受到保護時 , 要指向他 , 千萬不要設定錯了<br>剛開始不小心寫成 <code>https://localhost:44303/</code> 所以狂噴 Error<br>點選 <code>Discovery Document</code> 會跳到這個網址 <code>https://localhost:44310/.well-known/openid-configuration</code><br>如果有在自己的 c# 程式上安裝 <code>IdentityModel</code> 這個套件的話他會自己去撈並且轉成類別 , 馬上收工<br>另外如果要讓登出以後回到自己的網站 , 可以改這個類別內的 <code>AutomaticRedirectAfterSignOut</code> 為 <code>true</code> 即可登出後回到自己網站</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">AccountOptions</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> AllowLocalLogin = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> AllowRememberLogin = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> TimeSpan RememberMeLoginDuration = TimeSpan.FromDays(<span class="number">30</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> ShowLogoutPrompt = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">bool</span> AutomaticRedirectAfterSignOut = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="built_in">string</span> InvalidCredentialsErrorMessage = <span class="string">&quot;Invalid username or password&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="實作-Client-Credentials"><a href="#實作-Client-Credentials" class="headerlink" title="實作 Client Credentials"></a>實作 Client Credentials</h4><p>這個比較簡單會用這個表示 <code>機器</code> 他不代表任何人 , 所以要走這個流程 , 說穿就是諸如 console 排程這類東西<br>這裡有個細節 , 如果你的 scope 寫 email openid 之類的會噴 error , 要記得先去新增 Api 自己的 scope</p>
+<h5 id="Identity-Server-設定"><a href="#Identity-Server-設定" class="headerlink" title="Identity Server 設定"></a>Identity Server 設定</h5><p>先到 <code>https://localhost:44303/</code> &#x3D;&gt; <code>Clients/Resources</code> &#x3D;&gt; <code>Api Scopes</code><br><code>Add Api Scope</code> &#x3D;&gt; <code>Name</code> &#x3D;&gt; <code>DemoApiClientCredentials</code> &#x3D;&gt; <code>Save Api Scope</code><br>接著回到 <code>https://localhost:44303/</code><br><code>Add Client</code> &#x3D;&gt; <code>Machine/Robot Client Credentials flow</code><br><code>ClientId</code> &#x3D;&gt; <code>DemoApiClientCredentials</code><br><code>Allowed Scopes</code> &#x3D;&gt; <code>DemoApiClientCredentials</code><br><code>Allowed Grant Types</code> &#x3D;&gt; <code>client_credentials</code><br><code>Client Name</code> &#x3D;&gt; <code>DemoApiClientCredentials</code> &#x3D;&gt; <code>Save Client</code><br>接著點 <code>Manage Client Secrets</code><br><code>Secret Value</code> &#x3D;&gt; <code>DemoApiClientCredentials</code><br><code>Description</code> &#x3D;&gt; <code>DemoApiClientCredentials</code><br><code>Add Client Secret</code><br>另外注意到 <code>Access Token Lifetime</code> 預設 <code>token</code> 有效期限為 <code>3600 / 60 = 1hr</code> 視情況調整</p>
+<h5 id="程式碼修正"><a href="#程式碼修正" class="headerlink" title="程式碼修正"></a>程式碼修正</h5><p>首先安裝 <code>Microsoft.AspNetCore.Authentication.JwtBearer</code> 注意下版本 <code>6.0.16</code></p>
+<p>調整 <code>Program</code> , 多加一組給 <code>Jwt</code> 的設定在前面 , 最後 postman 呼叫時噴了個莫名其妙的錯誤 <code>the audience is invalid</code> , 可以參考<a target="_blank" rel="noopener" href="https://jscinin.medium.com/asp-net-core-3-1-%E7%B6%93jwt%E8%AA%8D%E8%AD%89%E5%BE%8C-post-api-%E9%8C%AF%E8%AA%A4%E8%A8%8A%E6%81%AF401-the-audience-is-invalid-39540ebe4b6e">這篇</a>處理</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">builder.Services</span><br><span class="line">    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)</span><br><span class="line">    .AddJwtBearer(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.Authority = <span class="string">&quot;https://localhost:44310/&quot;</span>;</span><br><span class="line">        options.RequireHttpsMetadata = <span class="literal">false</span>;</span><br><span class="line">        options.Audience = <span class="string">&quot;DemoApiClientCredentials&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//the audience is invalid</span></span><br><span class="line">        <span class="comment">//https://jscinin.medium.com/asp-net-core-3-1-%E7%B6%93jwt%E8%AA%8D%E8%AD%89%E5%BE%8C-post-api-%E9%8C%AF%E8%AA%A4%E8%A8%8A%E6%81%AF401-the-audience-is-invalid-39540ebe4b6e</span></span><br><span class="line">        options.TokenValidationParameters = <span class="keyword">new</span> TokenValidationParameters &#123;</span><br><span class="line">            ValidateIssuer = <span class="literal">false</span>,</span><br><span class="line">            ValidateAudience = <span class="literal">false</span>,</span><br><span class="line">        &#125;;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>最後在 <code>Controller</code> 上面加入 <code>[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]</code> 屬性即可</p>
+<h5 id="Postman-呼叫受保護的-Api"><a href="#Postman-呼叫受保護的-Api" class="headerlink" title="Postman 呼叫受保護的 Api"></a>Postman 呼叫受保護的 Api</h5><p><a target="_blank" rel="noopener" href="https://identityserver4.readthedocs.io/en/latest/endpoints/token.html">https://identityserver4.readthedocs.io/en/latest/endpoints/token.html</a><br><a target="_blank" rel="noopener" href="https://localhost:44310/.well-known/openid-configuration">https://localhost:44310/.well-known/openid-configuration</a></p>
+<p><code>method</code> &#x3D;&gt; <code>post</code><br><code>網址</code> &#x3D;&gt; <code>https://localhost:44310/connect/token</code><br><code>content type</code> &#x3D;&gt; <code>x-www-form-urlencoded</code><br><code>client_id</code> &#x3D;&gt; <code>DemoApiClientCredentials</code><br><code>client_secret</code> &#x3D;&gt; <code>DemoApiClientCredentials</code><br><code>grant_type</code> &#x3D;&gt; <code>client_credentials</code><br><code>scope</code> &#x3D;&gt; <code>DemoApiClientCredentials</code></p>
+<p>打出去後就得到下列結果</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;access_token&quot;</span><span class="punctuation">:</span> <span class="string">&quot;eyJhbGciOiJSUzoxmtpZCI6000xxxEQTFFRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2ODEzNTczMDAsImV4cCI6MTY4MTM2MDkwMCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJjbGllbnRfaWQiOiJEZW1vQXBpQ2xpZW50IiwiaWF0IjoxNjgxMzU3MzAwLCJzY29wZSI6WyJEZW1vQXBpQ2xpZW50Il19.CTV-fHoW9MYDMoPHGr5Xc9F1-9OJxLT84w18kdxZcFAr9BmtGW0LjYrAfZbnZCe6J1N_Wi5KsSHzsobeZc9MO6EhzFEe_48KsdM-qmYvY2NeQHMq0DM3RtHEflrN2lnICas0Vdv7HKGC3SLV0AipOAor6SSU8G3c_MDjZglQ-rz3rP-FwWVxWf1haJY2ZFEJYmdKuElNX2fbzpZRkiiSB82Bmudtec284hFfP1Wu4GLzY-3P6TKtbSyB0eH2YXHIgcqIjX5ZcIYCdMYmBlsngU34QHLgV-hD6m_3CNJFiKeR-jjBGxpZRYMZRYofxrld5iJp8lhQbbLzpwOTh6FmYw&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;expires_in&quot;</span><span class="punctuation">:</span> <span class="number">3600</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;token_type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Bearer&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;scope&quot;</span><span class="punctuation">:</span> <span class="string">&quot;DemoApiClientCredentials&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<p>接著用 postman 呼叫你的 api</p>
+<p><code>method</code> &#x3D;&gt; <code>post</code><br><code>網址</code> &#x3D;&gt; <code>https://localhost:3001/LaSai/sais</code><br><code>Headers</code> &#x3D;&gt; <code>Authorization</code> &#x3D;&gt; <code>Bearer token</code> 特別注意要 Bearer 後面有空白格 XD</p>
+<iframe width="853" height="480" src="https://www.youtube.com/embed/XGvWCpu6cBs" title="湖南卫视我是歌手-杨宗纬《空白格》-20130215HD" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6IxxooxxxRURDNjNDQkVDNDY4N0Q5MzdDNThCM0ZBQjYxIiwidHlwIjoiYXQrand0In0.eyJuYmYiOjE2ODEzNTgzOTAsImV4cCI6MTY4MTM2MTk5MCwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NDQzMTAiLCJjbGllbnRfaWQiOiJEZW1vQXBpQ2xpZW50IiwiaWF0IjoxNjgxMzU4MzkwLCJzY29wZSI6WyJEZW1vQXBpQ2xpZW50Il19.nOO6CG8AkVZ6PAzsD5r4unmDK3wrnLBHCqhsjz0mmO_ZXL-NsKdTWPHPhDKKKhz9IXQ4CEKkKbPuxCwICO9TCjtWakLdB1S86NEqhXgeQ_i3BlYJYQyfMV5F1NgoTAOFUhdE1XdPiFjmE1YB8MAP3Db_LZ3jD940IcAVzFpEfnIG01qojvhjEpxlzo5LYc8hxaPHgDSRl9VyWrKzxV3iPCLWnuWRrVo6irHrpaJcbTaukjU9ZBkIJKdtdyJzi7E1Vl0BSmjAZhaXkJB0m10o4pEdOre4SmlXFaEHO6COt9Rl_LFC7bzAvNTujt7NOSpoDMQp3FlWQp4KIf3I6nAJcw </span><br></pre></td></tr></table></figure>
+
+<h4 id="實作-Authorization-Code"><a href="#實作-Authorization-Code" class="headerlink" title="實作 Authorization Code"></a>實作 Authorization Code</h4><h5 id="實作"><a href="#實作" class="headerlink" title="實作"></a>實作</h5><p>這個應該都是大多數人要搞 SSO 會用的 , 反正就是 mvc 站台拿 token 然後做事<br>先開一個 .net 6 mvc 專案 , 接著下載這個套件 <code>Microsoft.AspNetCore.Authentication.OpenIdConnect</code><br>然後開啟 <code>launchSettings.json</code> 找到你的網址</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;Net6SSOMVC&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;commandName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Project&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dotnetRunMessages&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;launchBrowser&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;applicationUrl&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://localhost:7069;http://localhost:5069&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;environmentVariables&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;ASPNETCORE_ENVIRONMENT&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Development&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>接著到 <code>Skoruba identityserver4 Admin</code> 後臺 <code>https://localhost:44303</code> 去新增一個 Client<br><code>ClientId</code> &#x3D;&gt; <code>mvc</code><br><code>Client Name</code> &#x3D;&gt; <code>mvc</code><br><code>Client Secrets</code> &#x3D;&gt; <code>mvc</code><br>然後選 <code>Web Application - Server side Authorization Code Flow with PKCE</code> &#x3D;&gt; <code>Save</code><br><code>Allowed Scopes</code> 這裡先把有的選項都加進去<br><code>Redirect Uris</code> &#x3D;&gt; <code>https://localhost:7069/signin-oidc</code> 注意這裡要設定你自己站台的網址<br><code>Allowed Grant Types</code> &#x3D;&gt; <code>authorization_code</code> 這個要留意下 , 我忘了加 XD 然後狂噴 Error<br><code>Front Channel Logout Uri </code> &#x3D;&gt; <code>https://localhost:7069/signout-oidc</code><br><code>Post Logout Redirect Uris </code> &#x3D;&gt; <code>https://localhost:7069/signout-callback-oidc</code><br><code>Allowed Cors Origins </code> &#x3D;&gt; <code>https://localhost:7069</code> 應該沒設定也沒關係 暫無研究<br><code>Client Uri </code> &#x3D;&gt; <code>https://localhost:7069</code><br><code>Require Consent</code> &#x3D;&gt; 這個設定 <code>false</code> 的話其實有點強姦的味道 , 就是直接同意啦 (這個在企業內部應該表示資料是屬於公司的)<br>如果設定 <code>true</code> 的話就會跳出來你要允許那些的選項<br><code>Logo Uri</code> &#x3D;&gt; 這個用在同意頁面 , 有設定的話上面會有 logo 可是我測的機器上好像沒開 CORS 所以爆炸 <code>https://localhost:7069/images/logo.png</code><br><code>Always Include User Claims In IdToken</code> 這個選項有 <code>enable</code> 的話就會自動把你的 <code>Claim</code> 加上去 , 少寫一些 code<br>最後 Save</p>
+<p>接著 <code>Program</code> 改成這樣 , 比較特別的就是 <code>Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = true;</code> 這句<br>debug 過程中如果沒設定這樣的話 , 他會把詳細訊息吃掉 , 最好加上 , 不然那個訊息看不太懂<br>另外就是 <code>Authority</code> 這個要注意 , 不要寫成 <code>https://localhost:44303</code></p>
+<p>如果寫錯會炸這樣 (有加上 Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII &#x3D; true)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">InvalidOperationException: IDX20803: Unable to obtain configuration from: &#x27;https://localhost:44303/.well-known/openid-configuration&#x27;.</span><br></pre></td></tr></table></figure>
+
+<p>如果寫錯會炸這樣 (沒加上 Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII) 會吃案 , 噴一堆看不懂的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IOException: IDX20807: Unable to retrieve document from: &#x27;System.String&#x27;. HttpResponseMessage: &#x27;System.Net.Http.HttpResponseMessage&#x27;, HttpResponseMessage.Content: &#x27;System.String&#x27;.</span><br></pre></td></tr></table></figure>
+
+<p>另外注意 <code>JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();</code> 這句如果不設定的話就會以網址形式呈現 , 加上去才會以 well-known 形式呈現</p>
+<p><code>Program</code></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Authentication.Cookies;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Authentication.OpenIdConnect;</span><br><span class="line"><span class="keyword">using</span> System.IdentityModel.Tokens.Jwt;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> builder = WebApplication.CreateBuilder(<span class="keyword">args</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// Add services to the container.</span></span><br><span class="line">builder.Services.AddControllersWithViews();</span><br><span class="line"></span><br><span class="line"><span class="comment">//這句如果不設定的話就會以網址形式呈現 , 加上去才會以 well-known 形式呈現</span></span><br><span class="line">JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();</span><br><span class="line"></span><br><span class="line"><span class="comment">//加入詳細訊息</span></span><br><span class="line">Microsoft.IdentityModel.Logging.IdentityModelEventSource.ShowPII = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">builder.Services.AddAuthentication(options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;</span><br><span class="line">        options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;</span><br><span class="line">    &#125;)</span><br><span class="line">    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme)</span><br><span class="line">    .AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        options.Authority = <span class="string">&quot;https://localhost:44310/&quot;</span>;</span><br><span class="line">        options.ClientId = <span class="string">&quot;mvc&quot;</span>;</span><br><span class="line">        options.ClientSecret = <span class="string">&quot;mvc&quot;</span>;</span><br><span class="line">        options.ResponseType = <span class="string">&quot;code&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//options.Scope.Add(&quot;openid&quot;);</span></span><br><span class="line">        <span class="comment">//options.Scope.Add(&quot;profile&quot;);</span></span><br><span class="line">        options.SaveTokens = <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">		<span class="comment">//這裡可以用來把以前 .net framework 內 UseOpenIdConnectAuthentication</span></span><br><span class="line">		<span class="comment">//Notifications = new OpenIdConnectAuthenticationNotifications &#123; ... &#125;</span></span><br><span class="line">		<span class="comment">//相關 Event 加上去 https://dotblogs.com.tw/anyun/2021/04/25/173529</span></span><br><span class="line">        options.Events = <span class="keyword">new</span> OpenIdConnectEvents</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">		</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> app = builder.Build();</span><br><span class="line"></span><br><span class="line"><span class="comment">// Configure the HTTP request pipeline.</span></span><br><span class="line"><span class="keyword">if</span> (!app.Environment.IsDevelopment())</span><br><span class="line">&#123;</span><br><span class="line">    app.UseExceptionHandler(<span class="string">&quot;/Home/Error&quot;</span>);</span><br><span class="line">    <span class="comment">// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.</span></span><br><span class="line">    app.UseHsts();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.UseHttpsRedirection();</span><br><span class="line">app.UseStaticFiles();</span><br><span class="line"></span><br><span class="line">app.UseRouting();</span><br><span class="line"></span><br><span class="line">app.UseAuthentication();</span><br><span class="line">app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">app.MapControllerRoute(</span><br><span class="line">    name: <span class="string">&quot;default&quot;</span>,</span><br><span class="line">    pattern: <span class="string">&quot;&#123;controller=Home&#125;/&#123;action=Index&#125;/&#123;id?&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">app.Run();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>後來發現之前舊版有插 log 所以補下 , 補在 <code>builder.Services.AddAuthentication</code> 前即可 , .net6 真是太精簡了 .. 都不太曉得要怎麼寫 XD</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//以工廠建立 log</span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">var</span> loggerFactory = LoggerFactory.Create(x =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    x.AddConsole();</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> logger = loggerFactory.CreateLogger&lt;Program&gt;();</span><br><span class="line">builder.Services.AddAuthentication(options =&gt; ...</span><br></pre></td></tr></table></figure>
+
+
+<p>另外要加工自己的一些 Claim 可以參考<a target="_blank" rel="noopener" href="https://dotblogs.com.tw/anyun/2021/04/25/173529">這篇</a> , 舊版這個叫做 <code>SecurityTokenValidated</code> , .net6 裡面叫做 <code>OnTokenValidated</code><br>礙於之前沒玩過 , 反正一個 <code>Scope</code> 底下可以有很多的 <code>Claim</code> , 這部分可以自己去設定看權限要怎樣設計<br>此外要拿到 Code , AccessToken , RefreshToken 等等重要資訊則可以依靠 <code>TokenEndpointResponse</code> 這咚咚<br>我看舊版的在 <code>ProtocolMessage</code> 這裡面有寫東西 , 可是 .net6 我撈裡面的子屬性都 null</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">OnTokenValidated = <span class="keyword">async</span> notification =&gt; &#123;</span><br><span class="line">	<span class="keyword">var</span> accessToken = context.TokenEndpointResponse.AccessToken;</span><br><span class="line">	<span class="comment">//... 看你還要拿啥</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>接著讓 <code>HomeController</code> 內受到保護 , 把需要保護的 Action 加上這段 <code>[Authorize]</code> 即可</p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Authorization;</span><br><span class="line"><span class="keyword">using</span> Microsoft.AspNetCore.Mvc;</span><br><span class="line"><span class="keyword">using</span> Net6SSOMVC.Models;</span><br><span class="line"><span class="keyword">using</span> System.Diagnostics;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">Net6SSOMVC.Controllers</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">HomeController</span> : <span class="title">Controller</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">readonly</span> ILogger&lt;HomeController&gt; _logger;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">HomeController</span>(<span class="params">ILogger&lt;HomeController&gt; logger</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            _logger = logger;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> IActionResult <span class="title">Index</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> View();</span><br><span class="line">        &#125;</span><br><span class="line">		</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task <span class="title">LogOut</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">			<span class="comment">//先登出自己的站台</span></span><br><span class="line">            <span class="keyword">await</span> HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);</span><br><span class="line">			</span><br><span class="line">			<span class="comment">//登出 STS</span></span><br><span class="line">            <span class="keyword">await</span> HttpContext.SignOutAsync(OpenIdConnectDefaults.AuthenticationScheme);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">	<span class="comment">//或這樣寫</span></span><br><span class="line">	<span class="comment">//public IActionResult Logout()</span></span><br><span class="line">	<span class="comment">//&#123;</span></span><br><span class="line">	<span class="comment">//	return SignOut(&quot;Cookies&quot;, &quot;oidc&quot;);</span></span><br><span class="line">	<span class="comment">//&#125;</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        [<span class="meta">Authorize</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;IActionResult&gt; <span class="title">Privacy</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> accessToken = <span class="keyword">await</span> HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);</span><br><span class="line">            <span class="keyword">var</span> idToken = <span class="keyword">await</span> HttpContext.GetTokenAsync(OpenIdConnectParameterNames.IdToken);</span><br><span class="line">            <span class="keyword">var</span> refreshToken = <span class="keyword">await</span> HttpContext.GetTokenAsync(OpenIdConnectParameterNames.RefreshToken);</span><br><span class="line"></span><br><span class="line">            ViewData[<span class="string">&quot;accessToken&quot;</span>] = accessToken;</span><br><span class="line">            ViewData[<span class="string">&quot;idToken&quot;</span>] = idToken;</span><br><span class="line">            ViewData[<span class="string">&quot;refreshToken&quot;</span>] = refreshToken;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> View();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        [<span class="meta">ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> IActionResult <span class="title">Error</span>()</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> View(<span class="keyword">new</span> ErrorViewModel &#123; RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然後修改 <code>_Layout.cshtml</code> 加入登出功能</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;navbar-collapse collapse d-sm-inline-flex justify-content-between&quot;&gt;</span><br><span class="line">	&lt;ul class=&quot;navbar-nav flex-grow-1&quot;&gt;</span><br><span class="line">		&lt;li class=&quot;nav-item&quot;&gt;</span><br><span class="line">			&lt;a class=&quot;nav-link text-dark&quot; asp-area=&quot;&quot; asp-controller=&quot;Home&quot; asp-action=&quot;Index&quot;&gt;Home&lt;/a&gt;</span><br><span class="line">		&lt;/li&gt;</span><br><span class="line">		&lt;li class=&quot;nav-item&quot;&gt;</span><br><span class="line">			&lt;a class=&quot;nav-link text-dark&quot; asp-area=&quot;&quot; asp-controller=&quot;Home&quot; asp-action=&quot;Privacy&quot;&gt;Privacy&lt;/a&gt;</span><br><span class="line">		&lt;/li&gt;</span><br><span class="line">		&lt;li class=&quot;nav-item&quot;&gt;</span><br><span class="line">			&lt;a class=&quot;nav-link text-dark&quot; asp-area=&quot;&quot; asp-controller=&quot;Home&quot; asp-action=&quot;LogOut&quot;&gt;LogOut&lt;/a&gt;</span><br><span class="line">		&lt;/li&gt;</span><br><span class="line">	&lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>至此就可以測看看 , 記得先從 <code>https://localhost:44310/</code> 上面登出 , 這樣才可以看到跳進去頁面的效果 後續應該就是自己串自己的 DB , 有空再寫</p>
+<h5 id="jquery-或-前後端混合的問題"><a href="#jquery-或-前後端混合的問題" class="headerlink" title="jquery 或 前後端混合的問題"></a>jquery 或 前後端混合的問題</h5><p>一開始有點想不通 , 如果純前端用 <code>Implicit</code> 那混合前後端要用啥 , 後來想想應該依靠後端去走 <code>Authorization Code Flow</code><br>下面這個 lab 如果你用 jquery 要呼叫受保護的 api 也是要先登入不然會噴 CORS 的 error<br><code>TestController.cs</code></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">[<span class="meta">Authorize</span>]</span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title">TestController</span> : <span class="title">ControllerBase</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="function"><span class="keyword">public</span> <span class="built_in">string</span> <span class="title">HelloWorld</span>()</span></span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;HelloWorld&quot;</span>;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>所以要把 <code>Authorize</code> 擋在 Controller or Action 上<br><code>HomeController.cs</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[Authorize]</span><br><span class="line">public IActionResult JQ()</span><br><span class="line">&#123;</span><br><span class="line">	return View();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>JQ.cshtml</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;h2&gt;JQuery&lt;/h2&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">@section Scripts&#123;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">  console.log(&#x27;test jq&#x27;);</span><br><span class="line">    $.get(&#x27;https://localhost:7069/Test/HelloWorld&#x27;, function(data, status)&#123;</span><br><span class="line">      console.log(&#x27;Data: &#x27; + data + &#x27;Status:&#x27; + status);</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>沒擋的話會噴這樣 </p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Access to XMLHttpRequest at &#x27;https://xxx.com/sts/connect/authorize?client_id=net6mvc&amp;redirect_uri=....&#x27;</span><br><span class="line">(redirected from &#x27;https://localhost:7069/Test/HelloWorld&#x27;) from </span><br><span class="line">origin &#x27;https://localhost:7069&#x27; has been blocked by CORS policy: </span><br><span class="line">Response to preflight request doesn&#x27;t pass access control check: </span><br><span class="line">No &#x27;Access-Control-Allow-Origin&#x27; header is present on the requested resource.</span><br></pre></td></tr></table></figure>
+
+<h5 id="補-CORS"><a href="#補-CORS" class="headerlink" title="補 CORS"></a>補 CORS</h5><figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//加入允許 CORS</span></span><br><span class="line">builder.Services.AddCors(p =&gt; p.AddPolicy(<span class="string">&quot;CORS&quot;</span>, builder =&gt;</span><br><span class="line">&#123;</span><br><span class="line">    builder.WithOrigins(<span class="string">&quot;*&quot;</span>).AllowAnyMethod().AllowAnyHeader();</span><br><span class="line">&#125;));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//設定允許 CORS</span></span><br><span class="line">app.UseCors(<span class="string">&quot;CORS&quot;</span>);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="Angular-實作-Authorization-Code"><a href="#Angular-實作-Authorization-Code" class="headerlink" title="Angular 實作 Authorization Code"></a>Angular 實作 Authorization Code</h4><p>主要是靠這個<a target="_blank" rel="noopener" href="https://angular-auth-oidc-client.com/docs/intro">angular-auth-oidc-client 套件</a><br>另外他還有提供大量<a target="_blank" rel="noopener" href="https://angular-auth-oidc-client.com/docs/samples/">範例</a> 可以參考看看</p>
+<p>前端最主要的設定如下<br><code>authority</code> &#x3D;&gt; 表示你的 security token service , 所以應該會是 <a target="_blank" rel="noopener" href="https://localhost:44310/">https://localhost:44310</a><br><code>redirectUrl</code> &#x3D;&gt; 表示你這個 angular 站台的網址 , 懶得寫的話就直接用 <code>window.location.origin</code><br><code>postLogoutRedirectUri</code> &#x3D;&gt; 登出後回來的頁面 , 懶得寫也是直接用 <code>window.location.origin</code><br>這裡實作上有遇到很雷的部分 , 一般啟動 <code>angular</code> 預設的 <code>port</code> 都是 <code>4200</code> , 測試的時候都會用自己 ip 去測試<br>可是 sso server 因為已經上線 , 並且還針對網域去限定 , 所以導致我狂噴 <code>CORS</code> , 而且也是使用 <code>https</code> 所以條件嚴苛<br>這時候可以先用 <code>ipconfig /all</code> 來查自己電腦在內網叫啥<br>所以你的網址應該長這樣 <code>https://hahaha.lasai.com</code> , 這時候 <code>redirectUrl</code> 實際上是 <code>https://hahaha.lasai.com</code></p>
+<p>另外還遇到忘了使用 <code>https</code> 噴的錯誤 , 如果噴這句的話應該是沒設定 <code>https</code> , 要確保自己的路徑都走 <code>https</code><br><code>main.c7f7bb43c5958d73.js:1 ERROR TypeError: Cannot read property &#39;digest&#39; of undefined</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ipconfig /all</span><br><span class="line"></span><br><span class="line">Windows IP 設定</span><br><span class="line"></span><br><span class="line">   主機名稱 . . . . . . . . . . . . .: hahaha</span><br><span class="line">   主要 DNS 尾碼  . . . . . . . . . .: lasai.com</span><br><span class="line">   節點類型 . . . . . . . . . . . . .: 混合式</span><br><span class="line">   IP 路由啟用 . . . . . . . . . . . : 否</span><br><span class="line">   WINS Proxy 啟用 . . . . . . . . . : 否</span><br><span class="line">   DNS 尾碼搜尋清單 . . . . . . . . .: lasai.com</span><br></pre></td></tr></table></figure>
+
+<p>接著要在 <code>package.json</code> 的 <code>scripts</code> 進行調整 , 追加 <code>ng serve --ssl --host 0.0.0.0 --disable-host-check --port 443</code> 就可以讓 angular 以 https 的方式啟動</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">  &quot;ng&quot;: &quot;ng&quot;,</span><br><span class="line">  &quot;start&quot;: &quot;ng serve&quot;,</span><br><span class="line">  &quot;starthost&quot;: &quot;ng serve --ssl --host 0.0.0.0 --disable-host-check&quot;,</span><br><span class="line">  &quot;startmachine&quot;: &quot;ng serve --ssl --host 0.0.0.0 --disable-host-check --port 443&quot;,</span><br><span class="line">  &quot;build&quot;: &quot;ng build&quot;,</span><br><span class="line">  &quot;watch&quot;: &quot;ng build --watch --configuration development&quot;,</span><br><span class="line">  &quot;test&quot;: &quot;ng test&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+<p><code>app.module.ts</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">AuthModule.forRoot(&#123;</span><br><span class="line">  config: &#123;</span><br><span class="line">	authority: &#x27;https://localhost:44310&#x27;,</span><br><span class="line">	redirectUrl: &#x27;https://hahaha.lasai.com&#x27;,</span><br><span class="line">	postLogoutRedirectUri: window.location.origin,</span><br><span class="line">	clientId: &#x27;angular&#x27;,</span><br><span class="line">	scope: &#x27;openid profile email offline_access&#x27;,</span><br><span class="line">	responseType: &#x27;code&#x27;,</span><br><span class="line">	silentRenew: true,</span><br><span class="line">	useRefreshToken: true,</span><br><span class="line">	logLevel: LogLevel.Debug,</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;),</span><br></pre></td></tr></table></figure>
+
+<p>還有個雷點 , 預設情況下當你開新分頁的話就需要重新登入 , 所以要在 <code>providers</code> 追加這個部分 , 就可以用 localStorage 去存</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">providers:[</span><br><span class="line">	&#123;</span><br><span class="line">	  /**</span><br><span class="line">	   * https://angular-auth-oidc-client.com/docs/documentation/configuration</span><br><span class="line">	   * 這裡預設每次開新的視窗就會被清除登入 , 所以要設定以下這兩個 config 才可以 keep 住</span><br><span class="line">	   * Using localstorage instead of default sessionstorage</span><br><span class="line">	   * The angular-auth-oidc-client uses session storage by default that gets cleared whenever you open the website in a new tab, if you want to change it to localstorage then need to provide a different AbstractSecurityStorage.</span><br><span class="line">	   */</span><br><span class="line">	  provide: AbstractSecurityStorage,</span><br><span class="line">	  useClass: DefaultLocalStorageService,</span><br><span class="line">	&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>最後我測試他好像不會自動判斷你的 idToken 是否已經到期 , 當 token 時間到以後你還是處於登入狀態 , 所以要點 <code>f5</code> 刷了才是登出<br>因為還在摸索中 , 我先在 app.component 的 ngOnInit 函數裡面加上 setInterval , 我看印度人是用 setTimeout 應該都類似</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">//當時間到了自動刷新登出</span><br><span class="line">setInterval(() =&gt; &#123;</span><br><span class="line">  console.log(&#x27;check idToken Expired&#x27;)</span><br><span class="line">  if (this.idToken) &#123;</span><br><span class="line">	console.log(&#x27;isTokenExpired&#x27;, this.jwtHelper.isTokenExpired(this.idToken))</span><br><span class="line">	if (this.jwtHelper.isTokenExpired(this.idToken) === true) &#123;</span><br><span class="line">	  this.oidcSecurityService.logoff().subscribe((result) =&gt; console.log(result));</span><br><span class="line">	&#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;, 1000 * 10)</span><br></pre></td></tr></table></figure>
+
+<p>另外 web api 有保護的話 , 可以用 <code>HttpInterceptor</code> 去加上 jwt token 類似這樣吧!? 還在摸索階段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">export class BasicAuthHttpInterceptor implements HttpInterceptor &#123;</span><br><span class="line"></span><br><span class="line">  constructor(public oidcSecurityService: OidcSecurityService) &#123; &#125;</span><br><span class="line"></span><br><span class="line">  intercept(req: HttpRequest&lt;any&gt;, next: HttpHandler) &#123;</span><br><span class="line">    //直接從 localstorage 去拿</span><br><span class="line">    // if (req.url.startsWith(&#x27;https://123.45.67.89:3001&#x27;)) &#123;</span><br><span class="line">    //   let data = JSON.parse(localStorage.getItem(&#x27;0-angular&#x27;)!)</span><br><span class="line">    //   if (data) &#123;</span><br><span class="line">    //     let token = data[&#x27;authnResult&#x27;]?.[&#x27;access_token&#x27;]</span><br><span class="line">    //     if (token) &#123;</span><br><span class="line">    //       req = req.clone(&#123;</span><br><span class="line">    //         setHeaders: &#123; Authorization: `Bearer $&#123;token&#125;` &#125;</span><br><span class="line">    //       &#125;);</span><br><span class="line"></span><br><span class="line">    //       //如果有拿到的話</span><br><span class="line">    //       return next.handle(req);</span><br><span class="line">    //     &#125;</span><br><span class="line">    //   &#125;</span><br><span class="line">    // &#125;</span><br><span class="line"></span><br><span class="line">    //不太確定會不會有其他問題 , 應該暫時可以</span><br><span class="line">    if (req.url.startsWith(&#x27;https://123.45.67.89:3001&#x27;)) &#123;</span><br><span class="line">      this.oidcSecurityService.checkAuth().subscribe((&#123; accessToken &#125;) =&gt; &#123;</span><br><span class="line">        req = req.clone(&#123;</span><br><span class="line">          setHeaders: &#123;</span><br><span class="line">            Authorization: `Bearer $&#123;accessToken&#125;`,</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        return next.handle(req);</span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    return next.handle(req);</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>IdentityServer 設定</p>
+<p>Name<br><code>ClientId</code> &#x3D;&gt; <code>angular</code><br><code>Client Name</code> &#x3D;&gt; <code>angular</code></p>
+<p>Basics<br><code>Allow Offline Access</code> &#x3D;&gt; <code>打勾</code><br><code>Allow Access Token Via Browser</code> &#x3D;&gt; <code>打勾</code><br><code>Allowed Scopes</code> &#x3D;&gt; <code>openid profile email</code><br><code>Redirect Uris</code> &#x3D;&gt; <code>https://hahaha.lasai.com</code><br><code>Allowed Grant Types</code> &#x3D;&gt; <code>authorization_code</code></p>
+<p>Authentication&#x2F;Logout<br><code>Post Logout Redirect Uris</code> &#x3D;&gt; <code>https://hahaha.lasai.com</code></p>
+<p>Token<br><code>Identity Token Lifetime</code> &#x3D;&gt; <code>86400 = 60秒 * 60分鐘 * 24小時</code> 這個預設只有 300 秒 5 分鐘的樣子 , 登出的頻率反映真實世界的登出頻率 XD</p>
+<h4 id="Implicit-實作"><a href="#Implicit-實作" class="headerlink" title="Implicit 實作"></a>Implicit 實作</h4><p>理論上來說會用這個實際上應該是 SPA 也就是純前端 <code>Angular</code> <code>Vue</code> <code>React</code> 這類 , 不過工作環境大多是混合前後 , 所以有空再寫詳細 XD<br>工作上遇到舊版的 code 也是走 Implicit 整個怪怪低<br>好像要在 UI 上勾選 <code>Allow Access Token Via Browser</code><br><code>Program.cs</code></p>
+<figure class="highlight c#"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">.AddOpenIdConnect(OpenIdConnectDefaults.AuthenticationScheme, options =&gt;</span><br><span class="line"><span class="comment">//implicit</span></span><br><span class="line">options.ResponseType = <span class="string">&quot;id_token token&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<h3 id="postgresql-16"><a href="#postgresql-16" class="headerlink" title="postgresql 16"></a>postgresql 16</h3><p>這是我在 postgresql 16 遇到的問題 ,  我的解法是 , 因為朋友用新專案 , 所以直接上 <a target="_blank" rel="noopener" href="https://github.com/skoruba/Duende.IdentityServer.Admin">Duende.IdentityServer.Admin</a> XD<br>InvalidCastException: Cannot write DateTime with Kind&#x3D;Local to PostgreSQL type ‘timestamp with time zone’, only UTC is supported.<br>Note that it’s not possible to mix DateTimes with different Kinds in an array&#x2F;range. See the Npgsql.EnableLegacyTimestampBehavior AppContext switch to enable legacy behavior.</p>
+<p>不過他新的文件不曉得是不是我沒找到怎麼設定的章節 , 我怎麼覺得舊版 <a target="_blank" rel="noopener" href="https://github.com/skoruba/IdentityServer4.Admin/blob/master/docs/Configure-Ubuntu-PostgreSQL-Tutorial.md">這段</a> 用 postgresql 寫得比較清楚</p>
+<h3 id="IdentityServer4"><a href="#IdentityServer4" class="headerlink" title="IdentityServer4"></a>IdentityServer4</h3><p><a target="_blank" rel="noopener" href="https://identityserver4.readthedocs.io/en/latest/quickstarts/0_overview.html#preparation">https://identityserver4.readthedocs.io/en/latest/quickstarts/0_overview.html#preparation</a><br>首先先安裝範本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">dotnet new -i IdentityServer4.Templates</span><br><span class="line"></span><br><span class="line">#查看目前範本</span><br><span class="line">dotnet new -l</span><br><span class="line"></span><br><span class="line">IdentityServer4 Empty                                 is4empty             [C#]        Web/IdentityServer4</span><br><span class="line">IdentityServer4 Quickstart UI (UI assets only)        is4ui                [C#]        Web/IdentityServer4</span><br><span class="line">IdentityServer4 with AdminUI                          is4admin             [C#]        Web/IdentityServer4</span><br><span class="line">IdentityServer4 with ASP.NET Core Identity            is4aspid             [C#]        Web/IdentityServer4</span><br><span class="line">IdentityServer4 with Entity Framework Stores          is4ef                [C#]        Web/IdentityServer4</span><br><span class="line">IdentityServer4 with In-Memory Stores and Test Users  is4inmem             [C#]        Web/IdentityServer4</span><br></pre></td></tr></table></figure>
+
+<p>然後看到一個很懶的語法 <code>md</code> , 其實就是 <code>mkdir</code> .. 有必要這麼懶嗎 XD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">md quickstart</span><br><span class="line">cd quickstart</span><br><span class="line"></span><br><span class="line">md src</span><br><span class="line">cd src</span><br><span class="line"></span><br><span class="line">dotnet new is4empty -n IdentityServer</span><br></pre></td></tr></table></figure>
+
+<h3 id="無限-loop-與找不到-signin-oidc-的天坑"><a href="#無限-loop-與找不到-signin-oidc-的天坑" class="headerlink" title="無限 loop 與找不到 signin-oidc 的天坑"></a>無限 loop 與找不到 signin-oidc 的天坑</h3><p>在舊版 asp.net mvc 5 裡面用 SSO 的話 , 好像都會踩到這個雷 , 可是在 .net core 什麼都不用加直接秒殺<br>不曉得到底是哪個環節有問題 , 我下面這個設定方法可以運氣好避開 loop 詳細什麼原理我也不曉得 , 可能都要設定 https?<br>看網路上有些資源說是 chrome cookie SameSite 有問題或是要你安裝 <a target="_blank" rel="noopener" href="https://github.com/Sustainsys/owin-cookie-saver">owin-cookie-saver</a><br>不過好像也都不見得能解 , 反正就多比拚運氣吧… 試不過也別打我 XD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br></pre></td><td class="code"><pre><span class="line">  public void ConfigureAuthNoLoop( IAppBuilder app )</span><br><span class="line">  &#123;</span><br><span class="line">      //app.UseKentorOwinCookieSaver();</span><br><span class="line">      // Configure the db context, user manager and signin manager to use a single instance per request</span><br><span class="line">      app.CreatePerOwinContext(ApplicationDbContext.Create);</span><br><span class="line">      app.CreatePerOwinContext&lt;ApplicationUserManager&gt;(ApplicationUserManager.Create);</span><br><span class="line">      app.CreatePerOwinContext&lt;ApplicationSignInManager&gt;(ApplicationSignInManager.Create);</span><br><span class="line"></span><br><span class="line">      //這句放在 Global 裡面</span><br><span class="line">      //AntiForgeryConfig.UniqueClaimTypeIdentifier = ClaimTypes.NameIdentifier;</span><br><span class="line"></span><br><span class="line">      // 清除掉預設的Claim Type對應</span><br><span class="line">      //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();</span><br><span class="line">      app.UseCookieAuthentication( new CookieAuthenticationOptions</span><br><span class="line">      &#123;</span><br><span class="line">          AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,</span><br><span class="line">          //CookieSameSite = SameSiteMode.None,</span><br><span class="line">      &#125; );</span><br><span class="line"></span><br><span class="line">      app.UseOpenIdConnectAuthentication( new OpenIdConnectAuthenticationOptions</span><br><span class="line">      &#123;</span><br><span class="line">          Authority = &quot;https://localhost:44310&quot;,</span><br><span class="line">          ClientId = &quot;mvc&quot;,</span><br><span class="line">          ClientSecret = &quot;mvc&quot;,</span><br><span class="line">          RedirectUri = &quot;https://localhost:44356/signin-oidc&quot;,//Net4MvcClient&#x27;s URL</span><br><span class="line"></span><br><span class="line">          PostLogoutRedirectUri = &quot;https://localhost:44356&quot;,</span><br><span class="line">          ResponseType = &quot;id_token token&quot;,</span><br><span class="line">          RequireHttpsMetadata = false,</span><br><span class="line"></span><br><span class="line">          Scope = &quot;openid profile email&quot;,</span><br><span class="line"></span><br><span class="line">          TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters</span><br><span class="line">          &#123;</span><br><span class="line">              NameClaimType = &quot;name&quot;</span><br><span class="line">          &#125;,</span><br><span class="line"></span><br><span class="line">          SignInAsAuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,</span><br><span class="line"></span><br><span class="line">          Notifications = new OpenIdConnectAuthenticationNotifications</span><br><span class="line">          &#123;</span><br><span class="line">              SecurityTokenValidated = async n =&gt;</span><br><span class="line">              &#123;</span><br><span class="line">                  n.AuthenticationTicket.Identity.AddClaim( new Claim( &quot;access_token&quot;, n.ProtocolMessage.AccessToken ) );</span><br><span class="line">                  n.AuthenticationTicket.Identity.AddClaim( new Claim( &quot;id_token&quot;, n.ProtocolMessage.IdToken ) );</span><br><span class="line"></span><br><span class="line">                  var discoveryDocument = new DiscoveryDocumentRequest()</span><br><span class="line">                  &#123;</span><br><span class="line">                      Address = &quot;https://localhost:44310&quot;,</span><br><span class="line">                      Policy = &#123;</span><br><span class="line">                          RequireHttps = true,</span><br><span class="line">                          Authority = authority,</span><br><span class="line">                          ValidateEndpoints = true</span><br><span class="line">                      &#125;,</span><br><span class="line">                  &#125;;</span><br><span class="line"></span><br><span class="line">                  var client = new HttpClient();</span><br><span class="line">                  var disco = await client.GetDiscoveryDocumentAsync( discoveryDocument );</span><br><span class="line">                  if( disco.IsError ) return;</span><br><span class="line"></span><br><span class="line">                  // 建立取得id token的需求物件</span><br><span class="line">                  var idTokenRequest = new UserInfoRequest</span><br><span class="line">                  &#123;</span><br><span class="line">                      Address = disco.UserInfoEndpoint,</span><br><span class="line">                      Token = n.ProtocolMessage.AccessToken</span><br><span class="line">                  &#125;;</span><br><span class="line"></span><br><span class="line">                  //建立取得id token的endPoint連接，傳入access token作為參數後，取回使用者資訊</span><br><span class="line">                  var userInfoResponse = await client.GetUserInfoAsync( idTokenRequest );</span><br><span class="line">                  n.AuthenticationTicket.Identity.AddClaims( userInfoResponse.Claims );</span><br><span class="line"></span><br><span class="line">                  n.OwinContext.Authentication.User.AddIdentity( n.AuthenticationTicket.Identity );</span><br><span class="line">//這句好像可有可無</span><br><span class="line">                  System.Web.HttpContext.Current.User = n.OwinContext.Authentication.User;</span><br><span class="line"></span><br><span class="line">                  n.OwinContext.Authentication.SignIn(n.AuthenticationTicket.Identity);</span><br><span class="line">              &#125;,</span><br><span class="line">              RedirectToIdentityProvider = n =&gt;</span><br><span class="line">              &#123;</span><br><span class="line">                  if( n.ProtocolMessage.RequestType == OpenIdConnectRequestType.Logout )</span><br><span class="line">                  &#123;</span><br><span class="line">                      var id_token_claim = n.OwinContext.Authentication.User.Claims.FirstOrDefault( x =&gt; x.Type == &quot;id_token&quot; );</span><br><span class="line">                      if( id_token_claim != null )</span><br><span class="line">                      &#123;</span><br><span class="line">                          n.ProtocolMessage.IdTokenHint = id_token_claim.Value;</span><br><span class="line">                      &#125;</span><br><span class="line">                  &#125;</span><br><span class="line">                  return Task.FromResult( 0 );</span><br><span class="line">              &#125;,</span><br><span class="line">          &#125;</span><br><span class="line">      &#125; );</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="asp-net-core-無限-loop"><a href="#asp-net-core-無限-loop" class="headerlink" title="asp.net core 無限 loop"></a>asp.net core 無限 loop</h3><p>如果你是用 asp.net core 並且有啟用 identity 的話可以參考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/47100607/infinite-authentication-loop-when-using-identityserver4-in-asp-net-core-2-0">這篇</a> , 也是很雷<br>老外說在 client mvc 網站加上以下這段 , 還真的就不會無限 loop 超無言</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">builder.Services.AddIdentityCore&lt;IdentityUser&gt;(options =&gt; options.SignIn.RequireConfirmedAccount = true)</span><br><span class="line">                .AddRoles&lt;IdentityRole&gt;()</span><br><span class="line">                .AddRoleManager&lt;RoleManager&lt;IdentityRole&gt;&gt;()</span><br><span class="line">                .AddSignInManager&lt;SignInManager&lt;IdentityUser&gt;&gt;()</span><br><span class="line">                .AddEntityFrameworkStores&lt;ApplicationDbContext&gt;();</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/c/" rel="tag"># c#</a>
+              <a href="/tags/sso/" rel="tag"># sso</a>
+              <a href="/tags/net-6/" rel="tag"># .net 6</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/09/22/css-%E9%82%8A%E6%A1%86%E6%95%88%E6%9E%9C/" rel="prev" title="css 邊框效果">
+      <i class="fa fa-chevron-left"></i> css 邊框效果
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/10/02/css-flex%E7%AD%86%E8%A8%98/" rel="next" title="css flex筆記">
+      css flex筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Skoruba-identityserver4-Admin"><span class="nav-number">1.</span> <span class="nav-text">Skoruba identityserver4 Admin</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Skoruba-IdentityServer4-Admin"><span class="nav-number">1.1.</span> <span class="nav-text">Skoruba.IdentityServer4.Admin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Skoruba-IdentityServer4-Admin-Api"><span class="nav-number">1.2.</span> <span class="nav-text">Skoruba.IdentityServer4.Admin.Api</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Skoruba-IdentityServer4-STS-Identity"><span class="nav-number">1.3.</span> <span class="nav-text">Skoruba.IdentityServer4.STS.Identity</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-Client-Credentials"><span class="nav-number">1.4.</span> <span class="nav-text">實作 Client Credentials</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Identity-Server-%E8%A8%AD%E5%AE%9A"><span class="nav-number">1.4.1.</span> <span class="nav-text">Identity Server 設定</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A8%8B%E5%BC%8F%E7%A2%BC%E4%BF%AE%E6%AD%A3"><span class="nav-number">1.4.2.</span> <span class="nav-text">程式碼修正</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Postman-%E5%91%BC%E5%8F%AB%E5%8F%97%E4%BF%9D%E8%AD%B7%E7%9A%84-Api"><span class="nav-number">1.4.3.</span> <span class="nav-text">Postman 呼叫受保護的 Api</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C-Authorization-Code"><span class="nav-number">1.5.</span> <span class="nav-text">實作 Authorization Code</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%A6%E4%BD%9C"><span class="nav-number">1.5.1.</span> <span class="nav-text">實作</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jquery-%E6%88%96-%E5%89%8D%E5%BE%8C%E7%AB%AF%E6%B7%B7%E5%90%88%E7%9A%84%E5%95%8F%E9%A1%8C"><span class="nav-number">1.5.2.</span> <span class="nav-text">jquery 或 前後端混合的問題</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A3%9C-CORS"><span class="nav-number">1.5.3.</span> <span class="nav-text">補 CORS</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Angular-%E5%AF%A6%E4%BD%9C-Authorization-Code"><span class="nav-number">1.6.</span> <span class="nav-text">Angular 實作 Authorization Code</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Implicit-%E5%AF%A6%E4%BD%9C"><span class="nav-number">1.7.</span> <span class="nav-text">Implicit 實作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#postgresql-16"><span class="nav-number">2.</span> <span class="nav-text">postgresql 16</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#IdentityServer4"><span class="nav-number">3.</span> <span class="nav-text">IdentityServer4</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%84%A1%E9%99%90-loop-%E8%88%87%E6%89%BE%E4%B8%8D%E5%88%B0-signin-oidc-%E7%9A%84%E5%A4%A9%E5%9D%91"><span class="nav-number">4.</span> <span class="nav-text">無限 loop 與找不到 signin-oidc 的天坑</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#asp-net-core-%E7%84%A1%E9%99%90-loop"><span class="nav-number">5.</span> <span class="nav-text">asp.net core 無限 loop</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2022/09/27/IdentityServer4-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2022/09/27/IdentityServer4-筆記/";
+    this.page.title = "IdentityServer4 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

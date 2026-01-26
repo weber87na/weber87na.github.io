@@ -1,0 +1,1159 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="visual studio vim mode">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2020/07/05/visual-studio-vim-mode/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/03.jpg">
+<meta property="article:published_time" content="2020-07-05T07:22:58.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.103Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="visual studio">
+<meta property="article:tag" content="vsvim">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/03.jpg">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2020/07/05/visual-studio-vim-mode/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>visual studio vim mode | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2020/07/05/visual-studio-vim-mode/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          visual studio vim mode
+        </h1>
+
+        <div class="post-meta">
+		
+			<i class="fa fa-thumb-tack"></i>
+			<font color="7D26CD">我自己要看 頂</font>
+			<span class="post-meta-divider">|</span>
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2020-07-05 15:22:58" itemprop="dateCreated datePublished" datetime="2020-07-05T15:22:58+08:00">2020-07-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2020/07/05/visual-studio-vim-mode/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2020/07/05/visual-studio-vim-mode/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>22k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>20 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/03.jpg" alt="vim"></p>
+<span id="more"></span>
+
+<h2 id="課程與書籍推薦"><a href="#課程與書籍推薦" class="headerlink" title="課程與書籍推薦"></a>課程與書籍推薦</h2><h3 id="收費課程"><a href="#收費課程" class="headerlink" title="收費課程"></a>收費課程</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://tdd.best/courses/">大神 91 老師的極速開發課程</a><br>這個課算是我學 <code>vim</code> 操作的啟發 , 接案公司要趕時間 , 偏偏就是沒那麼多時間 , 於是才找到這門課 , 結果排了一年才上到<br>價格約 <code>1.xw</code> 左右的摳摳 , 著重怎麼用 vim + ide 整合提升開發速度 , 也是有很多神奇技巧跟密技心法 , 建議先把下面的免費仔課程看完才去上 , 讚!</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.udemy.com/course/how-to-code-faster-zh/">Emacs 大神如何提高編程速度</a><br>emacs 大師 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=redguardtoo.matchit">vscode matchit 作者</a><br>emacs 大師 , 只能用無敵來形容 , 內容硬核建議完整看完高見龍老師的 vim 教學才看 , 雖然也會帶你走一次 vim 基本操作 , 不過步調很快<br>大約 <code>2000</code> 元左右的摳摳就能享受到很多很實用的技巧 , 還有許多正常人想不出的神祕技法 , 讚!</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.udemy.com/course/visual_studio_vsix/">Visual Studio扩展开发入门&#x2F;VSIX&#x2F;VSX&#x2F;插件&#x2F;Extension&#x2F;Add-On&#x2F;Plug-in</a><br>這個課主要是教怎麼開發 visual studio 的 extension , 當 vim 學到一個段落吃飽太閒的時候可以玩看看<br>教這門課的人真的神人 , 各領域都有滿多課的</p>
+</li>
+</ol>
+<h3 id="佛心免費仔課程"><a href="#佛心免費仔課程" class="headerlink" title="佛心免費仔課程"></a>佛心免費仔課程</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=mPVwS8gjDVI&list=PLBd8JGCAcUAH56L2CYF7SmWJYKwHQYUDI&index=2">五倍紅寶石 高見龍 高見龍老師</a><br>使用純 <code>vim</code> 進行教學 , 想要完整學會整個 <code>vim</code> 的話必看 , 熬過去就是你的 , 價值真的無價 , 佛心啊~</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=rzpoMlss7Kk&list=PLL7OBcW31PnJTOFMzvA14-Pq9cfuu9gGB">橫跨北美的工程師 Victor</a><br>他的教學超讚 , 適合睡前花點小時間玩看看 , 講解也很口語化很好懂 , 佛心~</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=Yk4s-WLjxug">Gamma Ray 軟體工作室</a><br>這個是 <code>2021</code> 年才看到的 , 內容是很棒 , 也很用心製作 , 就是聲音有點生硬 , 看他直播 coding 反而比較自然 , 也是很值得推薦</p>
+</li>
+</ol>
+<h3 id="我-2020-年剛學習時分享的影片"><a href="#我-2020-年剛學習時分享的影片" class="headerlink" title="我 2020 年剛學習時分享的影片"></a>我 2020 年剛學習時分享的影片</h3><ul>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=MDHmwCvHpzc">vscode</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=5_iKhtqVNPU">eclipse</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=69L88XbXZZg">visual studio</a></li>
+</ul>
+<h3 id="書籍資源推薦"><a href="#書籍資源推薦" class="headerlink" title="書籍資源推薦"></a>書籍資源推薦</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9787115427861?list_name=srh">Vim 實用技巧</a><br>我一開始是買這本書來翻 , 認真練大概 1 - 2 週就可以看完 , 搭配上面的課程整個過完大概也會得差不多</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9787121383281?list_name=srh">精通 Vim : 用 Vim 8 和 Neovim 實現高效開發</a><br>這本是後來看到的應該是 <code>Vim 實用技巧</code> 的姊妹作 , 印象中有多講 neovim , 有點 cookbook 的感覺</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9787115527059?list_name=srh">Vim 8 文本處理實戰</a><br>這本也是後來才發現的 , 有講些別於 <code>Vim 實用技巧</code> 以外的東東 , 考量摳摳的話可以只看 <code>Vim 實用技巧</code> 就好</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9786263243545?list_name=srh">精通 vi 與 Vim, 8&#x2F;e</a><br>猴子書 , 聖經本!? 有點硬 , 個人認為 , 新手看這個的話感覺會勸退 , 入門還是選 <code>Vim 實用技巧</code> 比較好讀</p>
+</li>
+</ol>
+<h2 id="內文"><a href="#內文" class="headerlink" title="內文"></a>內文</h2><h3 id="設定-VsVim"><a href="#設定-VsVim" class="headerlink" title="設定 VsVim"></a>設定 VsVim</h3><p>萬事起頭難首先安裝 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=JaredParMSFT.VsVim">VsVim 外掛</a><br>初學設定可以 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/qiyuexin/p/10424755.html">參考</a> 這個大陸人<br>解決 key 衝突(可以把<code>ctrl + f</code> 設定為用 Visual Studio 不要用 vim 的往上翻功能 看個人喜好 , 中後期因為都在用 linux 所以反而整個都設定用 vim)<br>在 <code>工具</code> &#x3D;&gt; <code>選項</code> &#x3D;&gt; <code>VsVim中設定解決衝突</code><br>接著切換目錄到 <code>C:\Users\YourName</code> 建立一個 <code>_vimrc</code> 檔案設定以下內容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">set clipboard=unnamed</span><br><span class="line">set number</span><br></pre></td></tr></table></figure>
+<p>(相對行號等等會裝外掛解決可以不加)<br><code>set relativenumber</code></p>
+<p>在 vsvim 執行 visual studio 命令可以像以下這樣<br>例如一個很常見的操作將 code block 包裹起來 (warp&#x2F;surround)<br><code>:vsc Edit.SurroundWith</code><br>或是快速新增類別<br><code>:vsc Project.AddClass</code><br>甚至是列出 Members<br><code>:vsc ListMembers</code></p>
+<p>詳細可以參考<a target="_blank" rel="noopener" href="https://docs.microsoft.com/zh-tw/visualstudio/ide/default-keyboard-shortcuts-in-visual-studio?view=vs-2022&redirectedfrom=MSDN&viewFallbackFrom=vs-2015">微軟官方</a></p>
+<h3 id="快速切換註解"><a href="#快速切換註解" class="headerlink" title="快速切換註解"></a>快速切換註解</h3><p>在 visual studio 原生切換註解與反註解好像是兩個不同的熱鍵 , 有點忘了 , 所以需要安裝這個 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=munyabe.ToggleComment">toggle comment</a><br>這個外掛可以用 <code>ctrl + /</code> 切換註解相當方便</p>
+<h3 id="安裝相對行號"><a href="#安裝相對行號" class="headerlink" title="安裝相對行號"></a>安裝相對行號</h3><p>這個功能算是可有可無 , 裝了以後會多一條行號給你 , 看喜好決定要不要裝 , 螢幕夠大的話就裝吧 , 筆電就算了<br><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=BrianSchmitt.RelativeNumber">安裝相對行號外掛</a><br>設定相對行號的樣式 , 我是背景設定黑色 , 文字設定紅色看個人愛好<br><code>Tools</code>&#x3D;&gt; <code>Options</code> &#x3D;&gt; <code>Environment</code> &#x3D;&gt; <code>Font and Colors and set the &quot;Relative Number</code> &#x3D;&gt; <code>Current Line&quot; property</code></p>
+<h3 id="設定-visual-studio-為英文"><a href="#設定-visual-studio-為英文" class="headerlink" title="設定 visual studio 為英文"></a>設定 visual studio 為英文</h3><p>這個功能建議一定要設定 , 不然用起來很像低能兒<br>年代久遠我有點忘了安裝完 visual studio 到底是什麼語言 , 不過這個會有極大的影響跟困擾 , 像是查錯誤不好查 , 或是 command 找不到的困擾<br>如果沒有英文語言套件最好裝一下 開啟 <code>visual studio installer</code> 安裝英文語言套件 , 接著開啟 <code>工具</code> &#x3D;&gt; <code>選項</code> &#x3D;&gt; <code>環境</code> &#x3D;&gt; <code>國際設定</code> &#x3D;&gt; <code>English</code></p>
+<h3 id="設定不要使用-preview-tab-功能"><a href="#設定不要使用-preview-tab-功能" class="headerlink" title="設定不要使用 preview tab 功能"></a>設定不要使用 preview tab 功能</h3><p>預設的 visual studio 點到檔案的話好像會開啟 preview tab 的功能 , 有時候滿討厭的 , 研究看看怎麼關閉<br><code>tools</code> &#x3D;&gt; <code>options</code> &#x3D;&gt; <code>envionment</code> &#x3D;&gt; <code>tabs and windows</code> &#x3D;&gt; <code>Preview Tab</code> &#x3D;&gt; <code>allow new files to be opened in the preview tab</code></p>
+<h3 id="設定-IntelliSense-上下移動"><a href="#設定-IntelliSense-上下移動" class="headerlink" title="設定 IntelliSense 上下移動"></a>設定 IntelliSense 上下移動</h3><p>這個功能建議一定要設定 , 不然用起來很像殘障<br>在純 vim 的話會用 <code>ctrl + n</code> (向下移動) <code>ctrl + p</code> (向上移動)<br>visual studio 我則是設定 <code>Alt + J</code> (向下移動) <code>Alt + K</code> (向上移動)<br><code>Tools</code> &#x3D;&gt; <code>Options</code> &#x3D;&gt; <code>Environment</code> &#x3D;&gt; <code>Keyboard</code> 接著在 <code>Show commands containing</code> 裡面搜尋 <code>Edit.LineDown</code><br>在 <code>Press shortcut keys</code> 裡面按下 <code>Alt + J</code> 同理設定 <code>Edit.LineUp</code> 修改為 <code>Alt + K</code></p>
+<h3 id="在專案開啟檔案總管"><a href="#在專案開啟檔案總管" class="headerlink" title="在專案開啟檔案總管"></a>在專案開啟檔案總管</h3><p>這個算是滿常用的功能 , 因為我 git 不太用 ide 操作 , 幾乎都用 git bash , 所以特地找一下這個 command 筆記下<br><code>ProjectandSolutionContextMenus.Project.OpenFolderinFileExplorer</code></p>
+<h3 id="使用-NERDTree"><a href="#使用-NERDTree" class="headerlink" title="使用 NERDTree"></a>使用 NERDTree</h3><p>如果是常用 vim 的人幾乎都會安裝 <a target="_blank" rel="noopener" href="https://github.com/stevium/vs-nerdx">NERDTree</a><br>visual studio 也有這個外掛<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=mstevius.vs-nerdx-solution-explorer">載點在此</a><br>最重要的快捷不動滑鼠移動到專案總管，其他熱鍵就參考官網說明吧..<br>預設是 <code>ctrl + alt + l</code> 要切回寫 code 視窗則是 <code>ctrl + f6</code><br>後來我都用 vscode 的熱鍵不然太多設定要記憶 <code>ctrl + shift + e</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;切換到方案總管</span><br><span class="line">nmap ,e :vsc View.SolutionExplorer&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+<p>切回去則是設定為 <code>alt + e</code> 他的命令是 <code>Window.NextDocumentWindow</code></p>
+<h3 id="設定-method-提示"><a href="#設定-method-提示" class="headerlink" title="設定 method 提示"></a>設定 method 提示</h3><p>之前一直有個困擾就是滑鼠移到某個 method 時會顯示提示在 vscode vim mode 可以用 gh 讓鍵盤直接 show 出來，<br>但是用了很多年的 visual studio 卻不曉得要怎麼調整，花了半年終於找到了!<br>原來是 <code>Edit.QuickInfo</code> 預設好像是 <code>ctrl+k ctrl+i</code> 為了跟 vscode 盡量一致修改為 <code>alt+g alt+h</code></p>
+<h3 id="設定-mvc"><a href="#設定-mvc" class="headerlink" title="設定 mvc"></a>設定 mvc</h3><p>有陣子沒寫 mvc 了，不太有印象 go to view 的功能是啥熱鍵，自己自訂 <code>EditorContextMenus.CodeWindow.GoToView</code> 為 <code>alt+g alt+v</code><br>順便在定義一下關閉右側視窗 <code>File.CloseAllButThis</code> 為 <code>alt+c alt+r</code></p>
+<h3 id="設定-vsvimrc"><a href="#設定-vsvimrc" class="headerlink" title="設定 vsvimrc"></a>設定 vsvimrc</h3><p>今天研究一下 vsvim 的 config 如下 <code>:set vimrc?</code> 重新 load config <code>:so ~/_vsvimrc</code><br>後來覺得太難記了 , 直接在 powershell 的 $profile 裡面設定 , 這樣一來直接用 powershell 就可以快速開啟 config , 詳細設定可以看我<a target="_blank" rel="noopener" href="https://weber87na.github.io/2021/12/01/%E6%88%91%E7%9A%84-powershell-%E8%A8%AD%E5%AE%9A/">這篇</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">function vsvimrc &#123; notepad $HOME\_vsvimrc &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自訂-template-技巧"><a href="#自訂-template-技巧" class="headerlink" title="自訂 template 技巧"></a>自訂 template 技巧</h3><p>後來參考這個<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1r4411G7de?from=search&seid=17984154817972931817">變態中國佬</a>偷學兩招<br>第一招可以加入自訂的 template 替換想要的內容，有點像鬍子變數的感覺<br>第二招太常打類似 new Car() 這種操作，用這招可以快速在建立類別時補全</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&quot; template</span><br><span class="line">map &lt;LEADER&gt;&lt;LEADER&gt; &lt;ESC&gt; /&lt;++&gt;&lt;CR&gt;:nohlsearch&lt;CR&gt;c4l</span><br><span class="line"></span><br><span class="line">&quot; add var x = </span><br><span class="line">map &lt;LEADER&gt;vx ^ivar x = &lt;ESC&gt; bbciw</span><br></pre></td></tr></table></figure>
+<p>中國佬還教一招可以用 vim 轉換 html 這招以前沒看 cool <code>:%TOhtml</code> 這招只有純 vim 可以用</p>
+<h3 id="trim-技巧"><a href="#trim-技巧" class="headerlink" title="trim 技巧"></a>trim 技巧</h3><p>這是看 javascript <a target="_blank" rel="noopener" href="https://www.tenlong.com.tw/products/9789864342525?list_name=srh">忍者書</a> 學到的 , 用這招可以讓亂七八糟的文件馬上乖乖聽話掐頭去尾<br>在 replace 視窗中貼上下面這段 code , 接著要被替換的放空即可 , 這招基本上在任何 ide 應該都可以用</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">^\s+|\s+$</span><br></pre></td></tr></table></figure>
+
+<h3 id="快速替換為-Nullable"><a href="#快速替換為-Nullable" class="headerlink" title="快速替換為 Nullable"></a>快速替換為 Nullable</h3><p>正則快速替換為 nullable</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">public (bool|int|decimal|long)([?])</span><br><span class="line">public $1</span><br><span class="line"></span><br><span class="line">public (bool|int|decimal|long)</span><br><span class="line">public $1?</span><br></pre></td></tr></table></figure>
+
+<h3 id="自動產生類別屬性片段"><a href="#自動產生類別屬性片段" class="headerlink" title="自動產生類別屬性片段"></a>自動產生類別屬性片段</h3><p>每次要手動 mapping 要打一堆字很賭爛，今天想一個辦法解決，在專案按下右鍵 initialize interactive with Project 接著 using 需要的 namespace<br>最後把下面這句貼上就可以快速運用 interactive 視窗去產生程式碼了，唯一缺點就是還要用到滑鼠，也可以直接用 <code>View.C#Interactive</code> 開啟<br>注意在這個 Intercative 裡面也是可以用 <code>alt + j</code> <code>alt + k</code> 去進行移動<br>其他詳細用法 <a target="_blank" rel="noopener" href="https://dailydotnettips.com/executing-c-scripts-from-command-line-or-c-interactive-windows-in-visual-studio/">interactive</a><br>後來發現這個在 .net core 上面好像還沒有被直接整合在 visual studio 裡面</p>
+<p>load dll</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#r c:\yourdll.dll</span><br></pre></td></tr></table></figure>
+
+<p>有趣用法直接執行 Program 裡面的 Console 程式</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#r c:\yourapp.exe</span><br><span class="line">using YourConsole;</span><br><span class="line">Program.Main( null );</span><br></pre></td></tr></table></figure>
+
+<p>利用反射產生屬性片段</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var x = new YourObject(); var t = x.GetType(); foreach (var prop in t.GetProperties()) Console.WriteLine( $&quot;x.&#123;prop.Name&#125; = &quot; );</span><br></pre></td></tr></table></figure>
+<p>也可以把這種片段做成 template 然後執行以下指令就可以快速插入</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:read d:\template\generate-full-prop.txt</span><br></pre></td></tr></table></figure>
+
+<h3 id="自動產生類別屬性片段-新"><a href="#自動產生類別屬性片段-新" class="headerlink" title="自動產生類別屬性片段(新)"></a>自動產生類別屬性片段(新)</h3><p>使用變態老外的 extension <a target="_blank" rel="noopener" href="https://github.com/cezarypiatek/CsharpMacros">CsharpMacros</a> 來進行產生屬性 , 後來找到這個方法簡潔多了! 感恩老外!<br>看這老外是運用 roslyn 來達成這套功能 , 屌!</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var x = new LaSai();</span><br><span class="line">//macros.properties(LaSai)</span><br><span class="line">//p.$&#123;name&#125; = </span><br></pre></td></tr></table></figure>
+
+<h3 id="JSON-To-CSharp-類別"><a href="#JSON-To-CSharp-類別" class="headerlink" title="JSON To CSharp 類別"></a>JSON To CSharp 類別</h3><p>將 JSON 快速轉換 csharp 類別 <code>Edit.PasteJSONAsClasses</code> 注意 Clipboard 裡面要先有 JSON 才可以快速產生</p>
+<h3 id="multi-cursor-操作技巧"><a href="#multi-cursor-操作技巧" class="headerlink" title="multi cursor 操作技巧"></a>multi cursor 操作技巧</h3><p>類似 vscode multi cursor 的功能 <code>Edit.InsertNextMatchingCaret</code> <code>Edit.InsertCaretsatAllMatching</code> 注意使用以後是 visual mode 這時候按下 <code>o</code> 是會來回在頭尾切換，<br>需要多按 <code>esc</code> 接著就可以模擬類似 multi cursor 的功能</p>
+<h3 id="快速切換資料型別"><a href="#快速切換資料型別" class="headerlink" title="快速切換資料型別"></a>快速切換資料型別</h3><p>常常開立類別時型別喬不定換來換去換到煩乾脆寫個 mapping<br>to 方便記憶用 2 string bool float decimal 最懶直接用 var<br>切換 true false 用 toggle 所以用 t 當作切換方便記憶 true or false<br>其實可以考慮加上回到開頭 ^ 不過就先暫時這樣吧<br>後來我自己有做出類似的 <a target="_blank" rel="noopener" href="https://github.com/weber87na/VSIXProjectMultiLang">殘廢功能</a> 也是可以達到目的 , 不過大多數都跑龍套</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&quot;to string</span><br><span class="line">nmap &lt;Leader&gt;2s viwxistring&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;to bool</span><br><span class="line">nmap &lt;Leader&gt;2b viwxibool&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;to float</span><br><span class="line">nmap &lt;Leader&gt;2f viwxifloat&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;to decimal</span><br><span class="line">nmap &lt;Leader&gt;2d viwxidecimal&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;to var</span><br><span class="line">nmap &lt;Leader&gt;2v viwxivar&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;toogle true</span><br><span class="line">nmap &lt;Leader&gt;tt viwxitrue&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;toogle false</span><br><span class="line">nmap &lt;Leader&gt;tf viwxifalse&lt;Esc&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ReSharper-Source-Template"><a href="#ReSharper-Source-Template" class="headerlink" title="ReSharper Source Template"></a>ReSharper Source Template</h3><p>這功能第一次看到還真的覺得懷疑人生，怎麼會有如此噁心的功能，不過身為一個免費仔只能 30 天玩玩<br>第一次見到是這種自動補 var 的功能，很多時候先輸入 new List<string>{}; 接著再補 var ，有這功能馬上就做完了<br>希望有空可以搞個窮人版，直接用 vim 來模擬<br>預設的 <a target="_blank" rel="noopener" href="https://www.jetbrains.com/help/resharper/Reference__Options__Environment__Postfix_Templates.html#list">Postfix Templates</a> 在 <code>ReSharper</code> &#x3D;&gt; <code>General</code> &#x3D;&gt; <code>Options</code> &#x3D;&gt; <code>Code Editing</code> &#x3D;&gt; <code>Postfix Templates</code><br>先在 nuget 安裝 JetBrains.Annotations<br><code>using JetBrains.Annotations;</code><br><a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/50413835/how-to-add-a-cw-postfix-template-in-visual-studio-resharper-like-sout-template">參考自老外</a></p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">class</span> <span class="title">ResharperHelper</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">SourceTemplate</span>]</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">cw</span>(<span class="params"><span class="keyword">this</span> <span class="built_in">string</span> str</span>)</span></span><br><span class="line">    &#123;</span><br><span class="line">        Console.WriteLine(str);</span><br><span class="line">        <span class="comment">//$ $END$</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接著就可以在 visual studio 打出魔法般的操作<br>輸入類似這樣 &#x3D;&gt; <code>yourString.cw</code> 輸出 <code>Console.WriteLine(yourString);</code><br>後來發現有<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ipatalas.vscode-postfix-ts">老外</a>在 vscode 的 js&#x2F;ts 上有搞出來這功能，真是佛心來著<br>然後連 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=filwaline.vscode-postfix-python">python</a> 也有結果 visual studio 自己沒有，暈倒</p>
+<h3 id="取代-prop-產生屬性的技巧-ZenSharp"><a href="#取代-prop-產生屬性的技巧-ZenSharp" class="headerlink" title="取代 prop 產生屬性的技巧 ZenSharp"></a>取代 prop 產生屬性的技巧 ZenSharp</h3><p>Emmet 官方死變態老外寫的 extension <a target="_blank" rel="noopener" href="https://github.com/sergey-rybalkin/Emmet.net">Emmet.net</a><br>在 visual studio 上面的 Emmet 不曉得為啥就是難用 , 不過他這個 ZenSharp 不錯<br>可以讓我們用 <code>psp</code> 這種方式快速產生想要的 member or method 等等 <code>public string XXX { get;set;}</code></p>
+<h3 id="顯示-var-的型別提示"><a href="#顯示-var-的型別提示" class="headerlink" title="顯示 var 的型別提示"></a>顯示 var 的型別提示</h3><p>主要參考這篇 <a target="_blank" rel="noopener" href="https://devblogs.microsoft.com/visualstudio/vs2019-v16-9-and-v16-10-preview-1/">官方說明</a>首先要更新到 <code>Visual Studio 2019 v16.9</code><br>接著設定 <code>Tools</code> &#x3D;&gt; <code>Options</code> &#x3D;&gt; <code>Text Editor</code> &#x3D;&gt; <code>c#</code> &#x3D;&gt; <code>Basic</code> &#x3D;&gt; <code>Advanced</code> &#x3D;&gt; <code>Display inline type hints</code><br>如果沒辦法用最新版就乖乖安裝 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=AlexanderGayko.VarAdorner">C# Var Type CodeLens</a></p>
+<h3 id="關閉-build-progress-window"><a href="#關閉-build-progress-window" class="headerlink" title="關閉 build progress window"></a>關閉 build progress window</h3><p>首先設定 <code>visual studio</code><br><code>Tools</code> &#x3D;&gt; <code>Options</code> &#x3D;&gt; <code>Projects and Solutions</code> &#x3D;&gt; <code>General</code> &#x3D;&gt; <code>Show output window when build starts</code><br>接著設定 <code>CodeMaid</code><br><code>Extensions</code> &#x3D;&gt; <code>Options</code> &#x3D;&gt; <code>Progressing</code> &#x3D;&gt; <code>Show build process window when a build starts</code></p>
+<h3 id="設定-merge-if"><a href="#設定-merge-if" class="headerlink" title="設定 merge if"></a>設定 merge if</h3><p>如果用 visual studio 安裝 <a target="_blank" rel="noopener" href="https://github.com/JosefPihrt/Roslynator">Roslynator</a> 這個 extension 基本就搞定了<br>預設 <code>Resharper</code> 好像沒這個功能? 在 <code>Resharper</code> 設定讓 <code>visual studio</code> 提示共存<br><code>Environment</code> &#x3D;&gt; <code>Editor</code> &#x3D;&gt; <code>Visual Studio Features</code> &#x3D;&gt; <code>Merge Visual Studio Qucik Actions into Resharper action indicator</code></p>
+<h3 id="多語系轉換"><a href="#多語系轉換" class="headerlink" title="多語系轉換"></a>多語系轉換</h3><p>最近遇到重構&#x2F;重寫&#x2F;升級功能 , 因為手上的 .net core 案子多語系都吃 json 而舊版都吃 resx , 所以先寫個轉換程式</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">Main</span>(<span class="params"> <span class="built_in">string</span>[] <span class="keyword">args</span> </span>)</span></span><br><span class="line">&#123;</span><br><span class="line">	<span class="comment">//參考自</span></span><br><span class="line">	<span class="comment">//https://stackoverflow.com/questions/47631098/how-to-convert-resx-xml-file-to-json-file-in-c-sharp</span></span><br><span class="line">	<span class="comment">//var xml = File.ReadAllText( @&quot;Lang.zh-TW.resx&quot; );</span></span><br><span class="line">	<span class="keyword">var</span> xml = File.ReadAllText( <span class="string">@&quot;Lang.en.resx&quot;</span> );</span><br><span class="line">	<span class="keyword">var</span> data = XElement.Parse( xml ) .Elements( <span class="string">&quot;data&quot;</span> );</span><br><span class="line">	<span class="keyword">var</span> names = data.Select( x =&gt; x.Attribute( <span class="string">&quot;name&quot;</span> ).Value ).GetEnumerator();</span><br><span class="line">	<span class="keyword">var</span> values = data.Select( x =&gt; x.Element( <span class="string">&quot;value&quot;</span> ).Value ).GetEnumerator();</span><br><span class="line">	JObject j = <span class="keyword">new</span> JObject();</span><br><span class="line">	<span class="keyword">while</span>(names.MoveNext() &amp;&amp; values.MoveNext())</span><br><span class="line">	&#123;</span><br><span class="line">		<span class="keyword">var</span> name = names.Current;</span><br><span class="line">		<span class="keyword">var</span> <span class="keyword">value</span> = values.Current;</span><br><span class="line">		JProperty jProperty = <span class="keyword">new</span> JProperty(name , <span class="keyword">value</span>);</span><br><span class="line">		j.Add( jProperty );</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="built_in">string</span> json = JsonConvert.SerializeObject( j , Newtonsoft.Json.Formatting.Indented );</span><br><span class="line">	<span class="keyword">var</span> result = json.TrimStart( <span class="string">&#x27;&#123;&#x27;</span> ).TrimEnd( <span class="string">&#x27;&#125;&#x27;</span> );</span><br><span class="line"></span><br><span class="line">	Console.WriteLine( result );</span><br><span class="line">	<span class="comment">//File.WriteAllText( &quot;convert.zh-TW.json&quot;, result );</span></span><br><span class="line">	File.WriteAllText( <span class="string">&quot;convert.en.json&quot;</span>, result );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>舊版的多語系都是由某個物件裡的屬性拿到那個值像是這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lang.LaSai</span><br></pre></td></tr></table></figure>
+<p>所以我先用 vim 或是 surround 把屬性包成 string hard code 讓程式能動 , 像是這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;Lang.LaSai&quot;</span><br></pre></td></tr></table></figure>
+<p>接著改用 visual studio 的 regex replace 功能 尋找 <code>&quot;(Lang.)(\w+&quot;)</code> 並取代為 <code>L[&quot;$2]</code><br>其中 <code>$2</code> 是關鍵可以把在含有雙引號結尾的字變成變數 , 所以最後可以得到 <code>L[&quot;LaSai&quot;]</code> 這種 .net core 接受的 json 取值方式 , 快速解決繁重的任務 ~</p>
+<h3 id="定位檔案加強"><a href="#定位檔案加強" class="headerlink" title="定位檔案加強"></a>定位檔案加強</h3><p>你的專案檔案位置稀巴爛嗎? 可以試看看這個 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ShemeerNS.FilePathOnFooter">FilePathOnFooter</a> 他會顯示檔案路徑在底下<br>另外還可以多加上 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=SteveCadwallader.CodeMaid">CodeMaid</a> 它裡面有一個在頁籤上點右鍵可以幫你定位到你檔案在專案位置的功能 , 印象中跟 Android Studio 那個準心一樣?<br>我自己 bind 成以下這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map ,fse :vsc CodeMaid.FindInSolutionExplorer&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="快速找檔案"><a href="#快速找檔案" class="headerlink" title="快速找檔案"></a>快速找檔案</h3><p>不曉得哪個版本開始有這功能 , 好像是 2022 開始?<br>工作上常常很困擾已知某個類別或檔案名稱 , 但用全局搜尋 <code>Edit.FindinFiles</code> 又太多訊息<br>發現可以用 <code>ctrl</code> + <code>1</code> + <code>f</code> 就會跳個小窗快速搞定</p>
+<h3 id="regex-多行替換"><a href="#regex-多行替換" class="headerlink" title="regex 多行替換"></a>regex 多行替換</h3><p>這是一個工作上遇到真實的問題 , 因為把 ng-show 的陳年老 code 寫爛了 , 希望他強制顯示出來 , 所以借用 regex 的力量 , 不然改到往生<br><code>老 code</code> , 要測試的話可以先在這個網站<a target="_blank" rel="noopener" href="https://regex101.com/">玩看看</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;mb-3&quot; ng-show=&quot;specForm[&#x27;IMin&#x27; + itemIdx + &#x27;_&#x27; + specIdx].$invalid &amp;&amp; </span><br><span class="line">			  specForm[&#x27;IMin&#x27; + itemIdx + &#x27;_&#x27; + specIdx].$dirty&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>希望變得樣子</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;mb-3&quot; ng-show=&quot;true&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p>打開正則視窗輸入以下這段即可 , 其中最機車的地方就是有換行問題 , 我是參考老外<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/4017278/multi-line-regular-expressions-in-visual-studio">這篇</a></p>
+<p><code>regex find</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;mb-3&quot; ng-show=&quot;+.*.*?\r?\n.*?&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<p><code>replace to</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;mb-3&quot; ng-show=&quot;true&quot;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="regex-找中文"><a href="#regex-找中文" class="headerlink" title="regex 找中文"></a>regex 找中文</h3><p>今天遇到要把多語系沒補上的欄位翻修 , 想想覺得一個一個中文去找範圍太廣 , 開啟 Regex 搜尋功能試看看 , 沒想到還真的 highlight</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[\u4e00-\u9fa5]</span><br></pre></td></tr></table></figure>
+
+<h3 id="coding-style-大小寫轉換"><a href="#coding-style-大小寫轉換" class="headerlink" title="coding style 大小寫轉換"></a>coding style 大小寫轉換</h3><p>這個問題滿常遇到的 , 可以安裝這個日本人寫的<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=munyabe.CaseConverter">外掛</a><br>他也是熱門外掛 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=munyabe.ToggleComment">ToggleComment</a> 的作者<br>預設他只有擺三種給你切換 <code>snake_case</code> <code>camelCase</code> <code>PascalCase</code><br>所以需要更多要自己設定 <code>Tools</code> &#x3D;&gt; <code>Options</code> &#x3D;&gt; <code>Case Converter</code> &#x3D;&gt; <code>Add</code> &#x3D;&gt; <code>Pattern</code> 即可追加想要的<br>總共有 6 種 style , 這樣遇到多數語言的都夠用了吧! 除非遇到 free style 仔給你弄個 SnAkEcAsE 這種模式 ~ 那就沒救</p>
+<p><code>snake_case</code> &#x3D;&gt; 全小寫的下滑底線風格 python , ruby 之類的<br><code>Pascal_Snake_Case</code> 大寫開頭的下滑底線風格 , 好像沒看過人用<br><code>SCREAMING_SNAKE_CASE</code> &#x3D;&gt; Oracle 資料表常用的風格 全大寫下滑底線風格<br><code>camelCase</code> &#x3D;&gt; java , javascript 小寫駝峰<br><code>PascalCase</code> &#x3D;&gt; c# 大寫駝峰<br><code>kebab-case</code> &#x3D;&gt; html 的風格</p>
+<p>實務上我只設定這三種 <code>CamelCase</code> , <code>ScreamingSnakeCase</code> , <code>PascalCase</code><br>以比重來看的話 <code>CamelCase</code> 應該頻率最高 , <code>PascalCase</code> 為了要對付 java 的人 private function 開頭寫小寫所以次之 , <code>ScreamingSnakeCase</code> 因為要對付 <code>Oracle</code> 所以留著</p>
+<p>老樣子開 _vsvimrc 去 bind key mapping</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map &lt;LEADER&gt;2c :vsc Edit.ConvertCase&lt;CR&gt;</span><br></pre></td></tr></table></figure>
+
+<p>操作上用 vim 的話只要游標位置在字元上面即可 , 不用特別去選起來 , 呼叫一次進入 visual mode , 把整個單字選取 , 然後開始循環變換 , 美中不足就是遇到 space 或是 string 他會多選一個字元 , 不過不影響整個操作<br>真的很在意的話可以 bind 這樣看個人愛好</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map &lt;LEADER&gt;2c :vsc Edit.ConvertCase&lt;CR&gt;&lt;ESC&gt;h</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="codemaid-設定"><a href="#codemaid-設定" class="headerlink" title="codemaid 設定"></a>codemaid 設定</h3><p><code>extensions</code> &#x3D;&gt; <code>codemaid</code> &#x3D;&gt; <code>spade</code></p>
+<h3 id="更新到-vs2022"><a href="#更新到-vs2022" class="headerlink" title="更新到 vs2022"></a>更新到 vs2022</h3><h4 id="設定英文"><a href="#設定英文" class="headerlink" title="設定英文"></a>設定英文</h4><p>參考<a target="_blank" rel="noopener" href="https://weber87na.github.io/2020/07/05/visual-studio-vim-mode/#%E8%A8%AD%E5%AE%9A-visual-studio-%E7%82%BA%E8%8B%B1%E6%96%87">之前寫的</a></p>
+<h4 id="安裝及升級-Extension"><a href="#安裝及升級-Extension" class="headerlink" title="安裝及升級 Extension"></a>安裝及升級 Extension</h4><p>EF Core Power Tools (2022 支援)<br>Case Converter (2022 支援)<br>CodeMaid (2022 支援)<br>File Path On Footer (2022 支援)<br>VsVim (2022 支援)<br>Toogle Comment (2022 支援)<br>NerdX Solution Explorer (2022 支援)<br>Roslynator 2019 (2022 preview 支援)<br>PeasyMotion (2022 暫時不支援) &#x3D;&gt; 參考這個 <a target="_blank" rel="noopener" href="https://github.com/msomeone/PeasyMotion/pull/25">PR</a><br>Relative Number (2022 暫時不支援) &#x3D;&gt; 這個 vsvim 可以改用 <code>set relativenumber</code> 代替就好 , 作者好像也懶得更新<br>Learn the Shortcut (2022 暫時不支援) &#x3D;&gt; 暫時沒搞</p>
+<p>升級 extension 過程參考<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/visualstudio/extensibility/migration/update-visual-studio-extension?view=vs-2022">官網</a><br>找到 <code>source.extension.vsixmanifest</code> 先用 GUI 新增<br>Product Identifier <code>Microsoft.VisualStudio.Community</code><br>Version Range <code>[17.0,18.0)</code><br>Product Architecture <code>amd64</code></p>
+<p>或是直接改成下面這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;Installation&gt;</span><br><span class="line">	&lt;InstallationTarget Id=&quot;Microsoft.VisualStudio.Community&quot; Version=&quot;[16.0, 17.0)&quot; /&gt;</span><br><span class="line">	&lt;InstallationTarget Version=&quot;[17.0,18.0)&quot; Id=&quot;Microsoft.VisualStudio.Community&quot;&gt;</span><br><span class="line">		&lt;ProductArchitecture&gt;amd64&lt;/ProductArchitecture&gt;</span><br><span class="line">	&lt;/InstallationTarget&gt;</span><br><span class="line">&lt;/Installation&gt;</span><br></pre></td></tr></table></figure>
+
+<p>升級我自己的 extension 遇到以下錯誤訊息 , 參考這篇<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/68234180/how-do-i-fix-schema-validation-error-when-trying-to-build-project">老外</a>註解以下內容<br><code>source.extension.vsixmanifest</code> &#x3D;&gt; <code>右鍵</code> &#x3D;&gt; <code>view code</code> 接著編譯應該就搞定了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Severity	Code	Description	Project	File	Line	Suppression State</span><br><span class="line">Error		Schema validation error for VSIXProjectMultiLang\obj\Debug\extension.vsixmanifest</span><br></pre></td></tr></table></figure>
+<p>註解下面這些</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;!--&lt;Dependencies&gt;</span><br><span class="line">    &lt;Dependency Id=&quot;Microsoft.Framework.NDP&quot; DisplayName=&quot;Microsoft .NET Framework&quot; d:Source=&quot;Manual&quot; Version=&quot;[4.5,)&quot; /&gt;</span><br><span class="line">&lt;/Dependencies&gt;--&gt;</span><br><span class="line">&lt;Prerequisites&gt;</span><br><span class="line">    &lt;Prerequisite Id=&quot;Microsoft.VisualStudio.Component.CoreEditor&quot; Version=&quot;[16.0,17.0)&quot; DisplayName=&quot;Visual Studio core editor&quot; /&gt;</span><br><span class="line">&lt;/Prerequisites&gt;</span><br><span class="line">&lt;!--&lt;Assets&gt;</span><br><span class="line">    &lt;Asset Type=&quot;Microsoft.VisualStudio.VsPackage&quot; d:Source=&quot;Project&quot; d:ProjectName=&quot;%CurrentProject%&quot; Path=&quot;|%CurrentProject%;PkgdefProjectOutputGroup|&quot; /&gt;</span><br><span class="line">    &lt;Asset Type=&quot;Microsoft.VisualStudio.MefComponent&quot; d:Source=&quot;Project&quot; d:ProjectName=&quot;%CurrentProject%&quot; Path=&quot;|%CurrentProject%|&quot; /&gt;</span><br><span class="line">&lt;/Assets&gt;--&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="設定-codemap"><a href="#設定-codemap" class="headerlink" title="設定 codemap"></a>設定 codemap</h4><p>滾軸按右鍵 &#x3D;&gt; <code>Behavior</code> &#x3D;&gt; <code>use map mode for vertical scroll bar</code><br>或這樣設定<br><code>Tools</code> &#x3D;&gt; <code>Options</code> &#x3D;&gt; <code>Text Editor</code> &#x3D;&gt; <code>All Languages</code> &#x3D;&gt; <code>Scroll Bar</code> &#x3D;&gt; <code>Behavior</code> &#x3D;&gt; <code>use map mode for vertical scroll bar</code></p>
+<h4 id="註冊-license-key"><a href="#註冊-license-key" class="headerlink" title="註冊 license key"></a>註冊 license key</h4><p><code>Help</code> &#x3D;&gt; <code>Register Visual Studio</code> &#x3D;&gt; <code>Unlock with a product key</code></p>
+<h4 id="安裝-windows-terminal"><a href="#安裝-windows-terminal" class="headerlink" title="安裝 windows terminal"></a>安裝 windows terminal</h4><p>礙於之前用的版本沒有 windows terminal , 順手筆記一下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo choco install microsoft-windows-terminal</span><br></pre></td></tr></table></figure>
+<p><a target="_blank" rel="noopener" href="https://draculatheme.com/windows-terminal">設定佈景 dracula</a> <code>ctrl + ,</code> 搜尋 <code>schemes</code> 然後加入進去</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">&quot;schemes&quot;: [</span><br><span class="line">	&#123;</span><br><span class="line">		&quot;name&quot;: &quot;Dracula&quot;,</span><br><span class="line">		&quot;cursorColor&quot;: &quot;#F8F8F2&quot;,</span><br><span class="line">		&quot;selectionBackground&quot;: &quot;#44475A&quot;,</span><br><span class="line">		&quot;background&quot;: &quot;#282A36&quot;,</span><br><span class="line">		&quot;foreground&quot;: &quot;#F8F8F2&quot;,</span><br><span class="line">		&quot;black&quot;: &quot;#21222C&quot;,</span><br><span class="line">		&quot;blue&quot;: &quot;#BD93F9&quot;,</span><br><span class="line">		&quot;cyan&quot;: &quot;#8BE9FD&quot;,</span><br><span class="line">		&quot;green&quot;: &quot;#50FA7B&quot;,</span><br><span class="line">		&quot;purple&quot;: &quot;#FF79C6&quot;,</span><br><span class="line">		&quot;red&quot;: &quot;#FF5555&quot;,</span><br><span class="line">		&quot;white&quot;: &quot;#F8F8F2&quot;,</span><br><span class="line">		&quot;yellow&quot;: &quot;#F1FA8C&quot;,</span><br><span class="line">		&quot;brightBlack&quot;: &quot;#6272A4&quot;,</span><br><span class="line">		&quot;brightBlue&quot;: &quot;#D6ACFF&quot;,</span><br><span class="line">		&quot;brightCyan&quot;: &quot;#A4FFFF&quot;,</span><br><span class="line">		&quot;brightGreen&quot;: &quot;#69FF94&quot;,</span><br><span class="line">		&quot;brightPurple&quot;: &quot;#FF92DF&quot;,</span><br><span class="line">		&quot;brightRed&quot;: &quot;#FF6E6E&quot;,</span><br><span class="line">		&quot;brightWhite&quot;: &quot;#FFFFFF&quot;,</span><br><span class="line">		&quot;brightYellow&quot;: &quot;#FFFFA5&quot;</span><br><span class="line">	&#125; ,</span><br><span class="line">	&#123;</span><br><span class="line">		&quot;name&quot;: &quot;Ubuntu Green&quot;,</span><br><span class="line">		&quot;black&quot;: &quot;#000000&quot;,</span><br><span class="line">		&quot;red&quot;: &quot;#cc0000&quot;,</span><br><span class="line">		&quot;green&quot;: &quot;#4eff66&quot;,</span><br><span class="line">		&quot;yellow&quot;: &quot;#c4a000&quot;,</span><br><span class="line">		&quot;blue&quot;: &quot;#3465a4&quot;,</span><br><span class="line">		&quot;purple&quot;: &quot;#75507b&quot;,</span><br><span class="line">		&quot;cyan&quot;: &quot;#06989a&quot;,</span><br><span class="line">		&quot;white&quot;: &quot;#ffffff&quot;,</span><br><span class="line">		&quot;brightBlack&quot;: &quot;#000000&quot;,</span><br><span class="line">		&quot;brightRed&quot;: &quot;#ef2929&quot;,</span><br><span class="line">		&quot;brightGreen&quot;: &quot;#009900&quot;,</span><br><span class="line">		&quot;brightYellow&quot;: &quot;#ff8c00&quot;,</span><br><span class="line">		&quot;brightBlue&quot;: &quot;#729fcf&quot;,</span><br><span class="line">		&quot;brightPurple&quot;: &quot;#ad7fa8&quot;,</span><br><span class="line">		&quot;brightCyan&quot;: &quot;#34e2e2&quot;,</span><br><span class="line">		&quot;brightWhite&quot;: &quot;#efefef&quot;,</span><br><span class="line">		&quot;background&quot;: &quot;#efffef&quot;,</span><br><span class="line">		&quot;foreground&quot;: &quot;#000000&quot;</span><br><span class="line"></span><br><span class="line">	&#125;</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
+
+<p><code>powershell</code> <code>Ubuntu-20.04</code> 分別設定 <code>Dracula</code> 跟我自己調的豆沙色 <code>Ubuntu Green</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	// Make changes here to the powershell.exe profile.</span><br><span class="line">	&quot;colorScheme&quot;: &quot;Dracula&quot;,</span><br><span class="line">	&quot;fontFace&quot;: &quot;CaskaydiaCove Nerd Font&quot;,</span><br><span class="line">	&quot;guid&quot;: &quot;&#123;6a1cx4bbd-c2cx-5x71-96x7-009ax7ffw4b&#125;&quot;,</span><br><span class="line">	&quot;name&quot;: &quot;Windows PowerShell&quot;,</span><br><span class="line">	&quot;commandline&quot;: &quot;powershell.exe&quot;,</span><br><span class="line">	&quot;hidden&quot;: false</span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line">	&quot;colorScheme&quot;: &quot;Ubuntu Green&quot;,</span><br><span class="line">	&quot;guid&quot;: &quot;&#123;07b52e3e-de2c-5db4-bd2d-ba144ed6c273&#125;&quot;,</span><br><span class="line">	&quot;name&quot;: &quot;Ubuntu-20.04&quot;,</span><br><span class="line">	&quot;source&quot;: &quot;Windows.Terminal.Wsl&quot;</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+<p>設定透明度</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&quot;defaults&quot;:</span><br><span class="line">&#123;</span><br><span class="line">	// Put settings here that you want to apply to all profiles.</span><br><span class="line">	&quot;useAcrylic&quot;: true,</span><br><span class="line">	&quot;acrylicOpacity&quot;: 0.5,</span><br><span class="line">	&quot;backgroundImageOpacity&quot;: 0.5</span><br><span class="line">&#125;,</span><br></pre></td></tr></table></figure>
+
+
+<p>萬一不 work 可以參考<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=LT6eMfJltsw">這個</a><br><code>regedit</code> &#x3D;&gt; <code>電腦\HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\Dwm</code> &#x3D;&gt; <code>新增</code> &#x3D;&gt; <code>DWORD 32位元</code> &#x3D;&gt; <code>ForceEffectMode</code> &#x3D;&gt; <code>數值 2</code> &#x3D;&gt; <code>重開機</code><br>&#96;&#96;</p>
+<h3 id="猴子書筆記"><a href="#猴子書筆記" class="headerlink" title="猴子書筆記"></a>猴子書筆記</h3><p><code>ZZ</code> 存檔<br><code>:e!</code> 復原這次編輯 (要沒存檔前才有用)<br><code>50i*</code> <code>ESC</code> 畫 50 顆星 , 沒想過還有這招阿 , 大概這本書最強奧義<br><code>25a*-</code> 畫出 <em>-</em>-*- 這樣的圖案 , 神招<br><code>2r&amp;</code> 替換 || 變成 &amp;&amp; 把 cursor 放到第一個 | 上<br>41 頁有全部基本命令<br>gg 移動到開頭等價 [[<br>GG 移動到結尾等價 ]]<br>55 頁有移動相關命令<br>vim -c &#x2F;Screen xxx.html 搜尋到 Screen 並開啟檔案<br><code>:%d</code> 刪除檔案所有行<br><code>:r test.html</code> 讀取其他文件 (test.html) 內的內容到目前編輯的檔案<br><code>:r !date</code> 讀日期進來<br><code>nvim -d vim.html vim2.html</code> 比較兩者不同 , 甚至可以開到三個<br><code>:ju</code> 列出 jumplist , 看你最常往哪跳 , 這個 vscode 也有支援 , 不過 visual studio 就沒支援啦</p>
+<h2 id="full-config"><a href="#full-config" class="headerlink" title="full config"></a>full config</h2><p>基本上大概只列了 8 - 9 成 , 後續時不時有加加減減就懶得了 ~</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br></pre></td><td class="code"><pre><span class="line">&quot;我的 _vsvimrc</span><br><span class="line"></span><br><span class="line">&quot;還不錯的老外 config</span><br><span class="line">&quot;https://github.com/keithn/vsvimguide</span><br><span class="line"></span><br><span class="line">set clipboard=unnamed</span><br><span class="line">set ignorecase</span><br><span class="line"></span><br><span class="line">&quot;重新設定 leader</span><br><span class="line">:let mapleader = &quot;,&quot;</span><br><span class="line"></span><br><span class="line">&quot;&lt;CR&gt; =&gt; Enter 的意思</span><br><span class="line"></span><br><span class="line">&quot;first example</span><br><span class="line">&quot;nnoremap &lt;Leader&gt;a :echo &quot;Hello world&quot;&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;editor.action.rename</span><br><span class="line">&quot;使用 Refactor 功能</span><br><span class="line">nmap &lt;Leader&gt;rv :vsc Refactor.Rename&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;大範圍搜尋</span><br><span class="line">&quot;workbench.action.findInFiles</span><br><span class="line">nmap &lt;Leader&gt;qq :vsc Edit.FindinFiles&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;目前文件搜尋</span><br><span class="line">&quot;actions.find</span><br><span class="line">nmap &lt;Leader&gt;ss :vsc Edit.Find&lt;CR&gt;</span><br><span class="line">&quot;選取的時候區域找</span><br><span class="line">vmap &lt;Leader&gt;ss :vsc Edit.Find&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;複製相對路徑</span><br><span class="line">&quot;workbench.action.files.copyPathOfActiveFile</span><br><span class="line"></span><br><span class="line">&quot;</span><br><span class="line">&quot;copyRelativeFilePath</span><br><span class="line"></span><br><span class="line">&quot;</span><br><span class="line">&quot;workbench.action.togglePanel</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot;like vscode command</span><br><span class="line">&quot;workbench.action.showCommands</span><br><span class="line">nmap &lt;Leader&gt;xm :vsc View.CommandWindow&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;切換註解</span><br><span class="line">&quot;editor.action.commentLine</span><br><span class="line">nmap &lt;Leader&gt;ci :vsc Edit.ToggleComment&lt;CR&gt;</span><br><span class="line">vmap &lt;Leader&gt;ci :vsc Edit.ToggleComment&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;擴展選取</span><br><span class="line">&quot;editor.action.smartSelect.expand</span><br><span class="line">nmap &lt;Leader&gt;xx :vsc Edit.ExpandSelection&lt;CR&gt;</span><br><span class="line">vmap &lt;Leader&gt;xx :vsc Edit.ExpandSelection&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;反擴展選取</span><br><span class="line">&quot;editor.action.smartSelect.shrink</span><br><span class="line">nmap &lt;Leader&gt;zz :vsc Edit.ContractSelection&lt;CR&gt;</span><br><span class="line">vmap &lt;Leader&gt;zz :vsc Edit.ContractSelection&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;最近開啟的檔案</span><br><span class="line">&quot;workbench.action.openRecent</span><br><span class="line">nmap &lt;Leader&gt;zz :vsc Edit.GoToRecentFile&lt;CR&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot;開窗到右側 ctrl + w w 切換窗</span><br><span class="line">&quot;:vsplit</span><br><span class="line">&quot;workbench.action.splitEditorRight</span><br><span class="line"></span><br><span class="line">&quot;split</span><br><span class="line">nmap &lt;Leader&gt;x1 :vsplit &lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;close</span><br><span class="line">nmap &lt;Leader&gt;x0 :q &lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot; map ;; to Esc</span><br><span class="line">map! &lt;Leader&gt;&lt;Leader&gt; &lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;切換到方案總管</span><br><span class="line">nmap ,e :vsc View.SolutionExplorer&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;ctrl + f6</span><br><span class="line">&quot;切回 editor</span><br><span class="line"></span><br><span class="line">&quot;gh</span><br><span class="line">map &lt;Leader&gt;gh :vsc Edit.QuickInfo&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;在方案總管開啟資料夾</span><br><span class="line">&quot;nmap ,of :vsc ProjectandSolutionContextMenus.Project.OpenFolderinFileExplorer&lt;CR&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot;gb 設定相同字選擇功能</span><br><span class="line">map &lt;Leader&gt;gb :vsc Edit.InsertNextMatchingCaret&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;https://github.com/VsVim/VsVim/issues/1474</span><br><span class="line">&quot; Surround simulating bindings</span><br><span class="line">nnoremap s) ciw(&lt;C-r&gt;&quot;)&lt;Esc&gt;</span><br><span class="line">nnoremap s] ciw[&lt;C-r&gt;&quot;]&lt;Esc&gt;</span><br><span class="line">nnoremap s&#125; ciw&#123;&lt;C-r&gt;&quot;&#125;&lt;Esc&gt;</span><br><span class="line">nnoremap s&gt; ciw&lt;lt&gt;&lt;C-r&gt;&quot;&gt;&lt;Esc&gt;</span><br><span class="line">nnoremap s&quot; ciw&quot;&lt;C-r&gt;&quot;&quot;&lt;Esc&gt;</span><br><span class="line">nnoremap s&#x27; ciw&#x27;&lt;C-r&gt;&quot;&#x27;&lt;Esc&gt;</span><br><span class="line">nnoremap sw) ciW(&lt;C-r&gt;&quot;)&lt;Esc&gt;</span><br><span class="line">nnoremap sw] ciW[&lt;C-r&gt;&quot;]&lt;Esc&gt;</span><br><span class="line">nnoremap sw&#125; ciW&#123;&lt;C-r&gt;&quot;&#125;&lt;Esc&gt;</span><br><span class="line">nnoremap sw&gt; ciW&lt;lt&gt;&lt;C-r&gt;&quot;&gt;&lt;Esc&gt;</span><br><span class="line">nnoremap sw&quot; ciW&quot;&lt;C-r&gt;&quot;&quot;&lt;Esc&gt;</span><br><span class="line">nnoremap sw&#x27; ciW&#x27;&lt;C-r&gt;&quot;&#x27;&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot; Surround delete bindings</span><br><span class="line">nnoremap ds) vi(dvhp</span><br><span class="line">nnoremap ds] vi[dvhp</span><br><span class="line">nnoremap ds&#125; vi&#123;dvhp</span><br><span class="line">nnoremap ds&gt; vi&lt;dvhp</span><br><span class="line">nnoremap ds&quot; vi&quot;dvhp</span><br><span class="line">nnoremap ds&#x27; vi&#x27;dvhp</span><br><span class="line"></span><br><span class="line">&quot; Surround change bindings</span><br><span class="line">nnoremap cs&quot;&#x27; vi&quot;oh&lt;Esc&gt;msvi&quot;l&lt;Esc&gt;cl&#x27;&lt;Esc&gt;`scl&#x27;&lt;Esc&gt;</span><br><span class="line">nnoremap cs&#x27;&quot; vi&#x27;oh&lt;Esc&gt;msvi&#x27;l&lt;Esc&gt;cl&quot;&lt;Esc&gt;`scl&quot;&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot; Surround visual selected text</span><br><span class="line">vnoremap S&quot; c&quot;&lt;C-r&gt;&quot;&quot;&lt;Esc&gt;</span><br><span class="line">vnoremap S&#x27; c&quot;&lt;C-r&gt;&quot;&#x27;&lt;Esc&gt;</span><br><span class="line">vnoremap S) c(&lt;C-r&gt;&quot;)&lt;Esc&gt;</span><br><span class="line">vnoremap S] c[&lt;C-r&gt;&quot;]&lt;Esc&gt;</span><br><span class="line">vnoremap S&#125; c&#123;&lt;C-r&gt;&quot;&#125;&lt;Esc&gt;</span><br><span class="line">vnoremap S&gt; c&lt;lt&gt;&lt;C-r&gt;&quot;&gt;&lt;Esc&gt;</span><br><span class="line">vnoremap S* c/*&lt;C-r&gt;&quot;*/&lt;Esc&gt;</span><br><span class="line">&quot;vnoremap St c&lt;lt&gt;div&gt;&lt;CR&gt;&lt;C-r&gt;&quot;&lt;Esc&gt;</span><br><span class="line">&quot; Surround in div tag and edit tag</span><br><span class="line">vnoremap St c&lt;lt&gt;div&gt;&lt;CR&gt;&lt;C-r&gt;&quot;&lt;Esc&gt;`&lt;lt&gt;lcw</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot; template</span><br><span class="line">map &lt;LEADER&gt;. &lt;ESC&gt; /&lt;++&gt;&lt;CR&gt;:nohlsearch&lt;CR&gt;c4l</span><br><span class="line"></span><br><span class="line">&quot; add var x = </span><br><span class="line">map &lt;LEADER&gt;vx ^ivar x = &lt;ESC&gt; bbciw</span><br><span class="line"></span><br><span class="line">&quot;</span><br><span class="line">map &lt;LEADER&gt;gp ^ivar x = new YourObject(); var t = x.GetType(); foreach (var prop in t.GetProperties()) Console.WriteLine( $&quot;x.&#123;prop.Name&#125; = &quot; ); &lt;ESC&gt;</span><br><span class="line"></span><br><span class="line">&quot;Json To Chsarp</span><br><span class="line">map &lt;LEADER&gt;c2j :vsc Edit.PasteJSONAsClasses&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;Add New Class</span><br><span class="line">map &lt;Leader&gt;nc :vsc Project.AddClass&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;SurroundWith</span><br><span class="line">map &lt;Leader&gt;sr :vsc Edit.SurroundWith&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;ListMembers</span><br><span class="line">map &lt;Leader&gt;lm :vsc ListMembers&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;so</span><br><span class="line">nmap &lt;Leader&gt;so :so ~/_vsvimrc&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;to string</span><br><span class="line">&quot;nmap &lt;Leader&gt;2s viwxistring&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;to string use extension</span><br><span class="line">nmap &lt;Leader&gt;2s viw:vsc Tools.ToString&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;to int use extension</span><br><span class="line">nmap &lt;Leader&gt;2i viw:vsc Tools.ToInt&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;to bool</span><br><span class="line">&quot;nmap &lt;Leader&gt;2b viwxibool&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;to bool use extension</span><br><span class="line">nmap &lt;Leader&gt;2b viw:vsc Tools.ToBool&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;to float</span><br><span class="line">&quot;nmap &lt;Leader&gt;2f viwxifloat&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;to decimal</span><br><span class="line">&quot;nmap &lt;Leader&gt;2d viwxidecimal&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;to var</span><br><span class="line">&quot;nmap &lt;Leader&gt;2v viwxivar&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;to var use extension</span><br><span class="line">nmap &lt;Leader&gt;2v viw:vsc Tools.ToVar&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;to double use extension</span><br><span class="line">nmap &lt;Leader&gt;2f viw:vsc Tools.ToDouble&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;toogle true</span><br><span class="line">&quot;nmap &lt;Leader&gt;tt viwxitrue&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;toogle false</span><br><span class="line">&quot;nmap &lt;Leader&gt;tf viwxifalse&lt;Esc&gt;</span><br><span class="line"></span><br><span class="line">&quot;toogle use extension</span><br><span class="line">nmap &lt;Leader&gt;tt viw:vsc Tools.Toggle&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;to mvc url</span><br><span class="line">nmap &lt;Leader&gt;2u vi&#x27;xi@Url.Content(&quot;&lt;C-r&gt;&quot;&quot;)</span><br><span class="line"></span><br><span class="line">&quot;go to file 必須先選中路徑</span><br><span class="line">map &lt;Leader&gt;gf :vsc Tools.GoToFile&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;select current method</span><br><span class="line">map &lt;Leader&gt;vim :vsc Tools.SelectCurrentMethod&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;Move To Method Begin</span><br><span class="line">map &lt;Leader&gt;gmb :vsc Tools.MoveToMethodBegin&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;Move To Method End</span><br><span class="line">map &lt;Leader&gt;gme :vsc Tools.MoveToMethodEnd&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot;postfix completion</span><br><span class="line">map &lt;LEADER&gt;. :vsc Tools.PostFixVar&lt;CR&gt;</span><br><span class="line"></span><br><span class="line">&quot; 設定尖括號</span><br><span class="line">&quot; set mps+=&lt;:&gt;</span><br></pre></td></tr></table></figure>
+
+
+<h2 id="其它-extension"><a href="#其它-extension" class="headerlink" title="其它 extension"></a>其它 extension</h2><p>之前看其他教學路影片時會顯示按了什麼按鍵的軟體<br><a target="_blank" rel="noopener" href="https://github.com/Code52/carnac">carnac</a></p>
+<p>喇低賽發現新大陸，下列這些 extension 好像也滿有用的趁機筆記一下</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=MadsKristensen.KeyboardShortcutExporter">keyboard Shortcut Exporter</a></li>
+<li>印出快捷鍵在 command window <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=MadsKristensen.LearntheShortcut">Learn the Shortcut</a></li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=SteveCadwallader.CodeMaid">CodeMaid</a></li>
+<li>快捷鍵管理 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=JustinClareburtMSFT.VSShortcutsManager">VSShortcutsManager</a></li>
+<li>模擬 multi cursor <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=thomaswelen.SelectNextOccurrence">SelectNextOccurrence</a></li>
+<li>綁一堆 extension 套裝組合 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=JustinClareburtMSFT.SublimeVS">SublimeVS</a></li>
+<li>一些文字操作 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=CodeMuncher1.VSTricks">VSTricks</a></li>
+<li>Emacs 跳躍神器 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=jsturtevant.AceJump">AceJump</a></li>
+<li>PEasyMotion 滿常當掉<a target="_blank" rel="noopener" href="https://github.com/msomeone/PeasyMotion">PeasyMotion</a></li>
+<li>直接顯示 var 型別的<a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=AlexanderGayko.VarAdorner">C# Var Type CodeLens</a></li>
+<li>顯示目前文件路徑在 footer <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=ShemeerNS.FilePathOnFooter">File Path On Footer</a></li>
+<li>意外發現的超強高手<a target="_blank" rel="noopener" href="https://github.com/cezarypiatek/CsharpMacros">CsharpMacros 外掛</a></li>
+<li>意外發現的超強高手<a target="_blank" rel="noopener" href="https://github.com/cezarypiatek/MappingGenerator">Mapping Generator 外掛</a></li>
+<li><a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=SteveCadwallader.CodeMaid">codemaid</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/visual-studio/" rel="tag"># visual studio</a>
+              <a href="/tags/vsvim/" rel="tag"># vsvim</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/07/05/vscode-vim-mode/" rel="prev" title="vscode vim mode">
+      <i class="fa fa-chevron-left"></i> vscode vim mode
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/07/05/asp-net-core-iis-sub-application/" rel="next" title="asp.net core iis sub-application">
+      asp.net core iis sub-application <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AA%B2%E7%A8%8B%E8%88%87%E6%9B%B8%E7%B1%8D%E6%8E%A8%E8%96%A6"><span class="nav-number">1.</span> <span class="nav-text">課程與書籍推薦</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B6%E8%B2%BB%E8%AA%B2%E7%A8%8B"><span class="nav-number">1.1.</span> <span class="nav-text">收費課程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%9B%E5%BF%83%E5%85%8D%E8%B2%BB%E4%BB%94%E8%AA%B2%E7%A8%8B"><span class="nav-number">1.2.</span> <span class="nav-text">佛心免費仔課程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%91-2020-%E5%B9%B4%E5%89%9B%E5%AD%B8%E7%BF%92%E6%99%82%E5%88%86%E4%BA%AB%E7%9A%84%E5%BD%B1%E7%89%87"><span class="nav-number">1.3.</span> <span class="nav-text">我 2020 年剛學習時分享的影片</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B8%E7%B1%8D%E8%B3%87%E6%BA%90%E6%8E%A8%E8%96%A6"><span class="nav-number">1.4.</span> <span class="nav-text">書籍資源推薦</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%A7%E6%96%87"><span class="nav-number">2.</span> <span class="nav-text">內文</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-VsVim"><span class="nav-number">2.1.</span> <span class="nav-text">設定 VsVim</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%88%87%E6%8F%9B%E8%A8%BB%E8%A7%A3"><span class="nav-number">2.2.</span> <span class="nav-text">快速切換註解</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E7%9B%B8%E5%B0%8D%E8%A1%8C%E8%99%9F"><span class="nav-number">2.3.</span> <span class="nav-text">安裝相對行號</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-visual-studio-%E7%82%BA%E8%8B%B1%E6%96%87"><span class="nav-number">2.4.</span> <span class="nav-text">設定 visual studio 為英文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E4%B8%8D%E8%A6%81%E4%BD%BF%E7%94%A8-preview-tab-%E5%8A%9F%E8%83%BD"><span class="nav-number">2.5.</span> <span class="nav-text">設定不要使用 preview tab 功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-IntelliSense-%E4%B8%8A%E4%B8%8B%E7%A7%BB%E5%8B%95"><span class="nav-number">2.6.</span> <span class="nav-text">設定 IntelliSense 上下移動</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E5%B0%88%E6%A1%88%E9%96%8B%E5%95%9F%E6%AA%94%E6%A1%88%E7%B8%BD%E7%AE%A1"><span class="nav-number">2.7.</span> <span class="nav-text">在專案開啟檔案總管</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-NERDTree"><span class="nav-number">2.8.</span> <span class="nav-text">使用 NERDTree</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-method-%E6%8F%90%E7%A4%BA"><span class="nav-number">2.9.</span> <span class="nav-text">設定 method 提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-mvc"><span class="nav-number">2.10.</span> <span class="nav-text">設定 mvc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-vsvimrc"><span class="nav-number">2.11.</span> <span class="nav-text">設定 vsvimrc</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E8%A8%82-template-%E6%8A%80%E5%B7%A7"><span class="nav-number">2.12.</span> <span class="nav-text">自訂 template 技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#trim-%E6%8A%80%E5%B7%A7"><span class="nav-number">2.13.</span> <span class="nav-text">trim 技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%9B%BF%E6%8F%9B%E7%82%BA-Nullable"><span class="nav-number">2.14.</span> <span class="nav-text">快速替換為 Nullable</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E7%94%A2%E7%94%9F%E9%A1%9E%E5%88%A5%E5%B1%AC%E6%80%A7%E7%89%87%E6%AE%B5"><span class="nav-number">2.15.</span> <span class="nav-text">自動產生類別屬性片段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%87%AA%E5%8B%95%E7%94%A2%E7%94%9F%E9%A1%9E%E5%88%A5%E5%B1%AC%E6%80%A7%E7%89%87%E6%AE%B5-%E6%96%B0"><span class="nav-number">2.16.</span> <span class="nav-text">自動產生類別屬性片段(新)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JSON-To-CSharp-%E9%A1%9E%E5%88%A5"><span class="nav-number">2.17.</span> <span class="nav-text">JSON To CSharp 類別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#multi-cursor-%E6%93%8D%E4%BD%9C%E6%8A%80%E5%B7%A7"><span class="nav-number">2.18.</span> <span class="nav-text">multi cursor 操作技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%88%87%E6%8F%9B%E8%B3%87%E6%96%99%E5%9E%8B%E5%88%A5"><span class="nav-number">2.19.</span> <span class="nav-text">快速切換資料型別</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ReSharper-Source-Template"><span class="nav-number">2.20.</span> <span class="nav-text">ReSharper Source Template</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%96%E4%BB%A3-prop-%E7%94%A2%E7%94%9F%E5%B1%AC%E6%80%A7%E7%9A%84%E6%8A%80%E5%B7%A7-ZenSharp"><span class="nav-number">2.21.</span> <span class="nav-text">取代 prop 產生屬性的技巧 ZenSharp</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A1%AF%E7%A4%BA-var-%E7%9A%84%E5%9E%8B%E5%88%A5%E6%8F%90%E7%A4%BA"><span class="nav-number">2.22.</span> <span class="nav-text">顯示 var 的型別提示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%9C%E9%96%89-build-progress-window"><span class="nav-number">2.23.</span> <span class="nav-text">關閉 build progress window</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-merge-if"><span class="nav-number">2.24.</span> <span class="nav-text">設定 merge if</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E8%AA%9E%E7%B3%BB%E8%BD%89%E6%8F%9B"><span class="nav-number">2.25.</span> <span class="nav-text">多語系轉換</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%BD%8D%E6%AA%94%E6%A1%88%E5%8A%A0%E5%BC%B7"><span class="nav-number">2.26.</span> <span class="nav-text">定位檔案加強</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E6%89%BE%E6%AA%94%E6%A1%88"><span class="nav-number">2.27.</span> <span class="nav-text">快速找檔案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#regex-%E5%A4%9A%E8%A1%8C%E6%9B%BF%E6%8F%9B"><span class="nav-number">2.28.</span> <span class="nav-text">regex 多行替換</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#regex-%E6%89%BE%E4%B8%AD%E6%96%87"><span class="nav-number">2.29.</span> <span class="nav-text">regex 找中文</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#coding-style-%E5%A4%A7%E5%B0%8F%E5%AF%AB%E8%BD%89%E6%8F%9B"><span class="nav-number">2.30.</span> <span class="nav-text">coding style 大小寫轉換</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#codemaid-%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.31.</span> <span class="nav-text">codemaid 設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0%E5%88%B0-vs2022"><span class="nav-number">2.32.</span> <span class="nav-text">更新到 vs2022</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A%E8%8B%B1%E6%96%87"><span class="nav-number">2.32.1.</span> <span class="nav-text">設定英文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D%E5%8F%8A%E5%8D%87%E7%B4%9A-Extension"><span class="nav-number">2.32.2.</span> <span class="nav-text">安裝及升級 Extension</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A8%AD%E5%AE%9A-codemap"><span class="nav-number">2.32.3.</span> <span class="nav-text">設定 codemap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A8%BB%E5%86%8A-license-key"><span class="nav-number">2.32.4.</span> <span class="nav-text">註冊 license key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-windows-terminal"><span class="nav-number">2.32.5.</span> <span class="nav-text">安裝 windows terminal</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8C%B4%E5%AD%90%E6%9B%B8%E7%AD%86%E8%A8%98"><span class="nav-number">2.33.</span> <span class="nav-text">猴子書筆記</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#full-config"><span class="nav-number">3.</span> <span class="nav-text">full config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E5%AE%83-extension"><span class="nav-number">4.</span> <span class="nav-text">其它 extension</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2020/07/05/visual-studio-vim-mode/";
+    this.page.identifier = "2020/07/05/visual-studio-vim-mode/";
+    this.page.title = "visual studio vim mode";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

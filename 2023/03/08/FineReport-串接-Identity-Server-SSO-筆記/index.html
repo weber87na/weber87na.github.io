@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="FineReport 串接 Identity Server SSO 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2023/03/08/FineReport-%E4%B8%B2%E6%8E%A5-Identity-Server-SSO-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://www.finereport.com/jp/wp-content/themes/newsite/banner-try4.png">
+<meta property="article:published_time" content="2023-03-07T16:01:59.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="csharp">
+<meta property="article:tag" content="finereport">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.finereport.com/jp/wp-content/themes/newsite/banner-try4.png">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2023/03/08/FineReport-%E4%B8%B2%E6%8E%A5-Identity-Server-SSO-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>FineReport 串接 Identity Server SSO 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2023/03/08/FineReport-%E4%B8%B2%E6%8E%A5-Identity-Server-SSO-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          FineReport 串接 Identity Server SSO 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2023-03-08 00:01:59" itemprop="dateCreated datePublished" datetime="2023-03-08T00:01:59+08:00">2023-03-08</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2023/03/08/FineReport-%E4%B8%B2%E6%8E%A5-Identity-Server-SSO-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2023/03/08/FineReport-串接-Identity-Server-SSO-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>4.4k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>4 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;<br><img src="https://www.finereport.com/jp/wp-content/themes/newsite/banner-try4.png" alt="finereport"></p>
+<span id="more"></span>
+
+<p>為了設定這個大概前後折磨了 24 小時有 , 差點精神崩潰 , 他的參數實在太噁心<br>首先要註冊 , 偏偏我註冊 <code>FineReport</code> 他們家官網剛好壞掉 , 註冊注意手機號碼要輸入完整 <code>0987987987</code> , 不要因為看到他有 <code>+886</code> 就以為會自動幫你轉<br>接著下載這個 <a target="_blank" rel="noopener" href="https://help.fanruan.com/finereport/index.php?doc-view-4947.html">類Oauth2單點登錄插件</a> , 然後用本地安裝匯入進去 , 我的 <code>FineReport</code> 是 11 版 , 記得看下版本</p>
+<h3 id="重要連結"><a href="#重要連結" class="headerlink" title="重要連結"></a>重要連結</h3><p>幾個很重要連結 , 萬一設定錯會頻繁使用到 , 另外 Plugin 文件最好都先看下<br><code>Plugin 文件 1</code> &#x3D;&gt; <code>https://help.fanruan.com/finereport/index.php?doc-view-4947.html</code><br><code>Plugin 文件 2</code> &#x3D;&gt; <code>https://help.fanruan.com/finereport/doc-view-5037.html</code><br><code>FineReport 後台</code> &#x3D;&gt; <code>http://localhost:8075/webroot/decision</code><br><code>FineReport 後台 login</code> &#x3D;&gt; <code>http://localhost:8075/webroot/decision/login</code></p>
+<p><code>Identity Server 文件</code> &#x3D;&gt; <code>https://docs.duendesoftware.com/identityserver/v6</code> 這裡用新版的文件看起來比較舒服 , 用法應該都一樣<br><code>Identity Server 個人訊息</code> &#x3D;&gt; <code>https://localhost:44310</code></p>
+<p><code>Identity Server Admin 後台</code> &#x3D;&gt; <code>https://localhost:44303</code><br><code>管理 Identity Server 4 的 client 用</code> &#x3D;&gt; <code>https://localhost:44303/Configuration/Clients</code></p>
+<p><code>查 Identity Server endpoint</code> &#x3D;&gt; <code>https://localhost:44310/.well-known/openid-configuration</code> 這次會用到以下三個<br><code>authorization_endpoint 拿 code 用</code> &#x3D;&gt; <code>https://localhost:44310/connect/authorize</code><br><code>token_endpoint 換 token 用</code> &#x3D;&gt; <code>https://localhost:44310/connect/token</code><br><code>userinfo_endpoint 得到使用者資訊用</code> &#x3D;&gt; <code>https://localhost:44310/connect/userinfo</code></p>
+<p><code>debug 用 , 因為參數很容易設定錯 , 這時就要看他解</code> &#x3D;&gt; <code>https://localhost:44303/Log/ErrorsLog</code></p>
+<h3 id="Identity-Server-Clients-參數設定"><a href="#Identity-Server-Clients-參數設定" class="headerlink" title="Identity Server Clients 參數設定"></a>Identity Server Clients 參數設定</h3><p>看這裡之前可以先 <a href="https://www.blog.lasai.com.tw/2022/09/27/IdentityServer4-%E7%AD%86%E8%A8%98/">參考</a> 我之前寫的筆記 , 不然有點複雜<br>首先到 <code>https://localhost:44303/Configuration/Clients</code> 然後設定</p>
+<p><code>Add Client</code> &#x3D;&gt; <code>Web Application - Server side Authorization Code Flow with PKCE</code></p>
+<p><code>Name</code><br><code>Client Id</code> &#x3D;&gt; <code>test</code><br><code>Client Name</code> &#x3D;&gt; <code>test</code></p>
+<p><code>Basics</code><br><code>Require Pkce</code> &#x3D;&gt; <code>關閉</code> 如果打開的話會去驗 Pkce<br><code>Allow Access Token Via Browser</code> &#x3D;&gt; <code>開啟</code> 好像 postman 要 debug 要開這個有點忘了<br><code>Allowed Scopes</code> &#x3D;&gt; <code>openid</code> <code>email</code> <code>profile</code> <code>roles</code> 忘了哪個才是得到 name , 如果沒設定的話好像 <code>FineReport</code> 會在最後環節噴 error<br><code>Redirect Uris</code> &#x3D;&gt; <code>http://localhost:8075/webroot/decision</code> 導回 <code>FineReport</code> 頁面<br><code>Allowed Grant Types</code> &#x3D;&gt; <code>authorization_code</code><br><code>Client Secrets</code> &#x3D;&gt; <code>點 Manage Client Secrets 按鈕</code> &#x3D;&gt; <code>Secret Value</code> &#x3D;&gt; <code>test</code> &#x3D;&gt; <code>Add Client Secret</code></p>
+<p><code>Consent Screen</code><br><code>Require Consent</code> &#x3D;&gt; <code>開啟</code><br><code>Client Uri</code> &#x3D;&gt; <code>http://localhost:8075/webroot/decision</code></p>
+<h3 id="FineReport-參數設定"><a href="#FineReport-參數設定" class="headerlink" title="FineReport 參數設定"></a>FineReport 參數設定</h3><p>設定這裡之前最好先開 postman 起來打看看 , 比較好 debug , 不然會設定到抓狂</p>
+<p><code>系統管理</code> &#x3D;&gt; <code>單點整合</code> &#x3D;&gt; <code>PC端訪問</code><br><code>是否開啓單點功能</code> &#x3D;&gt; <code>開啟</code></p>
+<h4 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h4><p><code>基本配置</code><br><code>動態獲取報表域名</code> &#x3D;&gt; <code>我沒勾選</code><br><code>報表平台位址</code> &#x3D;&gt; <code>http://localhost:8075/webroot/decision</code><br><code>保留平台登入頁</code> &#x3D;&gt; <code>勾選</code><br><code>登入失敗處理邏輯</code> &#x3D;&gt; 建議一定要勾選 <code>展示報錯</code> , 否則很難去 debug<br><code>是否通過cookie傳遞</code> &#x3D;&gt; <code>勾選</code></p>
+<h4 id="初始參數"><a href="#初始參數" class="headerlink" title="初始參數"></a>初始參數</h4><p><code>初始參數</code><br><code>Client ID</code> &#x3D;&gt; <code>test</code><br><code>Client Secret</code> &#x3D;&gt; <code>test</code><br><code>Grant Type</code> &#x3D;&gt; <code>authorization_code</code><br><code>Token Name</code> &#x3D;&gt; <code>code</code><br><code>Scope</code> &#x3D;&gt; <code>openid email profile roles</code><br><code>認證API位址</code> 這個我看了很久才懂 , 他類似變數的概念包他的特殊關鍵字或方法<br>這裡是 <code>requestURL</code> 他會把 <code>http://localhost:8075/webroot/decision</code> 傳進去就對了<br>這個網址主要是跟 <code>Identity Server</code> 拿 code , 接著有 code 才能換 token 參考<a target="_blank" rel="noopener" href="https://docs.duendesoftware.com/identityserver/v6/reference/endpoints/authorize/">這裡</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$&#123;&quot;https://localhost:44310/connect/authorize?response_type=code&amp;scope=openid email profile roles&amp;client_id=test&amp;redirect_uri=&quot; + requestURL&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="令牌申請"><a href="#令牌申請" class="headerlink" title="令牌申請"></a>令牌申請</h4><p><code>令牌申請</code><br><code>請求位址</code> &#x3D;&gt; <code>POST</code> 這裡會去跟 <code>Identity Server</code> 拿 token 參考<a target="_blank" rel="noopener" href="https://docs.duendesoftware.com/identityserver/v6/reference/endpoints/token/">這裡</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://localhost:44310/connect/token</span><br></pre></td></tr></table></figure>
+
+<p><code>請求頭</code> &#x3D;&gt; <code>不設定</code></p>
+<p><code>請求體</code> &#x3D;&gt; <code>x-www-form-urlencoded</code> &#x3D;&gt; 新增 6 個參數<br><code>code</code> &#x3D;&gt; <code>${code}</code> 這邊的 <code>${code}</code> 是最大關鍵 , 正常人不會想到他文件上寫的變數概念可以放在這裡吧<br><code>grant_type</code> &#x3D;&gt; <code>authorization_code</code><br><code>scope</code> &#x3D;&gt; <code>openid email profile roles</code><br><code>client_secret</code> &#x3D;&gt; <code>test</code><br><code>redirect_uri</code> &#x3D;&gt; <code>http://localhost:8075/webroot/decision</code><br><code>client_id</code> &#x3D;&gt; <code>test</code></p>
+<p><code>請求結果</code> &#x3D;&gt; 新增 1 個參數 , 這裡非常重要他會把這個 <code>access_token</code> 變成參數然後傳給最後一步<br><code>access_token</code> &#x3D;&gt; <code>access_token</code></p>
+<h4 id="使用者資訊"><a href="#使用者資訊" class="headerlink" title="使用者資訊"></a>使用者資訊</h4><p><code>使用者資訊</code><br><code>請求位址</code> &#x3D;&gt; <code>GET</code> &#x3D;&gt; <code>https://localhost:44310/connect/userinfo</code><br><code>請求頭</code> &#x3D;&gt; 新增 1 個參數<br><code>Authorization</code> &#x3D;&gt; <code>${&quot;Bearer &quot; + access_token}</code> 特別留意 Bearer 後面有個空白 , 參考<a target="_blank" rel="noopener" href="https://docs.duendesoftware.com/identityserver/v6/reference/endpoints/userinfo/">這裡</a></p>
+<p><code>請求體</code> &#x3D;&gt; <code>不設定</code></p>
+<p><code>請求結果</code> &#x3D;&gt; 新增 1 個參數<br><code>fr_login_name</code> &#x3D;&gt; <code>name</code> 這裡為啥設定 name 呢 , 因為打回來的結果是這樣 , 他會帶入到 <code>FineReport</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;sub&quot;: &quot;18bb6b18-39e2-4f63-b7fb-24d5b85dcf89&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;role&quot;: &quot;SkorubaIdentityAdminAdministrator&quot;,</span><br><span class="line">    &quot;preferred_username&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;email&quot;: &quot;admin@skoruba.com&quot;,</span><br><span class="line">    &quot;email_verified&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外你的 Identity Server 上面的 user 帳號要在 FineReport 裡面預先設定 , 不然會噴找不到 username 的錯誤<br><code>系統管理</code> &#x3D;&gt; <code>使用者管理</code> &#x3D;&gt; <code>新增使用者</code> &#x3D;&gt; <code>帳號</code> </p>
+<p>這裡 <code>帳號</code> 就是 <code>fr_login_name</code> 等價 userinfo 傳回來的 <code>name</code><br>也有可能 Identity Server 上面定義其他自己的附加屬性當成 FineReport 上面的帳號這個欄位 , 像是下面假設 <code>account_name</code> 為實際帳號<br>就應該要設定 <code>fr_login_name</code> &#x3D;&gt; <code>account_name</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;sub&quot;: &quot;18bb6b18-39e2-4f63-b7fb-24d5b85dcf89&quot;,</span><br><span class="line">    &quot;name&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;account_name&quot; : &quot;S123456789&quot; , </span><br><span class="line">    &quot;role&quot;: &quot;SkorubaIdentityAdminAdministrator&quot;,</span><br><span class="line">    &quot;preferred_username&quot;: &quot;admin&quot;,</span><br><span class="line">    &quot;email&quot;: &quot;admin@skoruba.com&quot;,</span><br><span class="line">    &quot;email_verified&quot;: true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/finereport/" rel="tag"># finereport</a>
+              <a href="/tags/csharp/" rel="tag"># csharp</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2023/02/19/%E4%BB%A5-JSchema-%E5%B0%8D-JObject-%E9%80%B2%E8%A1%8C%E5%AE%B9%E9%8C%AF%E9%A9%97%E8%AD%89/" rel="prev" title="以 JSchema 對 JObject 進行容錯驗證">
+      <i class="fa fa-chevron-left"></i> 以 JSchema 對 JObject 進行容錯驗證
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2023/03/16/104-%E5%95%8F%E5%8D%B7%E6%AE%BA%E6%89%8B/" rel="next" title="104 問卷殺手">
+      104 問卷殺手 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E8%A6%81%E9%80%A3%E7%B5%90"><span class="nav-number">1.</span> <span class="nav-text">重要連結</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Identity-Server-Clients-%E5%8F%83%E6%95%B8%E8%A8%AD%E5%AE%9A"><span class="nav-number">2.</span> <span class="nav-text">Identity Server Clients 參數設定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#FineReport-%E5%8F%83%E6%95%B8%E8%A8%AD%E5%AE%9A"><span class="nav-number">3.</span> <span class="nav-text">FineReport 參數設定</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E9%85%8D%E7%BD%AE"><span class="nav-number">3.1.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8F%83%E6%95%B8"><span class="nav-number">3.2.</span> <span class="nav-text">初始參數</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%A4%E7%89%8C%E7%94%B3%E8%AB%8B"><span class="nav-number">3.3.</span> <span class="nav-text">令牌申請</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E8%80%85%E8%B3%87%E8%A8%8A"><span class="nav-number">3.4.</span> <span class="nav-text">使用者資訊</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2023/03/08/FineReport-%E4%B8%B2%E6%8E%A5-Identity-Server-SSO-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2023/03/08/FineReport-串接-Identity-Server-SSO-筆記/";
+    this.page.title = "FineReport 串接 Identity Server SSO 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

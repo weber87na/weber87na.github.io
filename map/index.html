@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<title>真 ● 喇賽</title>
+
+		<!--favicon-->
+		<link rel="icon" type="image/png" href="../img/logo/g.png" />
+
+		<!--手繪風格 lib-->
+		<link rel="stylesheet" href="https://unpkg.com/papercss@1.6.1/dist/paper.min.css">
+
+		<!--思源宋體-->
+		<!-- <link href="https://fonts.googleapis.com/css?family=Noto+Serif+TC:200,300,regular,500,600,700,900" rel="stylesheet" /> -->
+
+		<!--思源正黑-->
+		<!-- <link href="https://fonts.googleapis.com/css?family=Noto+Sans+TC:100,300,regular,500,700,900" rel="stylesheet" /> -->
+
+
+
+		<!--openlayers-->
+		<link rel="stylesheet" href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/css/ol.css">
+
+		<!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+		<script
+						 src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+
+
+		<style>
+* {
+	margin: 0;
+	padding: 0;
+}
+
+	html,
+	body {
+		height: 100%;
+		width: 100%;
+
+	}
+
+	/*防止label在a上面無效導致開不起 modal*/
+	ul>li>a>label {
+		display: inline !important;
+		font-weight: normal !important;
+	}
+
+	#map {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		width: 100%;
+		overflow-x: hidden;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	#food {
+		margin: 55px 0 0 0;
+		padding: 0;
+		height: 100%;
+		width: 100%;
+
+		position: absolute;
+		top: 0;
+		left: -9999px;
+	}
+		</style>
+	</head>
+
+	<body>
+		<nav class="border fixed">
+			<div class="nav-brand">
+				<h4><a href="/">真 ● 喇賽生活</a></h4>
+			</div>
+			<div class="collapsible">
+				<input id="collapsible2" type="checkbox" name="collapsible2">
+				<button>
+					<label for="collapsible2">
+						<div class="bar1"></div>
+						<div class="bar2"></div>
+						<div class="bar3"></div>
+					</label>
+				</button>
+				<div class="collapsible-body">
+					<ul class="inline">
+						<li><a id="href-map" href="javascript:;">地圖</a></li>
+						<li><a id="href-food" href="javascript:;">美食</a></li>
+						<!-- <li><a href="javascript:;">景點</a></li> -->
+						<!-- <li><a href="javascript:;">不知道要寫什麼</a></li> -->
+						<li id="author" for="modal-author">
+							<a href="javascript:;">
+								<label class="" for="modal-author">喇賽の人</label>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</nav>
+
+
+		<div id="map" class="map"></div>
+		<div id="food">
+			<img src="./img/attractions/七彩紅豆餅.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/月球路.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/王子麵炒飯.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/台灣豬隊友.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/巨屌石.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/肉燥飯三明治.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/咖哩鮪魚羹.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/林北路.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/林老師卡好咖啡.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/狗狗冰.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/玫瑰包子.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/玫瑰花冰.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/虱目魚香腸.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/炸皮蛋蛋餅.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/炸蟋蟀.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/科學麵冰.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/泰餃情.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/酒釀玉荷包香腸.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/高雄藍眼淚.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/蛋黃酥冰.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/魚卵臭豆腐.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/喇D賽.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/熊熊拉花.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/綠色紫色的蛋餅.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/辣椒冰淇淋.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/蝶豆花飯.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/隨便搞蛋餅.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/優格涼麵.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/舊機Bye.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+			<img src="./img/attractions/櫻花蝦巧克力.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;">
+
+		</div>
+
+
+
+
+		<!--author modal-->
+		<input class="modal-state" id="modal-author" type="checkbox">
+		<div class="modal" style="z-index: 999;">
+			<label class="modal-bg" for="modal-author"></label>
+			<div class="modal-body">
+				<label class="btn-close" for="modal-author">X</label>
+				<h4 class="modal-title">關於喇賽の人</h4>
+				<img src="./img/author.jpg" style="margin:15px auto;width: 50%;vertical-align: middle;" alt="author">
+				<p class="modal-text">喇賽の人居住於發大財城，夢想是賣紅豆餅。於20XX年被一群沒良心的老人推入火坑寫
+				Code，從此萬劫不復、永不得超生。如果你喜歡喇賽の人做的網站或喇低賽，可以在以下連結找到我。</p>
+				<p class="modal-text">喇賽の人 Email : weber87na@gmail.com</p>
+			</div>
+		</div>
+
+		<!--openlayers 5-->
+		<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.3.0/build/ol.js"></script>
+
+
+		<script>
+
+			//
+			var hrefMap = document.getElementById('href-map');
+var hrefFood = document.getElementById('href-food');
+var divMap = document.getElementById('map');
+var divFood = document.getElementById('food');
+hrefMap.addEventListener('click', function () {
+	divFood.style.left = '-9999px';
+	divMap.style.left = '0';
+});
+hrefFood.addEventListener('click', function () {
+	divMap.style.left = '-9999px';
+	divFood.style.left = '0';
+});
+
+
+//定義基本底圖
+var baseLayer = new ol.layer.Tile({
+	//name : basemapUrls[0].name,
+	name: 'baseLayer',
+	source: new ol.source.XYZ({
+		url: 'https://wmts.nlsc.gov.tw/wmts/EMAP/default/GoogleMapsCompatible/{z}/{y}/{x}.png',
+		crossOrigin: 'anonymous'
+	})
+});
+//台灣行政區
+var twLayer = new ol.layer.Vector({
+	renderMode: 'image',
+	source: new ol.source.Vector({
+		format: new ol.format.GeoJSON(),
+		url: './data/tw.geojson'
+	}),
+	style: function (feature) {
+		var COUNTYNAME = feature.getProperties().COUNTYNAME;
+
+		return new ol.style.Style({
+			stroke: new ol.style.Stroke({
+				color: 'rgba(0, 0, 0, 1)',
+				width: 1
+			}),
+			//fill: new ol.style.Fill({
+				//    color: 'rgba(0, 0, 0, 0.1)'
+				//}),
+			text: new ol.style.Text({
+				text: COUNTYNAME,
+				//font: '12px Calibri,sans-serif',
+				weight: 'Bold',
+				fill: new ol.style.Fill({ color: '#000' }),
+				stroke: new ol.style.Stroke({
+					color: '#D3D3D3', width: 10
+				}),
+				//offsetX: 30,
+				//offsetY: -25,
+				//rotation: 0
+			})
+		})
+	},
+	//crossOrigin: 'anonymous'
+});
+
+
+
+function scaleAttractionsText(feature) {
+	var zoom = map.getView().getZoom();
+	console.log(zoom);
+	if (zoom <= 9) {
+		return '';
+	}
+
+	var str = feature.getProperties().Name;
+	return str;
+}
+
+function scaleAttractionsIcon() {
+	var zoom = map.getView().getZoom();
+
+	if (zoom == 9) {
+		return 0.4;
+	}
+
+	if (zoom < 9) {
+		return 0.2;
+	}
+
+	return 1;
+}
+
+function setIconSrc(feature) {
+	console.log(feature.getProperties());
+	var name = feature.getProperties().Name;
+	console.log(name);
+	return `./img/attractions-min/${name}.jpg`;
+
+}
+
+var attractions = {
+	"type": "FeatureCollection",
+	"features": [
+		{
+			"type": "Feature",
+			"properties": { "Name": "林老師卡好咖啡" },
+			"geometry": { "type": "Point", "coordinates": [120.6817005, 22.9100108] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "蛋黃酥冰" },
+			"geometry": { "type": "Point", "coordinates": [120.4594596, 23.1247144] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "台灣豬隊友" },
+			"geometry": { "type": "Point", "coordinates": [120.3314311, 22.6418476] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "林北路" },
+			"geometry": { "type": "Point", "coordinates": [120.2923503, 22.7696116] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "月球路" },
+			"geometry": { "type": "Point", "coordinates": [120.3903544, 22.8863354] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "肉燥飯三明治" },
+			"geometry": { "type": "Point", "coordinates": [120.3084393, 22.62122] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "熊熊拉花" },
+			"geometry": { "type": "Point", "coordinates": [120.3120032, 22.6256766] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "綠色紫色的蛋餅" },
+			"geometry": { "type": "Point", "coordinates": [120.3134707, 22.6195105] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "炸蟋蟀" },
+			"geometry": { "type": "Point", "coordinates": [120.5868082, 23.0813738] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "蝶豆花飯" },
+			"geometry": { "type": "Point", "coordinates": [120.3130173, 22.6564839] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "優格涼麵" },
+			"geometry": { "type": "Point", "coordinates": [120.3077003, 22.6210179] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "櫻花蝦巧克力" },
+			"geometry": { "type": "Point", "coordinates": [120.4802252, 22.458394] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "舊機Bye" },
+			"geometry": { "type": "Point", "coordinates": [120.3038135, 22.6451414] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "魚卵臭豆腐" },
+			"geometry": { "type": "Point", "coordinates": [120.3468362, 22.6273677] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "酒釀玉荷包香腸" },
+			"geometry": { "type": "Point", "coordinates": [120.3068746, 22.6627821] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "炸皮蛋蛋餅" },
+			"geometry": { "type": "Point", "coordinates": [120.3068746, 22.6627821] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "巨屌石" },
+			"geometry": { "type": "Point", "coordinates": [120.4059828, 22.6119903] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "七彩紅豆餅" },
+			"geometry": { "type": "Point", "coordinates": [120.4839408, 22.5814291] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "咖哩鮪魚羹" },
+			"geometry": { "type": "Point", "coordinates": [120.3097702, 22.7554071] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "辣椒冰淇淋" },
+			"geometry": { "type": "Point", "coordinates": [120.1684607, 22.9985536] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "虱目魚香腸" },
+			"geometry": { "type": "Point", "coordinates": [120.0978101, 23.1541259] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "玫瑰包子" },
+			"geometry": { "type": "Point", "coordinates": [120.4145273, 22.6583819] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "狗狗冰" },
+			"geometry": { "type": "Point", "coordinates": [120.33158, 22.6508757] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "科學麵冰" },
+			"geometry": { "type": "Point", "coordinates": [120.2908653, 22.6850339] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "喇D賽" },
+			"geometry": { "type": "Point", "coordinates": [120.3261324, 22.6533167] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "高雄藍眼淚" },
+			"geometry": { "type": "Point", "coordinates": [120.2354852, 22.8029194] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "隨便搞蛋餅" },
+			"geometry": { "type": "Point", "coordinates": [120.3031462, 22.6604261] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "隨便搞蛋餅" },
+			"geometry": { "type": "Point", "coordinates": [120.3031462, 22.6604261] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "玫瑰花冰" },
+			"geometry": { "type": "Point", "coordinates": [120.3162933, 22.6676169] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "泰餃情" },
+			"geometry": { "type": "Point", "coordinates": [120.3123076, 22.6866561] }
+		},
+		{
+			"type": "Feature",
+			"properties": { "Name": "王子麵炒飯" },
+			"geometry": { "type": "Point", "coordinates": [120.3085136, 22.6433603] }
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					120.34744262695312,
+					22.639684677124023
+				]
+			},
+			"properties": {
+				"Name": "NULL-SPACE"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					120.34711456298828,
+					22.637554168701172
+				]
+			},
+			"properties": {
+				"Name": "天降甘霖涼"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					120.45112609863281,
+					22.465137481689453
+				]
+			},
+			"properties": {
+				"Name": "肉粿鮪魚粉腸"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					121.22685241699219,
+					22.87240219116211
+				]
+			},
+			"properties": {
+				"Name": "都蘭小吃"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					121.30401611328125,
+					22.968107223510742
+				]
+			},
+			"properties": {
+				"Name": "魚鬆黑芝麻"
+			}
+		},
+		{
+			"type": "Feature",
+			"geometry": {
+				"type": "Point",
+				"coordinates": [
+					121.30424499511719,
+					22.96805191040039
+				]
+			},
+			"properties": {
+				"Name": "魚鬆黑芝麻2"
+			}
+		}
+	]
+};
+var format = new ol.format.GeoJSON();
+//景點圖層
+var attractionsLayer = new ol.layer.Vector({
+	renderMode: 'image',
+	source: new ol.source.Vector({
+		format: new ol.format.GeoJSON(),
+		features: format.readFeatures(attractions)
+		//url: './data/attractions.geojson'
+	}),
+	style: function (feature) {
+		var style = new ol.style.Style({
+			image: new ol.style.Icon( /** type {olx.style.IconOptions} */({
+				//anchor: [16, 38],
+				//anchorXUnits: 'pixels',
+				//anchorYUnits: 'pixels',
+
+				src: setIconSrc(feature),
+				//size : [16 , 16],
+				//scale: 2,
+
+				scale: scaleAttractionsIcon()
+
+			})),
+			text: new ol.style.Text({
+				text: scaleAttractionsText(feature),
+				//font: '14px 微軟正黑體',
+				fill: new ol.style.Fill({
+					color: '#000'
+				}),
+				stroke: new ol.style.Stroke({
+					color: '#fff',
+					width: 2
+				}),
+				offsetY: 24
+			})
+		});
+		return style;
+	},
+	//crossOrigin: 'anonymous'
+});
+
+
+var layers = [
+	//osm
+	// new ol.layer.Tile({
+		//     source: new ol.source.OSM()
+		// }),
+
+	//基本底圖設定
+	baseLayer,
+
+	//vector,
+	//台灣行政區
+	twLayer,
+
+	//景點
+	attractionsLayer
+];
+
+//定義地圖
+var map = new ol.Map({
+	controls: ol.control.defaults({
+		attribution: false,
+		zoom: false,
+		rotate: false
+	}).extend([]),
+	layers: layers,
+	target: 'map',
+	view: new ol.View({
+		projection: 'EPSG:4326',
+		//墾丁牧場位置
+		//center: [120.8034599, 21.9460352],
+
+		//高雄
+		center: [120.4553, 22.873],
+
+		//歐洲
+		//center : [7.455, 46.93],
+
+		//紅葉
+		//center : [121.063242, 22.894491],
+
+		//如果是3857設定此座標
+		//center : ol.proj.fromLonLat([120.8034599, 21.9460352]),
+
+		zoom: 11
+	})
+});
+		</script>
+	</body>
+
+</html>

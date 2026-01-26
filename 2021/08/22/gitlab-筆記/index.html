@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gitlab 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2021/08/22/gitlab-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2021-08-22T13:17:03.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="gitlab">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2021/08/22/gitlab-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>gitlab 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2021/08/22/gitlab-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          gitlab 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2021-08-22 21:17:03" itemprop="dateCreated datePublished" datetime="2021-08-22T21:17:03+08:00">2021-08-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2021/08/22/gitlab-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2021/08/22/gitlab-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>7.2k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>7 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+
+<h3 id="安裝-gitlab"><a href="#安裝-gitlab" class="headerlink" title="安裝 gitlab"></a>安裝 gitlab</h3><p>主要參考自<a target="_blank" rel="noopener" href="https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#use-the-docker-executor-with-the-docker-image-docker-in-docker">官網</a><br>這邊比較容易炸的錯誤應該是 22 port 被 ssh 佔領 , 所以要換成其他 port , 鐵人賽的書上換成 2222<br><code>docker: Error response from daemon: driver failed programming external connectivity on endpoint gitlab (e62ea7a8d96361cf34cc8d14fe08f108f7700454583df1a19c3813197ca55792): Error starting userland proxy: listen tcp4 0.0.0.0:22: bind: address already in use</code><br>因為這個 container 還有 postgresql , nginx , redis 等等阿薩布魯的東西 , 所以第一次跑起來很慢 , 會跳 502 要等等</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">docker run -d \</span><br><span class="line">--hostname gggitlab \</span><br><span class="line">-p 443:443 -p 80:80 -p 2222:22 \</span><br><span class="line">--name gitlab \</span><br><span class="line">--restart always \</span><br><span class="line">--volume /srv/gitlab/config:/etc/gitlab \</span><br><span class="line">--volume /srv/gitlab/logs:/var/log/gitlab \</span><br><span class="line">--volume /srv/gitlab/data:/var/opt/gitlab \</span><br><span class="line">gitlab/gitlab-ee:latest</span><br></pre></td></tr></table></figure>
+
+<p>接著跳進去裡面看看 , 並且找出 root 密碼 , 並且在 web 介面上 點選 <code>Edit Profile</code> &#x3D;&gt; <code>Password</code> 修改密碼<br>我這邊用 g8 個來當密碼比較好記</p>
+<p>root<br>gggggggg</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it gitlab /bin/bash</span><br><span class="line">cat /etc/gitlab/initial_root_password</span><br><span class="line"></span><br><span class="line"># WARNING: This value is valid only in the following conditions</span><br><span class="line">#          1. If provided manually (either via `GITLAB_ROOT_PASSWORD` environment variable or via `gitlab_rails[&#x27;initial_root_password&#x27;]` setting in `gitlab.rb`, it was provided before database was seeded for th</span><br><span class="line">e first time (usually, the first reconfigure run).</span><br><span class="line">#          2. Password hasn&#x27;t been changed manually, either via UI or via command line.</span><br><span class="line">#</span><br><span class="line">#          If the password shown here doesn&#x27;t work, you must reset the admin password following https://docs.gitlab.com/ee/security/reset_user_password.html#reset-your-root-password.</span><br><span class="line"></span><br><span class="line">Password: okvCm2FXbQm07jfAG3VsBPbSbzVP2L1C88169Cpx5xM=</span><br></pre></td></tr></table></figure>
+
+<p>如果不想跳進去 container 內的話 , 因為一開始有 mount , 所以直接用下面指令就好</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo cat /srv/gitlab/config/initial_root_password</span><br></pre></td></tr></table></figure>
+
+
+<p>接著設定 SSH , 讓 git 可以 clone or push , 執行 ssh-keygen 指令 , 看看要不要自己設定密碼 , 不然就一路 enter<br>最後會生出兩個檔案 <code>id_rsa</code>  <code>id_rsa.pub</code> , 其中 <code>id_rsa.pub</code> 等等要貼到 gitlab 上</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.ssh</span><br><span class="line">ssh-keygen -t rsa</span><br><span class="line">cat id_rsa.pub</span><br><span class="line"></span><br><span class="line">#最後生出以下內容 , 等等這整串都要貼</span><br><span class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHNUE0ZxN4zXpVuM1YSjB2zWnn+OSTcT4JYQjxDSWdwwNNCI+S1RrTHU1hB5FAkKDXlYlIl20zRogrvZa+HcAGcYvZOkH9g3KazKxRf2ey8yfKhee+zygFo12EdYIEeLTTOP4M//coJrHm9ELbF+VlZoSB846lvt7IodhXmdY7Kx/62NetTMmFMR3qzAGLZk6sWcw4M+upoDu/arcqReJRltI7eXlSM2RgYi1xWrfRa0JDyfQ8zVRGM62zRZeZaR48002cWF8Nw8doNXkbLVOns1o0WVrQmnpirGXlpGBi1GEWfIwtBMhbMOIQKV/wLKXrO8v/BTZqG9JLeMlDsYFp5iBUAceX2yLR0UCoKZFS1JRdPBF8DcahG3k1R5zFCl6MCh8UL5cFETk1TzqWB8/Dmf6ztQHFhyGOVMHeBZkKSUBNsaTB3hQaebz6bdaip20r3pYW0Hz6mMwl3t5xuO8iyQ8XnOQTKgHhxrIQSQ+tTwVbZox2GzaTch93rRDO/Wk= vagrant@docker-lab</span><br></pre></td></tr></table></figure>
+
+<p>接著在 .ssh 資料夾底下加入 config , 如果懶得每次打 port 就直接在此設定防止自己犯下低能錯誤 , <a target="_blank" rel="noopener" href="https://gist.github.com/nguyentamvinhlong/d3c9e15a687179a639704c21c5291f39">參考老外</a><br>注意最大重點因為預設 22 port 已經被佔用所有稍早有改成 2222 port</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">cd ~/.ssh</span><br><span class="line">vim config</span><br><span class="line"></span><br><span class="line">#Host gggitlab</span><br><span class="line">#User git</span><br><span class="line">#Port 2222</span><br><span class="line">#Hostname gggitlab</span><br><span class="line">#IdentityFile ~/.ssh/id_rsa</span><br><span class="line">#TCPKeepAlive yes</span><br><span class="line">#IdentitiesOnly yes</span><br></pre></td></tr></table></figure>
+
+<p>回到 gitlab 上面 , 選擇 <code>Edit profile</code> &#x3D;&gt; <code>User settings</code> &#x3D;&gt; <code>SSH key</code> 整個貼上 , 並且新增一個 gg 的 project</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDHNUE0ZxN4zXpVuM1YSjB2zWnn+OSTcT4JYQjxDSWdwwNNCI+S1RrTHU1hB5FAkKDXlYlIl20zRogrvZa+HcAGcYvZOkH9g3KazKxRf2ey8yfKhee+zygFo12EdYIEeLTTOP4M//coJrHm9ELbF+VlZoSB846lvt7IodhXmdY7Kx/62NetTMmFMR3qzAGLZk6sWcw4M+upoDu/arcqReJRltI7eXlSM2RgYi1xWrfRa0JDyfQ8zVRGM62zRZeZaR48002cWF8Nw8doNXkbLVOns1o0WVrQmnpirGXlpGBi1GEWfIwtBMhbMOIQKV/wLKXrO8v/BTZqG9JLeMlDsYFp5iBUAceX2yLR0UCoKZFS1JRdPBF8DcahG3k1R5zFCl6MCh8UL5cFETk1TzqWB8/Dmf6ztQHFhyGOVMHeBZkKSUBNsaTB3hQaebz6bdaip20r3pYW0Hz6mMwl3t5xuO8iyQ8XnOQTKgHhxrIQSQ+tTwVbZox2GzaTch93rRDO/Wk= vagrant@docker-lab</span><br></pre></td></tr></table></figure>
+
+<p>稍早因為設定 gggitlab 當作 gitlab 的網址 , 所以要在 etc&#x2F;hosts 內加上去 , 不然 git 會認不得</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/hosts</span><br><span class="line"></span><br><span class="line">#補上這句</span><br><span class="line">#192.168.137.219 gggitlab</span><br></pre></td></tr></table></figure>
+
+<p>接著用 ssh 測看看 , 正常的話會輸出以下這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh -T git@gggitlab</span><br><span class="line">#Welcome to GitLab, @root!</span><br></pre></td></tr></table></figure>
+
+<p>最後用 git push 看看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir gg</span><br><span class="line">cd ~/gg</span><br><span class="line">git init</span><br><span class="line">git remote add origin git@gggitlab:root/gg.git</span><br><span class="line">echo helloworld &gt;&gt; helloworld</span><br><span class="line">git add .</span><br><span class="line">git commit -m &quot;helloworld&quot;</span><br><span class="line">git push --set-upstream origin master</span><br><span class="line"></span><br><span class="line">#會要你打 yes</span><br><span class="line">#The authenticity of host &#x27;[gggitlab]:2222 ([192.168.137.219]:2222)&#x27; can&#x27;t be established.</span><br><span class="line">#ECDSA key fingerprint is SHA256:7h1cEZ6e6DhY0xZgea0987zE/4hYfXla/iWLbTsZGF8.</span><br><span class="line">#Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span><br><span class="line">#Warning: Permanently added &#x27;[gggitlab]:2222,[192.168.137.219]:2222&#x27; (ECDSA) to the list of known hosts.</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="安裝-gitlab-runner"><a href="#安裝-gitlab-runner" class="headerlink" title="安裝 gitlab-runner"></a>安裝 gitlab-runner</h3><p>接著我們安裝並且註冊 gitlab-runner</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name gitlab-runner \</span><br><span class="line">--restart always \</span><br><span class="line">-v /srv/gitlab-runner/config:/etc/gitlab-runner \</span><br><span class="line">-v /var/run/docker.sock:/var/run/docker.sock \</span><br><span class="line">gitlab/gitlab-runner:latest</span><br></pre></td></tr></table></figure>
+
+
+<h3 id="註冊-config"><a href="#註冊-config" class="headerlink" title="註冊 config"></a>註冊 config</h3><p>我比較喜歡跳進去 container 內執行指令<br>先打看看應該是吃不到網址 gggitlab , 所以追加到 &#x2F;etc&#x2F;hosts 內 (這步沒做也可以)<br>執行註冊前先去 webui 上取得 url 及 token<br><a target="_blank" rel="noopener" href="http://gggitlab/admin/runners">http://gggitlab/admin/runners</a></p>
+<p><a target="_blank" rel="noopener" href="http://gggitlab/">http://gggitlab</a><br>8bmeuSp1z9nLQvzwyx8t</p>
+<p>此外之後會跑 docker in docker 所以必須要在 container 內的 container 設定參數 registry 就是做這檔事<br>最重要的就是 <code>docker-volumes</code> 及 <code>docker-extra-hosts</code> , 沒補這些的話 dind 是不會認得正確的 ip 位置的<br>此外目前只要測試先用 <code>run-untagged</code> 即可他還有 <code>tag-list</code> 參數正式的話應該是要加比較優 , 這邊先玩看看就不理他</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it gitlab-runner /bin/bash</span><br><span class="line">echo &quot;192.168.137.219 gggitlab&quot; &gt;&gt; /etc/hosts</span><br><span class="line">curl http://gggitlab</span><br><span class="line">#&lt;html&gt;&lt;body&gt;You are being &lt;a href=&quot;http://gggitlab/users/sign_in&quot;&gt;redirected&lt;/a&gt;.&lt;/body&gt;&lt;/html&gt;</span><br><span class="line"></span><br><span class="line">#註冊</span><br><span class="line">gitlab-runner register -n \</span><br><span class="line">  --url http://192.168.137.219 \</span><br><span class="line">  --registration-token 8bmeuSp1z9nLQvzwyx8t \</span><br><span class="line">  --executor docker \</span><br><span class="line">  --description &quot;My Docker Runner&quot; \</span><br><span class="line">  --docker-image &quot;docker:19.03.12&quot; \</span><br><span class="line">  --docker-privileged \</span><br><span class="line">  --docker-volumes &quot;/var/run/docker.sock:/var/run/docker.sock&quot; \</span><br><span class="line">  --docker-extra-hosts &quot;gggitlab:192.168.137.219&quot; \</span><br><span class="line">  --run-untagged</span><br></pre></td></tr></table></figure>
+
+<p>如果 dind 對外撈不到東西可以加 dns 在 host 的 docker 看看 , 我是沒加就可以過了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/docker/daemon.json</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">	&quot;dns&quot;:[&quot;172.17.0.1&quot; , &quot;8.8.8.8&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>回到 host 上 cat 看看</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">sudo  cat /srv/gitlab-runner/config/config.toml</span><br><span class="line"></span><br><span class="line">concurrent = 1</span><br><span class="line">check_interval = 0</span><br><span class="line"></span><br><span class="line">[session_server]</span><br><span class="line">  session_timeout = 1800</span><br><span class="line"></span><br><span class="line">[[runners]]</span><br><span class="line">  name = &quot;My Docker Runner&quot;</span><br><span class="line">  url = &quot;http://192.168.137.219&quot;</span><br><span class="line">  token = &quot;nciB6tUJtAzMzUs9Ffhs&quot;</span><br><span class="line">  executor = &quot;docker&quot;</span><br><span class="line">  [runners.custom_build_dir]</span><br><span class="line">  [runners.cache]</span><br><span class="line">    [runners.cache.s3]</span><br><span class="line">    [runners.cache.gcs]</span><br><span class="line">    [runners.cache.azure]</span><br><span class="line">  [runners.docker]</span><br><span class="line">    tls_verify = false</span><br><span class="line">    image = &quot;docker:19.03.12&quot;</span><br><span class="line">    privileged = true</span><br><span class="line">    disable_entrypoint_overwrite = false</span><br><span class="line">    oom_kill_disable = false</span><br><span class="line">    disable_cache = false</span><br><span class="line">    #volumes = [&quot;/certs/client&quot;, &quot;/cache&quot;]</span><br><span class="line">    volumes = [&quot;/cache&quot;, &quot;/var/run/docker.sock:/var/run/docker.sock&quot;]</span><br><span class="line">    shm_size = 0</span><br><span class="line">    extra_hosts = [&quot;gggitlab:192.168.137.219&quot;]</span><br></pre></td></tr></table></figure>
+
+<p>這邊在稍早我們的 gg project pipeline <code>CI/CD</code> &#x3D;&gt; <code>Editor</code> 內加入以下設定</p>
+<p>gitlab-ci.yml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">image: docker:stable</span><br><span class="line"></span><br><span class="line">services:</span><br><span class="line">    - docker:dind</span><br><span class="line"></span><br><span class="line">build:</span><br><span class="line">    stage: build</span><br><span class="line">    script:</span><br><span class="line">        - docker run hello-world</span><br></pre></td></tr></table></figure>
+
+<p>如果都有設定成功的話執行 docker images 會長這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">REPOSITORY                                                          TAG               IMAGE ID       CREATED          SIZE</span><br><span class="line">registry.gitlab.com/gitlab-org/gitlab-runner/gitlab-runner-helper   x86_64-8925d9a0   ce5fee60525e   52 minutes ago   72MB</span><br><span class="line">gitlab/gitlab-ee                                                    latest            c5b017ad7f7a   2 days ago       2.4GB</span><br><span class="line">docker                                                              dind              ede8a8017c85   2 weeks ago      231MB</span><br><span class="line">gitlab/gitlab-runner                                                latest            7f83dee88242   4 weeks ago      1.9GB</span><br><span class="line">hello-world                                                         latest            d1165f221234   5 months ago     13.3kB</span><br><span class="line">docker                                                              stable            b0757c55a1fd   8 months ago     220MB</span><br></pre></td></tr></table></figure>
+
+<p>如果你執行 pipeline 的時候會從 host 上面看到兩個奇怪的 container 在跑</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID   IMAGE                         COMMAND                  CREATED         STATUS                    PORTS</span><br><span class="line">               NAMES</span><br><span class="line">a7f82ace1b52   213df41cd892                  &quot;/usr/bin/dumb-init …&quot;   1 second ago    Up Less than a second</span><br><span class="line">               runner-xwjhepae-project-2-concurrent-0-96b3efa40d914cd2-docker-0-wait-for-service</span><br><span class="line">51b8fb27c636   ede8a8017c85                  &quot;dockerd-entrypoint.…&quot;   1 second ago    Up Less than a second     2375-2376/tcp</span><br><span class="line">               runner-xwjhepae-project-2-concurrent-0-96b3efa40d914cd2-docker-0</span><br><span class="line">7bccda72335b   gitlab/gitlab-runner:latest   &quot;/usr/bin/dumb-init …&quot;   9 minutes ago   Up 9 minutes</span><br><span class="line">               gitlab-runner</span><br><span class="line">82dc60e7b052   gitlab/gitlab-ee:latest       &quot;/assets/wrapper&quot;        5 hours ago     Up 28 minutes (healthy)   0.0.0.0:80-&gt;80/tcp, :::80-&gt;80/tcp, 0.0.0.0:443-&gt;443/tcp, :::443-&gt;443/tcp, 0.0.0.0:2222-&gt;22/tcp, :::</span><br><span class="line">2222-&gt;22/tcp   gitlab</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/gitlab/" rel="tag"># gitlab</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/08/16/docker-sql-server-on-linux/" rel="prev" title="docker sql server on linux">
+      <i class="fa fa-chevron-left"></i> docker sql server on linux
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/08/24/docker-%E7%99%BC%E4%BD%88-OSM/" rel="next" title="docker 發佈 OSM">
+      docker 發佈 OSM <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-gitlab"><span class="nav-number">1.</span> <span class="nav-text">安裝 gitlab</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-gitlab-runner"><span class="nav-number">2.</span> <span class="nav-text">安裝 gitlab-runner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A8%BB%E5%86%8A-config"><span class="nav-number">3.</span> <span class="nav-text">註冊 config</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2021/08/22/gitlab-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "2021/08/22/gitlab-筆記/";
+    this.page.title = "gitlab 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

@@ -1,0 +1,986 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vibe coding vs2022 postfix">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/2026/01/05/vibe-coding-vs2022-postfix/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2026-01-05T10:42:14.000Z">
+<meta property="article:modified_time" content="2026-01-06T16:45:18.995Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="喇賽">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/2026/01/05/vibe-coding-vs2022-postfix/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>vibe coding vs2022 postfix | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/2026/01/05/vibe-coding-vs2022-postfix/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vibe coding vs2022 postfix
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2026-01-05 18:42:14" itemprop="dateCreated datePublished" datetime="2026-01-05T18:42:14+08:00">2026-01-05</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2026-01-07 00:45:18" itemprop="dateModified" datetime="2026-01-07T00:45:18+08:00">2026-01-07</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/2026/01/05/vibe-coding-vs2022-postfix/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="2026/01/05/vibe-coding-vs2022-postfix/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>11k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>10 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+
+<p>剛學 vim 的時候很喜歡 resharper 上面 postfix 的功能, 現在這個功能在 vscode 上面可以說是爛大街, 可是在 visual studio 上面始終沒有看到<br>幾年前曾經自己開發過 <code>.var</code> <code>.return</code> 這兩個功能, 後來因為操作失誤導致 code 不見了, 就再也沒去搞這些, 最近想說跟風 vibe coding 來做看看<br>沒想到還真行!</p>
+<iframe width="1242" height="735" src="https://www.youtube.com/embed/-LQhDgXsZhI" title="Vibe Coding Visual Studio Marmot Postfix Completion" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+<p>我已經上架到 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=weber87na.MarmotPostfixCompletion">marketplace</a> 雖然用起來還很陽春, 但還可以過得去啦 LOL</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Immutable;</span><br><span class="line"><span class="keyword">using</span> System.ComponentModel.Composition;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Threading;</span><br><span class="line"><span class="keyword">using</span> System.Threading.Tasks;</span><br><span class="line"><span class="keyword">using</span> Microsoft.CodeAnalysis;</span><br><span class="line"><span class="keyword">using</span> Microsoft.CodeAnalysis.CSharp;</span><br><span class="line"><span class="keyword">using</span> Microsoft.CodeAnalysis.CSharp.Syntax;</span><br><span class="line"><span class="keyword">using</span> Microsoft.CodeAnalysis.Text;</span><br><span class="line"><span class="keyword">using</span> Microsoft.CodeAnalysis.Formatting;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.Language.Intellisense.AsyncCompletion;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.Language.Intellisense.AsyncCompletion.Data;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.Text;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.Text.Editor;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.Utilities;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.ComponentModelHost;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.LanguageServices;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.Shell;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.Imaging;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.Core.Imaging;</span><br><span class="line"><span class="keyword">using</span> Microsoft.VisualStudio.Text.Adornments;</span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">MarmotPostfixCompletion</span></span><br><span class="line">&#123;</span><br><span class="line">    [<span class="meta">Export(typeof(IAsyncCompletionSourceProvider))</span>]</span><br><span class="line">    [<span class="meta">Export(typeof(IAsyncCompletionCommitManagerProvider))</span>]</span><br><span class="line">    [<span class="meta">Name(<span class="string">&quot;Marmot Postfix Completion&quot;</span>)</span>]</span><br><span class="line">    [<span class="meta">ContentType(<span class="string">&quot;CSharp&quot;</span>)</span>]</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">MarmotPostfixProvider</span> : <span class="title">IAsyncCompletionSourceProvider</span>, <span class="title">IAsyncCompletionCommitManagerProvider</span></span><br><span class="line">    &#123;</span><br><span class="line">        IAsyncCompletionSource IAsyncCompletionSourceProvider.GetOrCreate(ITextView textView) =&gt; <span class="keyword">new</span> PostfixCompletionSource();</span><br><span class="line">        IAsyncCompletionCommitManager IAsyncCompletionCommitManagerProvider.GetOrCreate(ITextView textView) =&gt; <span class="keyword">new</span> PostfixCommitManager();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PostfixCompletionSource</span> : <span class="title">IAsyncCompletionSource</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> CompletionStartData <span class="title">InitializeCompletion</span>(<span class="params">CompletionTrigger trigger, SnapshotPoint triggerLocation, CancellationToken token</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">return</span> trigger.Character == <span class="string">&#x27;.&#x27;</span></span><br><span class="line">                ? <span class="keyword">new</span> CompletionStartData(CompletionParticipation.ProvidesItems, <span class="keyword">new</span> SnapshotSpan(triggerLocation, <span class="number">0</span>))</span><br><span class="line">                : <span class="keyword">new</span> CompletionStartData(CompletionParticipation.DoesNotProvideItems, <span class="literal">default</span>(SnapshotSpan));</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">async</span> Task&lt;CompletionContext&gt; <span class="title">GetCompletionContextAsync</span>(<span class="params">IAsyncCompletionSession session, CompletionTrigger trigger, SnapshotPoint triggerLocation, SnapshotSpan applicableToSpan, CancellationToken token</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">var</span> componentModel = (IComponentModel)Package.GetGlobalService(<span class="keyword">typeof</span>(SComponentModel));</span><br><span class="line">            <span class="keyword">var</span> workspace = componentModel.GetService&lt;VisualStudioWorkspace&gt;();</span><br><span class="line">            <span class="keyword">var</span> buffer = triggerLocation.Snapshot.TextBuffer;</span><br><span class="line">            <span class="keyword">var</span> container = buffer.AsTextContainer();</span><br><span class="line">            <span class="keyword">var</span> documentId = workspace.GetDocumentIdInCurrentContext(container);</span><br><span class="line">            <span class="keyword">if</span> (documentId == <span class="literal">null</span>) <span class="keyword">return</span> CompletionContext.Empty;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> document = workspace.CurrentSolution.GetDocument(documentId);</span><br><span class="line">            <span class="keyword">var</span> root = <span class="keyword">await</span> document.GetSyntaxRootAsync(token);</span><br><span class="line">            <span class="keyword">var</span> semanticModel = <span class="keyword">await</span> document.GetSemanticModelAsync(token);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> position = triggerLocation.Position;</span><br><span class="line">            <span class="keyword">var</span> tokenAtPos = root.FindToken(position - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">            ExpressionSyntax expression = (tokenAtPos.IsKind(SyntaxKind.DotToken) &amp;&amp; tokenAtPos.Parent <span class="keyword">is</span> MemberAccessExpressionSyntax mae)</span><br><span class="line">                ? mae.Expression</span><br><span class="line">                : tokenAtPos.Parent?.AncestorsAndSelf().OfType&lt;ExpressionSyntax&gt;().FirstOrDefault(e =&gt; e.Span.End == position - <span class="number">1</span>);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (expression == <span class="literal">null</span> || expression.SpanStart &gt;= position - <span class="number">1</span>) <span class="keyword">return</span> CompletionContext.Empty;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> typeInfo = semanticModel.GetTypeInfo(expression, token);</span><br><span class="line">            <span class="keyword">var</span> symbolInfo = semanticModel.GetSymbolInfo(expression, token);</span><br><span class="line">            <span class="keyword">var</span> items = ImmutableArray.CreateBuilder&lt;CompletionItem&gt;();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// --- 加入重複項守衛 ---</span></span><br><span class="line">            <span class="keyword">var</span> addedKeys = <span class="keyword">new</span> HashSet&lt;<span class="built_in">string</span>&gt;();</span><br><span class="line"></span><br><span class="line">            <span class="function"><span class="keyword">void</span> <span class="title">Add</span>(<span class="params"><span class="built_in">string</span> name</span>)</span></span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">// 如果已經加過這個關鍵字，直接跳過，防止重複出現</span></span><br><span class="line">                <span class="keyword">if</span> (addedKeys.Contains(name)) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">                <span class="keyword">var</span> icon = <span class="keyword">new</span> ImageElement(KnownMonikers.Snippet.ToImageId());</span><br><span class="line">                <span class="keyword">var</span> item = <span class="keyword">new</span> CompletionItem(</span><br><span class="line">                    displayText: name,</span><br><span class="line">                    source: <span class="keyword">this</span>,</span><br><span class="line">                    icon: icon,</span><br><span class="line">                    filters: ImmutableArray&lt;CompletionFilter&gt;.Empty,</span><br><span class="line">                    suffix: <span class="string">&quot;(postfix)&quot;</span>,</span><br><span class="line">                    insertText: name,</span><br><span class="line">                    sortText: name,</span><br><span class="line">                    filterText: name,</span><br><span class="line">                    automationText: name,</span><br><span class="line">                    attributeIcons: ImmutableArray&lt;ImageElement&gt;.Empty);</span><br><span class="line"></span><br><span class="line">                item.Properties.AddProperty(<span class="string">&quot;Type&quot;</span>, name);</span><br><span class="line">                item.Properties.AddProperty(<span class="string">&quot;Expr&quot;</span>, expression.ToString());</span><br><span class="line">                item.Properties.AddProperty(<span class="string">&quot;Start&quot;</span>, expression.SpanStart);</span><br><span class="line"></span><br><span class="line">                items.Add(item);</span><br><span class="line">                addedKeys.Add(name); <span class="comment">// 標記為已加入</span></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> type = typeInfo.Type;</span><br><span class="line">            <span class="built_in">bool</span> isVoid = type?.SpecialType == SpecialType.System_Void;</span><br><span class="line">            <span class="built_in">bool</span> isBool = type?.SpecialType == SpecialType.System_Boolean;</span><br><span class="line">            <span class="built_in">bool</span> isString = type?.SpecialType == SpecialType.System_String;</span><br><span class="line">            <span class="built_in">bool</span> isEnumerable = IsEnumerable(type);</span><br><span class="line">            <span class="built_in">bool</span> isTask = type?.Name.Contains(<span class="string">&quot;Task&quot;</span>) == <span class="literal">true</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 1. 通用模板 (只要不是 void)</span></span><br><span class="line">            <span class="keyword">if</span> (!isVoid &amp;&amp; type != <span class="literal">null</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                Add(<span class="string">&quot;var&quot;</span>); Add(<span class="string">&quot;return&quot;</span>); Add(<span class="string">&quot;yield&quot;</span>); Add(<span class="string">&quot;par&quot;</span>); Add(<span class="string">&quot;arg&quot;</span>);</span><br><span class="line">                Add(<span class="string">&quot;cast&quot;</span>); Add(<span class="string">&quot;field&quot;</span>); Add(<span class="string">&quot;prop&quot;</span>); Add(<span class="string">&quot;to&quot;</span>); Add(<span class="string">&quot;throw&quot;</span>);</span><br><span class="line">                Add(<span class="string">&quot;using&quot;</span>); Add(<span class="string">&quot;lock&quot;</span>); Add(<span class="string">&quot;switch&quot;</span>); Add(<span class="string">&quot;sel&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 2. 布林專屬</span></span><br><span class="line">            <span class="keyword">if</span> (isBool)</span><br><span class="line">            &#123;</span><br><span class="line">                Add(<span class="string">&quot;if&quot;</span>); Add(<span class="string">&quot;else&quot;</span>); Add(<span class="string">&quot;not&quot;</span>); Add(<span class="string">&quot;while&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 3. 集合專屬</span></span><br><span class="line">            <span class="keyword">if</span> (isEnumerable)</span><br><span class="line">            &#123;</span><br><span class="line">                Add(<span class="string">&quot;foreach&quot;</span>); Add(<span class="string">&quot;for&quot;</span>); Add(<span class="string">&quot;forr&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 4. 非同步專屬</span></span><br><span class="line">            <span class="keyword">if</span> (isTask) Add(<span class="string">&quot;await&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 5. 引用型別/可空</span></span><br><span class="line">            <span class="keyword">if</span> (type?.IsReferenceType == <span class="literal">true</span> || (type?.OriginalDefinition.SpecialType == SpecialType.System_Nullable_T))</span><br><span class="line">            &#123;</span><br><span class="line">                Add(<span class="string">&quot;null&quot;</span>); Add(<span class="string">&quot;notnull&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 6. 字串專屬</span></span><br><span class="line">            <span class="keyword">if</span> (isString)</span><br><span class="line">            &#123;</span><br><span class="line">                Add(<span class="string">&quot;parse&quot;</span>); Add(<span class="string">&quot;tryparse&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 7. 型別/類別符號專屬</span></span><br><span class="line">            <span class="keyword">if</span> (symbolInfo.Symbol <span class="keyword">is</span> ITypeSymbol)</span><br><span class="line">            &#123;</span><br><span class="line">                Add(<span class="string">&quot;new&quot;</span>); Add(<span class="string">&quot;typeof&quot;</span>); Add(<span class="string">&quot;inject&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> CompletionContext(items.ToImmutable());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="built_in">bool</span> <span class="title">IsEnumerable</span>(<span class="params">ITypeSymbol t</span>)</span> =&gt; t != <span class="literal">null</span> &amp;&amp; (t.SpecialType == SpecialType.System_Collections_IEnumerable || t.AllInterfaces.Any(i =&gt; i.SpecialType == SpecialType.System_Collections_IEnumerable));</span><br><span class="line">        <span class="function"><span class="keyword">public</span> Task&lt;<span class="built_in">object</span>&gt; <span class="title">GetDescriptionAsync</span>(<span class="params">IAsyncCompletionSession s, CompletionItem i, CancellationToken t</span>)</span> =&gt; Task.FromResult&lt;<span class="built_in">object</span>&gt;(i.DisplayText);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">class</span> <span class="title">PostfixCommitManager</span> : <span class="title">IAsyncCompletionCommitManager</span></span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">public</span> IEnumerable&lt;<span class="built_in">char</span>&gt; PotentialCommitCharacters =&gt; <span class="keyword">new</span>[] &#123; <span class="string">&#x27;\t&#x27;</span>, <span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27;\r&#x27;</span> &#125;;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="built_in">bool</span> <span class="title">ShouldCommitCompletion</span>(<span class="params">IAsyncCompletionSession s, SnapshotPoint l, <span class="built_in">char</span> c, CancellationToken t</span>)</span> =&gt; <span class="literal">true</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> CommitResult <span class="title">GetNextContext</span>(<span class="params">IAsyncCompletionSession s, CompletionItem i, <span class="built_in">char</span> c, CancellationToken t</span>)</span> =&gt; CommitResult.Unhandled;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> CommitResult <span class="title">TryCommit</span>(<span class="params">IAsyncCompletionSession session, ITextBuffer buffer, CompletionItem item, <span class="built_in">char</span> typedChar, CancellationToken token</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">if</span> (!item.Properties.TryGetProperty(<span class="string">&quot;Type&quot;</span>, <span class="keyword">out</span> <span class="built_in">string</span> type) || !item.Properties.TryGetProperty(<span class="string">&quot;Expr&quot;</span>, <span class="keyword">out</span> <span class="built_in">string</span> expr) || !item.Properties.TryGetProperty(<span class="string">&quot;Start&quot;</span>, <span class="keyword">out</span> <span class="built_in">int</span> start))</span><br><span class="line">                <span class="keyword">return</span> CommitResult.Unhandled;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">var</span> snapshot = buffer.CurrentSnapshot;</span><br><span class="line">            <span class="keyword">var</span> endPos = session.ApplicableToSpan.GetEndPoint(snapshot).Position;</span><br><span class="line">            <span class="keyword">var</span> replaceSpan = <span class="keyword">new</span> Span(start, endPos - start);</span><br><span class="line"></span><br><span class="line">            <span class="built_in">string</span> r = GetReplacement(type, expr);</span><br><span class="line">            <span class="keyword">if</span> (r == <span class="literal">null</span>) <span class="keyword">return</span> CommitResult.Unhandled;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">using</span> (<span class="keyword">var</span> edit = buffer.CreateEdit())</span><br><span class="line">            &#123;</span><br><span class="line">                edit.Replace(replaceSpan, r);</span><br><span class="line">                edit.Apply();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            FormatRange(buffer, start, r.Length);</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (type == <span class="string">&quot;sel&quot;</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                session.TextView.Selection.Select(<span class="keyword">new</span> SnapshotSpan(buffer.CurrentSnapshot, start, expr.Length), <span class="literal">false</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">return</span> CommitResult.Handled;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="built_in">string</span> <span class="title">GetReplacement</span>(<span class="params"><span class="built_in">string</span> type, <span class="built_in">string</span> expr</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            <span class="keyword">switch</span> (type)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;arg&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;Method(<span class="subst">&#123;expr&#125;</span>)&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;await&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;await <span class="subst">&#123;expr&#125;</span>&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;cast&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;((SomeType)<span class="subst">&#123;expr&#125;</span>)&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;else&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;if (!(<span class="subst">&#123;expr&#125;</span>))\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;field&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;_field = <span class="subst">&#123;expr&#125;</span>;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;for&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;for (var i = 0; i &lt; <span class="subst">&#123;expr&#125;</span>.Length; i++)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;foreach&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;foreach (var x in <span class="subst">&#123;expr&#125;</span>)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;forr&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;for (var i = <span class="subst">&#123;expr&#125;</span>.Length - 1; i &gt;= 0; i--)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;if&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;if (<span class="subst">&#123;expr&#125;</span>)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;inject&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;public class Component(IType <span class="subst">&#123;expr&#125;</span>)&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;lock&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;lock (<span class="subst">&#123;expr&#125;</span>)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;new&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;new <span class="subst">&#123;expr&#125;</span>()&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;not&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;!(<span class="subst">&#123;expr&#125;</span>)&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;notnull&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;if (<span class="subst">&#123;expr&#125;</span> != null)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;null&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;if (<span class="subst">&#123;expr&#125;</span> == null)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;par&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;(<span class="subst">&#123;expr&#125;</span>)&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;parse&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;int.Parse(<span class="subst">&#123;expr&#125;</span>)&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;prop&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;public IType Property &#123;&#123; get; set; &#125;&#125; = <span class="subst">&#123;expr&#125;</span>;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;return&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;return <span class="subst">&#123;expr&#125;</span>;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;sel&quot;</span>: <span class="keyword">return</span> expr;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;switch&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;switch (<span class="subst">&#123;expr&#125;</span>)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;throw&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;throw <span class="subst">&#123;expr&#125;</span>;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;to&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;lvalue = <span class="subst">&#123;expr&#125;</span>;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;tryparse&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;int.TryParse(<span class="subst">&#123;expr&#125;</span>, out var value)&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;typeof&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;typeof(<span class="subst">&#123;expr&#125;</span>)&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;using&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;using (var x = <span class="subst">&#123;expr&#125;</span>)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;var&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;var x = <span class="subst">&#123;expr&#125;</span>;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;while&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;while (<span class="subst">&#123;expr&#125;</span>)\r\n&#123;&#123;\r\n&#125;&#125;&quot;</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="string">&quot;yield&quot;</span>: <span class="keyword">return</span> <span class="string">$&quot;yield return <span class="subst">&#123;expr&#125;</span>;&quot;</span>;</span><br><span class="line">                <span class="literal">default</span>: <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">FormatRange</span>(<span class="params">ITextBuffer buffer, <span class="built_in">int</span> start, <span class="built_in">int</span> length</span>)</span></span><br><span class="line">        &#123;</span><br><span class="line">            ThreadHelper.JoinableTaskFactory.Run(<span class="keyword">async</span> () =&gt;</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">var</span> componentModel = (IComponentModel)Package.GetGlobalService(<span class="keyword">typeof</span>(SComponentModel));</span><br><span class="line">                <span class="keyword">var</span> workspace = componentModel.GetService&lt;VisualStudioWorkspace&gt;();</span><br><span class="line">                <span class="keyword">var</span> document = buffer.CurrentSnapshot.GetOpenDocumentInCurrentContextWithChanges();</span><br><span class="line">                <span class="keyword">if</span> (document == <span class="literal">null</span>) <span class="keyword">return</span>;</span><br><span class="line">                <span class="keyword">var</span> newDocument = <span class="keyword">await</span> Formatter.FormatAsync(document, <span class="keyword">new</span> TextSpan(start, length));</span><br><span class="line">                workspace.TryApplyChanges(newDocument.Project.Solution);</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+<p>後來又弄了一個 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=weber87na.MarmotHippieCompletion">Hippie Completion</a> 感覺這個實作還算是不錯</p>
+<p>順帶一提這次錄影順便改成 <a target="_blank" rel="noopener" href="https://mularahul.github.io/keyviz/">keyviz</a> 感覺效果滿漂亮的</p>
+<iframe width="1242" height="735" src="https://www.youtube.com/embed/qkDf-FfNEwc" title="Vibe Coding Visual Studio Marmot Hippie Completion" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+
+
+
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2026/01/05/RAT-%E7%AD%86%E8%A8%98/" rel="prev" title="RAT 筆記">
+      <i class="fa fa-chevron-left"></i> RAT 筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2026/01/05/vibe-coding-%E9%A1%9E%E4%BC%BC-Glass2k-%E5%8A%9F%E8%83%BD%E8%AA%BF%E6%95%B4%E8%A6%96%E7%AA%97%E9%80%8F%E6%98%8E%E5%BA%A6/" rel="next" title="vibe coding 類似 Glass2k 功能調整視窗透明度">
+      vibe coding 類似 Glass2k 功能調整視窗透明度 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/2026/01/05/vibe-coding-vs2022-postfix/";
+    this.page.identifier = "2026/01/05/vibe-coding-vs2022-postfix/";
+    this.page.title = "vibe coding vs2022 postfix";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>
