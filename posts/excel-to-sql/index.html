@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+  <meta name="google-site-verification" content="J5sjnNRD2AYPWVE08_-8XO_8mBKRYD3NKVYRBCGMwQ8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="excel to sql">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/posts/excel-to-sql/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-10-27T12:53:36.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="sql">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/posts/excel-to-sql/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>excel to sql | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/posts/excel-to-sql/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          excel to sql
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-10-27 20:53:36" itemprop="dateCreated datePublished" datetime="2022-10-27T20:53:36+08:00">2022-10-27</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/posts/excel-to-sql/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/excel-to-sql/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>12k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>11 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+
+<p>今天遇到 user 搞個刁蠻需求 , 反正就要建立一堆資料表 , 然後他給 4x 個檔案 , 每個檔案大概有 100 個 column 真的變態 , 也沒註明哪些是複製改出來的 , 而且我又要遵守 coding style , 本來以為可以半自動完成 , 最後還是趁著半夜沒人煩搞成整個自動 , 一開始我還是想用 c# 解決 , 不過以前就搞過類似的問題 , 老實說用 c# 搞這種 batch 整個速度下降很多 , 最後還是搞 python XD</p>
+<h3 id="表格長相"><a href="#表格長相" class="headerlink" title="表格長相"></a>表格長相</h3><p>我的表格長相大概類似下面這樣 , 其他還有些雜訊 , 就不一一列啦</p>
+<table>
+<thead>
+<tr>
+<th>PK</th>
+<th>fieldName</th>
+<th>chinese</th>
+<th>dbdatatype</th>
+<th>nullable</th>
+<th>default</th>
+<th>comment</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>V</td>
+<td>qq1</td>
+<td>qq</td>
+<td>int</td>
+<td>N</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>qq2</td>
+<td>qq</td>
+<td>varchar(50)</td>
+<td>Y</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>qq3</td>
+<td>qq</td>
+<td>datetime2(7)</td>
+<td>Y</td>
+<td>getdate()</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="環境準備"><a href="#環境準備" class="headerlink" title="環境準備"></a>環境準備</h3><p>環境準備 , 首先需要有 <code>conda</code> , 接著切換到 <code>OOXX</code> 這個資料夾 , 並且安裝以下套件<br>如果懶得裝 excel 的話 vscode 有這個套件可以用 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=GrapeCity.gc-excelviewer">Excel Viewer</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">cd OOXX</span><br><span class="line"></span><br><span class="line">conda create --name excel</span><br><span class="line">conda activate excel</span><br><span class="line">conda install pandas -y</span><br><span class="line">pip install stringcase</span><br><span class="line">conda install openpyxl</span><br></pre></td></tr></table></figure>
+
+<h3 id="主要-code"><a href="#主要-code" class="headerlink" title="主要 code"></a>主要 code</h3><p>其中比較特別的部分就是 <code>lambda</code> , python 的這個部份真的做得不太好 , 其他語言頂多個 <code>-&gt;</code> <code>=&gt;</code> 就搞定了 , 偏偏 python 這種講求簡潔的語言這個地方特別噁心 XD</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> stringcase</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(sys.argv)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span> (sys.argv) != <span class="number">3</span> :</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Usage: python excel_to_sql.py file_name.xlsx sheet_name&#x27;</span>)</span><br><span class="line">    sys.exit (<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># input 傳進來的參數</span></span><br><span class="line">xlsx_name = sys.argv[<span class="number">1</span>]</span><br><span class="line">sheet_name = sys.argv[<span class="number">2</span>]</span><br><span class="line"></span><br><span class="line">df = pd.read_excel(</span><br><span class="line">    <span class="comment"># &#x27;XXOO.xlsx&#x27;,</span></span><br><span class="line">    <span class="comment"># sheet_name=&quot;XXOO&quot;,</span></span><br><span class="line">    xlsx_name,</span><br><span class="line">    sheet_name=sheet_name,</span><br><span class="line">    usecols=<span class="string">&quot;B:G&quot;</span>,</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># PK,fieldName,中文,db datatype,Nullable,default</span></span><br><span class="line"><span class="comment"># https://stackoverflow.com/questions/11346283/renaming-column-names-in-pandas</span></span><br><span class="line"><span class="comment"># 先轉換 column</span></span><br><span class="line">original_col = [<span class="string">&#x27;PK&#x27;</span>, <span class="string">&#x27;fieldName&#x27;</span>, <span class="string">&#x27;chinese&#x27;</span>, <span class="string">&#x27;dbdatatype&#x27;</span>, <span class="string">&#x27;nullable&#x27;</span>, <span class="string">&#x27;default&#x27;</span>]</span><br><span class="line">df = df.set_axis(original_col, axis=<span class="string">&#x27;columns&#x27;</span>, inplace=<span class="literal">False</span>)</span><br><span class="line"><span class="built_in">print</span>(df.columns)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 擷取需要的部分</span></span><br><span class="line">df = df[<span class="number">4</span>:]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將 col 位置換到 sql 語法正確的地方</span></span><br><span class="line">reindex_col = [<span class="string">&#x27;fieldName&#x27;</span>, <span class="string">&#x27;chinese&#x27;</span>, <span class="string">&#x27;dbdatatype&#x27;</span>, <span class="string">&#x27;nullable&#x27;</span>, <span class="string">&#x27;default&#x27;</span> , <span class="string">&#x27;PK&#x27;</span> ]</span><br><span class="line">df = df.reindex(columns=reindex_col)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 轉換 Naming 符合 sql server</span></span><br><span class="line">result_pascalcase = df[<span class="string">&#x27;fieldName&#x27;</span>].apply(<span class="keyword">lambda</span> x: stringcase.pascalcase(x))</span><br><span class="line">df[<span class="string">&#x27;fieldName&#x27;</span>] = result_pascalcase.apply(<span class="keyword">lambda</span> x: x.replace(<span class="string">&#x27;_&#x27;</span>, <span class="string">&#x27;&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 將 data type 轉換為小寫 , 並且將 datetime2 轉為 datetime</span></span><br><span class="line">df[<span class="string">&#x27;dbdatatype&#x27;</span>] = df[<span class="string">&#x27;dbdatatype&#x27;</span>].apply(<span class="keyword">lambda</span> x: stringcase.lowercase(x))</span><br><span class="line">df[<span class="string">&#x27;dbdatatype&#x27;</span>] = df[<span class="string">&#x27;dbdatatype&#x27;</span>].apply(<span class="keyword">lambda</span> x: x.replace(<span class="string">&#x27;datetime2(7)&#x27;</span> , <span class="string">&#x27;datetime&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 轉換 Y or N 為 null or not null</span></span><br><span class="line">df[<span class="string">&#x27;nullable&#x27;</span>] = df[<span class="string">&#x27;nullable&#x27;</span>].apply(<span class="keyword">lambda</span> x: x.replace(<span class="string">&#x27;Y&#x27;</span>, <span class="string">&#x27;null&#x27;</span>))</span><br><span class="line">df[<span class="string">&#x27;nullable&#x27;</span>] = df[<span class="string">&#x27;nullable&#x27;</span>].apply(<span class="keyword">lambda</span> x: x.replace(<span class="string">&#x27;N&#x27;</span>, <span class="string">&#x27;not null&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 萬一有預設值將 default 加上去</span></span><br><span class="line">df[<span class="string">&#x27;default&#x27;</span>] = df[<span class="string">&#x27;default&#x27;</span>].apply(<span class="keyword">lambda</span> x: x <span class="keyword">if</span> pd.isnull(x) <span class="keyword">else</span> <span class="string">&#x27;default &#x27;</span> + x)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 追加 pk</span></span><br><span class="line">df[<span class="string">&#x27;PK&#x27;</span>] = df[<span class="string">&#x27;PK&#x27;</span>].apply(<span class="keyword">lambda</span> x: x <span class="keyword">if</span> pd.isnull(x) <span class="keyword">else</span> <span class="built_in">str</span>(x).replace(<span class="string">&#x27;V&#x27;</span>, <span class="string">&#x27;primary key identity&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># https://stackoverflow.com/questions/13411544/delete-a-column-from-a-pandas-dataframe</span></span><br><span class="line"><span class="comment"># 刪除中文的 col</span></span><br><span class="line">df.drop(<span class="string">&#x27;chinese&#x27;</span>, axis=<span class="number">1</span>, inplace=<span class="literal">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(df)</span><br><span class="line"></span><br><span class="line">df.to_csv(<span class="string">&#x27;tmp.csv&#x27;</span>, index=<span class="literal">False</span>, header=<span class="literal">False</span>, sep=<span class="string">&#x27;\t&#x27;</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment"># 取得 table 名稱</span></span><br><span class="line">df_table_name = pd.read_excel(</span><br><span class="line">    xlsx_name,</span><br><span class="line">    sheet_name=sheet_name,</span><br><span class="line">    nrows=<span class="number">1</span></span><br><span class="line">)</span><br><span class="line">table_name = df_table_name.columns[<span class="number">1</span>]</span><br><span class="line">table_name = table_name.replace(<span class="string">&#x27;_&#x27;</span>,<span class="string">&#x27;&#x27;</span>)</span><br><span class="line">table_name = <span class="built_in">str</span>(table_name).strip()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 保存新的結果用</span></span><br><span class="line">newlines = []</span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;tmp.csv&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># lines = f.readlines()</span></span><br><span class="line">    lines = f.read().splitlines()</span><br><span class="line">    last = lines[-<span class="number">1</span>]</span><br><span class="line"></span><br><span class="line">    newlines.append(<span class="string">f&#x27;create table <span class="subst">&#123;table_name&#125;</span> (&#x27;</span> + <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">    <span class="keyword">for</span> line <span class="keyword">in</span> lines:</span><br><span class="line">        <span class="keyword">if</span> line <span class="keyword">is</span> last:</span><br><span class="line">            newlines.append(line)</span><br><span class="line">            newlines.append(<span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">            newlines.append(<span class="string">&#x27;)&#x27;</span>)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            newlines.append(line + <span class="string">&#x27;,&#x27;</span> + <span class="string">&#x27;\n&#x27;</span>)</span><br><span class="line">        </span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">f&#x27;<span class="subst">&#123;table_name&#125;</span>_sql.txt&#x27;</span> , <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    f.writelines(newlines)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">os.remove(<span class="string">&#x27;tmp.csv&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="merge"><a href="#merge" class="headerlink" title="merge"></a>merge</h3><p>因為最後會產生一堆 sql 檔案 , 懶得逐一執行的話可以合成一個然後去 run</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> glob</span><br><span class="line">filenames = glob.glob(<span class="string">&quot;*.txt&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(filenames)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;final_sql.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> outfile:</span><br><span class="line">    <span class="comment"># Iterate through list</span></span><br><span class="line">    <span class="keyword">for</span> names <span class="keyword">in</span> filenames:</span><br><span class="line">        <span class="comment"># Open each file in read mode</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(names) <span class="keyword">as</span> infile:</span><br><span class="line">            <span class="comment"># read the data from file1 and</span></span><br><span class="line">            <span class="comment"># file2 and write it in file3</span></span><br><span class="line">            outfile.write(infile.read())</span><br><span class="line">        <span class="comment"># Add &#x27;\n&#x27; to enter data of file2</span></span><br><span class="line">        <span class="comment"># from next line</span></span><br><span class="line">        outfile.write(<span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="驗證-table"><a href="#驗證-table" class="headerlink" title="驗證 table"></a>驗證 table</h3><p>驗證建立資料表數量是否正確請參考以下語法 , 確保與需要建立之檔案數量相符</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="operator">*</span></span><br><span class="line"><span class="keyword">from</span> INFORMATION_SCHEMA.TABLES</span><br></pre></td></tr></table></figure>
+
+<h3 id="產生批次刪除-table"><a href="#產生批次刪除-table" class="headerlink" title="產生批次刪除 table"></a>產生批次刪除 table</h3><p>萬一中間有搞錯可以用這樣的 sql 生 sql</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select &#x27;DROP TABLE IF EXISTS &#x27; + TABLE_NAME</span><br><span class="line">from INFORMATION_SCHEMA.TABLES</span><br></pre></td></tr></table></figure>
+
+<h3 id="修正-excel"><a href="#修正-excel" class="headerlink" title="修正 excel"></a>修正 excel</h3><p>後來又被要求要把一坨 excel 給全部修正 , 想到手敲這些就崩潰<br>本來以為 pandas 可以馬上搞定這問題 , 不過轉 dataframe 後不曉得怎麼保持有 colspan 的格式 , 研究下好像還是要靠 <code>openpyxl</code> 才能處理<br>最後研究下怎麼操作 , 還好問題有解決</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">import string</span><br><span class="line">import pandas as pd</span><br><span class="line">import stringcase</span><br><span class="line">import os</span><br><span class="line">import sys</span><br><span class="line">from openpyxl import load_workbook</span><br><span class="line">import copy</span><br><span class="line"></span><br><span class="line">print(sys.argv)</span><br><span class="line"></span><br><span class="line">if len (sys.argv) != 4 :</span><br><span class="line">    print(&#x27;Usage: python fix_excel_naming.py path_name file_name.xlsx sheet_name&#x27;)</span><br><span class="line">    sys.exit (1)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">path_name = sys.argv[1]</span><br><span class="line">file_name = sys.argv[2]</span><br><span class="line"></span><br><span class="line">xlsx_name = f&#x27;&#123;path_name&#125;/&#123;file_name&#125;.xlsx&#x27;</span><br><span class="line"></span><br><span class="line">sheet_name = sys.argv[3]</span><br><span class="line"></span><br><span class="line">wb = load_workbook(xlsx_name)</span><br><span class="line"></span><br><span class="line">sheet = wb[sheet_name]</span><br><span class="line"></span><br><span class="line"># 讀取 fieldName 的 column</span><br><span class="line">field_name = sheet[&#x27;C&#x27;]</span><br><span class="line">old_field_name = copy.deepcopy(field_name)</span><br><span class="line"></span><br><span class="line"># 讀取 db_datatype 的 column</span><br><span class="line">db_datatype = sheet[&#x27;E&#x27;]</span><br><span class="line">old_db_datatype = copy.deepcopy(db_datatype)</span><br><span class="line"></span><br><span class="line"># 範圍</span><br><span class="line">start = 5</span><br><span class="line"></span><br><span class="line"># end = 107</span><br><span class="line">end = sheet.max_row</span><br><span class="line"></span><br><span class="line"># loop fieldName 修正大小寫並移除底線</span><br><span class="line">for x in range(start , end):</span><br><span class="line">    old_val = field_name[x].value</span><br><span class="line">    # 轉換大寫駝峰</span><br><span class="line">    new_val_pascalcase = stringcase.pascalcase(field_name[x].value)</span><br><span class="line"></span><br><span class="line">    # 移除底線</span><br><span class="line">    new_val_remove_dash =  new_val_pascalcase.replace(&#x27;_&#x27; , &#x27;&#x27;)</span><br><span class="line"></span><br><span class="line">    # 賦予值</span><br><span class="line">    field_name[x].value = new_val_remove_dash</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># loop db datatye 修正 datetime2 為 datetime</span><br><span class="line">for x in range(start , end):</span><br><span class="line">    old_val = db_datatype[x].value</span><br><span class="line">    fix_datetime = db_datatype[x].value.replace(&#x27;datetime2(7)&#x27; , &#x27;datetime&#x27;)</span><br><span class="line">    db_datatype[x].value = fix_datetime</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 修正 table name</span><br><span class="line">table_name = sheet[&#x27;B&#x27;]</span><br><span class="line">table_name[0].value = stringcase.pascalcase(table_name[0].value)</span><br><span class="line">table_name[0].value = table_name[0].value.replace(&#x27;_&#x27;,&#x27;&#x27;)</span><br><span class="line"></span><br><span class="line"># 保留原本名稱</span><br><span class="line">old_table_name = copy.deepcopy(table_name[0].value)</span><br><span class="line"></span><br><span class="line"># 處理差異 log</span><br><span class="line">lines = []</span><br><span class="line">lines.append(&#x27;TableName&#x27;)</span><br><span class="line">lines.append(f&#x27;&#123;old_table_name&#125; =&gt; &#123;table_name[0].value&#125;&#x27;)</span><br><span class="line">lines.append(&#x27;-&#x27; * 100)</span><br><span class="line"></span><br><span class="line"># loop 差異輸出結果</span><br><span class="line">for x in range(start , end):</span><br><span class="line">    if old_field_name[x].value != field_name[x].value or old_db_datatype[x].value != db_datatype[x].value:</span><br><span class="line">        lines.append(f&#x27;&#123;old_field_name[x].value&#125; &#123;old_db_datatype[x].value&#125; =&gt; &#123;field_name[x].value&#125; &#123;db_datatype[x].value&#125;&#x27;)</span><br><span class="line">    else:</span><br><span class="line">        lines.append(f&#x27;&#123;old_field_name[x].value&#125; &#123;old_db_datatype[x].value&#125;&#x27;)</span><br><span class="line"></span><br><span class="line"># 存檔差異 log</span><br><span class="line">with open(f&#x27;&#123;file_name&#125;_change_log.txt&#x27; , &#x27;w&#x27;, encoding=&#x27;utf-8&#x27;) as f:</span><br><span class="line">    for x in lines:</span><br><span class="line">        f.write(x)</span><br><span class="line">        f.write(&#x27;\n&#x27;)</span><br><span class="line"></span><br><span class="line"># 另存新檔 excel</span><br><span class="line">wb.save(f&#x27;&#123;file_name&#125;_fix.xlsx&#x27;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="產生批次執行的-python-script"><a href="#產生批次執行的-python-script" class="headerlink" title="產生批次執行的 python script"></a>產生批次執行的 python script</h3><p>如果數量少的話 , 還可以慢慢用手打指令 , 但是 user 一次給你 5x 個檔案 , 而且 sheetname 也不一樣 , 光打指令就崩潰 , 只好用 python 去產生批次指令來跑</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">import string</span><br><span class="line">import pandas as pd</span><br><span class="line">import stringcase</span><br><span class="line">import os</span><br><span class="line">import glob</span><br><span class="line">import sys</span><br><span class="line">from openpyxl import load_workbook</span><br><span class="line">import copy</span><br><span class="line"></span><br><span class="line">print(sys.argv)</span><br><span class="line"></span><br><span class="line">if len (sys.argv) != 2 :</span><br><span class="line">    print(&#x27;Usage: python gen_script.py opt&#x27;)</span><br><span class="line">    print(&#x27;opt: fix or sql&#x27;)</span><br><span class="line">    sys.exit (1)</span><br><span class="line"></span><br><span class="line">for name in os.listdir(os.getcwd()):</span><br><span class="line">    if os.path.isdir(os.path.join(os.getcwd(), name)):</span><br><span class="line">        print(&#x27;#&#x27; * 100)</span><br><span class="line">        print(&#x27;# &#x27; + name)</span><br><span class="line">        for myfile in os.listdir(os.getcwd() +  f&#x27;\&#123;name&#125;&#x27;):</span><br><span class="line">            if myfile.endswith(&#x27;.xlsx&#x27;):</span><br><span class="line">                str = f&quot;python excel_to_sql.py &#x27;&#123;name&#125;\&#x27;&#123;myfile&#125; &#x27;&#x27;&quot;</span><br><span class="line">                xlsx_name = os.getcwd() +  f&#x27;\&#123;name&#125;\&#123;myfile&#125;&#x27;</span><br><span class="line">                wb = load_workbook(xlsx_name)</span><br><span class="line"></span><br><span class="line">                if sys.argv[1] == &#x27;sql&#x27;:</span><br><span class="line">                    print(f&quot;python excel_to_sql.py &#x27;&#123;name&#125;\&#123;myfile&#125;&#x27; &#x27;&#123;wb.sheetnames[0]&#125;&#x27;&quot;)</span><br><span class="line">                </span><br><span class="line">                if sys.argv[1] == &#x27;fix&#x27;:</span><br><span class="line">                    print(f&quot;python fix_excel_naming.py &#x27;&#123;name&#125;&#x27; &#x27;&#123;myfile.strip(&#x27;.xlsx&#x27;)&#125;&#x27; &#x27;&#123;wb.sheetnames[0]&#125;&#x27;&quot;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="ChatGPT-產-csharp"><a href="#ChatGPT-產-csharp" class="headerlink" title="ChatGPT 產 csharp"></a>ChatGPT 產 csharp</h3><p>後續工作又遇到類似需求 , 這次玩看看 ChatGPT , 產了很多種不過還是要拿來自己修 , 不能算 100% 完美<br>以下是我的問法</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">幫我用 c# 語法 , 產生符合 sql server 的 create table 指令檔 , 資料表名稱為 Test</span><br><span class="line">PK 這個 column 表示要加上 identity</span><br><span class="line">欄位則是在 excel 的 fieldName 這一個 column</span><br><span class="line">資料型態在 db datatype</span><br><span class="line">是否允許 Nullable 如果是 Y 表示允許 , 如果是 N 表示不允許</span><br><span class="line">default 這個 column 則表示預設值 , 如果有看到也幫我加預設值</span><br></pre></td></tr></table></figure>
+
+<p>這是他產的 , 可以看到相差不遠 , 但也是要 debug 下 , 可能我還不太會問 XD</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Data;</span><br><span class="line">using System.Data.SqlClient;</span><br><span class="line">using System.IO;</span><br><span class="line">using ExcelDataReader;</span><br><span class="line"></span><br><span class="line">namespace CreateTable</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line">            // 讀取 Excel 檔案</span><br><span class="line">            var filePath = &quot;C:\\path\\to\\TestExcelChatGPT.xlsx&quot;;</span><br><span class="line">            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))</span><br><span class="line">            &#123;</span><br><span class="line">                using (var reader = ExcelReaderFactory.CreateReader(stream))</span><br><span class="line">                &#123;</span><br><span class="line">                    // 取得第一個 Sheet</span><br><span class="line">                    reader.Read();</span><br><span class="line">                    </span><br><span class="line">                    // 資料表名稱</span><br><span class="line">                    var tableName = &quot;Test&quot;;</span><br><span class="line">                    </span><br><span class="line">                    // SQL 指令</span><br><span class="line">                    var sql = $&quot;CREATE TABLE &#123;tableName&#125; (&quot;;</span><br><span class="line"></span><br><span class="line">                    // 逐行讀取欄位資訊</span><br><span class="line">                    while (reader.Read())</span><br><span class="line">                    &#123;</span><br><span class="line">                        // 欄位名稱</span><br><span class="line">                        var fieldName = reader.GetValue(0).ToString();</span><br><span class="line">                        </span><br><span class="line">                        // 資料型態</span><br><span class="line">                        var dataType = reader.GetValue(1).ToString();</span><br><span class="line">                        </span><br><span class="line">                        // 是否允許 Nullable</span><br><span class="line">                        var nullable = reader.GetValue(2).ToString().ToUpper() == &quot;Y&quot; ? &quot;NULL&quot; : &quot;NOT NULL&quot;;</span><br><span class="line"></span><br><span class="line">                        // Default 值</span><br><span class="line">                        var defaultValue = reader.GetValue(3).ToString() == &quot;&quot; ? &quot;&quot; : $&quot;DEFAULT &#123;reader.GetValue(3)&#125;&quot;;</span><br><span class="line">                        </span><br><span class="line">                        // PK 欄位需要加上 IDENTITY</span><br><span class="line">                        var identity = reader.GetValue(4).ToString().ToUpper() == &quot;PK&quot; ? &quot;IDENTITY(1,1)&quot; : &quot;&quot;;</span><br><span class="line">                        </span><br><span class="line">                        // 產生 SQL 指令</span><br><span class="line">                        sql += $&quot;&#123;fieldName&#125; &#123;dataType&#125; &#123;identity&#125; &#123;nullable&#125; &#123;defaultValue&#125;, &quot;;</span><br><span class="line">                    &#125;</span><br><span class="line">                    </span><br><span class="line">                    // 移除最後一個 , 符號</span><br><span class="line">                    sql = sql.Remove(sql.Length - 2);</span><br><span class="line"></span><br><span class="line">                    // 加上 Primary Key</span><br><span class="line">                    sql += $&quot;, PRIMARY KEY (ID))&quot;;</span><br><span class="line"></span><br><span class="line">                    Console.WriteLine(sql);</span><br><span class="line"></span><br><span class="line">                    // 執行 SQL 指令</span><br><span class="line">                    var connectionString = &quot;Data Source=myServerAddress;Initial Catalog=myDataBase;User ID=myUsername;Password=myPassword;&quot;;</span><br><span class="line">                    using (var conn = new SqlConnection(connectionString))</span><br><span class="line">                    &#123;</span><br><span class="line">                        conn.Open();</span><br><span class="line">                        using (var command = new SqlCommand(sql, conn))</span><br><span class="line">                        &#123;</span><br><span class="line">                            command.ExecuteNonQuery();</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修飾</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line">using System;</span><br><span class="line">using System.Data;</span><br><span class="line">using System.Data.SqlClient;</span><br><span class="line">using System.IO;</span><br><span class="line">using ExcelDataReader;</span><br><span class="line"></span><br><span class="line">namespace CreateTable</span><br><span class="line">&#123;</span><br><span class="line">    class Program</span><br><span class="line">    &#123;</span><br><span class="line">        static void Main(string[] args)</span><br><span class="line">        &#123;</span><br><span class="line"></span><br><span class="line">            System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);</span><br><span class="line">            // 讀取 Excel 檔案</span><br><span class="line">            var filePath = &quot;D:\\TestExcelChatGPT.xlsx&quot;;</span><br><span class="line">            using (var stream = File.Open(filePath, FileMode.Open, FileAccess.Read))</span><br><span class="line">            &#123;</span><br><span class="line">                using (var reader = ExcelReaderFactory.CreateReader(stream))</span><br><span class="line">                &#123;</span><br><span class="line">                    // 取得第一個 Sheet</span><br><span class="line">                    reader.Read();</span><br><span class="line"></span><br><span class="line">                    // 資料表名稱</span><br><span class="line">                    var tableName = &quot;Test&quot;;</span><br><span class="line"></span><br><span class="line">                    // SQL 指令</span><br><span class="line">                    var sql = $&quot;CREATE TABLE &#123;tableName&#125; (&quot; + Environment.NewLine;</span><br><span class="line"></span><br><span class="line">                    // 要跳過的行數</span><br><span class="line">                    var skip = 0;</span><br><span class="line"></span><br><span class="line">                    // 逐行讀取欄位資訊</span><br><span class="line">                    while (reader.Read())</span><br><span class="line">                    &#123;</span><br><span class="line">                        //跳過的行數</span><br><span class="line">                        skip++;</span><br><span class="line">                        if (skip &lt;= 4) continue;</span><br><span class="line"></span><br><span class="line">                        // 欄位名稱</span><br><span class="line">                        var fieldName = reader.GetValue(2).ToString();</span><br><span class="line"></span><br><span class="line">                        // 資料型態</span><br><span class="line">                        var dataType = reader.GetValue(4).ToString();</span><br><span class="line">                        if (dataType == &quot;datetime2(7)&quot;)</span><br><span class="line">                            dataType = &quot;datetime&quot;;</span><br><span class="line"></span><br><span class="line">                        // 是否允許 Nullable</span><br><span class="line">                        var nullable = reader.GetValue(5).ToString().ToUpper() == &quot;Y&quot; ? &quot;NULL&quot; : &quot;NOT NULL&quot;;</span><br><span class="line"></span><br><span class="line">                        // Default 值</span><br><span class="line">                        var defaultValue = &quot;&quot;;</span><br><span class="line">                        if (reader.GetValue(6) != null)</span><br><span class="line">                        &#123;</span><br><span class="line">                            defaultValue = reader.GetValue(6).ToString() == &quot;&quot; ? &quot;&quot; : $&quot;DEFAULT &#123;reader.GetValue(6)&#125;&quot;;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        // PK 欄位需要加上 IDENTITY</span><br><span class="line">                        var identity = &quot;&quot;;</span><br><span class="line">                        if (reader.GetValue(1) != null)</span><br><span class="line">                        &#123;</span><br><span class="line">                            identity = reader.GetValue(1).ToString().ToUpper() == &quot;V&quot; ? &quot;IDENTITY(1,1)&quot; : &quot;&quot;;</span><br><span class="line">                        &#125;</span><br><span class="line"></span><br><span class="line">                        // 產生 SQL 指令</span><br><span class="line">                        sql += $&quot;&#123;fieldName&#125; &#123;dataType&#125; &#123;identity&#125; &#123;nullable&#125; &#123;defaultValue&#125;, &quot; + Environment.NewLine;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                    // 移除最後一個 , 符號</span><br><span class="line">                    sql = sql.Trim().TrimEnd(&#x27;,&#x27;);</span><br><span class="line">                    sql += &quot;)&quot;;</span><br><span class="line"></span><br><span class="line">                    Console.WriteLine(sql);</span><br><span class="line">                    File.WriteAllText(&quot;sql.txt&quot;, sql);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/sql/" rel="tag"># sql</a>
+              <a href="/tags/python/" rel="tag"># python</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/csvq-%E7%AD%86%E8%A8%98/" rel="prev" title="csvq 筆記">
+      <i class="fa fa-chevron-left"></i> csvq 筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/codesoft-%E7%AD%86%E8%A8%98/" rel="next" title="codesoft 筆記">
+      codesoft 筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A1%A8%E6%A0%BC%E9%95%B7%E7%9B%B8"><span class="nav-number">1.</span> <span class="nav-text">表格長相</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%92%B0%E5%A2%83%E6%BA%96%E5%82%99"><span class="nav-number">2.</span> <span class="nav-text">環境準備</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81-code"><span class="nav-number">3.</span> <span class="nav-text">主要 code</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#merge"><span class="nav-number">4.</span> <span class="nav-text">merge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%A9%97%E8%AD%89-table"><span class="nav-number">5.</span> <span class="nav-text">驗證 table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A2%E7%94%9F%E6%89%B9%E6%AC%A1%E5%88%AA%E9%99%A4-table"><span class="nav-number">6.</span> <span class="nav-text">產生批次刪除 table</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BF%AE%E6%AD%A3-excel"><span class="nav-number">7.</span> <span class="nav-text">修正 excel</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A2%E7%94%9F%E6%89%B9%E6%AC%A1%E5%9F%B7%E8%A1%8C%E7%9A%84-python-script"><span class="nav-number">8.</span> <span class="nav-text">產生批次執行的 python script</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ChatGPT-%E7%94%A2-csharp"><span class="nav-number">9.</span> <span class="nav-text">ChatGPT 產 csharp</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/posts/excel-to-sql/";
+    this.page.identifier = "posts/excel-to-sql/";
+    this.page.title = "excel to sql";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

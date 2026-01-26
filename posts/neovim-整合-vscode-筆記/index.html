@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+  <meta name="google-site-verification" content="J5sjnNRD2AYPWVE08_-8XO_8mBKRYD3NKVYRBCGMwQ8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="neovim 整合 vscode 筆記">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/posts/neovim-%E6%95%B4%E5%90%88-vscode-%E7%AD%86%E8%A8%98/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2020-08-16T21:28:15.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="neovim">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="vscode">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/posts/neovim-%E6%95%B4%E5%90%88-vscode-%E7%AD%86%E8%A8%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>neovim 整合 vscode 筆記 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/posts/neovim-%E6%95%B4%E5%90%88-vscode-%E7%AD%86%E8%A8%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          neovim 整合 vscode 筆記
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2020-08-17 05:28:15" itemprop="dateCreated datePublished" datetime="2020-08-17T05:28:15+08:00">2020-08-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/posts/neovim-%E6%95%B4%E5%90%88-vscode-%E7%AD%86%E8%A8%98/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/neovim-整合-vscode-筆記/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>15k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>14 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+<p><a target="_blank" rel="noopener" href="https://jdhao.github.io/2018/11/15/neovim_configuration_windows/">參考這個老外說明</a><br><a target="_blank" rel="noopener" href="https://medium.com/better-programming/setting-up-neovim-for-web-development-in-2020-d800de3efacd">這老外說明也不錯</a><br>安裝<a target="_blank" rel="noopener" href="https://github.com/neovim/neovim/wiki/Installing-Neovim#install-from-download">neovim</a><br>下載後解壓到 D:\Neovim<br>將 D:\Neovim\bin 加入 Path 環境變數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysdm.cpl</span><br></pre></td></tr></table></figure>
+<p>輸入nvim即可執行<br>用powershell加入設定檔<a target="_blank" rel="noopener" href="https://neovim.io/doc/user/starting.html#base-directories">官方說明</a></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mkdir ~/AppData/Local/nvim</span><br><span class="line"><span class="built_in">cd</span> ~/AppData/Local/nvim</span><br><span class="line"><span class="built_in">New-Item</span> init.vim</span><br><span class="line">mkdir ~/AppData/Local/nvim<span class="literal">-data</span></span><br></pre></td></tr></table></figure>
+
+<p>整合vscode設定以下config</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> ~\AppData\Roaming\Code\User</span><br><span class="line">nvim .\settings.json</span><br></pre></td></tr></table></figure>
+
+<p><a target="_blank" rel="noopener" href="https://github.com/VSCodeVim/Vim">官方說明</a><br>找到vim片段加入以下屬性<br>路徑不寫會自動偵測path找到neovim的位置，我就懶得寫啦</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;vim.enableNeovim&quot;</span> <span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;vim.neovimPath&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;&quot;</span> </span><br></pre></td></tr></table></figure>
+<p>筆記一下好用的 Multi-Cursor Mode<br>輸入三次gb接著按c之後輸入其他class名稱即可替換類別名稱</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;abc&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;abc&quot;&gt;&lt;/div&gt;</span><br><span class="line">&lt;div class=&quot;abc&quot;&gt;&lt;/div&gt;</span><br></pre></td></tr></table></figure>
+
+<p>實際測試交換行<br>:m+1 與下面一行交換<br>:m-2 與上面一行交換</p>
+<p>若沒開啟neovim整合會出現以下訊息<br>Command :m[ove] is not yet implemented</p>
+<p>開啟後則可以順利執行 </p>
+<p>順便紀錄我使用的 neovim 佈景主題 config<br><a target="_blank" rel="noopener" href="https://github.com/ayu-theme/ayu-vim">ayu-vim</a></p>
+<p><a target="_blank" rel="noopener" href="https://vimawesome.com/">好用的外掛網站</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">call plug#begin(&#x27;~/AppData/Local/nvim/plugged&#x27;)</span><br><span class="line">Plug &#x27;ayu-theme/ayu-vim&#x27;</span><br><span class="line">call plug#end()</span><br><span class="line"></span><br><span class="line">&quot; 設定佈景主題</span><br><span class="line">set termguicolors     &quot; enable true colors support</span><br><span class="line">let ayucolor=&quot;light&quot;  &quot; for light version of theme</span><br><span class="line">&quot; let ayucolor=&quot;mirage&quot; &quot; for mirage version of theme</span><br><span class="line">&quot; let ayucolor=&quot;dark&quot;   &quot; for dark version of theme</span><br><span class="line">colorscheme ayu</span><br></pre></td></tr></table></figure>
+
+<p>安裝</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nvim +PlugInstall</span><br></pre></td></tr></table></figure>
+
+<p>綠色背景調整</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br></pre></td><td class="code"><pre><span class="line">&quot; Initialisation:&quot;&#123;&#123;&#123;</span><br><span class="line">&quot; ----------------------------------------------------------------------------</span><br><span class="line">hi clear</span><br><span class="line">if exists(&quot;syntax_on&quot;)</span><br><span class="line">  syntax reset</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line">let s:style = get(g:, &#x27;ayucolor&#x27;, &#x27;dark&#x27;)</span><br><span class="line">let g:colors_name = &quot;ayu&quot;</span><br><span class="line">&quot;&#125;&#125;&#125;</span><br><span class="line"></span><br><span class="line">&quot; Palettes:&quot;&#123;&#123;&#123;</span><br><span class="line">&quot; ----------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">let s:palette = &#123;&#125;</span><br><span class="line"></span><br><span class="line">&quot; let s:palette.bg        = &#123;&#x27;dark&#x27;: &quot;#0F1419&quot;,  &#x27;light&#x27;: &quot;#FAFAFA&quot;,  &#x27;mirage&#x27;: &quot;#212733&quot;&#125;</span><br><span class="line">let s:palette.bg        = &#123;&#x27;dark&#x27;: &quot;#0F1419&quot;,  &#x27;light&#x27;: &quot;#efffef&quot;,  &#x27;mirage&#x27;: &quot;#212733&quot;&#125;</span><br><span class="line"></span><br><span class="line">let s:palette.comment   = &#123;&#x27;dark&#x27;: &quot;#5C6773&quot;,  &#x27;light&#x27;: &quot;#ABB0B6&quot;,  &#x27;mirage&#x27;: &quot;#5C6773&quot;&#125;</span><br><span class="line">let s:palette.markup    = &#123;&#x27;dark&#x27;: &quot;#F07178&quot;,  &#x27;light&#x27;: &quot;#F07178&quot;,  &#x27;mirage&#x27;: &quot;#F07178&quot;&#125;</span><br><span class="line">let s:palette.constant  = &#123;&#x27;dark&#x27;: &quot;#FFEE99&quot;,  &#x27;light&#x27;: &quot;#A37ACC&quot;,  &#x27;mirage&#x27;: &quot;#D4BFFF&quot;&#125;</span><br><span class="line">let s:palette.operator  = &#123;&#x27;dark&#x27;: &quot;#E7C547&quot;,  &#x27;light&#x27;: &quot;#E7C547&quot;,  &#x27;mirage&#x27;: &quot;#80D4FF&quot;&#125;</span><br><span class="line">let s:palette.tag       = &#123;&#x27;dark&#x27;: &quot;#36A3D9&quot;,  &#x27;light&#x27;: &quot;#36A3D9&quot;,  &#x27;mirage&#x27;: &quot;#5CCFE6&quot;&#125;</span><br><span class="line">let s:palette.regexp    = &#123;&#x27;dark&#x27;: &quot;#95E6CB&quot;,  &#x27;light&#x27;: &quot;#4CBF99&quot;,  &#x27;mirage&#x27;: &quot;#95E6CB&quot;&#125;</span><br><span class="line">let s:palette.string    = &#123;&#x27;dark&#x27;: &quot;#B8CC52&quot;,  &#x27;light&#x27;: &quot;#86B300&quot;,  &#x27;mirage&#x27;: &quot;#BBE67E&quot;&#125;</span><br><span class="line">let s:palette.function  = &#123;&#x27;dark&#x27;: &quot;#FFB454&quot;,  &#x27;light&#x27;: &quot;#F29718&quot;,  &#x27;mirage&#x27;: &quot;#FFD57F&quot;&#125;</span><br><span class="line">let s:palette.special   = &#123;&#x27;dark&#x27;: &quot;#E6B673&quot;,  &#x27;light&#x27;: &quot;#E6B673&quot;,  &#x27;mirage&#x27;: &quot;#FFC44C&quot;&#125;</span><br><span class="line">let s:palette.keyword   = &#123;&#x27;dark&#x27;: &quot;#FF7733&quot;,  &#x27;light&#x27;: &quot;#FF7733&quot;,  &#x27;mirage&#x27;: &quot;#FFAE57&quot;&#125;</span><br><span class="line"></span><br><span class="line">let s:palette.error     = &#123;&#x27;dark&#x27;: &quot;#FF3333&quot;,  &#x27;light&#x27;: &quot;#FF3333&quot;,  &#x27;mirage&#x27;: &quot;#FF3333&quot;&#125;</span><br><span class="line">let s:palette.accent    = &#123;&#x27;dark&#x27;: &quot;#F29718&quot;,  &#x27;light&#x27;: &quot;#FF6A00&quot;,  &#x27;mirage&#x27;: &quot;#FFCC66&quot;&#125;</span><br><span class="line">let s:palette.panel     = &#123;&#x27;dark&#x27;: &quot;#14191F&quot;,  &#x27;light&#x27;: &quot;#FFFFFF&quot;,  &#x27;mirage&#x27;: &quot;#272D38&quot;&#125;</span><br><span class="line">let s:palette.guide     = &#123;&#x27;dark&#x27;: &quot;#2D3640&quot;,  &#x27;light&#x27;: &quot;#FF00D7&quot;,  &#x27;mirage&#x27;: &quot;#3D4751&quot;&#125;</span><br><span class="line">let s:palette.line      = &#123;&#x27;dark&#x27;: &quot;#151A1E&quot;,  &#x27;light&#x27;: &quot;#F3F3F3&quot;,  &#x27;mirage&#x27;: &quot;#242B38&quot;&#125;</span><br><span class="line">let s:palette.selection = &#123;&#x27;dark&#x27;: &quot;#253340&quot;,  &#x27;light&#x27;: &quot;#F0EEE4&quot;,  &#x27;mirage&#x27;: &quot;#343F4C&quot;&#125;</span><br><span class="line">let s:palette.fg        = &#123;&#x27;dark&#x27;: &quot;#E6E1CF&quot;,  &#x27;light&#x27;: &quot;#5C6773&quot;,  &#x27;mirage&#x27;: &quot;#D9D7CE&quot;&#125;</span><br><span class="line">let s:palette.fg_idle   = &#123;&#x27;dark&#x27;: &quot;#3E4B59&quot;,  &#x27;light&#x27;: &quot;#828C99&quot;,  &#x27;mirage&#x27;: &quot;#607080&quot;&#125;</span><br><span class="line"></span><br><span class="line">&quot;&#125;&#125;&#125;</span><br><span class="line"></span><br><span class="line">&quot; Highlighting Primitives:&quot;&#123;&#123;&#123;</span><br><span class="line">&quot; ----------------------------------------------------------------------------</span><br><span class="line"></span><br><span class="line">function! s:build_prim(hi_elem, field)</span><br><span class="line">  let l:vname = &quot;s:&quot; . a:hi_elem . &quot;_&quot; . a:field &quot; s:bg_gray</span><br><span class="line">  let l:gui_assign = &quot;gui&quot;.a:hi_elem.&quot;=&quot;.s:palette[a:field][s:style] &quot; guibg=...</span><br><span class="line">  exe &quot;let &quot; . l:vname . &quot; = &#x27; &quot; . l:gui_assign . &quot;&#x27;&quot;</span><br><span class="line">endfunction</span><br><span class="line"></span><br><span class="line">let s:bg_none = &#x27; guibg=NONE ctermbg=NONE&#x27;</span><br><span class="line">let s:fg_none = &#x27; guifg=NONE ctermfg=NONE&#x27;</span><br><span class="line">for [key_name, d_value] in items(s:palette)</span><br><span class="line">  call s:build_prim(&#x27;bg&#x27;, key_name)</span><br><span class="line">  call s:build_prim(&#x27;fg&#x27;, key_name)</span><br><span class="line">endfor</span><br><span class="line">&quot; &#125;&#125;&#125;</span><br><span class="line"></span><br><span class="line">&quot; Formatting Options:&quot;&#123;&#123;&#123;</span><br><span class="line">&quot; ----------------------------------------------------------------------------</span><br><span class="line">let s:none   = &quot;NONE&quot;</span><br><span class="line">let s:t_none = &quot;NONE&quot;</span><br><span class="line">let s:n      = &quot;NONE&quot;</span><br><span class="line">let s:c      = &quot;,undercurl&quot;</span><br><span class="line">let s:r      = &quot;,reverse&quot;</span><br><span class="line">let s:s      = &quot;,standout&quot;</span><br><span class="line">let s:b      = &quot;,bold&quot;</span><br><span class="line">let s:u      = &quot;,underline&quot;</span><br><span class="line">let s:i      = &quot;,italic&quot;</span><br><span class="line"></span><br><span class="line">exe &quot;let s:fmt_none = &#x27; gui=NONE&quot;.          &quot; cterm=NONE&quot;.          &quot; term=NONE&quot;        .&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_bold = &#x27; gui=NONE&quot;.s:b.      &quot; cterm=NONE&quot;.s:b.      &quot; term=NONE&quot;.s:b    .&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_bldi = &#x27; gui=NONE&quot;.s:b.      &quot; cterm=NONE&quot;.s:b.      &quot; term=NONE&quot;.s:b    .&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_undr = &#x27; gui=NONE&quot;.s:u.      &quot; cterm=NONE&quot;.s:u.      &quot; term=NONE&quot;.s:u    .&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_undb = &#x27; gui=NONE&quot;.s:u.s:b.  &quot; cterm=NONE&quot;.s:u.s:b.  &quot; term=NONE&quot;.s:u.s:b.&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_undi = &#x27; gui=NONE&quot;.s:u.      &quot; cterm=NONE&quot;.s:u.      &quot; term=NONE&quot;.s:u    .&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_curl = &#x27; gui=NONE&quot;.s:c.      &quot; cterm=NONE&quot;.s:c.      &quot; term=NONE&quot;.s:c    .&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_ital = &#x27; gui=NONE&quot;.s:i.      &quot; cterm=NONE&quot;.s:i.      &quot; term=NONE&quot;.s:i    .&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_stnd = &#x27; gui=NONE&quot;.s:s.      &quot; cterm=NONE&quot;.s:s.      &quot; term=NONE&quot;.s:s    .&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_revr = &#x27; gui=NONE&quot;.s:r.      &quot; cterm=NONE&quot;.s:r.      &quot; term=NONE&quot;.s:r    .&quot;&#x27;&quot;</span><br><span class="line">exe &quot;let s:fmt_revb = &#x27; gui=NONE&quot;.s:r.s:b.  &quot; cterm=NONE&quot;.s:r.s:b.  &quot; term=NONE&quot;.s:r.s:b.&quot;&#x27;&quot;</span><br><span class="line">&quot;&#125;&#125;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot; Vim Highlighting: (see :help highlight-groups)&quot;&#123;&#123;&#123;</span><br><span class="line">&quot; ----------------------------------------------------------------------------</span><br><span class="line">exe &quot;hi! Normal&quot;        .s:fg_fg          .s:bg_bg          .s:fmt_none</span><br><span class="line">exe &quot;hi! ColorColumn&quot;   .s:fg_none        .s:bg_line        .s:fmt_none</span><br><span class="line">&quot; Conceal, Cursor, CursorIM</span><br><span class="line">exe &quot;hi! CursorColumn&quot;  .s:fg_none        .s:bg_line        .s:fmt_none</span><br><span class="line">exe &quot;hi! CursorLine&quot;    .s:fg_none        .s:bg_line        .s:fmt_none</span><br><span class="line">exe &quot;hi! CursorLineNr&quot;  .s:fg_accent      .s:bg_line        .s:fmt_none</span><br><span class="line">exe &quot;hi! LineNr&quot;        .s:fg_guide       .s:bg_none        .s:fmt_none</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Directory&quot;     .s:fg_fg_idle     .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! DiffAdd&quot;       .s:fg_string      .s:bg_panel       .s:fmt_none</span><br><span class="line">exe &quot;hi! DiffChange&quot;    .s:fg_tag         .s:bg_panel       .s:fmt_none</span><br><span class="line">exe &quot;hi! DiffText&quot;      .s:fg_fg          .s:bg_panel       .s:fmt_none</span><br><span class="line">exe &quot;hi! ErrorMsg&quot;      .s:fg_fg          .s:bg_error       .s:fmt_stnd</span><br><span class="line">exe &quot;hi! VertSplit&quot;     .s:fg_bg          .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! Folded&quot;        .s:fg_fg_idle     .s:bg_panel       .s:fmt_none</span><br><span class="line">exe &quot;hi! FoldColumn&quot;    .s:fg_none        .s:bg_panel       .s:fmt_none</span><br><span class="line">exe &quot;hi! SignColumn&quot;    .s:fg_none        .s:bg_panel       .s:fmt_none</span><br><span class="line">&quot;   Incsearch&quot;</span><br><span class="line"></span><br><span class="line">exe &quot;hi! MatchParen&quot;    .s:fg_fg          .s:bg_bg          .s:fmt_undr</span><br><span class="line">exe &quot;hi! ModeMsg&quot;       .s:fg_string      .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! MoreMsg&quot;       .s:fg_string      .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! NonText&quot;       .s:fg_guide       .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! Pmenu&quot;         .s:fg_fg          .s:bg_selection   .s:fmt_none</span><br><span class="line">exe &quot;hi! PmenuSel&quot;      .s:fg_fg          .s:bg_selection   .s:fmt_revr</span><br><span class="line">&quot;   PmenuSbar&quot;</span><br><span class="line">&quot;   PmenuThumb&quot;</span><br><span class="line">exe &quot;hi! Question&quot;      .s:fg_string      .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! Search&quot;        .s:fg_bg          .s:bg_constant    .s:fmt_none</span><br><span class="line">exe &quot;hi! SpecialKey&quot;    .s:fg_selection   .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! SpellCap&quot;      .s:fg_tag         .s:bg_none        .s:fmt_undr</span><br><span class="line">exe &quot;hi! SpellLocal&quot;    .s:fg_keyword     .s:bg_none        .s:fmt_undr</span><br><span class="line">exe &quot;hi! SpellBad&quot;      .s:fg_error       .s:bg_none        .s:fmt_undr</span><br><span class="line">exe &quot;hi! SpellRare&quot;     .s:fg_regexp      .s:bg_none        .s:fmt_undr</span><br><span class="line">exe &quot;hi! StatusLine&quot;    .s:fg_fg          .s:bg_selection        .s:fmt_none</span><br><span class="line">exe &quot;hi! StatusLineNC&quot;  .s:fg_fg_idle     .s:bg_selection       .s:fmt_none</span><br><span class="line">exe &quot;hi! WildMenu&quot;      .s:fg_bg          .s:bg_markup      .s:fmt_none</span><br><span class="line">exe &quot;hi! TabLine&quot;       .s:fg_fg          .s:bg_panel       .s:fmt_revr</span><br><span class="line">&quot;   TabLineFill&quot;</span><br><span class="line">&quot;   TabLineSel&quot;</span><br><span class="line">exe &quot;hi! Title&quot;         .s:fg_keyword     .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! Visual&quot;        .s:fg_none        .s:bg_selection   .s:fmt_none</span><br><span class="line">&quot;   VisualNos&quot;</span><br><span class="line">exe &quot;hi! WarningMsg&quot;    .s:fg_error       .s:bg_none        .s:fmt_none</span><br><span class="line"></span><br><span class="line">&quot; TODO LongLineWarning to use variables instead of hardcoding</span><br><span class="line">hi LongLineWarning  guifg=NONE        guibg=#371F1C     gui=underline ctermfg=NONE        ctermbg=NONE        cterm=underline</span><br><span class="line">&quot;   WildMenu&quot;</span><br><span class="line"></span><br><span class="line">&quot;&#125;&#125;&#125;</span><br><span class="line"></span><br><span class="line">&quot; Generic Syntax Highlighting: (see :help group-name)&quot;&#123;&#123;&#123;</span><br><span class="line">&quot; ----------------------------------------------------------------------------</span><br><span class="line">exe &quot;hi! Comment&quot;         .s:fg_comment   .s:bg_none        .s:fmt_none</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Constant&quot;        .s:fg_constant  .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! String&quot;          .s:fg_string    .s:bg_none        .s:fmt_none</span><br><span class="line">&quot;   Character&quot;</span><br><span class="line">&quot;   Number&quot;</span><br><span class="line">&quot;   Boolean&quot;</span><br><span class="line">&quot;   Float&quot;</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Identifier&quot;      .s:fg_tag       .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! Function&quot;        .s:fg_function  .s:bg_none        .s:fmt_none</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Statement&quot;       .s:fg_keyword   .s:bg_none        .s:fmt_none</span><br><span class="line">&quot;   Conditional&quot;</span><br><span class="line">&quot;   Repeat&quot;</span><br><span class="line">&quot;   Label&quot;</span><br><span class="line">exe &quot;hi! Operator&quot;        .s:fg_operator  .s:bg_none        .s:fmt_none</span><br><span class="line">&quot;   Keyword&quot;</span><br><span class="line">&quot;   Exception&quot;</span><br><span class="line"></span><br><span class="line">exe &quot;hi! PreProc&quot;         .s:fg_special   .s:bg_none        .s:fmt_none</span><br><span class="line">&quot;   Include&quot;</span><br><span class="line">&quot;   Define&quot;</span><br><span class="line">&quot;   Macro&quot;</span><br><span class="line">&quot;   PreCondit&quot;</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Type&quot;            .s:fg_tag       .s:bg_none        .s:fmt_none</span><br><span class="line">&quot;   StorageClass&quot;</span><br><span class="line">exe &quot;hi! Structure&quot;       .s:fg_special   .s:bg_none        .s:fmt_none</span><br><span class="line">&quot;   Typedef&quot;</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Special&quot;         .s:fg_special   .s:bg_none        .s:fmt_none</span><br><span class="line">&quot;   SpecialChar&quot;</span><br><span class="line">&quot;   Tag&quot;</span><br><span class="line">&quot;   Delimiter&quot;</span><br><span class="line">&quot;   SpecialComment&quot;</span><br><span class="line">&quot;   Debug&quot;</span><br><span class="line">&quot;</span><br><span class="line">exe &quot;hi! Underlined&quot;      .s:fg_tag       .s:bg_none        .s:fmt_undr</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Ignore&quot;          .s:fg_none      .s:bg_none        .s:fmt_none</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Error&quot;           .s:fg_fg        .s:bg_error       .s:fmt_none</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Todo&quot;            .s:fg_markup    .s:bg_none        .s:fmt_none</span><br><span class="line"></span><br><span class="line">&quot; Quickfix window highlighting</span><br><span class="line">exe &quot;hi! qfLineNr&quot;        .s:fg_keyword   .s:bg_none        .s:fmt_none</span><br><span class="line">&quot;   qfFileName&quot;</span><br><span class="line">&quot;   qfLineNr&quot;</span><br><span class="line">&quot;   qfError&quot;</span><br><span class="line"></span><br><span class="line">exe &quot;hi! Conceal&quot;         .s:fg_guide     .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! CursorLineConceal&quot; .s:fg_guide   .s:bg_line        .s:fmt_none</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot; Terminal</span><br><span class="line">&quot; ---------</span><br><span class="line">if has(&quot;nvim&quot;)</span><br><span class="line">  let g:terminal_color_0 =  s:palette.bg[s:style]</span><br><span class="line">  let g:terminal_color_1 =  s:palette.markup[s:style]</span><br><span class="line">  let g:terminal_color_2 =  s:palette.string[s:style]</span><br><span class="line">  let g:terminal_color_3 =  s:palette.accent[s:style]</span><br><span class="line">  let g:terminal_color_4 =  s:palette.tag[s:style]</span><br><span class="line">  let g:terminal_color_5 =  s:palette.constant[s:style]</span><br><span class="line">  let g:terminal_color_6 =  s:palette.regexp[s:style]</span><br><span class="line">  let g:terminal_color_7 =  &quot;#FFFFFF&quot;</span><br><span class="line">  let g:terminal_color_8 =  s:palette.fg_idle[s:style]</span><br><span class="line">  let g:terminal_color_9 =  s:palette.error[s:style]</span><br><span class="line">  let g:terminal_color_10 = s:palette.string[s:style]</span><br><span class="line">  let g:terminal_color_11 = s:palette.accent[s:style]</span><br><span class="line">  let g:terminal_color_12 = s:palette.tag[s:style]</span><br><span class="line">  let g:terminal_color_13 = s:palette.constant[s:style]</span><br><span class="line">  let g:terminal_color_14 = s:palette.regexp[s:style]</span><br><span class="line">  let g:terminal_color_15 = s:palette.comment[s:style]</span><br><span class="line">  let g:terminal_color_background = g:terminal_color_0</span><br><span class="line">  let g:terminal_color_foreground = s:palette.fg[s:style]</span><br><span class="line">else</span><br><span class="line">  let g:terminal_ansi_colors =  [s:palette.bg[s:style],      s:palette.markup[s:style]]</span><br><span class="line">  let g:terminal_ansi_colors += [s:palette.string[s:style],  s:palette.accent[s:style]]</span><br><span class="line">  let g:terminal_ansi_colors += [s:palette.tag[s:style],     s:palette.constant[s:style]]</span><br><span class="line">  let g:terminal_ansi_colors += [s:palette.regexp[s:style],  &quot;#FFFFFF&quot;]</span><br><span class="line">  let g:terminal_ansi_colors += [s:palette.fg_idle[s:style], s:palette.error[s:style]]</span><br><span class="line">  let g:terminal_ansi_colors += [s:palette.string[s:style],  s:palette.accent[s:style]]</span><br><span class="line">  let g:terminal_ansi_colors += [s:palette.tag[s:style],     s:palette.constant[s:style]]</span><br><span class="line">  let g:terminal_ansi_colors += [s:palette.regexp[s:style],  s:palette.comment[s:style]]</span><br><span class="line">endif</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot; NerdTree</span><br><span class="line">&quot; ---------</span><br><span class="line">exe &quot;hi! NERDTreeOpenable&quot;          .s:fg_fg_idle     .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! NERDTreeClosable&quot;          .s:fg_accent      .s:bg_none        .s:fmt_none</span><br><span class="line">&quot; exe &quot;hi! NERDTreeBookmarksHeader&quot;   .s:fg_pink        .s:bg_none        .s:fmt_none</span><br><span class="line">&quot; exe &quot;hi! NERDTreeBookmarksLeader&quot;   .s:fg_bg          .s:bg_none        .s:fmt_none</span><br><span class="line">&quot; exe &quot;hi! NERDTreeBookmarkName&quot;      .s:fg_keyword     .s:bg_none        .s:fmt_none</span><br><span class="line">&quot; exe &quot;hi! NERDTreeCWD&quot;               .s:fg_pink        .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! NERDTreeUp&quot;                .s:fg_fg_idle    .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! NERDTreeDir&quot;               .s:fg_function   .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! NERDTreeFile&quot;              .s:fg_none       .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! NERDTreeDirSlash&quot;          .s:fg_accent     .s:bg_none        .s:fmt_none</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&quot; GitGutter</span><br><span class="line">&quot; ---------</span><br><span class="line">exe &quot;hi! GitGutterAdd&quot;          .s:fg_string     .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! GitGutterChange&quot;       .s:fg_tag        .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! GitGutterDelete&quot;       .s:fg_markup     .s:bg_none        .s:fmt_none</span><br><span class="line">exe &quot;hi! GitGutterChangeDelete&quot; .s:fg_function   .s:bg_none        .s:fmt_none</span><br><span class="line"></span><br><span class="line">&quot;&#125;&#125;&#125;</span><br><span class="line"></span><br><span class="line">&quot; Diff Syntax Highlighting:&quot;&#123;&#123;&#123;</span><br><span class="line">&quot; ----------------------------------------------------------------------------</span><br><span class="line">&quot; Diff</span><br><span class="line">&quot;   diffOldFile</span><br><span class="line">&quot;   diffNewFile</span><br><span class="line">&quot;   diffFile</span><br><span class="line">&quot;   diffOnly</span><br><span class="line">&quot;   diffIdentical</span><br><span class="line">&quot;   diffDiffer</span><br><span class="line">&quot;   diffBDiffer</span><br><span class="line">&quot;   diffIsA</span><br><span class="line">&quot;   diffNoEOL</span><br><span class="line">&quot;   diffCommon</span><br><span class="line">hi! link diffRemoved Constant</span><br><span class="line">&quot;   diffChanged</span><br><span class="line">hi! link diffAdded String</span><br><span class="line">&quot;   diffLine</span><br><span class="line">&quot;   diffSubname</span><br><span class="line">&quot;   diffComment</span><br><span class="line"></span><br><span class="line">&quot;&#125;&#125;&#125;</span><br><span class="line">&quot;</span><br><span class="line">&quot; This is needed for some reason: &#123;&#123;&#123;</span><br><span class="line"></span><br><span class="line">let &amp;background = s:style</span><br><span class="line"></span><br><span class="line">&quot; &#125;&#125;&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/neovim/" rel="tag"># neovim</a>
+              <a href="/tags/vscode/" rel="tag"># vscode</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/%E7%AF%A9%E9%81%B8%E6%BC%81%E6%A5%AD%E7%BD%B2%E5%8D%8A%E5%BE%910-5%E6%B5%B7%E6%B5%AC%E7%9A%84%E4%BA%BA%E5%B7%A5%E9%AD%9A%E7%A4%81/" rel="prev" title="篩選漁業署半徑0.5海浬的人工魚礁">
+      <i class="fa fa-chevron-left"></i> 篩選漁業署半徑0.5海浬的人工魚礁
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/%E6%88%91%E7%9A%84-vim-neovim-config/" rel="next" title="我的 vim/neovim config">
+      我的 vim/neovim config <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/posts/neovim-%E6%95%B4%E5%90%88-vscode-%E7%AD%86%E8%A8%98/";
+    this.page.identifier = "posts/neovim-整合-vscode-筆記/";
+    this.page.title = "neovim 整合 vscode 筆記";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>

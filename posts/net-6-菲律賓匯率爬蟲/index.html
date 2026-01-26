@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 8.1.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/gg.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/gg.png">
+  <link rel="mask-icon" href="/images/gg.png" color="#222">
+  <meta name="google-site-verification" content="J5sjnNRD2AYPWVE08_-8XO_8mBKRYD3NKVYRBCGMwQ8">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-171640966-1');
+</script>
+
+<style>
+    @font-face {
+        /* font-family: "JasonHandwriting1-Regular"; */
+/*
+        src: url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff2) format("woff2"), url(https://cdn.jsdelivr.net/gh/max32002/JasonHandWritingFonts@20210716/webfont/JasonHandwriting1-Regular.woff) format("woff");
+		*/
+
+        font-family: "俐方體11號";
+        src: url(/fonts/Cubic_11_1.000_R.woff) format("woff")
+    }
+</style>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"www.blog.lasai.com.tw","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":true,"show_result":true,"style":"default"},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.json"};
+  </script>
+
+  <meta name="description" content="&nbsp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content=".net 6 菲律賓匯率爬蟲">
+<meta property="og:url" content="https://www.blog.lasai.com.tw/posts/net-6-%E8%8F%B2%E5%BE%8B%E8%B3%93%E5%8C%AF%E7%8E%87%E7%88%AC%E8%9F%B2/index.html">
+<meta property="og:site_name" content="🌹 喇賽的人 Blog 🌹">
+<meta property="og:description" content="&nbsp;">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2022-11-16T11:13:34.000Z">
+<meta property="article:modified_time" content="2025-02-19T09:29:19.093Z">
+<meta property="article:author" content="🌹 喇賽人 🌹">
+<meta property="article:tag" content="c#">
+<meta property="article:tag" content="爬蟲">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://www.blog.lasai.com.tw/posts/net-6-%E8%8F%B2%E5%BE%8B%E8%B3%93%E5%8C%AF%E7%8E%87%E7%88%AC%E8%9F%B2/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-TW'
+  };
+</script>
+
+  <title>.net 6 菲律賓匯率爬蟲 | 🌹 喇賽的人 Blog 🌹</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'UA-171640966-1');
+      }
+    </script>
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+  <!-- google ad -->
+  <!--
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1069539516107706"
+     crossorigin="anonymous"></script>
+  -->
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <!--
+  <div class="spell" ></div>
+  <div class="ghost" style="display: none;"></div>
+  <div class="noise"></div>
+  <div class="noise2"></div>
+  -->
+
+
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切換導航欄">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">🌹 喇賽的人 Blog 🌹</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">🌹 喇低喇賽 🌹</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>真喇賽</a>
+
+  </li>
+        <li class="menu-item menu-item-map">
+
+    <a href="/map/" rel="section"><i class="fa fa-map fa-fw"></i>喇賽人的奇怪美食地圖</a>
+
+  </li>
+        <li class="menu-item menu-item-about">
+
+    <a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>關於喇賽人</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>喇賽的標籤</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>喇賽亂寫</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜尋
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="搜尋..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-TW">
+    <link itemprop="mainEntityOfPage" href="https://www.blog.lasai.com.tw/posts/net-6-%E8%8F%B2%E5%BE%8B%E8%B3%93%E5%8C%AF%E7%8E%87%E7%88%AC%E8%9F%B2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="🌹 喇賽人 🌹">
+      <meta itemprop="description" content="🌹 喇賽人的 Blog 🌹">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="🌹 喇賽的人 Blog 🌹">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          .net 6 菲律賓匯率爬蟲
+        </h1>
+
+        <div class="post-meta">
+		
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">亂寫於</span>
+
+              <time title="亂入時間：2022-11-16 19:13:34" itemprop="dateCreated datePublished" datetime="2022-11-16T19:13:34+08:00">2022-11-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2025-02-19 17:29:19" itemprop="dateModified" datetime="2025-02-19T17:29:19+08:00">2025-02-19</time>
+              </span>
+
+          
+  
+  <span class="post-meta-item">
+    
+      <span class="post-meta-item-icon">
+        <i class="far fa-comment"></i>
+      </span>
+      <span class="post-meta-item-text">Disqus：</span>
+    
+    <a title="disqus" href="/posts/net-6-%E8%8F%B2%E5%BE%8B%E8%B3%93%E5%8C%AF%E7%8E%87%E7%88%AC%E8%9F%B2/#disqus_thread" itemprop="discussionUrl">
+      <span class="post-comments-count disqus-comment-count" data-disqus-identifier="posts/net-6-菲律賓匯率爬蟲/" itemprop="commentCount"></span>
+    </a>
+  </span>
+  
+  <br>
+            <span class="post-meta-item" title="廢話字數">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">廢話字數：</span>
+              <span>29k</span>
+            </span>
+            <span class="post-meta-item" title="所需傷眼時間">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
+              <span>26 分鐘</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>&nbsp;</p>
+<span id="more"></span>
+
+<h3 id="原理分析"><a href="#原理分析" class="headerlink" title="原理分析"></a>原理分析</h3><p>工作上同事遇到的問題 , 順手幫忙看看 , 除了三不五時噴出 <code>503</code> 的問題外 (可能被 DDoS 或是防止你太過頻繁呼叫) , 基本上沒啥太大困難<br>這個需求大概就是需要從 <a target="_blank" rel="noopener" href="https://www.bsp.gov.ph/SitePages/Statistics/exchangerate.aspx">菲律賓網站</a> 上抓取匯率 , 難得搞這麼正經的東西 , 第一想到就是爬蟲<br>所以開啟 chrome <code>F12</code> 看看有啥東東 , 秒得出以下結論可以秒抓到台灣的 tr 直接收工一半</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">document.querySelector(&#x27;#ExRate #tb2 tr:nth-last-child(2)&#x27;)</span><br></pre></td></tr></table></figure>
+
+<p>如果噴 503 會長這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Service Unavailable - DNS failure</span><br><span class="line">The server is temporarily unable to service your request. Please try again later.</span><br><span class="line">Reference #11.e44ac817.1668595598.24c9e93</span><br></pre></td></tr></table></figure>
+
+<p>開 F12 仔細觀察結果會發現其實他是去呼叫 <code>OData</code> 的 api 來撈出資料</p>
+<p>encode</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;Exchange%20Rate&#x27;)/items?$select=*&amp;$filter=Group%20eq%20%272%27&amp;$orderby=Ordering%20asc</span><br></pre></td></tr></table></figure>
+
+<p>沒 encode</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;Exchange Rate&#x27;)/items?$select=*&amp;$filter=Group eq &#x27;2&#x27;&amp;$orderby=Ordering asc</span><br></pre></td></tr></table></figure>
+
+<p>只拿特定的國家幣別及需要的屬性</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;Exchange%20Rate&#x27;)/items?$select=Title,Symbol,EURequivalent,USDequivalent,PHPequivalent,PublishedDate,Modified,Created&amp;$filter=Symbol%20eq%20%27CAD%27%20or%20Symbol%20eq%20%27CNY%27%20or%20Symbol%20eq%20%27EUR%27%20or%20Symbol%20eq%20%27HKD%27%20or%20Symbol%20eq%20%27JPY%27&amp;$orderby=Ordering%20asc</span><br></pre></td></tr></table></figure>
+
+<h3 id="前端-js-呼叫"><a href="#前端-js-呼叫" class="headerlink" title="前端 js 呼叫"></a>前端 js 呼叫</h3><p>因為沒搞過 js call OData Api , 原來是要加上 <code>xhr.setRequestHeader(&quot;Accept&quot;, &quot;application/json&quot;);</code> 自己耍白痴又卡一陣子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var url = &quot;https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;Exchange%20Rate&#x27;)/items?$select=*&amp;$filter=Group%20eq%20%272%27&amp;$orderby=Ordering%20asc&quot;;</span><br><span class="line">const xhr = new XMLHttpRequest();</span><br><span class="line">xhr.open(&#x27;GET&#x27;, url);</span><br><span class="line">xhr.setRequestHeader(&#x27;Accept&#x27;, &#x27;application/json&#x27;);</span><br><span class="line">xhr.setRequestHeader(&#x27;Content-Type&#x27;, &#x27;application/json; charset=utf-8&#x27;);</span><br><span class="line">xhr.onload = function(e) &#123;</span><br><span class="line">  if (this.status == 200) &#123;</span><br><span class="line">    console.log(&#x27;response&#x27;, this.response);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line">xhr.send();</span><br></pre></td></tr></table></figure>
+
+<h3 id="powershell-撰寫"><a href="#powershell-撰寫" class="headerlink" title="powershell 撰寫"></a>powershell 撰寫</h3><p>秘密都知道以後可以丟到 postman 產個 powershell 玩看看 , 他這個 api 預設給 xml , 所以要自己加上 headers 讓他吐 json<br>這裡不能用 <code>*</code> 來 select , 因為他的結果會有兩個 <code>ID</code> , 如果要陽春點就設定個排程把 powershell 丟進去看要做啥就收工了</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$utf8</span> = <span class="built_in">New-Object</span> System.Text.UTF8Encoding <span class="variable">$false</span></span><br><span class="line"><span class="variable">$headers</span> = <span class="built_in">New-Object</span> <span class="string">&quot;System.Collections.Generic.Dictionary[[String],[String]]&quot;</span></span><br><span class="line"><span class="variable">$headers</span>.Add(<span class="string">&quot;Accept&quot;</span>, <span class="string">&quot;application/json&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># $response = Invoke-RestMethod &#x27;https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;&#x27;Exchange Rate&#x27;&#x27;)/items?$select=*&amp;$filter=Group eq &#x27;&#x27;2&#x27;&#x27;&amp;$orderby=Ordering asc&#x27; -Method &#x27;GET&#x27; -Headers $headers</span></span><br><span class="line"><span class="variable">$response</span> = <span class="built_in">Invoke-RestMethod</span> <span class="string">&#x27;https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;</span><span class="string">&#x27;Exchange Rate&#x27;</span><span class="string">&#x27;)/items?$select=Title,Created,Modified,EURequivalent,USDequivalent,PHPequivalent&amp;$filter=Group eq &#x27;</span><span class="string">&#x27;2&#x27;</span><span class="string">&#x27;&amp;$orderby=Ordering asc&#x27;</span> <span class="literal">-Method</span> <span class="string">&#x27;GET&#x27;</span> <span class="literal">-Headers</span> <span class="variable">$headers</span></span><br><span class="line"><span class="variable">$json</span> = <span class="variable">$response</span> | <span class="built_in">ConvertTo-Json</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (!<span class="variable">$response</span>) &#123;</span><br><span class="line">    [<span class="type">System.IO.File</span>]::WriteAllLines(<span class="string">&quot;test.json&quot;</span>, <span class="variable">$json</span>, <span class="variable">$utf8</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>另外最好用 powershell 5.x 可以這樣查版本 , 安裝下載可以<a target="_blank" rel="noopener" href="https://github.com/MicrosoftDocs/PowerShell-Docs/blob/main/reference/docs-conceptual/windows-powershell/wmf/setup/install-configure.md">參考微軟</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$PSVersionTable</span><br></pre></td></tr></table></figure>
+
+<p>如果噴權限錯誤可以用 admin 執行這句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Set-ExecutionPolicy RemoteSigned</span><br></pre></td></tr></table></figure>
+
+<h3 id="powershell-撰寫續"><a href="#powershell-撰寫續" class="headerlink" title="powershell 撰寫續"></a>powershell 撰寫續</h3><p>寫了都寫了 , 就順便搞看看怎麼連到 Oracle , 反正以前沒玩過 , 主要就是靠 <code>Oracle.ManagedDataAccess.dll</code> 其他就跟寫 ado.net 一樣<br>可以參考<a target="_blank" rel="noopener" href="https://tsql.tech/how-to-read-data-from-oracle-database-via-powershell-without-using-odbc-or-installing-oracle-client-and-import-it-to-sql-server-too/">這篇</a><br>比較特別的是對方吐的 api 是 ISO 時間 , 台灣需要 +8 , 因為跟 .net 同源的關係 ,<br>微軟都處理好了可以這樣寫 <code>[System.DateTime]::Parse($item.PublishedDate).ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;)</code><br>另外就是 oracle 要用 <code>to_date(&#39;2022-11-16 16:00:00&#39;, &#39;YYYY-MM-DD HH24:MI:SS&#39;)</code> 日期格式才會正常</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br></pre></td><td class="code"><pre><span class="line">$headers = New-Object &quot;System.Collections.Generic.Dictionary[[String],[String]]&quot;</span><br><span class="line">$headers.Add(&quot;Accept&quot;, &quot;application/json&quot;)</span><br><span class="line">#</span><br><span class="line"># &quot;Title&quot;: &quot;JAPAN&quot;,</span><br><span class="line"># &quot;Symbol&quot;: &quot;JPY&quot;,</span><br><span class="line"># &quot;EURequivalent&quot;: &quot;0.006893&quot;,</span><br><span class="line"># &quot;USDequivalent&quot;: &quot;0.007166&quot;,</span><br><span class="line"># &quot;PHPequivalent&quot;: &quot;0.4116&quot;,</span><br><span class="line"># &quot;PublishedDate&quot;: &quot;2022-11-16T16:00:00Z&quot;,</span><br><span class="line"># &quot;Modified&quot;: &quot;2022-11-17T00:45:22Z&quot;,</span><br><span class="line"># &quot;Created&quot;: &quot;2020-07-16T09:09:16Z&quot;</span><br><span class="line">#</span><br><span class="line">$response = Invoke-RestMethod &#x27;https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;&#x27;Exchange%20Rate&#x27;&#x27;)/items?$select=Title,Symbol,EURequivalent,USDequivalent,PHPequivalent,PublishedDate,Modified,Created&amp;$filter=Symbol eq &#x27;&#x27;CAD&#x27;&#x27; or Symbol eq &#x27;&#x27;CNY&#x27;&#x27; or Symbol eq &#x27;&#x27;EUR&#x27;&#x27; or Symbol eq &#x27;&#x27;HKD&#x27;&#x27; or Symbol eq &#x27;&#x27;JPY&#x27;&#x27;&amp;$orderby=Ordering asc&#x27; -Method &#x27;GET&#x27; -Headers $headers</span><br><span class="line"></span><br><span class="line">if ($response) &#123;</span><br><span class="line">    # 轉換 json 為 powershell 物件</span><br><span class="line">    $json = $response | ConvertTo-Json</span><br><span class="line">    $obj = $json | ConvertFrom-Json</span><br><span class="line"></span><br><span class="line">    # 引用 oracle dll</span><br><span class="line">    #https://devblogs.microsoft.com/scripting/use-oracle-odp-net-and-powershell-to-simplify-data-access/</span><br><span class="line">    $OracleDLLPath = &quot;D:\Oracle.ManagedDataAccess.dll&quot;</span><br><span class="line"></span><br><span class="line">    #Load Required Types and modules</span><br><span class="line">    # 這裡有 error 不要管他</span><br><span class="line">    Add-Type -Path $OracleDLLPath</span><br><span class="line"></span><br><span class="line">    # 設定連線字串</span><br><span class="line">    $datasource = &quot;(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=123.45.67.89)(PORT=1521))(CONNECT_DATA=(SID=TEST))) &quot;</span><br><span class="line"></span><br><span class="line">    # 帳號密碼設定</span><br><span class="line">    $username = &quot;test&quot;</span><br><span class="line">    $password = &quot;test&quot;</span><br><span class="line"></span><br><span class="line">    #Create the connection string</span><br><span class="line">    $connectionstring = &#x27;User Id=&#x27; + $username + &#x27;;Password=&#x27; + $password + &#x27;;Data Source=&#x27; + $datasource </span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">        # 建立連線</span><br><span class="line">        $con = New-Object Oracle.ManagedDataAccess.Client.OracleConnection($connectionstring)</span><br><span class="line"></span><br><span class="line">        # 建立 command 物件</span><br><span class="line">        $cmd = $con.CreateCommand()</span><br><span class="line">        $cmd.CommandTimeout = 3600 #Seconds</span><br><span class="line">        $cmd.FetchSize = 10000000 #10MB</span><br><span class="line"></span><br><span class="line">        # 開啟連線</span><br><span class="line">        $con.open()</span><br><span class="line"></span><br><span class="line">        # 印出連線訊息</span><br><span class="line">        &quot;Connected to database: &#123;0&#125; running on host: &#123;1&#125; – Servicename: &#123;2&#125; – Serverversion: &#123;3&#125;&quot; -f `</span><br><span class="line">        $con.DatabaseName, $con.HostName, $con.ServiceName, $con.ServerVersion</span><br><span class="line"></span><br><span class="line">        # loop 跑 5 筆資料</span><br><span class="line">        ForEach ($item in $obj.value) &#123;</span><br><span class="line">            # 建立 insert 語法</span><br><span class="line">            # 他這個時間應該是 ISO 時間 , 台灣時區需要 +8 powershell 因為是 .net 同源 , 所以已經處理這塊</span><br><span class="line">            # PublishedDate 2022-11-16T16:00:00Z 所以會是台灣時間 2022-11-17 00:00:00</span><br><span class="line">            # Modified 這個好像台灣時間早上會在更新一次 , 不確定你們要用啥</span><br><span class="line">            $insertStatement = </span><br><span class="line">            &quot;INSERT INTO BANK_RATE (Title, Symbol , PHPequivalent , PublishedDate  ,Modified)</span><br><span class="line">            VALUES(&#x27;&#123;0&#125;&#x27; , &#x27;&#123;1&#125;&#x27; , &#123;2&#125; , to_date(&#x27;&#123;3&#125;&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;) , to_date(&#x27;&#123;4&#125;&#x27;, &#x27;YYYY-MM-DD HH24:MI:SS&#x27;))</span><br><span class="line">            &quot; -f `</span><br><span class="line">            $item.Title , $item.Symbol , $item.PHPequivalent , [System.DateTime]::Parse($item.PublishedDate).ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;) , [System.DateTime]::Parse($item.Modified).ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;)</span><br><span class="line"></span><br><span class="line">            # 變換 insert 語法</span><br><span class="line">            $cmd.CommandText = $insertStatement</span><br><span class="line"></span><br><span class="line">            # 印出 insert 語法</span><br><span class="line">            $insertStatement</span><br><span class="line"></span><br><span class="line">            # 印出屬性</span><br><span class="line">            &quot;Title: &#123;0&#125; , Symbol: &#123;1&#125; , PHPequivalent: &#123;2&#125; , PublishedDate: &#123;3&#125; , Modified: &#123;4&#125;&quot; -f `</span><br><span class="line">            $item.Title , $item.Symbol , $item.PHPequivalent , [System.DateTime]::Parse($item.PublishedDate).ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;) , [System.DateTime]::Parse($item.Modified).ToString(&quot;yyyy-MM-dd HH:mm:ss&quot;)</span><br><span class="line"></span><br><span class="line">            # 執行新增資料指令</span><br><span class="line">            $effect = $cmd.ExecuteNonQuery()</span><br><span class="line"></span><br><span class="line">            &quot;insert &#123;0&#125; row&quot; -f $effect</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        # 關閉連線</span><br><span class="line">        $con.Close()</span><br><span class="line">    &#125;</span><br><span class="line">    catch &#123;</span><br><span class="line">        Write-Error (&quot;Cant open connection: &#123;0&#125;`n&#123;1&#125;&quot; -f `</span><br><span class="line">                $con.ConnectionString, $_.Exception.ToString())</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    finally &#123;</span><br><span class="line">        if ($con.State -eq &#x27;Open&#x27;) &#123; $con.close() &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="撰寫-api"><a href="#撰寫-api" class="headerlink" title="撰寫 api"></a>撰寫 api</h3><p>反正都動了 , 就寫成 .net 6 的 api 看看吧 , 這裡還是用下老朋友 <a target="_blank" rel="noopener" href="https://app.quicktype.io/?l=csharp">quicktype</a> 先把撈回來的 json 產為 c# 類別然後微調<br>接著寫個 <code>PHRateController</code> , 注意需要注入 <code>IHttpClientFactory</code> 還有就是用老派的 <code>Newtonsoft.Json</code> , 另外 503 or 其他狀況就看自己怎樣去調整囉</p>
+<p><code>PHRateController</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br></pre></td><td class="code"><pre><span class="line">using Microsoft.AspNetCore.Mvc;</span><br><span class="line">using Newtonsoft.Json;</span><br><span class="line">using System.Net.Http.Headers;</span><br><span class="line"></span><br><span class="line">namespace PHRateWebApi.Controllers</span><br><span class="line">&#123;</span><br><span class="line">    [ApiController]</span><br><span class="line">    [Route(&quot;[controller]&quot;)]</span><br><span class="line">    public class PHRateController : ControllerBase</span><br><span class="line">    &#123;</span><br><span class="line"></span><br><span class="line">        private readonly ILogger&lt;PHRateController&gt; _logger;</span><br><span class="line">        private readonly IHttpClientFactory _clientFactory;</span><br><span class="line"></span><br><span class="line">        public PHRateController(</span><br><span class="line">            ILogger&lt;PHRateController&gt; logger,</span><br><span class="line">            IHttpClientFactory clientFactory)</span><br><span class="line">        &#123;</span><br><span class="line">            _logger = logger;</span><br><span class="line">            _clientFactory = clientFactory;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        [Route(nameof(Get))]</span><br><span class="line">        [HttpGet()]</span><br><span class="line">        public async Task&lt;IActionResult&gt; Get()</span><br><span class="line">        &#123;</span><br><span class="line">            var client = _clientFactory.CreateClient();</span><br><span class="line">            client.DefaultRequestHeaders</span><br><span class="line">                  .Accept</span><br><span class="line">                  .Add(new MediaTypeWithQualityHeaderValue(&quot;application/json&quot;));</span><br><span class="line"></span><br><span class="line">            //全部匯率</span><br><span class="line">            //https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;Exchange%20Rate&#x27;)/items?$select=*&amp;$orderby=Ordering%20asc</span><br><span class="line">            //</span><br><span class="line"></span><br><span class="line">            //decode</span><br><span class="line">            //https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;Exchange%20Rate&#x27;)/items?$select=*&amp;$filter=Group%20eq%20%272%27&amp;$orderby=Ordering%20asc</span><br><span class="line"></span><br><span class="line">            //沒 decode</span><br><span class="line">            //https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;Exchange Rate&#x27;)/items?$select=*&amp;$filter=Group eq &#x27;2&#x27;&amp;$orderby=Ordering asc</span><br><span class="line">            var url = $&quot;https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;Exchange Rate&#x27;)/items?$select=*&amp;$filter=Group eq &#x27;2&#x27;&amp;$orderby=Ordering asc&quot;;</span><br><span class="line"></span><br><span class="line">            var resp = await client.GetAsync(url);</span><br><span class="line">            if (resp.IsSuccessStatusCode)</span><br><span class="line">            &#123;</span><br><span class="line">                var stream = await resp.Content.ReadAsStringAsync();</span><br><span class="line">                var json = JsonConvert.DeserializeObject&lt;ODataResp&gt;(stream);</span><br><span class="line">                return Ok(json);</span><br><span class="line">            &#125;</span><br><span class="line">            else</span><br><span class="line">            &#123;</span><br><span class="line">                return NotFound();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public class ODataResp</span><br><span class="line">    &#123;</span><br><span class="line">        [JsonProperty(&quot;odata.metadata&quot;)]</span><br><span class="line">        public Uri OdataMetadata &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;value&quot;)]</span><br><span class="line">        public List&lt;Value&gt; Value &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public class Value</span><br><span class="line">    &#123;</span><br><span class="line">        [JsonProperty(&quot;odata.type&quot;)]</span><br><span class="line">        public string OdataType &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;odata.id&quot;)]</span><br><span class="line">        public Guid OdataId &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;odata.etag&quot;)]</span><br><span class="line">        public string OdataEtag &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;odata.editLink&quot;)]</span><br><span class="line">        public string OdataEditLink &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;FileSystemObjectType&quot;)]</span><br><span class="line">        public long FileSystemObjectType &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;Id&quot;)]</span><br><span class="line">        public long ValueId &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;ServerRedirectedEmbedUri&quot;)]</span><br><span class="line">        public object ServerRedirectedEmbedUri &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;ServerRedirectedEmbedUrl&quot;)]</span><br><span class="line">        public string ServerRedirectedEmbedUrl &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;ContentTypeId&quot;)]</span><br><span class="line">        public string ContentTypeId &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;Title&quot;)]</span><br><span class="line">        public string Title &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;ComplianceAssetId&quot;)]</span><br><span class="line">        public object ComplianceAssetId &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;Unit&quot;)]</span><br><span class="line">        public string Unit &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;Symbol&quot;)]</span><br><span class="line">        public string Symbol &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;EURequivalent&quot;)]</span><br><span class="line">        public string EuRequivalent &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;USDequivalent&quot;)]</span><br><span class="line">        public string UsDequivalent &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;PHPequivalent&quot;)]</span><br><span class="line">        public string PhPequivalent &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;Ordering&quot;)]</span><br><span class="line">        public long Ordering &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;Group&quot;)]</span><br><span class="line">        public string Group &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;PublishedDate&quot;)]</span><br><span class="line">        public DateTimeOffset PublishedDate &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;ID&quot;)]</span><br><span class="line">        public long Id &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;Modified&quot;)]</span><br><span class="line">        public DateTimeOffset Modified &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;Created&quot;)]</span><br><span class="line">        public DateTimeOffset Created &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;AuthorId&quot;)]</span><br><span class="line">        public long AuthorId &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;EditorId&quot;)]</span><br><span class="line">        public long EditorId &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;OData__UIVersionString&quot;)]</span><br><span class="line">        public string ODataUiVersionString &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;Attachments&quot;)]</span><br><span class="line">        public bool Attachments &#123; get; set; &#125;</span><br><span class="line"></span><br><span class="line">        [JsonProperty(&quot;GUID&quot;)]</span><br><span class="line">        public Guid Guid &#123; get; set; &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>留意需要加上 <code>builder.Services.AddHttpClient();</code> 不然無法 work<br><code>Program.cs</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">var builder = WebApplication.CreateBuilder(args);</span><br><span class="line"></span><br><span class="line">// Add services to the container.</span><br><span class="line"></span><br><span class="line">builder.Services.AddControllers();</span><br><span class="line">builder.Services.AddHttpClient();</span><br><span class="line"></span><br><span class="line">// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle</span><br><span class="line">builder.Services.AddEndpointsApiExplorer();</span><br><span class="line">builder.Services.AddSwaggerGen();</span><br><span class="line"></span><br><span class="line">var app = builder.Build();</span><br><span class="line"></span><br><span class="line">// Configure the HTTP request pipeline.</span><br><span class="line">if (app.Environment.IsDevelopment())</span><br><span class="line">&#123;</span><br><span class="line">    app.UseSwagger();</span><br><span class="line">    app.UseSwaggerUI();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">app.UseAuthorization();</span><br><span class="line"></span><br><span class="line">app.MapControllers();</span><br><span class="line"></span><br><span class="line">app.Run();</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="oracle"><a href="#oracle" class="headerlink" title="oracle"></a>oracle</h3><p>本來是不太想搞這個咚咚的 , 不過實在非常好奇 , 加上以前只有在 windows 裝過 oracle 測試環境 , 今天就來玩看看 XD , 沒想到真自虐 <code>ps: 建議按照順序閱讀 , 否則有可能環節漏掉就陣亡</code></p>
+<h4 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h4><p>docker 安裝 oracle 相關可以 <a target="_blank" rel="noopener" href="https://www.developersoapbox.com/creating-oracle-database-xe-18c-docker-container/">參考這篇</a><br>首先 pull 這個 oraclelinux 的 image , 因為有 <code>8.7</code> 秉持沙雕精神就用它</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull oraclelinux:8.7</span><br></pre></td></tr></table></figure>
+
+<p>接著啟動 container 並且跳進去 , 這裡記得要 mapping 1521 port 等等 sql developer 才可以連</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -dit --name oracle -p 1521:1521 oraclelinux:8.7</span><br><span class="line">docker exec -it oracle /bin/bash</span><br></pre></td></tr></table></figure>
+
+<p>要關掉的話可以這樣下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker stop oracle</span><br><span class="line"></span><br><span class="line">#或這樣關閉</span><br><span class="line">#docker container ls -a</span><br><span class="line">#CONTAINER ID   IMAGE             COMMAND       CREATED       STATUS                      PORTS     NAMES</span><br><span class="line">#a4d10c477327   oraclelinux:8.7   &quot;/bin/bash&quot;   9 hours ago   Exited (0) 39 seconds ago             oracle</span><br><span class="line">#docker stop a4d10c477327</span><br></pre></td></tr></table></figure>
+
+<p>移除</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container rm a4d</span><br></pre></td></tr></table></figure>
+
+<h4 id="安裝-oracle-database-21c"><a href="#安裝-oracle-database-21c" class="headerlink" title="安裝 oracle database 21c"></a>安裝 oracle database 21c</h4><p>安裝無腦檔案</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dnf install -y oracle-database-preinstall-21c</span><br></pre></td></tr></table></figure>
+
+<p>安裝其他會用到的工具 (option)</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#可能不用 java 如果 orapki 噴找不到 java 才裝</span><br><span class="line">yum install java-1.8.0-openjdk</span><br><span class="line">yum install vim</span><br></pre></td></tr></table></figure>
+
+<p>到 oracle <a target="_blank" rel="noopener" href="https://www.oracle.com/tw/database/technologies/oracle-database-software-downloads.html">官網下載</a> 這個 <code>oracle-database-ee-21c-1.0-1.ol8.x86_64.rpm</code> 安裝檔 , 丟到內部機器裡面</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd /home/oracle</span><br><span class="line">curl -O http://123.45.67.89:5500/oracle-database-ee-21c-1.0-1.ol8.x86_64.rpm</span><br><span class="line">dnf install -y oracle-database-ee-21c-1.0-1.ol8.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>中間會噴這個 error , 需要加入環境變數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">su: cannot open session: Permission denied</span><br><span class="line">[SEVERE] The su command is not configured properly or the oracle user does not have the required privileges to install the Oracle database. If you are running in a container environment, ensure to set the environment variable ORACLE_DOCKER_INSTALL=true and try again.</span><br><span class="line">error: %prein(oracle-database-ee-21c-1.0-1.x86_64) scriptlet failed, exit status 1</span><br><span class="line"></span><br><span class="line"># 開 vim 編輯</span><br><span class="line">vim ~/.bashrc</span><br><span class="line">export ORACLE_DOCKER_INSTALL=true</span><br><span class="line"></span><br><span class="line"># reload 讓環境變數生效</span><br><span class="line">source ~/.bashrc</span><br><span class="line">dnf install -y oracle-database-ee-21c-1.0-1.ol8.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>接著執行這串要等一陣子 , 大概 5 - 7 分鐘內 , <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=2e-LyJcxhsI">聽個 Larissa Liveir</a></p>
+<iframe width="853" height="480" src="https://www.youtube.com/embed/2e-LyJcxhsI" title="Wicked Game - Larissa Liveir" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/oracledb_ORCLCDB-21c configure</span><br></pre></td></tr></table></figure>
+
+<p>config 好當然要來連線看看 , 預設 sqlplus 在這個底下</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/opt/oracle/product/21c/dbhome_1/bin</span><br></pre></td></tr></table></figure>
+
+<p>設定環境變數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br><span class="line"></span><br><span class="line">PATH=/opt/oracle/product/21c/dbhome_1/bin:/home/oracle/.local/bin:/home/oracle/bin:/usr/local/bin:/usr/bin:/usr/local/sbin:/usr/sbin</span><br><span class="line">export ORACLE_HOME=/opt/oracle/product/21c/dbhome_1/</span><br><span class="line">export ORACLE_SID=ORCLCDB</span><br><span class="line">export ORACLE_BASE=/opt/oracle</span><br><span class="line"></span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+
+<p>看目前監聽狀態</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsnrctl status</span><br></pre></td></tr></table></figure>
+
+<p>查看 service 狀態</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service --status-all</span><br></pre></td></tr></table></figure>
+
+<h4 id="登入-oracle"><a href="#登入-oracle" class="headerlink" title="登入 oracle"></a>登入 oracle</h4><p>用 oracle 帳號進去的話一樣要設定環境變數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">su - oracle</span><br><span class="line">sqlplus / as sysdba</span><br></pre></td></tr></table></figure>
+
+<p>或是跳出以後用 oracle 進去 bash<br>順帶一提要從 sqlplus 跳走用 ctrl + d</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">docker exec -it --user oracle oracle /bin/bash</span><br><span class="line">sqlplus / as sysdba</span><br><span class="line"></span><br><span class="line">#SQL*Plus: Release 21.0.0.0.0 - Production on Tue Nov 22 14:58:39 2022</span><br><span class="line">#Version 21.3.0.0.0</span><br><span class="line">#</span><br><span class="line">#Copyright (c) 1982, 2021, Oracle.  All rights reserved.</span><br><span class="line">#</span><br><span class="line">#</span><br><span class="line">#Connected to:</span><br><span class="line">#Oracle Database 21c Enterprise Edition Release 21.0.0.0.0 - Production</span><br><span class="line">#Version 21.3.0.0.0</span><br></pre></td></tr></table></figure>
+
+<p>修改密碼</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ALTER USER SYS IDENTIFIED BY 123456;</span><br><span class="line">ALTER USER SYSTEM IDENTIFIED BY 123456;</span><br></pre></td></tr></table></figure>
+
+<p>接著就可以用 sql developer 登入進去<br>Name &#x3D;&gt; docker-oracle21c<br><code>使用者名稱</code> &#x3D;&gt; <code>SYSTEM</code><br>密碼 &#x3D;&gt; <code>123456</code><br><code>主機名稱</code> &#x3D;&gt; <code>localhost</code><br><code>PORT</code> &#x3D;&gt; <code>1521</code><br><code>SID</code> &#x3D;&gt; <code>ORCLCDB</code></p>
+<p>設定 ACL</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">BEGIN</span><br><span class="line">	dbms_network_acl_admin.create_acl (    </span><br><span class="line">	acl         =&gt; &#x27;utl_http.xml&#x27;,         </span><br><span class="line">	description =&gt; &#x27;HTTP Access&#x27;,          </span><br><span class="line">	principal   =&gt; &#x27;SYSTEM&#x27;,               </span><br><span class="line">	is_grant    =&gt; TRUE,                   </span><br><span class="line">	privilege   =&gt; &#x27;connect&#x27;,              </span><br><span class="line">	start_date  =&gt; null,                   </span><br><span class="line">	end_date    =&gt; null                    </span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	dbms_network_acl_admin.add_privilege (  </span><br><span class="line">	acl        =&gt; &#x27;utl_http.xml&#x27;,           </span><br><span class="line">	principal  =&gt; &#x27;SYSTEM&#x27;,                 </span><br><span class="line">	is_grant   =&gt; TRUE,                     </span><br><span class="line">	privilege  =&gt; &#x27;resolve&#x27;,                </span><br><span class="line">	start_date =&gt; null,                     </span><br><span class="line">	end_date   =&gt; null</span><br><span class="line">	);</span><br><span class="line"></span><br><span class="line">	dbms_network_acl_admin.assign_acl (</span><br><span class="line">	acl        =&gt; &#x27;utl_http.xml&#x27;,</span><br><span class="line">	host       =&gt; &#x27;*&#x27;</span><br><span class="line">	);</span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+
+
+<p>建立 user 參考<a target="_blank" rel="noopener" href="https://stackoverflow.com/questions/33330968/error-ora-65096-invalid-common-user-or-role-name-in-oracle">這篇</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sqlplus / as sysdba</span><br><span class="line">create user user1 identified by 1;</span><br><span class="line">grant create session to user1</span><br></pre></td></tr></table></figure>
+
+<p>查 http 的 json 剛剛有設定 ACL 所以會正常 , 沒設定會噴 error</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SELECT UTL_HTTP.REQUEST(&#x27;http://jsonplaceholder.typicode.com/comments?postId=1&#x27;) DOC </span><br><span class="line">FROM DUAL;</span><br></pre></td></tr></table></figure>
+
+<p>接著查 https 這時候應該會噴 error <code>ORA-29024: 憑證驗證失敗</code><br>留意到 url <code>空白</code> 要換成 <code>%20</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">SELECT UTL_HTTP.REQUEST(&#x27;https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;&#x27;Exchange%20Rate&#x27;&#x27;)/items?$select=Title,Symbol,EURequivalent,USDequivalent,PHPequivalent,PublishedDate,Modified,Created&amp;$filter=Symbol%20eq%20&#x27;&#x27;CAD&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;CNY&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;EUR&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;HKD&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;JPY&#x27;&#x27;&amp;$orderby=Ordering%20asc&#x27;)</span><br><span class="line">FROM DUAL;</span><br><span class="line"></span><br><span class="line">ORA-29273: HTTP 要求失敗</span><br><span class="line">ORA-06512: 在 &quot;SYS.UTL_HTTP&quot;, line 1530</span><br><span class="line">ORA-29024: 憑證驗證失敗</span><br><span class="line">ORA-06512: 在 &quot;SYS.UTL_HTTP&quot;, line 380</span><br><span class="line">ORA-06512: 在 &quot;SYS.UTL_HTTP&quot;, line 1470</span><br><span class="line">ORA-06512: 在 line 1</span><br><span class="line">29273. 00000 -  &quot;HTTP request failed&quot;</span><br><span class="line">*Cause:    The UTL_HTTP package failed to execute the HTTP request.</span><br><span class="line">*Action:   Use get_detailed_sqlerrm to check the detailed error message.</span><br><span class="line">           Fix the error and retry the HTTP request.</span><br></pre></td></tr></table></figure>
+
+<h4 id="wallet-與憑證設定"><a href="#wallet-與憑證設定" class="headerlink" title="wallet 與憑證設定"></a>wallet 與憑證設定</h4><p>建立 wallet <a target="_blank" rel="noopener" href="https://oracle-base.com/articles/misc/utl_http-and-ssl">主要參考這篇</a> 或 <a target="_blank" rel="noopener" href="https://doyensys.com/blogs/how-to-access-https-ssl-url-via-utl-http-using-the-orapki-wallet-command/">這篇</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd ~</span><br><span class="line">mkdir wallet</span><br><span class="line">orapki wallet create -wallet /home/oracle/wallet -pwd WalletPasswd123 -auto_login</span><br></pre></td></tr></table></figure>
+
+<p>如果密碼不符合規則會噴以下 error 乖乖用複雜的密碼</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PKI-01002: Invalid password. Passwords must have a minimum length of eight characters and contain alphabetic characters combined with numbers or special characters</span><br></pre></td></tr></table></figure>
+
+<p>接著到 <a target="_blank" rel="noopener" href="https://www.bsp.gov.ph/SitePages/Default.aspx">菲律賓匯率網站</a> 下載憑證<br>點<code>鎖頭</code> &#x3D;&gt; <code>憑證</code> &#x3D;&gt; <code>憑證路徑</code> &#x3D;&gt;  (注意這裡暴雷卡爆久 , 要點選 root) 這裡是 <code>Digit Cert</code> &#x3D;&gt; <code>檢視憑證</code> &#x3D;&gt;<br><code>這時又彈出一個視窗</code> &#x3D;&gt; <code>詳細資料</code> &#x3D;&gt; <code>複製到檔案</code><br><code>彈出精靈視窗</code> &#x3D;&gt; <code>下一步</code> &#x3D;&gt; <code>Base64 編碼 X.50.9 (.CER)(S)</code> &#x3D;&gt; <code>下一步</code> &#x3D;&gt; 選你要的檔名存檔 , 我用 <code>phprate_root.cer</code></p>
+<p>最後加入憑證 好像不吃相對路徑? 會噴 <code>Unable to read certificate at ~/crt/phprate_root.crt</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">cd /home/oracle</span><br><span class="line">mkdir crt</span><br><span class="line">cd crt</span><br><span class="line">orapki wallet add -wallet /home/oracle/wallet -trusted_cert -cert &quot;/home/oracle/crt/phprate_root.cer&quot; -pwd WalletPasswd123</span><br></pre></td></tr></table></figure>
+
+<p>憑證長這樣懶得下載可以直接複製這串去用即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIDxTCCAq2gAwIBAgIQAqxcJmoLQJuPC3nyrkYldzANBgkqhkiG9w0BAQUFADBs</span><br><span class="line">MQswCQYDVQQGEwJVUzEVMBMGA1UEChMMRGlnaUNlcnQgSW5jMRkwFwYDVQQLExB3</span><br><span class="line">d3cuZGlnaWNlcnQuY29tMSswKQYDVQQDEyJEaWdpQ2VydCBIaWdoIEFzc3VyYW5j</span><br><span class="line">ZSBFViBSb290IENBMB4XDTA2MTExMDAwMDAwMFoXDTMxMTExMDAwMDAwMFowbDEL</span><br><span class="line">MAkGA1UEBhMCVVMxFTATBgNVBAoTDERpZ2lDZXJ0IEluYzEZMBcGA1UECxMQd3d3</span><br><span class="line">LmRpZ2ljZXJ0LmNvbTErMCkGA1UEAxMiRGlnaUNlcnQgSGlnaCBBc3N1cmFuY2Ug</span><br><span class="line">RVYgUm9vdCBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMbM5XPm</span><br><span class="line">+9S75S0tMqbf5YE/yc0lSbZxKsPVlDRnogocsF9ppkCxxLeyj9CYpKlBWTrT3JTW</span><br><span class="line">PNt0OKRKzE0lgvdKpVMSOO7zSW1xkX5jtqumX8OkhPhPYlG++MXs2ziS4wblCJEM</span><br><span class="line">xChBVfvLWokVfnHoNb9Ncgk9vjo4UFt3MRuNs8ckRZqnrG0AFFoEt7oT61EKmEFB</span><br><span class="line">Ik5lYYeBQVCmeVyJ3hlKV9Uu5l0cUyx+mM0aBhakaHPQNAQTXKFx01p8VdteZOE3</span><br><span class="line">hzBWBOURtCmAEvF5OYiiAhF8J2a3iLd48soKqDirCmTCv2ZdlYTBoSUeh10aUAsg</span><br><span class="line">EsxBu24LUTi4S8sCAwEAAaNjMGEwDgYDVR0PAQH/BAQDAgGGMA8GA1UdEwEB/wQF</span><br><span class="line">MAMBAf8wHQYDVR0OBBYEFLE+w2kD+L9HAdSYJhoIAu9jZCvDMB8GA1UdIwQYMBaA</span><br><span class="line">FLE+w2kD+L9HAdSYJhoIAu9jZCvDMA0GCSqGSIb3DQEBBQUAA4IBAQAcGgaX3Nec</span><br><span class="line">nzyIZgYIVyHbIUf4KmeqvxgydkAQV8GK83rZEWWONfqe/EW1ntlMMUu4kehDLI6z</span><br><span class="line">eM7b41N5cdblIZQB2lWHmiRk9opmzN6cN82oNLFpmyPInngiK3BD41VHMWEZ71jF</span><br><span class="line">hS9OMPagMRYjyOfiZRYzy78aG6A9+MpeizGLYAiJLQwGXFK3xPkKmNEVX58Svnw2</span><br><span class="line">Yzi9RKR/5CYrCsSXaQ3pjOLAEFe4yHYSkVXySGnYvCoCWw9E1CAx2/S6cCZdkGCe</span><br><span class="line">vEsXCS+0yx5DaMkHJ8HSXPfqIbloEpw8nL+e/IBcm2PN7EeqJSdnoDfzAIJ9VNep</span><br><span class="line">+OkuE6N36B9K</span><br><span class="line">-----END CERTIFICATE-----</span><br></pre></td></tr></table></figure>
+
+
+<p>寫錯需要移除可以用這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#orapki wallet remove -wallet [path] -trusted_cert_all -pwd [pwd]</span><br><span class="line"></span><br><span class="line">orapki wallet remove -wallet /home/oracle/wallet -trusted_cert_all -pwd WalletPasswd123</span><br></pre></td></tr></table></figure>
+
+<p>如果你的憑證是從 windows 抓來的會有 ^M 符號 <a target="_blank" rel="noopener" href="https://serverfault.com/questions/316907/ssl-error-unable-to-read-server-certificate-from-file">參考</a> , 可以安裝 dos2unix 消除 <code>要切回 root</code><br>在此沒移除也沒差 oracle 還是可以正常運作</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 看看憑證有無 ^M 符號</span><br><span class="line">vim -b /home/oracle/crt/phprate_root.cer</span><br><span class="line">yum install dos2unix</span><br><span class="line">dos2unix phprate_root.cer</span><br></pre></td></tr></table></figure>
+
+<p>查 wallet</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">orapki wallet display -wallet /home/oracle/wallet</span><br><span class="line"></span><br><span class="line">#Oracle PKI Tool Release 21.0.0.0.0 - Production</span><br><span class="line">#Version 21.3.0.0.0</span><br><span class="line">#Copyright (c) 2004, 2021, Oracle and/or its affiliates. All rights reserved.</span><br><span class="line">#</span><br><span class="line">#Requested Certificates:</span><br><span class="line">#User Certificates:</span><br><span class="line">#Trusted Certificates:</span><br><span class="line">#Subject:        CN=DigiCert High Assurance EV Root CA,OU=www.digicert.com,O=DigiCert Inc,C=US</span><br></pre></td></tr></table></figure>
+
+<p>接著測試看看 , 應該就不會噴 error</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">EXEC UTL_HTTP.set_wallet(&#x27;file:/home/oracle/wallet&#x27;, &#x27;WalletPasswd123&#x27;);</span><br><span class="line">SELECT UTL_HTTP.REQUEST(&#x27;https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;&#x27;Exchange%20Rate&#x27;&#x27;)/items?$select=Title,Symbol,EURequivalent,USDequivalent,PHPequivalent,PublishedDate,Modified,Created&amp;$filter=Symbol%20eq%20&#x27;&#x27;CAD&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;CNY&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;EUR&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;HKD&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;JPY&#x27;&#x27;&amp;$orderby=Ordering%20asc&#x27;)</span><br><span class="line">FROM DUAL;</span><br></pre></td></tr></table></figure>
+
+
+<h4 id="撰寫預存程序"><a href="#撰寫預存程序" class="headerlink" title="撰寫預存程序"></a>撰寫預存程序</h4><p>建立以下預存程序 , <a target="_blank" rel="noopener" href="https://gist.github.com/ser1zw/3757715">參考自此</a> , 礙於這個 case 使用 ODATA 所以需要指定回傳的 format 為 json<br>故追加這句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">UTL_HTTP.SET_HEADER(request, &#x27;Accept&#x27;, &#x27;application/json&#x27;);</span><br></pre></td></tr></table></figure>
+
+<p>建立資料表</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE WWW_DATA (num NUMBER, dat CLOB)</span><br></pre></td></tr></table></figure>
+
+<p>完整 code</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">CREATE OR REPLACE PROCEDURE WWW_GET(url VARCHAR2)</span><br><span class="line">IS</span><br><span class="line">    request UTL_HTTP.REQ;</span><br><span class="line">    response UTL_HTTP.RESP;</span><br><span class="line">    n NUMBER;</span><br><span class="line">    buff VARCHAR2(4000);</span><br><span class="line">    clob_buff CLOB;</span><br><span class="line">BEGIN</span><br><span class="line">    UTL_HTTP.SET_RESPONSE_ERROR_CHECK(FALSE);</span><br><span class="line">    request := UTL_HTTP.BEGIN_REQUEST(url, &#x27;GET&#x27;);</span><br><span class="line">	UTL_HTTP.SET_HEADER(request, &#x27;Accept&#x27;, &#x27;application/json&#x27;);</span><br><span class="line">    UTL_HTTP.SET_HEADER(request, &#x27;User-Agent&#x27;, &#x27;Mozilla/4.0&#x27;);</span><br><span class="line">    response := UTL_HTTP.GET_RESPONSE(request);</span><br><span class="line">    DBMS_OUTPUT.PUT_LINE(&#x27;HTTP response status code: &#x27; || response.status_code);</span><br><span class="line"></span><br><span class="line">    IF response.status_code = 200 THEN</span><br><span class="line">        BEGIN</span><br><span class="line">            clob_buff := EMPTY_CLOB;</span><br><span class="line">            LOOP</span><br><span class="line">                UTL_HTTP.READ_TEXT(response, buff, LENGTH(buff));</span><br><span class="line">		clob_buff := clob_buff || buff;</span><br><span class="line">            END LOOP;</span><br><span class="line">	    UTL_HTTP.END_RESPONSE(response);</span><br><span class="line">	EXCEPTION</span><br><span class="line">	    WHEN UTL_HTTP.END_OF_BODY THEN</span><br><span class="line">                UTL_HTTP.END_RESPONSE(response);</span><br><span class="line">	    WHEN OTHERS THEN</span><br><span class="line">                DBMS_OUTPUT.PUT_LINE(SQLERRM);</span><br><span class="line">                DBMS_OUTPUT.PUT_LINE(DBMS_UTILITY.FORMAT_ERROR_BACKTRACE);</span><br><span class="line">                UTL_HTTP.END_RESPONSE(response);</span><br><span class="line">        END;</span><br><span class="line"></span><br><span class="line">	SELECT COUNT(*) + 1 INTO n FROM WWW_DATA;</span><br><span class="line">        INSERT INTO WWW_DATA VALUES (n, clob_buff);</span><br><span class="line">        COMMIT;</span><br><span class="line">    ELSE</span><br><span class="line">        DBMS_OUTPUT.PUT_LINE(&#x27;ERROR&#x27;);</span><br><span class="line">        UTL_HTTP.END_RESPONSE(response);</span><br><span class="line">    END IF;</span><br><span class="line">  </span><br><span class="line">END;</span><br></pre></td></tr></table></figure>
+
+
+<p>執行 , 特別注意到此處的 <code>空白</code> 需要用 <code>%20</code> 進行替換 , 此外單引號要加上 escape , <code>因為很重要所以再次強調!!</code><br>另外 <code>set_wallet</code> 應該每個新的 session 都要去執行才會動</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">EXEC UTL_HTTP.set_wallet(&#x27;file:/home/oracle/wallet&#x27;, &#x27;WalletPasswd123&#x27;);</span><br><span class="line">EXEC WWW_GET(&#x27;https://www.bsp.gov.ph/_api/web/lists/getByTitle(&#x27;&#x27;Exchange%20Rate&#x27;&#x27;)/items?$select=Title,Symbol,EURequivalent,USDequivalent,PHPequivalent,PublishedDate,Modified,Created&amp;$filter=Symbol%20eq%20&#x27;&#x27;CAD&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;CNY&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;EUR&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;HKD&#x27;&#x27;%20or%20Symbol%20eq%20&#x27;&#x27;JPY&#x27;&#x27;&amp;$orderby=Ordering%20asc&#x27;)</span><br><span class="line"></span><br><span class="line">SELECT *</span><br><span class="line">FROM WWW_DATA </span><br></pre></td></tr></table></figure>
+
+<p>最後查 <code>WWW_DATA</code> 可以得到以下 JSON</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;odata.metadata&quot;: &quot;https://www.bsp.gov.ph/_api/$metadata#SP.ListData.Exchange_x0020_RateListItems&amp;$select=Title,Symbol,EURequivalent,USDequivalent,PHPequivalent,PublishedDate,Modified,Created&quot;,</span><br><span class="line">    &quot;value&quot;: [&#123;</span><br><span class="line">            &quot;odata.type&quot;: &quot;SP.Data.Exchange_x0020_RateListItem&quot;,</span><br><span class="line">            &quot;odata.id&quot;: &quot;cc83ebb5-6b90-4b2e-bb3d-c60c9ce54b17&quot;,</span><br><span class="line">            &quot;odata.etag&quot;: &quot;\&quot;670\&quot;&quot;,</span><br><span class="line">            &quot;odata.editLink&quot;: &quot;Web/Lists(guid&#x27;6f6c6388-3b31-45f6-b1d4-b77cddb6202b&#x27;)/Items(34)&quot;,</span><br><span class="line">            &quot;Title&quot;: &quot;JAPAN&quot;,</span><br><span class="line">            &quot;Symbol&quot;: &quot;JPY&quot;,</span><br><span class="line">            &quot;EURequivalent&quot;: &quot;0.006868&quot;,</span><br><span class="line">            &quot;USDequivalent&quot;: &quot;0.007036&quot;,</span><br><span class="line">            &quot;PHPequivalent&quot;: &quot;0.4033&quot;,</span><br><span class="line">            &quot;PublishedDate&quot;: &quot;2022-11-21T16:00:00Z&quot;,</span><br><span class="line">            &quot;Modified&quot;: &quot;2022-11-22T00:42:35Z&quot;,</span><br><span class="line">            &quot;Created&quot;: &quot;2020-07-16T09:09:16Z&quot;</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            &quot;odata.type&quot;: &quot;SP.Data.Exchange_x0020_RateListItem&quot;,</span><br><span class="line">            &quot;odata.id&quot;: &quot;4fa166fa-a5f0-4a82-93c5-68c4bdc9dd1f&quot;,</span><br><span class="line">            &quot;odata.etag&quot;: &quot;\&quot;664\&quot;&quot;,</span><br><span class="line">            &quot;odata.editLink&quot;: &quot;Web/Lists(guid&#x27;6f6c6388-3b31-45f6-b1d4-b77cddb6202b&#x27;)/Items(36)&quot;,</span><br><span class="line">            &quot;Title&quot;: &quot;HONGKONG&quot;,</span><br><span class="line">            &quot;Symbol&quot;: &quot;HKD&quot;,</span><br><span class="line">            &quot;EURequivalent&quot;: &quot;0.125089&quot;,</span><br><span class="line">            &quot;USDequivalent&quot;: &quot;0.128154&quot;,</span><br><span class="line">            &quot;PHPequivalent&quot;: &quot;7.3450&quot;,</span><br><span class="line">            &quot;PublishedDate&quot;: &quot;2022-11-21T16:00:00Z&quot;,</span><br><span class="line">            &quot;Modified&quot;: &quot;2022-11-22T00:42:36Z&quot;,</span><br><span class="line">            &quot;Created&quot;: &quot;2020-07-16T09:09:16Z&quot;</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            &quot;odata.type&quot;: &quot;SP.Data.Exchange_x0020_RateListItem&quot;,</span><br><span class="line">            &quot;odata.id&quot;: &quot;192937e0-abdf-459f-9974-c800725d3a6f&quot;,</span><br><span class="line">            &quot;odata.etag&quot;: &quot;\&quot;661\&quot;&quot;,</span><br><span class="line">            &quot;odata.editLink&quot;: &quot;Web/Lists(guid&#x27;6f6c6388-3b31-45f6-b1d4-b77cddb6202b&#x27;)/Items(38)&quot;,</span><br><span class="line">            &quot;Title&quot;: &quot;CANADA&quot;,</span><br><span class="line">            &quot;Symbol&quot;: &quot;CAD&quot;,</span><br><span class="line">            &quot;EURequivalent&quot;: &quot;0.725876&quot;,</span><br><span class="line">            &quot;USDequivalent&quot;: &quot;0.743660&quot;,</span><br><span class="line">            &quot;PHPequivalent&quot;: &quot;42.6221&quot;,</span><br><span class="line">            &quot;PublishedDate&quot;: &quot;2022-11-21T16:00:00Z&quot;,</span><br><span class="line">            &quot;Modified&quot;: &quot;2022-11-22T00:42:36Z&quot;,</span><br><span class="line">            &quot;Created&quot;: &quot;2020-07-16T09:09:16Z&quot;</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            &quot;odata.type&quot;: &quot;SP.Data.Exchange_x0020_RateListItem&quot;,</span><br><span class="line">            &quot;odata.id&quot;: &quot;11f3ed23-51f7-4014-9573-c7c58209f946&quot;,</span><br><span class="line">            &quot;odata.etag&quot;: &quot;\&quot;658\&quot;&quot;,</span><br><span class="line">            &quot;odata.editLink&quot;: &quot;Web/Lists(guid&#x27;6f6c6388-3b31-45f6-b1d4-b77cddb6202b&#x27;)/Items(48)&quot;,</span><br><span class="line">            &quot;Title&quot;: &quot;EUROPEAN MONETARY UNION&quot;,</span><br><span class="line">            &quot;Symbol&quot;: &quot;EUR&quot;,</span><br><span class="line">            &quot;EURequivalent&quot;: &quot;1.000000&quot;,</span><br><span class="line">            &quot;USDequivalent&quot;: &quot;1.024500&quot;,</span><br><span class="line">            &quot;PHPequivalent&quot;: &quot;58.7182&quot;,</span><br><span class="line">            &quot;PublishedDate&quot;: &quot;2022-11-21T16:00:00Z&quot;,</span><br><span class="line">            &quot;Modified&quot;: &quot;2022-11-22T00:42:37Z&quot;,</span><br><span class="line">            &quot;Created&quot;: &quot;2020-07-16T09:09:20Z&quot;</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            &quot;odata.type&quot;: &quot;SP.Data.Exchange_x0020_RateListItem&quot;,</span><br><span class="line">            &quot;odata.id&quot;: &quot;5f5f3ccc-86e3-4d1d-85c0-76810fe96768&quot;,</span><br><span class="line">            &quot;odata.etag&quot;: &quot;\&quot;654\&quot;&quot;,</span><br><span class="line">            &quot;odata.editLink&quot;: &quot;Web/Lists(guid&#x27;6f6c6388-3b31-45f6-b1d4-b77cddb6202b&#x27;)/Items(50)&quot;,</span><br><span class="line">            &quot;Title&quot;: &quot;CHINA&quot;,</span><br><span class="line">            &quot;Symbol&quot;: &quot;CNY&quot;,</span><br><span class="line">            &quot;EURequivalent&quot;: &quot;0.136191&quot;,</span><br><span class="line">            &quot;USDequivalent&quot;: &quot;0.139528&quot;,</span><br><span class="line">            &quot;PHPequivalent&quot;: &quot;7.9969&quot;,</span><br><span class="line">            &quot;PublishedDate&quot;: &quot;2022-11-21T16:00:00Z&quot;,</span><br><span class="line">            &quot;Modified&quot;: &quot;2022-11-22T00:42:37Z&quot;,</span><br><span class="line">            &quot;Created&quot;: &quot;2020-07-16T09:09:21Z&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>萬一噴 503 會長這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&quot;&lt;HTML&gt;&lt;HEAD&gt;</span><br><span class="line">&lt;TITLE&gt;Service Unavailable&lt;/TITLE&gt;</span><br><span class="line">&lt;/HEAD&gt;&lt;BODY&gt;</span><br><span class="line">&lt;H1&gt;Service Unavailable - DNS failure&lt;/H1&gt;</span><br><span class="line">The server is temporarily unable to service your request.  Please try again</span><br><span class="line">later.&lt;P&gt;</span><br><span class="line">Reference&amp;#32;&amp;#35;11&amp;#46;e44ac817&amp;#46;1669126316&amp;#46;1354ad7b</span><br><span class="line">&lt;/BODY&gt;&lt;/HTML&gt;</span><br><span class="line">&quot;</span><br></pre></td></tr></table></figure>
+
+<p>最後展開 json array , 因為之前有在 sql server 玩過類似的 , 這票函數都長差不多 , 其他 json 操作還有 <code>json_value</code> &amp; <code>json_query</code> 函數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">    jt.Title,</span><br><span class="line">    jt.Symbol,</span><br><span class="line">    jt.EURequivalent,</span><br><span class="line">    jt.USDequivalent,</span><br><span class="line">    jt.PHPequivalent,</span><br><span class="line">    jt.PublishedDate,</span><br><span class="line">    jt.Modified,</span><br><span class="line">    jt.Created</span><br><span class="line">FROM WWW_DATA d , JSON_TABLE(</span><br><span class="line">    d.dat ,</span><br><span class="line">    &#x27;$.value[*]&#x27;</span><br><span class="line">    COLUMNS (</span><br><span class="line">        Title VARCHAR2,</span><br><span class="line">        Symbol VARCHAR2,</span><br><span class="line">        EURequivalent NUMBER,</span><br><span class="line">        USDequivalent NUMBER,</span><br><span class="line">        PHPequivalent NUMBER,</span><br><span class="line">        PublishedDate TIMESTAMP,</span><br><span class="line">        Modified TIMESTAMP,</span><br><span class="line">        Created TIMESTAMP</span><br><span class="line">    )</span><br><span class="line">) jt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="sql-developer-設定"><a href="#sql-developer-設定" class="headerlink" title="sql developer 設定"></a>sql developer 設定</h4><p>oracle sql developer 日期格式可以參考這篇來設定<br><a target="_blank" rel="noopener" href="https://oracledeli.wordpress.com/2013/03/07/sql-developer-date-time-format/">https://oracledeli.wordpress.com/2013/03/07/sql-developer-date-time-format/</a></p>
+<p>YYYY-MM-DD HH24:MI:SS<br>YYYY-MM-DD HH24:MI:SSXFF<br>YYYY-MM-DD HH24:MI:SSXFF TZR</p>
+<p>設定 UI 英文的話可以在 <code>sqldeveloper\sqldeveloper\bin\sqldeveloper.confg</code> 裡面加上這兩句</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#change ui</span><br><span class="line">AddVMOption -Duser.language=en </span><br><span class="line">AddVMOption -Duser.country=US</span><br></pre></td></tr></table></figure>
+
+<h4 id="pl-sql-developer-設定"><a href="#pl-sql-developer-設定" class="headerlink" title="pl&#x2F;sql developer 設定"></a>pl&#x2F;sql developer 設定</h4><p><a target="_blank" rel="noopener" href="https://www.allroundautomations.com/products/pl-sql-developer/">PL&#x2F;SQL Developer 載點</a><br>Oracle Client 可以在 <a target="_blank" rel="noopener" href="https://www.oracle.com/tw/database/technologies/instant-client/winx64-64-downloads.html">這裡下載</a> 設定可以看 <a target="_blank" rel="noopener" href="https://blog.poychang.net/oracle-client-windows/">這裡</a></p>
+<p>先新增資料夾 <code>C:\oracle\network\admin</code><br>接著新增 <code>TNSNAMES.ORA</code> 加入以下內容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ConnectName  = </span><br><span class="line">  (DESCRIPTION = </span><br><span class="line">    (ADDRESS = </span><br><span class="line">      (PROTOCOL = TCP)</span><br><span class="line">      (HOST = 123.45.67.89)</span><br><span class="line">      (PORT = 1521)</span><br><span class="line">    )</span><br><span class="line">    (CONNECT_DATA = </span><br><span class="line">      (SID = ORCLCDB)</span><br><span class="line">    )</span><br><span class="line">  )</span><br></pre></td></tr></table></figure>
+
+<p>接著加入環境變數 <code>ORACLE_HOME</code> &#x3D;&gt; <code>C:\oracle</code><br>開 PL&#x2F;SQL Developer 設定 <code>Preferences</code> &#x3D;&gt; <code>OCI library</code> &#x3D;&gt; <code>C:\oracle\instantclient_11_2\oci.dll</code> 這樣應該就可以連接到啦</p>
+<h4 id="vscode"><a href="#vscode" class="headerlink" title="vscode"></a>vscode</h4><p>可以看看這個<a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=u4hCAMzOTH4">說明影片</a><br>試起來老樣子難用 , 首先先安裝這個鬼玩意 <a target="_blank" rel="noopener" href="https://marketplace.visualstudio.com/items?itemName=Oracle.oracledevtools">Oracle Developer Tools for VS Code (SQL and PLSQL)</a><br>接著在 oracle server 打這句 , 他會 dump 連線的訊息給你</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tnsping ORCLCDB</span><br><span class="line">#(DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 123.45.67.89)(PORT = 1521)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCLCDB)))</span><br></pre></td></tr></table></figure>
+
+<p>接著參考<a target="_blank" rel="noopener" href="https://docs.oracle.com/en/database/oracle/developer-tools-for-vscode/getting-started/connecttns.html#GUID-E805A7BA-9706-478F-B400-865BBA2AAD03">這頁資訊</a><br>注意看他這段 <code>~/.vscode/extensions/oracle.oracledevtools-21.3.0/sample/network</code> 裡面有 sample 給你參考怎麼設定<br>先在 <code>C:\Users\YOURNAME\Oracle\network\admin</code> 新增 <code>tnsnames.ora</code><br>接著把剛剛 server dump 的那串資訊至貼入 <code>tnsnames.ora</code> 大概就長這樣</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">oracle21c = (DESCRIPTION = (ADDRESS = (PROTOCOL = TCP)(HOST = 123.45.67.89)(PORT = 1521)) (CONNECT_DATA = (SERVER = DEDICATED) (SERVICE_NAME = ORCLCDB)))</span><br></pre></td></tr></table></figure>
+
+<p>接著點 <code>Oracle Explorer</code> 會出現一個很難用的畫面 , 然後開始設定<br>Create New Connection<br><code>Connection Type</code> &#x3D;&gt; <code>TNS Alias</code></p>
+<p>然後他會要你選資料夾<br><code>TNS Admin Location *</code> &#x3D;&gt; <code>C:\Users\YOURNAME\Oracle\network\admin</code></p>
+<p>接著你如果有一堆 alias 他會列出來可以選<br><code>TNS Alias *</code> &#x3D;&gt; <code>oracle21c</code><br><code>User name *</code> &#x3D;&gt; <code>SYSTEM</code><br><code>Password</code> &#x3D;&gt; <code>123456</code><br><code>Connection name *</code> &#x3D;&gt; <code>oracle21c</code></p>
+<h3 id="其他-Oracle-疑難雜症"><a href="#其他-Oracle-疑難雜症" class="headerlink" title="其他 Oracle 疑難雜症"></a>其他 Oracle 疑難雜症</h3><h4 id="failure-to-open-file"><a href="#failure-to-open-file" class="headerlink" title="failure to open file"></a>failure to open file</h4><p>後來莫名其妙噴 <code>ORA-28759: failure to open file</code> 因為太晚有點恍神 , 後來看看權限發現不小心用 root 去蓋 wallet</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">ll</span><br><span class="line"></span><br><span class="line">drwxr-xr-x 1 oracle dba  4096 Nov 25 05:47 ./</span><br><span class="line">drwxr-xr-x 1 root   root 4096 Nov 27  2015 ../</span><br><span class="line">-rw------- 1 oracle dba    13 Nov 25 05:40 .bash_history</span><br><span class="line">-rw-r--r-- 1 oracle dba   220 Apr  9  2014 .bash_logout</span><br><span class="line">-rw-r--r-- 1 oracle dba  3637 Apr  9  2014 .bashrc</span><br><span class="line">-rw-r--r-- 1 oracle dba   675 Apr  9  2014 .profile</span><br><span class="line">drwxr-xr-x 2 root   root 4096 Nov 25 05:47 crt/</span><br><span class="line">drwx------ 2 root   root 4096 Nov 25 05:44 wallet/</span><br></pre></td></tr></table></figure>
+
+<p>解法修正為 oracle dba 即可</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">chown -R oracle:dba ./crt/</span><br><span class="line">chown -R oracle:dba ./wallet/</span><br></pre></td></tr></table></figure>
+
+<p>另外 12c 會噴 <code>ora-28860 fatal ssl error</code> 無解.. 還是乖乖用 21c 吧</p>
+<h4 id="service-啟動關閉"><a href="#service-啟動關閉" class="headerlink" title="service 啟動關閉"></a>service 啟動關閉</h4><p>另外發現如果 docker 把 container 關閉的話 oracle 也是會跟著關閉低 , <a target="_blank" rel="noopener" href="https://juanmercadoit.com/2020/04/08/how-to-start-stop-and-restart-database-easy-in-oracle-19/">參考</a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/oracledb_ORCLCDB-21c start</span><br><span class="line">/etc/init.d/oracledb_ORCLCDB-21c stop</span><br><span class="line">/etc/init.d/oracledb_ORCLCDB-21c restart</span><br></pre></td></tr></table></figure>
+
+<h4 id="沒辦法輸出內容"><a href="#沒辦法輸出內容" class="headerlink" title="沒辦法輸出內容"></a>沒辦法輸出內容</h4><p>記得要打開輸出 <code>SET SERVEROUTPUT ON;</code></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%88%AC%E8%9F%B2/" rel="tag"># 爬蟲</a>
+              <a href="/tags/c/" rel="tag"># c#</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/posts/rxjs-%E7%AD%86%E8%A8%98/" rel="prev" title="rxjs 筆記">
+      <i class="fa fa-chevron-left"></i> rxjs 筆記
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/posts/Oracle-MLE-%E7%88%AC%E8%9F%B2/" rel="next" title="Oracle MLE 爬蟲">
+      Oracle MLE 爬蟲 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+    
+  <div class="comments">
+    <div id="disqus_thread">
+      <noscript>Please enable JavaScript to view the comments powered by Disqus.</noscript>
+    </div>
+  </div>
+  
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目錄
+        </li>
+        <li class="sidebar-nav-overview">
+          本站概要
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E5%88%86%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">原理分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF-js-%E5%91%BC%E5%8F%AB"><span class="nav-number">2.</span> <span class="nav-text">前端 js 呼叫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-%E6%92%B0%E5%AF%AB"><span class="nav-number">3.</span> <span class="nav-text">powershell 撰寫</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#powershell-%E6%92%B0%E5%AF%AB%E7%BA%8C"><span class="nav-number">4.</span> <span class="nav-text">powershell 撰寫續</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%B0%E5%AF%AB-api"><span class="nav-number">5.</span> <span class="nav-text">撰寫 api</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#oracle"><span class="nav-number">6.</span> <span class="nav-text">oracle</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#docker"><span class="nav-number">6.1.</span> <span class="nav-text">docker</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%9D-oracle-database-21c"><span class="nav-number">6.2.</span> <span class="nav-text">安裝 oracle database 21c</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%99%BB%E5%85%A5-oracle"><span class="nav-number">6.3.</span> <span class="nav-text">登入 oracle</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#wallet-%E8%88%87%E6%86%91%E8%AD%89%E8%A8%AD%E5%AE%9A"><span class="nav-number">6.4.</span> <span class="nav-text">wallet 與憑證設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%92%B0%E5%AF%AB%E9%A0%90%E5%AD%98%E7%A8%8B%E5%BA%8F"><span class="nav-number">6.5.</span> <span class="nav-text">撰寫預存程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sql-developer-%E8%A8%AD%E5%AE%9A"><span class="nav-number">6.6.</span> <span class="nav-text">sql developer 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pl-sql-developer-%E8%A8%AD%E5%AE%9A"><span class="nav-number">6.7.</span> <span class="nav-text">pl&#x2F;sql developer 設定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vscode"><span class="nav-number">6.8.</span> <span class="nav-text">vscode</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96-Oracle-%E7%96%91%E9%9B%A3%E9%9B%9C%E7%97%87"><span class="nav-number">7.</span> <span class="nav-text">其他 Oracle 疑難雜症</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#failure-to-open-file"><span class="nav-number">7.1.</span> <span class="nav-text">failure to open file</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#service-%E5%95%9F%E5%8B%95%E9%97%9C%E9%96%89"><span class="nav-number">7.2.</span> <span class="nav-text">service 啟動關閉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B2%92%E8%BE%A6%E6%B3%95%E8%BC%B8%E5%87%BA%E5%85%A7%E5%AE%B9"><span class="nav-number">7.3.</span> <span class="nav-text">沒辦法輸出內容</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="🌹 喇賽人 🌹"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">🌹 喇賽人 🌹</p>
+  <div class="site-description" itemprop="description">🌹 喇賽人的 Blog 🌹</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">340</span>
+          <span class="site-state-item-name">文章</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">標籤</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/weber87na" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;weber87na" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+	  <!-- skilltree 廣告 -->
+	  <div id="myadblock" style="margin-top:25px;position:relative">
+	  <div id="myadblock-title" style="position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  <script src="https://skilltree.my/promotion/cec9b4b0-be5e-4727-85c6-f7af5445124a?w=350"></script>
+	  </div>
+
+	  <!-- google 廣告 -->
+	  <!--
+	  <ins class="adsbygoogle"
+		  style="display:inline-block;width:220px;height:120px;margin-top:50px;position:relative;border-bottom-left-radius: 15px 255px;border-bottom-right-radius: 225px 15px;border-top-left-radius: 255px 15px;border-top-right-radius: 15px 225px;border: 2px solid #41403e;"
+		  data-ad-client="ca-pub-1069539516107706"
+		  data-ad-slot="6588270137">
+	  <div id="myadblock-title2" style="z-index:999999;position:absolute;left:-10px;top:-10px;width:100px;background-color:rgba(0,0,0,.75);color:white;">偷放工商</div>
+	  </ins>
+	  <script>
+		  (adsbygoogle = window.adsbygoogle || []).push({});
+	  </script>
+	  -->
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2026</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">喇賽的人! G__G+</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">總廢話字數：</span>
+    <span title="總廢話字數">1.7m</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
+    <span title="所需總浪費時間">25:56</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+<script>
+  function loadCount() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://la-sai-de-ren.disqus.com/count.js';
+    s.id = 'dsq-count-scr';
+    (d.head || d.body).appendChild(s);
+  }
+  // defer loading until the whole page loading is completed
+  window.addEventListener('load', loadCount, false);
+</script>
+<script>
+  var disqus_config = function() {
+    this.page.url = "https://www.blog.lasai.com.tw/posts/net-6-%E8%8F%B2%E5%BE%8B%E8%B3%93%E5%8C%AF%E7%8E%87%E7%88%AC%E8%9F%B2/";
+    this.page.identifier = "posts/net-6-菲律賓匯率爬蟲/";
+    this.page.title = ".net 6 菲律賓匯率爬蟲";
+    };
+  NexT.utils.loadComments(document.querySelector('#disqus_thread'), () => {
+    if (window.DISQUS) {
+      DISQUS.reset({
+        reload: true,
+        config: disqus_config
+      });
+    } else {
+      var d = document, s = d.createElement('script');
+      s.src = 'https://la-sai-de-ren.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', '' + +new Date());
+      (d.head || d.body).appendChild(s);
+    }
+  });
+</script>
+
+
+  <!-- <div class="snow1" style="position:fixed !important"></div> -->
+  <div class="cobweb" style="position:fixed !important"></div>
+  <div class="spider" style="position:fixed !important"></div>
+<div class="fswitch">關閉</div>
+<div class="snowflakes" aria-hidden="true">
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+  <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+    <div class="snowflake">
+ 🌹
+  </div>
+  <div class="snowflake">
+ 💩
+  </div>
+</div>
+
+<!--
+<script>
+	function toggleSpell() {
+		let spell = document.getElementsByClassName('spell')[0];
+		let ghost = document.getElementsByClassName('ghost')[0];
+		let noise = document.getElementsByClassName('noise')[0];
+		let noise2 = document.getElementsByClassName('noise2')[0];
+		if (spell.style.display === 'none') {
+			spell.style.display = 'block';
+			noise.style.display = '';
+			noise2.style.display = '';
+			ghost.style.display = 'none';
+		} else {
+			spell.style.display = 'none';
+			noise.style.display = 'none';
+			noise2.style.display = 'none';
+			ghost.style.display = 'block';
+		}
+	}
+
+	//訂閱內容
+	let spell = document.getElementsByClassName('spell')[0];
+	let ghost = document.getElementsByClassName('ghost')[0];
+	spell.addEventListener('click',toggleSpell);
+	ghost.addEventListener('click',toggleSpell);
+</script>
+-->
+
+<script>
+
+let cobweb = document.querySelector('.cobweb');
+let spider = document.querySelector('.spider');
+let back = document.querySelector('.back-to-top');
+let fswitch = document.querySelector('.fswitch');
+
+document.addEventListener('keydown', function(event) {
+	if (event.key === 'f') {
+		console.log('press f key');
+		ftoggle();
+	}
+});
+
+fswitch.addEventListener('click' , function(){ 
+	ftoggle();
+});
+
+function ftoggle(){
+	if(cobweb.style.display === ''){
+		cobweb.style.display = 'none';
+	}else{
+		cobweb.style.display = '';
+	}
+	if(spider.style.display === ''){
+		spider.style.display = 'none';
+	}else{
+		spider.style.display = '';
+	}
+	if(back.style.display === ''){
+		back.style.display = 'none';
+	}else{
+		back.style.display = '';
+	}
+
+	if(fswitch.innerText === '關閉') fswitch.innerText = '乖乖'
+	else fswitch.innerText = '關閉'
+}
+
+
+
+</script>
+
+<script>
+class ViNavigation {
+  constructor() {
+    this.Mode = {
+      Normal: "normal",
+      Motion: "motion",
+    };
+
+    this.lastKeyPressTime = 0;
+    this.lastKeyPressed = "";
+    this.currentMode = this.Mode.Normal;
+
+    //可使用移動的字碼
+    //共 18 個字 排除 vi 會用到的字
+    this.tagChars = "ABCEILNOPQRSTVWXYZ";
+
+    //目前的 vim 標示字標籤 array
+    this.holdTags = new Array();
+
+    //預先建立兩字組合的字典
+    this.dict = new Array();
+    //雙層迴圈灌入所有兩字組合
+    for (var i = 0; i < this.tagChars.length; i++) {
+      for (var j = 0; j < this.tagChars.length; j++) {
+        this.dict.push(this.tagChars[i] + this.tagChars[j]);
+      }
+    }
+  }
+
+  viGoTop(keyPressed) {
+    if (keyPressed === "g") {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }
+
+  viGoBottom(keyPressed) {
+    if (keyPressed === "G") {
+      console.log("document.body.scrollHeight", document.body.scrollHeight);
+      let h = Math.max(
+        Math.max(
+          document.body.scrollHeight,
+          document.documentElement.scrollHeight
+        ),
+        Math.max(
+          document.body.offsetHeight,
+          document.documentElement.offsetHeight
+        ),
+        Math.max(
+          document.body.clientHeight,
+          document.documentElement.clientHeight
+        )
+      );
+      window.scrollTo({ top: h, behavior: "smooth" });
+    }
+  }
+
+  viFastDown(keyPressed) {
+    if (keyPressed === "d") {
+      this.move(350);
+    }
+  }
+
+  viDown(keyPressed) {
+    if (keyPressed === "j") {
+      this.move(100);
+    }
+  }
+
+  viFastUp(keyPressed) {
+    if (keyPressed === "u") {
+      this.move(-350);
+    }
+  }
+
+  viUp(keyPressed) {
+    if (keyPressed === "k") {
+      this.move(-100);
+    }
+  }
+
+  move(val) {
+    var currentPosition =
+      window.pageYOffset || document.documentElement.scrollTop;
+    window.scrollTo({
+      top: currentPosition + val,
+      behavior: "smooth",
+    });
+  }
+
+  removeViTags() {
+    let allTags = document.querySelectorAll(".vim-tag");
+    allTags.forEach(function (tag) {
+      tag.parentNode.removeChild(tag);
+    });
+  }
+
+  createViTag(text, href, top, left) {
+    let newDiv = document.createElement("div");
+    newDiv.classList.add("vim-tag");
+    newDiv.style.fontFamily = "Arial, sans-serif";
+    newDiv.style.fontSize = "12px";
+    newDiv.style.position = "absolute";
+    newDiv.style.backgroundColor = "#89CF07";
+    newDiv.style.color = "black";
+    newDiv.style.padding = "2px";
+    newDiv.style.borderRadius = "2px";
+    newDiv.style.zIndex = "999999";
+
+    newDiv.textContent = text;
+    newDiv.dataset.href = href;
+    newDiv.style.top = top;
+    newDiv.style.left = left;
+    return newDiv;
+  }
+
+  createViTags() {
+    let allTags = document.querySelectorAll("a");
+    let counter = 0;
+    for (let tag of allTags) {
+      let rect = tag.getBoundingClientRect();
+      let href = tag.href;
+      //這個距離需要加入卷軸距離才會正確
+      let top = window.scrollY + rect.top + "px";
+      let left = window.scrollX + rect.left + "px";
+      let text = "";
+      if (allTags.length <= this.tagChars.length) {
+        text = this.tagChars[counter];
+        this.holdTags.push(text);
+      } else {
+        text = this.dict[counter];
+        this.holdTags.push(text);
+      }
+      let newDiv = this.createViTag(text, href, top, left);
+      document.body.appendChild(newDiv);
+      counter++;
+    }
+  }
+
+  //找出目前的首字 array
+  firstCharArray() {
+    let result = [];
+    for (let i = 0; i < this.holdTags.length; i++) {
+      let text = this.holdTags[i];
+      if (text) {
+        let theChar = text[0].toLowerCase();
+        if (result.includes(theChar) === false) {
+          result.push(theChar);
+        }
+      }
+    }
+
+    return result;
+  }
+
+  toggleMotion() {
+    this.currentMode = this.Mode.Motion;
+    this.lastKeyPressed = "";
+    console.log("mode", this.currentMode);
+    this.createViTags();
+  }
+
+  toggleNormal() {
+    this.currentMode = this.Mode.Normal;
+    console.log("mode", this.currentMode);
+    this.removeViTags();
+    this.holdTags = [];
+    this.lastKeyPressed = "";
+  }
+
+  handleKeyDown(event) {
+    let currentTime = new Date().getTime();
+    let keyPressed = event.key;
+
+    //按下 F 時進入 motion 模式
+    if (this.currentMode === this.Mode.Normal && keyPressed === "F") {
+      this.toggleMotion();
+      return;
+    }
+
+    //按下 esc 跳離 motion 模式回到 normal 模式
+    if (this.currentMode === this.Mode.Motion && keyPressed === "Escape") {
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 一個字時才走這模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length <= this.tagChars.length &&
+      this.tagChars.toLowerCase().includes(keyPressed)
+    ) {
+      console.log("one char mode");
+      let allTags = document.querySelectorAll(".vim-tag");
+
+      allTags.forEach(function (tag) {
+        if (tag.textContent.toLowerCase() === keyPressed) {
+          window.location.href = tag.dataset.href;
+        }
+      });
+
+      this.toggleNormal();
+      return;
+    }
+
+    //當 motion 兩個字才走這個模式
+    if (
+      this.currentMode === this.Mode.Motion &&
+      document.querySelectorAll("a").length > this.tagChars.length
+    ) {
+      console.log("motion lastKeyPressed", this.lastKeyPressed);
+      console.log("motion current", keyPressed);
+
+      if (!this.lastKeyPressed) {
+        //如果出現字表以外的字則回到 normal
+        //console.log("firstCharArray", this.firstCharArray());
+        if (this.firstCharArray().includes(keyPressed) === false) {
+          this.toggleNormal();
+          return;
+        } else {
+          let allTags = document.querySelectorAll(".vim-tag");
+          allTags.forEach(function (tag) {
+            if (tag.textContent[0].toLowerCase() !== keyPressed) {
+              tag.parentNode.removeChild(tag);
+            }
+
+            //將第一個字變為紅色
+            if (tag.textContent[0].toLowerCase() === keyPressed) {
+              tag.innerHTML =
+                '<span style="color: red;">' +
+                tag.textContent.charAt(0) +
+                "</span>" +
+                tag.textContent.substring(1);
+            }
+          });
+        }
+      }
+
+      //如果有字的話才執行
+      if (this.lastKeyPressed) {
+        let chars = this.lastKeyPressed + keyPressed;
+        console.log("chars", chars);
+        let allTags = document.querySelectorAll(".vim-tag");
+        allTags.forEach(function (tag) {
+          if (tag.textContent.toLowerCase() === chars) {
+            window.location.href = tag.dataset.href;
+          }
+        });
+        //萬一沒找到切回 Normal
+        this.toggleNormal();
+        return;
+      }
+    }
+
+    // 任何模式按兩下的區域
+    if (
+      keyPressed === this.lastKeyPressed &&
+      currentTime - this.lastKeyPressTime < 300
+    ) {
+      this.viGoTop(keyPressed);
+    }
+
+    // 按一下的區域
+    this.viGoBottom(keyPressed);
+    this.viDown(keyPressed);
+    this.viFastDown(keyPressed);
+    this.viUp(keyPressed);
+    this.viFastUp(keyPressed);
+
+    this.lastKeyPressTime = currentTime;
+    this.lastKeyPressed = keyPressed;
+  }
+
+  init() {
+    document.addEventListener("keydown", this.handleKeyDown.bind(this));
+  }
+}
+
+const viNavigation = new ViNavigation();
+viNavigation.init();
+</script>
+
+
+
+</body>
+</html>
