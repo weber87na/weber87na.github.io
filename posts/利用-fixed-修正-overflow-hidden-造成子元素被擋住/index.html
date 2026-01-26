@@ -15,14 +15,17 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S5ZWC157GD"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-171640966-1');
+  gtag('config', 'G-S5ZWC157GD');
 </script>
 
 <style>
@@ -73,13 +76,13 @@
 
   <title>利用 fixed 修正 overflow hidden 造成子元素被擋住 | 🌹 喇賽的人 Blog 🌹</title>
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S5ZWC157GD"></script>
     <script>
       if (CONFIG.hostname === location.hostname) {
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'UA-171640966-1');
+        gtag('config', 'G-S5ZWC157GD');
       }
     </script>
 
@@ -320,7 +323,7 @@
 
 <p>最近工作上遇到的實際問題 , 平時好像沒被搞過 , 這次屎運解到 , 因為用 3rd 的元件 , 又不想修改 3rd 元件讓東西壞掉或是髒掉 , 所以想想其他方法解看看</p>
 <p>因為希望 hover 後的內容可以被顯示在左側 , 平時只要設定 <code>absolute</code> 然後寫下定位應該就可以正常在左側<br>可是當你在 parent 層加上了 <code>overflow: hidden</code> 的話 , 子層淺綠色的小方塊 , 超出父層就會被隱藏起來 , 像是下面這樣</p>
-<p><img src="https://raw.githubusercontent.com/weber87na/video/main/parent-overflow-hidden.png" alt="parent-overflow-hidden"></p>
+<p><img data-src="https://raw.githubusercontent.com/weber87na/video/main/parent-overflow-hidden.png" alt="parent-overflow-hidden"></p>
 <p>爆炸的 html</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">	&lt;div class=&quot;child&quot;&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 
@@ -328,7 +331,7 @@
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">.parent &#123;</span><br><span class="line">	position: relative;</span><br><span class="line">	/*因為 3rd 元件的更父層有這個所以爆炸*/</span><br><span class="line">	overflow: hidden;</span><br><span class="line">	background-color: #a0a;</span><br><span class="line">	width: 500px;</span><br><span class="line">	height: 500px;</span><br><span class="line">	margin: 50px auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">.child &#123;</span><br><span class="line">	position: absolute;</span><br><span class="line">	top: 0px;</span><br><span class="line">	left: -50px;</span><br><span class="line">	width: 50px;</span><br><span class="line">	height: 50px;</span><br><span class="line">	background-color: #0fa;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>因為 3rd 元件結構複雜 , 怕去破壞到影響了整體 , 所以需要調整我們自己的 html 結構 , 多增加一個 <code>fixed</code> 的區塊放在 <code>child</code> 區塊裡面 , 定位的時候一樣由 <code>child</code> 區塊進行控制<br>但是大小由 <code>fixed</code> 區塊進行控制 , 最後利用屬性 <code>position: fixed</code> 的特性讓 <code>fixed</code> 脫離文件流就可以貼在 hover 後的位置並且顯示出來</p>
-<p><img src="https://raw.githubusercontent.com/weber87na/video/main/child-fixed.png" alt="child-fixed"></p>
+<p><img data-src="https://raw.githubusercontent.com/weber87na/video/main/child-fixed.png" alt="child-fixed"></p>
 <p>修正後 html</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;parent&quot;&gt;</span><br><span class="line">	&lt;div class=&quot;child&quot;&gt;</span><br><span class="line">		&lt;div class=&quot;fixed&quot;&gt;&lt;/div&gt;</span><br><span class="line">	&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br></pre></td></tr></table></figure>
 

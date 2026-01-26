@@ -15,14 +15,17 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S5ZWC157GD"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-171640966-1');
+  gtag('config', 'G-S5ZWC157GD');
 </script>
 
 <style>
@@ -73,13 +76,13 @@
 
   <title>sql 標記出 GY 同事可能會開 Combo 請假的日子 | 🌹 喇賽的人 Blog 🌹</title>
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S5ZWC157GD"></script>
     <script>
       if (CONFIG.hostname === location.hostname) {
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'UA-171640966-1');
+        gtag('config', 'G-S5ZWC157GD');
       }
     </script>
 
@@ -315,7 +318,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&nbsp;<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/sql.png" alt="sql"></p>
+        <p>&nbsp;<br><img data-src="https://raw.githubusercontent.com/weber87na/flowers/master/sql.png" alt="sql"></p>
 <span id="more"></span>
 
 <p>印象這是很多年前一個計算周期的問題，主要是利用 generate_series 產生出當月日期，搭配 case 標記邏輯規則產製出該月可能被開 Combo 的狀態。<br>需要注意運用 case 時具有順序性，以本案例而言 danger 必須排在 warning 之上，否則會造成月底時應當標記 danger 卻錯標 warning 的狀況。<br>GY 同事可能開 Combo 的請假週期規則：每逢週一、五為警告 (warning) ，逢月底為危險 (danger) 其他則為正常上班 (job) 及假日 (vacation)<br>其他關鍵 isodow 將一週定義為 1-7 從週一開始計算<br>取得當月最後五天則為：先取得下月月初接著減去五日</p>

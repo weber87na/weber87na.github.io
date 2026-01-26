@@ -15,14 +15,17 @@
 
 
 <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+
+
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-S5ZWC157GD"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'UA-171640966-1');
+  gtag('config', 'G-S5ZWC157GD');
 </script>
 
 <style>
@@ -75,13 +78,13 @@
 
   <title>powershell執行動態sql | 🌹 喇賽的人 Blog 🌹</title>
   
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-171640966-1"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-S5ZWC157GD"></script>
     <script>
       if (CONFIG.hostname === location.hostname) {
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-        gtag('config', 'UA-171640966-1');
+        gtag('config', 'G-S5ZWC157GD');
       }
     </script>
 
@@ -317,7 +320,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>&nbsp;<br><img src="https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png" alt="terminal"></p>
+        <p>&nbsp;<br><img data-src="https://raw.githubusercontent.com/weber87na/flowers/master/terminal.png" alt="terminal"></p>
 <span id="more"></span>
 <p>以往要執行動態 sql 多半都會用半手動方式先在 sql server 裡面寫好 script 然後才執行 , 萬一有一堆 sql 要執行時就是一場噩夢了!<br>最近用 powershell 搭配簡化一下整體工作流程 (可惜 postgresql 沒法用)<br>可以參考這個<a target="_blank" rel="noopener" href="https://www.sqlshack.com/working-with-powershells-invoke-sqlcmd/">example</a></p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#匯入sqlserver模組</span></span><br><span class="line"><span class="built_in">Import-Module</span> SqlServer</span><br><span class="line"></span><br><span class="line"><span class="comment">#cd 到指定的資料庫也可以不用</span></span><br><span class="line"><span class="comment">#Set-Location SQLSERVER:\SQL\localhost\DEFAULT\Databases</span></span><br><span class="line"><span class="comment">#如果有 cd 到指定位置可以直接執行就好不用指定 instance</span></span><br><span class="line"><span class="comment">#$result = Invoke-Sqlcmd -InputFile &quot;d:\test.txt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#這句會執行指定的 sqlserver instance</span></span><br><span class="line"><span class="variable">$result</span> = <span class="built_in">Invoke-SqlCmd</span> <span class="literal">-ServerInstance</span> <span class="string">&quot;localhost,1433&quot;</span> <span class="literal">-Database</span> <span class="string">&quot;test2&quot;</span> <span class="literal">-Username</span> <span class="string">&quot;User&quot;</span> <span class="literal">-Password</span> <span class="string">&quot;Password&quot;</span> <span class="literal">-InputFile</span> <span class="string">&quot;d:\test.txt&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#注意這邊最關鍵</span></span><br><span class="line"><span class="comment">#回傳為來的物件為 Array 故使用 join 將動態 script 轉換為一條 sql</span></span><br><span class="line"><span class="variable">$genCreateSQLOneline</span> = <span class="variable">$result</span>.genCreateSQL <span class="operator">-join</span> <span class="string">&quot; &quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#最後執行先前動態產生的sql</span></span><br><span class="line"><span class="built_in">Invoke-Sqlcmd</span> <span class="literal">-ServerInstance</span> <span class="string">&quot;localhost,1433&quot;</span> <span class="literal">-Database</span> <span class="string">&quot;test2&quot;</span> <span class="literal">-Username</span> <span class="string">&quot;User&quot;</span> <span class="literal">-Password</span> <span class="string">&quot;Password&quot;</span> <span class="literal">-Query</span> <span class="variable">$genCreateSQLOneline</span></span><br></pre></td></tr></table></figure>
