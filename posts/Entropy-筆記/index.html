@@ -53,7 +53,7 @@
 <meta property="og:description" content="&nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2026-01-27T04:20:42.000Z">
-<meta property="article:modified_time" content="2026-01-27T04:29:39.146Z">
+<meta property="article:modified_time" content="2026-01-27T04:43:58.025Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="喇賽, lasai, python, js, c#, 技術筆記, git, asp.net core">
 <meta name="twitter:card" content="summary">
@@ -267,7 +267,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2026-01-27 12:20:42 / 修改時間：12:29:39" itemprop="dateCreated datePublished" datetime="2026-01-27T12:20:42+08:00">2026-01-27</time>
+              <time title="亂入時間：2026-01-27 12:20:42 / 修改時間：12:43:58" itemprop="dateCreated datePublished" datetime="2026-01-27T12:20:42+08:00">2026-01-27</time>
             </span>
 
           
@@ -290,7 +290,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.1k</span>
+              <span>2.2k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -321,6 +321,9 @@
 <h2 id="Cross-Entropy"><a href="#Cross-Entropy" class="headerlink" title="Cross Entropy"></a>Cross Entropy</h2><p>Cross Entropy (交叉熵)：你猜得有多準？Cross Entropy 是用來衡量兩個機率分佈之間的距離。<br>在機器學習中，$P$ 通常是「真實答案」（Ground Truth），而 $Q$ 是「模型預測的結果」。<br>白話解釋： 想像你在猜一疊牌的顏色。如果實際機率（$P$）是紅色的，但你以為（$Q$）很大機率是藍色，那你的「驚訝程度」就會爆表。<br>Cross Entropy 就是在計算：當你用錯誤的認知 ($Q$) 去解釋真實的世界 ($P$) 時，你會浪費多少資訊量。<br>直覺理解： 當預測越準，Cross Entropy 就越接近原本的 Entropy；預測越爛，數值就越大。<br>這也是為什麼分類問題（如手寫辨識）都用它當 Loss Function，因為我們想讓預測儘可能貼近現實。<br>數學公式給定真實分佈 $P$ 與預測分佈 $Q$，Cross Entropy $H(P, Q)$ 的公式為：</p>
 <p>$$H(P, Q) &#x3D; -\sum_{i&#x3D;1}^{n} P(x_i) \log Q(x_i)$$</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">p = [1,0]</span><br><span class="line">q = [.25, .75]</span><br><span class="line"></span><br><span class="line">H = 0</span><br><span class="line">for i in range(len(p)):</span><br><span class="line">    H -= p[i] * np.log(q[i])</span><br><span class="line"></span><br><span class="line">print(&#x27;Cross Entropy:&#x27; + str(H))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># also correct, written out for N=2 event</span><br><span class="line">H = -(p[0] * np.log(q[0]) + p[1] * np.log(q[1]))</span><br><span class="line">print(&#x27;Correct entropy: &#x27; + str(H))</span><br><span class="line"></span><br><span class="line"># simplification</span><br><span class="line">H = -np.log(q[0])</span><br><span class="line">print(&#x27;Manually simplified: &#x27; + str(H))</span><br></pre></td></tr></table></figure>
+
+<p>torch</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">import torch</span><br><span class="line">import torch.nn.functional as F</span><br><span class="line"></span><br><span class="line">q_tensor = torch.Tensor(q)</span><br><span class="line">p_tensor = torch.Tensor(p)</span><br><span class="line"></span><br><span class="line">F.binary_cross_entropy(</span><br><span class="line">    q_tensor,</span><br><span class="line">    p_tensor,</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <ol>
 <li><p>$P$：真實分佈 (The Ground Truth)$P$ 代表的是**「現實世界真正的樣子」**。它的角色：標準答案。特性：它是我們想要模仿或達到的目標。例子：如果你在訓練一個辨識貓狗的模型，當一張圖片真的是「貓」時，它的 $P$ 分佈就是 $[1, 0]$（100% 是貓，0% 是狗）。這是不會改變的既定事實。</p>
@@ -387,7 +390,10 @@
     <a href="/posts/softmax-%E7%AD%86%E8%A8%98/" rel="prev" title="softmax 筆記">
       <i class="fa fa-chevron-left"></i> softmax 筆記
     </a></div>
-      <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/posts/variance-%E7%AD%86%E8%A8%98/" rel="next" title="variance 筆記">
+      variance 筆記 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -469,7 +475,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">341</span>
+          <span class="site-state-item-count">342</span>
           <span class="site-state-item-name">文章</span>
         </a>
       </div>
@@ -543,7 +549,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">25:58</span>
+    <span title="所需總浪費時間">25:59</span>
 </div>
 
         
