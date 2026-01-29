@@ -53,7 +53,7 @@
 <meta property="og:description" content="&nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2026-01-05T10:57:07.000Z">
-<meta property="article:modified_time" content="2026-01-05T10:57:29.634Z">
+<meta property="article:modified_time" content="2026-01-28T14:44:13.236Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="python">
 <meta name="twitter:card" content="summary">
@@ -265,10 +265,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2026-01-05 18:57:07 / 修改時間：18:57:29" itemprop="dateCreated datePublished" datetime="2026-01-05T18:57:07+08:00">2026-01-05</time>
+              <time title="亂入時間：2026-01-05 18:57:07" itemprop="dateCreated datePublished" datetime="2026-01-05T18:57:07+08:00">2026-01-05</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2026-01-28 22:44:13" itemprop="dateModified" datetime="2026-01-28T22:44:13+08:00">2026-01-28</time>
+              </span>
 
           
   
@@ -290,14 +296,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>1k</span>
+              <span>2k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>1 分鐘</span>
+              <span>2 分鐘</span>
             </span>
 
         </div>
@@ -337,6 +343,9 @@
 
 <p>也可以在 markdown 使用 LaTex</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$$\frac&#123;1+x&#125;&#123;2v-s^&#123;t+4r&#125;&#125;$$</span><br></pre></td></tr></table></figure>
+
+<p>導數</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">import numpy as np</span><br><span class="line">import matplotlib.pyplot as plt</span><br><span class="line">from sympy import symbols, diff, cos, pi, lambdify</span><br><span class="line"></span><br><span class="line"># 1. 符號計算部分</span><br><span class="line">x_sym = symbols(&#x27;x&#x27;)</span><br><span class="line">f_sym = cos(2 * pi * x_sym) + x_sym**2</span><br><span class="line">df_sym = diff(f_sym, x_sym)</span><br><span class="line"></span><br><span class="line"># 2. 轉換為 NumPy 可用的函數 (關鍵步驟)</span><br><span class="line"># &#x27;numpy&#x27; 參數會自動將 sympy.pi 轉為 np.pi，sympy.cos 轉為 np.cos</span><br><span class="line">f_num = lambdify(x_sym, f_sym, &#x27;numpy&#x27;)</span><br><span class="line">df_num = lambdify(x_sym, df_sym, &#x27;numpy&#x27;)</span><br><span class="line"></span><br><span class="line"># 3. 準備數值資料</span><br><span class="line">x_vals = np.linspace(-2, 2, 2001)</span><br><span class="line">y_vals = f_num(x_vals)</span><br><span class="line">dy_vals = df_num(x_vals)</span><br><span class="line"></span><br><span class="line"># 4. 繪圖</span><br><span class="line">plt.figure(figsize=(10, 6))</span><br><span class="line">plt.plot(x_vals, y_vals, label=&#x27;$f(x) = \cos(2\pi x) + x^2$&#x27;, color=&#x27;blue&#x27;)</span><br><span class="line">plt.plot(x_vals, dy_vals, label=&quot;$f&#x27;(x)$ (Derivative)&quot;, color=&#x27;red&#x27;, linestyle=&#x27;--&#x27;)</span><br><span class="line"></span><br><span class="line">plt.xlim(x_vals[0], x_vals[-1])</span><br><span class="line">plt.axhline(0, color=&#x27;black&#x27;, linewidth=0.5) # 加入 X 軸基準線</span><br><span class="line">plt.grid(True, linestyle=&#x27;:&#x27;, alpha=0.7)</span><br><span class="line">plt.xlabel(&#x27;x&#x27;)</span><br><span class="line">plt.ylabel(&#x27;y&#x27;)</span><br><span class="line">plt.title(&#x27;Function and its Derivative&#x27;)</span><br><span class="line">plt.legend()</span><br><span class="line">plt.show()</span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -516,7 +525,7 @@
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">所需總浪費時間 &asymp;</span>
-    <span title="所需總浪費時間">25:59</span>
+    <span title="所需總浪費時間">26:01</span>
 </div>
 
         
