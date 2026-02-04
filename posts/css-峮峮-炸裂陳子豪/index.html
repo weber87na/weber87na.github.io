@@ -52,7 +52,7 @@
 <meta property="og:locale" content="zh_TW">
 <meta property="og:image" content="https://raw.githubusercontent.com/weber87na/flowers/master/chun.png">
 <meta property="article:published_time" content="2023-09-19T10:43:17.000Z">
-<meta property="article:modified_time" content="2026-02-03T21:21:10.608Z">
+<meta property="article:modified_time" content="2026-02-04T15:21:54.050Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="css">
 <meta property="article:tag" content="js">
@@ -278,7 +278,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新於</span>
-                <time title="修改時間：2026-02-04 05:21:10" itemprop="dateModified" datetime="2026-02-04T05:21:10+08:00">2026-02-04</time>
+                <time title="修改時間：2026-02-04 23:21:54" itemprop="dateModified" datetime="2026-02-04T23:21:54+08:00">2026-02-04</time>
               </span>
 
           
@@ -301,7 +301,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>834</span>
+              <span>1.3k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -324,20 +324,24 @@
 
 <span id="more"></span>
 
+<p>經典賽要到了, 剛好整理作品就 Remaster 整理下 XD<br>這次手機就偷懶用現成的圖了, 以前那個版本是自己刻的</p>
 <p>今天看到 youtube 推薦 <code>峮峮</code> 靈感乍現 , 就想說來還原一下很多年前在 yahoo 看到一個 <code>大元</code> 車展的 flash 效果<br>印象中好像是有台相機可以讓你拍照 , 當時看到覺得很酷<br>可惜手上也沒相機的面板可以模擬 , 就拿手機來充當下</p>
 <p>遇到的難點就是不曉得就是怎麼把 video 存成圖 , 以前好像有做過 canvas , 後來 google 下參考這個 <a target="_blank" rel="noopener" href="https://codepen.io/GDur/pen/eYBLeLM">老外</a><br>沒想到只要一小段 js 即可</p>
 <figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">capture</span>(<span class="params"></span>) &#123;</span><br><span class="line">	<span class="keyword">let</span> canvas = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;#canvas&#x27;</span>);</span><br><span class="line">	<span class="keyword">let</span> video = <span class="variable language_">document</span>.<span class="title function_">querySelector</span>(<span class="string">&#x27;video&#x27;</span>);</span><br><span class="line">	canvas.<span class="property">width</span> = video.<span class="property">videoWidth</span>;</span><br><span class="line">	canvas.<span class="property">height</span> = video.<span class="property">videoHeight</span>;</span><br><span class="line">	canvas.<span class="title function_">getContext</span>(<span class="string">&#x27;2d&#x27;</span>)</span><br><span class="line">		.<span class="title function_">drawImage</span>(video, <span class="number">0</span>, <span class="number">0</span>, video.<span class="property">videoWidth</span>, video.<span class="property">videoHeight</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>另外就是沒設定 canvas 的 css 狀況下拍出來整個人會走鐘 , 後來發現 canvas 也是可以用 <code>object-fit: contain;</code> 這個屬性 , 就把走鐘問題搞定</p>
 <p>然後就是現在的 <code>video</code> 這個 tag 要能夠 <code>autoplay</code> 的話好像都要設定 <code>muted</code> 不然沒辦法自動撥放</p>
-<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;video loop</span><br><span class="line">	autoplay</span><br><span class="line">	muted</span><br><span class="line">	width=&quot;300&quot;</span><br><span class="line">	height=&quot;350&quot;&gt;</span><br><span class="line">	&lt;source src=&quot;https://github.com/weber87na/video/raw/main/Chun.mp4&quot;</span><br><span class="line">		type=&quot;video/mp4&quot; /&gt;</span><br><span class="line">&lt;/video&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">video</span> <span class="attr">loop</span></span></span><br><span class="line"><span class="tag">	<span class="attr">autoplay</span></span></span><br><span class="line"><span class="tag">	<span class="attr">muted</span></span></span><br><span class="line"><span class="tag">	<span class="attr">width</span>=<span class="string">&quot;300&quot;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">height</span>=<span class="string">&quot;350&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">source</span> <span class="attr">src</span>=<span class="string">&quot;https://github.com/weber87na/video/raw/main/Chun.mp4&quot;</span></span></span><br><span class="line"><span class="tag">		<span class="attr">type</span>=<span class="string">&quot;video/mp4&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">video</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
-<p class="codepen" data-height="700" data-default-tab="result" data-slug-hash="qBLVOMG" data-user="weber87na" style="height: 700px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
-  <span>See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/weber87na/pen/qBLVOMG">
-  炸裂陳子豪</a> by 喇賽人 (<a target="_blank" rel="noopener" href="https://codepen.io/weber87na">@weber87na</a>)
+<p>最後就是這次多加個模糊球場背景, 他最大重點就是 <code>transform: scale(1.1)</code> 這樣可以讓 blur 數值太大的白邊給去除</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">body</span><span class="selector-pseudo">::before</span> &#123;</span><br><span class="line">    <span class="attribute">content</span>: <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">    <span class="attribute">position</span>: fixed;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100%</span>;</span><br><span class="line">    <span class="attribute">background-image</span>: <span class="built_in">url</span>(<span class="string">&#x27;https://raw.githubusercontent.com/weber87na/flowers/refs/heads/master/baseball_field.jpg&#x27;</span>);</span><br><span class="line">    <span class="attribute">background-size</span>: cover;</span><br><span class="line">    <span class="attribute">background-position</span>: center;</span><br><span class="line">    <span class="attribute">background-repeat</span>: no-repeat;</span><br><span class="line">    <span class="attribute">filter</span>: <span class="built_in">blur</span>(<span class="number">10px</span>);</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">scale</span>(<span class="number">1.1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p class="codepen" data-height="755" data-default-tab="result" data-slug-hash="EayRBxV" data-pen-title="Untitled" data-user="weber87na" style="height: 755px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border: 2px solid; margin: 1em 0; padding: 1em;">
+      <span>See the Pen <a target="_blank" rel="noopener" href="https://codepen.io/weber87na/pen/EayRBxV">
+  Untitled</a> by 喇賽人 (<a target="_blank" rel="noopener" href="https://codepen.io/weber87na">@weber87na</a>)
   on <a target="_blank" rel="noopener" href="https://codepen.io">CodePen</a>.</span>
-</p>
-<script async src="https://cpwebassets.codepen.io/assets/embed/ei.js"></script>
+      </p>
+      <script async src="https://public.codepenassets.com/embed/index.js"></script>
 
     </div>
 
