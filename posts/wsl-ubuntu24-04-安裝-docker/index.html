@@ -53,9 +53,10 @@
 <meta property="og:description" content="&nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2026-02-09T19:02:25.000Z">
-<meta property="article:modified_time" content="2026-02-09T19:02:50.384Z">
+<meta property="article:modified_time" content="2026-02-09T19:08:42.644Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
-<meta property="article:tag" content="喇賽, lasai, python, js, c#, 技術筆記, git, asp.net core">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="ubuntu">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="https://www.blog.lasai.com.tw/posts/wsl-ubuntu24-04-%E5%AE%89%E8%A3%9D-docker/">
@@ -267,7 +268,7 @@
               <span class="post-meta-item-text">亂寫於</span>
               
 
-              <time title="亂入時間：2026-02-10 03:02:25 / 修改時間：03:02:50" itemprop="dateCreated datePublished" datetime="2026-02-10T03:02:25+08:00">2026-02-10</time>
+              <time title="亂入時間：2026-02-10 03:02:25 / 修改時間：03:08:42" itemprop="dateCreated datePublished" datetime="2026-02-10T03:02:25+08:00">2026-02-10</time>
             </span>
 
           
@@ -312,6 +313,8 @@
         <p>&nbsp;</p>
 <span id="more"></span>
 
+
+
 <p>執行以下命令確保 Repository 設定正確 <a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/ubuntu/">參考官網</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"># Add Docker&#x27;s official GPG key:</span><br><span class="line">sudo apt update</span><br><span class="line">sudo apt install ca-certificates curl</span><br><span class="line">sudo install -m 0755 -d /etc/apt/keyrings</span><br><span class="line">sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc</span><br><span class="line">sudo chmod a+r /etc/apt/keyrings/docker.asc</span><br><span class="line"></span><br><span class="line"># Add the repository to Apt sources:</span><br><span class="line">sudo tee /etc/apt/sources.list.d/docker.sources &lt;&lt;EOF</span><br><span class="line">Types: deb</span><br><span class="line">URIs: https://download.docker.com/linux/ubuntu</span><br><span class="line">Suites: $(. /etc/os-release &amp;&amp; echo &quot;$&#123;UBUNTU_CODENAME:-$VERSION_CODENAME&#125;&quot;)</span><br><span class="line">Components: stable</span><br><span class="line">Signed-By: /etc/apt/keyrings/docker.asc</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">sudo apt update</span><br></pre></td></tr></table></figure>
 
@@ -337,6 +340,10 @@
     
 
       <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ubuntu/" rel="tag"># ubuntu</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+          </div>
 
         
 
