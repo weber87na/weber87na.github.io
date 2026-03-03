@@ -53,7 +53,7 @@
 <meta property="og:description" content="&nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2026-03-03T05:18:47.000Z">
-<meta property="article:modified_time" content="2026-03-03T05:19:54.721Z">
+<meta property="article:modified_time" content="2026-03-03T16:15:13.870Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="喇賽, lasai, python, js, c#, 技術筆記, git, asp.net core">
 <meta name="twitter:card" content="summary">
@@ -265,10 +265,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2026-03-03 13:18:47 / 修改時間：13:19:54" itemprop="dateCreated datePublished" datetime="2026-03-03T13:18:47+08:00">2026-03-03</time>
+              <time title="亂入時間：2026-03-03 13:18:47" itemprop="dateCreated datePublished" datetime="2026-03-03T13:18:47+08:00">2026-03-03</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2026-03-04 00:15:13" itemprop="dateModified" datetime="2026-03-04T00:15:13+08:00">2026-03-04</time>
+              </span>
 
           
   
@@ -290,7 +296,7 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>2.2k</span>
+              <span>2.4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
@@ -327,6 +333,7 @@
 <p>進入到 dashboard 需要申請一個測試用的號碼, 點選第二個選項 <code>Twilio phone number</code> 即可獲得電話</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Connect to 3rd-party applications</span><br><span class="line">You&#x27;ll need 3 things to use Twilio with most 3rd-party applications:</span><br><span class="line"></span><br><span class="line">Account SID and Auth token</span><br><span class="line">`Twilio phone number`</span><br><span class="line">Upgraded Twilio account</span><br></pre></td></tr></table></figure>
 
+<p>另外要記得設定 Verified Caller IDs 填上自己電話通過驗證就對啦</p>
 <p>接著在 twilio 設定 webhook, 先啟動 ngrok</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ngrok http 3334</span><br></pre></td></tr></table></figure>
 
@@ -337,42 +344,12 @@
 <p>最後設定龍蝦</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.openclaw/openclaw.json</span><br><span class="line"></span><br><span class="line"># 重啟</span><br><span class="line">openclaw gateway restart</span><br></pre></td></tr></table></figure>
 
-<p>感覺我不太會設定, 或是有 bug ~<br>其他問題可以翻看看這兩個 issues <a target="_blank" rel="noopener" href="https://github.com/openclaw/openclaw/issues/11554">https://github.com/openclaw/openclaw/issues/11554</a> <a target="_blank" rel="noopener" href="https://github.com/openclaw/openclaw/issues/5732">https://github.com/openclaw/openclaw/issues/5732</a><br>我的 tts 沒生效這裡就先不放, 不過沒設定也是可以, 他打過來 default 有個外國女人的聲音, 另外我測中文也會失敗, 可是英文 ok, 整個滿崩潰 ~</p>
+<p>感覺我不太會設定, 或是有 bug ~<br>其他問題可以翻看看這兩個 issues<br><a target="_blank" rel="noopener" href="https://github.com/openclaw/openclaw/issues/11554">https://github.com/openclaw/openclaw/issues/11554</a> </p>
+<p><a target="_blank" rel="noopener" href="https://github.com/openclaw/openclaw/issues/5732">https://github.com/openclaw/openclaw/issues/5732</a><br>我的 tts 沒生效這裡就先不放, 不過沒設定也是可以, 他打過來 default 有個外國女人的聲音, 另外我測中文也會失敗, 可是英文 ok, 整個滿崩潰 ~</p>
 <p>最後在龍蝦聊天室對他說 打電話到這個號碼 +886987123456 訊息為: “may the force be with you”</p>
+<p>他打來後記得要按下 <code>任意按鍵</code></p>
 <p>以下是我的設定 fromNumber 是要放 twilio 給你的電話</p>
-<pre><code>    &quot;plugins&quot;: {
-        &quot;entries&quot;: {
-            &quot;line&quot;: {
-                &quot;enabled&quot;: true
-            },
-            &quot;voice-call&quot;: {
-                &quot;enabled&quot;: true,
-                &quot;config&quot;: {
-                    &quot;provider&quot;: &quot;twilio&quot;,
-                    &quot;publicUrl&quot;: &quot;https://bfcb-2401-xxxx-8c30-ce83-xxxx-b9c1-xxxx-xxxx.ngrok-free.app/voice/webhook&quot;,
-                    &quot;twilio&quot;: {
-                        &quot;accountSid&quot;: &quot;yourid&quot;,
-                        &quot;authToken&quot;: &quot;yourtoken&quot;
-                    },
-                    &quot;fromNumber&quot;: &quot;+19712880123&quot;,
-                    &quot;serve&quot;: {
-                        &quot;port&quot;: 3334,
-                        &quot;path&quot;: &quot;/voice/webhook&quot;
-                    },
-                    &quot;outbound&quot;: {
-                        &quot;defaultMode&quot;: &quot;notify&quot;
-                    },
-                    &quot;streaming&quot;: {
-                        &quot;enabled&quot;: true,
-                        &quot;streamPath&quot;: &quot;/voice/stream&quot;
-                    }
-                }
-            }
-        },
-        &quot;installs&quot;: {}
-    }
-```			
-</code></pre>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">&quot;plugins&quot;: &#123;</span><br><span class="line">    &quot;entries&quot;: &#123;</span><br><span class="line">        &quot;line&quot;: &#123;</span><br><span class="line">            &quot;enabled&quot;: true</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;voice-call&quot;: &#123;</span><br><span class="line">            &quot;enabled&quot;: true,</span><br><span class="line">            &quot;config&quot;: &#123;</span><br><span class="line">                &quot;provider&quot;: &quot;twilio&quot;,</span><br><span class="line">                &quot;publicUrl&quot;: &quot;https://bfcb-2401-xxxx-8c30-ce83-xxxx-b9c1-xxxx-xxxx.ngrok-free.app/voice/webhook&quot;,</span><br><span class="line">                &quot;twilio&quot;: &#123;</span><br><span class="line">                    &quot;accountSid&quot;: &quot;yourid&quot;,</span><br><span class="line">                    &quot;authToken&quot;: &quot;yourtoken&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;fromNumber&quot;: &quot;+19712880123&quot;,</span><br><span class="line">                &quot;serve&quot;: &#123;</span><br><span class="line">                    &quot;port&quot;: 3334,</span><br><span class="line">                    &quot;path&quot;: &quot;/voice/webhook&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;outbound&quot;: &#123;</span><br><span class="line">                    &quot;defaultMode&quot;: &quot;notify&quot;</span><br><span class="line">                &#125;,</span><br><span class="line">                &quot;streaming&quot;: &#123;</span><br><span class="line">                    &quot;enabled&quot;: true,</span><br><span class="line">                    &quot;streamPath&quot;: &quot;/voice/stream&quot;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    &quot;installs&quot;: &#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
     </div>
 
