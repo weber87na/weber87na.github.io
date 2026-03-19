@@ -53,7 +53,7 @@
 <meta property="og:description" content="&nbsp;">
 <meta property="og:locale" content="zh_TW">
 <meta property="article:published_time" content="2025-06-01T15:57:16.000Z">
-<meta property="article:modified_time" content="2025-06-01T15:58:03.228Z">
+<meta property="article:modified_time" content="2026-03-19T18:11:17.812Z">
 <meta property="article:author" content="🌹 喇賽人 🌹">
 <meta property="article:tag" content="python">
 <meta property="article:tag" content="yolo">
@@ -266,10 +266,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">亂寫於</span>
-              
 
-              <time title="亂入時間：2025-06-01 23:57:16 / 修改時間：23:58:03" itemprop="dateCreated datePublished" datetime="2025-06-01T23:57:16+08:00">2025-06-01</time>
+              <time title="亂入時間：2025-06-01 23:57:16" itemprop="dateCreated datePublished" datetime="2025-06-01T23:57:16+08:00">2025-06-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新於</span>
+                <time title="修改時間：2026-03-20 02:11:17" itemprop="dateModified" datetime="2026-03-20T02:11:17+08:00">2026-03-20</time>
+              </span>
 
           
   
@@ -291,14 +297,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">廢話字數：</span>
-              <span>3.6k</span>
+              <span>4k</span>
             </span>
             <span class="post-meta-item" title="所需傷眼時間">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">所需傷眼時間 &asymp;</span>
-              <span>3 分鐘</span>
+              <span>4 分鐘</span>
             </span>
 
         </div>
@@ -320,6 +326,9 @@
 <p>安裝 yolo 跟 pytouch, 這邊因為 gpu 設定有點複雜之後才補</p>
 <p><a target="_blank" rel="noopener" href="https://docs.ultralytics.com/zh/quickstart/">https://docs.ultralytics.com/zh/quickstart/</a><br><a target="_blank" rel="noopener" href="https://pytorch.org/get-started/locally/">https://pytorch.org/get-started/locally/</a></p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">conda create --name ultralytics-env python=3.11 -y</span><br><span class="line">conda activate ultralytics-env</span><br><span class="line">pip3 install torch torchvision torchaudio</span><br><span class="line">pip install ultralytics</span><br><span class="line">pip install supervision</span><br></pre></td></tr></table></figure>
+
+<p>如果用 uv</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"># 1. 建立名為 ultralytics-env 的虛擬環境，並指定 Python 3.11</span><br><span class="line">uv venv ultralytics-env --python 3.11</span><br><span class="line"></span><br><span class="line"># 2. 啟動虛擬環境 (請依照你的作業系統選擇對應指令)</span><br><span class="line"># 【Windows】</span><br><span class="line">ultralytics-env\Scripts\activate</span><br><span class="line"># 【macOS / Linux】</span><br><span class="line">source ultralytics-env/bin/activate</span><br><span class="line"></span><br><span class="line"># 3. 安裝所有需要的套件 (uv 速度極快，你可以把原本的分行指令合併成一行)</span><br><span class="line">uv pip install torch torchvision torchaudio ultralytics supervision</span><br></pre></td></tr></table></figure>
 
 <p>然後就可以辨識看看, 預設他把土撥鼠辨識成鳥是怎樣, 一臉鳥樣嗎 XD?</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from ultralytics import YOLO</span><br><span class="line">import torch</span><br><span class="line">import torchvision</span><br><span class="line"></span><br><span class="line">print(torch.__version__)</span><br><span class="line">print(torchvision.__version__)</span><br><span class="line">print(torch.cuda.is_available())</span><br><span class="line"></span><br><span class="line">model = YOLO(&quot;yolo11n.pt&quot;)</span><br><span class="line"></span><br><span class="line">results = model(source=&quot;marmot.mp4&quot;, show=True)</span><br></pre></td></tr></table></figure>
